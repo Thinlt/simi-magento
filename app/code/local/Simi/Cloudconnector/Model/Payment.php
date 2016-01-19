@@ -6,7 +6,7 @@ class Simi_Cloudconnector_Model_Payment extends Mage_Payment_Model_Method_Abstra
 
     public function __Construct()
     {
-        die('1111');
+
     }
 
     protected $_code = 'simi_shipping';
@@ -28,7 +28,6 @@ class Simi_Cloudconnector_Model_Payment extends Mage_Payment_Model_Method_Abstra
 
     public function isAvailable($quote = null)
     {
-        die('1111');
         return true;
     }
 
