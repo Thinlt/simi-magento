@@ -2,47 +2,52 @@
 
 // app/code/local/Envato/Customshippingmethod/Model
 class Simi_Cloudconnector_Model_Payment extends Mage_Payment_Model_Method_Abstract
+
 {
+    protected $_code = 'simi_payment';
+//    protected $_formBlockType = 'simi_payment/form_custompaymentmethod';
+//    protected $_infoBlockType = 'simi_payment/info_custompaymentmethod';
 
-    public function __Construct()
+    public function assignData($data)
     {
+        $info = $this->getInfoInstance();
 
+        if ($data->getCustomFieldOne()) {
+            $info->setCustomFieldOne($data->getCustomFieldOne());
+        }
+
+        if ($data->getCustomFieldTwo()) {
+            $info->setCustomFieldTwo($data->getCustomFieldTwo());
+        }
+
+        return $this;
     }
 
-    protected $_code = 'simi_shipping';
+//    public function validate()
+//    {
+//        parent::validate();
+//        $info = $this->getInfoInstance();
+//
+//        if (!$info->getCustomFieldOne()) {
+//            $errorCode = 'invalid_data';
+//            $errorMsg = $this->_getHelper()->__("CustomFieldOne is a required field.\n");
+//        }
+//
+//        if (!$info->getCustomFieldTwo()) {
+//            $errorCode = 'invalid_data';
+//            $errorMsg .= $this->_getHelper()->__('CustomFieldTwo is a required field.');
+//        }
+//
+//        if ($errorMsg) {
+//            Mage::throwException($errorMsg);
+//        }
+//
+//        return $this;
+//    }
 
-    public function collectRates(Mage_Shipping_Model_Rate_Request $request)
+    public function getOrderPlaceRedirectUrl()
     {
-        $result = Mage::getModel('shipping/rate_result');
-        $result->append($this->_getDefaultRate());
-
-        return $result;
+        return Mage::getUrl('simi_payment/payment/redirect', array('_secure' => false));
     }
 
-    public function getAllowedMethods()
-    {
-        return array(
-            'simi_shipping' => $this->getConfigData('name'),
-        );
-    }
-
-    public function isAvailable($quote = null)
-    {
-        return true;
-    }
-
-
-    protected function _getDefaultRate()
-    {
-        $rate = Mage::getModel('shipping/rate_result_method');
-
-        $rate->setCarrier($this->_code);
-        $rate->setCarrierTitle($this->getConfigData('title'));
-        $rate->setMethod($this->_code);
-        $rate->setMethodTitle($this->getConfigData('name'));
-        $rate->setPrice($this->getConfigData('price'));
-        $rate->setCost(0);
-
-        return $rate;
-    }
 }
