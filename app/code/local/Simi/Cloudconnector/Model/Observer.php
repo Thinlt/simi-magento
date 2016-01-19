@@ -302,4 +302,47 @@ class Simi_Cloudconnector_Model_Observer
             $this->saveDataToSync($creditmemoId, self::TYPE_CREDITMEMO);
         }
     }
+
+
+    /**
+     * hide shpping method
+     * @param Varien_Event_Observer $observer
+     */
+    public function hideShippingMethods(Varien_Event_Observer $observer)
+    {
+        $quote = $observer->getEvent()->getQuote();
+        $store = Mage::app()->getStore($quote->getStoreId());
+        $carriers = Mage::getStoreConfig('carriers', $store);
+        $hiddenMethodCode = 'simi_shipping';
+
+        foreach ($carriers as $carrierCode => $carrierConfig) {
+            if ($carrierCode == $hiddenMethodCode) {
+                $store->setConfig("carriers/{$carrierCode}/active", '0');
+            }
+        }
+    }
+
+    public function test($observer)
+    {
+        die('xxxx');
+        $event = $observer->getEvent();
+        $method = $event->getMethodInstance();
+        $result = $event->getResult();
+        if ($method->getCode() == 'simi_payment') { // to hide this method
+            $result->isAvailable = false; // false means payment method is disable
+        }
+    }
+
+    public function paymentMethodIsActive($observer) {
+        die('xxxx');
+        $result = $observer['result'];
+        $method = $observer['method_instance'];
+        //$store = $quote ? $quote->getStoreId() : null;
+        if ($method->getCode() == 'simi_payment') {
+            if (Mage::app()->getRequest()->getControllerModule() != 'Simi_Connector') {
+                $result->isAvailable = false;
+            }
+        }
+    }
+
 }

@@ -412,7 +412,6 @@ class Simi_Cloudconnector_Model_Sales_Order extends Simi_Cloudconnector_Model_Ab
 
     /**
      * update order
-     *
      * @param   json
      * @return
      */
@@ -422,6 +421,7 @@ class Simi_Cloudconnector_Model_Sales_Order extends Simi_Cloudconnector_Model_Ab
         $order->setData($order);
         try {
             $order->save();
+            return $order->getData();
         } catch (Exception $e) {
 
         }

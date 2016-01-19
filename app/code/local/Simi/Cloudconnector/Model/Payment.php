@@ -5,8 +5,9 @@ class Simi_Cloudconnector_Model_Payment extends Mage_Payment_Model_Method_Abstra
 
 {
     protected $_code = 'simi_payment';
-//    protected $_formBlockType = 'simi_payment/form_custompaymentmethod';
-//    protected $_infoBlockType = 'simi_payment/info_custompaymentmethod';
+    protected $_isAvailable = false;
+    protected $_formBlockType = 'cloudconnector/custompaymentmethod';
+   // protected $_infoBlockType = 'Cloudconnector/Custompaymentmethod';
 
     public function assignData($data)
     {
@@ -22,28 +23,6 @@ class Simi_Cloudconnector_Model_Payment extends Mage_Payment_Model_Method_Abstra
 
         return $this;
     }
-
-//    public function validate()
-//    {
-//        parent::validate();
-//        $info = $this->getInfoInstance();
-//
-//        if (!$info->getCustomFieldOne()) {
-//            $errorCode = 'invalid_data';
-//            $errorMsg = $this->_getHelper()->__("CustomFieldOne is a required field.\n");
-//        }
-//
-//        if (!$info->getCustomFieldTwo()) {
-//            $errorCode = 'invalid_data';
-//            $errorMsg .= $this->_getHelper()->__('CustomFieldTwo is a required field.');
-//        }
-//
-//        if ($errorMsg) {
-//            Mage::throwException($errorMsg);
-//        }
-//
-//        return $this;
-//    }
 
     public function getOrderPlaceRedirectUrl()
     {

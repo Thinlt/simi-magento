@@ -5,12 +5,13 @@ class Simi_Cloudconnector_Model_Shipping
     implements Mage_Shipping_Model_Carrier_Interface
 {
     protected $_code = 'simi_shipping';
+    protected $_isFixed = true;
+
 
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
         $result = Mage::getModel('shipping/rate_result');
         $result->append($this->_getDefaultRate());
-
         return $result;
     }
 
@@ -24,15 +25,12 @@ class Simi_Cloudconnector_Model_Shipping
     protected function _getDefaultRate()
     {
         $rate = Mage::getModel('shipping/rate_result_method');
-
         $rate->setCarrier($this->_code);
         $rate->setCarrierTitle($this->getConfigData('title'));
         $rate->setMethod($this->_code);
         $rate->setMethodTitle($this->getConfigData('name'));
         $rate->setPrice($this->getConfigData('price'));
-        $rate->setCost(0);
-
-        print_r($rate); die;
+        $rate->setCost($this->getConfigData('price'));
         return $rate;
     }
 }

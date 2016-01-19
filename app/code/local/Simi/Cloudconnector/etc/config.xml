@@ -52,6 +52,17 @@
                 </Simi_Cloudconnector>
             </modules>
         </translate>
+        <events>
+            <payment_method_is_active>
+                <observers>
+                    <paypalmobilement_paypal_observers>
+                        <type>singleton</type>
+                        <class>cloudconnector/observer</class>
+                        <method>paymentMethodIsActive</method>
+                    </paypalmobilement_paypal_observers>
+                </observers>
+            </payment_method_is_active>
+        </events>
     </frontend>
     <admin>
         <routers>
@@ -209,6 +220,7 @@
                 </observers>
             </sales_order_creditmemo_save_after>
         </events>
+
     </global>
     <default>
         <cloudconnector>
@@ -224,7 +236,8 @@
                 <order_status>pending</order_status>
                 <sallowspecific>0</sallowspecific>
                 <payment_action>sale</payment_action>
-                <model>simi_cloudconnector/payment</model>
+                <name>Method Name</name>
+                <model>cloudconnector/payment</model>
             </simi_payment>
         </payment>
 
@@ -234,7 +247,8 @@
                 <active>1</active>
                 <sallowspecific>0</sallowspecific>
                 <price>0.00</price>
-                <model>simi_cloudconnector/shipping</model>
+                <name>Method Name</name>
+                <model>cloudconnector/shipping</model>
             </simi_shipping>
         </carriers>
     </default>

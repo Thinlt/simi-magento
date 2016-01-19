@@ -283,7 +283,6 @@ class Simi_Cloudconnector_Model_Customer extends Simi_Cloudconnector_Model_Abstr
 
     /**
      * create customer group
-     *
      * @param   json
      * @return   json
      */
@@ -312,6 +311,12 @@ class Simi_Cloudconnector_Model_Customer extends Simi_Cloudconnector_Model_Abstr
         }
     }
 
+    /**
+     * create or update address
+     * @param $addresses
+     * @param $customer_id
+     * @throws Exception
+     */
     public function saveAddress($addresses, $customer_id)
     {
         foreach ($addresses as $data) {
