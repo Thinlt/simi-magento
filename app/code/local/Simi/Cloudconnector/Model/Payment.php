@@ -1,8 +1,7 @@
 <?php
 
 // app/code/local/Envato/Customshippingmethod/Model
-class Simi_Cloudconnector_Model_Payment
-    extends Mage_Payment_Model_Method_Abstract
+class Simi_Cloudconnector_Model_Payment extends Mage_Payment_Model_Method_Abstract
 {
 
     public function __Construct()
