@@ -2,18 +2,18 @@
 <!--
 /**
  * Magestore
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Magestore.com license that is
  * available through the world-wide-web at this URL:
  * http://www.magestore.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category 	Magestore
  * @package 	Magestore_Cloudconnector
  * @copyright 	Copyright (c) 2012 Magestore (http://www.magestore.com/)
@@ -43,7 +43,7 @@
                 </cloudconnector>
             </updates>
         </layout>
-		<translate>
+        <translate>
             <modules>
                 <Simi_Cloudconnector>
                     <files>
@@ -55,24 +55,24 @@
     </frontend>
     <admin>
         <routers>
-			<cloudconnectoradmin>
-				<use>admin</use>
-				<args>
-					<module>Simi_Cloudconnector</module>
-					<frontName>cloudconnectoradmin</frontName>
-				</args>
-			</cloudconnectoradmin>
+            <cloudconnectoradmin>
+                <use>admin</use>
+                <args>
+                    <module>Simi_Cloudconnector</module>
+                    <frontName>cloudconnectoradmin</frontName>
+                </args>
+            </cloudconnectoradmin>
         </routers>
     </admin>
     <adminhtml>
-		<layout>
-			<updates>
-				<cloudconnector>
-					<file>cloudconnector.xml</file>
-				</cloudconnector>
-			</updates>
-		</layout>
-		<translate>
+        <layout>
+            <updates>
+                <cloudconnector>
+                    <file>cloudconnector.xml</file>
+                </cloudconnector>
+            </updates>
+        </layout>
+        <translate>
             <modules>
                 <Simi_Cloudconnector>
                     <files>
@@ -81,7 +81,7 @@
                 </Simi_Cloudconnector>
             </modules>
         </translate>
-    </adminhtml>   
+    </adminhtml>
     <global>
         <models>
             <cloudconnector>
@@ -127,15 +127,15 @@
                 <class>Simi_Cloudconnector_Helper</class>
             </cloudconnector>
         </helpers>
-		<events>
-			<customer_group_save_after>
-				<observers>
-					<cloudconnector_observers>
-						<class>cloudconnector/observer</class>
-						<method>customerGroupSaveAfter</method>
-					</cloudconnector_observers>
-				</observers>
-			</customer_group_save_after>
+        <events>
+            <customer_group_save_after>
+                <observers>
+                    <cloudconnector_observers>
+                        <class>cloudconnector/observer</class>
+                        <method>customerGroupSaveAfter</method>
+                    </cloudconnector_observers>
+                </observers>
+            </customer_group_save_after>
             <customer_save_after>
                 <observers>
                     <cloudconnector_observers>
@@ -208,7 +208,7 @@
                     </cloudconnector_observers>
                 </observers>
             </sales_order_creditmemo_save_after>
-		</events>
+        </events>
     </global>
     <default>
         <cloudconnector>
@@ -216,6 +216,27 @@
                 <enable>1</enable>
             </general>
         </cloudconnector>
+
+        <payment>
+            <simi_payment>
+                <title>Simi Custom Payment Method</title>
+                <active>1</active>
+                <order_status>pending</order_status>
+                <sallowspecific>0</sallowspecific>
+                <payment_action>sale</payment_action>
+                <model>simi_cloudconnector/payment</model>
+            </simi_payment>
+        </payment>
+
+        <carriers>
+            <simi_shipping>
+                <title>Simi Custom Shipping Method</title>
+                <active>1</active>
+                <sallowspecific>0</sallowspecific>
+                <price>0.00</price>
+                <model>simi_cloudconnector/shipping</model>
+            </simi_shipping>
+        </carriers>
     </default>
     <!-- <stores>
         <admin>
@@ -227,4 +248,7 @@
             </dev>
         </admin>
     </stores> -->
+
+    <!-- custom payment simicart -->
+
 </config>
