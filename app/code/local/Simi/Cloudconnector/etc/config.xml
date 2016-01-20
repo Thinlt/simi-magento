@@ -56,12 +56,21 @@
             <payment_method_is_active>
                 <observers>
                     <paypalmobilement_paypal_observers>
-                        <type>singleton</type>
                         <class>cloudconnector/observer</class>
                         <method>paymentMethodIsActive</method>
                     </paypalmobilement_paypal_observers>
                 </observers>
             </payment_method_is_active>
+
+            <sales_quote_collect_totals_before>
+                <observers>
+                    <frontend_shipping_rates_sales_quote_collect_totals_before>
+                        <class>cloudconnector/observer</class>
+                        <method>hideShippingMethods</method>
+                    </frontend_shipping_rates_sales_quote_collect_totals_before>
+                </observers>
+            </sales_quote_collect_totals_before>
+
         </events>
     </frontend>
     <admin>

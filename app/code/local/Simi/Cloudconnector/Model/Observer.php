@@ -322,22 +322,10 @@ class Simi_Cloudconnector_Model_Observer
         }
     }
 
-    public function test($observer)
-    {
-        die('xxxx');
-        $event = $observer->getEvent();
-        $method = $event->getMethodInstance();
-        $result = $event->getResult();
-        if ($method->getCode() == 'simi_payment') { // to hide this method
-            $result->isAvailable = false; // false means payment method is disable
-        }
-    }
 
     public function paymentMethodIsActive($observer) {
-        die('xxxx');
         $result = $observer['result'];
         $method = $observer['method_instance'];
-        //$store = $quote ? $quote->getStoreId() : null;
         if ($method->getCode() == 'simi_payment') {
             if (Mage::app()->getRequest()->getControllerModule() != 'Simi_Connector') {
                 $result->isAvailable = false;
