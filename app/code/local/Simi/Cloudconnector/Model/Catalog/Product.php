@@ -203,16 +203,19 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
             'options_container', 'page_layout', 'custom_design'
         );
         $attributes = $product->getAttributes();
+
         foreach ($attributes as $attribute) {
-            if ($attribute->getFrontend()->getValue($product)
-                && !in_array($attribute->getAttributeCode(), $mainAttributes)
-            ) {
-                $attributeCode = $attribute->getAttributeCode();
-                $attributeId = $attribute->getId();
-                $value = '';
-                if ($attribute->getFrontend()->getValue($product))
-                    $value = $attribute->getFrontend()->getValue($product);
-                $atts[$attributeId] = $value;
+            if ($attribute->getIsVisibleOnFront()) {  // only return attribute visible in font-end [kenshin]
+                if ($attribute->getFrontend()->getValue($product)
+                    && !in_array($attribute->getAttributeCode(), $mainAttributes)
+                ) {
+                    $attributeCode = $attribute->getAttributeCode();
+                    $attributeId = $attribute->getId();
+                    $value = '';
+                    if ($attribute->getFrontend()->getValue($product))
+                        $value = $attribute->getFrontend()->getValue($product);
+                    $atts[$attributeId] = $value;
+                }
             }
         }
         return $atts;
@@ -312,7 +315,7 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
             foreach ($attribute->getProductAttribute()->getSource()->getAllOptions() as $option) {
                 if ($option['value'] != '' && $productChild->getData($attributeCode) == $option['value']) {
                     $attributeInfo[$attribute->getData('attribute_id')] = $option['label'];
-                    $attributeInfo['values'][] = array($option['value']=>$option['label']);
+                    $attributeInfo['values'][] = array($option['value'] => $option['label']);
                 }
             }
             $prices = $attribute->getPrices();
@@ -574,7 +577,7 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
      */
     public function pull($data)
     {
-        $this->createProduct($data);
+        return $this->saveProduct($data);
     }
 
     /**
@@ -583,26 +586,123 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
      * @param   json
      * @return   json
      */
-    public function createProduct($data)
+    public function saveProduct($data)
     {
-        $productId = $data['id'];
-        if ($categoryId) {
-            $product = Mage::getModel('catalog/product')->load($productId);
+        if (isset($data['id'])) {
+            $product = Mage::getModel('catalog/product')->load($data['id']);
+            if (!$product)
+                return false;
         } else {
             $product = Mage::getModel('catalog/product');
         }
-        $product->setData($data);
-        try {
-            $product->save();
-            $information = array('1');
-            return $information;
-        } catch (Exception $e) {
-            $message = $e->getMessage();
-            $result = array('code' => $e->getCode(),
-                'message' => $message);
-            $information = array('errors' => $result);
-            return $information;
+        Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
+        $product
+            ->setTypeId($data['type'])
+            ->setAttributeSetId($data['attribute_set'])
+            ->setSku($data['sku'])
+            ->setWebsiteIDs(array(1));
+
+        //product visible in the catalog
+        $product
+            ->setCategoryIds($data['category'])
+            ->setStatus($data['status'])
+            ->setVisibility($data['visibility'])
+        ;
+
+        //Configuring stock:
+        $product->setStockData(array(
+            'use_config_manage_stock' => 0, // use global config?
+            'manage_stock' => $data['manage_stock'],
+            'is_in_stock' => 1, // in stock
+            'qty' => $data['qty'],
+        ));
+
+        //attributes,price
+        $product
+            ->setName($data['name'])
+            ->setShortDescription($data['short_description'])
+            ->setDescription($data['description'])
+            // set up prices
+            ->setPrice($data['price'])
+            ->setTaxClassId($data['tax_class_id'])// Taxable Goods by default
+            ->setWeight($data['weight']);
+
+        if ($data['sale_price'] != 0)
+            $product->setSpecialPrice($data['sale_price']);
+
+        // addition information such as color, size, brand
+
+        if (!empty($data['attribute'])) {
+            foreach ($data['attribute'] as $code => $value) {
+                $optionId = $this->getOptionId($code, $value);
+                $product->setData($code, $optionId);
+            }
         }
+
+        // custom option
+        if (isset($data['custom_options']) && !empty($data['custom_options'])) {
+            if (isset($data['id'])) {
+                // delete old option
+                $customOptions = $product->getOptions();
+                foreach ($customOptions as $option) {
+                    $option->delete();
+                }
+            }
+            $product
+                ->setCanSaveCustomOptions(true)
+                ->setProductOptions($data['custom_options'])
+                ->setHasOptions(true);
+        }
+
+
+        // images
+//        $images = array(
+//            'thumbnail'   => 'mtk004t.jpg',
+//            'small_image' => 'http://www.stepblogging.com/wp-content/uploads/2015/05/magento-products.png',
+//            'image'       => 'http://www.stepblogging.com/wp-content/uploads/2015/05/magento-products.png',
+//        );
+//
+//        $dir = Mage::getBaseDir('media') . DS . 'example/amasty/';
+//
+//        foreach ($images as $imageType => $imageFileName) {
+//            $path = $dir . $imageFileName;
+//            if (file_exists($path)) {
+//                try {
+//                    $product->addImageToMediaGallery($path, $imageType, false);
+//                } catch (Exception $e) {
+//                    echo $e->getMessage();
+//                }
+//            } else {
+//                echo "Can not find image by path: `{$path}`<br/>";
+//            }
+//        }
+
+        $product->save();
+        return ['product_id' => $product->getId()];
+    }
+
+    /**
+     * get id product attribute by code and values
+     * @param $attribute_code
+     * @param $label
+     * @return string
+     */
+    function getOptionId($attribute_code, $label)
+    {
+        $attribute_model = Mage::getModel('eav/entity_attribute');
+        $attribute_options_model = Mage::getModel('eav/entity_attribute_source_table');
+        $attribute_code = $attribute_model->getIdByCode('catalog_product', $attribute_code);
+        $attribute = $attribute_model->load($attribute_code);
+        $attribute_table = $attribute_options_model->setAttribute($attribute);
+        $options = $attribute_options_model->getAllOptions(false);
+        $optionId = '';
+        foreach ($options as $option) {
+            if ($option['label'] == $label) {
+                $optionId = $option['value'];
+                break;
+            }
+        }
+        return $optionId;
     }
 }
 

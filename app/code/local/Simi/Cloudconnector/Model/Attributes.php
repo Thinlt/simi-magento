@@ -106,20 +106,22 @@ class Simi_Cloudconnector_Model_Attributes extends Simi_Cloudconnector_Model_Abs
             $attributes->addFieldToFilter($key, $value);
         }
         $customerList = array();
-        foreach ($attributes as $attribute) {          
-            $attributeInfo = array();
-            $attributeInfo['id'] = $attribute->getData('attribute_id');
-            $attributeInfo['name'] = $attribute->getData('frontend_label');
-            $attributeInfo['code'] = $attribute->getData('attribute_code');
-            $attributeInfo['type'] = $attribute->getData('frontend_input');            
-            $attributeInfo['is_visible_on_front'] = $attribute->getData('is_visible_on_front');            
-            $attributeInfo['updated_at'] = now();
-            $attributeInfo['created_at'] = now();
-            if($attributeInfo['type'] == 'multiselect' || $attributeInfo['type'] == 'select')
-                $attributeInfo['values'] = $this->getAttributeLabels($attribute);
-            $attributeList[] = $attributeInfo;
-            if($update){                
-                $this->removeUpdateRecord($attribute->getData('id'));
+        foreach ($attributes as $attribute) {
+            if ($attribute->getIsVisibleOnFront()) {  // only return attribute visible in font-end [kenshin]
+                $attributeInfo = array();
+                $attributeInfo['id'] = $attribute->getData('attribute_id');
+                $attributeInfo['name'] = $attribute->getData('frontend_label');
+                $attributeInfo['code'] = $attribute->getData('attribute_code');
+                $attributeInfo['type'] = $attribute->getData('frontend_input');
+                $attributeInfo['is_visible_on_front'] = $attribute->getData('is_visible_on_front');
+                $attributeInfo['updated_at'] = now();
+                $attributeInfo['created_at'] = now();
+                if ($attributeInfo['type'] == 'multiselect' || $attributeInfo['type'] == 'select')
+                    $attributeInfo['values'] = $this->getAttributeLabels($attribute);
+                $attributeList[] = $attributeInfo;
+                if ($update) {
+                    $this->removeUpdateRecord($attribute->getData('id'));
+                }
             }
         }
         return $attributeList;
