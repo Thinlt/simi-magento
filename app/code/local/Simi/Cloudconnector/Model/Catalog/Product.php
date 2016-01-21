@@ -315,7 +315,7 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
             foreach ($attribute->getProductAttribute()->getSource()->getAllOptions() as $option) {
                 if ($option['value'] != '' && $productChild->getData($attributeCode) == $option['value']) {
                     $attributeInfo[$attribute->getData('attribute_id')] = $option['label'];
-                    $attributeInfo['values'][] = array($option['value'] => $option['label']);
+                    // $attributeInfo['values'][] = array($option['value'] => $option['label']);
                 }
             }
             $prices = $attribute->getPrices();
@@ -525,6 +525,7 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
         $itemInfo = array();
         $itemInfo['id'] = $item->getId();
         $itemInfo['product_id'] = $item->getData('parent_id');
+        $itemInfo['option_id'] = $item->getData('option_id');
         $itemInfo['required'] = $item->getData('required');
         $itemInfo['position'] = $item->getData('position');
         $itemInfo['type'] = $item->getData('type');
@@ -564,6 +565,7 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
         $childInfo['default'] = $product->getData('is_default');
         $childInfo['qty'] = $product->getData('selection_qty');
         $childInfo['user_defined'] = $product->getData('selection_can_change_qty');
+        $childInfo['selection_id'] = $product->getData('selection_id');
         if ($product->getData('selection_price_value'))
             $childInfo['ex_price'] = $product->getData('selection_price_value');
         return $childInfo;
@@ -591,7 +593,7 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
         if (isset($data['id'])) {
             $product = Mage::getModel('catalog/product')->load($data['id']);
             if (!$product)
-                return false;
+                return ['errors' => 'not exits'];
         } else {
             $product = Mage::getModel('catalog/product');
         }
@@ -606,8 +608,7 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
         $product
             ->setCategoryIds($data['category'])
             ->setStatus($data['status'])
-            ->setVisibility($data['visibility'])
-        ;
+            ->setVisibility($data['visibility']);
 
         //Configuring stock:
         $product->setStockData(array(
@@ -641,13 +642,13 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
 
         // custom option
         if (isset($data['custom_options']) && !empty($data['custom_options'])) {
-            if (isset($data['id'])) {
-                // delete old option
-                $customOptions = $product->getOptions();
-                foreach ($customOptions as $option) {
-                    $option->delete();
-                }
-            }
+            //  if (isset($data['id'])) {
+            //   // delete old option
+            //  $customOptions = $product->getOptions();
+            //   foreach ($customOptions as $option) {
+            //          $option->delete();
+            //   }
+            // }
             $product
                 ->setCanSaveCustomOptions(true)
                 ->setProductOptions($data['custom_options'])
@@ -676,8 +677,13 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
 //                echo "Can not find image by path: `{$path}`<br/>";
 //            }
 //        }
+        if ($data['type'] == 'bundle') {
+            $product = $this->setBundlesProduct($product, $data['bundle']);
+        }
 
         $product->save();
+        if ($data['type'] == 'grouped')
+            $this->setGroupProduct($data['group'], $product->getId());
         return ['product_id' => $product->getId()];
     }
 
@@ -703,6 +709,71 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
             }
         }
         return $optionId;
+    }
+
+    public function setGroupProduct($data, $product_id)
+    {
+        if (!empty($data)) {
+            $products_links = Mage::getModel('catalog/product_link_api');
+            foreach ($data as $group_id) {
+                $products_links->assign("grouped", $product_id, $group_id);
+            }
+        }
+    }
+
+    public function setBundlesProduct($product, $bundle)
+    {
+        //flags for saving custom options/selections
+        $product->setCanSaveCustomOptions(true);
+        $product->setCanSaveBundleSelections(true);
+        $product->setAffectBundleProductSelections(true);
+        //registering a product because of Mage_Bundle_Model_Selection::_beforeSave
+        Mage::register('product', $product);
+        //setting the bundle options and selection data
+        $product->setBundleOptionsData($bundle['bundleOptions']);
+        $product->setBundleSelectionsData($bundle['bundleSelections']);
+        return $product;
+    }
+
+    public function setConfigableProduct($product, $data)
+    {
+        $product->getTypeInstance()->setUsedProductAttributeIds(array(92)); //attribute ID of attribute 'color' in my store
+        $configurableAttributesData = $product->getTypeInstance()->getConfigurableAttributesAsArray();
+        $product->setCanSaveConfigurableAttributes(true);
+        $product->setConfigurableAttributesData($configurableAttributesData);
+        $configurableProductsData = array();
+        $configurableProductsData['920'] = array( //['920'] = id of a simple product associated with this configurable
+            '0' => array(
+                'label' => 'Green', //attribute label
+                'attribute_id' => '92', //attribute ID of attribute 'color' in my store
+                'value_index' => '24', //value of 'Green' index of the attribute 'color'
+                'is_percent' => '0', //fixed/percent price for this option
+                'pricing_value' => '21' //value for the pricing
+            )
+        );
+        $product->setConfigurableProductsData($configurableProductsData);
+        return $product;
+    }
+
+    public function getAttribute($attributeId, $name)
+    {
+        $storeId = 0;
+        $attribute = Mage::getModel('catalog/product')
+            ->setStoreId($storeId)
+            ->getResource()
+            ->getAttribute($attributeId);
+        if ($attribute->getData('frontend_input') == 'multiselect' || $attribute->getData('frontend_input') == 'select')
+            foreach ($attribute->getSource()->getAllOptions() as $optionId => $optionValue) {
+                if (is_array($optionValue)) {
+                    if ($optionValue['label'] && $optionValue['label'] == $name)
+                        $options[] = $optionValue['label'];
+                } else {
+                    if ($optionValue && $optionValue['label'] == $name)
+                        $options[] = $optionValue;
+                }
+            }
+
+        return array();
     }
 }
 
