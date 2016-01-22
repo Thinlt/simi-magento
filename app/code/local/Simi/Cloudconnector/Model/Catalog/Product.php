@@ -642,13 +642,6 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
 
         // custom option
         if (isset($data['custom_options']) && !empty($data['custom_options'])) {
-            //  if (isset($data['id'])) {
-            //   // delete old option
-            //  $customOptions = $product->getOptions();
-            //   foreach ($customOptions as $option) {
-            //          $option->delete();
-            //   }
-            // }
             $product
                 ->setCanSaveCustomOptions(true)
                 ->setProductOptions($data['custom_options'])
@@ -677,10 +670,13 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
 //                echo "Can not find image by path: `{$path}`<br/>";
 //            }
 //        }
+
         if ($data['type'] == 'bundle') {
             $product = $this->setBundlesProduct($product, $data['bundle']);
         }
-
+        if ($data['type'] == 'configurable' && isset($data['configurable'])) {
+            //$product = $this->setConfigableProduct($product, $data['configurable']);
+        }
         $product->save();
         if ($data['type'] == 'grouped')
             $this->setGroupProduct($data['group'], $product->getId());
@@ -735,29 +731,39 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
         return $product;
     }
 
-    public function setConfigableProduct($product, $data)
+    public function setConfigableProduct($configProduct, $data)
     {
-        $product->getTypeInstance()->setUsedProductAttributeIds(array(92)); //attribute ID of attribute 'color' in my store
-        $configurableAttributesData = $product->getTypeInstance()->getConfigurableAttributesAsArray();
-        $product->setCanSaveConfigurableAttributes(true);
-        $product->setConfigurableAttributesData($configurableAttributesData);
+        $configProduct->setCanSaveConfigurableAttributes(true);
+        $configProduct->getTypeInstance()->setUsedProductAttributeIds($data); //attribute ID of attribute 'size' in my store
+        $configurableAttributesData = $configProduct->getTypeInstance()->getConfigurableAttributesAsArray();
+        $configProduct->setConfigurableAttributesData($configurableAttributesData);
+
         $configurableProductsData = array();
-        $configurableProductsData['920'] = array( //['920'] = id of a simple product associated with this configurable
-            '0' => array(
-                'label' => 'Green', //attribute label
-                'attribute_id' => '92', //attribute ID of attribute 'color' in my store
-                'value_index' => '24', //value of 'Green' index of the attribute 'color'
-                'is_percent' => '0', //fixed/percent price for this option
-                'pricing_value' => '21' //value for the pricing
-            )
-        );
-        $product->setConfigurableProductsData($configurableProductsData);
-        return $product;
+
+//        $configurableProductsData['297'] = array(
+//            '0' => array(
+//                'label' => 'Green', //attribute label
+//                'attribute_id' => '92', //attribute ID of attribute 'color' in my store
+//                'value_index' => '24', //value of 'Green' index of the attribute 'color'
+//                'is_percent' => '0', //fixed/percent price for this option
+//                'pricing_value' => '' //value for the pricing
+//            ),
+//            '1' => array(
+//                'label' => '6', //attribute label
+//                'attribute_id' => '180', //attribute ID of attribute 'color' in my store
+//                'value_index' => '74', //value of 'Green' index of the attribute 'color'
+//                'is_percent' => '0', //fixed/percent price for this option
+//                'pricing_value' => '' //value for the pricing
+//            )
+//        );
+        $configProduct->setConfigurableProductsData($configurableProductsData);
+        return $configProduct;
     }
 
     public function getAttribute($attributeId, $name)
     {
         $storeId = 0;
+        $options = '';
         $attribute = Mage::getModel('catalog/product')
             ->setStoreId($storeId)
             ->getResource()
@@ -766,14 +772,14 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
             foreach ($attribute->getSource()->getAllOptions() as $optionId => $optionValue) {
                 if (is_array($optionValue)) {
                     if ($optionValue['label'] && $optionValue['label'] == $name)
-                        $options[] = $optionValue['label'];
+                        $options = $optionValue['value'];
                 } else {
                     if ($optionValue && $optionValue['label'] == $name)
-                        $options[] = $optionValue;
+                        $options = $optionValue;
                 }
             }
 
-        return array();
+        return $options;
     }
 }
 
