@@ -30,7 +30,6 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
 {
 
 
-
     /**
      * Retrieve order create model
      *
@@ -50,7 +49,6 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
     {
         return Mage::getSingleton('adminhtml/session_quote');
     }
-
 
 
     public function createOrder($data)
@@ -87,13 +85,16 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
         $billingAddress = $quote->getBillingAddress()->addData($data['billing_address']);
         $shippingAddress = $quote->getShippingAddress()->addData($data['shipping_address']);
         $shippingAddress->setCollectShippingRates(true)->collectShippingRates()
-            ->setShippingMethod('simi_shipping')
+//            ->setShippingMethod('ups_1DA')
+            ->setShippingMethod('simi_shipping_simi_shipping')
+//            ->setPaymentMethod('cashondelivery');
             ->setPaymentMethod('simi_payment');
         $quote->getPayment()->importData(array('method' => 'simi_payment'));
         $quote->save();
         $service = Mage::getModel('sales/service_quote', $quote);
         $service->submitAll();
         $order = $service->getOrder();
+
 
         $order->setShippingAmount($data['shipping_amount']);
         $order->setState($data['status']);
@@ -103,7 +104,6 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
         $order->setDiscountAmount($data['discount_amount']);
         $order->setTaxAmount($data['tax_amount']);
         $order->setPaymentDescription($data['payment']['title']);
-        //$order->setShippingDescription('Free Ship');
         $order->save();
         // Resource Clean-Up
         if (isset($data['paid_amount']))

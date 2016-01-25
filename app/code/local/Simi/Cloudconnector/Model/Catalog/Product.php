@@ -588,6 +588,7 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
      * @param   json
      * @return   json
      */
+
     public function saveProduct($data)
     {
         if (isset($data['id'])) {
@@ -734,7 +735,7 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
     public function setConfigableProduct($configProduct, $data)
     {
         $configProduct->setCanSaveConfigurableAttributes(true);
-        $configProduct->getTypeInstance()->setUsedProductAttributeIds($data); //attribute ID of attribute 'size' in my store
+        $configProduct->getTypeInstance()->setUsedProductAttributeIds($data['attributes']); //attribute ID of attribute 'size' in my store
         $configurableAttributesData = $configProduct->getTypeInstance()->getConfigurableAttributesAsArray();
         $configProduct->setConfigurableAttributesData($configurableAttributesData);
 

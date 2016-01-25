@@ -53,14 +53,14 @@
             </modules>
         </translate>
         <events>
-            <payment_method_is_active>
-                <observers>
-                    <paypalmobilement_paypal_observers>
-                        <class>cloudconnector/observer</class>
-                        <method>paymentMethodIsActive</method>
-                    </paypalmobilement_paypal_observers>
-                </observers>
-            </payment_method_is_active>
+            <!--<payment_method_is_active>-->
+                <!--<observers>-->
+                    <!--<paypalmobilement_paypal_observers>-->
+                        <!--<class>cloudconnector/observer</class>-->
+                        <!--<method>paymentMethodIsActive</method>-->
+                    <!--</paypalmobilement_paypal_observers>-->
+                <!--</observers>-->
+            <!--</payment_method_is_active>-->
 
             <sales_quote_collect_totals_before>
                 <observers>
