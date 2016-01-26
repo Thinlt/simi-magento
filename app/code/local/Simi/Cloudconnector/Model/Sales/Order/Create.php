@@ -51,6 +51,11 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
     }
 
 
+    /**
+     * create order from simi cloud
+     * @param $data
+     * @return array
+     */
     public function createOrder($data)
     {
         $quote = Mage::getModel('sales/quote')
@@ -61,25 +66,10 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
 
         foreach ($data['items'] as $item) {
             $product = Mage::getModel('catalog/product')->load($item['id']);
+            if (isset($item['varien']['super_attribute']))
+                $item['varien']['super_attribute'] = $this->setConfigable($item['varien']['super_attribute']);
             $quote->addProduct($product, new Varien_Object($item['varien']));
         }
-
-
-        // add product(s)
-//        $product = Mage::getModel('catalog/product')->load($data);
-//        $buyInfo = array(
-//            'qty' => 1,
-////            'options' => array(    // custom options
-////                7 => 4,
-////                8 => 6
-//            // option_id => value_id
-////            ),
-//            'super_attribute' => array(   // configurable product
-//                186 => 97,
-//                // attribute_id => value_id
-//            ),
-//        );
-//        $quote->addProduct($product, new Varien_Object($buyInfo));
 
 
         $billingAddress = $quote->getBillingAddress()->addData($data['billing_address']);
@@ -112,6 +102,10 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
         return ['order_id' => $order->getId()];
     }
 
+    /**
+     * invoice order from simi cloud
+     * @param $order_id
+     */
     public function invoiceOrder($order_id)
     {
         $order = Mage::getModel("sales/order")->load($order_id);
@@ -135,6 +129,11 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
     }
 
 
+    /**
+     * set customer to order | create or find
+     * @param $data
+     * @return false|Mage_Core_Model_Abstract
+     */
     public function setCustomer($data)
     {
         $customer = Mage::getModel('customer/customer')
@@ -155,5 +154,43 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
     public function getStoreId()
     {
         return Mage::app()->getStore('default')->getId();
+    }
+
+    /**
+     * get id product attribute by code and values
+     * @param $attribute_id
+     * @param $label
+     * @return string
+     */
+    function getOptionId($attribute_id, $label)
+    {
+        $attribute_model = Mage::getModel('eav/entity_attribute');
+        $attribute_options_model = Mage::getModel('eav/entity_attribute_source_table');
+        $attribute = $attribute_model->load($attribute_id);
+        $attribute_table = $attribute_options_model->setAttribute($attribute);
+        $options = $attribute_options_model->getAllOptions(false);
+        $optionId = '';
+        foreach ($options as $option) {
+            if ($option['label'] == $label) {
+                $optionId = $option['value'];
+                break;
+            }
+        }
+        return $optionId;
+    }
+
+    /**
+     * @param $data
+     * @return array
+     */
+    public function setConfigable(&$data)
+    {
+        $convert = [];
+        if (!empty($data)) {
+            foreach ($data as $key => $val) {
+                $convert[$key] = $this->getOptionId($key, $val);
+            }
+        }
+        return $convert;
     }
 }
