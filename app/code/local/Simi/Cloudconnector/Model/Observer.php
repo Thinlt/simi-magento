@@ -327,7 +327,7 @@ class Simi_Cloudconnector_Model_Observer
         $result = $observer['result'];
         $method = $observer['method_instance'];
         if ($method->getCode() == 'simi_payment') {
-            if (Mage::app()->getRequest()->getControllerModule() != 'Simi_Connector') {
+            if (Mage::app()->getRequest()->getControllerModule() != 'Simi_Cloudconnector') {
                 $result->isAvailable = false;
             }
         }
