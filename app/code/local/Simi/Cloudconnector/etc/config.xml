@@ -235,6 +235,7 @@
         <cloudconnector>
             <general>
                 <enable>1</enable>
+                <web_hook></web_hook>
             </general>
         </cloudconnector>
 

@@ -594,7 +594,7 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
         if (isset($data['id'])) {
             $product = Mage::getModel('catalog/product')->load($data['id']);
             if (!$product)
-                return ['errors' => 'not exits'];
+                return array('errors' => 'not exits');
         } else {
             $product = Mage::getModel('catalog/product');
         }
@@ -681,7 +681,7 @@ class Simi_Cloudconnector_Model_Catalog_Product extends Simi_Cloudconnector_Mode
         $product->save();
         if ($data['type'] == 'grouped')
             $this->setGroupProduct($data['group'], $product->getId());
-        return ['product_id' => $product->getId()];
+        return array('product_id' => $product->getId());
     }
 
     /**

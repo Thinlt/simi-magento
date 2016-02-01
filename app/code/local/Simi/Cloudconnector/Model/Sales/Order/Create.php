@@ -99,7 +99,7 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
         if (isset($data['paid_amount']))
             $this->invoiceOrder($order->getId());
         $quote = $customer = $service = null;
-        return ['order_id' => $order->getId()];
+        return array('order_id' => $order->getId());
     }
 
     /**
@@ -185,7 +185,7 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
      */
     public function setConfigable(&$data)
     {
-        $convert = [];
+        $convert = array();
         if (!empty($data)) {
             foreach ($data as $key => $val) {
                 $convert[$key] = $this->getOptionId($key, $val);

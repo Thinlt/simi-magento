@@ -65,10 +65,10 @@ class Simi_Cloudconnector_ApiController extends Simi_Cloudconnector_Controller_A
             if ($json)
                 $information = $model->pull($json);
             else
-                $information = [];
+                $information = array();
             $this->_printDataJson($information);
         } else
-            $this->_printDataJson(['message' => 'post only accept!']);
+            $this->_printDataJson(array('message' => 'post only accept!'));
     }
 
     public function getApiModel($data)
@@ -100,4 +100,16 @@ class Simi_Cloudconnector_ApiController extends Simi_Cloudconnector_Controller_A
         return $model;
     }
 
+    public function save_setting_webhookAction(){
+        $web_hook = $this->getRequest()->getParam('web_hook');
+        Mage::getConfig()->saveConfig('cloudconnector/general/web_hook', $web_hook);
+        Mage::getConfig()->saveCache();
+        $information = array('status' => 'SUCCESS');
+        $this->_printDataJson($information);
+    }
+
+    public function get_week_hook_urlAction(){
+        echo Mage::getStoreConfig('cloudconnector/general/web_hook');
+        exit();
+    }
 }

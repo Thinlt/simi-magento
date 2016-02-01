@@ -201,7 +201,7 @@ class Simi_Cloudconnector_Model_Catalog_Category extends Simi_Cloudconnector_Mod
         }
         try {
             $category->save();
-            return ['category_id' => $category->getId()];
+            return array('category_id' => $category->getId());
         } catch (Exception $e) {
             $message = $e->getMessage();
             $result = array('code' => $e->getCode(),

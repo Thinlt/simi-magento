@@ -301,7 +301,7 @@ class Simi_Cloudconnector_Model_Customer extends Simi_Cloudconnector_Model_Abstr
                 if (!empty($data['addresses']))
                     $this->saveAddress($data['addresses'], $customer->getId());
             }
-            return $customer->getId();
+            return array('customer_id' => $customer->getId());
         } catch (Exception $e) {
             $message = $e->getMessage();
             $result = array('code' => $e->getCode(),

@@ -45,7 +45,7 @@
 					<show_in_default>1</show_in_default>
 					<show_in_website>1</show_in_website>
 					<show_in_store>0</show_in_store>
-					<fields>		
+					<fields>
 						<enable translate="label">
 							<label>Enable</label>
 							<frontend_type>select</frontend_type>
@@ -55,11 +55,11 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>0</show_in_store>
 							<comment></comment>
-						</enable>	
+						</enable>
 						<api_key translate="label">
 							<label>API Key</label>
 							<frontend_type>text</frontend_type>
-							<sort_order>10</sort_order>							
+							<sort_order>10</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>0</show_in_store>
@@ -106,9 +106,21 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>0</show_in_store>
-							<comment></comment>
+							<comment><![CDATA[<script type="text/javascript">
+								$('cloudconnector_general_web_hook').onchange = function(){
+									if($('cloudconnector_general_web_hook').value == 1){
+									$('row_cloudconnector_general_web_hook_order').show();
+									$('row_cloudconnector_general_web_hook_product').show();
+									$('row_cloudconnector_general_web_hook_customer').show();
+									}else{
+										$('row_cloudconnector_general_web_hook_order').hide();
+										$('row_cloudconnector_general_web_hook_product').hide();
+										$('row_cloudconnector_general_web_hook_customer').hide();
+									}
+								}								
+							</script>]]></comment>
 						</web_hook_customer>
-					</fields>				
+					</fields>
 				</general>
 			</groups>
 		</cloudconnector>

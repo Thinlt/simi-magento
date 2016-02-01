@@ -322,7 +322,10 @@ class Simi_Cloudconnector_Model_Observer
         }
     }
 
-
+    /**
+     * hide shipping
+     * @param $observer
+     */
     public function paymentMethodIsActive($observer) {
         $result = $observer['result'];
         $method = $observer['method_instance'];
