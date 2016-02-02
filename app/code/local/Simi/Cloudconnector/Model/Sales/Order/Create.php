@@ -56,36 +56,36 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
      * @param $data
      * @return array
      */
-    public function createOrder($data)
+    public function saveOrder($data)
     {
-        $quote = Mage::getModel('sales/quote')
-            ->setStoreId(Mage::app()->getStore('default')->getId());
-        // Assign Customer To Sales Order Quote
-        $customer = $this->setCustomer($data['customer']);
-        $quote->assignCustomer($customer);
+        if (!isset($data['id'])) {
+            $quote = Mage::getModel('sales/quote')
+                ->setStoreId(Mage::app()->getStore('default')->getId());
+            // Assign Customer To Sales Order Quote
+            $customer = $this->setCustomer($data['customer']);
+            $quote->assignCustomer($customer);
 
-        foreach ($data['items'] as $item) {
-            $product = Mage::getModel('catalog/product')->load($item['id']);
-            if (isset($item['varien']['super_attribute']))
-                $item['varien']['super_attribute'] = $this->setConfigable($item['varien']['super_attribute']);
-            $quote->addProduct($product, new Varien_Object($item['varien']));
-        }
-
-
-        $billingAddress = $quote->getBillingAddress()->addData($data['billing_address']);
-        $shippingAddress = $quote->getShippingAddress()->addData($data['shipping_address']);
-        $shippingAddress->setCollectShippingRates(true)->collectShippingRates()
+            foreach ($data['items'] as $item) {
+                $product = Mage::getModel('catalog/product')->load($item['id']);
+                if (isset($item['varien']['super_attribute']))
+                    $item['varien']['super_attribute'] = $this->setConfigable($item['varien']['super_attribute']);
+                $quote->addProduct($product, new Varien_Object($item['varien']));
+            }
+            $billingAddress = $quote->getBillingAddress()->addData($data['billing_address']);
+            $shippingAddress = $quote->getShippingAddress()->addData($data['shipping_address']);
+            $shippingAddress->setCollectShippingRates(true)->collectShippingRates()
 //            ->setShippingMethod('ups_1DA')
-            ->setShippingMethod('simi_shipping_simi_shipping')
+                ->setShippingMethod('simi_shipping_simi_shipping')
 //            ->setPaymentMethod('cashondelivery');
-            ->setPaymentMethod('simi_payment');
-        $quote->getPayment()->importData(array('method' => 'simi_payment'));
-        $quote->save();
-        $service = Mage::getModel('sales/service_quote', $quote);
-        $service->submitAll();
-        $order = $service->getOrder();
-
-
+                ->setPaymentMethod('simi_payment');
+            $quote->getPayment()->importData(array('method' => 'simi_payment'));
+            $quote->save();
+            $service = Mage::getModel('sales/service_quote', $quote);
+            $service->submitAll();
+            $order = $service->getOrder();
+        } else {  // update order
+            $order = Mage::getModel('sales/order')->load($data['id']);
+        }
         $order->setShippingAmount($data['shipping_amount']);
         $order->setState($data['status']);
         $order->setStatus($data['status']);
@@ -139,7 +139,8 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
         $customer = Mage::getModel('customer/customer')
             ->setWebsiteId($this->getStoreId())
             ->loadByEmail($data['email']);
-        if (empty($customer->getId())) {
+        $customer_id = $customer->getId();
+        if (empty($customer_id)) {
             $customer = Mage::getModel('customer/customer');
             $customer = $customer->setWebsiteId($this->getStoreId())
                 ->setFirstname($data['first_name'])
@@ -192,5 +193,18 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
             }
         }
         return $convert;
+    }
+
+    /**
+     * get region id
+     * @param $regionCode
+     * @param $countryCode
+     * @return mixed
+     */
+    public function getRegionId($regionCode, $countryCode)
+    {
+        $regionModel = Mage::getModel('directory/region')->loadByCode($regionCode, $countryCode);
+        $regionId = $regionModel->getId();
+        return $regionId;
     }
 }

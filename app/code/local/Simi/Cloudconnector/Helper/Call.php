@@ -6,7 +6,8 @@ class Simi_Cloudconnector_Helper_Call extends Mage_Core_Helper_Abstract
 
     public function __construct()
     {
-        $this->setSimiUrl('http://requestb.in/zp3zqxzp');
+//        $this->setSimiUrl('http://requestb.in/1028ysp1');
+        $this->setSimiUrl(Mage::getStoreConfig('cloudconnector/general/web_hook_simi'));
     }
 
     /**

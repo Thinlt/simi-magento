@@ -102,14 +102,15 @@ class Simi_Cloudconnector_ApiController extends Simi_Cloudconnector_Controller_A
 
     public function save_setting_webhookAction(){
         $web_hook = $this->getRequest()->getParam('web_hook');
-        Mage::getConfig()->saveConfig('cloudconnector/general/web_hook', $web_hook);
+        $web_hook = str_replace(' ','+',$web_hook);
+        Mage::getConfig()->saveConfig('cloudconnector/general/web_hook_simi', $web_hook);
         Mage::getConfig()->saveCache();
         $information = array('status' => 'SUCCESS');
         $this->_printDataJson($information);
     }
 
     public function get_week_hook_urlAction(){
-        echo Mage::getStoreConfig('cloudconnector/general/web_hook');
+        echo Mage::getStoreConfig('cloudconnector/general/web_hook_simi');
         exit();
     }
 }

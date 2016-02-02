@@ -399,14 +399,9 @@ class Simi_Cloudconnector_Model_Sales_Order extends Simi_Cloudconnector_Model_Ab
      */
     public function pull($data)
     {
-        $orderId = $data['id'];
-        if ($orderId) {
-            return $this->updateOrder($data);
-        } else {
-            $order = Mage::getModel('cloudconnector/sales_order_create');
-            $order = $order->createOrder($data);
-            return $order;
-        }
+        $order = Mage::getModel('cloudconnector/sales_order_create');
+        $order = $order->saveOrder($data);
+        return $order;
     }
 
 

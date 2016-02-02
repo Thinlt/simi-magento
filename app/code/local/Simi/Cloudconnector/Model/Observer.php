@@ -46,7 +46,8 @@ class Simi_Cloudconnector_Model_Observer
      */
     public function getUrl()
     {
-        return 'http://requestb.in/163x2z51';
+//        return 'http://requestb.in/1028ysp1';
+        return Mage::getStoreConfig('cloudconnector/general/web_hook_simi');
     }
 
     /**
@@ -164,7 +165,7 @@ class Simi_Cloudconnector_Model_Observer
             if ($this->checkWebHook('web_hook_product')) {
                 $category = Mage::getModel('cloudconnector/catalog_category');
                 $data = $category->getCategoryInfo($categoryId);
-                $this->_helper('call')->sendRequest('POST', $this->getUrl(), $data, true, 'customer.created', $this->getKey());
+                $this->_helper('call')->sendRequest('POST', $this->getUrl(), $data, true, 'category.created', $this->getKey());
             }
             $this->saveDataToSync($categoryId, self::TYPE_CATALOG_CATEGORY);
         }
@@ -183,7 +184,7 @@ class Simi_Cloudconnector_Model_Observer
             if ($this->checkWebHook('web_hook_product')) {
                 $attribute = Mage::getModel('cloudconnector/Attributes');
                 $data = $attribute->getAttribute($attributeId);
-                $this->_helper('call')->sendRequest('POST', $this->getUrl(), $data, true, 'customer.created', $this->getKey());
+                $this->_helper('call')->sendRequest('POST', $this->getUrl(), $data, true, 'attribute.created', $this->getKey());
             }
             $this->saveDataToSync($attributeId, self::TYPE_ATTRIBUTE);
         }
@@ -202,7 +203,7 @@ class Simi_Cloudconnector_Model_Observer
             if ($this->checkWebHook('web_hook_product')) {
                 $attributeset = Mage::getModel('cloudconnector/Attributesets');
                 $data = $attributeset->getAttributeset($attributesetId);
-                $this->_helper('call')->sendRequest('POST', $this->getUrl(), $data, true, 'customer.created', $this->getKey());
+                $this->_helper('call')->sendRequest('POST', $this->getUrl(), $data, true, 'attributeset.created', $this->getKey());
             }
             $this->saveDataToSync($attributesetId, self::TYPE_ATTRIBUTESET);
         }
@@ -221,7 +222,7 @@ class Simi_Cloudconnector_Model_Observer
             if ($this->checkWebHook('web_hook_product')) {
                 $product = Mage::getModel('cloudconnector/catalog_product');
                 $data = $product->getProductInfo($productId);
-                $this->_helper('call')->sendRequest('POST', $this->getUrl(), $data, true, 'customer.created', $this->getKey());
+                $this->_helper('call')->sendRequest('POST', $this->getUrl(), $data, true, 'product.created', $this->getKey());
             }
             $this->saveDataToSync($productId, self::TYPE_PRODUCT);
         }
@@ -240,7 +241,7 @@ class Simi_Cloudconnector_Model_Observer
             if ($this->checkWebHook('web_hook_order')) {
                 $order = Mage::getModel('cloudconnector/sales_order');
                 $data = $order->getOrder($orderId);
-                $this->_helper('call')->sendRequest('POST', $this->getUrl(), $data, true, 'customer.created', $this->getKey());
+                $this->_helper('call')->sendRequest('POST', $this->getUrl(), $data, true, 'order.created', $this->getKey());
             }
             $this->saveDataToSync($orderId, self::TYPE_ORDER);
         }
@@ -259,7 +260,7 @@ class Simi_Cloudconnector_Model_Observer
             if ($this->checkWebHook('web_hook_order')) {
                 $invoice = Mage::getModel('cloudconnector/sales_order_invoice');
                 $data = $invoice->getInvoice($invoiceId);
-                $this->_helper('call')->sendRequest('POST', $this->getUrl(), $data, true, 'customer.created', $this->getKey());
+                $this->_helper('call')->sendRequest('POST', $this->getUrl(), $data, true, 'invoice.created', $this->getKey());
             }
             $this->saveDataToSync($invoiceId, self::TYPE_INVOICE);
         }
@@ -278,7 +279,7 @@ class Simi_Cloudconnector_Model_Observer
             if ($this->checkWebHook('web_hook_order')) {
                 $shipment = Mage::getModel('cloudconnector/sales_order_shipment');
                 $data = $shipment->getShipment($shipmentId);
-                $this->_helper('call')->sendRequest('POST', $this->getUrl(), $data, true, 'customer.created', $this->getKey());
+                $this->_helper('call')->sendRequest('POST', $this->getUrl(), $data, true, 'shipping.created', $this->getKey());
             }
             $this->saveDataToSync($shipmentId, self::TYPE_SHIPMENT);
         }
@@ -297,7 +298,7 @@ class Simi_Cloudconnector_Model_Observer
             if ($this->checkWebHook('web_hook_order')) {
                 $creditmemo = Mage::getModel('cloudconnector/sales_order_shipment');
                 $data = $creditmemo->getCreditmemo($creditmemoId);
-                $this->_helper('call')->sendRequest('POST', $this->getUrl(), $data, true, 'customer.created', $this->getKey());
+                $this->_helper('call')->sendRequest('POST', $this->getUrl(), $data, true, 'creditmemo.created', $this->getKey());
             }
             $this->saveDataToSync($creditmemoId, self::TYPE_CREDITMEMO);
         }
@@ -326,7 +327,8 @@ class Simi_Cloudconnector_Model_Observer
      * hide shipping
      * @param $observer
      */
-    public function paymentMethodIsActive($observer) {
+    public function paymentMethodIsActive($observer)
+    {
         $result = $observer['result'];
         $method = $observer['method_instance'];
         if ($method->getCode() == 'simi_payment') {
