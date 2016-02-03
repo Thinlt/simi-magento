@@ -162,7 +162,7 @@ abstract class Simi_Cloudconnector_Controller_Action extends Mage_Core_Controlle
         if ($authorization == $signature){            
             return true;
         }else{
-            return true;    // need change
+            return false;    // need change
         }
     }
 
