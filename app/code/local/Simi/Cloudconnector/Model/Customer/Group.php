@@ -172,7 +172,7 @@ class Simi_Cloudconnector_Model_Customer_Group extends Simi_Cloudconnector_Model
         $group->setTaxClassId($data['tax_class']);
         try {
             $group->save();
-            return ['group_id' => $group->getId()];
+            return array('group_id' => $group->getId());
         } catch (Exception $e) {
             $message = $e->getMessage();
             $result = array('code' => $e->getCode(),
