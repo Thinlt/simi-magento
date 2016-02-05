@@ -95,6 +95,7 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
         $order->setTaxAmount($data['tax_amount']);
         $order->setPaymentDescription($data['payment']['title']);
         $order->save();
+
         // Resource Clean-Up
         if (isset($data['paid_amount']))
             $this->invoiceOrder($order->getId());
