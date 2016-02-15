@@ -2,18 +2,18 @@
 
 /**
  * Magestore
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Magestore.com license that is
  * available through the world-wide-web at this URL:
  * http://www.magestore.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category    Simi
  * @package     Simi_Cloudconnector
  * @copyright   Copyright (c) 2015 Magestore (http://www.magestore.com/)
@@ -22,48 +22,53 @@
 
 /**
  * Cloudcontroler Controller Action
- * 
+ *
  * @category    Simi
  * @package     Simi_Cloudconnector
  * @author      Simi Developer
  */
-abstract class Simi_Cloudconnector_Controller_Action extends Mage_Core_Controller_Front_Action {
-    
+abstract class Simi_Cloudconnector_Controller_Action extends Mage_Core_Controller_Front_Action
+{
+
     protected $_data;
 
     /**
      * get data
-     * 
+     *
      * @return  array
      */
-    public function getData() {
+    public function getData()
+    {
         return $this->_data;
     }
 
     /**
      * set data
-     * 
+     *
      * @param  array
      */
-    public function setData($data) {
+    public function setData($data)
+    {
         $this->_data = $data;
     }
 
     /**
-     * get cloudconnector helper 
-     * 
-     * @param    
+     * get cloudconnector helper
+     *
+     * @param
      * @return  Simi_Cloudconnector_Helper_Data
      */
-    public function _helper($data) {
+    public function _helper($data)
+    {
         return Mage::helper('cloudconnector');
     }
 
     /**
      * check connection
-     * 
+     *
      */
-    public function preDispatch() {
+    public function preDispatch()
+    {
         parent::preDispatch();
         $enable = $this->_helper()->getConfig('enable', Mage::app()->getWebsite()->getId());
         $enable = 1;
@@ -72,6 +77,7 @@ abstract class Simi_Cloudconnector_Controller_Action extends Mage_Core_Controlle
             echo 'Connect was disable!';
             exit();
         }
+
         if (!$this->isCheckKey()) {
             header("HTTP/1.0 401 Unauthorized");
             echo 'Connect error!';
@@ -84,11 +90,12 @@ abstract class Simi_Cloudconnector_Controller_Action extends Mage_Core_Controlle
 
     /**
      * convert json to array
-     * 
+     *
      * @param    array
      * @return   array
      */
-    public function releaseData($data) {     
+    public function releaseData($data)
+    {
         $this->setData($data);
         $this->eventChangeData($this->getEventName(), $data);
         $this->_data = $this->getData();
@@ -96,11 +103,12 @@ abstract class Simi_Cloudconnector_Controller_Action extends Mage_Core_Controlle
 
     /**
      * convert data to Json
-     * 
+     *
      * @param    array
      * @return   json
      */
-    public function convertToJson($data) {
+    public function convertToJson($data)
+    {
         $this->setData($data);
         $this->eventChangeData($this->getEventName('_return'), $data);
         $this->_data = $this->getData();
@@ -108,13 +116,14 @@ abstract class Simi_Cloudconnector_Controller_Action extends Mage_Core_Controlle
     }
 
     /**
-     * print json from array 
-     * 
+     * print json from array
+     *
      * @param    array
-     * @return   
+     * @return
      */
-    public function _printDataJson($data) {
-        ob_start();     
+    public function _printDataJson($data)
+    {
+        ob_start();
         echo $this->convertToJson($data);
         header("Content-Type: application/json");
         exit();
@@ -122,15 +131,17 @@ abstract class Simi_Cloudconnector_Controller_Action extends Mage_Core_Controlle
     }
 
     /**
-     * check head key 
-     * 
-     * @param    
+     * check head key
+     *
+     * @param
      * @return   boolean
      */
-    public function isCheckKey() {
+    public function isCheckKey()
+    {
         if (!function_exists('getallheaders')) {
 
-            function getallheaders() {
+            function getallheaders()
+            {
                 $head = array();
                 foreach ($_SERVER as $name => $value) {
                     if (substr($name, 0, 5) == 'HTTP_') {
@@ -150,39 +161,46 @@ abstract class Simi_Cloudconnector_Controller_Action extends Mage_Core_Controlle
         // token is key
         $secretKey = $this->_helper()->getConfig('api_key', Mage::app()->getWebsite()->getId());
         $token;
-       
-        foreach ($head as $k => $h) {
-            if ($k == "Data") {
-                $data = $h;
-            }if ($k == "Authorization") {
-                $authorization = $h;
-            }
-        }
+
+//        foreach ($head as $k => $h) {
+//            if ($k == "Data") {
+//                $data = $h;
+//            }if ($k == "Authorization") {
+//                $authorization = $h;
+//            }
+//        }
+        $request = new Zend_Controller_Request_Http();
+        $data = $request->getHeader('Data');
+        $authorization = $request->getHeader('Authorization');
+        $sign = $request->getHeader('Sign');
         $signature = base64_encode(hash_hmac('sha256', json_encode($data), $secretKey, true));
-        if ($authorization == $signature){            
+
+        if ($authorization == $signature || $sign == $signature) {
             return true;
-        }else{
+        } else {
             return false;    // need change
         }
     }
 
     /**
-     * dispatch event 
-     * 
-     * @param   string, array
-     * @return   
+     * dispatch event
+     *
+     * @param   string , array
+     * @return
      */
-    public function eventChangeData($event_name, $data) {
+    public function eventChangeData($event_name, $data)
+    {
         Mage::dispatchEvent($event_name, array('object' => $this, 'data' => $data));
     }
 
     /**
-     * get event name 
-     * 
+     * get event name
+     *
      * @param   string
-     * @return  string 
+     * @return  string
      */
-    public function getEventName($last = '') {
+    public function getEventName($last = '')
+    {
         return $this->getFullActionName() . $last;
     }
 
