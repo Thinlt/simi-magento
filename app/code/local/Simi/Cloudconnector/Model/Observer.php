@@ -242,7 +242,6 @@ class Simi_Cloudconnector_Model_Observer
         $shipping = $order->getShippingMethod();
 
         if ($orderId && $shipping != 'simi_shipping_simi_shipping') {
-            echo 111;
             if ($this->checkWebHook('web_hook_order')) {
                 $order = Mage::getModel('cloudconnector/sales_order');
                 $data = $order->getOrder($orderId);
