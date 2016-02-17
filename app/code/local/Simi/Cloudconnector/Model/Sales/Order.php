@@ -134,6 +134,8 @@ class Simi_Cloudconnector_Model_Sales_Order extends Simi_Cloudconnector_Model_Ab
     {
         $orderInfo = array();
         $orderInfo['id'] = $order->getId();
+        $orderInfo['store_id'] = $order->getData('increment_id');
+        $orderInfo['source'] = '2';
         $orderInfo['order_currency_code'] = $order->getData('order_currency_code');
         $orderInfo['base_currency_code'] = $order->getData('base_currency_code');
         $orderInfo['store_currency_code'] = $order->getData('store_currency_code');

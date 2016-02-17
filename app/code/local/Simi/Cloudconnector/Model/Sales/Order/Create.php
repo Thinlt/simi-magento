@@ -30,6 +30,9 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
 {
 
 
+    const SIMI_SHIPPING = 'simi_shipping_simi_shipping';
+    const SIMI_PAYMENT = 'simi_payment';
+
     /**
      * Retrieve order create model
      *
@@ -58,49 +61,64 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
      */
     public function saveOrder($data)
     {
-        if (!isset($data['id'])) {
-            $quote = Mage::getModel('sales/quote')
-                ->setStoreId(Mage::app()->getStore('default')->getId());
-            // Assign Customer To Sales Order Quote
-            $customer = $this->setCustomer($data['customer']);
-            $quote->assignCustomer($customer);
+        try {
+            if (!isset($data['id'])) {
+                $quote = Mage::getModel('sales/quote')
+                    ->setStoreId($this->getStoreId());
+                // Assign Customer To Sales Order Quote
+                $customer = $this->setCustomer($data['customer']);
+                if ($customer)
+                    $quote->assignCustomer($customer);
+                else
+                    $quote->setCheckoutMethod('guest')
+                        ->setCustomerId(null)
+                        ->setCustomerEmail($data['customer']['email'])
+                        ->setCustomerIsGuest(true)
+                        ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
 
-            foreach ($data['items'] as $item) {
-                $product = Mage::getModel('catalog/product')->load($item['id']);
-                if (isset($item['varien']['super_attribute']))
-                    $item['varien']['super_attribute'] = $this->setConfigable($item['varien']['super_attribute']);
-                $quote->addProduct($product, new Varien_Object($item['varien']));
+                // add product to quotes
+                foreach ($data['items'] as $item) {
+                    $product = Mage::getModel('catalog/product')->load($item['id']);
+                    if (isset($item['varien']['super_attribute']))
+                        $item['varien']['super_attribute'] = $this->setConfigable($item['varien']['super_attribute']);
+                    $quote->addProduct($product, new Varien_Object($item['varien']));
+                }
+
+                // set billing and shipping address
+                $billingAddress = $quote->getBillingAddress()->addData($data['billing_address']);
+                $shippingAddress = $quote->getShippingAddress()->addData($data['shipping_address']);
+                $shippingAddress->setCollectShippingRates(true)->collectShippingRates()
+                    // ->setShippingMethod('ups_1DA')
+                    ->setShippingMethod(self::SIMI_SHIPPING)
+                    // ->setPaymentMethod('cashondelivery');
+                    ->setPaymentMethod(self::SIMI_PAYMENT);
+                $quote->getPayment()->importData(array('method' => self::SIMI_PAYMENT));
+                $quote->save();
+                $service = Mage::getModel('sales/service_quote', $quote);
+                $service->submitAll();
+                $order = $service->getOrder();
+            } else {  // update order
+                $order = Mage::getModel('sales/order')->load($data['id']);
             }
-            $billingAddress = $quote->getBillingAddress()->addData($data['billing_address']);
-            $shippingAddress = $quote->getShippingAddress()->addData($data['shipping_address']);
-            $shippingAddress->setCollectShippingRates(true)->collectShippingRates()
-//            ->setShippingMethod('ups_1DA')
-                ->setShippingMethod('simi_shipping_simi_shipping')
-//            ->setPaymentMethod('cashondelivery');
-                ->setPaymentMethod('simi_payment');
-            $quote->getPayment()->importData(array('method' => 'simi_payment'));
-            $quote->save();
-            $service = Mage::getModel('sales/service_quote', $quote);
-            $service->submitAll();
-            $order = $service->getOrder();
-        } else {  // update order
-            $order = Mage::getModel('sales/order')->load($data['id']);
-        }
-        $order->setShippingAmount($data['shipping_amount']);
-        $order->setState($data['status']);
-        $order->setStatus($data['status']);
-        $order->setsubtotal($data['subtotal']);
-        $order->setGrandTotal($data['grand_total']);
-        $order->setDiscountAmount($data['discount_amount']);
-        $order->setTaxAmount($data['tax_amount']);
-        $order->setPaymentDescription($data['payment']['title']);
-        $order->save();
+            $order->setShippingAmount($data['shipping_amount']);
+            $order->setState($data['status']);
+            $order->setStatus($data['status']);
+            $order->setsubtotal($data['subtotal']);
+            $order->setGrandTotal($data['grand_total']);
+            $order->setDiscountAmount($data['discount_amount']);
+            $order->setTaxAmount($data['tax_amount']);
+            $order->setPaymentDescription($data['payment']['title']);
+            $order->save();
 
-        // Resource Clean-Up
-        if (isset($data['paid_amount']))
-            $this->invoiceOrder($order->getId());
-        $quote = $customer = $service = null;
-        return array('order_id' => $order->getId());
+            // invoice if it was invoice
+            if (isset($data['paid_amount']))
+                $this->invoiceOrder($order->getId());
+            // reset
+            $quote = $customer = $service = null;
+            return array('order_id' => $order->getId());
+        } catch (Exception $e) {
+            return array('errors' => $e->getMessage());
+        }
     }
 
     /**
@@ -142,20 +160,14 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
             ->loadByEmail($data['email']);
         $customer_id = $customer->getId();
         if (empty($customer_id)) {
-            $customer = Mage::getModel('customer/customer');
-            $customer = $customer->setWebsiteId($this->getStoreId())
-                ->setFirstname($data['first_name'])
-                ->setLastname($data['last_name'])
-                ->setEmail($data['email'])
-                ->setPassword("simi@123");
-            $customer = $customer->save();
+            return false;
         }
         return $customer;
     }
 
     public function getStoreId()
     {
-        return Mage::app()->getStore('default')->getId();
+        return Mage::app()->getStore()->getId();
     }
 
     /**
