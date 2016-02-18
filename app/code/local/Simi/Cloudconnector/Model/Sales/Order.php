@@ -87,6 +87,7 @@ class Simi_Cloudconnector_Model_Sales_Order extends Simi_Cloudconnector_Model_Ab
     public function getListOrder($offset, $limit, $update, $count, $params)
     {
         $orders = $this->getOrderCollection($update);
+
         if ($count)
             return $orders->getSize();
         if (!$offset)

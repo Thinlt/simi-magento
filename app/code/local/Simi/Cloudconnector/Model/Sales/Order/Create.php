@@ -93,6 +93,9 @@ class Simi_Cloudconnector_Model_Sales_Order_Create extends Mage_Core_Model_Abstr
                     // ->setPaymentMethod('cashondelivery');
                     ->setPaymentMethod(self::SIMI_PAYMENT);
                 $quote->getPayment()->importData(array('method' => self::SIMI_PAYMENT));
+
+                //print_r($quote->getData()); die;
+
                 $quote->save();
                 $service = Mage::getModel('sales/service_quote', $quote);
                 $service->submitAll();
