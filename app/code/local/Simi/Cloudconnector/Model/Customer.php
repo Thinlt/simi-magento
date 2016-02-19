@@ -288,17 +288,20 @@ class Simi_Cloudconnector_Model_Customer extends Simi_Cloudconnector_Model_Abstr
      */
     public function createCustomer($data)
     {
-        $customerId = $data['id'];
-        if ($customerId) {
-            $customer = Mage::getModel('customer/customer')->load($customerId);
+        if (isset($data['id'])) {
+            $customer = Mage::getModel('customer/customer')->load($data['id']);
+            $customer->setFirstname($data['firstname']);
+            $customer->setLastname($data['lastname']);
+            $customer->setEmail($data['email']);
+            $customer->setPassword($data['password']);
         } else {
             $customer = Mage::getModel('customer/customer');
+            $customer->setData($data);
         }
-        $customer->setData($data);
         try {
             $customer->save();
             if ($customer->getId()) {
-                if (!empty($data['addresses']))
+                if (isset($data['addresses']) && !empty($data['addresses']))
                     $this->saveAddress($data['addresses'], $customer->getId());
             }
             return array('customer_id' => $customer->getId());
