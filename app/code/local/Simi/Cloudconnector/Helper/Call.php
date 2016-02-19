@@ -44,7 +44,7 @@ class Simi_Cloudconnector_Helper_Call extends Mage_Core_Helper_Abstract
         try {
             return curl_exec($ch);
         } catch (Exception $e) {
-            throw $e;
+            echo  $e->getMessage();
         }
     }
 

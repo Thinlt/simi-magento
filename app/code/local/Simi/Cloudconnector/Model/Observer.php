@@ -48,24 +48,6 @@ class Simi_Cloudconnector_Model_Observer
     {
         return Mage::getStoreConfig('cloudconnector/general/web_hook_simi');
     }
-
-    /**
-     * return event and continue processing
-     */
-    public function replyEvent()
-    {
-        ignore_user_abort(true);
-        set_time_limit(0);
-        ob_start();
-        echo 'done'; // return events
-        header('Connection: close');
-        header('Content-Length: ' . ob_get_length());
-        ob_end_flush();
-        ob_flush();
-        flush();
-        // continue  processing
-    }
-
     /**
      * return api - key
      * @return string
@@ -143,7 +125,6 @@ class Simi_Cloudconnector_Model_Observer
      */
     public function customerGroupSaveAfter($observer)
     {
-        $this->replyEvent();
         $customerOb = $observer['data_object'];
         $customerGroupId = $customerOb->getData('customer_group_id');
         if ($customerGroupId >= 0) {
@@ -164,7 +145,6 @@ class Simi_Cloudconnector_Model_Observer
      */
     public function customerSaveAfter($observer)
     {
-        $this->replyEvent();
         $customerId = $observer->getCustomer()->getId();
         if ($customerId) {
             if ($this->checkWebHook('web_hook_customer')) {
@@ -184,7 +164,6 @@ class Simi_Cloudconnector_Model_Observer
      */
     public function categorySaveAfter($observer)
     {
-        $this->replyEvent();
         $categoryId = $observer->getCategory()->getId();
         if ($categoryId) {
             if ($this->checkWebHook('web_hook_product')) {
@@ -204,7 +183,6 @@ class Simi_Cloudconnector_Model_Observer
      */
     public function attributeSaveAfter($observer)
     {
-        $this->replyEvent();
         $attributeId = $observer->getAttribute()->getId();
         if ($attributeId) {
             if ($this->checkWebHook('web_hook_product')) {
@@ -224,7 +202,6 @@ class Simi_Cloudconnector_Model_Observer
      */
     public function attributeSetSaveAfter($observer)
     {
-        $this->replyEvent();
         $attributesetId = $observer['data_object']->getData('attribute_set_id');
         if ($attributesetId) {
             if ($this->checkWebHook('web_hook_product')) {
@@ -244,7 +221,6 @@ class Simi_Cloudconnector_Model_Observer
      */
     public function productSaveAfter($observer)
     {
-        $this->replyEvent();
         $productId = $observer->getProduct()->getId();
         if ($productId) {
             if ($this->checkWebHook('web_hook_product')) {
@@ -264,7 +240,6 @@ class Simi_Cloudconnector_Model_Observer
      */
     public function orderSaveAfter($observer)
     {
-        $this->replyEvent();
         $order = $observer->getOrder();
         $orderId = $order->getId();
         $shipping = $order->getShippingMethod();
@@ -287,7 +262,6 @@ class Simi_Cloudconnector_Model_Observer
      */
     public function invoiceSaveAfter($observer)
     {
-        $this->replyEvent();
         $invoiceId = $observer->getInvoice()->getId();
         if ($invoiceId) {
             if ($this->checkWebHook('web_hook_order')) {
@@ -307,7 +281,6 @@ class Simi_Cloudconnector_Model_Observer
      */
     public function shipmentSaveAfter($observer)
     {
-        $this->replyEvent();
         $shipmentId = $observer->getShipment()->getId();
         if ($shipmentId) {
             if ($this->checkWebHook('web_hook_order')) {
@@ -327,7 +300,6 @@ class Simi_Cloudconnector_Model_Observer
      */
     public function creditmemoSaveAfter($observer)
     {
-        $this->replyEvent();
         $creditmemoId = $observer->getCreditmemo()->getId();
         if ($creditmemoId) {
             if ($this->checkWebHook('web_hook_order')) {
