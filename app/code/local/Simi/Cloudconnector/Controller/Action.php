@@ -58,7 +58,7 @@ abstract class Simi_Cloudconnector_Controller_Action extends Mage_Core_Controlle
      * @param
      * @return  Simi_Cloudconnector_Helper_Data
      */
-    public function _helper($data)
+    public function _helper()
     {
         return Mage::helper('cloudconnector');
     }
