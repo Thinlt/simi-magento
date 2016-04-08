@@ -52,7 +52,7 @@ class Simi_Cloudconnector_Helper_Data extends Mage_Core_Helper_Abstract
      * @return   string
      */
     public function getConfig($config) {
-        return Mage::getStoreConfig('cloudconnector/general/'.$config, Mage::app()->getWebsite()->getId());
+        return Mage::getStoreConfig('cloudconnector/general/'.$config);
     }
 
 }

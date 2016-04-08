@@ -70,8 +70,7 @@ abstract class Simi_Cloudconnector_Controller_Action extends Mage_Core_Controlle
     public function preDispatch()
     {
         parent::preDispatch();
-        $enable = $this->_helper()->getConfig('enable', Mage::app()->getWebsite()->getId());
-        $enable = 1;
+        $enable = $this->_helper()->getConfig('enable');
         if (!$enable) {
             header("HTTP/1.0 503");
             echo 'Connect was disable!';
@@ -157,10 +156,8 @@ abstract class Simi_Cloudconnector_Controller_Action extends Mage_Core_Controlle
             }
 
         }
-        $head = getallheaders();
         // token is key
-        $secretKey = $this->_helper()->getConfig('api_key', Mage::app()->getWebsite()->getId());
-        $token;
+        $secretKey = $this->_helper()->getConfig('api_key');
 
 //        foreach ($head as $k => $h) {
 //            if ($k == "Data") {
