@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magestore
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Magestore.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.magestore.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    Magestore
+ * @package     Magestore_Loyalty
+ * @copyright   Copyright (c) 2012 Magestore (http://www.magestore.com/)
+ * @license     http://www.magestore.com/license-agreement.html
+ */
+-->
+<config>
+    <modules>        
+        <Magestore_Loyalty>
+            <version>0.1.0</version>
+        </Magestore_Loyalty>
+    </modules>
+    <frontend>
+        <secure_url>
+            <loyalty_passbook>/loyalty/passbook</loyalty_passbook>
+        </secure_url>
+        <routers>
+            <loyalty>
+                <use>standard</use>
+                <args>
+                    <module>Magestore_Loyalty</module>
+                    <frontName>loyalty</frontName>
+                </args>
+            </loyalty>           
+        </routers>
+        <translate>
+            <modules>
+                <Magestore_Loyalty>
+                    <files>
+                        <default>Magestore_Loyalty.csv</default>
+                    </files>
+                </Magestore_Loyalty>
+            </modules>
+        </translate>
+        <events>
+            <connector_checkout_get_order_config_total>
+                <observers>
+                    <loyalty_frontend_observers>
+                        <type>singleton</type>
+                        <class>loyalty/observer</class>
+                        <method>checkoutOrderConfigRewardPoints</method>
+                    </loyalty_frontend_observers>
+                </observers>
+            </connector_checkout_get_order_config_total>
+            <connector_catalog_get_product_detail_product_detail>
+                <observers>
+                    <loyalty_frontend_observers>
+                        <type>singleton</type>
+                        <class>loyalty/observer</class>
+                        <method>productDetailRewardPoints</method>
+                    </loyalty_frontend_observers>
+                </observers>
+            </connector_catalog_get_product_detail_product_detail>            
+            <!--connector_checkout_save_shipping_method_total>
+                <observers>
+                    <loyalty_frontend_observers>
+                        <type>singleton</type>
+                        <class>loyalty/observer</class>
+                        <method>checkoutOrderConfigRewardPoints</method>
+                    </loyalty_frontend_observers>
+                </observers>
+            </connector_checkout_save_shipping_method_total>
+            <simicart_after_place_order>
+            	<observers>
+                    <loyalty_frontend_observers>
+                        <type>singleton</type>
+                        <class>loyalty/observer</class>
+                        <method>checkoutOrderPlaceAfter</method>
+                    </loyalty_frontend_observers>
+                </observers>
+            </simicart_after_place_order> -->
+        </events>
+    </frontend>
+    <admin>
+        <routers>           
+            <loyaltyadmin>
+                <use>admin</use>
+                <args>
+                    <module>Magestore_Loyalty</module>
+                    <frontName>loyaltyadmin</frontName>
+                </args>
+            </loyaltyadmin>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>               
+                <loyalty>
+                    <file>loyalty.xml</file>
+                </loyalty>
+            </updates>
+        </layout>
+        <translate>
+            <modules>                
+                <Magestore_Loyalty>
+                    <files>
+                        <default>Magestore_Loyalty.csv</default>
+                    </files>
+                </Magestore_Loyalty>
+            </modules>
+        </translate> 
+    </adminhtml>
+    <global>
+        <models>            
+            <loyalty>
+                <class>Magestore_Loyalty_Model</class>
+                <resourceModel>loyalty_mysql4</resourceModel>
+            </loyalty>
+            <loyalty_mysql4>
+                <class>Magestore_Loyalty_Model_Mysql4</class>
+                <entities>
+                    <loyalty>
+                        <table>loyalty</table>
+                    </loyalty>
+                </entities>
+            </loyalty_mysql4>
+            <connector>
+                <rewrite>
+                    <customer>Magestore_Loyalty_Model_Customer</customer>
+                </rewrite>
+            </connector>
+        </models>
+        <resources>
+            <loyalty_setup>
+                <setup>
+                    <module>Magestore_Loyalty</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </loyalty_setup>
+            <loyalty_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </loyalty_write>
+            <loyalty_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </loyalty_read>         
+        </resources>
+        <blocks>            
+            <loyalty>
+                <class>Magestore_Loyalty_Block</class>
+            </loyalty>
+        </blocks>
+        <helpers>            
+            <loyalty>
+                <class>Magestore_Loyalty_Helper</class>
+            </loyalty>
+        </helpers>
+        <events>
+            <!-- Rewardpoints Earning Total -->
+           <!--  <sales_quote_collect_totals_after>
+                <observers>
+                    <rewardpoints_observers>
+                        <type>singleton</type>
+                        <class>loyalty/observer</class>
+                        <method>salesQuoteCollectTotalsAfter</method>
+                    </rewardpoints_observers>
+                </observers>
+            </sales_quote_collect_totals_after>  -->           
+        </events>
+    </global>
+    <default>   
+        <rewardpoints>            
+            <passbook>
+                <logo_text>SimiCart</logo_text>
+                <description>Magento in a mobile app</description>
+                <organization>SimiCart</organization>
+                <foreground>FFFFFF</foreground>
+                <background>FF6600</background>
+                <icon>default/icon@2x.png</icon>
+                <logo>default/logo@2x.png</logo>
+                <strip>default/strip@2x.png</strip>
+                <latitude>21.001732</latitude>
+                <longitude>105.824010</longitude>
+                <relevant>Nearby Magestore's Office</relevant>
+                <app_url>simicart://redeem</app_url>
+                <app_id>720063746</app_id>
+                <type_id>pass.com.simicart.loyalty</type_id>
+                <team_id>88X6EP4WFV</team_id>
+                <!--
+                <certificate>default/pass.com.simicart.loyalty.p12</certificate>
+                <password>simicart</password>
+                <wwdr>default/AppleWWDRCA.pem</wwdr>
+                -->
+            </passbook>
+        </rewardpoints>
+    </default>
+</config>
