@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<config>
-	<modules>
-		<Simi_Simibooking>
-			<active>true</active>
-			<codePool>local</codePool>
-		</Simi_Simibooking>
-	</modules>
-</config>
