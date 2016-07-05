@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Simi
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Simi.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.simi.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    Simi
+ * @package     Simi_Simirewardpoints
+ * @copyright   Copyright (c) 2012 Simi (http://www.simi.com/)
+ * @license     http://www.simi.com/license-agreement.html
+ */
+-->
+<config>
+    <modules>
+        <Simi_Simirewardpoints>
+            <active>true</active>
+            <codePool>local</codePool>
+            <aliasName>Reward Points</aliasName>
+            <erp>
+                <isERPmodule>true</isERPmodule>
+                <alias_name>Reward Points</alias_name>
+                <icon>simirewardpoints</icon>
+                <default_page>adminhtml/reward_dashboard</default_page>
+            </erp>            
+        </Simi_Simirewardpoints>
+        <!-- Disable Old Reward Points System -->
+        <Simi_Customerreward>
+            <active>false</active>
+        </Simi_Customerreward>
+    </modules>
+</config>

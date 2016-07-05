@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Simi
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Simi.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.simi.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    Simi
+ * @package     Simi_Simirewardpoints
+ * @copyright   Copyright (c) 2012 Simi (http://www.simi.com/)
+ * @license     http://www.simi.com/license-agreement.html
+ */
+-->
+<config>
+    <menu>
+        <simiconnector>
+            <children>  
+                <simirewardpoints module="simirewardpoints" translate="title">
+                    <title>Reward Points</title>
+                    <sort_order>71</sort_order>
+                    <children>
+                        <earning module="simirewardpoints" translate="title">
+                            <title>Earning Rates</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/reward_earning</action>
+                            <icon>fa-gift</icon>
+                        </earning>
+                        <spending module="simirewardpoints" translate="title">
+                            <title>Spending Rates</title>
+                            <sort_order>60</sort_order>
+                            <action>adminhtml/reward_spending</action>
+                            <icon>fa-shopping-cart</icon>
+                        </spending>
+                        <transaction module="simirewardpoints" translate="title">
+                            <title>Transactions</title>
+                            <sort_order>110</sort_order>
+                            <action>adminhtml/reward_transaction</action>
+                            <icon>fa-exchange</icon>
+                        </transaction>
+                        <settings module="simirewardpoints" translate="title">
+                            <title>Settings</title>
+                            <sort_order>200</sort_order>
+                            <action>adminhtml/system_config/edit/section/simirewardpoints</action>
+                            <icon>fa-cog</icon>
+                        </settings>
+                    </children>
+                </simirewardpoints>
+            </children>
+        </simiconnector>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <simirewardpoints module="simirewardpoints" translate="title">
+                                        <title>Reward Points</title>
+                                        <sort_order>50</sort_order>
+                                    </simirewardpoints>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <simiconnector>
+                        <children>  
+                            <simirewardpoints module="simirewardpoints" translate="title">
+                                <title>Reward Points</title>
+                                <sort_order>71</sort_order>
+                                <children>
+                                    <earning module="simirewardpoints" translate="title">
+                                        <title>Earning Rates</title>
+                                        <sort_order>10</sort_order>
+                                    </earning>
+                                    <spending module="simirewardpoints" translate="title">
+                                        <title>Spending Rates</title>
+                                        <sort_order>60</sort_order>
+                                    </spending>
+                                    <transaction module="simirewardpoints" translate="title">
+                                        <title>Transactions</title>
+                                        <sort_order>110</sort_order>
+                                    </transaction>
+                                    <settings module="simirewardpoints" translate="title">
+                                        <title>Settings</title>
+                                        <sort_order>200</sort_order>
+                                    </settings>
+                                </children>
+                            </simirewardpoints>
+                        </children>
+                    </simiconnector>
+                </children>                
+            </admin>
+        </resources>
+    </acl>
+</config>

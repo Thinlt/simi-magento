@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Simi
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Simi.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.simi.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    Simi
+ * @package     Simi_Simirewardpoints
+ * @copyright   Copyright (c) 2012 Simi (http://www.simi.com/)
+ * @license     http://www.simi.com/license-agreement.html
+ */
+-->
+<layout version="0.1.0">
+    <!-- System -->
+    <default>
+        <!-- Add CSS and Javascript -->
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/simi/simirewardpoints.css</stylesheet>
+            </action>
+            <action method="addCss">
+                <stylesheet>css/simi/simirewardpoints_new.css</stylesheet>
+            </action>
+			<action method="addCss">
+                <stylesheet>css/simi/transactionpoint.css</stylesheet>
+            </action>		
+            <action method="addJs">
+                <script>simi/simirewardpoints.js</script>
+            </action>
+        </reference>
+        
+        <!-- Change My Account Text -->
+        <!--
+        <reference name="top.links">
+            <block type="simirewardpoints/toplink" name="simirewardpoints.toplink" />
+        </reference>
+        <reference name="footer_links">
+            <action method="addLink" translate="label title" module="simirewardpoints" ifconfig="simirewardpoints/general/show_welcome_page"><label>Reward Points</label><url helper="simirewardpoints/policy/getWelcomeUrl" /><title>Reward Points</title></action>
+        </reference>
+        -->
+        
+        <!-- Show on MiniCart -->
+        <!--
+        <reference name="cart_sidebar.extra_actions">
+            <block type="simirewardpoints/checkout_sidebar_action" name="simirewardpoints.cart_sidebar.earning" template="simirewardpoints/checkout/sidebar/action.phtml" />
+        </reference>
+        -->
+    </default>
+    
+    <!-- Catalog Product View -->
+    <!--
+    <catalog_product_view>        
+        <block type="simirewardpoints/product_view" name="simirewardpoints.rewrite" />
+        <reference name="product.info.extrahint">
+            <block type="simirewardpoints/product_view_earning" name="simirewardpoints.extrahint.earning" template="simirewardpoints/product/view/earning.phtml" />
+        </reference>
+    </catalog_product_view>
+    -->
+    
+    <!-- Checkout using Reward Points -->
+    <checkout_cart_index>
+        <reference name="checkout.cart.coupon">
+            <block type="simirewardpoints/checkout_cart_point" name="checkout.cart.simirewardpoints" template="simirewardpoints/checkout/cart/point.phtml" />
+        </reference>
+    </checkout_cart_index>
+    
+    <!-- Order View -->
+    <sales_order_view>
+        <reference name="order_totals">
+            <block type="simirewardpoints/totals_order_point" name="simirewardpoints.total.point" />
+            <block type="simirewardpoints/totals_order_label" name="simirewardpoints.total.label" />
+        </reference>
+    </sales_order_view>
+    <sales_order_print>
+        <reference name="order_totals">
+            <block type="simirewardpoints/totals_order_point" name="simirewardpoints.total.point" />
+            <block type="simirewardpoints/totals_order_label" name="simirewardpoints.total.label" />
+        </reference>
+    </sales_order_print>
+    <sales_email_order_items>
+        <reference name="order_totals">
+            <block type="simirewardpoints/totals_order_point" name="simirewardpoints.total.point" />
+            <block type="simirewardpoints/totals_order_label" name="simirewardpoints.total.label" />
+        </reference>
+    </sales_email_order_items>
+    
+    <sales_order_invoice>
+        <reference name="invoice_totals">
+            <block type="simirewardpoints/totals_invoice_point" name="simirewardpoints.total.point" />
+        </reference>
+    </sales_order_invoice>
+    <sales_order_printinvoice>
+        <reference name="invoice_totals">
+            <block type="simirewardpoints/totals_invoice_point" name="simirewardpoints.total.point" />
+        </reference>
+    </sales_order_printinvoice>
+    <sales_email_order_invoice_items>
+        <reference name="invoice_totals">
+            <block type="simirewardpoints/totals_invoice_point" name="simirewardpoints.total.point" />
+        </reference>
+    </sales_email_order_invoice_items>
+    
+    <sales_order_creditmemo>
+        <reference name="creditmemo_totals">
+            <block type="simirewardpoints/totals_creditmemo_point" name="simirewardpoints.total.point" />
+        </reference>
+    </sales_order_creditmemo>
+    <sales_order_printcreditmemo>
+        <reference name="creditmemo_totals">
+            <block type="simirewardpoints/totals_creditmemo_point" name="simirewardpoints.total.point" />
+        </reference>
+    </sales_order_printcreditmemo>
+    <sales_email_order_creditmemo_items>
+        <reference name="creditmemo_totals">
+            <block type="simirewardpoints/totals_creditmemo_point" name="simirewardpoints.total.point" />
+        </reference>
+    </sales_email_order_creditmemo_items>
+    
+    <!-- Customer account -->
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="simirewardpoints" ifconfig="simirewardpoints/general/enable">
+                <name>simirewardpoints</name>
+                <path>simirewardpoints</path>
+                <label helper="simirewardpoints/getMyRewardsLabel" />
+            </action>
+        </reference>
+        <reference name="cart_sidebar">
+            <block type="core/text_list" name="cart_sidebar.extra_actions" as="extra_actions">
+                <block type="simirewardpoints/checkout_sidebar_action" name="simirewardpoints.cart_sidebar.earning" template="simirewardpoints/checkout/sidebar/action.phtml" />
+            </block>
+        </reference>
+    </customer_account>
+    <customer_account_index>
+        <reference name="customer_account_dashboard">
+            <block type="core/text_list" name="customer_account_dashboard_top" as="top">
+                <block type="simirewardpoints/account" name="simirewardpoints.account_dashboard" template="simirewardpoints/account.phtml" />
+                <block type="sales/order_recent" name="sales.order_recent" template="sales/order/recent.phtml"/>
+            </block>
+        </reference>
+    </customer_account_index>
+    
+    <!-- Reward Points -->
+    <simirewardpoints_default>
+        <update handle="page_two_columns_left" />
+        <reference name="left">
+            <block type="simirewardpoints/account_navigation" before="-" name="simirewardpoints.navigation" template="simirewardpoints/account/navigation.phtml">
+                <action method="addLink" translate="label" module="simirewardpoints">
+                    <name>account_dashboard</name>
+                    <path>customer/account</path>
+                    <label>Account Dashboard</label>
+                    <enable>true</enable>
+                </action>
+                <action method="addLink" translate="label" module="simirewardpoints">
+                    <name>simirewardpoints_dashboard</name>
+                    <path>simirewardpoints</path>
+                    <label helper="simirewardpoints/getMyRewardsLabel" />
+                    <enable>true</enable>
+                    <order>10</order>
+                </action>
+                <action method="addLink" translate="label" module="simirewardpoints">
+                    <name>simirewardpoints_transactions</name>
+                    <path>simirewardpoints/index/transactions</path>
+                    <label>Point Transactions</label>
+                    <enable>true</enable>
+                    <order>20</order>
+                </action>
+                <action method="addLink" translate="label" module="simirewardpoints">
+                    <name>simirewardpoints_policy</name>
+                    <path>simirewardpoints/index/policy</path>
+                    <label>Reward Policy</label>
+                    <enable helper="simirewardpoints/policy/showPolicyMenu" />
+                    <order>30</order>
+                </action>
+                <action method="addLink" translate="label" module="simirewardpoints">
+                    <name>simirewardpoints_settings</name>
+                    <path>simirewardpoints/index/settings</path>
+                    <label>Settings</label>
+                    <enable>true</enable>
+                    <order>100</order>
+                </action>
+            </block>
+        </reference>
+    </simirewardpoints_default>
+    
+    <simirewardpoints_index_index>
+        <update handle="simirewardpoints_default" />
+        <reference name="content">
+            <block type="simirewardpoints/account_dashboard" name="simirewardpoints.dashboard" template="simirewardpoints/account/dashboard.phtml">
+                <block type="simirewardpoints/template" name="simirewardpoints.dashboard.earn" as="dashboard_earn" template="simirewardpoints/account/dashboard/list.phtml">
+                    <block type="simirewardpoints/account_dashboard_earn" name="dashboard.earn" template="simirewardpoints/account/dashboard/earn.phtml" />
+                </block>
+                <block type="simirewardpoints/template" name="simirewardpoints.dashboard.spend" as="dashboard_spend" template="simirewardpoints/account/dashboard/list.phtml">
+                    <block type="simirewardpoints/account_dashboard_spend" name="dashboard.spend" template="simirewardpoints/account/dashboard/spend.phtml" />
+                </block>
+                <block type="core/text_list" name="simirewardpoints.dashboard.policy" as="dashboard_policy">
+                    <block type="simirewardpoints/account_dashboard_policy" name="dashboard.policy" template="simirewardpoints/account/dashboard/policy.phtml" />
+                </block>
+                <block type="core/text_list" name="simirewardpoints.dashboard.other" as="other">
+                    <block type="simirewardpoints/account_dashboard_transactions" name="dashboard.transactions" template="simirewardpoints/account/dashboard/transactions.phtml" />
+                </block>
+            </block>
+        </reference>
+    </simirewardpoints_index_index>
+    
+    <simirewardpoints_index_transactions>
+        <update handle="simirewardpoints_default" />
+        <reference name="content">
+            <block type="simirewardpoints/account_transactions" name="simirewardpoints.transactions" template="simirewardpoints/account/transactions.phtml" />
+        </reference>
+    </simirewardpoints_index_transactions>
+    
+    <simirewardpoints_index_policy>
+        <update handle="simirewardpoints_default" />
+        <reference name="content">
+            <block type="simirewardpoints/account_policy" name="simirewardpoints.policy">
+                <block type="core/template" name="page_content_heading" template="cms/content_heading.phtml" />
+            </block>
+        </reference>
+    </simirewardpoints_index_policy>
+    
+    <simirewardpoints_index_settings>
+        <update handle="simirewardpoints_default" />
+        <reference name="content">
+            <block type="simirewardpoints/account_settings" name="simirewardpoints.settings" template="simirewardpoints/account/settings.phtml" />
+        </reference>
+    </simirewardpoints_index_settings>
+</layout>

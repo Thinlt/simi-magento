@@ -1,0 +1,46 @@
+<?php 
+/**
+ * Simi
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Simi.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.simi.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    Simi
+ * @package     Simi_Simirewardpoints
+ * @copyright   Copyright (c) 2012 Simi (http://www.simi.com/)
+ * @license     http://www.simi.com/license-agreement.html
+ */
+
+/**
+ * Simirewardpoints Account Dashboard
+ * 
+ * @see Simi_Simirewardpoints_Block_Account_Dashboard
+ */
+?>
+
+<?php if ($this->getCanShow()): ?>
+    <strong class="simirewardpoints-title"><?php echo $this->__('How to earn points') ?></strong><br />
+    <span class="simirewardpoints-title-content"><?php 
+        echo $this->__('Points will be added to your reward balance after you take certain activities. For example, every time you make a purchase you will earn points based on the price of products purchased.');
+    ?></span><br />
+    <?php $rate = $this->getEarningRate() ?>
+    <?php if ($rate && $rate->getId()): ?>
+        <!--strong class="simirewardpoints-money simirewardpoints-title-rate"><?php //echo $this->__('Earning Rate:') ?></strong><br /-->
+        <ul class="simirewardpoints-dashboard-ul">
+            <li>
+        <span><?php echo $this->__('Each %s spent for your order will earn %s.',
+            '<strong class="simirewardpoints-money">' . $this->getCurrentMoney($rate) . '</strong>',
+            '<strong class="simirewardpoints-money">' . Mage::helper('simirewardpoints/point')->format($rate->getPoints()) . '</strong>'
+        ) ?></span>
+            </li>
+        </ul>
+    <?php endif ?>
+<?php endif ?>
