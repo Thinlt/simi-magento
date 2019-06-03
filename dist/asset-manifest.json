@@ -1,0 +1,19 @@
+{
+  "client.js": "js/client.js",
+  "entrypoints": {
+    "client": {
+      "js": [
+        "js/vendor~client-ec32a807c146ef258407.js",
+        "js/client.js"
+      ]
+    }
+  },
+  "vendor~client.js": "js/vendor~client-ec32a807c146ef258407.js",
+  "bundles": {
+    "load": [
+      "js/vendor~client-ec32a807c146ef258407.js",
+      "js/client.js"
+    ],
+    "prefetch": []
+  }
+}
