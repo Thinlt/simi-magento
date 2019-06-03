@@ -7,7 +7,7 @@
   "license": "MIT",
   "main": "src/index.js",
   "browser": {
-    "@magento/siminia-drivers": "src/drivers"
+    "@magento/venia-drivers": "src/drivers"
   },
   "scripts": {
     "build": "yarn run clean && yarn run build:esm && yarn run validate-queries && yarn run build:prod",
