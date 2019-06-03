@@ -8,8 +8,9 @@ cp packages/venia-concept/.env.dist packages/venia-concept/.env
 ```
 
 ## 2. Modify package.json
-```
+
 workspaces:
+```
 
   "workspaces": [
 ...
@@ -17,8 +18,11 @@ workspaces:
     "packages/siminia"
   ],
 
+```
 
 scripts:
+
+```
   "scripts": {
 	...
     "watch:venia": "yarn workspace @magento/venia-concept run watch; cd - >/dev/null",
@@ -34,8 +38,9 @@ cd ..
 yarn install
 ```
 ## 4. Run watch/stage
+
 ```
-yarn run watch:simipwa
+yarn run watch:siminia
 yarn run build
 NODE_ENV=production PORT=8080 npm run stage:siminia
 ```
