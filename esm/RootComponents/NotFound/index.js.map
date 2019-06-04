@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/RootComponents/NotFound/index.js"],"names":["default"],"mappings":"AAAA;;;;;AAKA,SAASA,OAAT","sourcesContent":["/**\n * @RootComponent\n * description = 'Page to display when offline'\n * pageTypes = NOTFOUND\n */\nexport { default } from './notFound';\n"],"file":"index.js"}

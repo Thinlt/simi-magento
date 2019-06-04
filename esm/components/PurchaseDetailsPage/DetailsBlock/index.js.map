@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../src/components/PurchaseDetailsPage/DetailsBlock/index.js"],"names":["default"],"mappings":"AAAA,SAASA,OAAT","sourcesContent":["export { default } from './detailsBlock';\n"],"file":"index.js"}

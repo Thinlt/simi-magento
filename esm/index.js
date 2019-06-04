@@ -1,18 +1,46 @@
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { setContext } from 'apollo-link-context';
 import { Util, WindowSizeContextProvider } from '@magento/peregrine';
+import { Adapter } from "@magento/venia-drivers";
+import store from "./store";
+import app from "./actions/app";
+import App from "./simi";
+import "./index.css";
 const {
   BrowserPersistence
 } = Util;
 const apiBase = new URL('/graphql', location.origin).toString();
 /**
- * The Siminia adapter provides basic context objects: a router, a store, a
+ * The Venia adapter provides basic context objects: a router, a store, a
  * GraphQL client, and some common functions. It is not opinionated about auth,
  * so we add an auth implementation here and prepend it to the Apollo Link list.
  */
 
-ReactDOM.render('Hello world', document.getElementById('root'));
+const authLink = setContext((_, {
+  headers
+}) => {
+  // get the authentication token from local storage if it exists.
+  const storage = new BrowserPersistence();
+  const token = storage.getItem('signin_token'); // return the headers to the context so httpLink can read them
+
+  return {
+    headers: _objectSpread({}, headers, {
+      authorization: token ? `Bearer ${token}` : ''
+    })
+  };
+});
+ReactDOM.render(React.createElement(Adapter, {
+  apiBase: apiBase,
+  apollo: {
+    link: authLink.concat(Adapter.apolloLink(apiBase))
+  },
+  store: store
+}, React.createElement(WindowSizeContextProvider, null, React.createElement(App, null))), document.getElementById('root'));
 
 if (process.env.SERVICE_WORKER && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {

@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/components/Trigger/index.js"],"names":["default"],"mappings":"AAAA,SAASA,OAAT","sourcesContent":["export { default } from './trigger';\n"],"file":"index.js"}

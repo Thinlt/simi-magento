@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/RootComponents/Search/index.js"],"names":["default","Search"],"mappings":"AAAA;;;;;AAKA,SAASA,OAAO,IAAIC,MAApB;AACA,SAASD,OAAT","sourcesContent":["/**\n * @RootComponent\n * description = 'Basic Search'\n * pageTypes = SEARCH\n */\nexport { default as Search } from './search';\nexport { default } from './container';\n"],"file":"index.js"}

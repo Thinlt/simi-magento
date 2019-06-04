@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/shared/images.js"],"names":["transparentPlaceholder"],"mappings":"AAAA;AACA,OAAO,MAAMA,sBAAsB,GAC/B,wHADG","sourcesContent":["// 4x5 transparent png\nexport const transparentPlaceholder =\n    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAFCAQAAADIpIVQAAAADklEQVR42mNkgAJGIhgAALQABsHyMOcAAAAASUVORK5CYII=';\n"],"file":"images.js"}

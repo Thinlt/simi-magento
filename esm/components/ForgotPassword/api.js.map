@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/components/ForgotPassword/api.js"],"names":["resetPasswordRequest","Promise","resolve"],"mappings":"AAAA,OAAO,MAAMA,oBAAoB,GAAG,MAAM;AACtC;AACA,SAAOC,OAAO,CAACC,OAAR,EAAP;AACH,CAHM","sourcesContent":["export const resetPasswordRequest = () => {\n    // TODO: Handle reset password.\n    return Promise.resolve();\n};\n"],"file":"api.js"}

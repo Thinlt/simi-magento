@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/util/router-helpers.js"],"names":["refresh","history","go"],"mappings":"AAAA,OAAO,MAAMA,OAAO,GAAG,CAAC;AAAEC,EAAAA;AAAF,CAAD,KAAiBA,OAAO,CAACC,EAAR,CAAW,CAAX,CAAjC","sourcesContent":["export const refresh = ({ history }) => history.go(0);\n"],"file":"router-helpers.js"}

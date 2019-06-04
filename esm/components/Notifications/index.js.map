@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/components/Notifications/index.js"],"names":["default","Notification","NotificationStack"],"mappings":"AAAA,SAASA,OAAO,IAAIC,YAApB;AACA,SAASD,OAAO,IAAIE,iBAApB","sourcesContent":["export { default as Notification } from './notification';\nexport { default as NotificationStack } from './notificationStack';\n"],"file":"index.js"}

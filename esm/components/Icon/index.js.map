@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/components/Icon/index.js"],"names":["default"],"mappings":"AAAA,SAASA,OAAT","sourcesContent":["export { default } from './icon';\n"],"file":"index.js"}

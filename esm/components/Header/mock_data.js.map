@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/components/Header/mock_data.js"],"names":["logo"],"mappings":"AAAA,OAAO,MAAMA,IAAI,GAAG,EAAb","sourcesContent":["export const logo = '';\n"],"file":"mock_data.js"}

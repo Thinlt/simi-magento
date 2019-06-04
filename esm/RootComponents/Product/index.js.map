@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/RootComponents/Product/index.js"],"names":["default"],"mappings":"AAAA;;;;;AAMA,SAASA,OAAT","sourcesContent":["/**\n * @RootComponent\n * description = 'Basic Product Page'\n * pageTypes = PRODUCT\n */\n\nexport { default } from './Product';\n"],"file":"index.js"}

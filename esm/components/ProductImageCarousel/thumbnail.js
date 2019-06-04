@@ -1,0 +1,53 @@
+import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
+import { resourceUrl } from "@magento/venia-drivers";
+import { mergeClasses } from "../../classify";
+import defaultClasses from "./thumbnail.css";
+import { transparentPlaceholder } from "../../shared/images";
+import { useWindowSize } from '@magento/peregrine';
+
+function Thumbnail(props) {
+  const windowSize = useWindowSize();
+  const classes = mergeClasses(defaultClasses, props.classes);
+  const {
+    isActive,
+    item: {
+      file,
+      label
+    },
+    onClickHandler,
+    itemIndex
+  } = props;
+  const src = file ? resourceUrl(file, {
+    type: 'image-product',
+    width: 240
+  }) : transparentPlaceholder;
+  const isDesktop = windowSize.innerWidth >= 1024;
+  const handleClick = useCallback(() => {
+    onClickHandler(itemIndex);
+  }, [onClickHandler, itemIndex]);
+  return React.createElement("button", {
+    onClick: handleClick,
+    className: isActive ? classes.rootSelected : classes.root
+  }, isDesktop ? React.createElement("img", {
+    className: classes.image,
+    src: src,
+    alt: label
+  }) : null);
+}
+
+Thumbnail.propTypes = {
+  classes: PropTypes.shape({
+    root: PropTypes.string,
+    rootSelected: PropTypes.string
+  }),
+  isActive: PropTypes.bool,
+  item: PropTypes.shape({
+    label: PropTypes.string,
+    file: PropTypes.string.isRequired
+  }),
+  itemIndex: PropTypes.number,
+  onClickHandler: PropTypes.func.isRequired
+};
+export default Thumbnail;
+//# sourceMappingURL=thumbnail.js.map

@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/RootComponents/Search/consts.js"],"names":["SEARCH_QUERY_PARAMETER"],"mappings":"AAAA,OAAO,MAAMA,sBAAsB,GAAG,OAA/B","sourcesContent":["export const SEARCH_QUERY_PARAMETER = 'query';\n"],"file":"consts.js"}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/components/CreateAccount/index.js"],"names":["default","CreateAccount"],"mappings":"AAAA,SAASA,OAAO,IAAIC,aAApB;AACA,SAASD,OAAT","sourcesContent":["export { default as CreateAccount } from './createAccount';\nexport { default } from './container';\n"],"file":"index.js"}

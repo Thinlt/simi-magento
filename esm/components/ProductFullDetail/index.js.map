@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/components/ProductFullDetail/index.js"],"names":["default","ProductFullDetail"],"mappings":"AAAA,SAASA,OAAO,IAAIC,iBAApB;AACA,SAASD,OAAT","sourcesContent":["export { default as ProductFullDetail } from './ProductFullDetail';\nexport { default } from './container';\n"],"file":"index.js"}

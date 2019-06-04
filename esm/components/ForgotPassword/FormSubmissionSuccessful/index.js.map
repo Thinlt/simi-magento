@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../src/components/ForgotPassword/FormSubmissionSuccessful/index.js"],"names":["default"],"mappings":"AAAA,SAASA,OAAT","sourcesContent":["export { default } from './formSubmissionSuccessful';\n"],"file":"index.js"}

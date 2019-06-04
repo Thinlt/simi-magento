@@ -22,7 +22,7 @@ const themePaths = {
     output: path.resolve(__dirname, 'dist')
 };
 
-const rootComponentsDirs = ['./src/RootComponents/'];
+const rootComponentsDirs = ['./src/simi/core/RootComponents/'];
 const libs = [
     'apollo-cache-inmemory',
     'apollo-cache-persist',

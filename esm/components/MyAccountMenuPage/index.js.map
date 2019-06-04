@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/components/MyAccountMenuPage/index.js"],"names":["default","MyAccountMenuTrigger"],"mappings":"AAAA,SAASA,OAAO,IAAIC,oBAApB","sourcesContent":["export { default as MyAccountMenuTrigger } from './MyAccountMenuTrigger';\n"],"file":"index.js"}

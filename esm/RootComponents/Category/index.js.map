@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/RootComponents/Category/index.js"],"names":["default"],"mappings":"AAAA;;;;;AAKA,SAASA,OAAT","sourcesContent":["/**\n * @RootComponent\n * description = 'Basic Category Page'\n * pageTypes = CATEGORY\n */\nexport { default } from './category';\n"],"file":"index.js"}
