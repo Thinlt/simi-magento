@@ -1,0 +1,115 @@
+@media (min-width: 1920px) {
+    .container {
+        width: 1430px;
+    }
+}
+body {
+    color: #333132;
+    font-weight: 300;
+}
+ul {
+    padding: 0;
+}
+input,textarea {
+    font-family: Cabin  !important;
+}
+::placeholder {
+    color: #ADADAD;
+    letter-spacing: 0;
+    line-height: 24px;
+    font-weight: 300;
+}
+.app-body {
+    min-height: 500px;
+}
+.harlow-breadcrumb {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 12px;
+}
+.breadcrumb-item {
+    cursor: pointer;
+    line-height: 20px;
+    display: inline-block;
+}
+.breadcrumb-item:hover {
+    color: #d7272e;
+}
+.breadcrumb-item:last-of-type {
+    color: #d7272e;
+    cursor: unset;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+.react-confirm-alert-overlay{
+    background-color: rgba(0,0,0,0.5) !important;
+}
+.react-confirm-alert-overlay .react-confirm-alert-body{
+    padding: 56px 79px;
+    box-shadow: none;
+    color: #333132;
+    font-size: 21px; 
+    line-height: 29px;
+    text-align: center;
+    max-width: 384px;
+    font-weight: bold;
+    border-radius: 0;
+}
+.react-confirm-alert-overlay .react-confirm-alert-button-group{
+    justify-content: center;
+    margin-top: 24px;
+}
+.react-confirm-alert-overlay .react-confirm-alert-button-group > button{
+    width: 100px;
+    height: 45px;
+    font-size: 16px;
+    line-height: 24px;
+    padding: 10px 18px;
+    font-weight: normal;
+    border-radius: 0;
+}
+.react-confirm-alert-overlay .react-confirm-alert-button-group > button:first-child{
+    background-color: #0B5B28;
+    color: #ffffff;
+    margin-right: 8px;
+}
+.react-confirm-alert-overlay .react-confirm-alert-button-group > button:not(:first-child){
+    border: 1px solid #38404A;
+    background: transparent;
+    color: #38404A;
+    margin-right: 0;
+}
+a {
+    color: unset;
+}
+a:hover {
+    color: unset;
+}
+
+@media (max-width: 767px) {
+    .harlow-breadcrumb{
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px){
+    .react-confirm-alert-overlay .react-confirm-alert-body {
+        padding: 30px 40px;
+        max-width: 300px;
+    }
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance:textfield;
+}

@@ -29,10 +29,11 @@ class Main extends Component {
     render() {
         const { classes, props } = this;
         const { children } = props;
-
+        console.log(this.props)
         return (
             <main className={classes.root}>
                 <Header />
+                <div id="data-breadcrumb"/>
                 <div className={classes.page}>{children}</div>
                 <div>footer</div>
             </main>

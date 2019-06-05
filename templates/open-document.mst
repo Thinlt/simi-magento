@@ -21,6 +21,9 @@
     }}
     <link rel="apple-touch-icon" href="/icons/siminia_square_512.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="stylesheet" href="/simistatic/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/simistatic/style.css"></link>
     {{> templates/default-font-include}}
     <link rel="preconnect" href="{{env.MAGENTO_BACKEND_URL}}">
     {{#bundles.prefetch}}

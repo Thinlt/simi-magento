@@ -1,77 +1,134 @@
-import React, { Suspense } from 'react';
-import { bool, func, shape, string } from 'prop-types';
-import MenuIcon from 'react-feather/dist/icons/menu';
-import SearchIcon from 'react-feather/dist/icons/search';
-
-import Icon from 'src/components/Icon';
-import Logo from 'src/components/Logo';
+import React, { Suspense } from 'react'
+import Identify from "src/simi/Helper/Identify";
+import WishList from 'src/simi/core/BaseComponents/Icon/WishList'
+import MenuIcon from 'src/simi/core/BaseComponents/Icon/Menu'
+import NavTrigger from './navTrigger'
+import CartTrigger from './cartTrigger'
+import defaultClasses from './header.css'
+import { mergeClasses } from 'src/classify'
 import { Link, resourceUrl, Route } from 'src/drivers';
 
-import CartTrigger from './cartTrigger';
-import NavTrigger from './navTrigger';
-import SearchTrigger from './searchTrigger';
+const $ = window.$ 
 
-import { mergeClasses } from 'src/classify';
-import defaultClasses from './header.css';
+const SearchForm = React.lazy(() => import('./Component/SearchForm'));
 
-const SearchBar = React.lazy(() => import('src/components/SearchBar'));
+class Header extends React.Component{
+    constructor(props) {
+        super(props);
+        this._mounted = true;
+        const isPhone = window.innerWidth < 768 ;
+        this.state = {isPhone}
+        this.classes = mergeClasses(defaultClasses, this.props.classes)
+    }
 
-const Header = props => {
-    // Props.
-    const { searchOpen, toggleSearch } = props;
+    setIsPhone(){
+        const obj = this;
+        $(window).resize(function () {
+            const width = window.innerWidth;
+            const isPhone = width < 768;
+            if(obj.state.isPhone !== isPhone){
+                obj.setState({isPhone})
+            }
+        })
+    }
 
-    // Members.
-    const classes = mergeClasses(defaultClasses, props.classes);
-    const rootClass = searchOpen ? classes.open : classes.closed;
-    const searchIcon = <Icon src={SearchIcon} />;
+    componentDidMount(){
+        this.setIsPhone();
+    }
 
-    return (
-        <header className={rootClass}>
-            <div className={classes.toolbar}>
+    renderLogo = () => {
+        const {isPhone} = this.state;
+        return (
+            <div className={`${this.classes['search-icon']} ${this.classes['header-logo']}`} >
                 <Link to={resourceUrl('/')}>
-                    <Logo classes={{ logo: classes.logo }} />
+                    <img 
+                        src="https://www.simicart.com/skin/frontend/default/simicart2.0/images/simicart/new_logo_small.png" 
+                        alt="harlow-logo" style={!isPhone?{width: 206, height: 48}:{width: 135, height: 32}}/>
                 </Link>
-                <div className={classes.primaryActions}>
-                    <NavTrigger>
-                        <Icon src={MenuIcon} />
-                    </NavTrigger>
+            </div>
+        )
+    }
+
+    renderSearhForm = () => {
+        return(
+            <div className={this.classes['header-search']}>
+                <Suspense fallback={null}>
+                    <Route
+                        render={({ history, location }) => (
+                            <SearchForm
+                                history={history}
+                                location={location}
+                            />
+                        )}
+                    />
+                </Suspense>
+            </div>
+        )
+    }
+
+    renderRightBar = () => {
+        return(
+            <div className={this.classes['right-bar']}>
+                <div className={this.classes['right-bar-item']} id="my-account">
+                    
                 </div>
-                <div className={classes.secondaryActions}>
-                    <SearchTrigger
-                        searchOpen={searchOpen}
-                        toggleSearch={toggleSearch}
-                    >
-                        {searchIcon}
-                    </SearchTrigger>
-                    <CartTrigger />
+                <div 
+                    className={this.classes['right-bar-item']} id="wish-list" 
+                >
+                    <Link to={resourceUrl('/wishlist')}>
+                        <div className={this.classes['item-icon']} style={{display: 'flex', justifyContent: 'center'}}>
+                            <WishList style={{width: 30, height: 30, display: 'block'}} />
+                        </div>
+                        <div className={this.classes['item-text']}>
+                            {Identify.__('Favourites')}
+                        </div>
+                    </Link>
+                </div>
+                <div className={this.classes['right-bar-item']}>
+                    <CartTrigger classes={this.classes}/>
                 </div>
             </div>
-            <Suspense fallback={searchOpen ? searchIcon : null}>
-                <Route
-                    render={({ history, location }) => (
-                        <SearchBar
-                            isOpen={searchOpen}
-                            history={history}
-                            location={location}
-                        />
-                    )}
-                />
-            </Suspense>
-        </header>
-    );
-};
+        )
+    }
 
-Header.propTypes = {
-    classes: shape({
-        closed: string,
-        logo: string,
-        open: string,
-        primaryActions: string,
-        secondaryActions: string,
-        toolbar: string
-    }),
-    searchOpen: bool,
-    toggleSearch: func.isRequired
-};
+    renderViewPhone = () => {
+        return(
+            <div>
+                <div className="container">
+                    <div className={this.classes['header-app-bar']}>
+                        <NavTrigger>
+                            <MenuIcon color="#333132" style={{width:30,height:30}}/>
+                        </NavTrigger>
+                        {this.renderLogo()}
+                        <div className={this.classes['right-bar']}>
+                            <div className={this.classes['right-bar-item']}>
+                                <CartTrigger />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {this.renderSearhForm()}
+            </div>
 
-export default Header;
+
+        )
+    }
+
+    render(){
+        this.classes = mergeClasses(defaultClasses, this.props.classes);
+        if(window.innerWidth < 1024){
+            return this.renderViewPhone()
+        }
+        return(
+            <div className="container">
+                <div className={this.classes['header-app-bar']}>
+                    {this.renderLogo()}
+                    {this.renderSearhForm()}
+                    {this.renderRightBar()}
+                </div>
+            </div>
+
+        )
+    }
+}
+export default Header

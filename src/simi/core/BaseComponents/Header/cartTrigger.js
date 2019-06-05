@@ -6,10 +6,11 @@ import PropTypes from 'prop-types';
 import { toggleCart } from 'src/actions/cart';
 import CartCounter from './cartCounter';
 
-import Icon from 'src/components/Icon';
-import ShoppingCartIcon from 'react-feather/dist/icons/shopping-cart';
+import Basket from "src/simi/core/BaseComponents/Icon/Basket";
 import classify from 'src/classify';
-import defaultClasses from './cartTrigger.css';
+import defaultClasses from './cartTrigger.css'
+import Identify from 'src/simi/Helper/Identify'
+import { Link, resourceUrl } from 'src/drivers'
 
 export class Trigger extends Component {
     static propTypes = {
@@ -23,6 +24,7 @@ export class Trigger extends Component {
 
     get cartIcon() {
         const {
+            classes,
             cart: { details }
         } = this.props;
         const itemsQty = details.items_qty;
@@ -34,19 +36,37 @@ export class Trigger extends Component {
         if (itemsQty > 0) {
             svgAttributes.fill = iconColor;
         }
-
-        return <Icon src={ShoppingCartIcon} attrs={svgAttributes} />;
+        return (
+            <React.Fragment>
+                <div className={classes['item-icon']} style={{display: 'flex', justifyContent: 'center'}}>  
+                    <Basket style={{width: 30, height: 30, display: 'block', margin: 0}}/>
+                </div>
+                <div className={classes['item-text']}>
+                    {Identify.__('Basket')}
+                </div>
+            </React.Fragment>
+        )
     }
 
     render() {
         const {
             classes,
-            toggleCart,
+            //toggleCart,
             cart: { details }
         } = this.props;
         const { cartIcon } = this;
         const itemsQty = details.items_qty;
-
+        return (
+            <Link 
+                to={resourceUrl('/cart.html')}
+                className={classes.root}
+                aria-label="Open cart page"
+            >
+                {cartIcon}
+                <CartCounter counter={itemsQty ? itemsQty : 0} />
+            </Link>
+        )
+        /*
         return (
             <button
                 className={classes.root}
@@ -57,6 +77,7 @@ export class Trigger extends Component {
                 <CartCounter counter={itemsQty ? itemsQty : 0} />
             </button>
         );
+        */
     }
 }
 

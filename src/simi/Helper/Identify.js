@@ -6,6 +6,10 @@ class Identify {
             text += possible.charAt(Math.floor(Math.random() * possible.length));
         return btoa(text + Date.now());
     }
+
+    static __(text) {
+        return text
+    }
 }
 
 export default Identify;
