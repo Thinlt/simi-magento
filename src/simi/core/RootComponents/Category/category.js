@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import LoadingSpiner from '/src/simi/core/BaseComponents/Loading/LoadingSpiner'
+import LoadingSpiner from 'src/simi/core/BaseComponents/Loading/LoadingSpiner'
 import { string, number, shape } from 'prop-types';
 import { usePagination, useQuery } from '@magento/peregrine';
 

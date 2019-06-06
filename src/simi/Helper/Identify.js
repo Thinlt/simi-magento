@@ -10,6 +10,10 @@ class Identify {
     static __(text) {
         return text
     }
+
+    static formatPrice(price, type = 0) {
+        return price
+    }
 }
 
 export default Identify;

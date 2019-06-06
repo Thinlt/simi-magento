@@ -16,7 +16,7 @@ class Header extends React.Component{
     constructor(props) {
         super(props);
         this._mounted = true;
-        const isPhone = window.innerWidth < 768 ;
+        const isPhone = window.innerWidth < 1024 ;
         this.state = {isPhone}
         this.classes = mergeClasses(defaultClasses, this.props.classes)
     }
@@ -25,7 +25,7 @@ class Header extends React.Component{
         const obj = this;
         $(window).resize(function () {
             const width = window.innerWidth;
-            const isPhone = width < 768;
+            const isPhone = width < 1024;
             if(obj.state.isPhone !== isPhone){
                 obj.setState({isPhone})
             }
@@ -51,7 +51,7 @@ class Header extends React.Component{
 
     renderSearhForm = () => {
         return(
-            <div className={this.classes['header-search']}>
+            <div className={`${this.classes['header-search']} header-search`}>
                 <Suspense fallback={null}>
                     <Route
                         render={({ history, location }) => (

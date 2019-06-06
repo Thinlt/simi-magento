@@ -1,4 +1,4 @@
-import React, { Component, Fragment, Suspense } from 'react';
+import React, { Component, Fragment } from 'react';
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
 import { bool, func, object, shape, string } from 'prop-types';
@@ -7,50 +7,31 @@ import classify from 'src/classify';
 import {
     getCartDetails,
     updateItemInCart,
-    removeItemFromCart,
-    openOptionsDrawer,
-    closeOptionsDrawer
+    removeItemFromCart
 } from 'src/actions/cart';
-import { cancelCheckout } from 'src/actions/checkout';
-import Icon from 'src/components/Icon';
-import CloseIcon from 'react-feather/dist/icons/x';
-import CheckoutButton from 'src/components/Checkout/checkoutButton';
-import EmptyMiniCart from './emptyMiniCart';
-import Mask from './mask';
-import ProductList from './productList';
-import Trigger from './trigger';
 import defaultClasses from './cart.css';
-import { isEmptyCartVisible, isMiniCartMaskOpen } from 'src/selectors/cart';
-import CartOptions from './cartOptions';
-import getProductDetailByName from 'src/simi/queries/getProductDetailByName.graphql';
-import { loadingIndicator } from 'src/components/LoadingIndicator';
-import { Query } from 'react-apollo';
+import { isEmptyCartVisible } from 'src/selectors/cart';
 
 import Breadcrumb from "src/simi/core/BaseComponents/Breadcrumb";
 import Loading from 'src/simi/core/BaseComponents/Loading'
+
 import Identify from 'src/simi/Helper/Identify'
 import Arrowup from 'src/simi/core/BaseComponents/Icon/Arrowup'
 import Basket from 'src/simi/core/BaseComponents/Icon/Basket'
-
-const Checkout = React.lazy(() => import('src/components/Checkout'));
+import CartItem from './cartItem'
 
 class Cart extends Component {
     static propTypes = {
-        cancelCheckout: func.isRequired,
         cart: shape({
             details: object,
             cartId: string,
             totals: object,
             isLoading: bool,
-            isOptionsDrawerOpen: bool,
             isUpdatingItem: bool
         }),
         classes: shape({
             body: string,
-            footer: string,
-            footerMaskOpen: string,
             header: string,
-            placeholderButton: string,
             root_open: string,
             root: string,
             subtotalLabel: string,
@@ -61,19 +42,30 @@ class Cart extends Component {
         }),
         isCartEmpty: bool,
         updateItemInCart: func,
-        openOptionsDrawer: func.isRequired,
-        closeOptionsDrawer: func.isRequired,
-        isMiniCartMaskOpen: bool
     };
 
     constructor(...args) {
-        super(...args);
+        super(...args)
+        const isPhone = window.innerWidth < 1024
         this.state = {
+            isPhone: isPhone,
             focusItem: null
         };
     }
 
+    setIsPhone(){
+        const obj = this;
+        window.onresize = function () {
+            const width = window.innerWidth;
+            const isPhone = width < 1024
+            if(obj.state.isPhone !== isPhone){
+                obj.setState({isPhone: isPhone})
+            }
+        }
+    }
+
     async componentDidMount() {
+        this.setIsPhone()
         const { getCartDetails } = this.props;
         await getCartDetails();
     }
@@ -86,7 +78,6 @@ class Cart extends Component {
 
     get cartCurrencyCode() {
         const { cart } = this.props;
-
         return (
             cart &&
             cart.details &&
@@ -96,19 +87,45 @@ class Cart extends Component {
     }
 
     get productList() {
-        const { cart, removeItemFromCart } = this.props;
-
+        const { cart, removeItemFromCart, classes, updateItemInCart } = this.props;
+        if (!cart)
+            return
         const { cartCurrencyCode, cartId } = this;
-
-        return cartId ? (
-            <ProductList
-                removeItemFromCart={removeItemFromCart}
-                openOptionsDrawer={this.openOptionsDrawer}
-                currencyCode={cartCurrencyCode}
-                items={cart.details.items}
-                totalsItems={cart.totals.items}
-            />
-        ) : null;
+        if (cartId) {
+            const obj = [];
+            obj.push(
+                <div key={Identify.randomString(5)} className={classes['cart-item-header']}>
+                    <div style={{width: '60%', borderRight: 'solid #DCDCDC 1px'}}>{Identify.__('Items')}</div>
+                    <div style={{width: '11%', borderRight: 'solid #DCDCDC 1px', textAlign: 'center'}}>{Identify.__('Unit Price')}</div>
+                    <div style={{width: '11%', borderRight: 'solid #DCDCDC 1px', textAlign: 'center'}}>{Identify.__('Qty')}</div>
+                    <div style={{width: '11%', borderRight: 'solid #DCDCDC 1px', textAlign: 'center'}}>{Identify.__('Total Price')}</div>
+                    <div style={{width: '7%'}}>{Identify.__('').toUpperCase()}</div>
+                </div>
+            );
+            for (const i in cart.details.items) {
+                const item = cart.details.items[i];
+                let itemTotal = null
+                if (cart.totals && cart.totals.items) {
+                    cart.totals.items.every(function(total) {
+                        if (total.item_id === item.item_id) {
+                            itemTotal = total
+                            return false
+                        }
+                        else return true
+                    })
+                }
+                const element = <CartItem   
+                                    key={Identify.randomString(5)} 
+                                    item={item} 
+                                    isPhone={this.state.isPhone}
+                                    currencyCode={cartCurrencyCode}
+                                    itemTotal={itemTotal}
+                                    removeItemFromCart={removeItemFromCart}
+                                    updateItemInCart={updateItemInCart}/>;
+                obj.push(element);
+            }
+            return <div className={classes['cart-list']}>{obj}</div>;
+        }
     }
 
     get totalsSummary() {
@@ -137,108 +154,6 @@ class Cart extends Component {
         ) : null;
     }
 
-    get placeholderButton() {
-        const { classes } = this.props;
-        return (
-            <div className={classes.placeholderButton}>
-                <CheckoutButton ready={false} />
-            </div>
-        );
-    }
-
-    get checkout() {
-        const { props, totalsSummary, placeholderButton } = this;
-        const { classes, cart } = props;
-
-        return (
-            <div>
-                <div className={classes.summary}>{totalsSummary}</div>
-                <Suspense fallback={placeholderButton}>
-                    <Checkout cart={cart} />
-                </Suspense>
-            </div>
-        );
-    }
-
-    get productOptions() {
-        const { props, state, closeOptionsDrawer } = this;
-        const { updateItemInCart, cart } = props;
-        const { focusItem } = state;
-
-        if (focusItem === null) return;
-        const hasOptions = focusItem.options.length !== 0;
-
-        return hasOptions ? (
-            // `Name` is being used here because GraphQL does not allow
-            // filtering products by id, and sku is unreliable without
-            // a reference to the base product. Additionally, `url-key`
-            // cannot be used because we don't have page context in cart.
-            <Query
-                query={getProductDetailByName}
-                variables={{ name: focusItem.name, onServer: false }}
-            >
-                {({ loading, error, data }) => {
-                    if (error) return <div>Data Fetch Error</div>;
-                    if (loading) return loadingIndicator;
-
-                    const itemWithOptions = data.products.items[0];
-
-                    return (
-                        <CartOptions
-                            cartItem={focusItem}
-                            configItem={itemWithOptions}
-                            closeOptionsDrawer={closeOptionsDrawer}
-                            isUpdatingItem={cart.isUpdatingItem}
-                            updateCart={updateItemInCart}
-                        />
-                    );
-                }}
-            </Query>
-        ) : (
-            <CartOptions
-                cartItem={focusItem}
-                configItem={{}}
-                closeOptionsDrawer={closeOptionsDrawer}
-                isUpdatingItem={cart.isUpdatingItem}
-                updateCart={updateItemInCart}
-            />
-        );
-    }
-
-    openOptionsDrawer = item => {
-        this.setState({
-            focusItem: item
-        });
-        this.props.openOptionsDrawer();
-    };
-
-    closeOptionsDrawer = () => {
-        this.props.closeOptionsDrawer();
-    };
-
-    get miniCartInner() {
-        const { checkout, productList, props } = this;
-        const { classes, isCartEmpty, isMiniCartMaskOpen } = props;
-
-        if (isCartEmpty) {
-            return <EmptyMiniCart />;
-        }
-
-        const footer = checkout;
-
-        const footerClassName = isMiniCartMaskOpen
-            ? classes.footerMaskOpen
-            : classes.footer;
-
-        return (
-            <Fragment>
-                <div className={classes.body}>{productList}</div>
-                <div className={footerClassName}>{footer}</div>
-            </Fragment>
-        );
-    }
-
-
     renderBreadcrumb =()=>{
         return <Breadcrumb breadcrumb={[{name:'Home',link:'/'},{name:'Basket',link:'/checkout/cart'}]}/>
     }
@@ -247,23 +162,13 @@ class Cart extends Component {
         this.props.history.goBack()
     }
 
-    render() {
-        const { miniCartInner, productOptions, props } = this;
-        const {
-            cancelCheckout,
-            cart: { isOptionsDrawerOpen, isLoading },
-            classes,
-            isMiniCartMaskOpen,
-            cart,
-        } = props;
-
-        const className =  classes.root_open;
-        const body = isOptionsDrawerOpen ? productOptions : miniCartInner;
-        const title = isOptionsDrawerOpen ? 'Edit Cart Item' : 'Shopping Cart'
+    get miniCartInner() {
+        const { productList, props } = this;
+        const { cart: { isLoading },classes, isCartEmpty,cart } = props;
 
         const loading = isLoading?
             <div 
-                className="harlows-cart-page-loading"
+                className={classes['siminia-cart-page-loading']}
                 style={{borderBottom: `solid 1px #eaeaea`}}
                 >
                 <Loading 
@@ -271,12 +176,24 @@ class Cart extends Component {
                     divStyle={{marginTop: 0}}
                 />
             </div>:''
+            
+        if (isCartEmpty) {
+            return (
+                <div className={classes['cart-page-siminia']}>
+                    {loading}
+                    <div className={classes['empty-cart']}>
+                    {Identify.__('You have no items in your shopping cart')}
+                    </div>
+                </div>
+            );
+        }
+
         return (
-            <React.Fragment>
+            <Fragment>
                 {loading}
-                {this.renderBreadcrumb()}
+                {this.state.isPhone && this.renderBreadcrumb()}
                 <div className={classes['cart-header']}>
-                    <div className={classes['cart-back-btn']} onClick={() => this.handleBack()}>
+                    <div role="presentation" className={classes['cart-back-btn']} onClick={() => this.handleBack()} onKeyUp={() => this.handleBack()} >
                         <Arrowup style={{width: 25}}/>
                         <span>{Identify.__('Continue shopping')}</span>
                     </div>
@@ -289,38 +206,32 @@ class Cart extends Component {
                         </div>
                     }
                 </div>
-                <div className={classes.header}>
-                    <h2 className={classes.title}>
-                        <span>{title}</span>
-                    </h2>
-                    <Trigger>
-                        <Icon src={CloseIcon} />
-                    </Trigger>
-                </div>
-                {body}
-                <Mask isActive={isMiniCartMaskOpen} dismiss={cancelCheckout} />
-            </React.Fragment>
+                <div className={classes.body}>{productList}</div>
+            </Fragment>
+        );
+    }
+
+    render() {
+        return (
+            <div className="container">
+                {this.miniCartInner}
+            </div>
         );
     }
 }
 
 const mapStateToProps = state => {
     const { cart } = state;
-
     return {
         cart,
         isCartEmpty: isEmptyCartVisible(state),
-        isMiniCartMaskOpen: isMiniCartMaskOpen(state)
     };
 };
 
 const mapDispatchToProps = {
     getCartDetails,
     updateItemInCart,
-    removeItemFromCart,
-    openOptionsDrawer,
-    closeOptionsDrawer,
-    cancelCheckout
+    removeItemFromCart
 };
 
 export default compose(

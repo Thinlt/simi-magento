@@ -1,5 +1,5 @@
 @media (max-width: 1023px) {
-    .cart-page-harlows {
+    .cart-page-siminia {
         padding: 0;
     }
 }
@@ -87,6 +87,19 @@
     }
 }
 
+@media (min-width: 1024px) {
+    .col-md-6.cart-bottom-left {
+        padding: 0;
+        padding-top: 40px;
+    }
+}
+
+@media (max-width: 1023px) {
+    .col-md-6.cart-bottom-left {
+        padding-top: 20px;
+    }
+}
+
 
 @media (max-width: 1023px) {
     .cart-item-header {
@@ -107,19 +120,6 @@
 
     .cart-item-header > div {    
         padding: 14px 18px;
-    }
-}
-
-@media (min-width: 1024px) {
-    .col-md-6.cart-bottom-left {
-        padding: 0;
-        padding-top: 40px;
-    }
-}
-
-@media (max-width: 1023px) {
-    .col-md-6.cart-bottom-left {
-        padding-top: 20px;
     }
 }
 
@@ -177,19 +177,6 @@
         padding-top: 40px;
     }
 }
-
-
-.cart-page-harlows .delivery-method {
-    max-width: 444px;
-    margin-left: auto;
-}
-
-@media (max-width: 1023px) {
-    .cart-page-harlows .delivery-method {
-        margin-top: 4px;
-    }
-}
-
 
 .cart-total {
     margin-top: 20px;
