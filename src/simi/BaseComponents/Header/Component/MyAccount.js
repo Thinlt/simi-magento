@@ -37,8 +37,6 @@ class MyAccount extends Abstract{
     }
 
     renderMyAccount = ()=>{
-        let customer = Customer.getCustomerData() || {}
-        let webtrack = Identify.getMerchantConfig().storeview.webtrack;
         const { open } = this.state;
         return (
             <Popper open={open} anchorEl={this.anchorEl}
@@ -60,12 +58,6 @@ class MyAccount extends Abstract{
                                     <MenuItem className="my-account-item" onClick={()=>this.handleMenuAccount('/customer/account/logout')}>
                                         {Identify.__('Logout')}
                                     </MenuItem>
-                                    {
-                                        (customer && customer.group_id && parseInt(customer.group_id, 10) === 4) &&
-                                        <MenuItem className="my-account-item" onClick={()=>Identify.windowOpenUrl(webtrack)}>
-                                            {Identify.__('WebTrack Login')}
-                                        </MenuItem>
-                                    }
                                 </div>
                                 </ClickAwayListener>
                             </div>

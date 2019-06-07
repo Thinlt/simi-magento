@@ -1,3 +1,5 @@
+import * as Constants from 'src/simi/Config/Constants';
+
 class Identify {
     static SESSION_STOREAGE = 1;
     static LOCAL_STOREAGE = 2;
@@ -14,22 +16,22 @@ class Identify {
         return text
     }
 
-    static formatPrice(price, type = 0) {
-        return price
+    /*
+    Store config
+    */
+    static getStoreConfig() {
+        return this.getDataFromStoreage(this.SESSION_STOREAGE, Constants.STORE_CONFIG);
     }
 
-    static getMerchantConfig() {
-        const data = this.getDataFromStoreage(this.SESSION_STOREAGE, Constants.MERCHANT_DATA_CONFIG);
-        if (!data && window.SIMICONNECTOR_STOREVIEW_API) {
-            const preloadedData = window.SIMICONNECTOR_STOREVIEW_API
-            if (!preloadedData.storeview || !preloadedData.storeview.base)
-                return data
+    /*
+    Dashboard config handlers
+    */
+    static getAppDashboardConfigs() {
+        let data = this.getDataFromStoreage(this.SESSION_STOREAGE, Constants.DASHBOARD_CONFIG);
+        if (data === null) {
+            data = window.DASHBOARD_CONFIG;
         }
         return data;
-    }
-
-    static storeMerchantConfig(data) {
-        return this.storeDataToStoreage(this.SESSION_STOREAGE, Constants.MERCHANT_DATA_CONFIG, data)
     }
 
     /* 

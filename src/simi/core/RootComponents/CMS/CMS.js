@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
+import CategoryList from 'src/components/CategoryList';
 
-export default class CMS extends React.Component {
+export default class CMS extends Component {
     render() {
-        return 'home page'
+        return <CategoryList title="Shop by category" id={2} />;
     }
 }

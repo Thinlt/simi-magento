@@ -155,12 +155,14 @@ const Total = props => {
         for (const i in custom_rows) {
             const row = custom_rows[i];
             const title = row.title;
-            const value = Identify.formatPrice(row.value);
+            const value = <Price currencyCode={currencyCode} value={row.value}/>
             if(row.hasOwnProperty('value_string') && row.value_string ){
                 value = row.value_string;
             }
             const el = <div key={i}><span className={classes["label"]}>{title}:</span>
-                <span className={classes["price"]} style={{color : configColor.price_color}}>{value}</span></div>;
+                <span className={classes["price"]} style={{color : configColor.price_color}}>
+                    {value}
+                </span></div>;
             rows.push(el);
         }
         custom = <div key="custom" className={classes["custom"]}>{rows}</div>;
