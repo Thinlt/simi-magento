@@ -3,6 +3,7 @@ import LoadingSpiner from 'src/simi/BaseComponents/Loading/LoadingSpiner'
 import {Carousel} from 'react-responsive-carousel'
 import Connection from 'src/simi/Network/Connection'
 import PropTypes from 'prop-types'
+import Innercontent from './Innercontent'
 
 const $ = window.$
 
@@ -116,10 +117,9 @@ class Pbpage extends React.Component {
                 </Carousel>
             )
         }
-        console.log('a')
         return (
             <React.Fragment>
-                {/*<Innercontent item={item} onClickItem={this.onClickItem.bind(this)}/>*/}
+                {<Innercontent item={item} onClickItem={this.onClickItem.bind(this)}/>}
                 {children.length ? children : ''}
             </React.Fragment>
         )
