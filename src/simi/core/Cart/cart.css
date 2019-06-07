@@ -217,7 +217,7 @@
         max-width: 220px;
     }
 
-    .cart-btn-section #go-checkout {
+    .cart-btn-section .go-checkout {
         width: 48%;
         display: inline-block;
         max-width: 220px;
@@ -230,7 +230,7 @@
         margin-top: 20px;
     }
     
-    .cart-btn-section #go-checkout {
+    .cart-btn-section .go-checkout {
         margin-top: 8px;
     }
 }

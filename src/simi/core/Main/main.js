@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { bool, shape, string } from 'prop-types';
 
 import classify from 'src/classify';
-import Header from 'src/simi/core/BaseComponents/Header';
+import Header from 'src/simi/BaseComponents/Header';
+import LoadingComponent  from 'src/simi/BaseComponents/Loading';
 import defaultClasses from './main.css';
 
 class Main extends Component {
@@ -32,6 +33,9 @@ class Main extends Component {
         console.log(this.props)
         return (
             <main className={classes.root}>
+                <div className="app-loading" style={{display:'none'}} id="app-loading">
+                    <LoadingComponent/>
+                </div>
                 <Header />
                 <div id="data-breadcrumb"/>
                 <div className={classes.page}>{children}</div>

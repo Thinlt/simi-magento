@@ -1,4 +1,7 @@
 class Identify {
+    static SESSION_STOREAGE = 1;
+    static LOCAL_STOREAGE = 2;
+
     static randomString(charCount = 20) {
         let text = "";
         const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -14,6 +17,68 @@ class Identify {
     static formatPrice(price, type = 0) {
         return price
     }
+
+    static getMerchantConfig() {
+        const data = this.getDataFromStoreage(this.SESSION_STOREAGE, Constants.MERCHANT_DATA_CONFIG);
+        if (!data && window.SIMICONNECTOR_STOREVIEW_API) {
+            const preloadedData = window.SIMICONNECTOR_STOREVIEW_API
+            if (!preloadedData.storeview || !preloadedData.storeview.base)
+                return data
+        }
+        return data;
+    }
+
+    static storeMerchantConfig(data) {
+        return this.storeDataToStoreage(this.SESSION_STOREAGE, Constants.MERCHANT_DATA_CONFIG, data)
+    }
+
+    /* 
+    store/get data from storage
+    */
+    static storeDataToStoreage(type, key, data) {
+        if (typeof(Storage) !== "undefined") {
+            if (!key)
+                return;
+            //process data
+            const pathConfig = key.split('/');
+            let rootConfig = key;
+            if (pathConfig.length === 1) {
+                rootConfig = pathConfig[0];
+            }
+            //save to storegae
+            data = JSON.stringify(data);
+            if (type === this.SESSION_STOREAGE) {
+                sessionStorage.setItem(rootConfig, data);
+                return;
+            }
+
+            if (type === this.LOCAL_STOREAGE) {
+                localStorage.setItem(rootConfig, data);
+                return;
+            }
+        }
+        console.log('This Browser dont supported storeage');
+    }
+    static getDataFromStoreage(type, key) {
+        if (typeof(Storage) !== "undefined") {
+            let value = "";
+            let data = '';
+            if (type === this.SESSION_STOREAGE) {
+                value = sessionStorage.getItem(key);
+            }
+            if (type === this.LOCAL_STOREAGE) {
+                value = localStorage.getItem(key);
+            }
+            try {
+                data = JSON.parse(value) || null;
+            } catch (err) {
+                data = value;
+            }
+            return data
+        }
+        console.log('This browser does not support local storage');
+    }
+
 }
 
 export default Identify;

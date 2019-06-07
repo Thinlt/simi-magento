@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
 import { bool, func, object, shape, string } from 'prop-types';
-import { Price } from '@magento/peregrine';
 import classify from 'src/classify';
 import {
     getCartDetails,
@@ -12,13 +11,16 @@ import {
 import defaultClasses from './cart.css';
 import { isEmptyCartVisible } from 'src/selectors/cart';
 
-import Breadcrumb from "src/simi/core/BaseComponents/Breadcrumb";
-import Loading from 'src/simi/core/BaseComponents/Loading'
+import Breadcrumb from "src/simi/BaseComponents/Breadcrumb";
+import Loading from 'src/simi/BaseComponents/Loading'
 
 import Identify from 'src/simi/Helper/Identify'
-import Arrowup from 'src/simi/core/BaseComponents/Icon/Arrowup'
-import Basket from 'src/simi/core/BaseComponents/Icon/Basket'
+import Arrowup from 'src/simi/BaseComponents/Icon/Arrowup'
+import Basket from 'src/simi/BaseComponents/Icon/Basket'
 import CartItem from './cartItem'
+import Total from 'src/simi/BaseComponents/Total'
+import {Colorbtn, Whitebtn} from 'src/simi/BaseComponents/Button'
+import {configColor} from 'src/simi/Config'
 
 class Cart extends Component {
     static propTypes = {
@@ -114,15 +116,17 @@ class Cart extends Component {
                         else return true
                     })
                 }
-                const element = <CartItem   
-                                    key={Identify.randomString(5)} 
-                                    item={item} 
-                                    isPhone={this.state.isPhone}
-                                    currencyCode={cartCurrencyCode}
-                                    itemTotal={itemTotal}
-                                    removeItemFromCart={removeItemFromCart}
-                                    updateItemInCart={updateItemInCart}/>;
-                obj.push(element);
+                if (itemTotal) {
+                    const element = <CartItem   
+                        key={Identify.randomString(5)} 
+                        item={item} 
+                        isPhone={this.state.isPhone}
+                        currencyCode={cartCurrencyCode}
+                        itemTotal={itemTotal}
+                        removeItemFromCart={removeItemFromCart}
+                        updateItemInCart={updateItemInCart}/>;
+                    obj.push(element);
+                }
             }
             return <div className={classes['cart-list']}>{obj}</div>;
         }
@@ -130,31 +134,39 @@ class Cart extends Component {
 
     get totalsSummary() {
         const { cart, classes } = this.props;
-        const { cartCurrencyCode, cartId } = this;
-        const hasSubtotal = cartId && cart.totals && 'subtotal' in cart.totals;
-        const itemsQuantity = cart.details.items_qty;
-        const itemQuantityText = itemsQuantity === 1 ? 'item' : 'items';
-        const totalPrice = cart.totals.subtotal;
-
-        return hasSubtotal ? (
-            <dl className={classes.totals}>
-                <dt className={classes.subtotalLabel}>
-                    <span>
-                        Cart Total :&nbsp;
-                        <Price
-                            currencyCode={cartCurrencyCode}
-                            value={totalPrice}
-                        />
-                    </span>
-                </dt>
-                <dd className={classes.subtotalValue}>
-                    ({itemsQuantity} {itemQuantityText})
-                </dd>
-            </dl>
-        ) : null;
+        const { cartCurrencyCode } = this;
+        if (!cart.totals)
+            return
+        return (<Total classes={classes} data={cart.totals} currencyCode={cartCurrencyCode} />)
     }
 
-    renderBreadcrumb =()=>{
+
+    get total() {
+        const { props, totalsSummary } = this;
+        const { classes } = props;
+
+        return (
+            <div>
+                <div className={classes.summary}>{totalsSummary}</div>
+            </div>
+        );
+    }
+
+    get checkoutButton() {
+        const { classes } = this.props;
+        return (
+            <div className={classes['cart-btn-section']}>
+                <Whitebtn className={classes['continue-shopping']} onClick={() => this.handleBack()} text={Identify.__('Continue shopping')}/>
+                <Colorbtn 
+                    id="go-checkout" 
+                    style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
+                    className={classes["go-checkout"]} 
+                    onClick={() => this.handleGoCheckout()} text={Identify.__('Pay Securely')}/>
+            </div>
+        )
+    }
+
+    get breadcrumb() {
         return <Breadcrumb breadcrumb={[{name:'Home',link:'/'},{name:'Basket',link:'/checkout/cart'}]}/>
     }
 
@@ -162,8 +174,12 @@ class Cart extends Component {
         this.props.history.goBack()
     }
 
+    handleGoCheckout() {
+        this.props.history.push('/checkout.html')
+    }
+
     get miniCartInner() {
-        const { productList, props } = this;
+        const { productList, props, total, checkoutButton } = this;
         const { cart: { isLoading },classes, isCartEmpty,cart } = props;
 
         const loading = isLoading?
@@ -191,7 +207,7 @@ class Cart extends Component {
         return (
             <Fragment>
                 {loading}
-                {this.state.isPhone && this.renderBreadcrumb()}
+                {this.state.isPhone && this.breadcrumb}
                 <div className={classes['cart-header']}>
                     <div role="presentation" className={classes['cart-back-btn']} onClick={() => this.handleBack()} onKeyUp={() => this.handleBack()} >
                         <Arrowup style={{width: 25}}/>
@@ -207,6 +223,8 @@ class Cart extends Component {
                     }
                 </div>
                 <div className={classes.body}>{productList}</div>
+                {total}
+                {checkoutButton}
             </Fragment>
         );
     }

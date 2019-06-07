@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { toggleCart } from 'src/actions/cart';
 import CartCounter from './cartCounter';
 
-import Basket from "src/simi/core/BaseComponents/Icon/Basket";
+import Basket from "src/simi/BaseComponents/Icon/Basket";
 import classify from 'src/classify';
 import defaultClasses from './cartTrigger.css'
 import Identify from 'src/simi/Helper/Identify'

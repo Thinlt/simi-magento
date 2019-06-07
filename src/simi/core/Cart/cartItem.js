@@ -1,6 +1,6 @@
 import React from 'react'
 import Identify from 'src/simi/Helper/Identify'
-import Deleteicon from 'src/simi/core/BaseComponents/Icon/Trash'
+import Deleteicon from 'src/simi/BaseComponents/Icon/Trash'
 import {configColor} from 'src/simi/Config'
 import { Price } from '@magento/peregrine'
 import { resourceUrl } from 'src/drivers'
@@ -9,16 +9,19 @@ import defaultClasses from './cartItem.css'
 
 const CartItem = props => {
     const { currencyCode, item, isPhone, itemTotal } = props
-    
+    const tax_cart_display_price = 3; // 1 - exclude, 2 - include, 3 - both
+
+    const rowPrice = tax_cart_display_price == 1 ? itemTotal.price : itemTotal.price_incl_tax
     const itemprice = (
         <Price
             currencyCode={currencyCode}
-            value={item.price}
+            value={rowPrice}
         />
     )
-    const subtotal = itemTotal && itemTotal.row_total_incl_tax && <Price
+    const rowTotal = tax_cart_display_price == 1 ? itemTotal.row_total : itemTotal.row_total_incl_tax
+    const subtotal = itemTotal && rowTotal && <Price
             currencyCode={currencyCode}
-            value={itemTotal.row_total_incl_tax}
+            value={rowTotal}
         />
 
     const optionText = [];

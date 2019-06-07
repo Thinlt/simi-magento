@@ -1,28 +1,3 @@
-var PWA_CONFIG_BUILD_TIME = 1552529736;
-var SMCONFIGS = {
-    merchant_url: "https://harlows-staging.evolveretail.website/",
-    api_path: "simiconnector/rest/v2/",
-    simicart_url: "https://www.simicart.com/appdashboard/rest/app_configs/",
-    simicart_authorization: "tPfW8SdkoEl7lsqMKltVkADYB415wLpZBFWJxa3",
-    notification_api: "simipwa/index/",
-    zopim_key: "",
-    zopim_language: "en",
-    base_name: "/",
-    show_social_login: {
-        facebook: 1,
-        google: 1,
-        twitter: 1
-    },
-    google_analytics: {
-        google_analytics_key: "UA-93454568-4"
-    },
-    mixpanel: {
-        token_key: "5d46127799a0614259cb4c733f367541"
-    },
-    logo_url: "https://harlows-staging.evolveretail.website/pub/media/pwa/logo.png",
-    splash_screen: "https://harlows-staging.evolveretail.website/pub/media/pwa/splash.png"
-};
-
 var DEFAULT_COLORS = {
     key_color: '#ff9800',
     top_menu_icon_color: '#ffffff',
@@ -77,8 +52,7 @@ var Simicart_Api = {
             "android_app_key": "73081678619"
         },
         "app_info_id": "2595",
-        "app_name": "Timber Merchants, Stables and Stabling, Timber Frame, Roof Trusses, Poultry House, Manufacturer, UK - Harlow Bros Ltd",
-        "url": "https:\/\/harlows-staging.evolveretail.website\/",
+        "app_name": "Siminia",
         "is_active": true,
         "status": "3",
         "site_plugins": [{

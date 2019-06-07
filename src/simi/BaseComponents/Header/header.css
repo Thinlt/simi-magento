@@ -10,7 +10,7 @@
 .header-app-bar button {
     width: unset;
 }
-.header-logo .harlow-logo {
+.header-logo .siminia-logo {
     cursor: pointer;
     display: flex;
 }
@@ -309,7 +309,7 @@ body.fixed-scroll {
     text-align: center;
     justify-content: center;
 }
-.harlow-wrapper{
+.siminia-wrapper{
     -webkit-transition: all 0.2s ease-in;
     -o-transition: all 0.2s ease-in;
     transition: all 0.2s ease-in;
