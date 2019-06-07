@@ -1,9 +1,3 @@
-/**
- * Created by PhpStorm.
- * User: Peter
- * Date: 12/7/18
- * Time: 2:38 PM
- */
 import React from 'react'
 import Abstract from '../../../Core/BaseAbstract'
 import User from "../../Icon/User";

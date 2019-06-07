@@ -61,7 +61,7 @@ class Main extends Component {
                 { Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, Constants.STORE_CONFIG) ?
                     this.mainContent :
                     <Query query={storeConfigDataQuery}>
-                        {({ loading, error, data }) => {
+                        {({ data }) => {
                             if (data)
                                 Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, Constants.STORE_CONFIG, data);
                             return this.mainContent
