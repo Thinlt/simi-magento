@@ -1,7 +1,7 @@
 var SMCONFIGS = {
     merchant_url: "https://pwa-commerce.com/",
     simicart_url: "https://dashboard.pwa-commerce.com/appdashboard/rest/app_configs/",
-    simicart_authorization: "cGtUZZf0h9LCCVTFmZsndjUXjSpnLXpYESSES7E",
+    simicart_authorization: "q7wWTxNrRL0F0k86LYp0UA96HkixDn94vG0odOQ",
     notification_api: "simipwa/index/",
     base_name: "",
     logo_url: "https://www.simicart.com/skin/frontend/default/simicart2.0/images/simicart/new_logo_small.png"

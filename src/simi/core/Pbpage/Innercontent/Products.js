@@ -1,4 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react';
+import LoadingSpiner from "src/simi/BaseComponents/Loading/LoadingSpiner"
+import getCategory from 'src/simi/queries/getCateProductsNoFilter.graphql'
+import { useQuery } from '@magento/peregrine'
+import Product from './Product'
+
 /*
 import {GridItemHoc} from "../../../Tapita/Products/HoC"
 import LoadingSpiner from "../../../../BaseComponent/Loading/LoadingSpiner"
@@ -7,72 +12,64 @@ import Identify from '../../../../Helper/Identify'
 import * as Constants from "../../../../Config/Constants";
 */
 
-class Products extends React.Component {
-    /*
-    constructor(props) {
-        super(props)
-        this.state = {
-            products: null
-        }
-        this.isPhone = window.innerWidth < 768 ;
-        this.productModelCollection = new ProductModelCollection({obj: this})
+const Products = props => {
+    if (!props.item || !props.item.data || !props.item.data.openCategoryProducts) {
+        return ''
     }
+    const id = props.item.data.openCategoryProducts
+    const pageSize = 12
+    const currentPage = 0
+    const isPhone = window.innerWidth < 768
 
-    componentDidMount() {
-        if (this.props.item && this.props.item.data && this.props.item.data.openCategoryProducts) {
-            
-            let params = {
-                'filter[cat_id]': this.props.item.data.openCategoryProducts,
-                image_height: this.state.isPhone?Constants.HEIGHT_IMAGE_PHONE:Constants.HEIGHT_IMAGE,
-                image_width: this.state.isPhone?Constants.WIDTH_IMAGE_PHONE:Constants.WIDTH_IMAGE
+    const [queryResult, queryApi] = useQuery(getCategory);
+    const { data, error, loading } = queryResult;
+    const { runQuery, setLoading } = queryApi;
+
+    useEffect(() => {
+        setLoading(true);
+        runQuery({
+            variables: {
+                id: Number(id),
+                pageSize: Number(pageSize),
+                currentPage: Number(currentPage),
+                stringId: String(id),
             }
-            let api = Identify.ApiDataStorage('product_list_api')||{};
-            const key = JSON.stringify(params)
-            if(api.hasOwnProperty(key)){
-                let data = api[key]
-                this.setData(data)
-                return;
-            }
-            this.productModelCollection.getCollection(params)
-        }
-    }
+        });
+    }, [id, pageSize, currentPage]);
 
-    setData(data) {
-        if (data && data.products) {
-            this.setState({products: data.products})
-            let api = Identify.ApiDataStorage('product_list_api') || {}
-            const key = JSON.stringify(this.productModelCollection.getParams())
-            api[key] = data;
-            Identify.ApiDataStorage('product_list_api','update',api)
-        }
-    }
-
-    renderProducts() {
+    if (data && data.products && data.products.items) {
         let count = 0
         let maxItem = 4
-        let products = []
-        let style={minWidth: 170, display: 'inline-block'}
+        const products = []
+        const style = {minWidth: 170, display: 'inline-block'}
         style.width = '50%'
-        if (!this.isPhone) {
+        if (!isPhone) {
             style.width = '25%'
         }
-        if (this.props.item && this.props.item.type === 'product_scroll') {
+        if (props.item && props.item.type === 'product_scroll') {
             maxItem = 12
             style.width = '30%'
-            if (!this.isPhone) {
+            if (!isPhone) {
                 style.width = '25%'
             }
         }
-        this.state.products.every((item, index) => {
+
+        data.products.items.every((item, index) => {
             const itemKey = `pb-product-items-${index}-${item.entity_id}`;
             if (count < maxItem) {
                 count ++ 
+                const { small_image } = item;
+                const itemData =  {
+                    ...item,
+                    small_image:
+                        typeof small_image === 'object' ? small_image.url : small_image
+                }
+                
                 products.push (
                     <div key={itemKey} className="pb-product-item" style={style}>
-                        <GridItemHoc
-                            item={item}
-                            lazyImage={true}
-                            fadingImg={false}
+                        <Product
+                            item={itemData}
+                            classes={{}}
                             />
                     </div>
                 )
@@ -82,15 +79,7 @@ class Products extends React.Component {
         });
         return products
     }
-
-    render() {
-        if (!this.state.products)
-            return <LoadingSpiner />
-        return this.renderProducts()
-    }
-    */
-    render() {
-        return 'products'
-    }
+    return <LoadingSpiner />        
 }
+
 export default Products
