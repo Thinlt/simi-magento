@@ -124,7 +124,8 @@ class Cart extends Component {
                         currencyCode={cartCurrencyCode}
                         itemTotal={itemTotal}
                         removeItemFromCart={removeItemFromCart}
-                        updateItemInCart={updateItemInCart}/>;
+                        history={this.props.history}
+                        handleLink={this.handleLink.bind(this)}/>;
                     obj.push(element);
                 }
             }
@@ -168,6 +169,10 @@ class Cart extends Component {
 
     get breadcrumb() {
         return <BreadCrumb breadcrumb={[{name:'Home',link:'/'},{name:'Basket',link:'/checkout/cart'}]}/>
+    }
+
+    handleLink(link) {
+        this.props.history.push(link)
     }
 
     handleBack() {

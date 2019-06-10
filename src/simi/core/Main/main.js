@@ -40,14 +40,14 @@ class Main extends Component {
         );
     }
 
-    get mainContent() {
+    mainContent(storeConfig = null) {
         const { classes } = this
         const { children } = this.props
         return (
             <React.Fragment>
-                <Header />
+                <Header storeConfig={storeConfig}/>
                 <div id="data-breadcrumb"/>
-                <div className={classes.page}>{children}</div>
+                {storeConfig && <div className={classes.page}>{children}</div>}
             </React.Fragment>
         )
     }
@@ -59,12 +59,14 @@ class Main extends Component {
                     <LoadingComponent/>
                 </div>
                 { Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, Constants.STORE_CONFIG) ?
-                    this.mainContent :
+                    this.mainContent(Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, Constants.STORE_CONFIG)) :
                     <Query query={storeConfigDataQuery}>
                         {({ data }) => {
-                            if (data)
-                                Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, Constants.STORE_CONFIG, data);
-                            return this.mainContent
+                            if (data && data.storeConfig) {
+                                Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, Constants.STORE_CONFIG, data)
+                                return this.mainContent(data)
+                            }
+                            return this.mainContent()
                         }}
                     </Query>
                 }

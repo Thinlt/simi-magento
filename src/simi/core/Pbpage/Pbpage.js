@@ -17,6 +17,11 @@ class Pbpage extends React.Component {
             this.pb_page_id = this.props.match.params.id
     }
 
+    handleLink = (link) => {
+        if (this.props.history)
+            this.props.history.push(link);
+    }
+
     componentDidMount() {
         if (this.pb_page_id) {
             const api = window.pb_page_api || {}
@@ -50,7 +55,7 @@ class Pbpage extends React.Component {
     Render Item
     */
     onClickItem(item, e, forceRedirect = false) {
-        let browserHistory = this.props.history
+        const browserHistory = this.props.history
         let redirected = false
         if (
             !forceRedirect && (
@@ -64,13 +69,13 @@ class Pbpage extends React.Component {
         }
         if (item.data) {
             if (item.data.openCategoryProducts) {
-                browserHistory.push(`/products?cat=${item.data.openCategoryProducts}`)
+                browserHistory.push(`/products.html?cat=${item.data.openCategoryProducts}`)
                 redirected = true
             } else if (item.data.openCategoryChildren) {
-                browserHistory.push(`/products?cat=${item.data.openCategoryChildren}`)
+                browserHistory.push(`/products.html?cat=${item.data.openCategoryChildren}`)
                 redirected = true
-            } else if (item.data.openProductDetail) {
-                browserHistory.push(`/product/${item.data.openProductDetail}`)
+            } else if (item.data.openProductDetailBySKU) {
+                browserHistory.push(`/product.html?sku=${item.data.openProductDetailBySKU}`)
                 redirected = true
             } else if (item.data.openUrl) {
                 if (item.data.openUrl.includes('http://') || item.data.openUrl.includes('https://'))
@@ -87,9 +92,10 @@ class Pbpage extends React.Component {
     }
 
     renderItem(item, children) {
-        let styles = this.prepareStyle(item)
+        const styles = this.prepareStyle(item)
         return (
             <div
+                role="presentation"
                 key={`${item.root?'root':item.entity_id}`}
                 onClick={e=>this.onClickItem(item, e)}
                 className={`pb-item ${item.root?'pb-item-root':''} ${item.class_name} pb-item-${item.type}`}
@@ -102,7 +108,7 @@ class Pbpage extends React.Component {
 
     renderInnerContent(item, children) {
         if (item.type === 'slider') {
-            let slideSettings = {
+            const slideSettings = {
                 autoPlay: true,
                 showArrows: true,
                 showThumbs: false,
@@ -119,7 +125,7 @@ class Pbpage extends React.Component {
         }
         return (
             <React.Fragment>
-                {<Innercontent item={item} onClickItem={this.onClickItem.bind(this)}/>}
+                {<Innercontent item={item} onClickItem={this.onClickItem.bind(this)} handleLink={this.handleLink.bind(this)} />}
                 {children.length ? children : ''}
             </React.Fragment>
         )
@@ -134,7 +140,7 @@ class Pbpage extends React.Component {
         let style = defaultStyles
         if (item && item.styles) {
             try {
-                let itemStyle = item.styles
+                const itemStyle = item.styles
                 if (itemStyle.widthPercent) {
                     itemStyle.width = parseInt(itemStyle.widthPercent, 10) + '%'
                     delete itemStyle.widthPercent
@@ -176,7 +182,7 @@ class Pbpage extends React.Component {
     */
 
     recursiveRender(childrenArray) {
-        let returnedItems = []
+        const returnedItems = []
         childrenArray.map(item => {
             const children = this.recursiveRender(item.children)
             returnedItems.push(this.renderItem(item, children))
@@ -199,11 +205,11 @@ class Pbpage extends React.Component {
     render() {
         if (!this.state.customer_page || !this.state.customer_page.pbitems)
             return <LoadingSpiner />
-        let rootItem = {
+        const rootItem = {
             id: 'root'
         }
         rootItem.children = this.state.customer_page.pbitems
-        let itemTree = rootItem
+        const itemTree = rootItem
         if (!itemTree)
             return <LoadingSpiner />
 

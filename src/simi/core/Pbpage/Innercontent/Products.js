@@ -1,28 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import LoadingSpiner from "src/simi/BaseComponents/Loading/LoadingSpiner"
 import getCategory from 'src/simi/queries/getCateProductsNoFilter.graphql'
 import { useQuery } from '@magento/peregrine'
-import Product from './Product'
-
-/*
-import {GridItemHoc} from "../../../Tapita/Products/HoC"
-import LoadingSpiner from "../../../../BaseComponent/Loading/LoadingSpiner"
-import ProductModelCollection from "../../../../Model/product/ModelCollection"
-import Identify from '../../../../Helper/Identify'
-import * as Constants from "../../../../Config/Constants";
-*/
+import { GridItem } from 'src/simi/BaseComponents/GridItem'
 
 const Products = props => {
     if (!props.item || !props.item.data || !props.item.data.openCategoryProducts) {
         return ''
     }
+    const [isPhone, setIsPhone] = useState(window.innerWidth < 768)
+    $(window).resize(function () {
+        const width = window.innerWidth;
+        const newIsPhone = width < 1024;
+        if(newIsPhone !== isPhone){
+            setIsPhone(newIsPhone)
+        }
+    })
+
     const id = props.item.data.openCategoryProducts
     const pageSize = 12
     const currentPage = 0
-    const isPhone = window.innerWidth < 768
 
     const [queryResult, queryApi] = useQuery(getCategory);
-    const { data, error, loading } = queryResult;
+    const { data } = queryResult;
     const { runQuery, setLoading } = queryApi;
 
     useEffect(() => {
@@ -39,9 +39,9 @@ const Products = props => {
 
     if (data && data.products && data.products.items) {
         let count = 0
-        let maxItem = 4
+        let maxItem = 6
         const products = []
-        const style = {minWidth: 170, display: 'inline-block'}
+        const style = {minWidth: 170, display: 'inline-block', padding: 5}
         style.width = '50%'
         if (!isPhone) {
             style.width = '25%'
@@ -67,9 +67,10 @@ const Products = props => {
                 
                 products.push (
                     <div key={itemKey} className="pb-product-item" style={style}>
-                        <Product
+                        <GridItem
                             item={itemData}
                             classes={{}}
+                            handleLink={props.handleLink}
                             />
                     </div>
                 )

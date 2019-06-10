@@ -8,7 +8,7 @@ import { resourceUrl } from 'src/drivers'
 import defaultClasses from './cartItem.css'
 
 const CartItem = props => {
-    const { currencyCode, item, isPhone, itemTotal } = props
+    const { currencyCode, item, isPhone, itemTotal, handleLink } = props
     const tax_cart_display_price = 3; // 1 - exclude, 2 - include, 3 - both
 
     const rowPrice = tax_cart_display_price == 1 ? itemTotal.price : itemTotal.price_incl_tax
@@ -46,14 +46,14 @@ const CartItem = props => {
         updateItemInCart(payload, item.item_id);
     }
     
-    const location = `/product/${item.product_id}`
+    const location = `/product.html?sku=${item.sku}`
     return (
         <div key={Identify.randomString(5)} className={defaultClasses['cart-siminia-item']}>
             <div className={defaultClasses['img-and-name']}>
                 <div 
-                    onClick={(e) => {
-                        this.handleLink(location)
-                        this.analyticsTracking(item.name)
+                    role="presentation"
+                    onClick={() => {
+                        handleLink(location)
                     }}
                     className={defaultClasses['img-cart-container']}
                     style={{borderColor: configColor.image_border_color}}>
@@ -67,10 +67,10 @@ const CartItem = props => {
                 <div className={defaultClasses['cart-item-info']}>
                     <div className={defaultClasses['des-cart']}>
                         <div 
+                        role="presentation"
                             style={{color: configColor.content_color}}
-                            onClick={(e)=>{
-                                this.handleLink(location)
-                                this.analyticsTracking(item.name)
+                            onClick={()=>{
+                                handleLink(location)
                             }}>
                             <div className="item-name">{item.name}</div>
                         </div>

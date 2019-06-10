@@ -17,6 +17,20 @@ class Identify {
     }
 
     /*
+    URL param
+    */
+    static findGetParameter(parameterName) {
+        var result = null,
+            tmp = [];
+        var items = location.search.substr(1).split("&");
+        for (var index = 0; index < items.length; index++) {
+            tmp = items[index].split("=");
+            if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+        }
+        return result;
+    }
+
+    /*
     Store config
     */
     static getStoreConfig() {
@@ -30,6 +44,8 @@ class Identify {
         let data = this.getDataFromStoreage(this.SESSION_STOREAGE, Constants.DASHBOARD_CONFIG);
         if (data === null) {
             data = window.DASHBOARD_CONFIG;
+            if (data)
+                this.storeDataToStoreage(this.SESSION_STOREAGE, Constants.DASHBOARD_CONFIG, data);
         }
         return data;
     }
