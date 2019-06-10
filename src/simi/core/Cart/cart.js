@@ -11,7 +11,7 @@ import {
 import defaultClasses from './cart.css';
 import { isEmptyCartVisible } from 'src/selectors/cart';
 
-import Breadcrumb from "src/simi/BaseComponents/Breadcrumb";
+import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
 import Loading from 'src/simi/BaseComponents/Loading'
 
 import Identify from 'src/simi/Helper/Identify'
@@ -167,7 +167,7 @@ class Cart extends Component {
     }
 
     get breadcrumb() {
-        return <Breadcrumb breadcrumb={[{name:'Home',link:'/'},{name:'Basket',link:'/checkout/cart'}]}/>
+        return <BreadCrumb breadcrumb={[{name:'Home',link:'/'},{name:'Basket',link:'/checkout/cart'}]}/>
     }
 
     handleBack() {
