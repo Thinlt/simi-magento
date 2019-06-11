@@ -9,9 +9,8 @@ const $ = window.$
 class Navigation extends React.Component{
     toggleMegaItemContainer() {
         const { classes } = this.props
-        console.log('!!')
         $(`.${classes['main-nav']}`).find(`.${classes['nav-item-container']}`).each(function() {
-            //$(this).removeClass(classes['active'])
+            $(this).removeClass(classes['active'])
         });
     }
 

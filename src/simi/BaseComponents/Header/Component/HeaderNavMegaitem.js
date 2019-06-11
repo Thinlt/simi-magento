@@ -47,7 +47,6 @@ const NavMegaitem = props => {
             })
             const childCatGroups = []
             const chunkSize = Math.ceil(childCats.length/3)
-            console.log(childCats)
             for (var i = 0; i < childCats.length; i+= chunkSize){
                 childCatGroups.push(
                     <div key={i} style={{width: 173, marginRight: 82}}>

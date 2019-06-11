@@ -2,11 +2,10 @@ import React, { PureComponent } from 'react';
 import { bool, func, object, shape, string } from 'prop-types';
 
 import classify from 'src/classify';
-import CreateAccount from 'src/components/CreateAccount';
-import SignIn from 'src/components/SignIn';
-import ForgotPassword from 'src/components/ForgotPassword';
-import CategoryTree from './categoryTree';
-import defaultClasses from './navigation.css';
+import CategoryTree from './categoryTree'
+import defaultClasses from './navigation.css'
+import Identify from 'src/simi/Helper/Identify'
+import Dashboardmenu from './Dashboardmenu'
 
 class Navigation extends PureComponent {
     static propTypes = {
@@ -52,6 +51,7 @@ class Navigation extends PureComponent {
     componentDidMount() {
         this.props.getUserDetails();
         this.props.getAllCategories();
+        this.setIsPhone();
     }
 
     state = {
@@ -59,8 +59,20 @@ class Navigation extends PureComponent {
         isSignInOpen: false,
         isForgotPasswordOpen: false,
         rootNodeId: null,
-        currentPath: null
+        currentPath: null,
+        isPhone: window.innerWidth < 1024,
     };
+
+    setIsPhone(){
+        const obj = this;
+        $(window).resize(function () {
+            const width = window.innerWidth;
+            const isPhone = width < 1024;
+            if(obj.state.isPhone !== isPhone){
+                obj.setState({isPhone})
+            }
+        })
+    }
 
     get categoryTree() {
         const { props, setCurrentPath, state } = this;
@@ -76,142 +88,6 @@ class Navigation extends PureComponent {
             />
         ) : null;
     }
-
-    get signInForm() {
-        const { isSignInOpen } = this.state;
-        const { classes, isSignedIn } = this.props;
-        const isOpen = !isSignedIn && isSignInOpen;
-        const className = isOpen ? classes.signIn_open : classes.signIn_closed;
-
-        return (
-            <div className={className}>
-                <SignIn
-                    showCreateAccountForm={this.setCreateAccountForm}
-                    setDefaultUsername={this.setDefaultUsername}
-                    onForgotPassword={this.setForgotPasswordForm}
-                />
-            </div>
-        );
-    }
-
-    createAccount = () => {};
-
-    setCreateAccountForm = () => {
-        /*
-        When the CreateAccount component mounts, its email input will be set to
-        the value of the SignIn component's email input.
-        Inform's initialValue is set on component mount.
-        Once the create account button is dirtied, always render the CreateAccount
-        Component to show animation.
-        */
-        this.createAccount = className => {
-            return (
-                <div className={className}>
-                    <CreateAccount
-                        onSubmit={this.props.createAccount}
-                        initialValues={{ email: this.state.defaultUsername }}
-                    />
-                </div>
-            );
-        };
-        this.showCreateAccountForm();
-    };
-
-    forgotPassword = () => {};
-
-    /*
-     * When the ForgotPassword component is mounted, its email input will be set to
-     * the value of the SignIn component's email input.
-     * Our common Input component handles initialValue only when component is mounted.
-     */
-    setForgotPasswordForm = () => {
-        this.forgotPassword = className => {
-            const {
-                completePasswordReset,
-                forgotPassword,
-                resetPassword
-            } = this.props;
-            const { email, isInProgress } = forgotPassword;
-
-            return (
-                <div className={className}>
-                    <ForgotPassword
-                        completePasswordReset={completePasswordReset}
-                        email={email}
-                        initialValues={{ email: this.state.defaultUsername }}
-                        isInProgress={isInProgress}
-                        onClose={this.closeForgotPassword}
-                        resetPassword={resetPassword}
-                    />
-                </div>
-            );
-        };
-        this.showForgotPasswordForm();
-    };
-
-    closeForgotPassword = () => {
-        this.props.closeDrawer();
-        this.hideForgotPasswordForm();
-        this.hideSignInForm();
-    };
-
-    get createAccountForm() {
-        const { isCreateAccountOpen } = this.state;
-        const { classes, isSignedIn } = this.props;
-        const isOpen = !isSignedIn && isCreateAccountOpen;
-        const className = isOpen ? classes.form_open : classes.form_closed;
-
-        return this.createAccount(className);
-    }
-
-    get forgotPasswordForm() {
-        const { isForgotPasswordOpen } = this.state;
-        const { classes, isSignedIn } = this.props;
-        const isOpen = !isSignedIn && isForgotPasswordOpen;
-        const className = isOpen ? classes.form_open : classes.form_closed;
-
-        return this.forgotPassword(className);
-    }
-
-    showSignInForm = () => {
-        this.setState(() => ({
-            isSignInOpen: true
-        }));
-    };
-
-    hideSignInForm = () => {
-        this.setState(() => ({
-            isSignInOpen: false
-        }));
-    };
-
-    setDefaultUsername = nextDefaultUsername => {
-        this.setState(() => ({ defaultUsername: nextDefaultUsername }));
-    };
-
-    showCreateAccountForm = () => {
-        this.setState(() => ({
-            isCreateAccountOpen: true
-        }));
-    };
-
-    showForgotPasswordForm = () => {
-        this.setState(() => ({
-            isForgotPasswordOpen: true
-        }));
-    };
-
-    hideCreateAccountForm = () => {
-        this.setState(() => ({
-            isCreateAccountOpen: false
-        }));
-    };
-
-    hideForgotPasswordForm = () => {
-        this.setState(() => ({
-            isForgotPasswordOpen: false
-        }));
-    };
 
     setCurrentPath = currentPath => {
         const path = currentPath.split('/').reverse();
@@ -235,64 +111,93 @@ class Navigation extends PureComponent {
         }));
     };
 
-    render() {
-        const {
-            categoryTree,
-            createAccountForm,
-            hideCreateAccountForm,
-            hideSignInForm,
-            setRootNodeIdToParent,
-            signInForm,
-            forgotPasswordForm,
-            hideForgotPasswordForm,
-            props,
-            state
-        } = this;
 
-        const {
-            isCreateAccountOpen,
-            isSignInOpen,
-            isForgotPasswordOpen,
-            rootNodeId
-        } = state;
+    renderDashboardMenu(className, jsonSimiCart) {
         const {
             classes,
             closeDrawer,
             isOpen,
-            isSignedIn,
-            rootCategoryId
+        } = this.props;
+
+        let leftMenuItems = null
+        let bottomMenuItems = null
+        let config = null
+        if (jsonSimiCart && jsonSimiCart['app-configs'] && jsonSimiCart['app-configs'][0] && jsonSimiCart['app-configs'][0].app_settings) {
+            config = jsonSimiCart['app-configs'][0]
+            const app_settings = jsonSimiCart['app-configs'][0].app_settings
+            if (
+                config.themeitems &&
+                config.api_version &&
+                parseInt(config.api_version, 10)
+            ) {
+                if (this.state.isPhone) {
+                    if (
+                        app_settings.show_leftmenu_mobile &&
+                        (parseInt(app_settings.show_leftmenu_mobile, 10) === 1) &&
+                        config.themeitems.phone_left_menu_sections &&
+                        config.themeitems.phone_left_menu_sections.length
+                    ) {
+                        leftMenuItems = config.themeitems.phone_left_menu_sections
+                    }
+                    if (
+                        app_settings.show_bottommenu_mobile && 
+                        (parseInt(app_settings.show_bottommenu_mobile, 10) === 1) && 
+                        config.themeitems.phone_bottom_menu_items &&
+                        config.themeitems.phone_bottom_menu_items.length
+                    ) {
+                        bottomMenuItems = config.themeitems.phone_bottom_menu_items
+                    }
+                    
+                } else {
+                    if (
+                        app_settings.show_leftmenu_tablet &&
+                        (parseInt(app_settings.show_leftmenu_tablet, 10) === 1) &&
+                        config.themeitems.tablet_left_menu_sections &&
+                        config.themeitems.tablet_left_menu_sections.length
+                    ) {
+                        leftMenuItems = config.themeitems.tablet_left_menu_sections
+                    }
+                    if (
+                        app_settings.show_bottommenu_tablet && 
+                        (parseInt(app_settings.show_bottommenu_tablet, 10) === 1) && 
+                        config.themeitems.tablet_bottom_menu_items &&
+                        config.themeitems.tablet_bottom_menu_items.length
+                    ) {
+                        bottomMenuItems = config.themeitems.tablet_bottom_menu_items
+                    }
+                }
+            }
+        }
+        if (leftMenuItems || bottomMenuItems) 
+            return <Dashboardmenu className={className} classes={classes} leftMenuItems={leftMenuItems} bottomMenuItems={bottomMenuItems} config={config} isPhone={this.state.isPhone}/>
+    }
+
+    render() {
+        const {
+            categoryTree,
+            props,
+            setRootNodeIdToParent
+        } = this
+
+        const {
+            classes,
+            closeDrawer,
+            isOpen,
         } = props;
         const className = isOpen ? classes.root_open : classes.root;
-        const isTopLevel = !rootNodeId || rootNodeId === rootCategoryId;
 
-        const handleBack =
-            isCreateAccountOpen && !isSignedIn
-                ? hideCreateAccountForm
-                : isForgotPasswordOpen
-                ? hideForgotPasswordForm
-                : isSignInOpen && !isSignedIn
-                ? hideSignInForm
-                : isTopLevel
-                ? closeDrawer
-                : setRootNodeIdToParent;
-
-        const title =
-            isCreateAccountOpen && !isSignedIn
-                ? 'Create Account'
-                : isForgotPasswordOpen
-                ? 'Forgot password'
-                : isSignInOpen && !isSignedIn
-                ? 'Sign In'
-                : 'Main Menu';
-
+        const simicartConfig = Identify.getAppDashboardConfigs()
+        if (simicartConfig) {
+            const dbMenu = this.renderDashboardMenu(className, simicartConfig)
+            if (dbMenu)
+                return dbMenu
+        }
+        
         return (
             <aside className={className}>
                 <nav className={classes.body}>{categoryTree}</nav>
-                {signInForm}
-                {createAccountForm}
-                {forgotPasswordForm}
             </aside>
-        );
+        )
     }
 }
 
