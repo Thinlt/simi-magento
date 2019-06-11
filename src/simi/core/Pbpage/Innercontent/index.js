@@ -44,7 +44,7 @@ const Innercontent = props => {
         )
     } else if (item.type === 'product_grid') { 
         return (
-            <div style={{display: 'flex', flexWrap: 'wrap', overflow: 'hidden'}}>
+            <div style={{display: 'flex', flexWrap: 'wrap', overflow: 'hidden', justifyContent: 'center', width: '100%'}}>
                 <div style={{width: '100%', marginBottom: 10, textAlign: 'center'}}>
                     {item.name}
                 </div>

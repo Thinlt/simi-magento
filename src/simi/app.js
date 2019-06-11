@@ -4,7 +4,7 @@ import { array, bool, func, shape, string } from 'prop-types';
 import Main from 'src/simi/core/Main';
 import Mask from 'src/components/Mask';
 import MiniCart from 'src/components/MiniCart';
-import Navigation from 'src/components/Navigation';
+import Navigation from 'src/simi/core/Navigation';
 import OnlineIndicator from 'src/components/OnlineIndicator';
 import ErrorNotifications from './errorNotifications';
 import renderRoutes from './renderRoutes';

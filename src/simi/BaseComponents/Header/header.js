@@ -2,11 +2,12 @@ import React, { Suspense } from 'react'
 import Identify from "src/simi/Helper/Identify";
 import WishList from 'src/simi/BaseComponents/Icon/WishList'
 import MenuIcon from 'src/simi/BaseComponents/Icon/Menu'
-import NavTrigger from './navTrigger'
+import NavTrigger from './Component/navTrigger'
 import CartTrigger from './cartTrigger'
 import defaultClasses from './header.css'
 import { mergeClasses } from 'src/classify'
 import { Link, resourceUrl, Route } from 'src/drivers';
+import HeaderNavigation from './Component/HeaderNavigation'
 
 const $ = window.$ 
 
@@ -120,14 +121,16 @@ class Header extends React.Component{
             return this.renderViewPhone()
         }
         return(
-            <div className="container">
-                <div className={this.classes['header-app-bar']}>
-                    {this.renderLogo()}
-                    {this.renderSearhForm()}
-                    {this.renderRightBar()}
+            <React.Fragment>
+                <div className="container">
+                    <div className={this.classes['header-app-bar']}>
+                        {this.renderLogo()}
+                        {this.renderSearhForm()}
+                        {this.renderRightBar()}
+                    </div>
                 </div>
-            </div>
-
+                {window.innerWidth >= 1024 && <HeaderNavigation classes={this.classes}/>}
+            </React.Fragment>
         )
     }
 }

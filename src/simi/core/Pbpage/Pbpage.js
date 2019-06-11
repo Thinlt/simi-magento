@@ -98,7 +98,7 @@ class Pbpage extends React.Component {
                 role="presentation"
                 key={`${item.root?'root':item.entity_id}`}
                 onClick={e=>this.onClickItem(item, e)}
-                className={`pb-item ${item.root?'pb-item-root':''} ${item.class_name} pb-item-${item.type}`}
+                className={`pb-item ${item.root?'pb-item-root':''} ${item.class_name?item.class_name:''} pb-item-${item.type}`}
                 style={styles}
             >
                 {this.renderInnerContent(item, children)}

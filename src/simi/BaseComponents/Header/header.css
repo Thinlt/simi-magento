@@ -96,6 +96,7 @@
     z-index: 13;
     display: none;
     color: #333132;
+    padding: 5px;
 }
 .main-nav .active .nav-mega-item {
     display: flex;
@@ -139,7 +140,13 @@
     z-index: 10;
     width: 500px;
     height: 240px;
+    overflow: hidden;
 }
+
+.main-nav .active .nav-mega-item .mega-image img{
+    width: 100%;
+}
+
 .mini-cart {
     position: relative;
 }

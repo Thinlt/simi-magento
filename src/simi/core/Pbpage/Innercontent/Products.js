@@ -18,43 +18,42 @@ const Products = props => {
     })
 
     const id = props.item.data.openCategoryProducts
-    const pageSize = 12
     const currentPage = 0
 
     const [queryResult, queryApi] = useQuery(getCategory);
     const { data } = queryResult;
     const { runQuery, setLoading } = queryApi;
 
+    let maxItem = 4
+    const products = []
+    const style = {minWidth: 170, display: 'inline-block', padding: 5}
+    style.width = '50%'
+    if (!isPhone) {
+        style.width = '25%'
+    }
+    if (props.item && props.item.type === 'product_scroll') {
+        maxItem = 12
+        style.width = '30%'
+        if (!isPhone) {
+            style.width = '25%'
+        }
+    }
+
     useEffect(() => {
         setLoading(true);
         runQuery({
             variables: {
                 id: Number(id),
-                pageSize: Number(pageSize),
+                pageSize: Number(maxItem),
                 currentPage: Number(currentPage),
                 stringId: String(id),
             }
         });
-    }, [id, pageSize, currentPage]);
+    }, [id, maxItem, currentPage]);
 
     if (data && data.products && data.products.items) {
-        let count = 0
-        let maxItem = 6
-        const products = []
-        const style = {minWidth: 170, display: 'inline-block', padding: 5}
-        style.width = '50%'
-        if (!isPhone) {
-            style.width = '25%'
-        }
-        if (props.item && props.item.type === 'product_scroll') {
-            maxItem = 12
-            style.width = '30%'
-            if (!isPhone) {
-                style.width = '25%'
-            }
-        }
-
         data.products.items.every((item, index) => {
+            let count = 0
             const itemKey = `pb-product-items-${index}-${item.entity_id}`;
             if (count < maxItem) {
                 count ++ 
@@ -64,16 +63,16 @@ const Products = props => {
                     small_image:
                         typeof small_image === 'object' ? small_image.url : small_image
                 }
-                
-                products.push (
-                    <div key={itemKey} className="pb-product-item" style={style}>
-                        <GridItem
-                            item={itemData}
-                            classes={{}}
-                            handleLink={props.handleLink}
-                            />
-                    </div>
-                )
+                if (itemData)
+                    products.push (
+                        <div key={itemKey} className="pb-product-item" style={style}>
+                            <GridItem
+                                item={itemData}
+                                classes={{}}
+                                handleLink={props.handleLink}
+                                />
+                        </div>
+                    )
                 return true
             }
             return false

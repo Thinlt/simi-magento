@@ -30,3 +30,65 @@ var DEFAULT_COLORS = {
     status_bar_text: '#000000',
     loading_color: '#000000',
 };
+
+var DESKTOP_MENU = [
+    {
+        menu_item_id: 1,
+        code: 'menu_trigger',
+    },
+    {
+        menu_item_id: 2,
+        title: 'Bottom',
+        children: [
+            {
+                title: 'Bottom',
+                link: '/venia-bottoms/venia-pants.html'
+            },
+            {
+                title: 'Skirts',
+                link: '/venia-bottoms/venia-skirts.html'
+            }
+        ],
+        image_url: 'https://magento23.pwa-commerce.com/pub/media/catalog/category/softwoods-hardwoods-lp-2.jpg',
+        link: '/venia-bottoms.html'
+    },
+    {
+        menu_item_id: 3,
+        title: 'Top',
+        children: [
+            {
+                title: 'Blouses & Shirts',
+                link: '/venia-tops/venia-sweaters.html'
+            },
+            {
+                title: 'Sweaters',
+                link: '/venia-tops/venia-blouses.html'
+            }
+        ],
+        link: '/venia-tops.html'
+    },
+    {
+        menu_item_id: 4,
+        title: 'Accessories',
+        children: [
+            {
+                title: 'Sub of accessories',
+                children: [
+                    {
+                        title: 'Jewelry',
+                        link: '/venia-accessories/venia-jewelry.html'
+                    },
+                    {
+                        title: 'Scarves',
+                        link: '/venia-accessories/venia-scarves.html'
+                    },
+                ]
+            },
+            {
+                title: 'Belts',
+                link: '/venia-accessories/venia-belts.html'
+            }
+        ],
+        link: '/venia-accessories.html'
+    }
+]

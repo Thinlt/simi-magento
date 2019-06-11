@@ -41,7 +41,8 @@ class Product extends Component {
     }
 
     render() {
-        if (sku = Identify.findGetParameter('sku')) {
+        const sku = Identify.findGetParameter('sku')
+        if (sku) {
             return (
                 <Query
                     query={getProductDetailBySku}
