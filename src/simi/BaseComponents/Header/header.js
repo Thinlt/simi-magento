@@ -6,8 +6,9 @@ import NavTrigger from './Component/navTrigger'
 import CartTrigger from './cartTrigger'
 import defaultClasses from './header.css'
 import { mergeClasses } from 'src/classify'
-import { Link, resourceUrl, Route } from 'src/drivers';
+import { Link, resourceUrl } from 'src/drivers';
 import HeaderNavigation from './Component/HeaderNavigation'
+import { withRouter } from 'src/drivers';
 
 const $ = window.$ 
 
@@ -54,14 +55,9 @@ class Header extends React.Component{
         return(
             <div className={`${this.classes['header-search']} header-search`}>
                 <Suspense fallback={null}>
-                    <Route
-                        render={({ history, location }) => (
-                            <SearchForm
-                                history={history}
-                                location={location}
-                            />
-                        )}
-                    />
+                        <SearchForm
+                            history={this.props.history}
+                        />
                 </Suspense>
             </div>
         )
@@ -134,4 +130,4 @@ class Header extends React.Component{
         )
     }
 }
-export default Header
+export default (withRouter)(Header)

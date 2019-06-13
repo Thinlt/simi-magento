@@ -1,0 +1,19 @@
+.dropdownplus .dropdownplus-title {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    line-height: 24px;
+}
+.dropdownplus .dropdownplus-title:hover {
+    cursor: pointer;
+}
+.dropdownplus-title .dropdownplus-title-minus-ic {
+    width: 25px;
+    height: 25px;
+}
+
+.dropdownplus-title .dropdownplus-title-plus-ic {
+    width: 25px;
+    height: 25px;
+}

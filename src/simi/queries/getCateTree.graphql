@@ -1,0 +1,44 @@
+query navigationMenu($id: Int!) {
+  category(id: $id) {
+    id
+    name
+    product_count
+    path
+    children {
+        id
+        name
+        level
+        url_key
+        url_path
+        path
+        include_in_menu
+        children {
+            id
+            name
+            level
+            url_key
+            url_path
+            path
+            include_in_menu
+            children {
+                id
+                name
+                level
+                url_key
+                url_path
+                path
+                include_in_menu
+                children {
+                    id
+                    name
+                    level
+                    url_key
+                    url_path
+                    path
+                    include_in_menu
+                }
+            }
+        }
+    }
+  }
+}

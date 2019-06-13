@@ -16,6 +16,15 @@ class Identify {
         return text
     }
 
+    static isRtl() {
+        let is_rtl = false;
+        const configs = this.getStoreConfig();
+        if (configs !== null && configs.storeview && configs.storeview.base && configs.storeview.base.is_rtl) {
+            is_rtl = parseInt(configs.storeview.base.is_rtl, 10) === 1;
+        }
+        return is_rtl;
+    }
+
     /*
     URL param
     */

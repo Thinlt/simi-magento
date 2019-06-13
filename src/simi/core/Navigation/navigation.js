@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import { bool, func, object, shape, string } from 'prop-types';
-
 import classify from 'src/classify';
 import CategoryTree from './categoryTree'
 import defaultClasses from './navigation.css'
 import Identify from 'src/simi/Helper/Identify'
 import Dashboardmenu from './Dashboardmenu'
+import { withRouter } from 'src/drivers'
+import { compose } from 'redux';
 
 class Navigation extends PureComponent {
     static propTypes = {
@@ -117,6 +118,7 @@ class Navigation extends PureComponent {
             classes,
             closeDrawer,
             isOpen,
+            rootCategoryId
         } = this.props;
 
         let leftMenuItems = null
@@ -169,7 +171,18 @@ class Navigation extends PureComponent {
             }
         }
         if (leftMenuItems || bottomMenuItems) 
-            return <Dashboardmenu className={className} classes={classes} leftMenuItems={leftMenuItems} bottomMenuItems={bottomMenuItems} config={config} isPhone={this.state.isPhone}/>
+            return (
+                <Dashboardmenu 
+                    className={className} 
+                    classes={classes} 
+                    leftMenuItems={leftMenuItems} 
+                    rootCategoryId={rootCategoryId} 
+                    bottomMenuItems={bottomMenuItems} 
+                    config={config} 
+                    history={this.props.history}
+                    isPhone={this.state.isPhone}
+                />
+            )
     }
 
     render() {
@@ -201,4 +214,7 @@ class Navigation extends PureComponent {
     }
 }
 
-export default classify(defaultClasses)(Navigation);
+export default compose(
+    withRouter,
+    classify(defaultClasses)
+)(Navigation);

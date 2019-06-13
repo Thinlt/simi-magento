@@ -5,10 +5,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import LeftMenuContent from './LeftMenuContent'
 import {itemTypes} from './Consts'
+import {configColor} from 'src/simi/Config';
 
 class Dashboardmenu extends React.Component {
-    getBrowserHistory = () =>{
-        return this.context.router.history;
+
+    getBrowserHistory = () => {
+        return this.props.history
     }
 
     replaceLink = (link) => {
@@ -59,8 +61,9 @@ class Dashboardmenu extends React.Component {
                     classes={this.props.classes} 
                     ref={node => this.leftMenu = node} 
                     leftMenuItems={this.props.leftMenuItems} 
-                    isPhone={this.props.isPhone} 
-                    router={this.props.router}
+                    isPhone={this.props.isPhone}
+                    rootCategoryId={this.props.rootCategoryId}
+                    handleLink={this.handleLink.bind(this)}
                     parent={this}
                 />
             )
@@ -69,11 +72,10 @@ class Dashboardmenu extends React.Component {
     }
 
     render() {
-        console.log(this.props)
         return (
             <React.Fragment>
-                <aside className={this.props.className}>
-                    <div style={{borderBottom: '1px solid #eeeeee'}}>
+                <aside className={this.props.className} style={{backgroundColor: configColor.menu_background}}>
+                    <div>
                         {this.renderLeftMenu()}
                     </div>
                 </aside>
@@ -83,9 +85,11 @@ class Dashboardmenu extends React.Component {
 }
 
 Dashboardmenu.contextTypes = {
-    className: PropTypes.string.isRequired,
-    leftMenuItems: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired
+    className: PropTypes.string,
+    leftMenuItems: PropTypes.object,
+    router: PropTypes.object,
+    classes: PropTypes.object,
+    rootCategoryId: PropTypes.string,
+    history: PropTypes.object,
 };
 export default Dashboardmenu

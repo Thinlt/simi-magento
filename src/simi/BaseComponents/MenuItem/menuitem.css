@@ -9,8 +9,8 @@
     padding-bottom: 11px;
     justify-content: flex-start;
     text-decoration: none;
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 8px;
+    padding-right: 8px;
     cursor: pointer;
 }
 .menu-item-wrap.divider {

@@ -1,11 +1,13 @@
 import React from 'react'
-import MenuItem from 'src/simi/BaseComponents/MuiMenuItem'
+import MenuItem from 'src/simi/BaseComponents/MenuItem'
 import {configColor} from 'src/simi/Config';
 import Identify from "src/simi/Helper/Identify"
 import DownloadIcon from 'src/simi/BaseComponents/Icon/Download'
-import Url from "src/simi/Helper/Url";
+import Url from "src/simi/Helper/Url"
 import {itemTypes} from './Consts'
 import PropTypes from 'prop-types'
+import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent/'
+import CateTree from './CateTree'
 
 const styles = {
     iconMenu : {
@@ -27,17 +29,13 @@ class LeftMenuContent extends React.Component{
         this.parent=this.props.parent;
     }
 
+    handleLink = (location) => {
+        this.props.handleLink(location)
+    }
 
     handleMenuItem =(item)=>{
         if(item){
-            this.parent.handleCloseMenu()
-            const itemName = null
-            if (typeof item === 'string') {
-                this.handleLink(item)
-            } else {
-                itemName = item.name
-            }
-            this.parent.handleClickMenuItem(item)
+            this.handleLink(item)
         }
     }
 
@@ -129,7 +127,8 @@ class LeftMenuContent extends React.Component{
     
 
     renderSections() {
-        const {classes} = this.props
+        const obj = this
+        const {classes, rootCategoryId} = this.props
         const items = []
         const iconProps = {
             style: styles.iconMenu
@@ -158,7 +157,13 @@ class LeftMenuContent extends React.Component{
                         if (menuitem.icon)
                             icon = <img src={menuitem.icon} alt={menuitem.name} style={{width: 18, height: 18}}/>
                         else if (itemType.svg_icon) {
-                            //icon = <LazyComponent component={()=>import(`../../../../BaseComponent/Icon/${itemType.svg_icon}`)} {...iconProps}/>
+                            icon = (
+                                <LazyComponent 
+                                    component={()=>import(`src/simi/BaseComponents/Icon/TapitaIcons/${itemType.svg_icon}`)} 
+                                    style={styles.iconMenu} 
+                                    color={configColor.menu_icon_color}
+                                />
+                            )
                         }
                         if (itemType.type_id === 21) {
                             items.push(
@@ -167,10 +172,10 @@ class LeftMenuContent extends React.Component{
                             )
                             return
                         } else if (itemType.type_id === 14) {
-                            items.push(
-                                'catetree'
-                                //<CateTree key={`item-${menuitem.entity_id}`} parent={this}/>
-                            )
+                            if (rootCategoryId)
+                                items.push(
+                                    <CateTree key={`item-${menuitem.entity_id}`} rootCategoryId={rootCategoryId} classes={classes} handleMenuItem={this.handleMenuItem.bind(this)}/>
+                                )
                             return
                         } else if (itemType.type_id === 12) {
                             items.push(

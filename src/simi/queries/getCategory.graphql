@@ -5,6 +5,7 @@ query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, 
     url_key
     name
     id
+    image
     breadcrumbs {
       category_name
       category_url_key
@@ -12,7 +13,7 @@ query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, 
     }
     __typename
   }
-  products(pageSize: $pageSize, currentPage: $currentPage, filter: {category_id: {eq: $stringId}}, sort: $sort) {
+  products(pageSize: $pageSize, currentPage: $currentPage, filter: {category_id: {eq: $stringId}, sku: {like: 'a'}}, sort: $sort) {
     total_count
     filters {
       name

@@ -121,15 +121,14 @@
     margin-right: 10px;
 }
 .item-section {
-    background-color: #bbb8b8;
+    background-color: rgb(0,0,0,0.8);
     padding: 5px;
-    border-bottom: 1px solid #dedede;
     margin-right: 1px;
 }
 .item-section span {
     margin-left: 10px;
     display: inline-block;
-    color: #333333;
+    color: white;
     font-weight: 600;
     font-size: 14px;
 }
@@ -142,6 +141,16 @@
     border-radius: 50%;
     border: 1px solid;
     display: inline-block;
+}
+.cate-parent-item {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 15px;
+}
+.cate-child-item {
+    cursor: pointer;
+    padding: 8px 15px 18px;
 }
 .menu-cate-name-item {
     font-size: 14px;

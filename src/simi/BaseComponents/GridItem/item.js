@@ -71,7 +71,7 @@ class Griditem extends React.Component {
 }
 
 Griditem.contextTypes = {
-    item: PropTypes.object.isRequired,
+    item: PropTypes.object,
     handleLink: PropTypes.func,
     classes: PropTypes.object,
 }

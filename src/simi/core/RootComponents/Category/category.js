@@ -7,10 +7,18 @@ import { mergeClasses } from 'src/classify';
 import categoryQuery from 'src/simi/queries/getCategory.graphql';
 import CategoryContent from './categoryContent';
 import defaultClasses from './category.css';
+import { resourceUrl } from 'src/drivers'
+import CategoryHeader from './categoryHeader'
+import Identify from '../../../Helper/Identify';
+import ObjectHelper from 'src/simi/Helper/ObjectHelper';
+import { withRouter } from 'src/drivers';
+
+
+var sortByData = null
+var filterData = null
 
 const Category = props => {
     const { id, pageSize } = props;
-
     const [paginationValues, paginationApi] = usePagination();
     const { currentPage, totalPages } = paginationValues;
     const { setCurrentPage, setTotalPages } = paginationApi;
@@ -22,28 +30,49 @@ const Category = props => {
         totalPages
     };
 
+    const productListOrder = Identify.findGetParameter('product_list_order')
+    const productListDir = Identify.findGetParameter('product_list_dir')
+    
+    const newSortByData = productListOrder?productListDir?{[productListOrder]: productListDir.toUpperCase()}:{[productListOrder]: 'ASC'}:null
+    if (newSortByData && (!sortByData || !ObjectHelper.shallowEqual(sortByData, newSortByData))) {
+        sortByData = newSortByData
+    }
+
+    let productListFilter = Identify.findGetParameter('filter')
+    if (productListFilter) {
+        productListFilter = JSON.parse(productListFilter)
+        if (productListFilter){
+            productListFilter.category_id = {eq: String(id)}
+            if (!filterData || !ObjectHelper.shallowEqual(productListFilter, filterData))
+                filterData = productListFilter
+        }
+    }
+
     const [queryResult, queryApi] = useQuery(categoryQuery);
     const { data, error, loading } = queryResult;
     const { runQuery, setLoading } = queryApi;
     const classes = mergeClasses(defaultClasses, props.classes);
 
     useEffect(() => {
+        const variables = {
+            id: Number(id),
+            pageSize: Number(pageSize),
+            currentPage: Number(currentPage),
+            stringId: String(id)
+        }
+        if (sortByData)
+            variables.sort = sortByData
+        
         setLoading(true);
         runQuery({
-            variables: {
-                id: Number(id),
-                pageSize: Number(pageSize),
-                currentPage: Number(currentPage),
-                stringId: String(id),
-            }
+            variables: variables
         });
-
         window.scrollTo({
             left: 0,
             top: 0,
             behavior: 'smooth'
         });
-    }, [id, pageSize, currentPage]);
+    }, [id, pageSize, currentPage, sortByData, filterData]);
 
     const totalPagesFromData = data
         ? data.products.page_info.total_pages
@@ -58,11 +87,23 @@ const Category = props => {
 
     // if our data is still loading, we want to reset our data state to null
     return (
-        <CategoryContent
-            classes={classes}
-            pageControl={pageControl}
-            data={loading ? null : data}
-        />
+        <div className="container">
+            {
+            (data.category && data.category.name && data.category.image) &&
+            <CategoryHeader
+                classes={classes}
+                name={data.category.name}
+                image_url={resourceUrl(data.category.image, { type: 'image-category' })}
+            />
+            }
+            <CategoryContent
+                history={props.history}
+                classes={classes}
+                pageControl={pageControl}
+                data={loading ? null : data}
+                sortByData={sortByData}
+            />
+        </div>
     );
 };
 
@@ -81,4 +122,4 @@ Category.defaultProps = {
     pageSize: 6
 };
 
-export default Category;
+export default (withRouter)(Category);

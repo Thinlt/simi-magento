@@ -4,6 +4,7 @@ import {Carousel} from 'react-responsive-carousel'
 import Connection from 'src/simi/Network/Connection'
 import PropTypes from 'prop-types'
 import Innercontent from './Innercontent'
+import { withRouter } from 'src/drivers'
 
 const $ = window.$
 
@@ -41,7 +42,6 @@ class Pbpage extends React.Component {
     }
 
     setData(data) {
-        console.log(data)
         if (data && data.pbpage) {
             this.setState({customer_page: data.pbpage})
             const api = window.pb_page_api || {}
@@ -227,4 +227,5 @@ Pbpage.propTypes = {
     ]),
     history: PropTypes.object.isRequired
 };
-export default Pbpage
+
+export default (withRouter)(Pbpage)

@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import { arrayOf, number, shape } from 'prop-types';
-import GalleryItem from './item';
+import { GridItem } from '/src/simi/BaseComponents/GridItem';
 
 const pageSize = 12;
 const emptyData = Array.from({ length: pageSize }).fill(null);
 
-// inline the placeholder elements, since they're constant
-const defaultPlaceholders = emptyData.map((_, index) => (
-    <GalleryItem key={index} placeholder={true} />
-));
 
 class GalleryItems extends Component {
     static propTypes = {
@@ -20,18 +16,6 @@ class GalleryItems extends Component {
         pageSize: number
     };
 
-    get placeholders() {
-        const { pageSize } = this.props;
-
-        return pageSize
-            ? Array.from({ length: pageSize })
-                  .fill(null)
-                  .map((_, index) => (
-                      <GalleryItem key={index} placeholder={true} />
-                  ))
-            : defaultPlaceholders;
-    }
-
     // map Magento 2.3.1 schema changes to Venia 2.0.0 proptype shape to maintain backwards compatibility
     mapGalleryItem(item) {
         const { small_image } = item;
@@ -42,15 +26,20 @@ class GalleryItems extends Component {
         };
     }
 
+    handleLink = (link) => {
+        const {history} = this.props
+        history.push(link)
+    }
+
     render() {
         const { items } = this.props;
 
         if (items === emptyData) {
-            return this.placeholders;
+            return ''
         }
 
         return items.map(item => (
-            <GalleryItem key={item.id} item={this.mapGalleryItem(item)} />
+            <GridItem key={item.id} item={this.mapGalleryItem(item)} handleLink={this.handleLink.bind(this)} />
         ));
     }
 }
