@@ -44,26 +44,26 @@ class CategoryContent extends React.Component {
         const items = data ? data.products.items : null;
         const title = data ? data.category.description : null;
                 
-        if(data && data.products && data.products.total_count){
             return (
                 <React.Fragment>
-                    <Sortby classes={classes} 
-                            parent={this}
-                            data={data}
-                            sortByData={sortByData}
-                            />
-                    <section className={classes.gallery}>
-                        <Gallery data={items} title={title} pageSize={pageSize} history={history} location={location} />
-                    </section>
+                    {
+                        (data && data.products && data.products.total_count) &&
+                        <React.Fragment>
+                            <Sortby classes={classes} 
+                                    parent={this}
+                                    data={data}
+                                    sortByData={sortByData}
+                                    />
+                            <section className={classes.gallery}>
+                                <Gallery data={items} title={title} pageSize={pageSize} history={history} location={location} />
+                            </section>
+                        </React.Fragment>
+                    }
                     <div className={classes.pagination}>
                         <Pagination pageControl={pageControl} />
                     </div>
                 </React.Fragment>
             )
-        };
-        if (!data)
-            return <LoadingSpiner />
-        return 'empty'
     }
 
     render() {

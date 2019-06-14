@@ -19,7 +19,8 @@ var sortByData = null
 var filterData = null
 
 const Category = props => {
-    const { id, pageSize } = props;
+    const { id } = props;
+    const pageSize = window.innerWidth < 1024?12:24
     const [paginationValues, paginationApi] = usePagination();
     const { currentPage, totalPages } = paginationValues;
     const { setCurrentPage, setTotalPages } = paginationApi;
@@ -121,7 +122,7 @@ Category.propTypes = {
 
 Category.defaultProps = {
     id: 3,
-    pageSize: 6
+    pageSize: 12
 };
 
 export default (withRouter)(Category);

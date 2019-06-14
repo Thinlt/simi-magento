@@ -20,7 +20,7 @@
     cursor: pointer;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
     .dropdownoption {
         padding: 11px 16px;
         width: 100%;
@@ -28,7 +28,7 @@
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
     .dropdownoption { 
         width: 217px;
         padding: 3px 16px;
@@ -39,7 +39,7 @@
     transform: rotate(-180deg);
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
     .dropdownoption-title svg{
         width: 30px !important;
         height: 30px !important;

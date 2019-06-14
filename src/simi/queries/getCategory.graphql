@@ -19,21 +19,12 @@ query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, 
       name
       filter_items_count
       request_var
-      filter_items_count
       filter_items {
         label
         value_string
         __typename
       }
       __typename
-    }
-    sort_fields {
-        default
-        options {
-            value
-            label
-        }
-        __typename
     }
     items {
       id

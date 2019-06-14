@@ -171,17 +171,6 @@ class Filter extends React.Component {
         ) : <div className={classes["clear-filter"]}></div>
     }
 
-    renderApplyButton() {
-        return (
-            <div style={{padding: '10px 15px 0 15px'}}>
-                <Whitebtn 
-                    onClick={()=>this.applyFilter()}
-                    text={Identify.__('Apply')}
-                />
-            </div>
-        )
-    }
-
     clearFilter() {
         const {history, location} = this.props
         const { search } = location;
@@ -225,8 +214,7 @@ class Filter extends React.Component {
                 <div className={`${classes['filter-products']}`}>
                     {this.renderClearButton()}
                     {activeFilter}
-                    {this.renderFilterItems()} 
-                    {this.state.isPhone && this.renderApplyButton()}
+                    {this.renderFilterItems()}
                 </div>
         if (this.rowsActived.length === 0 && this.rowFilterAttributes.length === 0)
                 return ''

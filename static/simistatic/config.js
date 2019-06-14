@@ -5,7 +5,7 @@ var SMCONFIGS = {
     notification_api: "simipwa/index/",
     base_name: "",
     logo_url: "https://www.simicart.com/skin/frontend/default/simicart2.0/images/simicart/new_logo_small.png",
-    has_connector: false
+    has_connector: true
 };
 
 var DEFAULT_COLORS = {
