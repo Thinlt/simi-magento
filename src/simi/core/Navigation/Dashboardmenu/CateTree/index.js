@@ -42,6 +42,8 @@ class CateTree extends React.Component {
         if (data) {
             const obj =this;
             const categories = data.category.children.map(function (item,key) {
+                if (!item.name)
+                    return ''
                 const cate_name = <div className={classes["root-menu"]} >{obj.renderTitleMenu(item.name)}</div>;
                 const hasChild = (item.children && item.children.length > 0)
                 let location = {

@@ -1,4 +1,4 @@
-query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, $sort: ProductSortInput) {
+query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, $sort: ProductSortInput, $simiFilter: String) {
   category(id: $id) {
       product_count
           description
@@ -13,7 +13,7 @@ query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, 
     }
     __typename
   }
-  products(pageSize: $pageSize, currentPage: $currentPage, filter: {category_id: {eq: $stringId}}, sort: $sort) {
+  simiproducts(pageSize: $pageSize, currentPage: $currentPage, filter: {category_id: {eq: $stringId}}, sort: $sort, simiFilter: $simiFilter) {
     total_count
     filters {
       name

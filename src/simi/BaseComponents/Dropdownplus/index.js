@@ -1,8 +1,6 @@
 import React from 'react'
-import './index.css'
 import Addic from 'src/simi/BaseComponents/Icon/Add'
 import Minusic from 'src/simi/BaseComponents/Icon/Minus'
-
 const $ = window.$
 class Dropdownplus extends React.Component {
     sliding = false
@@ -23,9 +21,8 @@ class Dropdownplus extends React.Component {
     }
 
     render() {
-        const propsClasses = this.props.classes?this.props.classes:{}
-        const classes = mergeClasses(defaultClasses, propsClasses);
-
+        const classes = this.props.classes?this.props.classes:{}
+        console.log(classes)
         return (
             <div className={`${classes['dropdownplus']} ${this.props.className}`}>
                 <div role="presentation" className={classes['dropdownplus-title']} onClick={() => this.handleShowContent()}>

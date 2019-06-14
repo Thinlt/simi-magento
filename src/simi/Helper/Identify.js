@@ -3,6 +3,16 @@ import * as Constants from 'src/simi/Config/Constants';
 class Identify {
     static SESSION_STOREAGE = 1;
     static LOCAL_STOREAGE = 2;
+    /*
+    connecter
+    */
+    static hasConnector() {
+        return (window.SMCONFIGS && window.SMCONFIGS.has_connector)
+    }
+
+    /*
+    String
+    */
 
     static randomString(charCount = 20) {
         let text = "";

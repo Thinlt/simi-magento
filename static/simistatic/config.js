@@ -4,7 +4,8 @@ var SMCONFIGS = {
     simicart_authorization: "q7wWTxNrRL0F0k86LYp0UA96HkixDn94vG0odOQ",
     notification_api: "simipwa/index/",
     base_name: "",
-    logo_url: "https://www.simicart.com/skin/frontend/default/simicart2.0/images/simicart/new_logo_small.png"
+    logo_url: "https://www.simicart.com/skin/frontend/default/simicart2.0/images/simicart/new_logo_small.png",
+    has_connector: false
 };
 
 var DEFAULT_COLORS = {

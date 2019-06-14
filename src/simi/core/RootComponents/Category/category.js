@@ -5,6 +5,7 @@ import { usePagination, useQuery } from '@magento/peregrine';
 
 import { mergeClasses } from 'src/classify';
 import categoryQuery from 'src/simi/queries/getCategory.graphql';
+import simicntrCategoryQuery from 'src/simi/queries/simiconnector/getCategory.graphql'
 import CategoryContent from './categoryContent';
 import defaultClasses from './category.css';
 import { resourceUrl } from 'src/drivers'
@@ -38,17 +39,14 @@ const Category = props => {
         sortByData = newSortByData
     }
 
-    let productListFilter = Identify.findGetParameter('filter')
+    const productListFilter = Identify.findGetParameter('filter')
     if (productListFilter) {
-        productListFilter = JSON.parse(productListFilter)
-        if (productListFilter){
-            productListFilter.category_id = {eq: String(id)}
-            if (!filterData || !ObjectHelper.shallowEqual(productListFilter, filterData))
-                filterData = productListFilter
+        if (JSON.parse(productListFilter)){
+            filterData = productListFilter
         }
     }
 
-    const [queryResult, queryApi] = useQuery(categoryQuery);
+    const [queryResult, queryApi] = useQuery(Identify.hasConnector()?simicntrCategoryQuery:categoryQuery);
     const { data, error, loading } = queryResult;
     const { runQuery, setLoading } = queryApi;
     const classes = mergeClasses(defaultClasses, props.classes);
@@ -58,7 +56,8 @@ const Category = props => {
             id: Number(id),
             pageSize: Number(pageSize),
             currentPage: Number(currentPage),
-            stringId: String(id)
+            stringId: String(id),
+            simiFilter: filterData
         }
         if (sortByData)
             variables.sort = sortByData
@@ -73,7 +72,8 @@ const Category = props => {
             behavior: 'smooth'
         });
     }, [id, pageSize, currentPage, sortByData, filterData]);
-
+    if (data && data.simiproducts)
+        data.products = data.simiproducts
     const totalPagesFromData = data
         ? data.products.page_info.total_pages
         : null;
@@ -83,7 +83,8 @@ const Category = props => {
 
     if (error) return <div>Data Fetch Error</div>;
     // show loading indicator until our data has been fetched and pagination state has been updated
-    if (!totalPages) return <LoadingSpiner />;
+    //if (!totalPages) return <LoadingSpiner />;
+    if (!data || !data.category) return <LoadingSpiner />;
 
     // if our data is still loading, we want to reset our data state to null
     return (
@@ -102,6 +103,7 @@ const Category = props => {
                 pageControl={pageControl}
                 data={loading ? null : data}
                 sortByData={sortByData}
+                filterData={filterData?JSON.parse(productListFilter):null}
             />
         </div>
     );

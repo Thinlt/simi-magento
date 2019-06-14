@@ -4,6 +4,7 @@ import Gallery from './Gallery';
 import Pagination from 'src/components/Pagination';
 import defaultClasses from './category.css';
 import Identify from '/src/simi/Helper/Identify'
+import LoadingSpiner from '/src/simi/BaseComponents/Loading/LoadingSpiner'
 import Sortby from './Sortby'
 import Filter from './Filter'
 
@@ -11,12 +12,12 @@ class CategoryContent extends React.Component {
 
     renderFilter() {
         const {props} = this
-        const { data } = props;
+        const { data, filterData } = props;
         if (data && data.products &&
             data.products.filters) {
             return (
                 <div>
-                    <Filter data={data.products.filters}/>
+                    <Filter data={data.products.filters} filterData={filterData}/>
                 </div>
             );
         }
@@ -42,31 +43,27 @@ class CategoryContent extends React.Component {
         const { pageControl, data, pageSize, history, location, sortByData } = props;
         const items = data ? data.products.items : null;
         const title = data ? data.category.description : null;
-        let itemCount = ''
+                
         if(data && data.products && data.products.total_count){
-            const text = data.products.total_count > 1 ? Identify.__('%t items') : Identify.__('%t item');
-            itemCount = <div className={classes["items-count"]}>
-                    {text
-                        .replace('%t', data.products.total_count)}
-                </div>;
+            return (
+                <React.Fragment>
+                    <Sortby classes={classes} 
+                            parent={this}
+                            data={data}
+                            sortByData={sortByData}
+                            />
+                    <section className={classes.gallery}>
+                        <Gallery data={items} title={title} pageSize={pageSize} history={history} location={location} />
+                    </section>
+                    <div className={classes.pagination}>
+                        <Pagination pageControl={pageControl} />
+                    </div>
+                </React.Fragment>
+            )
         };
-
-        return (
-            <React.Fragment>
-                {itemCount}
-                <Sortby classes={classes} 
-                        parent={this}
-                        data={data}
-                        sortByData={sortByData}
-                        />
-                <section className={classes.gallery}>
-                    <Gallery data={items} title={title} pageSize={pageSize} history={history} location={location} />
-                </section>
-                <div className={classes.pagination}>
-                    <Pagination pageControl={pageControl} />
-                </div>
-            </React.Fragment>
-        )
+        if (!data)
+            return <LoadingSpiner />
+        return 'empty'
     }
 
     render() {
@@ -75,7 +72,15 @@ class CategoryContent extends React.Component {
         const classes = mergeClasses(defaultClasses, props.classes);
         const categoryTitle = data ? data.category.name : null;
         const title = data ? data.category.description : null;
-
+        let itemCount = ''
+        if(data && data.products && data.products.total_count){
+            const text = data.products.total_count > 1 ? Identify.__('%t items') : Identify.__('%t item');
+            itemCount = <div className={classes["items-count"]}>
+                    {text
+                        .replace('%t', data.products.total_count)}
+                </div>;
+        }
+                
         return (
             <article className={classes.root}>
                 <h1 className={classes.title}>
@@ -87,6 +92,7 @@ class CategoryContent extends React.Component {
                     />
                     <div className={classes.categoryTitle}>{categoryTitle}</div>
                 </h1>
+                {itemCount}
                 <div className={classes["product-list-container-siminia"]}>
                     {this.renderLeftNavigation(classes)}
                     <div style={{display: 'inline-block', width: '100%'}}>

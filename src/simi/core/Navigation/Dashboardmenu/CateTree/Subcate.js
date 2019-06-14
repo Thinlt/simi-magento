@@ -44,14 +44,14 @@ class SubCate extends React.Component{
                     const cate_name = <div className={classes["menu-cate-name-item"]} >{Identify.__(item.name)}</div>;
                     const url_path = (item.url_path && item.url_path!=='/') ? "/" + item.url_path + cateUrlSuffix : "/products.html?cat=" + item.id
                     const hasChild = (item.children && item.children.length > 0)
-                    const location = item.children === null ? {
+                    const location = {
                         pathname: url_path,
                         state: {
                             cate_id: item.id,
                             hasChild: hasChild,
                             name: item.name
                         }
-                    } : null;
+                    };
                     return !hasChild ? obj.renderMenuItem(cate_name,location) : <SubCate key={key} item={item} cate_name={cate_name} classes={classes} openLocation={openLocation}/>;
                 });
                 sub_cate.unshift(all_products)
