@@ -96,7 +96,7 @@
     }
 
     .filter-products .filter-name-text {
-        padding: 5px;
+        line-height: 25px;
     }
 }
 
