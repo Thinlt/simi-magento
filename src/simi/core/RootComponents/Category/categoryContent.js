@@ -48,23 +48,16 @@ class CategoryContent extends React.Component {
                 <Pagination pageControl={pageControl} />
             </div>
         )        
-        let top = <></>
-        if (data && data.products) {
-            if (data.products.total_count)
-                top = (
-                    <Sortby classes={classes} 
-                            parent={this}
-                            data={data}
-                            sortByData={sortByData}
-                            />
-                )
-            else
-                top = <div>{Identify.__('No product found')}</div>
-        }
-        
+        if (data && data.products && !data.products.total_count)
+            return(<div className={classes['no-product']}>{Identify.__('No product found')}</div>)
+
         return (
             <React.Fragment>
-                {top}
+                <Sortby classes={classes} 
+                    parent={this}
+                    data={data}
+                    sortByData={sortByData}
+                    />
                 <section className={classes.gallery}>
                     <Gallery data={items} title={title} pageSize={pageSize} history={history} location={location} />
                 </section>

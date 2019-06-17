@@ -22,7 +22,6 @@ class Dropdownplus extends React.Component {
 
     render() {
         const classes = this.props.classes?this.props.classes:{}
-        console.log(classes)
         return (
             <div className={`${classes['dropdownplus']} ${this.props.className}`}>
                 <div role="presentation" className={classes['dropdownplus-title']} onClick={() => this.handleShowContent()}>
