@@ -43,27 +43,34 @@ class CategoryContent extends React.Component {
         const { pageControl, data, pageSize, history, location, sortByData } = props;
         const items = data ? data.products.items : null;
         const title = data ? data.category.description : null;
-                
-            return (
-                <React.Fragment>
-                    {
-                        (data && data.products && data.products.total_count) &&
-                        <React.Fragment>
-                            <Sortby classes={classes} 
-                                    parent={this}
-                                    data={data}
-                                    sortByData={sortByData}
-                                    />
-                            <section className={classes.gallery}>
-                                <Gallery data={items} title={title} pageSize={pageSize} history={history} location={location} />
-                            </section>
-                        </React.Fragment>
-                    }
-                    <div className={classes.pagination}>
-                        <Pagination pageControl={pageControl} />
-                    </div>
-                </React.Fragment>
-            )
+        const pagination = (
+            <div className={classes.pagination}>
+                <Pagination pageControl={pageControl} />
+            </div>
+        )        
+        let top = <></>
+        if (data && data.products) {
+            if (data.products.total_count)
+                top = (
+                    <Sortby classes={classes} 
+                            parent={this}
+                            data={data}
+                            sortByData={sortByData}
+                            />
+                )
+            else
+                top = <div>{Identify.__('No product found')}</div>
+        }
+        
+        return (
+            <React.Fragment>
+                {top}
+                <section className={classes.gallery}>
+                    <Gallery data={items} title={title} pageSize={pageSize} history={history} location={location} />
+                </section>
+                {pagination}
+            </React.Fragment>
+        )
     }
 
     render() {

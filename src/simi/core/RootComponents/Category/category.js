@@ -20,7 +20,7 @@ var filterData = null
 
 const Category = props => {
     const { id } = props;
-    const pageSize = window.innerWidth < 1024?12:24
+    const pageSize = window.innerWidth < 1024?12:24 
     const [paginationValues, paginationApi] = usePagination();
     const { currentPage, totalPages } = paginationValues;
     const { setCurrentPage, setTotalPages } = paginationApi;
@@ -73,8 +73,11 @@ const Category = props => {
             behavior: 'smooth'
         });
     }, [id, pageSize, currentPage, sortByData, filterData]);
-    if (data && data.simiproducts)
+    if (data && data.simiproducts) {
         data.products = data.simiproducts
+        if (data.products.simi_filters)
+            data.products.filters = data.products.simi_filters
+    }
     const totalPagesFromData = data
         ? data.products.page_info.total_pages
         : null;
