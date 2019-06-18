@@ -1,9 +1,3 @@
-/**
- * Created by PhpStorm.
- * User: Peter
- * Date: 6/21/18
- * Time: 10:45 AM
- */
 import React from 'react'
 import Abstract from './Abstract'
 class Icon extends Abstract{

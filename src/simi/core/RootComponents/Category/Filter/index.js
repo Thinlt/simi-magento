@@ -1,9 +1,8 @@
 import React from 'react';
-import Identify from '/src/simi/Helper/Identify'
+import Identify from 'src/simi/Helper/Identify'
 import defaultClasses from './filter.css';
 import Checkbox from 'src/simi/BaseComponents/Checkbox'
 import Dropdownplus from 'src/simi/BaseComponents/Dropdownplus'
-import {Whitebtn} from 'src/simi/BaseComponents/Button'
 import { mergeClasses } from 'src/classify'
 import { withRouter } from 'src/drivers';
 
@@ -143,7 +142,7 @@ class Filter extends React.Component {
                             id={`filter-item-${item.request_var}-${optionItem.value_string}`}
                             className={classes["filter-item"]}
                             classes={classes}
-                            onClick={(e)=>{
+                            onClick={()=>{
                                 this.clickedFilter(item.request_var, optionItem.value_string);
                             }}
                             label={name}

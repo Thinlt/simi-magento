@@ -52,6 +52,14 @@ class Identify {
     /*
     Store config
     */
+    static saveStoreConfig(data) {
+        if (data.simiStoreConfig && data.simiStoreConfig.config_json && (typeof data.simiStoreConfig.config_json) === 'string') {
+            const simi_config = JSON.parse(data.simiStoreConfig.config_json)
+            if (simi_config && simi_config.storeview)
+                data.simiStoreConfig.config = simi_config.storeview
+        }
+        this.storeDataToStoreage(Identify.SESSION_STOREAGE, Constants.STORE_CONFIG, data)
+    }
     static getStoreConfig() {
         return this.getDataFromStoreage(this.SESSION_STOREAGE, Constants.STORE_CONFIG);
     }
@@ -68,6 +76,17 @@ class Identify {
         }
         return data;
     }
+    /*
+    App Settings
+    */
+    static getAppSettings() {
+        return this.getDataFromStoreage(this.LOCAL_STOREAGE, Constants.APP_SETTINGS);
+    }
+
+    static storeAppSettings(data) {
+        return this.storeDataToStoreage(this.LOCAL_STOREAGE, Constants.APP_SETTINGS, data)
+    }
+
 
     /* 
     store/get data from storage

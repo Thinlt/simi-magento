@@ -1,9 +1,3 @@
-/**
- * Created by PhpStorm.
- * User: Peter
- * Date: 10/19/18
- * Time: 1:47 PM
- */
 import React from 'react'
 import Abstract from './Abstract'
 class Facebook extends Abstract{

@@ -1,9 +1,3 @@
-/**
- * Created by PhpStorm.
- * User: Peter
- * Date: 10/19/18
- * Time: 2:32 PM
- */
 import React from 'react'
 import Abstract from './Abstract'
 class Twitter extends Abstract{

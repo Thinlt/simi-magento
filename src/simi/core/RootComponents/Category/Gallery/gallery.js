@@ -4,7 +4,7 @@ import { string, shape, array, number } from 'prop-types';
 import classify from 'src/classify';
 import GalleryItems, { emptyData } from './items';
 import defaultClasses from './gallery.css';
-import Loading from '/src/simi/BaseComponents/Loading'
+import Loading from 'src/simi/BaseComponents/Loading'
 
 class Gallery extends Component {
     static propTypes = {

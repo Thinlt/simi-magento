@@ -6,6 +6,9 @@ import PropTypes from 'prop-types'
 import LeftMenuContent from './LeftMenuContent'
 import {itemTypes} from './Consts'
 import {configColor} from 'src/simi/Config';
+import BottomMenu from './BottomMenu'
+import { connect } from 'src/drivers';
+import { toggleDrawer, closeDrawer } from 'src/actions/app';
 
 class Dashboardmenu extends React.Component {
 
@@ -13,17 +16,18 @@ class Dashboardmenu extends React.Component {
         return this.props.history
     }
 
-    replaceLink = (link) => {
-        this.getBrowserHistory().replace(link);
-    }
-
     handleLink = (link) => {
+        console.log('cody')
         this.getBrowserHistory().push(link);
+        this.handleCloseMenu()
     }
 
     handleShowMenu = () => {
-        if (this.leftMenu)
-            this.leftMenu.handleOpenMenu()
+        this.props.openNav()
+    }
+
+    handleCloseMenu = () => {
+        this.props.hideNav()
     }
 
     handleClickMenuItem = (item) => {
@@ -71,14 +75,37 @@ class Dashboardmenu extends React.Component {
         return
     }
 
+
+    renderBottomMenu = () => {
+        const {props} = this
+        this.bottomContains = {
+            cart: false,
+            menu: false,
+            search: false,
+        }
+
+        if (props.bottomMenuItems) {
+            props.bottomMenuItems.forEach(item=> {
+                const type = parseInt(item.type, 10)
+                if (type === 2)
+                    this.bottomContains.cart = true
+                else if (type === 22)
+                    this.bottomContains.search = true
+                else if (type === 20)
+                    this.bottomContains.menu = true
+            })
+            return <BottomMenu parent={this} bottomMenuItems={props.bottomMenuItems} classes={props.classes} />
+        }
+        return <div></div>
+    }
+
     render() {
         return (
             <React.Fragment>
                 <aside className={this.props.className} style={{backgroundColor: configColor.menu_background}}>
-                    <div>
-                        {this.renderLeftMenu()}
-                    </div>
+                    {this.renderLeftMenu()}
                 </aside>
+                {this.renderBottomMenu()}
             </React.Fragment>
         )
     }
@@ -92,4 +119,13 @@ Dashboardmenu.contextTypes = {
     rootCategoryId: PropTypes.string,
     history: PropTypes.object,
 };
-export default Dashboardmenu
+
+const mapDispatchToProps = dispatch => ({
+    openNav: () => dispatch(toggleDrawer('nav')),
+    hideNav: () => dispatch(closeDrawer('nav'))
+});
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(Dashboardmenu);

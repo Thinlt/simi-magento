@@ -1,2 +1,3 @@
 export const DASHBOARD_CONFIG = 'DASHBOARD_CONFIG';
-export const STORE_CONFIG = 'storeConfig';
+export const STORE_CONFIG = 'STORE_CONFIG';
+export const APP_SETTINGS = 'APP_SETTINGS';

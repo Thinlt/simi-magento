@@ -1,9 +1,3 @@
-/**
- * Created by PhpStorm.
- * User: Peter
- * Date: 6/22/18
- * Time: 9:39 AM
- */
 import React from 'react'
 import Abstract from './Abstract'
 class ArrowLeft extends Abstract {

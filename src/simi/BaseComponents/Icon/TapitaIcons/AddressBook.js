@@ -1,9 +1,3 @@
-/**
- * Created by PhpStorm.
- * User: Peter
- * Date: 9/10/18
- * Time: 4:34 PM
- */
 import React from 'react'
 import Abstract from './Abstract'
 class AddressBook extends Abstract{

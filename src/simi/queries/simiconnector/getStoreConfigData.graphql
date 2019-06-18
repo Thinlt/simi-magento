@@ -1,4 +1,9 @@
-query storeConfigData {
+query storeConfigData($storeId: Int, $currency: String) {
+    simiStoreConfig(storeId: $storeId, currency: $currency) {
+        store_id
+        currency
+        config_json
+    }
     storeConfig {
         id
         copyright

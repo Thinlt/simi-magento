@@ -8,6 +8,8 @@ import {itemTypes} from './Consts'
 import PropTypes from 'prop-types'
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent/'
 import CateTree from './CateTree'
+import Setting from './Setting'
+import CustomerHelper from 'src/simi/Helper/Customer'
 
 const styles = {
     iconMenu : {
@@ -34,8 +36,8 @@ class LeftMenuContent extends React.Component{
     }
 
     handleMenuItem =(item)=>{
-        if(item){
-            this.handleLink(item)
+        if(item && item.url){
+            this.handleLink(item.url)
         }
     }
 
@@ -147,8 +149,7 @@ class LeftMenuContent extends React.Component{
                         const itemType = itemTypes[itemTypeIndex]
                         if (itemType['disabled'])
                             return
-                        //if (CustomerHelper.isLogin()) {
-                        if (false) {
+                        if (CustomerHelper.isLogin()) {
                             if (itemType['required_logged_out'])
                             return
                         } else if (itemType['required_logged_in'])
@@ -167,8 +168,7 @@ class LeftMenuContent extends React.Component{
                         }
                         if (itemType.type_id === 21) {
                             items.push(
-                                'settings'
-                                //<Setting key={`item-${menuitem.entity_id}`} parent={this} style={styles}/>
+                                <Setting key={`item-${menuitem.entity_id}`} parent={this} style={styles} classes={classes}/>
                             )
                             return
                         } else if (itemType.type_id === 14) {
@@ -183,7 +183,6 @@ class LeftMenuContent extends React.Component{
                             )
                             return
                         }
-                        
                         items.push(
                             <MenuItem 
                                 classes={classes}
@@ -191,7 +190,7 @@ class LeftMenuContent extends React.Component{
                                 icon={icon}
                                 title={Identify.__(menuitem.name)}
                                 titleStyle={styles.menu}
-                                onClick={()=>this.handleMenuItem(menuitem)}
+                                onClick={()=>this.handleMenuItem(itemType)}
                             />
                         )
                     }

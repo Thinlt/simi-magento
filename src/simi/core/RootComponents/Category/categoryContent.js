@@ -3,8 +3,7 @@ import { mergeClasses } from 'src/classify';
 import Gallery from './Gallery';
 import Pagination from 'src/components/Pagination';
 import defaultClasses from './category.css';
-import Identify from '/src/simi/Helper/Identify'
-import LoadingSpiner from '/src/simi/BaseComponents/Loading/LoadingSpiner'
+import Identify from 'src/simi/Helper/Identify'
 import Sortby from './Sortby'
 import Filter from './Filter'
 

@@ -14,7 +14,7 @@ export const itemTypes = [
         'icon' :  'fa fa-shopping-cart',
         'name' : 'Cart', 
         'svg_icon' : 'Cart',
-        'url' : '/checkout/cart',
+        'url' : '/cart.html',
     },
     {
         'type_id' : 3,
@@ -163,7 +163,7 @@ export const itemTypes = [
         'type_id' : 22,
         'icon' :  'fa fa-search',
         'name' : 'Search',
-        'url' : '/search', 
+        'url' : '/search.html', 
         'svg_icon' : 'Search',
     },
     {

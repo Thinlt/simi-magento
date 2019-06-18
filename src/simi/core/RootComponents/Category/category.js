@@ -56,7 +56,7 @@ const Category = props => {
         const variables = {
             id: Number(id),
             pageSize: Number(pageSize),
-            currentPage: Number(currentPage),
+            currentPage: currentPage?Number(currentPage):1,
             stringId: String(id),
             simiFilter: filterData
         }

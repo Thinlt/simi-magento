@@ -1,6 +1,6 @@
 import React from 'react';
 import Identify from 'src/simi/Helper/Identify';
-import Check from '/src/simi/BaseComponents/Icon/TapitaIcons/SingleSelect';
+import Check from 'src/simi/BaseComponents/Icon/TapitaIcons/SingleSelect';
 import {configColor} from "src/simi/Config";
 import Dropdownoption from 'src/simi/BaseComponents/Dropdownoption/'
 import { withRouter } from 'src/drivers';
@@ -25,8 +25,6 @@ const Sortby = props => {
     parent = props.parent
     let selections = []
     const orders = [
-        {"key":"position","value":"Position","direction":"asc"},
-        {"key":"position","value":"Position","direction":"desc"},
         {"key":"name","value":"Product Name","direction":"asc"},
         {"key":"name","value":"Product Name","direction":"desc"},
         {"key":"price","value":"Price","direction":"asc"},

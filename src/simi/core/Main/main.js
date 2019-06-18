@@ -8,6 +8,7 @@ import Connection from 'src/simi/Network/Connection'
 import LoadingComponent  from 'src/simi/BaseComponents/Loading'
 import * as Constants from 'src/simi/Config/Constants';
 import storeConfigDataQuery from 'src/simi/queries/getStoreConfigData.graphql'
+import simiStoreConfigDataQuery from 'src/simi/queries/simiconnector/getStoreConfigData.graphql'
 import { Query } from 'src/drivers'
 import defaultClasses from './main.css';
 
@@ -53,6 +54,14 @@ class Main extends Component {
     }
     render() {
         const { classes } = this
+        const variables = {}
+        let appSetting = Identify.getAppSettings()
+        appSetting = appSetting?appSetting:{}
+        if (appSetting.store_id)
+            variables.storeId = parseInt(appSetting.store_id, 10)
+        if (appSetting.currency)
+            variables.currency = appSetting.currency
+
         return (
             <main className={classes.root}>
                 <div className="app-loading" style={{display:'none'}} id="app-loading">
@@ -60,10 +69,10 @@ class Main extends Component {
                 </div>
                 { Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, Constants.STORE_CONFIG) ?
                     this.mainContent(Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, Constants.STORE_CONFIG)) :
-                    <Query query={storeConfigDataQuery}>
+                    <Query query={Identify.hasConnector()?simiStoreConfigDataQuery:storeConfigDataQuery} variables={variables}>
                         {({ data }) => {
                             if (data && data.storeConfig) {
-                                Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, Constants.STORE_CONFIG, data)
+                                Identify.saveStoreConfig(data)
                                 return this.mainContent(data)
                             }
                             return this.mainContent()
