@@ -78,12 +78,11 @@ class LeftMenuContent extends React.Component{
             config.themeitems.pb_pages &&
             config.themeitems.pb_pages.length
             ) {
-            const merchantConfigs = Identify.getMerchantConfig();
+            const merchantConfigs = Identify.getStoreConfig();
             if (merchantConfigs &&
-                merchantConfigs.storeview &&
-                merchantConfigs.storeview.base &&
-                merchantConfigs.storeview.base.store_id) {
-                let storeId = merchantConfigs.storeview.base.store_id
+                merchantConfigs.storeConfig &&
+                merchantConfigs.storeConfig.id) {
+                const storeId = merchantConfigs.storeConfig.id
                 config.themeitems.pb_pages.every(element => {
                     if (
                         element.visibility &&
