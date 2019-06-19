@@ -2,7 +2,7 @@ import { createActions } from 'redux-actions';
 
 const prefix = 'SIMIACTIONS';
 const actionTypes = [
-    'SAMPLE_ACTION',
+    'CHANGE_SAMPLE_VALUE',
 ];
 
 export default createActions(...actionTypes, { prefix });

@@ -9,7 +9,7 @@ import user from './user';
 import purchaseDetails from './purchaseDetails';
 import checkoutReceipt from './checkoutReceipt';
 import purchaseHistory from './purchaseHistory';
-import simireducers from './src/simi/Redux/reducers/simireducers';
+import simireducers from 'src/simi/Redux/reducers/simireducers';
 
 export default combineReducers({
     simireducers,

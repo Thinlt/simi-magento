@@ -8,10 +8,10 @@ const initialState = {
 };
 
 const reducerMap = {
-    [simiActions.sampleAction]: (state, { value }) => {
+    [simiActions.changeSampleValue]: (state, { payload }) => {
         return {
             ...state,
-            simiValue: value
+            simiValue: payload
         };
     },
 };
