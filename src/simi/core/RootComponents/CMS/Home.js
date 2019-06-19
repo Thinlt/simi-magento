@@ -1,6 +1,7 @@
 import React from 'react'
 import { PbPageHoc } from 'src/simi/core/Pbpage'
 import Identify from 'src/simi/Helper/Identify'
+import TitleHelper from 'src/simi/Helper/TitleHelper'
 
 const Home = props => {
     const jsonSimiCart = Identify.getAppDashboardConfigs();
@@ -36,7 +37,12 @@ const Home = props => {
     }
     if (pb_page && pb_page.entity_id)
         return (
-            <PbPageHoc pb_page_id={pb_page.entity_id} {...props}/>
+            <React.Fragment>
+                {TitleHelper.renderMetaHeader({
+                    title:Identify.__('Home Page')
+                })}
+                <PbPageHoc pb_page_id={pb_page.entity_id} {...props}/>
+            </React.Fragment>
         )
     else return ''
 }

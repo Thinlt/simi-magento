@@ -17,7 +17,6 @@ class Dashboardmenu extends React.Component {
     }
 
     handleLink = (link) => {
-        console.log('cody')
         this.getBrowserHistory().push(link);
         this.handleCloseMenu()
     }

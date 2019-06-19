@@ -38,6 +38,8 @@ class LeftMenuContent extends React.Component{
     handleMenuItem =(item)=>{
         if(item && item.url){
             this.handleLink(item.url)
+        } else if (item && item.pathname) {
+            this.handleLink(item)
         }
     }
 

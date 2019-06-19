@@ -21,6 +21,7 @@ import CartItem from './cartItem'
 import Total from 'src/simi/BaseComponents/Total'
 import {Colorbtn, Whitebtn} from 'src/simi/BaseComponents/Button'
 import {configColor} from 'src/simi/Config'
+import TitleHelper from 'src/simi/Helper/TitleHelper'
 
 class Cart extends Component {
     static propTypes = {
@@ -124,6 +125,7 @@ class Cart extends Component {
                         currencyCode={cartCurrencyCode}
                         itemTotal={itemTotal}
                         removeItemFromCart={removeItemFromCart}
+                        updateItemInCart={updateItemInCart}
                         history={this.props.history}
                         handleLink={this.handleLink.bind(this)}/>;
                     obj.push(element);
@@ -237,6 +239,9 @@ class Cart extends Component {
     render() {
         return (
             <div className="container">
+                {TitleHelper.renderMetaHeader({
+                    title:Identify.__('Shopping Cart')
+                })}
                 {this.miniCartInner}
             </div>
         );

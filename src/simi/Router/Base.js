@@ -79,7 +79,7 @@ class Abstract extends React.Component{
                 <Route exact {...router.register}/>
                 <Route exact {...router.cart}/>
                 <Route exact {...router.product_detail}/>
-                <Route exact {...router.product_detail}/>
+                <Route exact {...router.checkout}/>
                 {this.renderPbRoute()}
                 <Route render={() => <Page>{renderRoutingError}</Page>} />
             </Switch>
@@ -89,15 +89,15 @@ class Abstract extends React.Component{
 
     renderRTL = (simiStoreConfig)=>{
         //add rtl
-        if (simiStoreConfig.store && parseInt(simiStoreConfig.store.base.is_rtl, 10) !== 1) {
+        if (simiStoreConfig.store && parseInt(simiStoreConfig.store.base.is_rtl, 10) === 1) {
+            console.log('Is RTL');
+        } else {
             try {
                 document.getElementById("rtl-stylesheet").remove();
             }
             catch (err) {
-                Identify.showToastMessage(err)
+                
             }
-        } else {
-            console.log('Is RTL');
         }
     }
 }

@@ -4,7 +4,7 @@ class Checkout extends Component {
     render() {
         return (
             <div className="container">
-                cody
+                checkout
             </div>
         );
     }
