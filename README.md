@@ -36,18 +36,14 @@ cd  packages
 git clone https://github.com/Simicart/siminia
 cd ..
 yarn install
+yarn run build
 ```
 ## 4. Run watch/stage
-Make empty directory for RootComponents if neccessary
-```
-mkdir packages/siminia/src/RootComponents
-```
 To run watch
 ```
 yarn run watch:siminia
 ```
 To run production
 ```
-yarn run build
 NODE_ENV=production PORT=8080 npm run stage:siminia
 ```
