@@ -3,13 +3,12 @@ import MenuItem from 'src/simi/BaseComponents/MenuItem'
 import {configColor} from 'src/simi/Config';
 import Identify from "src/simi/Helper/Identify"
 import DownloadIcon from 'src/simi/BaseComponents/Icon/Download'
-import Url from "src/simi/Helper/Url"
 import {itemTypes} from './Consts'
 import PropTypes from 'prop-types'
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent/'
 import CateTree from './CateTree'
 import Setting from './Setting'
-import CustomerHelper from 'src/simi/Helper/Customer'
+import { connect } from 'src/drivers';
 
 const styles = {
     iconMenu : {
@@ -131,7 +130,7 @@ class LeftMenuContent extends React.Component{
 
     renderSections() {
         const obj = this
-        const {classes, rootCategoryId} = this.props
+        const {classes, rootCategoryId, isSignedIn} = this.props
         const items = []
         const iconProps = {
             style: styles.iconMenu
@@ -150,7 +149,7 @@ class LeftMenuContent extends React.Component{
                         const itemType = itemTypes[itemTypeIndex]
                         if (itemType['disabled'])
                             return
-                        if (CustomerHelper.isLogin()) {
+                        if (isSignedIn) {
                             if (itemType['required_logged_out'])
                             return
                         } else if (itemType['required_logged_in'])
@@ -217,4 +216,13 @@ LeftMenuContent.contextTypes = {
     classes: PropTypes.object
 };
 
-export default LeftMenuContent
+const mapStateToProps = ({ user }) => { 
+    const { isSignedIn } = user;
+    return {
+        isSignedIn
+    }; 
+};
+
+export default connect(
+    mapStateToProps
+)(LeftMenuContent);

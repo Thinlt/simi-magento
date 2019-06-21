@@ -1,17 +1,22 @@
 import React from 'react'
-import Abstract from '../../../Core/BaseAbstract'
-import User from "../../Icon/User";
-import Identify from "../../../../Helper/Identify";
-import Customer from "../../../../Helper/Customer";
+import User from "src/simi/BaseComponents/Icon/User";
+import Identify from "src/simi/Helper/Identify";
 import MenuItem from '@material-ui/core/MenuItem'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Popper from '@material-ui/core/Popper';
-class MyAccount extends Abstract{
+import { connect } from 'src/drivers';
+import { withRouter } from 'src/drivers';
+import { compose } from 'redux';
 
+class MyAccount extends React.Component{
     state = {
         open: false,
     };
+
+    handleLink(link) {
+        this.props.history.push(link)
+    }
 
     handleToggle = () => {
         this.setState(state => ({ open: !state.open }));
@@ -32,6 +37,7 @@ class MyAccount extends Abstract{
 
     renderMyAccount = ()=>{
         const { open } = this.state;
+        const {classes} = this.props
         return (
             <Popper open={open} anchorEl={this.anchorEl}
                     placement="bottom-start"
@@ -43,13 +49,13 @@ class MyAccount extends Abstract{
                         style={{ transformOrigin:'center bottom' }}
                     >
 
-                            <div className="menu-my-account">
+                            <div className={classes["menu-my-account"]}>
                                 <ClickAwayListener onClickAway={this.handleClose}>
-                                <div className="list-menu-account">
-                                    <MenuItem className="my-account-item" onClick={()=>this.handleMenuAccount('/customer.html')}>
+                                <div className={classes["list-menu-account"]}>
+                                    <MenuItem className={classes["my-account-item"]} onClick={()=>this.handleMenuAccount('/account.html')}>
                                         {Identify.__('My Account')}
                                     </MenuItem>
-                                    <MenuItem className="my-account-item" onClick={()=>this.handleMenuAccount('/logout.html')}>
+                                    <MenuItem className={classes["my-account-item"]} onClick={()=>this.handleMenuAccount('/logout.html')}>
                                         {Identify.__('Logout')}
                                     </MenuItem>
                                 </div>
@@ -62,7 +68,8 @@ class MyAccount extends Abstract{
     }
 
     handleClickAccount = () =>{
-        if(Customer.isLogin()){
+        const {isSignedIn} = this.props
+        if(isSignedIn){
             this.handleToggle()
         }else{
             this.handleLink('/login.html')
@@ -70,23 +77,40 @@ class MyAccount extends Abstract{
     }
 
     render() {
-        const customer = Customer.getCustomerData() || {}
-        const account = !!customer.firstname ? <span className="customer-firstname" style={{color:'#0F7D37'}}>{`Hi, ${customer.firstname}`}</span>: Identify.__('Account')
+        const {props} = this
+        const {firstname, isSignedIn, classes} = props
+        const account = firstname ? 
+            <span className={classes["customer-firstname"]} style={{color:'#0F7D37'}}>
+                {`Hi, ${firstname}`}
+            </span>: Identify.__('Account')
         return (
             <div style={{position:'relative'}}  ref={node => {
                 this.anchorEl = node;
             }}>
                 <div role="presentation" onClick={this.handleClickAccount}>
-                    <div className="item-icon" style={{display: 'flex', justifyContent: 'center'}}>
+                    <div className={classes["item-icon"]} style={{display: 'flex', justifyContent: 'center'}}>
                         <User style={{width: 30, height: 30, display: 'block'}} />
                     </div>
-                    <div className="item-text" style={{whiteSpace : 'nowrap'}}>
+                    <div className={classes["item-text"]} style={{whiteSpace : 'nowrap'}}>
                         {account}
                     </div>
-                </div>
-                {Customer.isLogin() && this.renderMyAccount()}
+                </div> 
+                {isSignedIn && this.renderMyAccount()}
             </div>
         );
     }
 }
-export default MyAccount
+
+
+const mapStateToProps = ({ user }) => {
+    const { currentUser, isSignedIn } = user;
+    const { firstname, lastname } = currentUser;
+
+    return {
+        firstname,
+        isSignedIn,
+        lastname,
+    };
+}
+
+export default compose(connect(mapStateToProps), withRouter)(MyAccount);

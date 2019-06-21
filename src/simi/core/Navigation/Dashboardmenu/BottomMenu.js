@@ -1,12 +1,10 @@
 import React from 'react' 
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import CustomerHelper from 'src/simi/Helper/Customer';
 import {configColor} from 'src/simi/Config';
 import Identify from 'src/simi/Helper/Identify';
 import {itemTypes} from './Consts'
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent/'
-import { compose } from 'redux'
 import { connect } from 'src/drivers'
 
 class BottomMenu extends React.Component{
@@ -51,7 +49,7 @@ class BottomMenu extends React.Component{
     }
     
     renderBottomMenuItems(itemStyle, iconStyle) {
-        const {classes} = this.props
+        const {classes, isSignedIn} = this.props
         const iconProps = {
             style: iconStyle,
             color: configColor.top_menu_icon_color
@@ -64,7 +62,7 @@ class BottomMenu extends React.Component{
                     const itemType = itemTypes[itemTypeIndex]
                     if (itemType['disabled'])
                         return null
-                    if (CustomerHelper.isLogin()) {
+                    if (isSignedIn) {
                         if (itemType['required_logged_out'])
                             return null
                     } else if (itemType['required_logged_in'])
@@ -141,7 +139,13 @@ class BottomMenu extends React.Component{
     }
 }
 
-const mapStateToProps = ({ cart }) => ({ cart });
+const mapStateToProps = ({ cart, user }) => { 
+    const { isSignedIn } = user;
+    return {
+        isSignedIn,
+        cart
+    }; 
+};
 
 export default connect(
     mapStateToProps

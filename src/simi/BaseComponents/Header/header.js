@@ -8,6 +8,7 @@ import defaultClasses from './header.css'
 import { mergeClasses } from 'src/classify'
 import { Link, resourceUrl } from 'src/drivers';
 import HeaderNavigation from './Component/HeaderNavigation'
+import MyAccount from './Component/MyAccount'
 import { withRouter } from 'src/drivers';
 
 const $ = window.$ 
@@ -67,7 +68,7 @@ class Header extends React.Component{
         return(
             <div className={this.classes['right-bar']}>
                 <div className={this.classes['right-bar-item']} id="my-account">
-                    
+                    <MyAccount classes={this.classes}/>
                 </div>
                 <div 
                     className={this.classes['right-bar-item']} id="wish-list" 

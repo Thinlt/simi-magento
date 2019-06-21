@@ -22,7 +22,7 @@ export const itemTypes = [
         'name' : 'My Account',
         'post_str' : '***',  
         'svg_icon' : 'User',
-        'url' : '/customer.html',
+        'url' : '/account.html',
         'required_logged_in' : true
     },
     {
