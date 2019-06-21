@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Query, Redirect } from 'src/drivers';
+import { Redirect } from 'src/drivers';
+import {Simiquery} from 'src/simi/Query'
 import { bool, func, object, shape, string } from 'prop-types';
 import gql from 'graphql-tag';
 
@@ -56,7 +57,7 @@ export class Search extends Component {
                 onClick={this.handleClearCategoryFilter}
             >
                 <small className={classes.categoryFilterText}>
-                    <Query
+                    <Simiquery
                         query={getCategoryName}
                         variables={{ id: categoryId }}
                     >
@@ -65,7 +66,7 @@ export class Search extends Component {
                             if (loading) return 'Loading...';
                             return data.category.name;
                         }}
-                    </Query>
+                    </Simiquery>
                 </small>
                 <Icon
                     src={CloseIcon}
@@ -111,7 +112,7 @@ export class Search extends Component {
             : { inputText };
 
         return (
-            <Query query={PRODUCT_SEARCH} variables={queryVariable}>
+            <Simiquery query={PRODUCT_SEARCH} variables={queryVariable}>
                 {({ loading, error, data }) => {
                     if (error) return <div>Data Fetch Error</div>;
                     if (loading) return loadingIndicator;
@@ -138,7 +139,7 @@ export class Search extends Component {
                         </article>
                     );
                 }}
-            </Query>
+            </Simiquery>
         );
     }
 }

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { string, func } from 'prop-types';
 
-import { connect, Query } from 'src/drivers';
+import { connect } from 'src/drivers';
+import { Simiquery } from 'src/simi/Query'
 import { addItemToCart } from 'src/actions/cart';
 import { loadingIndicator } from 'src/components/LoadingIndicator';
-import ProductFullDetail from 'src/components/ProductFullDetail';
+import ProductFullDetail from './ProductFullDetail';
 import getUrlKey from 'src/util/getUrlKey';
 import productQuery from 'src/queries/getProductDetail.graphql';
 
@@ -42,7 +43,7 @@ class Product extends Component {
 
     render() {
         return (
-            <Query
+            <Simiquery
                 query={productQuery}
                 variables={{ urlKey: getUrlKey(), onServer: false }}
             >
@@ -59,7 +60,7 @@ class Product extends Component {
                         />
                     );
                 }}
-            </Query>
+            </Simiquery>
         );
     }
 }

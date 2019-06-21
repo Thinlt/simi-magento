@@ -22,7 +22,7 @@ export const itemTypes = [
         'name' : 'My Account',
         'post_str' : '***',  
         'svg_icon' : 'User',
-        'url' : '/customer',
+        'url' : '/customer.html',
         'required_logged_in' : true
     },
     {
@@ -31,7 +31,7 @@ export const itemTypes = [
         'name' : 'Login',
         'post_str' : '***',  
         'svg_icon' : 'User',
-        'url' : '/customer/account/login',
+        'url' : '/login.html',
         'required_logged_out' : true
     },
     {
@@ -40,7 +40,7 @@ export const itemTypes = [
         'name' : 'Logout',
         'post_str' : '***',  
         'svg_icon' : 'Logout',
-        'url' : '/customer/account/logout',
+        'url' : '/logout.html',
         'required_logged_in' : true
     },
     {

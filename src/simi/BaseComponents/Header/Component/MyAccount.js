@@ -46,10 +46,10 @@ class MyAccount extends Abstract{
                             <div className="menu-my-account">
                                 <ClickAwayListener onClickAway={this.handleClose}>
                                 <div className="list-menu-account">
-                                    <MenuItem className="my-account-item" onClick={()=>this.handleMenuAccount('/customer/account')}>
+                                    <MenuItem className="my-account-item" onClick={()=>this.handleMenuAccount('/customer.html')}>
                                         {Identify.__('My Account')}
                                     </MenuItem>
-                                    <MenuItem className="my-account-item" onClick={()=>this.handleMenuAccount('/customer/account/logout')}>
+                                    <MenuItem className="my-account-item" onClick={()=>this.handleMenuAccount('/logout.html')}>
                                         {Identify.__('Logout')}
                                     </MenuItem>
                                 </div>
@@ -65,18 +65,18 @@ class MyAccount extends Abstract{
         if(Customer.isLogin()){
             this.handleToggle()
         }else{
-            this.handleLink('/customer/account/login')
+            this.handleLink('/login.html')
         }
     }
 
     render() {
-        let customer = Customer.getCustomerData() || {}
-        let account = !!customer.firstname ? <span className="customer-firstname" style={{color:'#0F7D37'}}>{`Hi, ${customer.firstname}`}</span>: Identify.__('Account')
+        const customer = Customer.getCustomerData() || {}
+        const account = !!customer.firstname ? <span className="customer-firstname" style={{color:'#0F7D37'}}>{`Hi, ${customer.firstname}`}</span>: Identify.__('Account')
         return (
             <div style={{position:'relative'}}  ref={node => {
                 this.anchorEl = node;
             }}>
-                <div onClick={this.handleClickAccount}>
+                <div role="presentation" onClick={this.handleClickAccount}>
                     <div className="item-icon" style={{display: 'flex', justifyContent: 'center'}}>
                         <User style={{width: 30, height: 30, display: 'block'}} />
                     </div>

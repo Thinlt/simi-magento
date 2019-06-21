@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { func, number, objectOf, shape, string } from 'prop-types';
 
-import { Query } from 'src/drivers';
+import { Simiquery } from 'src/simi/Query';
 import classify from 'src/classify';
 import { loadingIndicator } from 'src/components/LoadingIndicator';
 import Branch from './categoryBranch';
@@ -39,7 +39,7 @@ class Tree extends Component {
         } = this.props;
 
         return rootNodeId ? (
-            <Query query={navigationMenu} variables={{ id: rootNodeId }}>
+            <Simiquery query={navigationMenu} variables={{ id: rootNodeId }}>
                 {({ loading, error, data }) => {
                     if (error) return <div>Data Fetch Error</div>;
                     if (loading) return loadingIndicator;
@@ -103,7 +103,7 @@ class Tree extends Component {
                         </Fragment>
                     );
                 }}
-            </Query>
+            </Simiquery>
         ) : null;
     }
 

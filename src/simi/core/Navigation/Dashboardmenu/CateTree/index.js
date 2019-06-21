@@ -6,7 +6,7 @@ import SubCate from "./Subcate";
 import ExpandLess from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowUp";
 import ExpandMore from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowDown";
 import navigationMenu from 'src/simi/queries/getCateTree.graphql';
-import { Query } from 'src/drivers';
+import { Simiquery } from 'src/simi/Query'
 
 const cateUrlSuffix = '.html';
 
@@ -119,7 +119,7 @@ class CateTree extends React.Component {
         const {props} = this
         const {rootCategoryId, classes} = props
         return (
-            <Query query={navigationMenu} variables={{ id: rootCategoryId }}>
+            <Simiquery query={navigationMenu} variables={{ id: rootCategoryId }}>
                 {({ loading, error, data }) => {
                     if (loading || error || (data && !data.category)) return '';
                     
@@ -156,7 +156,7 @@ class CateTree extends React.Component {
                         </div>
                     )
                 }}
-            </Query>   
+            </Simiquery>   
         )
     }
 }

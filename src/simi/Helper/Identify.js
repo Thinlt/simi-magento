@@ -55,8 +55,11 @@ class Identify {
     static saveStoreConfig(data) {
         if (data.simiStoreConfig && data.simiStoreConfig.config_json && (typeof data.simiStoreConfig.config_json) === 'string') {
             const simi_config = JSON.parse(data.simiStoreConfig.config_json)
-            if (simi_config && simi_config.storeview)
+            if (simi_config && simi_config.storeview) {
                 data.simiStoreConfig.config = simi_config.storeview
+                if (simi_config.storeview && simi_config.storeview.base && simi_config.storeview.base.simi_sess_id)
+                    this.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, simi_config.storeview.base.simi_sess_id)
+            }
         }
         this.storeDataToStoreage(Identify.SESSION_STOREAGE, Constants.STORE_CONFIG, data)
     }

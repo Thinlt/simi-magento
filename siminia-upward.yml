@@ -188,7 +188,7 @@ resource:
           template: './templates/generic-shell.mst'
     #custom routes
     - matches: request.url.pathname
-      pattern: '^/(cart.html|product.html|checkout.html)'
+      pattern: '^/(cart.html|product.html|checkout.html|customer.html|login.html)'
       use:
         inline:
           model: genericObject

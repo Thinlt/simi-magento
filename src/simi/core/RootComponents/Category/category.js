@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import LoadingSpiner from 'src/simi/BaseComponents/Loading/LoadingSpiner'
 import { string, number, shape } from 'prop-types';
-import { usePagination, useQuery } from '@magento/peregrine';
-
+import { usePagination } from '@magento/peregrine';
+import { simiUseQuery } from 'src/simi/Query';
 import { mergeClasses } from 'src/classify';
 import categoryQuery from 'src/simi/queries/getCategory.graphql';
 import simicntrCategoryQuery from 'src/simi/queries/simiconnector/getCategory.graphql'
@@ -47,7 +47,7 @@ const Category = props => {
         }
     }
 
-    const [queryResult, queryApi] = useQuery(Identify.hasConnector()?simicntrCategoryQuery:categoryQuery);
+    const [queryResult, queryApi] = simiUseQuery(Identify.hasConnector()?simicntrCategoryQuery:categoryQuery);
     const { data, error, loading } = queryResult;
     const { runQuery, setLoading } = queryApi;
     const classes = mergeClasses(defaultClasses, props.classes);

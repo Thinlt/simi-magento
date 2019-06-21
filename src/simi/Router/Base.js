@@ -80,6 +80,8 @@ class Abstract extends React.Component{
                 <Route exact {...router.cart}/>
                 <Route exact {...router.product_detail}/>
                 <Route exact {...router.checkout}/>
+                <Route exact {...router.account}/>
+                <Route exact {...router.login}/>
                 {this.renderPbRoute()}
                 <Route render={() => <Page>{renderRoutingError}</Page>} />
             </Switch>

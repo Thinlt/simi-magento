@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import LoadingSpiner from "src/simi/BaseComponents/Loading/LoadingSpiner"
 import getCategory from 'src/simi/queries/getCateProductsNoFilter.graphql'
-import { useQuery } from '@magento/peregrine'
+import { simiUseQuery } from 'src/simi/Query'
 import { GridItem } from 'src/simi/BaseComponents/GridItem'
 
 const Products = props => {
@@ -20,7 +20,7 @@ const Products = props => {
     const id = props.item.data.openCategoryProducts
     const currentPage = 0
 
-    const [queryResult, queryApi] = useQuery(getCategory);
+    const [queryResult, queryApi] = simiUseQuery(getCategory);
     const { data } = queryResult;
     const { runQuery, setLoading } = queryApi;
 
