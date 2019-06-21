@@ -44,8 +44,6 @@ class Main extends Component {
     mainContent(storeConfig = null) {
         const { classes } = this
         const { children } = this.props
-        console.log(storeConfig)
-        console.log(children)
         return (
             <React.Fragment>
                 <Header storeConfig={storeConfig}/>

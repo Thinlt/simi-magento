@@ -18,11 +18,10 @@ class Abstract extends React.Component{
         {
             //add rtl
             this.renderRTL(merchantConfig.simiStoreConfig)
-            return (
-                this.renderLayout()
-            )
         }
-        return ''
+        return (
+            this.renderLayout()
+        )
     }
 
     renderLayout = ()=>{
