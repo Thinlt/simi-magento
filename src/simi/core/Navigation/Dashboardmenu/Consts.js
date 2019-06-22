@@ -65,7 +65,7 @@ export const itemTypes = [
         'name' : 'Wish List',
         'post_str' : '*',  
         'svg_icon' : 'Heart-shape-outline',
-        'url' : '/wishlist',
+        'url' : '/wishlist.html',
         'required_logged_in' : true
     },
     {

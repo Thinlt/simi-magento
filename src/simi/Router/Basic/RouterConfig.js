@@ -21,6 +21,10 @@ const Account = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Account"*/'src/simi/core/Customer/Account')} {...props}/>
 }
 
+const Wishlist = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Wishlist"*/'src/simi/core/Wishlist')} {...props}/>
+}
+
 
 const router = {
     search_page: {
@@ -54,6 +58,10 @@ const router = {
     account : {
         path: '/account.html',
         render : (location) => <Account {...location}/>
-    }
+    },
+    wishlist : {
+        path: '/wishlist.html',
+        render : (location) => <Wishlist {...location}/>
+    },
 }
 export default router;

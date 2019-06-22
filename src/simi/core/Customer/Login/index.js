@@ -9,6 +9,7 @@ import { connect } from 'src/drivers';
 import { compose } from 'redux';
 import BackIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Back';
 import { withRouter } from 'src/drivers';
+import TitleHelper from 'src/simi/Helper/TitleHelper'
 
 import {
     completePasswordReset,
@@ -197,27 +198,32 @@ class Login extends Component {
                 : Identify.__('Sign In')
 
         return (
-            <div className={classes['login-background']} >
-                <div className={classes['login-container']} >
-                    <div className={`${classes['login-header']} ${handleBack&&classes['has-back-btn']}`}>
-                        {
-                            handleBack &&
-                            <div role="presentation" 
-                                className={classes['login-header-back']}
-                                onClick={handleBack}
-                                >
-                                <BackIcon style={{width: 20, height: 20}}/>
+            <React.Fragment>
+                {TitleHelper.renderMetaHeader({
+                    title:Identify.__('Customer Login')
+                })}
+                <div className={classes['login-background']} >
+                    <div className={classes['login-container']} >
+                        <div className={`${classes['login-header']} ${handleBack&&classes['has-back-btn']}`}>
+                            {
+                                handleBack &&
+                                <div role="presentation" 
+                                    className={classes['login-header-back']}
+                                    onClick={handleBack}
+                                    >
+                                    <BackIcon style={{width: 20, height: 20}}/>
+                                </div>
+                            }
+                            <div className={classes['login-header-title']}>
+                                {title}
                             </div>
-                        }
-                        <div className={classes['login-header-title']}>
-                            {title}
                         </div>
+                        {signInForm}
+                        {createAccountForm}
+                        {forgotPasswordForm}
                     </div>
-                    {signInForm}
-                    {createAccountForm}
-                    {forgotPasswordForm}
                 </div>
-            </div>
+            </React.Fragment>
         );
     }
 }

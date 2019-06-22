@@ -73,7 +73,7 @@ class Header extends React.Component{
                 <div 
                     className={this.classes['right-bar-item']} id="wish-list" 
                 >
-                    <Link to={resourceUrl('/wishlist')}>
+                    <Link to={resourceUrl('/wishlist.html')}>
                         <div className={this.classes['item-icon']} style={{display: 'flex', justifyContent: 'center'}}>
                             <WishList style={{width: 30, height: 30, display: 'block'}} />
                         </div>

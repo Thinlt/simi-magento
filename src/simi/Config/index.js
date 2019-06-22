@@ -1,4 +1,6 @@
-const simicartConfig = JSON.parse(sessionStorage.getItem('simicart_config'));
+import Identify from 'src/simi/Helper/Identify'
+
+const simicartConfig = Identify.getAppDashboardConfigs();
 const config = simicartConfig ? simicartConfig['app-configs'][0] : null;
 
 export const configColor = {
