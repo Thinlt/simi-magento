@@ -97,7 +97,7 @@
 }
 
 .quantityTitle {
-    composes: title from '../../../../../components/ProductOptions/option.css';
+    composes: title from '../../../../../../components/ProductOptions/option.css';
 }
 
 .cartActions {

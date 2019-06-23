@@ -4,12 +4,12 @@ import { bool, shape, string } from 'prop-types';
 import classify from 'src/classify';
 import Header from 'src/simi/BaseComponents/Header'
 import Identify from 'src/simi/Helper/Identify'
-import Connection from 'src/simi/Network/Connection'
+import Connection from 'src/simi/Network/SimiConnection'
 import LoadingComponent  from 'src/simi/BaseComponents/Loading'
 import * as Constants from 'src/simi/Config/Constants';
 import storeConfigDataQuery from 'src/simi/queries/getStoreConfigData.graphql'
 import simiStoreConfigDataQuery from 'src/simi/queries/simiconnector/getStoreConfigData.graphql'
-import { Simiquery } from 'src/simi/Query'
+import { Simiquery } from 'src/simi/Network/Query'
 import defaultClasses from './main.css';
 
 class Main extends Component {

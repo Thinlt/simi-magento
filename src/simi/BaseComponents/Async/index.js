@@ -22,5 +22,5 @@ export const LazyComponent = (props) => {
     return <Component {...props} />;
 };
 export const Checkout = (props) => {
-    return <LazyComponent component={()=>import(/* webpackChunkName: "Checkout"*/'src/simi/core/Checkout')} {...props}/>
+    return <LazyComponent component={()=>import(/* webpackChunkName: "Checkout"*/'src/simi/App/core/Checkout')} {...props}/>
 }

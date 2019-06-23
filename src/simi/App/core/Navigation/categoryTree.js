@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { func, number, objectOf, shape, string } from 'prop-types';
 
-import { Simiquery } from 'src/simi/Query';
+import { Simiquery } from 'src/simi/Network/Query';
 import classify from 'src/classify';
 import { loadingIndicator } from 'src/components/LoadingIndicator';
 import Branch from './categoryBranch';

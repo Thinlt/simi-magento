@@ -1,7 +1,6 @@
 import React from 'react'
 import { Query } from 'src/drivers';
-import * as Constants from 'src/simi/Config/Constants';
-import Identify from 'src/simi/Helper/Identify'
+import {addRequestVars} from 'src/simi/Helper/Network'
 import { useApolloContext } from '@magento/peregrine'
 import { useQueryResult } from '@magento/peregrine'
 import { useCallback, useMemo } from 'react';
@@ -10,24 +9,10 @@ import _asyncToGenerator from "@babel/runtime/helpers/asyncToGenerator";
 import _slicedToArray from "@babel/runtime/helpers/slicedToArray";
 import _objectSpread from "@babel/runtime/helpers/objectSpread";
 
-const modifyVariables = (variables) => {
-    const simiSessId = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID)
-    if (simiSessId)
-        variables.simiSessId = simiSessId
-    const appSettings = Identify.getAppSettings()
-    if (appSettings) {
-        if (appSettings.store_id)
-            variables.simiStoreId = appSettings.store_id
-        if (appSettings.currency)
-            variables.simiCurrency = appSettings.currency
-    }
-    return variables
-}
-
 export const Simiquery = props => {
     let modProps = {}
     const variables = props.variables?props.variables:{}
-    modProps.variables = modifyVariables(variables)
+    modProps.variables = addRequestVars(variables)
     modProps = {...modProps, ...props}
     return <Query {...modProps} >
         {props.children}
@@ -58,7 +43,7 @@ export var simiUseQuery = function simiUseQuery(query) {
                 case 0:
                 variables = _ref.variables;
                 //simi
-                variables = modifyVariables(variables)
+                variables = addRequestVars(variables)
                 //end
                 _context.next = 3;
                 return apolloClient.query({

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import LoadingSpiner from "src/simi/BaseComponents/Loading/LoadingSpiner"
 import getCategory from 'src/simi/queries/getCateProductsNoFilter.graphql'
-import { simiUseQuery } from 'src/simi/Query'
+import { simiUseQuery } from 'src/simi/Network/Query'
 import { GridItem } from 'src/simi/BaseComponents/GridItem'
 
 const Products = props => {

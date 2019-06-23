@@ -1,7 +1,7 @@
 import Identify from 'src/simi/Helper/Identify';
 import  * as Constants from 'src/simi/Config/Constants'
 
-class Connection {
+class SimiConnection {
     constructor() {
         this.config = window.SMCONFIGS;
         // this.config = config;
@@ -61,5 +61,5 @@ class Connection {
     }
 }
 
-const connection = new Connection();
+const connection = new SimiConnection();
 export default connection;

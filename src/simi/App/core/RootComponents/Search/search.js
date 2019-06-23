@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'src/drivers';
-import {Simiquery} from 'src/simi/Query'
+import {Simiquery} from 'src/simi/Network/Query'
 import { bool, func, object, shape, string } from 'prop-types';
 import gql from 'graphql-tag';
 

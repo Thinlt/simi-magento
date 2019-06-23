@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { string, func } from 'prop-types';
 
 import { connect } from 'src/drivers';
-import { Simiquery } from 'src/simi/Query'
+import { Simiquery } from 'src/simi/Network/Query'
 import { addItemToCart } from 'src/actions/cart';
 import { loadingIndicator } from 'src/components/LoadingIndicator';
 import ProductFullDetail from 'src/components/ProductFullDetail'

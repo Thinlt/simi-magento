@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import LoadingSpiner from 'src/simi/BaseComponents/Loading/LoadingSpiner'
 import { string, number, shape } from 'prop-types';
 import { usePagination } from '@magento/peregrine';
-import { simiUseQuery } from 'src/simi/Query';
+import { simiUseQuery } from 'src/simi/Network/Query';
 import { mergeClasses } from 'src/classify';
 import categoryQuery from 'src/simi/queries/getCategory.graphql';
 import simicntrCategoryQuery from 'src/simi/queries/simiconnector/getCategory.graphql'
@@ -10,7 +10,7 @@ import CategoryContent from './categoryContent';
 import defaultClasses from './category.css';
 import { resourceUrl } from 'src/drivers'
 import CategoryHeader from './categoryHeader'
-import Identify from '../../../Helper/Identify';
+import Identify from 'src/simi/Helper/Identify';
 import ObjectHelper from 'src/simi/Helper/ObjectHelper';
 import { withRouter } from 'src/drivers';
 
