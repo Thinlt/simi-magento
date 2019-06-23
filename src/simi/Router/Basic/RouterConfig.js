@@ -4,6 +4,7 @@ import Search from 'src/RootComponents/Search';
 import CreateAccountPage from 'src/components/CreateAccountPage/index';
 import Product from 'src/simi/App/core/Product';
 import Logout from 'src/simi/App/core/Customer/Logout'
+import SimiWl from 'src/simi/App/core/Wishlist'
 
 const Checkout = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/core/Checkout')} {...props}/>
@@ -61,7 +62,7 @@ const router = {
     },
     wishlist : {
         path: '/wishlist.html',
-        render : (location) => <Wishlist {...location}/>
+        render : (location) => <SimiWl {...location}/>
     },
 }
 export default router;

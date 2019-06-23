@@ -1,15 +1,21 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import Identify from 'src/simi/Helper/Identify'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
+import { getWishlist } from 'src/simi/Model/Wishlist'
+
 
 const Wishlist = props => {
-    console.log(props)
+    const [data, setData] = useState(null)
+    useEffect(() => {
+        if (!data)
+            getWishlist(setData)
+    });
     return (
         <React.Fragment>
             {TitleHelper.renderMetaHeader({
                 title:Identify.__('Favourites')
             })}
-            <div>loading</div>
+            {data?JSON.stringify(data):'loading'}
         </React.Fragment>
     )
 }

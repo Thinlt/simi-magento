@@ -1,23 +1,88 @@
-import { RestApi } from '@magento/peregrine';
+import { Util } from '@magento/peregrine';
+const { BrowserPersistence } = Util;
 import { addRequestVars } from 'src/simi/Helper/Network'
-const { request } = RestApi.Magento2;
+import Identify from 'src/simi/Helper/Identify'
 
-export async function sendRequest(method='GET', getData= {}, bodyData= {}, endPoint, callback) {
-    dataGet = addRequestVars(dataGet)
-    let dataGet = Object.keys(getData).map(function (key) {
+const prepareData = (endPoint, getData, method, header, bodyData) => {
+    let requestMethod = method
+    let requestEndPoint = endPoint
+    const requestHeader = header
+    const requestBody = bodyData
+
+    //add session/store/currencies
+    getData = addRequestVars(getData)
+
+    //incase no support PUT & DELETE
+    try {
+        const merchantConfigs = Identify.getStoreConfig();
+        if (method.toUpperCase() === 'PUT' 
+            && merchantConfigs.simiStoreConfig.config.base.is_support_put !== undefined
+            && parseInt(merchantConfigs.simiStoreConfig.config.base.is_support_put, 10) === 0) {
+            requestMethod = 'POST';
+            getData.is_put = '1'
+        }
+
+        if (method.toUpperCase() === 'DELETE' && 
+            merchantConfigs.simiStoreConfig.config.base.is_support_delete !== undefined
+            && parseInt(merchantConfigs.simiStoreConfig.config.base.is_support_delete, 10) === 0) {
+            requestMethod = 'POST';
+            getData.is_delete = '1'
+        }
+        
+    } catch (err) {}
+    let dataGetString = Object.keys(getData).map(function (key) {
         return encodeURIComponent(key) + '=' +
-            encodeURIComponent(data[key]);
+            encodeURIComponent(getData[key]);
     })
-    dataGet = dataGet.join('&')
-    if(endPoint.includes('?')){
-        endPoint += "&" + dataGet;
+    dataGetString = dataGetString.join('&')
+    if(requestEndPoint.includes('?')){
+        requestEndPoint += "&" + dataGetString;
     } else {
-        endPoint += "?" + dataGet;
+        requestEndPoint += "?" + dataGetString;
     }
-    const response = await request(endPoint, {
-        method: method,
-        body: JSON.stringify(bodyData)
+
+    //header
+    const storage = new BrowserPersistence()
+    const token = storage.getItem('signin_token')
+    if (token)
+        requestHeader['authorization'] = `Bearer ${token}`
+    requestHeader['accept'] = 'application/json'
+    requestHeader['content-type'] = 'application/json'
+    requestHeader['Content-Type'] = 'application/json'
+
+    return {requestMethod, requestEndPoint, requestHeader, requestBody}
+}
+
+export async function sendRequest(endPoint, callBack, method='GET', getData= {}, bodyData= {}) {
+    const header = {cache: 'default', mode: 'cors'}
+    const {requestMethod, requestEndPoint, requestHeader, requestBody} = prepareData(endPoint, getData, method, header, bodyData)
+    const requestData = {}
+    requestData['method'] = requestMethod
+    requestData['headers'] = requestHeader
+    requestData['body'] = (requestBody && requestMethod !== 'GET')?JSON.stringify(requestBody):null
+    requestData['credentials'] = 'same-origin';
+    
+    const _request = new Request(requestEndPoint, requestData);
+    let result = null
+
+    fetch(_request)
+        .then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+        })
+        .then(function (data) {
+            if (data) {
+                if (Array.isArray(data) && data.length === 1 && data[0])
+                    result = data[0]
+                else
+                    result = data
+            } else
+                result =  {'error' : Identify.__('Network response was not ok')}
+            callBack(result)
+        }).catch((error) => {
+        result =  {'error' : Identify.__('Something when wrong')}
+        console.warn(error);
+        callBack(result)
     });
-    console.log(response)
-    callback(response)
 }
