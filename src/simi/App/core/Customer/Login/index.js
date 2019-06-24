@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import defaultClasses from './login.css';
 import classify from 'src/classify';
 import Identify from 'src/simi/Helper/Identify';
-import SignIn from 'src/components/SignIn';
+import SignIn from './SignIn';
 import CreateAccount from 'src/components/CreateAccount';
 import ForgotPassword from 'src/components/ForgotPassword';
 import { connect } from 'src/drivers';

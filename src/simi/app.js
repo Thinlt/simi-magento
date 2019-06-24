@@ -3,7 +3,6 @@ import { array, bool, func, shape, string } from 'prop-types';
 
 import Main from 'src/simi/App/core/Main';
 import Mask from 'src/components/Mask';
-import MiniCart from 'src/components/MiniCart';
 import Navigation from 'src/simi/App/core/Navigation';
 import OnlineIndicator from 'src/components/OnlineIndicator';
 import ErrorNotifications from './errorNotifications';
@@ -96,7 +95,6 @@ class App extends Component {
                 </Main>
                 <Mask isActive={overlay} dismiss={closeDrawer} />
                 <Navigation isOpen={navIsOpen} />
-                <MiniCart isOpen={cartIsOpen} />
                 <ErrorNotifications
                     errors={unhandledErrors}
                     onDismissError={markErrorHandled}

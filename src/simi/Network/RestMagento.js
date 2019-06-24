@@ -48,7 +48,6 @@ const prepareData = (endPoint, getData, method, header, bodyData) => {
         requestHeader['authorization'] = `Bearer ${token}`
     requestHeader['accept'] = 'application/json'
     requestHeader['content-type'] = 'application/json'
-    requestHeader['Content-Type'] = 'application/json'
 
     return {requestMethod, requestEndPoint, requestHeader, requestBody}
 }

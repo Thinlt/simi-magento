@@ -1,5 +1,6 @@
 import React from 'react'
-import Arrowup from 'src/simi/BaseComponents/Icon/TapitaIcons/Arrowup'
+import Arrowup from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowUp"
+
 import defaultClasses from './index.css'
 import { mergeClasses } from 'src/classify'
 
