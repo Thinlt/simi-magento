@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import LoadingSpiner from 'src/simi/BaseComponents/Loading/LoadingSpiner'
 import { string, number, shape } from 'prop-types';
-import { usePagination } from '@magento/peregrine';
 import { simiUseQuery } from 'src/simi/Network/Query';
 import { mergeClasses } from 'src/classify';
 import categoryQuery from 'src/simi/queries/getCategory.graphql';
@@ -20,18 +19,11 @@ var filterData = null
 
 const Category = props => {
     const { id } = props;
-    const pageSize = window.innerWidth < 1024?12:24 
-    const [paginationValues, paginationApi] = usePagination();
-    const { currentPage, totalPages } = paginationValues;
-    const { setCurrentPage, setTotalPages } = paginationApi;
-
-    const pageControl = {
-        currentPage,
-        setPage: setCurrentPage,
-        updateTotalPages: setTotalPages,
-        totalPages
-    };
-
+    let pageSize = Identify.findGetParameter('product_list_limit')
+    pageSize = pageSize?Number(pageSize):window.innerWidth < 1024?12:24
+    let currentPage = Identify.findGetParameter('page')
+    currentPage = currentPage?Number(currentPage):1
+    
     const productListOrder = Identify.findGetParameter('product_list_order')
     const productListDir = Identify.findGetParameter('product_list_dir')
     
@@ -55,8 +47,8 @@ const Category = props => {
     useEffect(() => {
         const variables = {
             id: Number(id),
-            pageSize: Number(pageSize),
-            currentPage: currentPage?Number(currentPage):1,
+            pageSize: pageSize,
+            currentPage: currentPage,
             stringId: String(id),
             simiFilter: filterData
         }
@@ -78,12 +70,6 @@ const Category = props => {
         if (data.products.simi_filters)
             data.products.filters = data.products.simi_filters
     }
-    const totalPagesFromData = data
-        ? data.products.page_info.total_pages
-        : null;
-    useEffect(() => {
-        setTotalPages(totalPagesFromData);
-    }, [totalPagesFromData]);
 
     if (error) return <div>Data Fetch Error</div>;
     // show loading indicator until our data has been fetched and pagination state has been updated
@@ -103,8 +89,10 @@ const Category = props => {
             }
             <CategoryContent
                 history={props.history}
+                location={props.location}
                 classes={classes}
-                pageControl={pageControl}
+                currentPage={currentPage}
+                pageSize={pageSize}
                 data={loading ? null : data}
                 sortByData={sortByData}
                 filterData={filterData?JSON.parse(productListFilter):null}

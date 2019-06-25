@@ -1,5 +1,3 @@
-import { Util } from '@magento/peregrine';
-const { BrowserPersistence } = Util;
 import { addRequestVars } from 'src/simi/Helper/Network'
 import Identify from 'src/simi/Helper/Identify'
 
@@ -42,10 +40,6 @@ const prepareData = (endPoint, getData, method, header, bodyData) => {
     }
 
     //header
-    const storage = new BrowserPersistence()
-    const token = storage.getItem('signin_token')
-    if (token)
-        requestHeader['authorization'] = `Bearer ${token}`
     requestHeader['accept'] = 'application/json'
     requestHeader['content-type'] = 'application/json'
 

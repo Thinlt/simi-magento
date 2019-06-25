@@ -1,11 +1,12 @@
 import React from 'react';
 import { mergeClasses } from 'src/classify';
 import Gallery from './Gallery';
-import Pagination from 'src/components/Pagination';
 import defaultClasses from './category.css';
 import Identify from 'src/simi/Helper/Identify'
 import Sortby from './Sortby'
 import Filter from './Filter'
+import Pagination from 'src/simi/BaseComponents/Pagination'
+import Loading from 'src/simi/BaseComponents/Loading'
 
 class CategoryContent extends React.Component {
 
@@ -37,19 +38,33 @@ class CategoryContent extends React.Component {
         return shopby;
     }
 
+    renderItem = ()=>{
+        const {pagination} = this
+        const {history, location, currentPage, pageSize} = this.props
+        if (
+            pagination && 
+            pagination.state && 
+            pagination.state.limit && 
+            pagination.state.currentPage &&
+            (pagination.state.limit!==pageSize||
+            pagination.state.currentPage!==currentPage)) {
+                const { search } = location;
+                const queryParams = new URLSearchParams(search);
+                queryParams.set('product_list_limit', pagination.state.limit);
+                queryParams.set('page', pagination.state.currentPage);
+                history.push({ search: queryParams.toString() });
+        }
+    };
+
     renderList = (classes) => {
         const {props} = this
-        const { pageControl, data, pageSize, history, location, sortByData } = props;
+        const { data, pageSize, history, location, sortByData, currentPage } = props;
         const items = data ? data.products.items : null;
         const title = data ? data.category.description : null;
-        const pagination = (
-            <div className={classes.pagination}>
-                <Pagination pageControl={pageControl} />
-            </div>
-        )        
-        if (data && data.products && !data.products.total_count)
+        if (!data)
+            return <Loading />
+        if (!data.products || !data.products.total_count)
             return(<div className={classes['no-product']}>{Identify.__('No product found')}</div>)
-
         return (
             <React.Fragment>
                 <Sortby classes={classes} 
@@ -60,7 +75,16 @@ class CategoryContent extends React.Component {
                 <section className={classes.gallery}>
                     <Gallery data={items} title={title} pageSize={pageSize} history={history} location={location} />
                 </section>
-                {pagination}
+                <div className={classes['product-grid-pagination']} style={{marginBottom: 20}}>
+                    <Pagination 
+                        renderItem={this.renderItem.bind(this)}
+                        itemCount={data.products.total_count}
+                        limit={pageSize}
+                        currentPage={currentPage}
+                        itemsPerPageOptions={[12, 24, 36, 48, 60]}
+                        showInfoItem={false}
+                        ref={(page) => {this.pagination = page}}/>
+                </div>
             </React.Fragment>
         )
     }
