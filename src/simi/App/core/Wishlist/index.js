@@ -7,6 +7,7 @@ import { getWishlist } from 'src/simi/Model/Wishlist'
 const Wishlist = props => {
     const [data, setData] = useState(null)
     useEffect(() => {
+        console.log(data)
         if (!data)
             getWishlist(setData)
     });

@@ -107,6 +107,7 @@ class Cart extends Component {
             );
             for (const i in cart.details.items) {
                 const item = cart.details.items[i];
+                console.log(item)
                 let itemTotal = null
                 if (cart.totals && cart.totals.items) {
                     cart.totals.items.every(function(total) {

@@ -137,7 +137,7 @@ class SignIn extends Component {
 
     setData = (data) => {
         if (this.props.simiSignedIn) {
-            if (data && !data.error) {
+            if (data && !data.errors) {
                 if (data.customer_access_token) {
                     Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, data.customer_identity)
                     setToken(data.customer_access_token)

@@ -58,10 +58,16 @@ const CartItem = props => {
                     className={defaultClasses['img-cart-container']}
                     style={{borderColor: configColor.image_border_color}}>
                     <img 
-                        src={resourceUrl(item.image.file, {
+                        src={
+                            item.image.file ? 
+                            resourceUrl(item.image.file, {
                             type: 'image-product',
                             width: 300
-                        })} 
+                        }):
+                            window.SMCONFIGS.logo_url?
+                            window.SMCONFIGS.logo_url:
+                            'https://www.simicart.com/skin/frontend/default/simicart2.1/images/simicart/new_logo_small.png'
+                        } 
                         alt={item.name} />
                 </div>
                 <div className={defaultClasses['cart-item-info']}>

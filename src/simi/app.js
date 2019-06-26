@@ -28,6 +28,23 @@ class App extends Component {
         };
     }
 
+    shouldComponentUpdate(nextProps,nextState){
+        //avoid re-render with duplicated error
+        let update = true
+        if (nextProps.unhandledErrors && nextProps.unhandledErrors.length) {
+            const newErrLength = nextProps.unhandledErrors.length
+            if (
+                nextProps.unhandledErrors[newErrLength-1] &&
+                this.unhandledErrors &&
+                this.unhandledErrors[newErrLength-2] &&
+                this.unhandledErrors[newErrLength-2].loc === nextProps.unhandledErrors[newErrLength-1].loc
+                )
+                update = false
+            this.unhandledErrors = nextProps.unhandledErrors
+        }
+        return update
+    }
+    
     get errorFallback() {
         const { renderError } = this.state;
         if (renderError) {

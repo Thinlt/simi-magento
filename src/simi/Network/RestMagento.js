@@ -71,10 +71,10 @@ export async function sendRequest(endPoint, callBack, method='GET', getData= {},
                 else
                     result = data
             } else
-                result =  {'error' : Identify.__('Network response was not ok')}
+                result =  {'errors' : [{'code' : 0, 'message' : Identify.__('Network response was not ok')}]}
             callBack(result)
         }).catch((error) => {
-        result =  {'error' : Identify.__('Something when wrong')}
+        result =  {'errors' : [{'code' : 0, 'message' : Identify.__('Something when wrong')}]}
         console.warn(error);
         callBack(result)
     });

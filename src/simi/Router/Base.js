@@ -2,10 +2,7 @@ import React from 'react'
 import Identify from "src/simi/Helper/Identify"
 import {Route, Switch} from "react-router";
 import {PbPageHoc} from 'src/simi/App/core/Pbpage';
-import ErrorView from 'src/components/ErrorView/index';
 import { Page } from '@magento/peregrine';
-
-const renderRoutingError = props => <ErrorView {...props} />;
 
 class Abstract extends React.Component{
     render(){
@@ -84,7 +81,7 @@ class Abstract extends React.Component{
                 <Route exact {...router.logout}/>
                 <Route exact {...router.wishlist}/>
                 {this.renderPbRoute()}
-                <Route render={() => <Page>{renderRoutingError}</Page>} />
+                <Route render={() => <Page>{router}</Page>} />
             </Switch>
         )
     }
