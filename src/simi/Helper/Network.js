@@ -2,6 +2,7 @@ import Identify from './Identify'
 import * as Constants from 'src/simi/Config/Constants';
 
 export const addRequestVars = (variables) => {
+    variables = variables?variables:{}
     const simiSessId = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID)
     if (simiSessId)
         variables.simiSessId = simiSessId

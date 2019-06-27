@@ -6,6 +6,7 @@ import Product from 'src/simi/App/core/Product';
 import Logout from 'src/simi/App/core/Customer/Logout'
 import Home from 'src/simi/App/core/RootComponents/CMS/Home'
 import Cart from 'src/simi/App/core/Cart'
+import Account from 'src/simi/App/core/Customer/Account'
 
 const Checkout = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/core/Checkout')} {...props}/>
@@ -15,14 +16,9 @@ const Login = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Login"*/'src/simi/App/core/Customer/Login')} {...props}/>
 }
 
-const Account = (props) => {
+const Account1 = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Account"*/'src/simi/App/core/Customer/Account')} {...props}/>
 }
-
-const Wishlist = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Wishlist"*/'src/simi/App/core/Wishlist')} {...props}/>
-}
-
 
 const router = {
     home : {
@@ -61,9 +57,29 @@ const router = {
         path: '/account.html',
         render : (location) => <Account {...location}/>
     },
+    address_book : {
+        path : '/addresses.html/:id?',
+        render : location => <Account {...location} page={`address-book`} />
+    },
+    oder_history : {
+        path : '/orderhistory.html',
+        render : location => <Account {...location} page={`my-order`} />
+    },
+    order_history_detail : {
+        path : '/orderdetails.html/:orderId',
+        render : location => <Account {...location} page={`order-detail`} />
+    },
+    newsletter : {
+        path : '/newsletter.html',
+        render : location => <Account {...location} page={`newsletter`} />
+    },
+    profile : {
+        path : '/profile.html',
+        render : location => <Account {...location} page={`edit`} />
+    },
     wishlist : {
         path: '/wishlist.html',
-        render : (location) => <Wishlist {...location}/>
+        render : (location) => <Account {...location} page={`wishlist`}/>
     },
 }
 export default router;

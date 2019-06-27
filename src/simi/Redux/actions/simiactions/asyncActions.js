@@ -9,3 +9,7 @@ export const simiSignedIn = response => async dispatch => {
     dispatch(userActions.signIn.receive(response));
     dispatch(getCartDetails({ forceRefresh: true }))
 }
+
+export const toggleMessages = value => async dispatch => {
+    dispatch(actions.toggleMessages(value));
+}

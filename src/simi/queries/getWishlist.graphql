@@ -1,0 +1,32 @@
+query getWishlist {
+    wishlist {
+      items_count
+      name
+      sharing_code
+      updated_at
+      items {
+        id
+        qty
+        description
+        added_at
+        product {
+          id
+          name
+          sku
+          small_image {
+            url
+            label
+          }
+          url_key
+          price {
+            regularPrice {
+              amount {
+                currency
+                value
+              }
+            }
+          }
+        }
+      }
+    }
+}

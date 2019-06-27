@@ -10,6 +10,7 @@ import { compose } from 'redux';
 import BackIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Back';
 import { withRouter } from 'src/drivers';
 import TitleHelper from 'src/simi/Helper/TitleHelper'
+import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 
 import {
     completePasswordReset,
@@ -177,11 +178,18 @@ class Login extends Component {
         const {
             classes,
             isSignedIn,
+            firstname,
             history
         } = props;
 
-        if (isSignedIn)
+        if (isSignedIn) {
             history.push('/account.html')
+            const message = firstname?
+                Identify.__("Welcome %s Start shopping now").replace('%s', firstname):
+                Identify.__("You have succesfully logged in, Start shopping now")
+            if (this.props.toggleMessages)
+                this.props.toggleMessages([{type: 'success', message: message}])
+        }
 
         const handleBack =
             isCreateAccountOpen
@@ -245,7 +253,8 @@ const mapDispatchToProps = {
     completePasswordReset,
     createAccount,
     getUserDetails,
-    resetPassword
+    resetPassword,
+    toggleMessages
 };
 
 export default compose(

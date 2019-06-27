@@ -1,12 +1,271 @@
-import React, { Component } from 'react';
+import React from 'react'
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import Identify from "src/simi/Helper/Identify";
+import defaultClasses from './style.css'
+import LogoutIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Logout'
+import CloseIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
+import MenuIcon from 'src/simi/BaseComponents/Icon/Menu'
+import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
+import classify from 'src/classify';
+import {Link} from 'react-router-dom'
+import { compose } from 'redux';
+import { connect } from 'src/drivers';
+import Wishlist from './Page/Wishlist'
 
-class Account extends Component {
-    render() {
-        return (
-            <div className="container">
-                My account
+const $ = window.$;
+class CustomerLayout extends React.Component{
+
+    constructor(props) {
+        super(props);
+        const width = window.innerWidth;
+        const isPhone = width < 1024
+        this.state = {
+            page: 'dashboard',
+            isPhone,
+            firstname: '',
+            customer: null
+        }
+        this.pushTo = '/';
+    }
+
+    setIsPhone(){
+        const obj = this;
+        window.onresize = function () {
+            const width = window.innerWidth;
+            const isPhone = width < 1024
+            if(obj.state.isPhone !== isPhone){
+                obj.setState({isPhone: isPhone})
+            }
+        }
+    }
+
+    getMenuConfig = () => {
+        const menuConfig = [
+            {
+                title : 'My Account',
+                url : '/account.html',
+                page : 'dashboard',
+                enable : true,
+                sort_order : 10
+            },
+            {
+                title : 'My Orders',
+                url : '/orderhistory.html',
+                page : 'my-order',
+                enable : true,
+                sort_order : 20
+            },
+            {
+                title : 'Account Information',
+                url : '/profile.html',
+                page : 'edit-account',
+                enable : true,
+                sort_order : 30
+            },
+            {
+                title : 'Newsletter',
+                url : '/newsletter.html',
+                page : 'newsletter',
+                enable : true,
+                sort_order : 40
+            },
+            {
+                title : 'Address Book',
+                url : '/addresses.html',
+                page : 'address-book',
+                enable : true,
+                sort_order : 50
+            },
+            {
+                title : 'Favourites',
+                url : '/wishlist.html',
+                page : 'wishlist',
+                enable : true,
+                sort_order : 60
+            }
+        ]
+        return menuConfig
+    }
+
+    handleToggleMenu = ()=>{
+        const {classes} = this.props
+        $(`.${classes['list-menu-item']}`).slideToggle('fast')
+        $(`.${classes['menu-toggle']}`).find('svg').toggleClass('hidden')
+    }
+
+    handleLink = (link) => {
+        this.props.history.push(link)
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (!nextProps.page || nextProps.page === prevState.page) {
+            return null
+        }
+        return {page: nextProps.page}
+    }
+
+    redirectExternalLink = (url) => {
+        if(url){
+            Identify.windowOpenUrl(url)
+        }
+        return null;
+    }
+
+    renderMenu = () => {
+        const {classes, firstname} = this.props
+        const menuConfig = this.getMenuConfig()
+        const {page} = this.state;
+        const menu = menuConfig.map(item => {
+            const active = item.page.toString().indexOf(page) > -1 || (page === classes['order-detail'] && item.page === classes['my-order']) ? classes['active'] : '';
+
+            return item.enable ?
+                <MenuItem key={item.title}
+                          onClick={()=> item.page ==='webtrack-login' ? this.redirectExternalLink(item.url) : this.handleLink(item.url)}
+                          className={`${classes['customer-menu-item']} ${item.page} ${active}`}>
+                    <div className={classes["menu-item-title"]}>
+                        {Identify.__(item.title)}
+                    </div>
+                </MenuItem> : null
+        },this)
+        return(
+            <div className={classes["dashboard-menu"]}>
+                <div className={classes["menu-header"]}>
+                    <div className={classes["welcome-customer"]}>
+                        {Identify.__("Welcome, %s").replace('%s', firstname)}
+                    </div>
+                    <div role="presentation" className={classes["menu-logout"]} onClick={()=>this.handleLink('/logout.html')}>
+                        <div className="hidden-xs">{Identify.__('Log out')}</div>
+                        <LogoutIcon color={`#D7282F`} style={{width:18,height:18,marginRight:8, marginLeft:10}}/>
+                    </div>
+                    <div role="presentation" className={classes["menu-toggle"]} onClick={()=>this.handleToggleMenu()}>
+                        <MenuIcon color={`#fff`} style={{width:30,height:30, marginTop: 1}}/>
+                        <CloseIcon className={`hidden`} color={`#fff`} style={{width:16,height:16, marginTop:7, marginLeft: 9, marginRight: 5}}/>
+                    </div>
+                </div>
+                <div className={classes["list-menu-item"]}>
+                    <MenuList className={classes['list-menu-item-content']}>
+                        {menu}
+                    </MenuList>
+                </div>
             </div>
+        )
+    }
+
+    renderContent = ()=>{
+        const {page} = this.state;
+        let content = null;
+        switch (page) {
+            case 'dashboard':
+                content = 'customer dashboard 1'
+                break;
+            case 'address-book':
+                content = 'adresses book'
+                break;
+            case 'edit':
+                content = 'profile'
+                break;
+            case 'my-order':
+                content = 'my order'
+                break;
+            case 'newsletter':
+                content = 'news letter'
+                break;
+            case 'order-detail':
+                content = 'order history detail'
+                break;
+            case 'wishlist':
+                content = <Wishlist history={this.props.history} classes={this.props.classes}/>
+                break;
+            default :
+                content = 'customer dashboard 2'
+        }
+        return content;
+    }
+
+    componentDidMount(){
+        this.setIsPhone()
+        this.pushTo = '/login.html';
+        const {isSignedIn, history, classes} = this.props
+        if(!isSignedIn){
+            history.push(this.pushTo);
+            return
+        }
+        $('body').addClass(classes['body-customer-dashboard'])
+    }
+
+    componentWillUnmount(){
+        const {classes} = this.props
+        $('body').removeClass(classes['body-customer-dashboard'])
+    }
+
+    renderSideBar = () => {
+        const {classes} = this.props
+        return(
+            <div className={`${classes["dashboard-sidebar"]} hidden-xs`}>
+                <div className={classes["list-sidebar-item"]}>
+                    <div className={`${classes["sidebar-item"]} ${classes["trade-sv"]}`} >
+                        <div className={classes["sidebar-title"]}>
+                            {Identify.__('Our trade services')}
+                        </div>
+                        <div className={classes["sidebar-action"]}>
+                            <Link to="/trade-services">
+                                {Identify.__('Find out more')}
+                            </Link>
+                        </div>
+                    </div>
+                    <div className={`${classes["sidebar-item"]} ${classes["branch-sv"]}`}>
+                        <div className={classes["sidebar-title"]}>
+                            {Identify.__('Branch Finder')}
+                        </div>
+                        <div className={classes["sidebar-action"]}>
+                            <Link to='/branch-finder'>
+                                {Identify.__('Search')}
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    render() {
+        const {page}= this.state;
+        const {classes} = this.props
+        const pageClass = (page === classes['order-detail'] || page === classes['wishlist']) ? classes['dashboard-without-sidebar'] : '';
+        const checkSidebar = (page === classes['order-detail'] || page === classes['wishlist']) ? false : true;
+        return (
+            <React.Fragment>
+                <div className={`${classes['customer-dashboard']} ${page}`} style={{minHeight:window.innerHeight-200}}>
+                    <BreadCrumb breadcrumb={[{name:'Home',link:'/'},{name:'Account'}]}/>
+                    <div className={`${classes['container']} container`}>
+                        <div className={classes["dashboard-layout"]}>
+                            {this.renderMenu()}
+                            <div className={`${classes['dashboard-content']} ${pageClass}`}>
+                                {this.renderContent()}
+                            </div>
+                            {checkSidebar && this.renderSideBar()}
+                        </div>
+                    </div>
+                </div>
+            </React.Fragment>
+
         );
     }
 }
-export default Account
+
+const mapStateToProps = ({ user }) => {
+    const { currentUser, isSignedIn } = user
+    const { firstname } = currentUser;
+    return {
+        firstname,
+        isSignedIn
+    };
+}
+
+export default compose(
+    classify(defaultClasses),
+    connect(
+        mapStateToProps
+    )
+)(CustomerLayout);

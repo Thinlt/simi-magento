@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'
 import Identify from "src/simi/Helper/Identify";
 import WishList from 'src/simi/BaseComponents/Icon/WishList'
 import MenuIcon from 'src/simi/BaseComponents/Icon/Menu'
+import Message from 'src/simi/BaseComponents/Message/index'
 import NavTrigger from './Component/navTrigger'
 import CartTrigger from './cartTrigger'
 import defaultClasses from './header.css'
@@ -106,6 +107,9 @@ class Header extends React.Component{
                     </div>
                 </div>
                 {this.renderSearhForm()}
+                <div id="id-message">
+                    <Message/>
+                </div>
             </div>
 
 
@@ -127,6 +131,9 @@ class Header extends React.Component{
                     </div>
                 </div>
                 {window.innerWidth >= 1024 && <HeaderNavigation classes={this.classes}/>}
+                <div id="id-message">
+                    <Message/>
+                </div>
             </React.Fragment>
         )
     }
