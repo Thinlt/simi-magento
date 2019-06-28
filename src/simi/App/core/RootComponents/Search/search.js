@@ -12,7 +12,7 @@ import { loadingIndicator } from 'src/components/LoadingIndicator';
 import defaultClasses from './search.css';
 import PRODUCT_SEARCH from 'src/simi/queries/productSearch.graphql';
 import SIMI_PRODUCT_SEARCH from 'src/simi/queries/simiconnector/productSearch.graphql';
-import Products from '/src/simi/BaseComponents/Products'
+import Products from 'src/simi/BaseComponents/Products'
 import { compose } from 'redux';
 import { withRouter } from 'src/drivers';
 
