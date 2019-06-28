@@ -36,7 +36,6 @@ class Url{
             window.onhashchange = function(e) {
                 var oldURL = e.oldURL.split('#')[1];
                 var newURL = e.newURL.split('#')[1];
-                console.log('old:'+oldURL+' new:'+newURL);
                 if (oldURL === href) {
                     e.preventDefault();
                     obj.setState({open: false});

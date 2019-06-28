@@ -1,14 +1,14 @@
 import React from 'react';
-import { mergeClasses } from 'src/classify';
 import Gallery from './Gallery';
-import defaultClasses from './category.css';
+import defaultClasses from './products.css';
 import Identify from 'src/simi/Helper/Identify'
 import Sortby from './Sortby'
 import Filter from './Filter'
 import Pagination from 'src/simi/BaseComponents/Pagination'
 import Loading from 'src/simi/BaseComponents/Loading'
+import classify from 'src/classify';
 
-class CategoryContent extends React.Component {
+class Products extends React.Component {
 
     renderFilter() {
         const {props} = this
@@ -60,7 +60,6 @@ class CategoryContent extends React.Component {
         const {props} = this
         const { data, pageSize, history, location, sortByData, currentPage } = props;
         const items = data ? data.products.items : null;
-        const title = data ? data.category.description : null;
         if (!data)
             return <Loading />
         if (!data.products || !data.products.total_count)
@@ -73,7 +72,7 @@ class CategoryContent extends React.Component {
                     sortByData={sortByData}
                     />
                 <section className={classes.gallery}>
-                    <Gallery data={items} title={title} pageSize={pageSize} history={history} location={location} />
+                    <Gallery data={items} pageSize={pageSize} history={history} location={location} />
                 </section>
                 <div className={classes['product-grid-pagination']} style={{marginBottom: 20}}>
                     <Pagination 
@@ -91,10 +90,7 @@ class CategoryContent extends React.Component {
 
     render() {
         const {props} = this
-        const { data } = props;
-        const classes = mergeClasses(defaultClasses, props.classes);
-        const categoryTitle = data ? data.category.name : null;
-        const title = data ? data.category.description : null;
+        const { data, classes, title } = props;
         let itemCount = ''
         if(data && data.products && data.products.total_count){
             const text = data.products.total_count > 1 ? Identify.__('%t items') : Identify.__('%t item');
@@ -107,13 +103,7 @@ class CategoryContent extends React.Component {
         return (
             <article className={classes.root}>
                 <h1 className={classes.title}>
-                    {/* TODO: Switch to RichContent component from Peregrine when merged */}
-                    <div
-                        dangerouslySetInnerHTML={{
-                            __html: title
-                        }}
-                    />
-                    <div className={classes.categoryTitle}>{categoryTitle}</div>
+                    <div className={classes.categoryTitle}>{title}</div>
                 </h1>
                 {itemCount}
                 <div className={classes["product-list-container-siminia"]}>
@@ -127,4 +117,6 @@ class CategoryContent extends React.Component {
     }
 };
 
-export default CategoryContent;
+
+export default classify(defaultClasses)(Products);
+

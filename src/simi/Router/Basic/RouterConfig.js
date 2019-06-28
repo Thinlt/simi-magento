@@ -1,6 +1,6 @@
 import React from 'react'
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent'
-import Search from 'src/RootComponents/Search';
+import Search from 'src/simi/App/core/RootComponents/Search';
 import CreateAccountPage from 'src/components/CreateAccountPage/index';
 import Product from 'src/simi/App/core/Product';
 import Logout from 'src/simi/App/core/Customer/Logout'

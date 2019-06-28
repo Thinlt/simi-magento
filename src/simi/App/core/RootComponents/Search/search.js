@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Identify from 'src/simi/Helper/Identify'
 import { Redirect } from 'src/drivers';
 import {Simiquery} from 'src/simi/Network/Query'
-import { bool, func, object, shape, string } from 'prop-types';
 import gql from 'graphql-tag';
 
-import Gallery from 'src/components/Gallery';
 import classify from 'src/classify';
 import Icon from 'src/components/Icon';
 import getQueryParameterValue from 'src/util/getQueryParameterValue';
@@ -12,8 +11,15 @@ import CloseIcon from 'react-feather/dist/icons/x';
 import { loadingIndicator } from 'src/components/LoadingIndicator';
 import defaultClasses from './search.css';
 import PRODUCT_SEARCH from 'src/simi/queries/productSearch.graphql';
+import SIMI_PRODUCT_SEARCH from 'src/simi/queries/simiconnector/productSearch.graphql';
+import Products from '/src/simi/BaseComponents/Products'
+import { compose } from 'redux';
+import { withRouter } from 'src/drivers';
 
-const getCategoryName = gql`
+var sortByData = null
+var filterData = null
+
+const getCategoryNameQr = gql`
     query getCategoryName($id: Int!) {
         category(id: $id) {
             name
@@ -21,44 +27,43 @@ const getCategoryName = gql`
     }
 `;
 
-export class Search extends Component {
-    static propTypes = {
-        classes: shape({
-            noResult: string,
-            root: string,
-            totalPages: string
-        }),
-        executeSearch: func.isRequired,
-        history: object,
-        location: object.isRequired,
-        match: object,
-        searchOpen: bool,
-        toggleSearch: func
-    };
+const Search = props => {
+    const { classes, location, history } = props;
+    let currentPage = Identify.findGetParameter('page')
+    currentPage = currentPage?Number(currentPage):1
+    let pageSize = Identify.findGetParameter('product_list_limit')
+    pageSize = pageSize?Number(pageSize):window.innerWidth < 1024?12:24
 
-    componentDidMount() {
-        // Ensure that search is open when the user lands on the search page.
-        const { location, searchOpen, toggleSearch } = this.props;
+    const inputText = getQueryParameterValue({
+        location,
+        queryParameter: 'query'
+    });
+    const categoryId = getQueryParameterValue({
+        location,
+        queryParameter: 'category'
+    });
 
-        const inputText = getQueryParameterValue({
-            location,
-            queryParameter: 'query'
-        });
-
-        if (toggleSearch && !searchOpen && inputText) {
-            toggleSearch();
-        }
+    if (!inputText) {
+        return <Redirect to="/" />;
     }
 
-    getCategoryName = (categoryId, classes) => (
+    const queryVariable = categoryId
+        ? { inputText, categoryId }
+        : { inputText };
+
+    const handleClearCategoryFilter = () => {
+        history.push(`/search.html?query=${inputText}`) 
+    }
+
+    const getCategoryName = (categoryId, classes) => (
         <div className={classes.categoryFilters}>
             <button
                 className={classes.categoryFilter}
-                onClick={this.handleClearCategoryFilter}
+                onClick={handleClearCategoryFilter}
             >
                 <small className={classes.categoryFilterText}>
                     <Simiquery
-                        query={getCategoryName}
+                        query={getCategoryNameQr}
                         variables={{ id: categoryId }}
                     >
                         {({ loading, error, data }) => {
@@ -79,69 +84,50 @@ export class Search extends Component {
         </div>
     );
 
-    handleClearCategoryFilter = () => {
-        const inputText = getQueryParameterValue({
-            location: this.props.location,
-            queryParameter: 'query'
-        });
+    const searchQuery = Identify.hasConnector()?SIMI_PRODUCT_SEARCH:PRODUCT_SEARCH
+    return (
+        <Simiquery query={searchQuery} variables={queryVariable}>
+            {({ loading, error, data }) => {
+                if (error) return <div>Data Fetch Error</div>;
+                if (loading) return loadingIndicator;
 
-        if (inputText) {
-            this.props.executeSearch(inputText, this.props.history);
-        }
-    };
-
-    render() {
-        const { classes, location } = this.props;
-        const { getCategoryName } = this;
-
-        const inputText = getQueryParameterValue({
-            location,
-            queryParameter: 'query'
-        });
-        const categoryId = getQueryParameterValue({
-            location,
-            queryParameter: 'category'
-        });
-
-        if (!inputText) {
-            return <Redirect to="/" />;
-        }
-
-        const queryVariable = categoryId
-            ? { inputText, categoryId }
-            : { inputText };
-
-        return (
-            <Simiquery query={PRODUCT_SEARCH} variables={queryVariable}>
-                {({ loading, error, data }) => {
-                    if (error) return <div>Data Fetch Error</div>;
-                    if (loading) return loadingIndicator;
-
-                    if (data.products.items.length === 0)
-                        return (
-                            <div className={classes.noResult}>
-                                No results found!
-                            </div>
-                        );
-
+                if (data && data.simiproducts) {
+                    data.products = data.simiproducts
+                    if (data.products.simi_filters)
+                        data.products.filters = data.products.simi_filters
+                }
+            
+                if (data.products.items.length === 0)
                     return (
-                        <article className={classes.root}>
-                            <div className={classes.categoryTop}>
-                                <div className={classes.totalPages}>
-                                    {data.products.total_count} items{' '}
-                                </div>
-                                {categoryId &&
-                                    getCategoryName(categoryId, classes)}
-                            </div>
-                            <section className={classes.gallery}>
-                                <Gallery data={data.products.items} />
-                            </section>
-                        </article>
+                        <div className={classes.noResult}>
+                            No results found!
+                        </div>
                     );
-                }}
-            </Simiquery>
-        );
-    }
+                    
+                const title = Identify.__(`Search results for '%s'`).replace('%s', inputText);
+
+                return (
+                    <div className={`${classes.root} container`}>
+                        <div className={classes.categoryTop}>
+                            {categoryId &&
+                                getCategoryName(categoryId, classes)}
+                        </div>
+                        <Products
+                            title={title}
+                            history={props.history}
+                            location={props.location}
+                            classes={classes}
+                            currentPage={currentPage}
+                            pageSize={pageSize}
+                            data={loading ? null : data}
+                            sortByData={sortByData}
+                            filterData={filterData?JSON.parse(productListFilter):null}
+                        />
+                    </div>
+                );
+            }}
+        </Simiquery>
+    );
 }
 
-export default classify(defaultClasses)(Search);
+export default compose(withRouter, classify(defaultClasses))(Search);

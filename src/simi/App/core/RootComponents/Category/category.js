@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
 import LoadingSpiner from 'src/simi/BaseComponents/Loading/LoadingSpiner'
-import { string, number, shape } from 'prop-types';
+import { number } from 'prop-types';
 import { simiUseQuery } from 'src/simi/Network/Query';
-import { mergeClasses } from 'src/classify';
 import categoryQuery from 'src/simi/queries/getCategory.graphql';
 import simicntrCategoryQuery from 'src/simi/queries/simiconnector/getCategory.graphql'
-import CategoryContent from './categoryContent';
-import defaultClasses from './category.css';
+import Products from 'src/simi/BaseComponents/Products';
 import { resourceUrl } from 'src/drivers'
 import CategoryHeader from './categoryHeader'
 import Identify from 'src/simi/Helper/Identify';
@@ -42,7 +40,6 @@ const Category = props => {
     const [queryResult, queryApi] = simiUseQuery(Identify.hasConnector()?simicntrCategoryQuery:categoryQuery);
     const { data, error, loading } = queryResult;
     const { runQuery, setLoading } = queryApi;
-    const classes = mergeClasses(defaultClasses, props.classes);
 
     useEffect(() => {
         const variables = {
@@ -76,21 +73,21 @@ const Category = props => {
     //if (!totalPages) return <LoadingSpiner />;
     if (!data || !data.category) return <LoadingSpiner />;
 
+    const categoryTitle = data && data.category ? data.category.name : '';
     // if our data is still loading, we want to reset our data state to null
     return (
         <div className="container">
             {
             (data.category && data.category.name && data.category.image) &&
             <CategoryHeader
-                classes={classes}
                 name={data.category.name}
                 image_url={resourceUrl(data.category.image, { type: 'image-category' })}
             />
             }
-            <CategoryContent
+            <Products
+                title={categoryTitle}
                 history={props.history}
                 location={props.location}
-                classes={classes}
                 currentPage={currentPage}
                 pageSize={pageSize}
                 data={loading ? null : data}
@@ -103,11 +100,6 @@ const Category = props => {
 
 Category.propTypes = {
     id: number,
-    classes: shape({
-        gallery: string,
-        root: string,
-        title: string
-    }),
     pageSize: number
 };
 
