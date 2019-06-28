@@ -5,7 +5,7 @@ import Identify from "src/simi/Helper/Identify";
 import ErrorIcon from 'src/simi/BaseComponents/Icon/Error'
 import Success from 'src/simi/BaseComponents/Icon/Success'
 import WarningIcon from 'src/simi/BaseComponents/Icon/Warning'
-import CloseIcon from '/src/simi/BaseComponents/Icon/TapitaIcons/Close'
+import CloseIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
 import { connect } from 'src/drivers';
 import {
     toggleMessages
