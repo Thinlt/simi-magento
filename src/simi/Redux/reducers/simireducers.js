@@ -5,7 +5,7 @@ import simiActions from 'src/simi/Redux/actions/simiactions';
 
 const initialState = {
     simiValue: 'cody_initialize_value',
-    simiMessages: [],// [{type: 'success', message: 'sample'}]
+    simiMessages: [],// [{type: 'success', message: 'sample', auto_dismiss: true}]
 };
 
 const reducerMap = {

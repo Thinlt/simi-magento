@@ -19,7 +19,7 @@ export const Simiquery = props => {
     </Query>
 }
 
-export var simiUseQuery = function simiUseQuery(query) {
+export var simiUseQuery = function simiUseQuery(query, use_cache = true) {
     var apolloClient = useApolloContext();
 
     var _useQueryResult = useQueryResult(),
@@ -42,14 +42,15 @@ export var simiUseQuery = function simiUseQuery(query) {
             switch (_context.prev = _context.next) {
                 case 0:
                 variables = _ref.variables;
+                _context.next = 3;
                 //simi
                 variables = addRequestVars(variables)
-                //end
-                _context.next = 3;
                 return apolloClient.query({
                     query: query,
-                    variables: variables
+                    variables: variables,
+                    fetchPolicy: use_cache?'cache-first':'network-only' //default is cache-first, consider 'no-cache'?
                 });
+                //end
 
                 case 3:
                 payload = _context.sent;

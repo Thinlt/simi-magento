@@ -34,6 +34,7 @@ class Msg extends React.Component {
             className : classes['message-warning'],
             label : 'Warning',
             text : msg.message,
+            iconColor: '#333132',
             icon : <WarningIcon color="#333132"/>
         }
         if(msg.type === 'success'){
@@ -41,6 +42,7 @@ class Msg extends React.Component {
                 className : classes['message-success'],
                 label : 'Success',
                 text : msg.message,
+                iconColor: '#0F7D37',
                 icon : <Success color="#0F7D37"/>
             }
         }else if(msg.type === 'error'){
@@ -48,6 +50,7 @@ class Msg extends React.Component {
                 className : classes['message-error'],
                 label : 'Error',
                 text : msg.message,
+                iconColor: '#FA0A11',
                 icon : <ErrorIcon color="#FA0A11"/>
             }
         }else if(msg.type === 'logout_msg'){
@@ -55,6 +58,7 @@ class Msg extends React.Component {
                 className : classes['message-success'],
                 label : '',
                 text : msg.message,
+                iconColor: '#0F7D37',
                 icon : <Success color="#0F7D37"/>
             }
         }
@@ -70,31 +74,41 @@ class Msg extends React.Component {
                     </div>
                 </div>
                 <div role="presentation" className={classes["msg-close"]} onClick={() => this.removeMessage(id)}>
-                    <CloseIcon />
+                    <CloseIcon style={{fill: data.iconColor, width: 12, height: 12}}/>
                 </div>
             </div>
         )
     }
 
-    renderMsgs = (simiMessages) => {
-        if (simiMessages && simiMessages.length) {
-            return simiMessages.map((msg, id) => {
-                return this.renderMsg(msg, id)
-            }, this)
+    autoDismiss(simiMessages) {
+        const { toggleMessages } = this.props
+        let reload = false
+        const newMessages = []
+        simiMessages.forEach(simiMessage => {
+            if (simiMessage.auto_dismiss) {
+                reload = true
+            } else {
+                newMessages.push(simiMessage)
+            }
+        });
+        if (reload) {
+            toggleMessages(newMessages)
         }
     }
 
-    componentDidUpdate(){
-        const {simiMessage} = this.props || null
-        if(simiMessage instanceof Object && simiMessage.hasOwnProperty('message')){
-            const $ = window.$;
-            Identify.smoothScrollToView($('#id-message'))
-        }
+    renderMsgs = (simiMessages) => {
+        const obj = this
+        setTimeout(function () {
+            obj.autoDismiss(simiMessages)
+        }, 3000);
+        return simiMessages.map((msg, id) => {
+            return this.renderMsg(msg, id)
+        }, this)
     }
 
     render() {
         const {simiMessages} = this.props || null
-        if(!simiMessages) return null;
+        if(!simiMessages || !simiMessages.length) return null;
         return (
             <div className="container">
                 {this.renderMsgs(simiMessages)}

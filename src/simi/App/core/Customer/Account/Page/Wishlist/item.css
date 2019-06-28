@@ -18,6 +18,10 @@
 @media (min-width: 1024px) {
     .siminia-product-grid-item .product-item-action {
         margin-top: 15px;
+        opacity: 0;
+    }
+    .siminia-product-grid-item:hover .product-item-action {
+        opacity: 1;
     }
 }
 
@@ -28,7 +32,7 @@
 }
 @media (min-width: 1024px) {
     .siminia-product-grid-item {
-        padding: 1px 0px 93px 0px;
+        padding: 1px 0px 10px 0px;
     }
 }
 @media (max-width: 1024px) {

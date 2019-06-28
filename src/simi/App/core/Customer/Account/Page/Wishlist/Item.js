@@ -11,10 +11,12 @@ import {confirmAlert} from 'react-confirm-alert';
 import classify from 'src/classify';
 import itemStyle from './item.css';
 import { Price } from '@magento/peregrine';
-import { removeItem } from '/src/simi/Model/Wishlist'
+import { removeWlItem, addWlItemToCart } from '/src/simi/Model/Wishlist'
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+import { getCartDetails } from 'src/actions/cart';
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import confirmAllertStyles from 'react-confirm-alert/src/react-confirm-alert.css'
+
 
 const defaultClasses = {...confirmAllertStyles, ...itemStyle }
 
@@ -22,54 +24,52 @@ const productUrlSuffix = '.html';
 
 class Item extends React.Component {
     processData(data) {
-        console.log(data)
         hideFogLoading()
-        if (this.addCart || this.removeItem) {
+        if (data.errors) {
+            if (data.errors.length) {
+                const errors = data.errors.map(error => {
+                    return {
+                        type: 'error',
+                        message: error.message,
+                        auto_dismiss: true
+                    }
+                });
+                this.props.toggleMessages(errors)
+            }
+        } else if (this.addCart || this.removeItem) {
             if (this.addCart) {
-
+                this.props.toggleMessages([{type: 'success', message: Identify.__('This product has been moved to cart')}])
+                const { getCartDetails } = this.props;
+                getCartDetails()
+                this.props.getWishlist()
             }
             if (this.removeItem) {
                 this.props.toggleMessages([{type: 'success', message: Identify.__('This product has been removed from your wishlist')}])
-                this.props.setIsLoaded()
+                this.props.getWishlist()
             }
-            this.this.addCart = false
-            this.removeItem = false;
         }
+
+        this.addCart = false
+        this.removeItem = false;
     }
 
-    getWishList = () => {
-        this.getWL = true;
-    }
-    addToCart(location = false) {
-        // const item = this.props.item;
-        // if (item.type_id !== 'simple') {
-        //     if (location)
-        //         this.handleLink(location)
-        //     return
-        // }
-        // this.addCart = true;
-        // Identify.showLoading();
-        // this.wishlistModel.requestAddToCart(item.wishlist_item_id);
-        // Analytics.analyticsTracking(
-        //     {
-        //         mixpanel : true,
-        //         ga : false
-        //     },
-        //     {
-        //         action: `clicked_add_to_cart_button`,
-        //         name: `selected_product_${item.product_name}`,
-        //         sku: `selected_product_${item.sku}`,
-        //         product_id: `selected_product_${item.product_id}`,
-        //     }
-        // )
+    addToCart(id, location = false) {
+        const item = this.props.item;
+        if (!item.product || item.product.type_id !== 'simple') {
+            if (location)
+                this.props.history.push(location)
+            return
+        }
+        this.addCart = true;
+        showFogLoading();
+        addWlItemToCart(id, this.processData.bind(this))
     }
 
     onTrashItem = (id) => {
         if(id){
-            console.log(id)
             confirmAlert({
-                title: '',                        // Title dialog
-                message: Identify.__('Are you sure you want to delete this product?'),        // Message dialog
+                title: '',
+                message: Identify.__('Are you sure you want to delete this product?'),
                 buttons: [
                     {
                         label: Identify.__('Confirm'),
@@ -86,7 +86,7 @@ class Item extends React.Component {
     handleTrashItem = (id) => {
         showFogLoading();
         this.removeItem = true;
-        removeItem(id, this.processData.bind(this))
+        removeWlItem(id, this.processData.bind(this))
     }
 
     render() {
@@ -134,7 +134,7 @@ class Item extends React.Component {
                 <Colorbtn 
                     style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
                     className={classes["grid-add-cart-btn"]} 
-                    onClick={() => this.addToCart(this.location)}
+                    onClick={() => this.addToCart(item.id, this.location)}
                     text={addToCartString}/>
                 <Link 
                     className={classes["view-link"]}
@@ -164,7 +164,8 @@ class Item extends React.Component {
 }
 
 const mapDispatchToProps = {
-    toggleMessages
+    toggleMessages,
+    getCartDetails
 }
 export default compose(
     classify(defaultClasses),

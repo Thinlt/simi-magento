@@ -17,6 +17,7 @@ query getWishlist {
             url
             label
           }
+          type_id
           url_key
           price {
             regularPrice {

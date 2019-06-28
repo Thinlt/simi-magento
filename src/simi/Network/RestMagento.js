@@ -1,5 +1,8 @@
 import { addRequestVars } from 'src/simi/Helper/Network'
 import Identify from 'src/simi/Helper/Identify'
+import { Util } from '@magento/peregrine';
+const { BrowserPersistence } = Util;
+
 
 const prepareData = (endPoint, getData, method, header, bodyData) => {
     let requestMethod = method
@@ -35,11 +38,15 @@ const prepareData = (endPoint, getData, method, header, bodyData) => {
     dataGetString = dataGetString.join('&')
     if(requestEndPoint.includes('?')){
         requestEndPoint += "&" + dataGetString;
-    } else {
+    } else { 
         requestEndPoint += "?" + dataGetString;
     }
 
     //header
+    const storage = new BrowserPersistence()
+    const token = storage.getItem('signin_token')
+    if (token)
+        requestHeader['authorization'] = `Bearer ${token}`
     requestHeader['accept'] = 'application/json'
     requestHeader['content-type'] = 'application/json'
 
@@ -70,11 +77,13 @@ export async function sendRequest(endPoint, callBack, method='GET', getData= {},
                     result = data[0]
                 else
                     result = data
+                if (result && typeof result === 'object')
+                    result.endPoint = endPoint
             } else
-                result =  {'errors' : [{'code' : 0, 'message' : Identify.__('Network response was not ok')}]}
+                result =  {'errors' : [{'code' : 0, 'message' : Identify.__('Network response was not ok'), 'endpoint': endPoint}]}
             callBack(result)
         }).catch((error) => {
-        result =  {'errors' : [{'code' : 0, 'message' : Identify.__('Something when wrong')}]}
+        result =  {'errors' : [{'code' : 0, 'message' : Identify.__('Something when wrong'), 'endpoint': endPoint}]}
         console.warn(error);
         callBack(result)
     });

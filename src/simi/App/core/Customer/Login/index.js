@@ -188,7 +188,7 @@ class Login extends Component {
                 Identify.__("Welcome %s Start shopping now").replace('%s', firstname):
                 Identify.__("You have succesfully logged in, Start shopping now")
             if (this.props.toggleMessages)
-                this.props.toggleMessages([{type: 'success', message: message}])
+                this.props.toggleMessages([{type: 'success', message: message, auto_dismiss: true}])
         }
 
         const handleBack =

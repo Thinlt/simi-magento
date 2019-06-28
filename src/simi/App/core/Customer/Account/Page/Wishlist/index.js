@@ -4,24 +4,24 @@ import TitleHelper from 'src/simi/Helper/TitleHelper'
 import Loading from "src/simi/BaseComponents/Loading";
 import Item from "./Item";
 import { simiUseQuery } from 'src/simi/Network/Query'
-import getWishlist from 'src/simi/queries/getWishlist.graphql'
+import getWishlistQuery from 'src/simi/queries/getWishlist.graphql'
 
 
 const Wishlist = props => {
-    const {classes} = props    
-    const [queryResult, queryApi] = simiUseQuery(getWishlist);
+    const {classes, history} = props    
+    const [queryResult, queryApi] = simiUseQuery(getWishlistQuery, false);
     const { data } = queryResult;
     const { runQuery } = queryApi;
-    let isLoaded = 0
-    const setIsLoaded = () => {
-        isLoaded = 1
+
+    const getWishlist = () => {
+        runQuery({});
     }
 
     useEffect(() => {
-        if (!data || isLoaded) {        
-            runQuery({});
+        if (!data) {        
+            getWishlist();
         }
-    }, [data, isLoaded]);
+    }, [data]);
 
     let rows = null
     if (!data || !data.wishlist) {
@@ -49,8 +49,8 @@ const Wishlist = props => {
                             }`}
                             showBuyNow={true}
                             parent={this}
-                            setIsLoaded={setIsLoaded}
-                            isLoaded={isLoaded}
+                            getWishlist={getWishlist}
+                            history={history}
                         /> 
                     </div>
                 );
