@@ -9,16 +9,12 @@ import { Link } from 'src/drivers';
 import Trash from 'src/simi/BaseComponents/Icon/Trash';
 import {confirmAlert} from 'react-confirm-alert';
 import classify from 'src/classify';
-import itemStyle from './item.css';
+import defaultClasses from './item.css';
 import { Price } from '@magento/peregrine';
 import { removeWlItem, addWlItemToCart } from 'src/simi/Model/Wishlist'
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { getCartDetails } from 'src/actions/cart';
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
-import confirmAllertStyles from 'react-confirm-alert/src/react-confirm-alert.css'
-
-
-const defaultClasses = {...confirmAllertStyles, ...itemStyle }
 
 const productUrlSuffix = '.html';
 
