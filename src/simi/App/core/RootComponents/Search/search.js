@@ -14,7 +14,7 @@ import PRODUCT_SEARCH from 'src/simi/queries/productSearch.graphql';
 import SIMI_PRODUCT_SEARCH from 'src/simi/queries/simiconnector/productSearch.graphql';
 import Products from 'src/simi/BaseComponents/Products'
 import { compose } from 'redux';
-import { withRouter } from 'src/drivers';
+import { withRouter } from 'react-router-dom';
 
 var sortByData = null
 var filterData = null

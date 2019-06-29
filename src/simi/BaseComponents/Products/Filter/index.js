@@ -4,7 +4,7 @@ import defaultClasses from './filter.css';
 import Checkbox from 'src/simi/BaseComponents/Checkbox'
 import Dropdownplus from 'src/simi/BaseComponents/Dropdownplus'
 import { mergeClasses } from 'src/classify'
-import { withRouter } from 'src/drivers';
+import { withRouter } from 'react-router-dom';
 
 const $ = window.$;
 

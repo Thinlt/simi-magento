@@ -8,7 +8,7 @@ import ForgotPassword from 'src/components/ForgotPassword';
 import { connect } from 'src/drivers';
 import { compose } from 'redux';
 import BackIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Back';
-import { withRouter } from 'src/drivers';
+import { withRouter } from 'react-router-dom';
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 

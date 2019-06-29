@@ -4,7 +4,7 @@ import {Carousel} from 'react-responsive-carousel'
 import Connection from 'src/simi/Network/SimiConnection'
 import PropTypes from 'prop-types'
 import Innercontent from './Innercontent'
-import { withRouter } from 'src/drivers'
+import { withRouter } from 'react-router-dom';
 
 const $ = window.$
 
