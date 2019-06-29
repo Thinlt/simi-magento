@@ -4,6 +4,7 @@
 ```
 git clone https://github.com/magento-research/pwa-studio/
 cd pwa-studio
+git checkout v3.0.0
 cp packages/venia-concept/.env.dist packages/venia-concept/.env
 ```
 
