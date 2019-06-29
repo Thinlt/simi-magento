@@ -12,9 +12,7 @@ const item = {
     price: 10,
     qty: 1,
     sku: 'TEST1',
-    image: {
-        file: 'test.jpg'
-    },
+    image: 'test.jpg',
     options: [
         {
             label: 'testLabel',

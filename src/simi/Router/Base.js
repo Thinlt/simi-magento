@@ -1,6 +1,6 @@
 import React from 'react'
 import Identify from "src/simi/Helper/Identify"
-import {Route, Switch} from "react-router";
+import { Switch, Route } from 'react-router-dom';
 import {PbPageHoc} from 'src/simi/App/core/Pbpage';
 import ErrorView from 'src/components/ErrorView/index';
 import { Page } from '@magento/peregrine';

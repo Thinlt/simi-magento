@@ -7,16 +7,7 @@ import Button from 'src/components/Button';
 import Checkbox from 'src/components/Checkbox';
 import Field from 'src/components/Field';
 import TextInput from 'src/components/TextInput';
-
-import combine from 'src/util/combineValidators';
-import {
-    validateEmail,
-    isRequired,
-    validatePassword,
-    validateConfirmPassword,
-    hasLengthAtLeast
-} from 'src/util/formValidators';
-
+import { validators } from './validators';
 import defaultClasses from './createAccount.css';
 
 class CreateAccount extends Component {
@@ -90,7 +81,7 @@ class CreateAccount extends Component {
                     <TextInput
                         field="customer.firstname"
                         autoComplete="given-name"
-                        validate={isRequired}
+                        validate={validators.get('firstName')}
                         validateOnBlur
                     />
                 </Field>
@@ -98,7 +89,7 @@ class CreateAccount extends Component {
                     <TextInput
                         field="customer.lastname"
                         autoComplete="family-name"
-                        validate={isRequired}
+                        validate={validators.get('lastName')}
                         validateOnBlur
                     />
                 </Field>
@@ -106,31 +97,24 @@ class CreateAccount extends Component {
                     <TextInput
                         field="customer.email"
                         autoComplete="email"
-                        validate={combine([isRequired, validateEmail])}
+                        validate={validators.get('email')}
                         validateOnBlur
                     />
                 </Field>
-                <Field label="Password" required={true}>
+                <Field label="Password">
                     <TextInput
                         field="password"
                         type="password"
                         autoComplete="new-password"
-                        validate={combine([
-                            isRequired,
-                            [hasLengthAtLeast, 8],
-                            validatePassword
-                        ])}
+                        validate={validators.get('password')}
                         validateOnBlur
                     />
                 </Field>
-                <Field label="Confirm Password" required={true}>
+                <Field label="Confirm Password">
                     <TextInput
                         field="confirm"
                         type="password"
-                        validate={combine([
-                            isRequired,
-                            validateConfirmPassword
-                        ])}
+                        validate={validators.get('confirm')}
                         validateOnBlur
                     />
                 </Field>

@@ -1,8 +1,6 @@
 import React from 'react';
-import {
-    WindowSizeContextProvider,
-    createTestInstance
-} from '@magento/peregrine';
+import testRenderer from 'react-test-renderer';
+
 import Thumbnail from '../thumbnail';
 
 jest.mock('src/classify');
@@ -20,21 +18,13 @@ const defaultProps = {
 };
 
 test('renders the Thumbnail component correctly', () => {
-    const component = createTestInstance(
-        <WindowSizeContextProvider>
-            <Thumbnail {...defaultProps} />
-        </WindowSizeContextProvider>
-    );
+    const component = testRenderer.create(<Thumbnail {...defaultProps} />);
 
     expect(component.toJSON()).toMatchSnapshot();
 });
 
 test('clicking calls click handler with item index', () => {
-    const component = createTestInstance(
-        <WindowSizeContextProvider>
-            <Thumbnail {...defaultProps} />
-        </WindowSizeContextProvider>
-    );
+    const component = testRenderer.create(<Thumbnail {...defaultProps} />);
 
     component.root.findByType('button').props.onClick();
 
@@ -51,11 +41,7 @@ test('renders transparent placeholder when no file name is provided', () => {
             label: 'placeholder-thumbnail'
         }
     };
-    const component = createTestInstance(
-        <WindowSizeContextProvider>
-            <Thumbnail {...props} />
-        </WindowSizeContextProvider>
-    );
+    const component = testRenderer.create(<Thumbnail {...props} />);
 
     expect(component.toJSON()).toMatchSnapshot();
 });
@@ -65,11 +51,7 @@ test('renders root class if not the active Thumbnail', () => {
         ...defaultProps,
         isActive: false
     };
-    const component = createTestInstance(
-        <WindowSizeContextProvider>
-            <Thumbnail {...props} />
-        </WindowSizeContextProvider>
-    );
+    const component = testRenderer.create(<Thumbnail {...props} />);
 
     expect(component.toJSON()).toMatchSnapshot();
     expect(component.root.findByType('button').props.className).toEqual('root');

@@ -1,79 +1,93 @@
-import React, { Fragment, useCallback, useEffect } from 'react';
+import React, { Component, Fragment } from 'react';
 import { bool, func, shape, string } from 'prop-types';
-import { mergeClasses } from 'src/classify';
+import classify from 'src/classify';
 import Button from 'src/components/Button';
 import defaultClasses from './receipt.css';
 
-const Receipt = props => {
-    const { createAccount, history, order, reset, user } = props;
+export const CONTINUE_SHOPPING_BUTTON_ID = 'continue-shopping-button';
+export const CREATE_ACCOUNT_BUTTON_ID = 'create-account-button';
 
-    const classes = mergeClasses(defaultClasses, props.classes);
+class Receipt extends Component {
+    static propTypes = {
+        classes: shape({
+            body: string,
+            footer: string,
+            root: string
+        }),
+        continueShopping: func.isRequired,
+        order: shape({
+            id: string
+        }).isRequired,
+        createAccount: func.isRequired,
+        reset: func.isRequired,
+        user: shape({
+            isSignedIn: bool
+        })
+    };
 
-    useEffect(() => reset, [reset]);
+    static defaultProps = {
+        order: {},
+        continueShopping: () => {},
+        reset: () => {},
+        createAccount: () => {}
+    };
 
-    const handleCreateAccount = useCallback(() => {
-        createAccount(history);
-    }, [createAccount, history]);
+    componentWillUnmount() {
+        this.props.reset();
+    }
 
-    const handleViewOrderDetails = useCallback(() => {
-        // TODO: Implement/connect/redirect to order details page.
-    }, [order]);
+    createAccount = () => {
+        this.props.createAccount(this.props.history);
+    };
 
-    return (
-        <div className={classes.root}>
-            <div className={classes.body}>
-                <h2 className={classes.header}>Thank you for your purchase!</h2>
-                <div className={classes.textBlock}>
-                    You will receive an order confirmation email with order
-                    status and other details.
+    continueShopping = () => {
+        this.props.continueShopping(this.props.history);
+    };
+
+    render() {
+        const {
+            classes,
+            order: { id },
+            user
+        } = this.props;
+
+        return (
+            <div className={classes.root}>
+                <div className={classes.body}>
+                    <h2 className={classes.header}>
+                        Thank you for your purchase!
+                    </h2>
+                    <div className={classes.textBlock}>
+                        Your order # is{' '}
+                        <span className={classes.orderId}>{id}</span>
+                        <br />
+                        We&rsquo;ll email you an order confirmation with details
+                        and tracking info
+                    </div>
+                    <Button
+                        data-id={CONTINUE_SHOPPING_BUTTON_ID}
+                        onClick={this.continueShopping}
+                    >
+                        Continue Shopping
+                    </Button>
+                    {!user.isSignedIn && (
+                        <Fragment>
+                            <div className={classes.textBlock}>
+                                Track order status and earn rewards for your
+                                purchase by creating and account.
+                            </div>
+                            <Button
+                                data-id={CREATE_ACCOUNT_BUTTON_ID}
+                                priority="high"
+                                onClick={this.createAccount}
+                            >
+                                Create an Account
+                            </Button>
+                        </Fragment>
+                    )}
                 </div>
-                {user.isSignedIn ? (
-                    <Fragment>
-                        <div className={classes.textBlock}>
-                            You can also visit your account page for more
-                            information.
-                        </div>
-                        <Button onClick={handleViewOrderDetails}>
-                            View Order Details
-                        </Button>
-                    </Fragment>
-                ) : (
-                    <Fragment>
-                        <hr />
-                        <div className={classes.textBlock}>
-                            Track order status and earn rewards for your
-                            purchase by creating an account.
-                        </div>
-                        <Button priority="high" onClick={handleCreateAccount}>
-                            Create an Account
-                        </Button>
-                    </Fragment>
-                )}
             </div>
-        </div>
-    );
-};
-
-Receipt.propTypes = {
-    classes: shape({
-        body: string,
-        footer: string,
-        root: string
-    }),
-    order: shape({
-        id: string
-    }).isRequired,
-    createAccount: func.isRequired,
-    reset: func.isRequired,
-    user: shape({
-        isSignedIn: bool
-    })
-};
-
-Receipt.defaultProps = {
-    order: {},
-    reset: () => {},
-    createAccount: () => {}
-};
-
-export default Receipt;
+        );
+    }
+}
+export default classify(defaultClasses)(Receipt);

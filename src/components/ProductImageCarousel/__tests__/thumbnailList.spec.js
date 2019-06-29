@@ -1,10 +1,8 @@
 import React from 'react';
+import testRenderer from 'react-test-renderer';
 
 import ThumbnailList from '../thumbnailList';
-import {
-    WindowSizeContextProvider,
-    createTestInstance
-} from '@magento/peregrine';
+
 jest.mock('src/classify');
 
 const updateActiveItemIndexMock = jest.fn();
@@ -24,21 +22,13 @@ const defaultProps = {
 };
 
 test('renders the ThumbnailList component correctly', () => {
-    const component = createTestInstance(
-        <WindowSizeContextProvider>
-            <ThumbnailList {...defaultProps} />
-        </WindowSizeContextProvider>
-    );
+    const component = testRenderer.create(<ThumbnailList {...defaultProps} />);
 
     expect(component.toJSON()).toMatchSnapshot();
 });
 
 test('sets isActive on active thumbnail based on activeItemIndex', () => {
-    const component = createTestInstance(
-        <WindowSizeContextProvider>
-            <ThumbnailList {...defaultProps} />
-        </WindowSizeContextProvider>
-    );
+    const component = testRenderer.create(<ThumbnailList {...defaultProps} />);
     const tree = component.toJSON();
     expect(tree.children[defaultProps.activeItemIndex].props.className).toEqual(
         'rootSelected'
@@ -46,11 +36,7 @@ test('sets isActive on active thumbnail based on activeItemIndex', () => {
 });
 
 test('calls updateActiveItemIndex with index of clicked thumbnail', () => {
-    const component = createTestInstance(
-        <WindowSizeContextProvider>
-            <ThumbnailList {...defaultProps} />
-        </WindowSizeContextProvider>
-    );
+    const component = testRenderer.create(<ThumbnailList {...defaultProps} />);
 
     const buttons = component.root.findAllByType('button');
     const inactiveThumbnail = buttons.find(

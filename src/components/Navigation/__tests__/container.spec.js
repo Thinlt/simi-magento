@@ -16,14 +16,7 @@ jest.mock('src/drivers', () => ({
             mapStateToProps,
             mapDispatchToProps
         }))
-    ),
-    withRouter: component => {
-        component.defaultProps = {
-            ...component.defaultProps,
-            router: { pathname: 'mocked-path' }
-        };
-        return component;
-    }
+    )
 }));
 jest.mock('src/actions/app');
 jest.mock('src/actions/catalog');

@@ -280,6 +280,12 @@ export const createAccount = history => async (dispatch, getState) => {
     history.push(`/create-account?${new URLSearchParams(accountInfo)}`);
 };
 
+export const continueShopping = history => async dispatch => {
+    await dispatch(resetCheckout());
+
+    history.push('/');
+};
+
 /* helpers */
 
 export function formatAddress(address = {}, countries = []) {

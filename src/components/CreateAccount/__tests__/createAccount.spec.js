@@ -5,10 +5,11 @@ import { Form } from 'informed';
 import { createTestInstance } from '@magento/peregrine';
 
 import CreateAccount from '../createAccount';
+import { validators } from '../validators';
 
-jest.mock('src/util/formValidators');
+jest.mock('../validators');
 
-export const submitCallback = jest.fn();
+const submitCallback = jest.fn();
 
 test('renders the correct tree', () => {
     const tree = createTestInstance(<CreateAccount />).toJSON();
@@ -31,6 +32,22 @@ test('attaches the submit handler', () => {
     const { onSubmit } = root.findByType(Form).props;
 
     expect(onSubmit).toBe(instance.handleSubmit);
+});
+
+test('executes validators on submit', async () => {
+    const { root } = createTestInstance(<CreateAccount />);
+
+    const form = root.findByType(Form);
+    const { formApi } = form.instance;
+
+    // touch fields, call validators, call onSubmit
+    act(() => {
+        formApi.submitForm();
+    });
+
+    for (const validator of validators.values()) {
+        expect(validator).toHaveBeenCalledTimes(2);
+    }
 });
 
 test('calls onSubmit if validation passes', async () => {
