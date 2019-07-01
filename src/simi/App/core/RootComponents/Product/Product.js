@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { string, func } from 'prop-types';
 
-import { connect } from 'src/drivers';
-import { Simiquery } from 'src/simi/Network/Query'
+import { connect, Query } from 'src/drivers';
 import { addItemToCart } from 'src/actions/cart';
-import { loadingIndicator } from 'src/components/LoadingIndicator';
-import ProductFullDetail from './ProductFullDetail';
+import Loading from 'src/simi/BaseComponents/Loading'
+import ProductFullDetail from './ProductFullDetail/ProductFullDetail';
 import getUrlKey from 'src/util/getUrlKey';
-import productQuery from 'src/simi/queries/getProductDetail.graphql';
+import magentoProductQuery from 'src/simi/queries/getProductDetail.graphql';
+import simiProductQuery from 'src/simi/queries/simiconnector/getProductDetail.graphql';
+import Identify from 'src/simi/Helper/Identify'
 
 /**
  * As of this writing, there is no single Product query type in the M2.3 schema.
@@ -42,14 +43,15 @@ class Product extends Component {
     }
 
     render() {
+        const productQuery = Identify.hasConnector()?simiProductQuery:magentoProductQuery
         return (
-            <Simiquery
+            <Query
                 query={productQuery}
                 variables={{ urlKey: getUrlKey(), onServer: false }}
             >
                 {({ loading, error, data }) => {
                     if (error) return <div>Data Fetch Error</div>;
-                    if (loading) return loadingIndicator;
+                    if (loading) return <Loading />;
 
                     const product = data.productDetail.items[0];
 
@@ -60,7 +62,7 @@ class Product extends Component {
                         />
                     );
                 }}
-            </Simiquery>
+            </Query>
         );
     }
 }

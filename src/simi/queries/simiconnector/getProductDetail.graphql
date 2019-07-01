@@ -1,0 +1,150 @@
+query productDetail($urlKey: String, $onServer: Boolean!) {
+    productDetail: products(filter: { url_key: { eq: $urlKey } }) {
+        items {
+            __typename
+          	id
+            sku
+            name
+            price {
+                regularPrice {
+                    amount {
+                        currency
+                        value
+                    }
+                }
+            }
+            description {
+                html
+            }
+            media_gallery_entries {
+                label
+                position
+                disabled
+                file
+            }
+            ... on ConfigurableProduct {
+                configurable_options {
+                    attribute_code
+                    attribute_id
+                    id
+                    label
+                    values {
+                        default_label
+                        label
+                        store_label
+                        use_default_value
+                        value_index
+                    }
+                }
+                variants {
+                    attributes {
+                        code
+                        value_index
+                    }
+                    product {
+                        id
+                        media_gallery_entries {
+                            disabled
+                            file
+                            label
+                            position
+                        }
+                        sku
+                        stock_status
+                    }
+                }
+            }
+          	... on BundleProduct {
+              items {
+                option_id
+                title
+                required
+                type
+                position
+                sku
+                options {
+                  id
+                  label
+                  qty
+                  position
+                  is_default
+                  price
+                  price_type
+                  can_change_quantity
+                  product {
+                    sku
+                    name
+                    type_id
+                    special_price
+                    special_from_date
+                    special_to_date
+                    price {
+                      regularPrice {
+                        amount {
+                          currency
+                          value
+                          __typename
+                        }
+                        __typename
+                      }
+                      __typename
+                    }
+                    media_gallery_entries {
+                      label
+                      position
+                      disabled
+                      file
+                      __typename
+                    }
+                    __typename
+                  }
+                  __typename
+                }
+                __typename
+              }
+              __typename
+            }
+            ... on GroupedProduct {
+              items {
+                qty
+                position
+                product {
+                  sku
+                  name
+                  type_id
+                  special_price
+                  special_from_date
+                  special_to_date
+                  price {
+                    regularPrice {
+                      amount {
+                        currency
+                        value
+                        __typename
+                      }
+                      __typename
+                    }
+                    __typename
+                  }
+                  media_gallery_entries {
+                    label
+                    position
+                    disabled
+                    file
+                    __typename
+                  }
+                  __typename
+                }
+                __typename
+              }
+              __typename
+            }
+      			canonical_url
+            meta_title @include(if: $onServer)
+            # Yes, Products have `meta_keyword` and
+            # everything else has `meta_keywords`.
+            meta_keyword @include(if: $onServer)
+            meta_description @include(if: $onServer)
+        }
+    }
+}

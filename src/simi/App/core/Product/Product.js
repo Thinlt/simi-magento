@@ -4,8 +4,8 @@ import { string, func } from 'prop-types';
 import { connect } from 'src/drivers';
 import { Simiquery } from 'src/simi/Network/Query'
 import { addItemToCart } from 'src/actions/cart';
-import { loadingIndicator } from 'src/components/LoadingIndicator';
-import ProductFullDetail from 'src/components/ProductFullDetail'
+import Loading from 'src/simi/BaseComponents/Loading'
+import ProductFullDetail from 'src/simi/App/core/RootComponents/Product/ProductFullDetail'
 import Identify from 'src/simi/Helper/Identify'
 import getProductDetailBySku from 'src/simi/queries/getProductDetailBySku.graphql'
 
@@ -51,7 +51,7 @@ class Product extends Component {
                 >
                     {({ loading, error, data }) => {
                         if (error) return <div>Data Fetch Error</div>;
-                        if (loading) return loadingIndicator;
+                        if (loading) return <Loading />;
 
                         const product = data.productDetail.items[0];
 
