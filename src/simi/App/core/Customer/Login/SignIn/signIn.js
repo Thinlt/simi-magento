@@ -4,7 +4,7 @@ import { Form } from 'informed';
 
 import Button from 'src/components/Button';
 import Field from 'src/components/Field';
-import LoadingIndicator from 'src/components/LoadingIndicator';
+import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import TextInput from 'src/components/TextInput';
 
 import { isRequired } from 'src/util/formValidators';
@@ -54,68 +54,60 @@ class SignIn extends Component {
     }
 
     render() {
-        const { classes, isGettingDetails, isSigningIn } = this.props;
+        hideFogLoading()
+        const { classes } = this.props;
         const { onSignIn, errorMessage } = this;
-
-        if (isGettingDetails || isSigningIn) {
-            return (
-                <div className={classes.modal_active}>
-                    <LoadingIndicator>Signing In</LoadingIndicator>
-                </div>
-            );
-        } else {
-            return (
-                <div className={classes.root}>
-                    <Form
-                        className={classes.form}
-                        getApi={this.setFormApi}
-                        onSubmit={onSignIn}
-                    >
-                        <Field label="Email" required={true}>
-                            <TextInput
-                                autoComplete="email"
-                                field="email"
-                                validate={isRequired}
-                                validateOnBlur
-                            />
-                        </Field>
-                        <Field label="Password" required={true}>
-                            <TextInput
-                                autoComplete="current-password"
-                                field="password"
-                                type="password"
-                                validate={isRequired}
-                                validateOnBlur
-                            />
-                        </Field>
-                        <div className={classes.signInButton}>
-                            <Button priority="high" type="submit">
-                                Sign In
-                            </Button>
-                        </div>
-                        <div className={classes.signInError}>
-                            {errorMessage}
-                        </div>
-                        <button
-                            type="button"
-                            className={classes.forgotPassword}
-                            onClick={this.handleForgotPassword}
-                        >
-                            Forgot password?
-                        </button>
-                    </Form>
-                    <div className={classes.signInDivider} />
-                    <div className={classes.showCreateAccountButton}>
-                        <Button
-                            priority="high"
-                            onClick={this.showCreateAccountForm}
-                        >
-                            Create an Account
+        return (
+            <div className={classes.root}>
+                <Form
+                    className={classes.form}
+                    getApi={this.setFormApi}
+                    onSubmit={onSignIn}
+                >
+                    <Field label="Email" required={true}>
+                        <TextInput
+                            autoComplete="email"
+                            field="email"
+                            validate={isRequired}
+                            validateOnBlur
+                        />
+                    </Field>
+                    <Field label="Password" required={true}>
+                        <TextInput
+                            autoComplete="current-password"
+                            field="password"
+                            type="password"
+                            validate={isRequired}
+                            validateOnBlur
+                        />
+                    </Field>
+                    <div className={classes.signInButton}>
+                        <Button priority="high" type="submit">
+                            Sign In
                         </Button>
                     </div>
+                    <div className={classes.signInError}>
+                        {errorMessage}
+                    </div>
+                    <button
+                        type="button"
+                        className={classes.forgotPassword}
+                        onClick={this.handleForgotPassword}
+                    >
+                        Forgot password?
+                    </button>
+                </Form>
+                <div className={classes.signInDivider} />
+                <div className={classes.showCreateAccountButton}>
+                    <Button
+                        priority="high"
+                        onClick={this.showCreateAccountForm}
+                    >
+                        Create an Account
+                    </Button>
                 </div>
-            );
-        }
+            </div>
+        );
     }
 
     handleForgotPassword = () => {
@@ -131,8 +123,8 @@ class SignIn extends Component {
     onSignIn = () => {
         const username = this.formApi.getValue('email');
         const password = this.formApi.getValue('password');
-        
         simiSignIn(this.setData.bind(this), { username, password })
+        showFogLoading()
     };
 
     setData = (data) => {

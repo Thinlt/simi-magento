@@ -56,6 +56,11 @@ query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, 
         label
         __typename
       }
+      thumbnail {
+        url
+        label
+        __typename
+      }
       short_description {
         html
         __typename

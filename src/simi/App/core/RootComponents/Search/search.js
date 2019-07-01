@@ -5,14 +5,13 @@ import {Simiquery} from 'src/simi/Network/Query'
 import gql from 'graphql-tag';
 
 import classify from 'src/classify';
-import Icon from 'src/components/Icon';
 import getQueryParameterValue from 'src/util/getQueryParameterValue';
-import CloseIcon from 'react-feather/dist/icons/x';
-import { loadingIndicator } from 'src/components/LoadingIndicator';
+import Loading from 'src/simi/BaseComponents/Loading'
 import defaultClasses from './search.css';
 import PRODUCT_SEARCH from 'src/simi/queries/productSearch.graphql';
 import SIMI_PRODUCT_SEARCH from 'src/simi/queries/simiconnector/productSearch.graphql';
 import Products from 'src/simi/BaseComponents/Products'
+import CloseIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Close';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 
@@ -73,12 +72,8 @@ const Search = props => {
                         }}
                     </Simiquery>
                 </small>
-                <Icon
-                    src={CloseIcon}
-                    attrs={{
-                        width: '13px',
-                        height: '13px'
-                    }}
+                <CloseIcon
+                    style={{width: 12, height: 13}}
                 />
             </button>
         </div>
@@ -89,7 +84,7 @@ const Search = props => {
         <Simiquery query={searchQuery} variables={queryVariable}>
             {({ loading, error, data }) => {
                 if (error) return <div>Data Fetch Error</div>;
-                if (loading) return loadingIndicator;
+                if (loading) return <Loading />;
 
                 if (data && data.simiproducts) {
                     data.products = data.simiproducts

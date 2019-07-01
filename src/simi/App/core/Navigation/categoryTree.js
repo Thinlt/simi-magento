@@ -3,7 +3,7 @@ import { func, number, objectOf, shape, string } from 'prop-types';
 
 import { Simiquery } from 'src/simi/Network/Query';
 import classify from 'src/classify';
-import { loadingIndicator } from 'src/components/LoadingIndicator';
+import Loading from 'src/simi/BaseComponents/Loading'
 import Branch from './categoryBranch';
 import Leaf from './categoryLeaf';
 import CategoryTree from './categoryTree';
@@ -42,7 +42,7 @@ class Tree extends Component {
             <Simiquery query={navigationMenu} variables={{ id: rootNodeId }}>
                 {({ loading, error, data }) => {
                     if (error) return <div>Data Fetch Error</div>;
-                    if (loading) return loadingIndicator;
+                    if (loading) return <Loading />;
 
                     const branches = [];
 
