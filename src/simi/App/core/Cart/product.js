@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { arrayOf, func, number, shape, string } from 'prop-types';
 import { Price } from '@magento/peregrine';
-import { resourceUrl } from 'src/drivers';
+import { resourceUrl } from 'src/simi/Helper/Url'
 import Kebab from './kebab';
 import Section from './section';
 import classify from 'src/classify';

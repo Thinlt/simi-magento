@@ -3,7 +3,7 @@ import Identify from 'src/simi/Helper/Identify'
 import Deleteicon from 'src/simi/BaseComponents/Icon/Trash'
 import {configColor} from 'src/simi/Config'
 import { Price } from '@magento/peregrine'
-import { resourceUrl } from 'src/drivers'
+import { resourceUrl } from 'src/simi/Helper/Url'
 
 import defaultClasses from './cartItem.css'
 

@@ -7,7 +7,7 @@ import NavTrigger from './Component/navTrigger'
 import CartTrigger from './cartTrigger'
 import defaultClasses from './header.css'
 import { mergeClasses } from 'src/classify'
-import { Link, resourceUrl } from 'src/drivers';
+import { Link } from 'src/drivers';
 import HeaderNavigation from './Component/HeaderNavigation'
 import MyAccount from './Component/MyAccount'
 import { withRouter } from 'react-router-dom';
@@ -44,7 +44,7 @@ class Header extends React.Component{
         const {isPhone} = this.state;
         return (
             <div className={`${this.classes['search-icon']} ${this.classes['header-logo']}`} >
-                <Link to={resourceUrl('/')}>
+                <Link to='/'>
                     <img 
                         src="https://www.simicart.com/skin/frontend/default/simicart2.0/images/simicart/new_logo_small.png" 
                         alt="siminia-logo" style={!isPhone?{width: 206, height: 48}:{width: 135, height: 32}}/>
@@ -74,7 +74,7 @@ class Header extends React.Component{
                 <div 
                     className={this.classes['right-bar-item']} id="wish-list" 
                 >
-                    <Link to={resourceUrl('/wishlist.html')}>
+                    <Link to={'/wishlist.html'}>
                         <div className={this.classes['item-icon']} style={{display: 'flex', justifyContent: 'center'}}>
                             <WishList style={{width: 30, height: 30, display: 'block'}} />
                         </div>

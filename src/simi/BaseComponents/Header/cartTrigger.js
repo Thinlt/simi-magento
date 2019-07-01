@@ -10,7 +10,8 @@ import Basket from "src/simi/BaseComponents/Icon/Basket";
 import classify from 'src/classify';
 import defaultClasses from './cartTrigger.css'
 import Identify from 'src/simi/Helper/Identify'
-import { Link, resourceUrl } from 'src/drivers'
+import { Link } from 'src/drivers'
+import { resourceUrl } from 'src/simi/Helper/Url'
 
 export class Trigger extends Component {
     static propTypes = {

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { func, number, shape, string } from 'prop-types';
 import { Price } from '@magento/peregrine';
 import classify from 'src/classify';
-import { Link, resourceUrl } from 'src/drivers';
+import { Link } from 'src/drivers';
+import { resourceUrl } from 'src/simi/Helper/Url'
 import ReactHTMLParse from 'react-html-parser';
 
 import defaultClasses from './suggestedProduct.css';

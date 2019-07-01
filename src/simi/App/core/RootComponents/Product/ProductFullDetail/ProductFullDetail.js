@@ -6,9 +6,9 @@ import { Price } from '@magento/peregrine';
 import classify from 'src/classify';
 import Button from 'src/components/Button';
 import Loading from 'src/simi/BaseComponents/Loading'
-import Carousel from 'src/components/ProductImageCarousel';
-import Quantity from 'src/components/ProductQuantity';
-import RichText from 'src/components/RichText';
+import Carousel from './ProductImageCarousel';
+import Quantity from './ProductQuantity';
+import RichText from 'src/simi/BaseComponents/RichText';
 import defaultClasses from './productFullDetail.css';
 import appendOptionsToPayload from 'src/util/appendOptionsToPayload';
 import findMatchingVariant from 'src/util/findMatchingProductVariant';
@@ -158,10 +158,20 @@ class ProductFullDetail extends Component {
             return media_gallery_entries;
         }
 
-        return [
+        const images = [
             ...item.product.media_gallery_entries,
             ...media_gallery_entries
         ];
+        //filterout the duplicate images
+        const returnedImages = []
+        var obj = {};
+        images.forEach(image=> {
+            if (!obj[image.file]) {
+                obj[image.file] = true
+                returnedImages.push(image)
+            }
+        })
+        return returnedImages
     }
 
     get isMissingOptions() {
@@ -198,7 +208,6 @@ class ProductFullDetail extends Component {
         const carouselKey = mediaGalleryEntries.reduce((fullKey, entry) => {
             return `${fullKey},${entry.file}`;
         }, '');
-        console.log(mediaGalleryEntries)
 
         return (
             <Form className={classes.root}>

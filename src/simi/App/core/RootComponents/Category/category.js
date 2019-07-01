@@ -5,7 +5,7 @@ import { simiUseQuery } from 'src/simi/Network/Query';
 import categoryQuery from 'src/simi/queries/getCategory.graphql';
 import simicntrCategoryQuery from 'src/simi/queries/simiconnector/getCategory.graphql'
 import Products from 'src/simi/BaseComponents/Products';
-import { resourceUrl } from 'src/drivers'
+import { resourceUrl } from 'src/simi/Helper/Url'
 import CategoryHeader from './categoryHeader'
 import Identify from 'src/simi/Helper/Identify';
 import ObjectHelper from 'src/simi/Helper/ObjectHelper';
