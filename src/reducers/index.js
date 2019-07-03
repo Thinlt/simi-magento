@@ -6,6 +6,7 @@ import catalog from './catalog';
 import checkout from './checkout';
 import directory from './directory';
 import user from './user';
+import contact from './contact';
 import purchaseDetails from './purchaseDetails';
 import checkoutReceipt from './checkoutReceipt';
 import purchaseHistory from './purchaseHistory';
@@ -21,5 +22,6 @@ export default combineReducers({
     directory,
     purchaseDetails,
     purchaseHistory,
-    user
+    user,
+    contact
 });

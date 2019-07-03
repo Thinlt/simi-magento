@@ -7,6 +7,7 @@ import Logout from 'src/simi/App/core/Customer/Logout'
 import Home from 'src/simi/App/core/RootComponents/CMS/Home'
 import Cart from 'src/simi/App/core/Cart'
 import Account from 'src/simi/App/core/Customer/Account'
+import Contact from 'src/simi/App/core/Contact/Contact'
 
 const Checkout = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/core/Checkout')} {...props}/>
@@ -81,5 +82,9 @@ const router = {
         path: '/wishlist.html',
         render : (location) => <Account {...location} page={`wishlist`}/>
     },
+    contact: {
+        path: '/contact.html',
+        render : location => <Contact {...location} page={`contact`}/>
+    }
 }
 export default router;
