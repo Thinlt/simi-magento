@@ -10,7 +10,6 @@ import classify from 'src/classify';
 import ThumbnailList from './thumbnailList';
 import defaultClasses from './carousel.css';
 import { transparentPlaceholder } from 'src/shared/images';
-import Identify from 'src/simi/Helper/Identify'
 
 const ChevronIcons = {
     left: ChevronLeftIcon,

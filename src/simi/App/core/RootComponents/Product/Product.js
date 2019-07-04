@@ -54,11 +54,14 @@ class Product extends Component {
                     if (loading) return <Loading />;
 
                     const product = data.productDetail.items[0];
+                    let simiExtraField = data.simiProductDetaileExtraField
+                    simiExtraField = simiExtraField?JSON.parse(simiExtraField):null
 
                     return (
                         <ProductFullDetail
                             product={this.mapProduct(product)}
                             addToCart={this.props.addItemToCart}
+                            simiExtraField={simiExtraField}
                         />
                     );
                 }}

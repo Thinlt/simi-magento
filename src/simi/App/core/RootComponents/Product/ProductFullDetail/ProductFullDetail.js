@@ -13,6 +13,10 @@ import defaultClasses from './productFullDetail.css';
 import appendOptionsToPayload from 'src/util/appendOptionsToPayload';
 import findMatchingVariant from 'src/util/findMatchingProductVariant';
 import isProductConfigurable from 'src/util/isProductConfigurable';
+import Identify from 'src/simi/Helper/Identify';
+
+import ProductPrice from '../Component/Productprice';
+import CustomOptions from './CustomOptions';
 
 const ConfigurableOptions = React.lazy(() => import('./ConfigurableOptions'));
 
@@ -116,19 +120,28 @@ class ProductFullDetail extends Component {
 
     get productOptions() {
         const { fallback, handleSelectionChange, props } = this;
+        const { simiExtraField } = props
         const { configurable_options } = props.product;
         const isConfigurable = isProductConfigurable(props.product);
 
-        if (!isConfigurable) {
-            return null;
-        }
-
         return (
             <Suspense fallback={fallback}>
-                <ConfigurableOptions
-                    options={configurable_options}
-                    onSelectionChange={handleSelectionChange}
-                />
+                {
+                    ( simiExtraField && simiExtraField.app_options) &&
+                    <CustomOptions 
+                        key={Identify.randomString(5)}
+                        app_options={simiExtraField.app_options}
+                        product_id={this.props.product.entity_id}
+                        parent={this}
+                    />
+                }
+                {
+                    isConfigurable &&
+                    <ConfigurableOptions
+                        options={configurable_options}
+                        onSelectionChange={handleSelectionChange}
+                    />
+                }
             </Suspense>
         );
     }
@@ -215,6 +228,7 @@ class ProductFullDetail extends Component {
                     <h1 className={classes.productName}>
                         <span>{product.name}</span>
                     </h1>
+                    <ProductPrice ref={(price) => this.Price = price} data={product}/>
                     <p className={classes.productPrice}>
                         <Price
                             currencyCode={regularPrice.amount.currency}

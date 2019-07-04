@@ -5,7 +5,6 @@ import { resourceUrl } from 'src/simi/Helper/Url'
 import classify from 'src/classify';
 import defaultClasses from './thumbnail.css';
 import { transparentPlaceholder } from 'src/shared/images';
-import Identify from 'src/simi/Helper/Identify'
 
 class Thumbnail extends Component {
     static propTypes = {
