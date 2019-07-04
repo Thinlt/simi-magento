@@ -12,6 +12,7 @@ import {Link} from 'react-router-dom'
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
 import Wishlist from './Page/Wishlist'
+import Newsletter from './Page/Newsletter';
 
 const $ = window.$;
 class CustomerLayout extends React.Component{
@@ -169,7 +170,7 @@ class CustomerLayout extends React.Component{
                 content = 'my order'
                 break;
             case 'newsletter':
-                content = 'news letter'
+                content = <Newsletter classes={this.props.classes}/>
                 break;
             case 'order-detail':
                 content = 'order history detail'
