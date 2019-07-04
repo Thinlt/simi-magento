@@ -40,7 +40,8 @@ class Item extends React.Component {
             if (this.addCart) {
                 this.props.toggleMessages([{type: 'success', message: Identify.__('This product has been moved to cart')}])
                 const { getCartDetails } = this.props;
-                getCartDetails()
+                if (getCartDetails)
+                    getCartDetails()
                 this.props.getWishlist()
             }
             if (this.removeItem) {

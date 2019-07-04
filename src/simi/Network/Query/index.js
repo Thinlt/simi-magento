@@ -1,5 +1,6 @@
 import React from 'react'
 import { Query } from 'src/drivers';
+import { Mutation } from 'react-apollo';
 import {addRequestVars} from 'src/simi/Helper/Network'
 import { useApolloContext } from '@magento/peregrine'
 import { useQueryResult } from '@magento/peregrine'
@@ -17,6 +18,23 @@ export const Simiquery = props => {
     return <Query {...modProps} >
         {props.children}
     </Query>
+}
+
+export const SimiMutation = props => {
+    return <Mutation {...props} >
+        {
+            (mutationFunc, { data }) => {
+                const modedMutationFunc = mutInput => {
+                    if(mutInput) {
+                        const variables = mutInput.variables?mutInput.variables:{}
+                        mutInput.variables = addRequestVars(variables)
+                    }
+                    return mutationFunc(mutInput)
+                }
+                return props.children(modedMutationFunc, {data})
+            }
+        }
+    </Mutation>
 }
 
 export var simiUseQuery = function simiUseQuery(query, use_cache = true) {

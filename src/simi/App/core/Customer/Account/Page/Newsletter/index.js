@@ -8,7 +8,7 @@ import Loading from "src/simi/BaseComponents/Loading";
 // import gql from 'graphql-tag';
 // import { useQuery } from '@magento/peregrine';
 import { Query } from 'src/drivers';
-import { Mutation } from 'react-apollo';
+import { SimiMutation } from 'src/simi/Network/Query'
 // import { fullPageLoadingIndicator } from 'src/components/LoadingIndicator';
 import CUSTOMER_NEWSLETTER from 'src/simi/queries/customerNewsletter.graphql';
 import CUSTOMER_NEWSLETTER_UPDATE from 'src/simi/queries/customerNewsletterUpdate.graphql';
@@ -31,7 +31,7 @@ class Newsletter extends React.Component {
                     const { is_subscribed } = customer;
                     let clicked = false;
                     return (
-                        <Mutation mutation={CUSTOMER_NEWSLETTER_UPDATE}>
+                        <SimiMutation mutation={CUSTOMER_NEWSLETTER_UPDATE}>
                             {(updateCustomer, { data }) => {
                                 return (
                                 <>
@@ -49,7 +49,7 @@ class Newsletter extends React.Component {
                                 </>
                                 )
                             }}
-                        </Mutation>
+                        </SimiMutation>
                     );
                 }}
             </Query>
