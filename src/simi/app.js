@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { array, bool, func, shape, string } from 'prop-types';
 
 import Main from 'src/simi/App/core/Main';
-import Mask from 'src/components/Mask';
+import Mask from 'src/simi/BaseComponents/Mask';
 import Navigation from 'src/simi/App/core/Navigation';
 import OnlineIndicator from 'src/components/OnlineIndicator';
 import ErrorNotifications from './errorNotifications';
@@ -106,11 +106,13 @@ class App extends Component {
 
         return (
             <Fragment>
-                <Main isMasked={overlay}>
+                {/* <Main isMasked={overlay}>*/}
+                <Main isMasked={navIsOpen}>
                     {onlineIndicator}
                     {renderRoutes()}
                 </Main>
-                <Mask isActive={overlay} dismiss={closeDrawer} />
+                {/*<Mask isActive={overlay} dismiss={closeDrawer} />*/}
+                <Mask isActive={navIsOpen} dismiss={closeDrawer} />
                 <Navigation isOpen={navIsOpen} />
                 <ErrorNotifications
                     errors={unhandledErrors}

@@ -10,8 +10,44 @@ query productSearch($inputText: String!, $categoryId: String) {
             price {
                 regularPrice {
                     amount {
-                        value
                         currency
+                        value
+                    }
+                    adjustments {
+                        amount {
+                            currency
+                            value
+                        }
+                        code
+                        description
+                    }
+                }
+                minimalPrice {
+                    amount {
+                        currency
+                        value
+                    }
+                    adjustments {
+                        amount {
+                            currency
+                            value
+                        }
+                        code
+                        description
+                    }
+                }
+                maximalPrice {
+                    amount {
+                        currency
+                        value
+                    }
+                    adjustments {
+                        amount {
+                            currency
+                            value
+                        }
+                        code
+                        description
                     }
                 }
             }

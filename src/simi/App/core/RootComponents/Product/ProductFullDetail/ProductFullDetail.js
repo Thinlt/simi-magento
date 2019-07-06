@@ -1,11 +1,11 @@
 import React, { Component, Suspense } from 'react';
 import { arrayOf, bool, func, number, shape, string } from 'prop-types';
 import { Form } from 'informed';
-import { Price } from '@magento/peregrine';
 
 import classify from 'src/classify';
 import Button from 'src/components/Button';
 import Loading from 'src/simi/BaseComponents/Loading'
+import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import Carousel from './ProductImageCarousel';
 import Quantity from './ProductQuantity';
 import RichText from 'src/simi/BaseComponents/RichText';
@@ -14,9 +14,11 @@ import appendOptionsToPayload from 'src/util/appendOptionsToPayload';
 import findMatchingVariant from 'src/util/findMatchingProductVariant';
 import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
+import {prepareProduct} from 'src/simi/Helper/Product'
 
 import ProductPrice from '../Component/Productprice';
 import CustomOptions from './CustomOptions';
+import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
 
 const ConfigurableOptions = React.lazy(() => import('./ConfigurableOptions'));
 
@@ -59,9 +61,11 @@ class ProductFullDetail extends Component {
             ),
             description: string
         }).isRequired,
-        addToCart: func.isRequired
+        addToCart: func.isRequired,
+        getCartDetails: func.isRequired,
+        toggleMessages: func.isRequired,
     };
-
+    
     static getDerivedStateFromProps(props, state) {
         const { configurable_options } = props.product;
         const optionCodes = new Map(state.optionCodes);
@@ -97,13 +101,57 @@ class ProductFullDetail extends Component {
             productType: product.__typename,
             quantity
         };
-
-        if (isProductConfigurable(product)) {
-            appendOptionsToPayload(payload, optionSelections, optionCodes);
+        if (Identify.hasConnector() && product && product.id) {
+            const params = {product: String(product.id), qty: quantity?String(quantity):'1'}
+            if (this.customOption) {
+                const customOptParams = this.customOption.getParams()
+                if (customOptParams && customOptParams.options) {
+                    params['options'] = customOptParams.options
+                }
+            }
+            if (optionSelections) {
+                const super_attribute = {}
+                optionSelections.forEach((value, key) => {
+                    super_attribute[String(key)] = String(value)
+                })
+                params['super_attribute'] = super_attribute
+            }
+            console.log(params)
+            showFogLoading()
+            simiAddToCart(this.addToCartCallBack, params)
+        } else {
+            if (isProductConfigurable(product)) {
+                appendOptionsToPayload(payload, optionSelections, optionCodes);
+            }
+            showFogLoading()
+            addToCart(payload);
         }
-
-        addToCart(payload);
     };
+
+    addToCartCallBack = (data) => {
+        hideFogLoading()
+        if (data.errors) {
+            if (data.errors.length) {
+                const errors = data.errors.map(error => {
+                    return {
+                        type: 'error',
+                        message: error.message,
+                        auto_dismiss: true
+                    }
+                });
+                this.props.toggleMessages(errors)
+            }
+        } else {
+            if (data.message && data.message.length) {
+                this.props.toggleMessages([{
+                    type: 'success',
+                    message: data.message[0],
+                    auto_dismiss: true
+                }])
+            }
+            this.props.getCartDetails()
+        }
+    }
 
     handleSelectionChange = (optionId, selection) => {
         this.setState(({ optionSelections }) => ({
@@ -132,6 +180,7 @@ class ProductFullDetail extends Component {
                         key={Identify.randomString(5)}
                         app_options={simiExtraField.app_options}
                         product_id={this.props.product.entity_id}
+                        ref={(e) => this.customOption = e}
                         parent={this}
                     />
                 }
@@ -205,6 +254,7 @@ class ProductFullDetail extends Component {
     }
 
     render() {
+        hideFogLoading()
         const {
             addToCart,
             isMissingOptions,
@@ -212,8 +262,9 @@ class ProductFullDetail extends Component {
             productOptions,
             props
         } = this;
-        const { classes, isAddingItem, product } = props;
-        const { regularPrice } = product.price;
+        const { classes, isAddingItem } = props;
+
+        const product = prepareProduct(props.product)
 
         // We want this key to change whenever mediaGalleryEntries changes.
         // Make it dependent on a unique value in each entry (file),
@@ -229,12 +280,6 @@ class ProductFullDetail extends Component {
                         <span>{product.name}</span>
                     </h1>
                     <ProductPrice ref={(price) => this.Price = price} data={product}/>
-                    <p className={classes.productPrice}>
-                        <Price
-                            currencyCode={regularPrice.amount.currency}
-                            value={regularPrice.amount.value}
-                        />
-                    </p>
                 </section>
                 <section className={classes.imageCarousel}>
                     <Carousel images={mediaGalleryEntries} key={carouselKey} />

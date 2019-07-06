@@ -1,82 +1,98 @@
 query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, $sort: ProductSortInput) {
-  category(id: $id) {
-      product_count
-          description
-    url_key
-    name
-    id
-    image
-    breadcrumbs {
-      category_name
-      category_url_key
-      __typename
-    }
-    __typename
-  }
-  products(pageSize: $pageSize, currentPage: $currentPage, filter: {category_id: {eq: $stringId}}, sort: $sort) {
-    total_count
-    filters {
-      name
-      filter_items_count
-      request_var
-      filter_items {
-        label
-        value_string
+    category(id: $id) {
+        product_count
+            description
+        url_key
+        name
+        id
+        image
+        breadcrumbs {
+        category_name
+        category_url_key
         __typename
-      }
-      __typename
-    }
-    items {
-      id
-      name
-      sku
-      small_image {
-        url
-        label
-        __typename
-      }
-      short_description {
-        html
-        __typename
-      }
-      url_key
-      special_price
-      special_from_date
-      type_id
-      special_to_date
-      price {
-        regularPrice {
-          amount {
-            currency
-            value
-            __typename
-          }
-          __typename
-        }
-        minimalPrice {
-          amount {
-            currency
-            value
-            __typename
-          }
-          __typename
-        }
-        maximalPrice {
-          amount {
-            currency
-            value
-            __typename
-          }
-          __typename
         }
         __typename
-      }
-      __typename
     }
-    page_info {
-        total_pages
+    products(pageSize: $pageSize, currentPage: $currentPage, filter: {category_id: {eq: $stringId}}, sort: $sort) {
+        total_count
+        filters {
+        name
+        filter_items_count
+        request_var
+        filter_items {
+            label
+            value_string
+            __typename
+        }
+        __typename
+        }
+        items {
+            id
+            name
+            sku
+            small_image {
+                url
+                label
+                __typename
+            }
+            short_description {
+                html
+                __typename
+            }
+            url_key
+            special_price
+            special_from_date
+            type_id
+            special_to_date
+            price {
+                regularPrice {
+                    amount {
+                        currency
+                        value
+                    }
+                    adjustments {
+                        amount {
+                            currency
+                            value
+                        }
+                        code
+                        description
+                    }
+                }
+                minimalPrice {
+                    amount {
+                        currency
+                        value
+                    }
+                    adjustments {
+                        amount {
+                            currency
+                            value
+                        }
+                        code
+                        description
+                    }
+                }
+                maximalPrice {
+                    amount {
+                        currency
+                        value
+                    }
+                    adjustments {
+                        amount {
+                            currency
+                            value
+                        }
+                        code
+                        description
+                    }
+                }
+            }
+        }
+        page_info {
+            total_pages
+        }
+        total_count
+        __typename
     }
-    total_count
-    __typename
-  }
 }

@@ -3,7 +3,7 @@ import { connect } from 'src/drivers';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 
-import { toggleCart } from 'src/actions/cart';
+import { toggleCart, createCart } from 'src/actions/cart';
 import CartCounter from './cartCounter';
 
 import Basket from "src/simi/BaseComponents/Icon/Basket";
@@ -14,11 +14,17 @@ import { Link } from 'src/drivers'
 import { resourceUrl } from 'src/simi/Helper/Url'
 
 export class Trigger extends Component {
+    constructor(props) {
+        super(props)
+        props.createCart()
+    }
+
     static propTypes = {
         children: PropTypes.node,
         classes: PropTypes.shape({
             root: PropTypes.string
         }),
+        createCart: PropTypes.func.isRequired,
         toggleCart: PropTypes.func.isRequired,
         itemsQty: PropTypes.number
     };
@@ -85,7 +91,8 @@ export class Trigger extends Component {
 const mapStateToProps = ({ cart }) => ({ cart });
 
 const mapDispatchToProps = {
-    toggleCart
+    toggleCart,
+    createCart
 };
 
 export default compose(

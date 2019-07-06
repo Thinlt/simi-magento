@@ -1,5 +1,5 @@
 import React from 'react';
-import {formatPrice} from 'src/simi/Helper/Pricing';
+import {formatPrice as helperFormatPrice} from 'src/simi/Helper/Pricing';
 import {configColor} from 'src/simi/Config';
 import PropTypes from 'prop-types';
 import BundlePrice from './Bundle';
@@ -18,8 +18,6 @@ class PriceComponent extends React.Component {
     constructor(props) {
         super(props);
         this.type = this.props.type;
-        this.configure = null;
-        this.configurePrice = this.props.configure_price ? this.props.configure_price : null;
     }
 
     formatPrice(price, special = true) {
@@ -30,13 +28,13 @@ class PriceComponent extends React.Component {
         if (special) {
             return (
                 <span className={`${classes['price']}`} style={style.price}>
-                    {formatPrice(price)}
+                    {helperFormatPrice(price)}
                 </span>
             );
         } else {
             return (
                 <span className={`${classes['price']} ${classes['old']}`} style={style.specialPrice}>
-                    {formatPrice(price)}
+                    {helperFormatPrice(price)}
                 </span>
             );
 

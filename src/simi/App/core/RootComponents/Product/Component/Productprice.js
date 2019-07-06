@@ -7,7 +7,7 @@ class ProductPrice extends React.Component {
     constructor(props){
         super(props);
         this.data = this.props.data;
-        const prices = this.data.app_prices;
+        const prices = this.data.price;
         this.state = {prices};
     }
     

@@ -15,7 +15,7 @@ const DatePicker = (props)=>{
 const TimePicker = (props)=>{
     return <LazyComponent component={()=>import('../OptionType/Time')} {...props}/>
 }
-class CustomAbstract extends OptionBase {
+class CustomOptions extends OptionBase {
 
     constructor(props){
         super(props);
@@ -149,31 +149,23 @@ class CustomAbstract extends OptionBase {
     };
 
     updatePrices = (selected = this.selected) => {
-        let prices = this.parentObj.Price.state.prices;
-        if (prices.show_ex_in_price === 1) {
-            // prices.regural_price += this.inclT;
-            prices.price_excluding_tax.price -= this.exclT;
-            prices.price_including_tax.price -= this.inclT;
-        } else {
-            if (prices.regural_price) {
-                prices.regural_price -= this.exclT;
-            }
-            prices.price -= this.exclT;
-        }
+        const prices = this.parentObj.Price.state.prices;
+        prices.minimalPrice.excl_tax_amount.value -= this.exclT;
+        prices.minimalPrice.amount.value -= this.inclT;
         this.exclT = 0;
         this.inclT = 0;
-        let customOptions = this.data.custom_options;
-        let customSelected = selected;
-        for (let c in customOptions) {
-            let option = customOptions[c];
-            for (let s in customSelected) {
+        const customOptions = this.data.custom_options;
+        const customSelected = selected;
+        for (const c in customOptions) {
+            const option = customOptions[c];
+            for (const s in customSelected) {
                 if (option.id === s) {
-                    let selected = customSelected[s];
-                    let values = option.values;
+                    const selected = customSelected[s];
+                    const values = option.values;
                     if (option.type === "date" || option.type === "time"
                         || option.type === "date_time" || option.type === "area"
                         || option.type === "field" || option.type === "file") {
-                        let value = values[0];
+                            const value = values[0];
                         if (value.price_excluding_tax) {
                             this.exclT += parseFloat(value.price_excluding_tax.price);
                             this.inclT += parseFloat(value.price_including_tax.price);
@@ -182,8 +174,8 @@ class CustomAbstract extends OptionBase {
                             this.inclT += parseFloat(value.price);
                         }
                     } else {
-                        for (let v in values) {
-                            let value = values[v];
+                        for (const v in values) {
+                            const value = values[v];
                             if (Array.isArray(selected)) {
                                 if (selected.indexOf(value.id) !== -1) {
                                     //add price
@@ -212,13 +204,8 @@ class CustomAbstract extends OptionBase {
                 }
             }
         }
-        if(prices.show_ex_in_price === 1){
-            prices.price_excluding_tax.price += this.exclT;
-            prices.price_including_tax.price += this.inclT;
-        }else {
-            prices.regural_price += this.exclT;
-            prices.price += this.exclT;
-        }
+        prices.minimalPrice.excl_tax_amount.value += this.exclT;
+        prices.minimalPrice.amount.value += this.inclT;
         this.parentObj.Price.updatePrices(prices);
     }
 
@@ -243,4 +230,4 @@ class CustomAbstract extends OptionBase {
         )
     }
 }
-export default CustomAbstract;
+export default CustomOptions;
