@@ -13,6 +13,7 @@ import { compose } from 'redux';
 import { connect } from 'src/drivers';
 import Wishlist from './Page/Wishlist'
 import Newsletter from './Page/Newsletter';
+import AddressBook from './Page/AddressBook';
 
 const $ = window.$;
 class CustomerLayout extends React.Component{
@@ -161,7 +162,7 @@ class CustomerLayout extends React.Component{
                 content = 'customer dashboard 1'
                 break;
             case 'address-book':
-                content = 'adresses book'
+                content = <AddressBook />
                 break;
             case 'edit':
                 content = 'profile'

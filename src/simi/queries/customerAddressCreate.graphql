@@ -1,0 +1,37 @@
+mutation {
+  createCustomerAddress(input: {
+    firstname: $firstname
+    lastname: $lastname
+    company: $company
+    telephone: $telephone
+    street: $street
+    city: $city
+    region: {
+      region_code: $region_code
+      region: $region
+      region_id: $region_id
+    }
+    postcode: $postcode
+    country_id: $country_id
+    default_shipping: $default_shipping
+    default_billing: $default_billing
+  }) {
+    id
+    customer_id
+    firstname
+    lastname
+    company
+    telephone
+    street
+    city
+    region {
+      region
+      region_id
+      region_code
+    }
+    postcode
+    country_id
+    default_shipping
+    default_billing
+  }
+}
