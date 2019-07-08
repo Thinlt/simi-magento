@@ -121,6 +121,15 @@ const ProfileForm = props => {
     };
 
     const processData = (data) => {
+        if(data.hasOwnProperty('errors') && data.errors) {
+            const messages = data.errors.map(value => {
+                return {type: 'error', message: value.message, auto_dismiss: true}
+            })
+            props.toggleMessages(messages)
+        } else if(data.message && data.hasOwnProperty('customer')) {
+            props.getUserDetails();
+            props.toggleMessages([{type: 'success', message: data.message, auto_dismiss: true}])
+        }
         hideFogLoading()
     }
 
@@ -144,7 +153,6 @@ const ProfileForm = props => {
             }
             showFogLoading()
             editCustomer(processData, params);
-            // props.editAccount(params);
         }
     }
 
@@ -153,7 +161,7 @@ const ProfileForm = props => {
             case 'email':
                 return (
                     <React.Fragment>
-                        <h4 className={classes["title"]}>{Identify.__("Change Email")}</h4>
+                        {/* <h4 className={classes["title"]}>{Identify.__("Change Email")}</h4>
                         <TextBox
                             label={Identify.__("Email")}
                             name="new_email"
@@ -168,7 +176,8 @@ const ProfileForm = props => {
                             type="password"
                             className={`${classes["required"]} required`}
                             onChange={e => handleOnChange(e)}
-                        />
+                        /> */}
+                        <div className={classes['email-not-edit']}>{Identify.__('Email cannot be edit')}</div>
                     </React.Fragment>
                 );
             case 'password': 
@@ -232,16 +241,16 @@ const ProfileForm = props => {
                 <Checkbox
                     className={classes["first"]}
                     label={Identify.__("Change email")}
-                    onClick={() => handleChangeForm('email')}
+                    onClick={() => handleChangeForm(changeForm === 'email' ? false : 'email')}
                     selected={changeForm === 'email'}
                 />
                 <Checkbox
                     className=""
                     label={Identify.__("Change password")}
-                    onClick={() => handleChangeForm('password')}
+                    onClick={() => handleChangeForm(changeForm === 'password' ? false : 'password')}
                     selected={changeForm === 'password'}
                 />
-                <div className={`alternative__edit-column ${(changeForm === 'email' || changeForm === 'password') ? 'active': ''}`}>
+                <div className={`${classes["alternative__edit-column"]} ${(changeForm === 'email' || changeForm === 'password') ? 'active': ''}`}>
                     {renderAlternativeForm()}
                 </div>
                 {!isPhone && <Whitebtn

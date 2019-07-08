@@ -5,7 +5,6 @@ import { Whitebtn } from 'src/simi/BaseComponents/Button';
 import { Query } from 'src/drivers';
 import { SimiMutation } from 'src/simi/Network/Query'
 import Loading from "src/simi/BaseComponents/Loading";
-import CUSTOMER_NEWSLETTER from 'src/simi/queries/customerNewsletter.graphql';
 
 const Dashboard = props => {
     const {classes, history, isPhone, customer} = props;

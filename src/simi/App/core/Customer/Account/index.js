@@ -276,8 +276,6 @@ const mapStateToProps = ({ user }) => {
     };
 }
 
-
-
 export default compose(
     classify(defaultClasses),
     connect(

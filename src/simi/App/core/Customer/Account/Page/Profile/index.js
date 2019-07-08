@@ -7,7 +7,6 @@ import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 
 import {
     getUserDetails,
-    editAccount
 } from 'src/actions/user';
 
 class Profile extends Component {
@@ -25,7 +24,6 @@ class Profile extends Component {
 const mapDispatchToProps = {
     toggleMessages,
     getUserDetails,
-    editAccount
 };
 
 export default compose(

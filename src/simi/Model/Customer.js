@@ -5,5 +5,5 @@ export const simiSignIn = (callBack, postData) => {
 }
 
 export const editCustomer = (callBack, postData) => {
-    sendRequest('simiconnector/rest/v2/customers', callBack, 'PUT', {}, postData);
+    sendRequest('rest/V1/simiconnector/customers', callBack, 'PUT', {}, postData);
 }
