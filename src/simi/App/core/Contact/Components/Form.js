@@ -7,7 +7,6 @@ import defaultClasses from "../style.css";
 import {Colorbtn} from '../../../../BaseComponents/Button';
 import { connect } from 'src/drivers';
 import { compose } from 'redux';
-import { sendContact } from 'src/actions/contact';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 
@@ -87,7 +86,6 @@ const mapStateToProps = ({contact}) => {
 
 const mapDispatchToProps = {
     toggleMessages,
-    sendContact
 }
 
 export default compose(

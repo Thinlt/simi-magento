@@ -4,6 +4,9 @@
     }
 }
 
+/**
+ * App loading
+ * */
 div#app-loading {
     height: 100%;
     width: 100%;
@@ -17,6 +20,10 @@ div#app-loading {
     -ms-flex-align: center;
     align-items: center;
 }
+
+/**
+ * Bread crumb
+ * */
 
 .siminia-breadcrumb {
     padding-top: 8px;
@@ -35,8 +42,37 @@ div#app-loading {
     color: #d7272e;
     cursor: unset;
 }
-/*
-Pb page
+/**
+ * Toast mesage
+ * */
+
+#toast-message-global {
+    position: fixed;
+    top: 40%;
+    z-index: 9999999;
+    opacity: .9;
+    width: 75%;
+    left: 50%;
+    margin-left: -37.5%;
+    display: flex;
+    justify-content: center;
+}
+
+#toast-message-content {
+    border-radius: 25px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: lighter;
+    max-width: 400px;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
+    box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
+    background: #1b1b1b;
+    padding: 6px 25px;
+    text-align: center;
+}
+
+/** 
+ * Pb page
 */
 .pb-page .pb-item {
     background-color: white;

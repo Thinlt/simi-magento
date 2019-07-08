@@ -1,6 +1,5 @@
 import React from 'react';
 import {configColor} from "src/simi/Config";
-const $ = window.$;
 class Abstract extends React.Component {
     constructor(props){
         super(props);

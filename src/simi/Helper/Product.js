@@ -6,7 +6,7 @@ export const prepareProduct = (product) => {
     if (price.regularPrice.amount.value < price.minimalPrice.amount.value) {
         price.has_special_price = true
     }
-    price.show_ex_in_price = 1
+    price.show_ex_in_price = (price.regularPrice.adjustments && price.regularPrice.adjustments.length)?1:0
 
     price.minimalPrice.excl_tax_amount = addExcludedTaxAmount(price.minimalPrice.amount, price.minimalPrice.adjustments)
     price.regularPrice.excl_tax_amount = addExcludedTaxAmount(price.regularPrice.amount, price.regularPrice.adjustments)

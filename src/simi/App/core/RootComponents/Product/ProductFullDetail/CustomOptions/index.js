@@ -8,7 +8,6 @@ import TextField from '../OptionType/Text';
 import FileSelect from '../OptionType/File';
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent/'
 
-const $ = window.$;
 const DatePicker = (props)=>{
     return <LazyComponent component={()=>import('../OptionType/Date')} {...props}/>
 }
@@ -25,11 +24,11 @@ class CustomOptions extends OptionBase {
 
     renderOptions = () => {
         if(this.data instanceof Object && this.data.hasOwnProperty('custom_options')){
-            let options = this.data.custom_options;
+            const options = this.data.custom_options;
             if(!options) return <div></div>;
-            let mainClass = this;
-            let optionsHtml = options.map(function (item, index) {
-                let labelRequired = mainClass.renderLabelRequired(parseInt(item.isRequired,10));
+            const mainClass = this;
+            const optionsHtml = options.map(function (item, index) {
+                const labelRequired = mainClass.renderLabelRequired(parseInt(item.isRequired,10));
                 if(parseInt(item.isRequired,10) === 1){
                     mainClass.required.push(item.id);
                 }
@@ -41,7 +40,7 @@ class CustomOptions extends OptionBase {
                 }
 
                 if (showType === 2) {
-                    let itemPrice = item.values[0];
+                    const itemPrice = item.values[0];
                     let prices = 0;
                     if (itemPrice.price) {
                         prices = itemPrice.price;
@@ -122,8 +121,8 @@ class CustomOptions extends OptionBase {
     };
 
     renderMutilCheckbox =(ObjOptions, id = '0',showType)=>{
-        let values = ObjOptions.values;
-        let html = values.map(item => {
+        const values = ObjOptions.values;
+        const html = values.map(item => {
             let prices = 0;
             if (showType === 1) {
                 if (item.price) {
@@ -132,9 +131,9 @@ class CustomOptions extends OptionBase {
                     prices = item.price_including_tax.price;
                 }
             }
-            let symbol = prices > 0 ? <span style={{margin:'0 10px'}}>+</span> : null;
+            const symbol = prices > 0 ? <span style={{margin:'0 10px'}}>+</span> : null;
             prices = prices > 0 ? <span className="child-price">{this.renderOptionPrice(prices)}</span> : null;
-            let label  = <div style={{display : 'flex'}}>
+            const label  = <div style={{display : 'flex'}}>
                 <span className="child-label">{item.title}</span>
                 {symbol}
                 {prices}
@@ -206,11 +205,12 @@ class CustomOptions extends OptionBase {
         }
         prices.minimalPrice.excl_tax_amount.value += this.exclT;
         prices.minimalPrice.amount.value += this.inclT;
+
         this.parentObj.Price.updatePrices(prices);
     }
 
     setParamQty = ()=>{
-        let qty = $('input.option-qty').val();
+        const qty = $('input.option-qty').val();
         this.params['qty'] = qty;
     };
 

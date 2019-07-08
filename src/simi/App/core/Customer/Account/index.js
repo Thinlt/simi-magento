@@ -16,7 +16,6 @@ import Wishlist from './Page/Wishlist'
 import Newsletter from './Page/Newsletter';
 import Profile from './Page/Profile';
 
-const $ = window.$;
 class CustomerLayout extends React.Component{
 
     constructor(props) {
