@@ -70,11 +70,6 @@ class Product extends Component {
         ) : null;
     }
 
-    get mask() {
-        const { classes } = this.props;
-        return this.state.isLoading ? <div className={classes.mask} /> : null;
-    }
-
     styleImage(image) {
         return {
             minHeight: imageHeight, // min-height instead of height so image will always align with grid bottom
@@ -87,7 +82,7 @@ class Product extends Component {
     }
 
     render() {
-        const { options, props, mask } = this;
+        const { options, props } = this;
         const { classes, item, currencyCode } = props;
         const favoritesFill = { fill: 'rgb(var(--venia-teal))' };
 
@@ -111,7 +106,6 @@ class Product extends Component {
                         </span>
                     </div>
                 </div>
-                {mask}
                 <Kebab>
                     <Section
                         text="Add to favorites"

@@ -128,6 +128,7 @@ class SignIn extends Component {
     };
 
     setData = (data) => {
+        hideFogLoading()
         if (this.props.simiSignedIn) {
             if (data && !data.errors) {
                 if (data.customer_access_token) {

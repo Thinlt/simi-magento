@@ -5,6 +5,50 @@ query productDetailByName($name: String, $onServer: Boolean!) {
             id
             sku
             name
+            price {
+                regularPrice {
+                    amount {
+                        currency
+                        value
+                    }
+                    adjustments {
+                        amount {
+                          currency
+                          value
+                        }
+                        code
+                        description
+                    }
+                }
+              	minimalPrice {
+                    amount {
+                        currency
+                        value
+                    }
+                    adjustments {
+                        amount {
+                          currency
+                          value
+                        }
+                        code
+                        description
+                    }
+                }
+              	maximalPrice {
+                    amount {
+                        currency
+                        value
+                    }
+                    adjustments {
+                        amount {
+                          currency
+                          value
+                        }
+                        code
+                        description
+                    }
+                }
+            }
             ... on ConfigurableProduct {
                 configurable_options {
                     attribute_code
