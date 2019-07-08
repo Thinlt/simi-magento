@@ -142,6 +142,14 @@ const AddressBook = props => {
     }
 
     const renderAddressList = () => {
+        //fake dataItems
+        if (typeof addressList[0] !== 'undefined') {
+            for(var i=2; i<=101; i++){
+                let myitem = {...addressList[0]}
+                myitem.firstname = myitem.firstname + ' ' + i
+                addressList.push(myitem)
+            }
+        }
         return <List items={addressList}/>
     }
 

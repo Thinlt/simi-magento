@@ -51,7 +51,7 @@ class Pagination extends React.Component {
         let current = props.current;
         let pageSize = props.pageSize;
         let allPages = this.calculatePageNumber();
-        let prevPage = current - 1 > 0 ? current - 1 : 0;
+        let prevPage = current - 1 > 0 ? current - 1 : 1;
         let nextPage = current + 1 < allPages ? current + 1 : allPages;
         const { pageFrom, pageTo }  = this.calculatePageFromTo(current, pageSize)
 
@@ -65,6 +65,7 @@ class Pagination extends React.Component {
             pageFrom
         };
         
+        this.newState = {...this.state}
     }
 
     componentWillMount() {
@@ -77,7 +78,7 @@ class Pagination extends React.Component {
         const total = this.props.dataItems.length
         let pageSize = this.props.pageSize
         if (this.state && this.state.hasOwnProperty('pageSize')) {
-            pageSize = this.state.pageSize
+            pageSize = this.newState.pageSize
         }
         return (Math.floor(total / pageSize) + 1);
     }
@@ -89,41 +90,67 @@ class Pagination extends React.Component {
     }
 
     gotoPage = (p) => {
-        const newState = this.dispatchChangeEvent({current: p})
-        this.setState(newState)
+        const newState = this.dispatchChangeEvent({current: p});
+        this.setState(newState);
     }
 
     optionsHandle = (e) => {
-        const size = parseInt(e.target.value)
-        const newState = this.dispatchChangeEvent({pageSize: size})
-        this.setState(newState)
+        let size = parseInt(e.target.value);
+        this.newState = {...this.newState, ...{pageSize: size}}
+        let allPages = this.calculatePageNumber();
+        this.newState = {...this.newState, ...{allPages: allPages}}
+        let nextState = this.dispatchChangeEvent(this.newState);
+        this.newState = nextState;
+        this.setState(nextState);
     }
 
-    getItems() {
+    getItems(newState) {
         const { dataItems } = this.props
-        const { current, pageSize} = this.state
+        let nextState = this.state
+        if (typeof newState !== 'undefined') {
+            nextState = newState
+        }
+        const { current, pageSize} = nextState
         const { pageFrom, pageTo }  = this.calculatePageFromTo(current, pageSize)
         let items = dataItems.slice(pageFrom - 1, pageTo)
         return {items, pageFrom, pageTo}
     }
 
+    prevPage = (current) => {
+        let prevPage = (current - 1) > 0 ? (current - 1) : 1;
+        return prevPage;
+    }
+
+    nextPage = (current) => {
+        let allPages = this.calculatePageNumber();
+        let nextPage = (current + 1) < allPages ? (current + 1) : allPages;
+        return nextPage;
+    }
+
     dispatchChangeEvent = (stateChange) => {
-        const {items, pageFrom, pageTo} = this.getItems()
-        let newState = {...this.state, ...stateChange, ...{pageFrom: pageFrom, pageTo: pageTo}}
-        this.props.onChange(items, newState, this.props)
-        this.props.dispatch({items: items})
+        let newState = {...this.state, ...stateChange}
+        const {items, pageFrom, pageTo} = this.getItems(newState);
+        newState = {...newState, ...{pageFrom: pageFrom, pageTo: pageTo}}
+        this.props.onChange(items, newState, this.props);
+        this.props.dispatch({items: items});
+        return newState;
     }
 
     renderPages() {
         const props = this.props
-        const { current, allPages, prevPage, nextPage } = this.state
+        const { current, allPages } = this.state
         const pageNumber = this.props.pageNumber;
-        let calcFirstPager = current - Math.floor(pageNumber / 2);
-        let calcLastPager = current + Math.floor(pageNumber / 2);
-        let firstPager = calcFirstPager > 1 ? calcFirstPager : 1 ;
-        let lastPager = calcLastPager <= allPages ? calcLastPager : allPages;
-        let jumpPrev = (firstPager - pageNumber) >= 1 ? firstPager - pageNumber : 1;
-        let jumpNext = (lastPager + pageNumber) <= allPages ? lastPager + pageNumber : allPages;
+        let middleNumber = Math.floor(pageNumber / 2);
+        
+        let calcFirstPager = current - middleNumber;
+        let calcLastPager = current + middleNumber;
+        let firstPager = calcFirstPager > 1 ? (calcFirstPager > allPages - pageNumber) ? (allPages - pageNumber): calcFirstPager : 1 ;
+        let lastPager = calcLastPager < allPages ? (allPages > pageNumber && calcLastPager < pageNumber) ? pageNumber : calcLastPager : allPages;
+
+        let jumpPrev = (firstPager - middleNumber) >= 1 ? firstPager - middleNumber : 1;
+        let jumpNext = (lastPager + middleNumber) <= allPages ? lastPager + middleNumber : allPages;
+        let prevPage = this.prevPage(current);
+        let nextPage = this.nextPage(current);
 
         let pages = []
         for (let i=firstPager; i<=lastPager; i++) {
@@ -139,24 +166,25 @@ class Pagination extends React.Component {
             {allPages > 1 && 
                 <ul>
                     {props.showPrevNext ? 
-                        <li><a href="" onClick={(e)=> {this.gotoPage(prevPage); e.preventDefault()}}>{typeof props.prevIcon === 'function' ? props.prevIcon():props.prevIcon}</a></li>
+                        <li><a href="" title={`Go to page ${prevPage}`} onClick={(e)=> {this.gotoPage(prevPage); e.preventDefault()}}>{typeof props.prevIcon === 'function' ? props.prevIcon():props.prevIcon}</a></li>
                         : null
                     }
                     {props.showJumper && jumpPrev < firstPager ? 
-                        <li><a href="" onClick={(e)=> {this.gotoPage(jumpPrev); e.preventDefault()}}>{typeof props.jumpPrevIcon === 'function' ? props.jumpPrevIcon():props.jumpPrevIcon}</a></li>
+                        <li><a href="" title={`Go to page ${jumpPrev}`} onClick={(e)=> {this.gotoPage(jumpPrev); e.preventDefault()}}>{typeof props.jumpPrevIcon === 'function' ? props.jumpPrevIcon():props.jumpPrevIcon}</a></li>
                         : null
                     }
 
                     {pages.map((page, index) => {
-                        return <li key={index}><a href="" onClick={(e)=> {this.gotoPage(page); e.preventDefault()}}>{page}</a></li>
+                        let activeClass = current === page ? 'active' : '';
+                        return <li className={activeClass} key={index}><a href="" title={`Go to page ${page}`} onClick={(e)=> {this.gotoPage(page); e.preventDefault()}}>{page}</a></li>
                     })}
 
-                    {props.showJumper && jumpNext < lastPager ? 
-                        <li><a href="" onClick={(e)=> {this.gotoPage(jumpNext); e.preventDefault()}}>{typeof props.jumpNextIcon === 'function' ? props.jumpNextIcon():props.jumpNextIcon}</a></li>
+                    {props.showJumper && jumpNext > lastPager ? 
+                        <li><a href="" title={`Go to page ${jumpNext}`} onClick={(e)=> {this.gotoPage(jumpNext); e.preventDefault()}}>{typeof props.jumpNextIcon === 'function' ? props.jumpNextIcon():props.jumpNextIcon}</a></li>
                         : null
                     }
                     {props.showPrevNext ? 
-                        <li><a href="" onClick={(e)=> {this.gotoPage(nextPage); e.preventDefault()}}>{typeof props.nextIcon === 'function' ? props.nextIcon():props.nextIcon}</a></li>
+                        <li><a href="" title={`Go to page ${nextPage}`} onClick={(e)=> {this.gotoPage(nextPage); e.preventDefault()}}>{typeof props.nextIcon === 'function' ? props.nextIcon():props.nextIcon}</a></li>
                         : null
                     }
                 </ul>
@@ -187,10 +215,10 @@ class Pagination extends React.Component {
         return (
             <div className="options-size">
                 <span>Show</span>
-                <select onChange={this.optionsHandle}>
+                <select onChange={this.optionsHandle} value={pageSize}>
                     {
                         pageSizeOptions.map((size, index)=>{
-                            return <option value={size} defaultValue={pageSize} key={index}>{size}</option>
+                            return <option value={size} key={index}>{size}</option>
                         })
                     }
                 </select>
