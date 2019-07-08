@@ -1,5 +1,5 @@
 import React from 'react';
-import {Qty} from '/src/simi/BaseComponents/Input/index';
+import {Qty} from 'src/simi/BaseComponents/Input/index';
 import Identify from "src/simi/Helper/Identify";
 import {showToastMessage} from 'src/simi/Helper/Message';
 import {formatPrice} from "src/simi/Helper/Pricing";
