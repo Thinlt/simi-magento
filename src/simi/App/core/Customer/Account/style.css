@@ -958,6 +958,10 @@
     }
 }
 
+.is-invalid {
+    border-color: #d7282f;
+}
+
 @media (max-width: 359px) {
     .form-address-row .checkbox-item .checkbox-item-text{
         margin-right: -22px;
