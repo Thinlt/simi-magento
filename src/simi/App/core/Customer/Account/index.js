@@ -14,7 +14,6 @@ import { connect } from 'src/drivers';
 import Wishlist from './Page/Wishlist'
 import Newsletter from './Page/Newsletter';
 
-const $ = window.$;
 class CustomerLayout extends React.Component{
 
     constructor(props) {

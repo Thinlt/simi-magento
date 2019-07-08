@@ -1,13 +1,15 @@
 import React from 'react';
 import Abstract from './Abstract';
 import Identify from 'src/simi/Helper/Identify';
+import {showToastMessage} from 'src/simi/Helper/Message';
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
-const $ = window.$;
+import {uploadFile} from 'src/simi/Model/Product'
 
 class File extends Abstract {
 
     constructor(props){
         super(props);
+        this.uploadingId = null
     }
 
     render(){
@@ -23,14 +25,14 @@ class File extends Abstract {
                 </p>
             )
         
-        if (ObjOptions.image_size_x)
+        if (ObjOptions.image_size_x && parseInt(ObjOptions.image_size_x))
             notes.push(
                 <p className="note" key="image_size_x">
                     {Identify.__(`Maximum image width: %@px`).replace('%@', ObjOptions.image_size_x)}
                 </p>
             )
         
-        if (ObjOptions.image_size_y)
+        if (ObjOptions.image_size_y && parseInt(ObjOptions.image_size_y))
             notes.push(
                 <p className="note" key="image_size_y">
                     {Identify.__(`Maximum image height: %@px`).replace('%@', ObjOptions.image_size_y)}
@@ -44,6 +46,7 @@ class File extends Abstract {
                         parent={this} 
                         type="file"
                         onChange={() => this.selectedFile(this.props.id)}
+                        accept={`.${ObjOptions.file_extension}`}
                         style={{marginBottom: 10}}
                         />
                 {notes}
@@ -51,33 +54,46 @@ class File extends Abstract {
         )
     }
 
+    uploadReturned = (result) => {
+        hideFogLoading()
+        if (result && result.uploadfile) {
+            this.updateSelected(this.uploadingId, result.uploadfile)
+        } else {
+            this.deleteSelected(this.uploadingId)
+            showToastMessage(Identify.__('Request Failed'))
+        }
+        this.uploadingId = null
+    }
+
+    getBase64(file, cb) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            cb(reader.result)
+        };
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
+    }
 
     selectedFile = (id) => {
-        const obj = this
-
         if (document.getElementById(id)) {
+            this.uploadingId = id
             const input = document.getElementById(id)
-            const formData = new FormData();
-            formData.append('file', input.files[0]);
-            showFogLoading();
-            $.ajax({
-                url: `/uploadfiles`,
-                data: formData,
-                type: 'POST',
-                contentType: false,
-                processData: false,
-            }).done(function(result) {
-                hideFogLoading()
-                if (result && result.uploadfile) {
-                    obj.updateSelected(id, result.uploadfile)
+            const filePath = input.files[0]
+            this.getBase64(filePath, (result) => {
+                if (result) {
+                    showFogLoading()
+                    const fileData = {
+                        type: filePath.type,
+                        name: filePath.name,
+                        size: filePath.size,
+                        base64: result
+                    }
+                    uploadFile(this.uploadReturned.bind(this), {fileData})
                 } else {
-                    obj.deleteSelected(id)
-                    Identify.showToastMessage(Identify.__('Request Failed'))
+                    showToastMessage(Identify.__('Cannot read file content'))
                 }
-            }).fail(function() {
-                hideFogLoading()
-                obj.deleteSelected(id)
-                Identify.showToastMessage(Identify.__('Request Failed'))
             });
         }
     }

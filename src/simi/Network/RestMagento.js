@@ -53,6 +53,15 @@ const prepareData = (endPoint, getData, method, header, bodyData) => {
     return {requestMethod, requestEndPoint, requestHeader, requestBody}
 }
 
+/**
+ * 
+ * @param {string} endPoint 
+ * @param {function} callBack 
+ * @param {string} method 
+ * @param {Object} getData 
+ * @param {Object} bodyData 
+ */
+
 export async function sendRequest(endPoint, callBack, method='GET', getData= {}, bodyData= {}) {
     const header = {cache: 'default', mode: 'cors'}
     const {requestMethod, requestEndPoint, requestHeader, requestBody} = prepareData(endPoint, getData, method, header, bodyData)
@@ -83,8 +92,6 @@ export async function sendRequest(endPoint, callBack, method='GET', getData= {},
                 result =  {'errors' : [{'code' : 0, 'message' : Identify.__('Network response was not ok'), 'endpoint': endPoint}]}
             callBack(result)
         }).catch((error) => {
-        result =  {'errors' : [{'code' : 0, 'message' : Identify.__('Something when wrong'), 'endpoint': endPoint}]}
-        console.warn(error);
-        callBack(result)
-    });
+            console.warn(error);
+        });
 }

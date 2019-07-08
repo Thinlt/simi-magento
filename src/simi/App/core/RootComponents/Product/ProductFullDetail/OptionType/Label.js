@@ -4,7 +4,7 @@ import {configColor} from "src/simi/Config";
 import Identify from 'src/simi/Helper/Identify';
 import {formatPrice} from "src/simi/Helper/Pricing";
 import CheckIcon from '@material-ui/icons/Check'
-const $ = window.$;
+
 class Label extends Abstract{
 
     handleSelect =(e,item)=>{

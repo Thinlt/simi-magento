@@ -1,9 +1,9 @@
 import React from 'react';
 import {Qty} from '/src/simi/BaseComponents/Input/index';
 import Identify from "src/simi/Helper/Identify";
+import {showToastMessage} from 'src/simi/Helper/Message';
 import {formatPrice} from "src/simi/Helper/Pricing";
 import {configColor} from "src/simi/Config";
-const $ = window.$;
 
 class OptionBase extends React.Component {
     constructor(props) {
@@ -125,7 +125,7 @@ class OptionBase extends React.Component {
             }
         }
         if(!check){
-            Identify.showToastMessage(Identify.__('Please select the options required (*)'));
+            showToastMessage(Identify.__('Please select the options required (*)'));
         }
         return check;
     }

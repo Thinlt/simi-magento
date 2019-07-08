@@ -1,7 +1,6 @@
 import React from 'react'
 import Addic from 'src/simi/BaseComponents/Icon/Add'
 import Minusic from 'src/simi/BaseComponents/Icon/Minus'
-const $ = window.$
 class Dropdownplus extends React.Component {
     sliding = false
     handleShowContent() {
