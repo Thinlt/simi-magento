@@ -7,6 +7,8 @@ import Select from '../OptionType/Select';
 import TextField from '../OptionType/Text';
 import FileSelect from '../OptionType/File';
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent/'
+import defaultClasses from './customoptions.css'
+import classify from 'src/classify';
 
 const DatePicker = (props)=>{
     return <LazyComponent component={()=>import('../OptionType/Date')} {...props}/>
@@ -23,6 +25,7 @@ class CustomOptions extends OptionBase {
     }
 
     renderOptions = () => {
+        const {classes} = this.props
         if(this.data instanceof Object && this.data.hasOwnProperty('custom_options')){
             const options = this.data.custom_options;
             if(!options) return <div></div>;
@@ -48,17 +51,17 @@ class CustomOptions extends OptionBase {
                         prices = itemPrice.price_including_tax.price;
                     }
                     priceLabel = prices > 0 ?
-                        <span className="option-price" style={{marginLeft : 10}}>+ {mainClass.renderOptionPrice(prices)}</span> : null;
+                        <span className={classes["option-price"]} style={{marginLeft : 10}}>+ {mainClass.renderOptionPrice(prices)}</span> : null;
                 }
                 return (
-                    <div className="option-select" key={Identify.randomString(5)}>
-                        <div className="option-title">
+                    <div className={classes["option-select"]} key={Identify.randomString(5)}>
+                        <div className={classes["option-title"]}>
                             <span>{item.title}</span>
                             {labelRequired}
                             {priceLabel}
                         </div>
-                        <div className="option-content">
-                            <div className="option-list">
+                        <div className={classes["option-content"]}>
+                            <div className={classes["option-list"]}>
                                 {mainClass.renderContentOption(item,item.type, showType)}
                             </div>
 
@@ -67,7 +70,7 @@ class CustomOptions extends OptionBase {
                 );
             });
             return (
-                <div className="custom-options">
+                <div className={classes["custom-options"]}>
                     <div id="customOption" style={{marginTop: '10px'}}>
                         {optionsHtml}
                     </div>
@@ -77,50 +80,52 @@ class CustomOptions extends OptionBase {
     }
 
     renderContentOption = (ObjOptions, type, showType) => {
-        let id = ObjOptions.id;
+        const id = ObjOptions.id;
+        const {classes} = this.props
         
         if(type === 'multiple' || type === 'checkbox'){
             return this.renderMutilCheckbox(ObjOptions, id,showType)
         }
         if(type === 'radio'){
-            return <Radio data={ObjOptions} id={id} parent={this} />
+            return <Radio data={ObjOptions} id={id} parent={this} classes={classes}/>
         }
         if(type === 'drop_down' || type === 'select' ){
             return <div style={{marginTop:-10}}>
-                        <Select data={ObjOptions} id={id} parent={this}/>
+                        <Select data={ObjOptions} id={id} parent={this} classes={classes}/>
                 </div>
         }
         if(type === 'date'){
             return <div style={{marginTop:-10}}>
-                        <DatePicker id={id} parent={this}/>
+                        <DatePicker id={id} parent={this} classes={classes}/>
                     </div>
         }
         if(type === 'time'){
             return <div style={{marginTop:-10}}>
-                    <TimePicker id={id} parent={this}/>
+                    <TimePicker id={id} parent={this} classes={classes}/>
                 </div>
         }
         if(type === 'date_time'){
             return (
                 <div style={{marginTop:-10}}>
-                    <DatePicker datetime={true} id={id} parent={this}/>
-                    <TimePicker datetime={true} id={id} parent={this}/>
+                    <DatePicker datetime={true} id={id} parent={this} classes={classes}/>
+                    <TimePicker datetime={true} id={id} parent={this} classes={classes}/>
                 </div>
             )
         }
         if(type === 'field'){
-            return <TextField id={id} parent={this} max_characters={ObjOptions.max_characters}/>
+            return <TextField id={id} parent={this} max_characters={ObjOptions.max_characters} classes={classes}/>
         }
         if(type === 'area'){
-            return <TextField id={id} parent={this} type={type}/>
+            return <TextField id={id} parent={this} type={type} classes={classes}/>
         }
         
         if(type === 'file'){
-            return <FileSelect data={ObjOptions} id={id} parent={this} type={type}/>
+            return <FileSelect data={ObjOptions} id={id} parent={this} type={type} classes={classes}/>
         }
     };
 
     renderMutilCheckbox =(ObjOptions, id = '0',showType)=>{
+        const {classes} = this.props
         const values = ObjOptions.values;
         const html = values.map(item => {
             let prices = 0;
@@ -132,15 +137,15 @@ class CustomOptions extends OptionBase {
                 }
             }
             const symbol = prices > 0 ? <span style={{margin:'0 10px'}}>+</span> : null;
-            prices = prices > 0 ? <span className="child-price">{this.renderOptionPrice(prices)}</span> : null;
+            prices = prices > 0 ? <span className={classes["child-price"]}>{this.renderOptionPrice(prices)}</span> : null;
             const label  = <div style={{display : 'flex'}}>
-                <span className="child-label">{item.title}</span>
+                <span className={classes["child-label"]}>{item.title}</span>
                 {symbol}
                 {prices}
             </div>;
             return (
-                <div key={Identify.randomString(5)} className="option-row">
-                    <Checkbox id={id} label={label}  value={item.id} parent={this}/>
+                <div key={Identify.randomString(5)} className={classes["option-row"]}>
+                    <Checkbox id={id} label={label}  value={item.id} parent={this} classes={classes}/>
                 </div>
             )
         });
@@ -230,4 +235,4 @@ class CustomOptions extends OptionBase {
         )
     }
 }
-export default CustomOptions;
+export default classify(defaultClasses)(CustomOptions);

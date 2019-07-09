@@ -2,21 +2,11 @@ import React from 'react';
 import Abstract from "./Abstract";
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { withStyles } from '@material-ui/core/styles';
-import {configColor} from "src/simi/Config";
-const styles = {
-    root: {
-        color:'#333',
-        '&$checked': {
-            color: configColor.button_background,
-        },
-    },
-    checked: {},
-}
+
 class CheckboxField extends Abstract {
     constructor(props) {
         super(props);
-        let checked = this.setDefaultSelected(this.props.value);
+        const checked = this.setDefaultSelected(this.props.value);
         this.state = {
             checked
         }
@@ -24,15 +14,15 @@ class CheckboxField extends Abstract {
     
     updateCheck = () => {
         this.setState((oldState) => {
-            let checked = !oldState.checked;
-            let key = this.props.id;
+            const checked = !oldState.checked;
+            const key = this.props.id;
             let mutilChecked = this.props.parent.selected[key];
             mutilChecked = mutilChecked instanceof Array ? mutilChecked : [];
             if(checked){
                 mutilChecked.push(this.props.value);
 
             }else{
-                let index = mutilChecked.indexOf(this.props.value);
+                const index = mutilChecked.indexOf(this.props.value);
                 mutilChecked.splice(index,1);
             }
             this.updateSelected(key,mutilChecked);
@@ -44,7 +34,7 @@ class CheckboxField extends Abstract {
         this.className += ' checkbox-option';
         const { classes } = this.props;
         return (
-            <div className="option-value-item-checkbox" id={`check-box-option-${this.props.value}`} style={{width : '100%'}}>
+            <div className={classes["option-value-item-checkbox"]} id={`check-box-option-${this.props.value}`} style={{width : '100%'}}>
                 <FormControlLabel
                     style={{
                         color:'#333'
@@ -67,4 +57,4 @@ class CheckboxField extends Abstract {
         );
     }
 }
-export default withStyles(styles)(CheckboxField);
+export default CheckboxField;

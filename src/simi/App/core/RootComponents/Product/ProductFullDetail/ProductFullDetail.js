@@ -95,12 +95,13 @@ class ProductFullDetail extends Component {
         const { props, state } = this;
         const { optionSelections, quantity, optionCodes } = state;
         const { addToCart, product } = props;
+
         const payload = {
             item: product,
             productType: product.__typename,
             quantity
         };
-        if (Identify.hasConnector()) {
+        if (Identify.hasConnector() && product && product.id) {
             const params = {product: String(product.id), qty: quantity?String(quantity):'1'}
             if (this.customOption) {
                 const customOptParams = this.customOption.getParams()
@@ -115,7 +116,6 @@ class ProductFullDetail extends Component {
                 })
                 params['super_attribute'] = super_attribute
             }
-            console.log(params)
             showFogLoading()
             simiAddToCart(this.addToCartCallBack, params)
         } else {
