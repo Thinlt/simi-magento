@@ -59,6 +59,7 @@ class OptionBase extends React.Component {
     };
 
     updatePrices=(selected = this.selected) =>{
+        console.log(selected)
         return <div></div>;
     };
 
@@ -85,12 +86,12 @@ class OptionBase extends React.Component {
 
     setParamQty =(keyQty = null)=>{
         if(keyQty === null) return ;
-        let obj = this;
-        let json = {};
-        let qty = $('input.option-qty');
+        const obj = this;
+        const json = {};
+        const qty = $('input.option-qty');
         qty.each(function () {
-            let val = $(this).val();
-            let id = $(this).attr('data-id');
+            const val = $(this).val();
+            const id = $(this).attr('data-id');
             if(obj.selected[id]){
                 json[id] = val;
             }
@@ -107,7 +108,7 @@ class OptionBase extends React.Component {
     };
 
     handleChangeQty = ()=>{
-        let obj = this;
+        const obj = this;
         $(function () {
             $('input.option-qty').change(function () {
                 obj.updatePrices();
@@ -117,8 +118,8 @@ class OptionBase extends React.Component {
 
     checkOptionRequired =(selected = this.selected,required=this.required)=>{
         let check = true;
-        for (let i in required){
-            let requiredOptionId = required[i];
+        for (const i in required){
+            const requiredOptionId = required[i];
             if(!selected.hasOwnProperty(requiredOptionId) || !selected[requiredOptionId] || selected[requiredOptionId].length === 0){
                 check = false;
                 break;

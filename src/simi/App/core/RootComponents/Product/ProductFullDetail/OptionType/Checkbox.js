@@ -2,6 +2,7 @@ import React from 'react';
 import Abstract from "./Abstract";
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import OptionLabel from '../OptionLabel'
 
 class CheckboxField extends Abstract {
     constructor(props) {
@@ -32,7 +33,7 @@ class CheckboxField extends Abstract {
 
     render = () => {
         this.className += ' checkbox-option';
-        const { classes } = this.props;
+        const { classes, item } = this.props;
         return (
             <div className={classes["option-value-item-checkbox"]} id={`check-box-option-${this.props.value}`} style={{width : '100%'}}>
                 <FormControlLabel
@@ -50,7 +51,7 @@ class CheckboxField extends Abstract {
                             checked: classes.checked,
                         }}
                     />}
-                    label={this.props.label}
+                    label={<OptionLabel classes={classes} item={item}/>}
                 />
 
             </div>

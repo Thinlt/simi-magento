@@ -20,25 +20,6 @@
     }
 }
 
-.section {
-    border-color: rgb(var(--venia-border));
-    border-style: solid;
-    border-width: 0 0 1px;
-    margin: 0 1.5rem;
-    padding: 1.5rem 0;
-}
-
-.sectionTitle {
-    align-items: center;
-    display: flex;
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 1.5;
-    justify-content: center;
-    margin-bottom: 1.5rem;
-    text-align: center;
-}
-
 .title {
     align-items: center;
     display: grid;
@@ -66,11 +47,6 @@
         font-weight: 400;
     }
 }
-
-.productPrice {
-    display: block;
-}
-
 .imageCarousel {
     grid-area: images;
     grid-column: 1 / 2;
@@ -87,79 +63,44 @@
     }
 }
 
-.options {
-    grid-area: options;
-}
-
-.quantity {
-    composes: section;
-    grid-area: quantity;
-}
-
-.quantityTitle {
-    composes: title from '../../../../../../components/ProductOptions/option.css';
-}
-
 .cartActions {
-    composes: section;
-    align-items: center;
+    padding: 0 15px;
+    margin-bottom: 30px;
     display: flex;
-    grid-area: cart;
-    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
-@media (min-width: 1024px) {
-    .cartActions {
-        border-bottom-width: 0;
-    }
+.product-quantity {
+    display: flex;
+    font-size: 17px;
+    width: 25%;
+}
+
+.product-quantity input{
+    padding: 10px;
+    border: solid #eaeaea 1px;
+    width: 100%;
+    text-align: center;
+}
+
+.add-to-cart-ctn {
+    width: 70%;
+    min-width: 200px;
+    max-width: 300px;
+}
+
+.add-to-cart-btn {
+    width: 100%;
+    padding: 12px;
 }
 
 .description {
-    composes: section;
-    grid-column: 1 / span 1;
-    grid-row: fold / span 1;
-}
-
-@media (min-width: 1024px) {
-    .description {
-        align-self: stretch;
-        border-top-width: 1px;
-        margin: 0;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-    }
+    border-top: solid #eaeaea 1px;
+    padding: 1.5rem;
 }
 
 .descriptionTitle {
-    composes: sectionTitle;
-}
-
-.details {
-    composes: section;
-    grid-column: 2 / span 1;
-    grid-row: fold / span 1;
-}
-
-@media (min-width: 1024px) {
-    .details {
-        align-self: stretch;
-        border-top-width: 1px;
-        margin: 0;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-    }
-}
-
-.detailsTitle {
-    composes: sectionTitle;
-}
-
-.related {
-    composes: section;
-    border-bottom-width: 0;
-    grid-column: 1 / span 2;
-}
-
-.relatedTitle {
-    composes: sectionTitle;
+    font-size: 20px;
+    margin-bottom: 20px;
 }

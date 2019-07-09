@@ -7,6 +7,7 @@ import Select from '../OptionType/Select';
 import TextField from '../OptionType/Text';
 import FileSelect from '../OptionType/File';
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent/'
+import OptionLabel from '../OptionLabel'
 import defaultClasses from './customoptions.css'
 import classify from 'src/classify';
 
@@ -30,29 +31,19 @@ class CustomOptions extends OptionBase {
             const options = this.data.custom_options;
             if(!options) return <div></div>;
             const mainClass = this;
-            const optionsHtml = options.map(function (item, index) {
+            const optionsHtml = options.map(function (item) {
                 const labelRequired = mainClass.renderLabelRequired(parseInt(item.isRequired,10));
                 if(parseInt(item.isRequired,10) === 1){
                     mainClass.required.push(item.id);
                 }
+                
                 let priceLabel = "";
-                let showType = 2;
                 if (item.type === 'drop_down' || item.type === 'checkbox'
                     || item.type === 'multiple' || item.type === 'radio') {
-                    showType = 1;
+                } else {
+                    priceLabel = <OptionLabel item={item.values[0]} classes={classes} />
                 }
 
-                if (showType === 2) {
-                    const itemPrice = item.values[0];
-                    let prices = 0;
-                    if (itemPrice.price) {
-                        prices = itemPrice.price;
-                    } else if (itemPrice.price_including_tax) {
-                        prices = itemPrice.price_including_tax.price;
-                    }
-                    priceLabel = prices > 0 ?
-                        <span className={classes["option-price"]} style={{marginLeft : 10}}>+ {mainClass.renderOptionPrice(prices)}</span> : null;
-                }
                 return (
                     <div className={classes["option-select"]} key={Identify.randomString(5)}>
                         <div className={classes["option-title"]}>
@@ -62,9 +53,8 @@ class CustomOptions extends OptionBase {
                         </div>
                         <div className={classes["option-content"]}>
                             <div className={classes["option-list"]}>
-                                {mainClass.renderContentOption(item,item.type, showType)}
+                                {mainClass.renderContentOption(item,item.type)}
                             </div>
-
                         </div>
                     </div>
                 );
@@ -79,12 +69,12 @@ class CustomOptions extends OptionBase {
         }
     }
 
-    renderContentOption = (ObjOptions, type, showType) => {
+    renderContentOption = (ObjOptions, type) => {
         const id = ObjOptions.id;
         const {classes} = this.props
         
         if(type === 'multiple' || type === 'checkbox'){
-            return this.renderMutilCheckbox(ObjOptions, id,showType)
+            return this.renderMutilCheckbox(ObjOptions, id)
         }
         if(type === 'radio'){
             return <Radio data={ObjOptions} id={id} parent={this} classes={classes}/>
@@ -124,28 +114,13 @@ class CustomOptions extends OptionBase {
         }
     };
 
-    renderMutilCheckbox =(ObjOptions, id = '0',showType)=>{
+    renderMutilCheckbox =(ObjOptions, id = '0')=>{
         const {classes} = this.props
         const values = ObjOptions.values;
         const html = values.map(item => {
-            let prices = 0;
-            if (showType === 1) {
-                if (item.price) {
-                    prices = item.price;
-                } else if (item.price_including_tax) {
-                    prices = item.price_including_tax.price;
-                }
-            }
-            const symbol = prices > 0 ? <span style={{margin:'0 10px'}}>+</span> : null;
-            prices = prices > 0 ? <span className={classes["child-price"]}>{this.renderOptionPrice(prices)}</span> : null;
-            const label  = <div style={{display : 'flex'}}>
-                <span className={classes["child-label"]}>{item.title}</span>
-                {symbol}
-                {prices}
-            </div>;
             return (
                 <div key={Identify.randomString(5)} className={classes["option-row"]}>
-                    <Checkbox id={id} label={label}  value={item.id} parent={this} classes={classes}/>
+                    <Checkbox id={id} item={item} value={item.id} parent={this} classes={classes}/>
                 </div>
             )
         });

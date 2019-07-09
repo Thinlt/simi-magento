@@ -1,10 +1,9 @@
 import React, { Component, Suspense } from 'react';
 import { arrayOf, bool, func, number, shape, string } from 'prop-types';
 import { Form } from 'informed';
-
 import classify from 'src/classify';
-import Button from 'src/components/Button';
 import Loading from 'src/simi/BaseComponents/Loading'
+import { Colorbtn } from '/src/simi/BaseComponents/Button'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import Carousel from './ProductImageCarousel';
 import Quantity from './ProductQuantity';
@@ -19,26 +18,12 @@ import {prepareProduct} from 'src/simi/Helper/Product'
 import ProductPrice from '../Component/Productprice';
 import CustomOptions from './CustomOptions';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
+import {configColor} from 'src/simi/Config'
 
 const ConfigurableOptions = React.lazy(() => import('./ConfigurableOptions'));
 
 class ProductFullDetail extends Component {
     static propTypes = {
-        classes: shape({
-            cartActions: string,
-            description: string,
-            descriptionTitle: string,
-            details: string,
-            detailsTitle: string,
-            imageCarousel: string,
-            options: string,
-            productName: string,
-            productPrice: string,
-            quantity: string,
-            quantityTitle: string,
-            root: string,
-            title: string
-        }),
         product: shape({
             __typename: string,
             id: number,
@@ -86,14 +71,15 @@ class ProductFullDetail extends Component {
     state = {
         optionCodes: new Map(),
         optionSelections: new Map(),
-        quantity: 1
     };
+    
+    quantity = 1
 
-    setQuantity = quantity => this.setState({ quantity });
+    setQuantity = quantity => this.quantity = quantity;
 
     addToCart = () => {
-        const { props, state } = this;
-        const { optionSelections, quantity, optionCodes } = state;
+        const { props, state, quantity } = this;
+        const { optionSelections, optionCodes } = state;
         const { addToCart, product } = props;
 
         const payload = {
@@ -256,7 +242,6 @@ class ProductFullDetail extends Component {
         hideFogLoading()
         const {
             addToCart,
-            isMissingOptions,
             mediaGalleryEntries,
             productOptions,
             props
@@ -284,35 +269,31 @@ class ProductFullDetail extends Component {
                     <Carousel images={mediaGalleryEntries} key={carouselKey} />
                 </section>
                 <section className={classes.options}>{productOptions}</section>
-                <section className={classes.quantity}>
-                    <h2 className={classes.quantityTitle}>
-                        <span>Quantity</span>
-                    </h2>
-                    <Quantity
-                        initialValue={this.state.quantity}
-                        onValueChange={this.setQuantity}
-                    />
-                </section>
                 <section className={classes.cartActions}>
-                    <Button
-                        priority="high"
-                        onClick={addToCart}
-                        disabled={isAddingItem || isMissingOptions}
-                    >
-                        <span>Add to Cart</span>
-                    </Button>
+                    {
+                        isAddingItem?
+                        <Loading />:
+                        <React.Fragment>
+                            <Quantity
+                                classes={classes}
+                                initialValue={this.quantity}
+                                onValueChange={this.setQuantity}
+                            />
+                            <div className={classes["add-to-cart-ctn"]}>
+                                <Colorbtn 
+                                    style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
+                                    className={classes["add-to-cart-btn"]} 
+                                    onClick={addToCart}
+                                    text={Identify.__('Add to Cart')}/>
+                            </div>
+                        </React.Fragment>
+                    }
                 </section>
                 <section className={classes.description}>
                     <h2 className={classes.descriptionTitle}>
                         <span>Product Description</span>
                     </h2>
                     <RichText content={product.description} />
-                </section>
-                <section className={classes.details}>
-                    <h2 className={classes.detailsTitle}>
-                        <span>SKU</span>
-                    </h2>
-                    <strong>{product.sku}</strong>
                 </section>
             </Form>
         );

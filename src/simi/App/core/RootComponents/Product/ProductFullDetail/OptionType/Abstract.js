@@ -59,23 +59,5 @@ class Abstract extends React.Component {
     deleteSelected =(key = this.key) => {
         this.parent.deleteOptions(key);
     };
-
-    renderLableItem =(title,price,style={})=>{
-        const {classes} = this.props
-        const symbol = price > 0 ? <span style={{margin:'0 10px'}}>+</span> : null;
-        price = price > 0 ? this.props.parent.renderOptionPrice(price) : null;
-        style = {...{
-            display : 'flex',
-            fontWeight: '400'
-        },...style}
-        const label = <div style={style} className={classes['label-option-text']}>
-                        <span style={{
-                            fontSize: '16px',
-                        }}>{title}</span>
-                        {symbol}
-                        {price}
-                    </div>;
-        return label;
-    }
 }
 export default Abstract;
