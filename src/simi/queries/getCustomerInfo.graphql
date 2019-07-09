@@ -1,0 +1,29 @@
+query customerInfo
+{
+  customerOrders {
+    items {
+      increment_id
+      id
+      created_at
+      grand_total
+      status
+    }
+  }
+  customer {
+    id
+    default_shipping
+    default_billing
+    addresses {
+      id
+      firstname
+      lastname
+      street
+      city
+      region {
+        region_code
+        region
+        region_id
+      }
+    }
+  }
+}
