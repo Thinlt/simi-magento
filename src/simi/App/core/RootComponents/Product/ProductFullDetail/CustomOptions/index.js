@@ -9,7 +9,6 @@ import FileSelect from '../OptionType/File';
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent/'
 import OptionLabel from '../OptionLabel'
 import defaultClasses from './customoptions.css'
-import classify from 'src/classify';
 
 const DatePicker = (props)=>{
     return <LazyComponent component={()=>import('../OptionType/Date')} {...props}/>
@@ -23,10 +22,11 @@ class CustomOptions extends OptionBase {
         super(props);
         this.exclT = 0;
         this.inclT = 0;
+        this.classes = defaultClasses
     }
 
     renderOptions = () => {
-        const {classes} = this.props
+        const {classes} = this
         if(this.data instanceof Object && this.data.hasOwnProperty('custom_options')){
             const options = this.data.custom_options;
             if(!options) return <div></div>;
@@ -71,7 +71,7 @@ class CustomOptions extends OptionBase {
 
     renderContentOption = (ObjOptions, type) => {
         const id = ObjOptions.id;
-        const {classes} = this.props
+        const {classes} = this
         
         if(type === 'multiple' || type === 'checkbox'){
             return this.renderMutilCheckbox(ObjOptions, id)
@@ -115,7 +115,7 @@ class CustomOptions extends OptionBase {
     };
 
     renderMutilCheckbox =(ObjOptions, id = '0')=>{
-        const {classes} = this.props
+        const {classes} = this
         const values = ObjOptions.values;
         const html = values.map(item => {
             return (
@@ -188,9 +188,7 @@ class CustomOptions extends OptionBase {
 
         this.parentObj.Price.updatePrices(prices);
     }
-    a(){
-        return 'b'
-    }
+    
     getParams = () =>{
         if(!this.checkOptionRequired()){
             return false;
@@ -206,4 +204,4 @@ class CustomOptions extends OptionBase {
         )
     }
 }
-export default classify(defaultClasses)(CustomOptions);
+export default CustomOptions;

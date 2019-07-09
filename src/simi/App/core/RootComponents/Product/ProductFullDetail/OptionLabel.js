@@ -51,7 +51,7 @@ const Optionlabel = props => {
             )
         }
     } else {
-        console.log(item)
+        
     }
     return label
 }

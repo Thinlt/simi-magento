@@ -1,33 +1,14 @@
 .root {
-    display: block;
-}
-
-@media (min-width: 1024px) {
-    .root {
-        align-items: start;
-        display: grid;
-        grid-auto-flow: row;
-        grid-template-areas:
-            'images title'
-            'images actions'
-            'images options'
-            'images quantity'
-            'images cart'
-            'images .';
-        grid-template-columns: 1.5625fr 1fr;
-        grid-template-rows: repeat(5, min-content) 1fr [fold];
-        padding: 2.5rem 4rem;
-    }
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .title {
     align-items: center;
-    display: grid;
-    grid-area: title;
-    grid-gap: 1rem;
-    grid-template-columns: 1fr max-content;
     line-height: 1.5;
     padding: 1rem 1.5rem;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 @media (min-width: 1024px) {
@@ -37,30 +18,37 @@
 }
 
 .productName {
-    font-size: 1rem;
+    font-size: 24px;
     font-weight: 600;
+    text-align: center;
 }
 
-@media (min-width: 1024px) {
-    .productName {
-        font-size: 1.3125rem;
-        font-weight: 400;
-    }
-}
 .imageCarousel {
-    grid-area: images;
-    grid-column: 1 / 2;
-    grid-row: 1 / fold;
     margin: 0 auto;
+    min-width: 300px;
     max-width: 640px;
+    width: 60%;
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 1023px){
     .imageCarousel {
-        margin: 0;
-        max-width: 800px;
-        padding: 1.5rem 0;
+        width: 100%;
     }
+}
+
+.mainActions {
+    width: 40%;
+    min-width: 300px;
+}
+
+@media (max-width: 1023px){
+    .mainActions {
+        width: 100%;
+    }
+}
+
+.productPrice {
+    padding: 1rem 1.5rem;
 }
 
 .cartActions {

@@ -1,2 +1,1 @@
-export { default as ProductFullDetail } from './ProductFullDetail';
-export { default } from './container';
+export { default } from './ProductFullDetail';

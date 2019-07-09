@@ -1,6 +1,5 @@
 import React, { Component, Suspense } from 'react';
 import { arrayOf, bool, func, number, shape, string } from 'prop-types';
-import { Form } from 'informed';
 import classify from 'src/classify';
 import Loading from 'src/simi/BaseComponents/Loading'
 import { Colorbtn } from 'src/simi/BaseComponents/Button'
@@ -14,7 +13,6 @@ import findMatchingVariant from 'src/util/findMatchingProductVariant';
 import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
 import {prepareProduct} from 'src/simi/Helper/Product'
-
 import ProductPrice from '../Component/Productprice';
 import CustomOptions from './CustomOptions';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
@@ -93,7 +91,8 @@ class ProductFullDetail extends Component {
                 const customOptParams = this.customOption.getParams()
                 if (customOptParams && customOptParams.options) {
                     params['options'] = customOptParams.options
-                }
+                } else
+                    return
             }
             if (optionSelections) {
                 const super_attribute = {}
@@ -165,7 +164,7 @@ class ProductFullDetail extends Component {
                         key={Identify.randomString(5)}
                         app_options={simiExtraField.app_options}
                         product_id={this.props.product.entity_id}
-                        ref={this.customOption}
+                        ref={e => this.customOption = e}
                         parent={this}
                     />
                 }
@@ -246,7 +245,7 @@ class ProductFullDetail extends Component {
             productOptions,
             props
         } = this;
-        const { classes, isAddingItem } = props;
+        const { classes, simiExtraField } = props;
 
         const product = prepareProduct(props.product)
 
@@ -258,44 +257,42 @@ class ProductFullDetail extends Component {
         }, '');
 
         return (
-            <Form className={classes.root}>
-                <section className={classes.title}>
+            <div className={`${classes.root} container`}>
+                <div className={classes.title}>
                     <h1 className={classes.productName}>
                         <span>{product.name}</span>
                     </h1>
-                    <ProductPrice ref={(price) => this.Price = price} data={product}/>
-                </section>
-                <section className={classes.imageCarousel}>
+                </div>
+                <div className={classes.imageCarousel}>
                     <Carousel images={mediaGalleryEntries} key={carouselKey} />
-                </section>
-                <section className={classes.options}>{productOptions}</section>
-                <section className={classes.cartActions}>
-                    {
-                        isAddingItem?
-                        <Loading />:
-                        <React.Fragment>
-                            <Quantity
-                                classes={classes}
-                                initialValue={this.quantity}
-                                onValueChange={this.setQuantity}
-                            />
-                            <div className={classes["add-to-cart-ctn"]}>
-                                <Colorbtn 
-                                    style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
-                                    className={classes["add-to-cart-btn"]} 
-                                    onClick={addToCart}
-                                    text={Identify.__('Add to Cart')}/>
-                            </div>
-                        </React.Fragment>
-                    }
-                </section>
-                <section className={classes.description}>
+                </div>
+                <div className={classes.mainActions}>
+                    <div className={classes.productPrice}>
+                        <ProductPrice ref={(price) => this.Price = price} data={product} simiExtraField={simiExtraField}/>
+                    </div>
+                    <div className={classes.options}>{productOptions}</div>
+                    <div className={classes.cartActions}>
+                        <Quantity
+                            classes={classes}
+                            initialValue={this.quantity}
+                            onValueChange={this.setQuantity}
+                        />
+                        <div className={classes["add-to-cart-ctn"]}>
+                            <Colorbtn 
+                                style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
+                                className={classes["add-to-cart-btn"]} 
+                                onClick={addToCart}
+                                text={Identify.__('Add to Cart')}/>
+                        </div>
+                    </div>
+                </div>
+                <div className={classes.description}>
                     <h2 className={classes.descriptionTitle}>
                         <span>Product Description</span>
                     </h2>
                     <RichText content={product.description} />
-                </section>
-            </Form>
+                </div>
+            </div>
         );
     }
 }

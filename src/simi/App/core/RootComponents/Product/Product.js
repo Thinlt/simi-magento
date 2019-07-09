@@ -57,7 +57,6 @@ class Product extends Component {
                     const product = data.productDetail.items[0];
                     let simiExtraField = data.simiProductDetaileExtraField
                     simiExtraField = simiExtraField?JSON.parse(simiExtraField):null
-                    console.log(data)
                     return (
                         <ProductFullDetail
                             product={this.mapProduct(product)}
