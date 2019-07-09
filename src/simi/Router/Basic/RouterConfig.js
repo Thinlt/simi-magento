@@ -56,7 +56,7 @@ const router = {
     },
     account : {
         path: '/account.html',
-        render : (location) => <Account {...location}/>
+        render : (location) => <Account {...location} page='dashboard'/>
     },
     address_book : {
         path : '/addresses.html/:id?',
