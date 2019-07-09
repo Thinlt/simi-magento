@@ -188,18 +188,14 @@ class CustomOptions extends OptionBase {
 
         this.parentObj.Price.updatePrices(prices);
     }
-
-    setParamQty = ()=>{
-        const qty = $('input.option-qty').val();
-        this.params['qty'] = qty;
-    };
-
-    getParams = ()=>{
+    a(){
+        return 'b'
+    }
+    getParams = () =>{
         if(!this.checkOptionRequired()){
             return false;
         }
         this.setParamOption('options');
-        this.setParamQty();
         return this.params;
     }
     render(){

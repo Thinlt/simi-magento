@@ -1,5 +1,4 @@
 import React from 'react';
-import {Qty} from 'src/simi/BaseComponents/Input/index';
 import Identify from "src/simi/Helper/Identify";
 import {showToastMessage} from 'src/simi/Helper/Message';
 import {formatPrice} from "src/simi/Helper/Pricing";
@@ -20,10 +19,6 @@ class OptionBase extends React.Component {
 
     renderOptions =()=>{
         return <div></div>;
-    };
-
-    renderOptionInputQty = (key,qty = 1,style={}) => {
-        return <Qty id={key} className={`option-qty option-qty-${key}`} value={qty} inputStyle={style}/>;
     };
 
     renderOptionPrice = (price) => {
@@ -84,37 +79,12 @@ class OptionBase extends React.Component {
         return this.props.parent.product_type;
     };
 
-    setParamQty =(keyQty = null)=>{
-        if(keyQty === null) return ;
-        const obj = this;
-        const json = {};
-        const qty = $('input.option-qty');
-        qty.each(function () {
-            const val = $(this).val();
-            const id = $(this).attr('data-id');
-            if(obj.selected[id]){
-                json[id] = val;
-            }
-        });
-        this.params[keyQty] = json;
-    };
-
     /*
     *  get Params Add to Cart
     * */
     getParams = () => {
-        this.setParamQty('qty');
         return this.params;
     };
-
-    handleChangeQty = ()=>{
-        const obj = this;
-        $(function () {
-            $('input.option-qty').change(function () {
-                obj.updatePrices();
-            })
-        })
-    }
 
     checkOptionRequired =(selected = this.selected,required=this.required)=>{
         let check = true;

@@ -3,7 +3,7 @@ import { arrayOf, bool, func, number, shape, string } from 'prop-types';
 import { Form } from 'informed';
 import classify from 'src/classify';
 import Loading from 'src/simi/BaseComponents/Loading'
-import { Colorbtn } from '/src/simi/BaseComponents/Button'
+import { Colorbtn } from 'src/simi/BaseComponents/Button'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import Carousel from './ProductImageCarousel';
 import Quantity from './ProductQuantity';
@@ -165,7 +165,7 @@ class ProductFullDetail extends Component {
                         key={Identify.randomString(5)}
                         app_options={simiExtraField.app_options}
                         product_id={this.props.product.entity_id}
-                        ref={(e) => this.customOption = e}
+                        ref={this.customOption}
                         parent={this}
                     />
                 }

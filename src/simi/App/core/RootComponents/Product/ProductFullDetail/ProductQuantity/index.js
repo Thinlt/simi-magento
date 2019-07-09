@@ -5,7 +5,7 @@ class Quantity extends Component {
         const { classes, initialValue, onValueChange } = this.props;
         return (
             <div className={classes['product-quantity']}>
-                <input defaultValue={initialValue} onChange={onValueChange}/>
+                <input defaultValue={initialValue} type="number" onChange={onValueChange}/>
             </div>
         );
     }
