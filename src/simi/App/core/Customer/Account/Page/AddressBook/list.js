@@ -8,11 +8,11 @@ const List = props => {
     const { items } = props;
 
     const editAddressHandle = (id) => {
-        this.props.editAddress(id);
+        props.editAddress(id);
     }
 
     const deleteAddressHandle = (id) => {
-        this.props.deleteAddress(id);
+        props.deleteAddress(id);
     }
 
     const renderItems = (itemsRender) => {
@@ -21,7 +21,7 @@ const List = props => {
             rendering = itemsRender
         }
         return rendering.map((item, index) => {
-            return <ListItem data={item} key={index} editAddress={editAddressHandle} deleteAddress={deleteAddressHandle}/>
+            return <ListItem data={item} key={index} editAddress={editAddressHandle} deleteAddress={() => deleteAddressHandle(index)}/>
         })
     }
 

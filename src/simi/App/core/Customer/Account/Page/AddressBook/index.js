@@ -14,6 +14,7 @@ import { simiUseQuery } from 'src/simi/Network/Query';
 import CUSTOMER_ADDRESS from 'src/simi/queries/customerAddress.graphql';
 // import GET_COUNTRIES from 'src/simi/queries/getCountries.graphql';
 import List from './list';
+import Edit from './edit';
 import defaultClasses from './style.css';
 
 const AddressBook = props => {
@@ -44,12 +45,15 @@ const AddressBook = props => {
     }, [data]);
 
     const [ isEditAddress, setIsEditAddress ] = useState(null);
+    // const [ editAddressId, setEditAddressId ] = useState(null);
+    const [ addressEditing, setAddressEditing ] = useState(null);
     const { customer, countries } = data || {};
     const { addresses } = customer || {};
 
     var defaultBilling = {};
     var defaultShipping = {};
     var addressList = []; //other address list
+    // var addressEditing = null; //address item
 
     for (var addrNo in addresses) {
         if (addresses[addrNo].default_billing) {
@@ -86,10 +90,33 @@ const AddressBook = props => {
         }
     }
 
-    const editAddressHandle = (e, addressType) => {
+    //id - address id
+    const editDefaultAddressHandle = (e, id, addressType) => {
         e.preventDefault();
-        setIsEditAddress(addressType);
+        if (addressType === 'billing') {
+            var address = defaultBilling;
+        }
+        if (addressType === 'shipping') {
+            var address = defaultShipping;
+        }
+        setAddressEditing(address);
+        setIsEditAddress(id);
+        // setEditAddressId(id);
         return e;
+    }
+
+
+    //id - is index of items array
+    const editAddressOther = (id) => {
+        let address = typeof addressList[id] !== 'undefined' ? addressList[id] : null;
+        setAddressEditing(address);
+        setIsEditAddress(id);
+        // setEditAddressId(id);
+    }
+
+    const deleteAddressOther = (id) => {
+        addressEditing = typeof addressList[id] !== 'undefined' ? addressList[id] : null;
+        console.log('delete address', addressEditing)
     }
 
     const renderDefaultAddress = () => {
@@ -113,7 +140,7 @@ const AddressBook = props => {
                         </address>
                     </div>
                     <div className="box-action">
-                        <a href="" onClick={e => editAddressHandle(e, "billing")}><span>{Identify.__("Change Billing Address")}</span></a>
+                        <a href="" onClick={e => editDefaultAddressHandle(e, defaultBilling.id, 'billing')}><span>{Identify.__("Change Billing Address")}</span></a>
                     </div>
                 </div>
                 <div className="shipping-address">
@@ -134,7 +161,7 @@ const AddressBook = props => {
                         </address>
                     </div>
                     <div className="box-action">
-                        <a href="" onClick={e => editAddressHandle(e, "shipping")}><span>{Identify.__("Change Shipping Address")}</span></a>
+                        <a href="" onClick={e => editDefaultAddressHandle(e, defaultShipping.id, 'shipping')}><span>{Identify.__("Change Shipping Address")}</span></a>
                     </div>
                 </div>
             </div>
@@ -150,13 +177,13 @@ const AddressBook = props => {
                 addressList.push(myitem)
             }
         }
-        return <List items={addressList}/>
+        return <List items={addressList} editAddress={(id) => editAddressOther(id)} deleteAddress={(id) => deleteAddressOther(id)}/>
     }
 
     return (
         <div className={classes["address-book"]}>
-            {isEditAddress ? 
-                "edit address"
+            {isEditAddress && addressEditing ? 
+                <Edit setIsEditAddress={setIsEditAddress} addressData={addressEditing} countries={countries} user={user} />
             :
             <>
                 {TitleHelper.renderMetaHeader({title:Identify.__('Address Book')})}

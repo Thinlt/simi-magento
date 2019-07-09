@@ -1,143 +1,246 @@
-import React, { useState, useEffect } from 'react';
-// import { object } from 'prop-types';
-import classify from 'src/classify';
-import { compose } from 'redux';
+import React from 'react';
 import { connect } from 'src/drivers';
+import { Form, BasicText, BasicSelect, Checkbox, Option, useFieldState, asField } from 'informed';
 import Identify from 'src/simi/Helper/Identify';
+import {validateEmpty} from 'src/simi/Helper/Validation';
 import TitleHelper from 'src/simi/Helper/TitleHelper';
 import Loading from "src/simi/BaseComponents/Loading";
-// import gql from 'graphql-tag';
-// import { useQuery } from '@magento/peregrine';
-// import { Query } from 'src/drivers';
-import { simiUseQuery } from 'src/simi/Network/Query';
-import { Mutation } from 'react-apollo';
-import CUSTOMER_ADDRESS from 'src/simi/queries/customerAddress.graphql';
-import GET_COUNTRIES from 'src/simi/queries/getCountries.graphql';
-import defaultClasses from './style.css';
+import { SimiMutation } from 'src/simi/Network/Query';
+import CUSTOMER_ADDRESS from 'src/simi/queries/customerAddressUpdate.graphql';
+
+const SimiText = asField(({ fieldState, ...props }) => (
+    <React.Fragment>
+      <BasicText
+        fieldState={fieldState}
+        {...props}
+        style={fieldState.error ? { border: 'solid 1px red', color: 'red' } : null}
+      />
+      {fieldState.error ? (<small style={{ color: 'red' }}>{fieldState.error}</small>) : null}
+    </React.Fragment>
+));
+
+const SimiSelect = asField(({ fieldState, ...props }) => (
+    <React.Fragment>
+      <BasicSelect
+        fieldState={fieldState}
+        {...props}
+        style={fieldState.error ? { border: 'solid 1px red' } : null}
+      />
+      {fieldState.error ? (<small style={{ color: 'red' }}>{fieldState.error}</small>) : null}
+    </React.Fragment>
+));
 
 const Edit = props => {
+
+    const { addressData, countries} = props
+
+    const getFormApi = (formApi) => {
+        // formApi.setValue('firstname', addressData.firstname)
+    }
+
+    const validate = (value) => {
+        return !validateEmpty(value) ? 'This is a required field.' : undefined;
+    }
+
+    const validateStreet = (value) => {
+        if (typeof value === 'array') {
+            for(var i in value){
+                if (!validateEmpty(value[i])) {
+                    return 'This is a required field.';
+                }
+            }
+        } else {
+            return !validateEmpty(value) ? 'This is a required field.' : undefined;
+        }
+    }
+
+    const validateOption = (value) => {
+        var valid = !value || !validateEmpty(value) ? 'Please select an option.' : undefined;
+        return valid;
+    }
+
+    const formSubmit = (values) => {
+        // console.log('form submited:', values)
+        
+    }
     
-    const {user, classes} = props;
-    const [queryResult, queryApi] = simiUseQuery(CUSTOMER_ADDRESS, false);
-    const { data } = queryResult;
-    const { runQuery } = queryApi;
-    // const [queryResultCountries, queryApiCountries] = simiUseQuery(GET_COUNTRIES, true);
-    // const dataCountries = queryResultCountries.data;
-    // const runQueryCountries = queryApiCountries.runQuery;
-
-    const getAddresses = () => {
-        runQuery({});
+    const formChange = (formState) => {
+        // console.log('form change:', formState)
     }
 
-    // const getCountries = () => {
-    //     runQueryCountries({});
-    // }
-
-    const renderDefaultAddress = () => {
-        return <div>default address book</div>
-    }
-
-    const renderAddressList = () => {
-        return <div>address list</div>
-    }
-
-    useEffect(() => {
-        if(!data) {
-            getAddresses()
-        };
-        // if(!dataCountries) {
-        //     getCountries()
-        // };
-    }, [data]);
-
-    const [ isEditAddress, setIsEditAddress ] = useState(null);
-    const { customer, countries } = data || {};
-    const { addresses } = customer || {};
-
-    var defaultBilling = {};
-    var defaultShipping = {};
-
-    for (var addrNo in addresses) {
-        if (addresses[addrNo].default_billing) {
-            defaultBilling = addresses[addrNo];
+    const getRegionObject = (country_id, region_id) => {
+        var country;
+        for(var i in countries) {
+            if (countries[i].id === country_id){
+                country = countries[i];
+                break;
+            }
         }
-        if (addresses[addrNo].default_shipping){
-            defaultShipping = addresses[addrNo];
+        if (country && country.available_regions && country.available_regions.length) {
+            for (var i in country.available_regions) {
+                if (country.available_regions[i].id === parseInt(region_id)) {
+                    return country.available_regions[i];
+                }
+            }
+        }
+        return null
+    }
+
+    const StateProvince = () => {
+        const { value } = useFieldState('country_id');
+
+        // get country
+        var country;
+        for(var i in countries) {
+            if (countries[i].id === value){
+                country = countries[i];
+                break;
+            }
+        }
+        if (country && country.available_regions && country.available_regions.length) {
+            var regionValue = addressData.region.region_id
+            if (addressData.country_id !== value) {
+                regionValue = null;
+            }
+            return (
+                <>
+                <label htmlFor="input-state">{Identify.__('State/Province')}<span>*</span></label>
+                <SimiSelect id="input-state" field="region[region_id]" initialValue={regionValue} 
+                    key={regionValue} validate={validateOption} validateOnChange >
+                    <Option value="" key={-1}>{Identify.__('Please select a region, state or province.')}</Option>
+                    {country.available_regions.map((region, index) => {
+                        return <Option value={region.id} key={index}>{region.name}</Option>
+                    })}
+                </SimiSelect>
+                </>
+            );
+        } else {
+            var regionValue = addressData.region.region
+            if (addressData.country_id !== value) {
+                regionValue = null;
+            }
+            return (
+                <>
+                    <label htmlFor="input-state">{Identify.__('State/Province')}</label>
+                    <SimiText id="input-state" field="region[region]" initialValue={regionValue} />
+                </>
+            )
         }
     }
 
-    var defaultBillingCountry = {}
-    var defaultShippingCountry = {}
-    // const { countries } = dataCountries || [];
-    for (var idx in countries) {
-        if (countries[idx].id === defaultBilling.country_id) {
-            defaultBillingCountry = countries[idx];
-        }
-        if (countries[idx].id === defaultShipping.country_id) {
-            defaultShippingCountry = countries[idx];
-        }
-    }
-
-    const editAddressHandle = (e) => {
-        e.preventDefault();
-        setIsEditAddress(null);
-        return e;
-    }
-
+    var loading = false;
     return (
-        <div className={classes["address-book"]}>
-            {isEditAddress ? 
-                "edit address"
-            :
-            <>
-                {TitleHelper.renderMetaHeader({title:Identify.__('Address Book')})}
-                <h1>{Identify.__("Address Book")}</h1>
-                <div className="default-address">
-                    <div className="address-label">{Identify.__("Default Addresses")}</div>
-                    <div className="address-content">
-                        <div className="billing-address">
-                            <span className="box-title">{Identify.__("Default Billing Address")}</span>
-                            <div className="box-content">
-                                <address>
-                                    {defaultBilling.firstname} {defaultBilling.lastname}<br/>
-                                    {defaultBilling.street ? <>{defaultBilling.street}<br/></> : ''}
-                                    {defaultBilling.postcode ? <>{defaultBilling.postcode}, </> : ''}
-                                    {defaultBilling.city ? <>{defaultBilling.city}, </>: ''}
-                                    {defaultBilling.region ? <>{defaultBilling.region.region_code}<br/></>: ''}
-                                    {defaultBillingCountry.full_name_locale ? <>{defaultBillingCountry.full_name_locale}<br/></> : ''}
-                                    {defaultBilling.telephone && 
-                                        <>
-                                            T: <a href={"tel:"+defaultBilling.telephone}>{defaultBilling.telephone}</a>
-                                        </>
-                                    }
-                                </address>
-                            </div>
-                            <div className="box-action">
-                                <a href="" onClick={e => editAddressHandle(e)}><span>{Identify.__("Change Billing Address")}</span></a>
-                            </div>
+        <div className="edit-address">
+            {TitleHelper.renderMetaHeader({title: Identify.__('Edit Address')})}
+            <Form id="address-form" getApi={getFormApi} onSubmit={formSubmit} onChange={formChange}>
+                {({ formApi }) => (
+                    <>
+                    <div className="col-left">
+                        <div className="form-row">
+                            <div className="col-label">{Identify.__('Contact Information')}</div>
                         </div>
-                        <div className="shipping-address">
-                            <span className="box-title">{Identify.__("Default Shipping Address")}</span>
-                            <div className="box-content">
-                                <address>
-                                    {/* {defaultShipping.firstname} {defaultShipping.lastname}<br/>
-                                    {defaultShipping.street && {defaultShipping.street}<br>}
-                                    {defaultShipping.postcode && {defaultShipping.postcode}, }  
-                                    {defaultShipping.city && {defaultShipping.city}, }
-                                    {defaultShipping.region && {defaultShipping.region.region_code}}<br/>
-                                    {defaultShippingCountry.full_name_locale && {defaultShippingCountry.full_name_locale}<br>}
-                                    {defaultShipping.telephone && T: <a href=`tel:${defaultShipping.telephone}`>{defaultShipping.telephone}</a>} */}
-                                </address>
+                        <div className="form-row">
+                            <label htmlFor="input-firstname">{Identify.__('First Name')}<span>*</span></label>
+                            <SimiText id="input-firstname" field="firstname" initialValue={addressData.firstname} validate={validate} validateOnBlur validateOnChange />
+                        </div>
+                        <div className="form-row">
+                            <label htmlFor="input-lastname">{Identify.__('Last Name')}<span>*</span></label>
+                            <SimiText id="input-lastname" field="lastname" initialValue={addressData.lastname} validate={validate}  validateOnBlur validateOnChange />
+                        </div>
+                        <div className="form-row">
+                            <label htmlFor="input-company">{Identify.__('Company')}</label>
+                            <SimiText id="input-company" field="company" initialValue={addressData.company} validateOnBlur validateOnChange />
+                        </div>
+                        <div className="form-row">
+                            <label htmlFor="input-telephone">{Identify.__('Phone Number')}<span>*</span></label>
+                            <SimiText id="input-telephone" field="telephone" initialValue={addressData.telephone} validate={validate}  validateOnBlur validateOnChange />
+                        </div>
+                    </div>
+                    <div className="col-right">
+                        <div className="form-row">
+                            <div className="col-label">{Identify.__('Address')}</div>
+                        </div>
+                        <div className="form-row">
+                            <label htmlFor="input-street1">{Identify.__('Street Address')}<span>*</span></label>
+                            <SimiText id="input-street1" field="street[0]" initialValue={addressData.street[0]} validate={validateStreet}  validateOnBlur validateOnChange />
+                            <SimiText id="input-street2" field="street[1]" initialValue={addressData.street[1]}/>
+                            <SimiText id="input-street3" field="street[2]" initialValue={addressData.street[2]}/>
+                        </div>
+                        <div className="form-row">
+                            <label htmlFor="input-city">{Identify.__('City')}<span>*</span></label>
+                            <SimiText id="input-city" field="city" initialValue={addressData.city} validate={validate}  validateOnBlur validateOnChange />
+                        </div>
+                        <div className="form-row" id="state-province">
+                            <StateProvince />
+                        </div>
+                        <div className="form-row">
+                            <label htmlFor="input-postcode">{Identify.__('Zip/Postal Code')}<span>*</span></label>
+                            <SimiText id="input-postcode" field="postcode" initialValue={addressData.postcode} validate={validate} validateOnBlur validateOnChange />
+                        </div>
+                        <div className="form-row">
+                            <label htmlFor="input-country">{Identify.__('Country')}<span>*</span></label>
+                            <SimiSelect id="input-country" field="country_id" initialValue={addressData.country_id} validate={validateOption} validateOnChange>
+                                { countries.map((country, index) => {
+                                    return country.full_name_locale !== null ? 
+                                        <Option value={country.id} key={index} >{country.full_name_locale}</Option> : null
+                                })}
+                            </SimiSelect>
+                        </div>
+                        <div className="form-row">
+                            <div className="checkbox">
+                                <Checkbox id="checkbox-billing" field="default_billing" initialValue={addressData.default_billing} />
+                                <label htmlFor="checkbox-billing">{Identify.__('Use as my default billing address')}</label>
+                            </div>
+                            <div className="checkbox">
+                                <Checkbox id="checkbox-shipping" field="default_shipping" initialValue={addressData.default_shipping} />
+                                <label htmlFor="checkbox-shipping">{Identify.__('Use as my default shipping address')}</label>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="additional-address">
-                    <div className="address-label">{Identify.__("Additional Address Entries")}</div>
-
-                </div>
-            </>
-            }
+                    <div className="form-button">
+                        <SimiMutation mutation={CUSTOMER_ADDRESS}>
+                            {(updateCustomerAddress, { data }) => {
+                                if (data) {
+                                    props.setIsEditAddress(null);
+                                }
+                                return (
+                                    <>
+                                        <button onClick={() => {
+                                            loading = true;
+                                            var values = formApi.getValues();
+                                            var formSubmit = formApi.submitForm();
+                                            if (formApi.getState().invalid) {
+                                                loading = false;
+                                                return null; // not submit until form has no error
+                                            }
+                                            if (values.region) {
+                                                var oldRegionValue = values.region;
+                                                var region;
+                                                if (values.region) region = getRegionObject(values.country_id, values.region.region_id);
+                                                if (region) {
+                                                    values.region.region = region.name;
+                                                    values.region.region_id = region.id;
+                                                    values.region.region_code = region.code;
+                                                } else {
+                                                    values.region.region = oldRegionValue.region ? oldRegionValue.region : null;
+                                                    values.region.region_id = null;
+                                                    values.region.region_code = null;
+                                                }
+                                            }
+                                            values.id = addressData.id; //address id
+                                            updateCustomerAddress({ variables: values });
+                                        }}>
+                                            <span>{Identify.__('Save Address')}</span>
+                                        </button>
+                                        {(data === undefined && loading) && <Loading />}
+                                    </>
+                                );
+                            }}
+                        </SimiMutation>
+                    </div>
+                    </>
+                )}
+            </Form>
         </div>
     );
 }
@@ -149,9 +252,6 @@ const mapStateToProps = ({ user }) => {
     };
 }
 
-export default compose(
-    classify(defaultClasses),
-    connect(
-        mapStateToProps
-    )
+export default connect(
+    mapStateToProps
 )(Edit);
