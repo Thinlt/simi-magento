@@ -4,6 +4,7 @@ query productDetailByName($name: String, $onServer: Boolean!) {
             __typename
             id
             sku
+            type_id
             name
             price {
                 regularPrice {

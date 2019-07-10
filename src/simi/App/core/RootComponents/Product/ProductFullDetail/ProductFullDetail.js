@@ -195,11 +195,15 @@ class ProductFullDetail extends Component {
                     </h1>
                 </div>
                 <div className={classes.imageCarousel}>
-                    <Carousel images={mediaGalleryEntries} key={Identify.randomString(5)} optionCodes={optionCodes} optionSelections={optionSelections} product={product}/>
+                    <Carousel 
+                        images={mediaGalleryEntries} 
+                        optionCodes={optionCodes} 
+                        optionSelections={optionSelections} 
+                        product={product}/>
                 </div>
                 <div className={classes.mainActions}>
                     <div className={classes.productPrice}>
-                        <ProductPrice ref={(price) => this.Price = price} data={product}/>
+                        <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections}/>
                     </div>
                     <div className={classes.options}>{productOptions}</div>
                     <div className={classes.cartActions}>
