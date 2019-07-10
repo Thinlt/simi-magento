@@ -12,7 +12,7 @@ class Text extends Abstract {
         this.setState({
             value: event.target.value,
         });
-        let value = event.target.value;
+        const value = event.target.value;
         if(value){
             this.updateSelected(this.key,value);
         }else{
@@ -21,15 +21,15 @@ class Text extends Abstract {
     };
 
     renderTextField = ()=>{
-        const {id} = this.props
+        const {id, classes} = this.props
         return(
-            <div className="option-text-field">
+            <div className={classes["option-text-field"]}>
                 <input
                     id="text-field"
                     name={`option[${id}]`}
                     value={this.state.value}
                     onChange={this.handleChange}
-                    className="form-control"
+                    className={classes["form-control"]}
                     style={{
                         width : '100%',
                         background : '#f2f2f2',
@@ -42,13 +42,13 @@ class Text extends Abstract {
     };
 
     renderTextArea =()=>{
-        const {id} = this.props
+        const {id, classes} = this.props
         return (
-            <div className="form-group">
+            <div className={classes["form-group"]}>
                 <textarea 
                     name={`option[${id}]`}
                     id="option-text-area"  
-                    className="form-control" rows="5" style={{
+                    className={classes["form-control"]} rows="5" style={{
                     background : '#f2f2f2',
                     border : 'none',
                     boxShadow : 'none'

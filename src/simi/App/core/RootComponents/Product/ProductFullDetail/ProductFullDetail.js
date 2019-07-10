@@ -1,10 +1,8 @@
 import React, { Component, Suspense } from 'react';
 import { arrayOf, bool, func, number, shape, string } from 'prop-types';
-import { Form } from 'informed';
-
 import classify from 'src/classify';
-import Button from 'src/components/Button';
 import Loading from 'src/simi/BaseComponents/Loading'
+import { Colorbtn } from 'src/simi/BaseComponents/Button'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import Carousel from './ProductImageCarousel';
 import Quantity from './ProductQuantity';
@@ -15,30 +13,15 @@ import findMatchingVariant from 'src/util/findMatchingProductVariant';
 import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
 import {prepareProduct} from 'src/simi/Helper/Product'
-
 import ProductPrice from '../Component/Productprice';
 import CustomOptions from './CustomOptions';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
+import {configColor} from 'src/simi/Config'
 
 const ConfigurableOptions = React.lazy(() => import('./ConfigurableOptions'));
 
 class ProductFullDetail extends Component {
     static propTypes = {
-        classes: shape({
-            cartActions: string,
-            description: string,
-            descriptionTitle: string,
-            details: string,
-            detailsTitle: string,
-            imageCarousel: string,
-            options: string,
-            productName: string,
-            productPrice: string,
-            quantity: string,
-            quantityTitle: string,
-            root: string,
-            title: string
-        }),
         product: shape({
             __typename: string,
             id: number,
@@ -86,27 +69,30 @@ class ProductFullDetail extends Component {
     state = {
         optionCodes: new Map(),
         optionSelections: new Map(),
-        quantity: 1
     };
+    
+    quantity = 1
 
-    setQuantity = quantity => this.setState({ quantity });
+    setQuantity = quantity => this.quantity = quantity;
 
     addToCart = () => {
-        const { props, state } = this;
-        const { optionSelections, quantity, optionCodes } = state;
+        const { props, state, quantity } = this;
+        const { optionSelections, optionCodes } = state;
         const { addToCart, product } = props;
+
         const payload = {
             item: product,
             productType: product.__typename,
             quantity
         };
-        if (Identify.hasConnector()) {
+        if (Identify.hasConnector() && product && product.id) {
             const params = {product: String(product.id), qty: quantity?String(quantity):'1'}
             if (this.customOption) {
                 const customOptParams = this.customOption.getParams()
                 if (customOptParams && customOptParams.options) {
                     params['options'] = customOptParams.options
-                }
+                } else
+                    return
             }
             if (optionSelections) {
                 const super_attribute = {}
@@ -115,7 +101,6 @@ class ProductFullDetail extends Component {
                 })
                 params['super_attribute'] = super_attribute
             }
-            console.log(params)
             showFogLoading()
             simiAddToCart(this.addToCartCallBack, params)
         } else {
@@ -179,7 +164,7 @@ class ProductFullDetail extends Component {
                         key={Identify.randomString(5)}
                         app_options={simiExtraField.app_options}
                         product_id={this.props.product.entity_id}
-                        ref={(e) => this.customOption = e}
+                        ref={e => this.customOption = e}
                         parent={this}
                     />
                 }
@@ -256,12 +241,11 @@ class ProductFullDetail extends Component {
         hideFogLoading()
         const {
             addToCart,
-            isMissingOptions,
             mediaGalleryEntries,
             productOptions,
             props
         } = this;
-        const { classes, isAddingItem } = props;
+        const { classes, simiExtraField } = props;
 
         const product = prepareProduct(props.product)
 
@@ -273,48 +257,42 @@ class ProductFullDetail extends Component {
         }, '');
 
         return (
-            <Form className={classes.root}>
-                <section className={classes.title}>
+            <div className={`${classes.root} container`}>
+                <div className={classes.title}>
                     <h1 className={classes.productName}>
                         <span>{product.name}</span>
                     </h1>
-                    <ProductPrice ref={(price) => this.Price = price} data={product}/>
-                </section>
-                <section className={classes.imageCarousel}>
+                </div>
+                <div className={classes.imageCarousel}>
                     <Carousel images={mediaGalleryEntries} key={carouselKey} />
-                </section>
-                <section className={classes.options}>{productOptions}</section>
-                <section className={classes.quantity}>
-                    <h2 className={classes.quantityTitle}>
-                        <span>Quantity</span>
-                    </h2>
-                    <Quantity
-                        initialValue={this.state.quantity}
-                        onValueChange={this.setQuantity}
-                    />
-                </section>
-                <section className={classes.cartActions}>
-                    <Button
-                        priority="high"
-                        onClick={addToCart}
-                        disabled={isAddingItem || isMissingOptions}
-                    >
-                        <span>Add to Cart</span>
-                    </Button>
-                </section>
-                <section className={classes.description}>
+                </div>
+                <div className={classes.mainActions}>
+                    <div className={classes.productPrice}>
+                        <ProductPrice ref={(price) => this.Price = price} data={product} simiExtraField={simiExtraField}/>
+                    </div>
+                    <div className={classes.options}>{productOptions}</div>
+                    <div className={classes.cartActions}>
+                        <Quantity
+                            classes={classes}
+                            initialValue={this.quantity}
+                            onValueChange={this.setQuantity}
+                        />
+                        <div className={classes["add-to-cart-ctn"]}>
+                            <Colorbtn 
+                                style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
+                                className={classes["add-to-cart-btn"]} 
+                                onClick={addToCart}
+                                text={Identify.__('Add to Cart')}/>
+                        </div>
+                    </div>
+                </div>
+                <div className={classes.description}>
                     <h2 className={classes.descriptionTitle}>
                         <span>Product Description</span>
                     </h2>
                     <RichText content={product.description} />
-                </section>
-                <section className={classes.details}>
-                    <h2 className={classes.detailsTitle}>
-                        <span>SKU</span>
-                    </h2>
-                    <strong>{product.sku}</strong>
-                </section>
-            </Form>
+                </div>
+            </div>
         );
     }
 }

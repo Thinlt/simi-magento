@@ -1,52 +1,55 @@
 import React from 'react';
 import Identify from 'src/simi/Helper/Identify';
 import Price from 'src/simi/BaseComponents/Price';
+import defaultClasses from './productprice.css'
 
 class ProductPrice extends React.Component {
 
     constructor(props){
         super(props);
-        this.data = this.props.data;
-        const prices = this.data.price;
-        this.state = {prices};
+        this.state = {prices: props.data.price};
+        this.classes = defaultClasses
     }
     
     updatePrices(prices) {
         this.setState({prices: prices});
     }
 
-    addRenderPricesAndStock = () => {
-        let stockLabel = Identify.__('In stock');
-        if (parseInt(this.data.is_salable, 10) !== 1) {
-            stockLabel = Identify.__('Out of stock');
+    render(){
+        const {data, simiExtraField} = this.props
+        const {classes} = this
+
+        let stockLabel = ''
+        if (simiExtraField && simiExtraField.attribute_values) {
+            if (parseInt(simiExtraField.attribute_values.is_salable, 10) !== 1)
+                stockLabel = Identify.__('Out of stock');
+            else 
+                stockLabel = Identify.__('In stock');
         }
-        let priceLabel = (this.data.type_id === "grouped")?'':(
-            <div className="prices-layout">
-                <Price config={1} prices={this.state.prices} type={this.data.type_id}/>
+                
+        const priceLabel = (data.type_id === "grouped")?'':(
+            <div className={classes['prices-layout']}>
+                <Price config={1} prices={this.state.prices} type={data.type_id} classes={classes}/>
             </div>
         );
         return (
-            <div className="prices-container" id={this.data.type_id}>
+            <div className={classes['prices-container']} id={data.type_id}>
                 {priceLabel}
-                <div className="product-stock-status">
-                    <div className="stock-status">
+                <div className={classes['product-stock-status']}>
+                    <div className={classes['stock-status']}>
                         {stockLabel}
                     </div>
                     {
-                        this.data.sku && 
-                        <div className="product-sku flex" id="product-sku">
-                            <span className="sku-label">{Identify.__('Sku') + ": "}</span>
-                            {this.data.sku}
+                        data.sku && 
+                        <div className={`${classes["product-sku"]} flex`} id="product-sku">
+                            <span className={classes['sku-label']}>{Identify.__('Sku') + ": "}</span>
+                            {data.sku}
                         </div>
                     }
                 </div>
             </div>
 
         );
-    };
-
-    render(){
-        return this.addRenderPricesAndStock()
     }
 }
 export default ProductPrice;

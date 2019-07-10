@@ -9,9 +9,9 @@ class Label extends Abstract{
 
     handleSelect =(e,item)=>{
 
-        let element = '#label-'+item.id;
+        const element = '#label-'+item.id;
         if($(element).children('.option-label').hasClass('disable')) return; // disable layout
-        let classLabel = '.option-label-'+this.key;
+        const classLabel = '.option-label-'+this.key;
         $(classLabel).each(function () {
             if($(this).hasClass('selected')){
                 if($(this).hasClass('text')){
@@ -29,17 +29,17 @@ class Label extends Abstract{
             this.handleColorSwatch(item.base_image)
         }
         if(Identify.magentoPlatform() === 2 && item.type === 'color'){
-            let id = item.products[0]
-            let images = this.parent.data.configurable_options.images[id][0];
+            const id = item.products[0]
+            const images = this.parent.data.configurable_options.images[id][0];
             if(images.hasOwnProperty('img') && images.img){
                 this.handleColorSwatch(images.img)
             }
             console.log(images)
         }
 
-        let value = item.id;
+        const value = item.id;
         $(element).children('.option-label').toggleClass('selected');
-        let selected = $(element).children('.option-label').hasClass('selected');
+        const selected = $(element).children('.option-label').hasClass('selected');
 
         if(selected){
             // change background label seleted
@@ -48,23 +48,23 @@ class Label extends Abstract{
                 background : configColor.button_background
             });
             
-            let attr_label = 'span#additions-'+this.key+'-label';
+            const attr_label = 'span#additions-'+this.key+'-label';
             $(attr_label).html(item.label); // show label selected
 
             // show price label
             if(Identify.magentoPlatform() === 1){
-                let price = this.showLabelPrice(item);
-                let attr_price = 'span#additions-'+this.key+'-price';
+                const price = this.showLabelPrice(item);
+                const attr_price = 'span#additions-'+this.key+'-price';
                 $(attr_price).html('+ ' + price);
             }
 
             // handle active label
-            let currentLabelClass = 'option-label-'+this.key;
-            let currentProducts = $(element).children('.option-label').attr('data-product').split(',');
+            const currentLabelClass = 'option-label-'+this.key;
+            const currentProducts = $(element).children('.option-label').attr('data-product').split(',');
             $('.option-label').each(function () {
                 if(!$(this).hasClass(currentLabelClass)){
-                    let products = $(this).attr('data-product').split(',');
-                    let aProducts = currentProducts.filter(function (obj) {
+                    const products = $(this).attr('data-product').split(',');
+                    const aProducts = currentProducts.filter(function (obj) {
                         return products.indexOf(obj) !== -1;
                     });
                     if (aProducts.length > 0) {
@@ -84,23 +84,23 @@ class Label extends Abstract{
     
     showLabelPrice=(item)=>{
         if (Identify.magentoPlatform() === 1){
-            let taxConfig = this.props.taxConfig;
+            const taxConfig = this.props.taxConfig;
             let price = item.price;
             let inclT = 0;
             let exclT = 0;
             if (taxConfig.includeTax) {
                 if (price !== 0) {
-                    let tax = parseFloat(price / (100 + taxConfig.defaultTax) * taxConfig.defaultTax);
-                    let excl = parseFloat(price - tax);
-                    let incl = parseFloat(excl * (1 + (taxConfig.currentTax / 100)));
+                    const tax = parseFloat(price / (100 + taxConfig.defaultTax) * taxConfig.defaultTax);
+                    const excl = parseFloat(price - tax);
+                    const incl = parseFloat(excl * (1 + (taxConfig.currentTax / 100)));
                     exclT = excl;
                     inclT = incl;
                 }
             } else {
                 if (price !== 0) {
-                    let tax = parseFloat(price * (taxConfig.currentTax / 100));
-                    let excl = parseFloat(price);
-                    let incl = parseFloat(excl + tax);
+                    const tax = parseFloat(price * (taxConfig.currentTax / 100));
+                    const excl = parseFloat(price);
+                    const incl = parseFloat(excl + tax);
                     inclT = incl;
                     exclT = excl;
                 }
@@ -121,32 +121,33 @@ class Label extends Abstract{
     };
 
     handleColorSwatch = (img) => {
-        let el = $('ul.thumbs li.thumb img').first();
+        const el = $('ul.thumbs li.thumb img').first();
         el.click();
         el.attr('src',img)
         $('ul.slider li.slide img').first().attr('src',img)
     }
 
     handleImgName = (str)=>{
-        let index = str.lastIndexOf('/');
+        const index = str.lastIndexOf('/');
         return str.substr(index);
     }
 
     renderLabel =(item=this.props.data)=>{
-        let style = {
+        const {classes} = this.props
+        const style = {
             display : 'inline-block',
             marginRight : '10px',
             cursor : 'pointer',
             position : 'relative'
         };
-        let imgStyle = {
+        const imgStyle = {
             width : '35px',
             height : '35px'
         };
-        let classValue = 'option-label-'+this.props.id;
-        let product = item.products.valueOf();
+        const classValue = 'option-label-'+this.props.id;
+        const product = item.products.valueOf();
         let label = (
-            <div data-product={product} className={`option-label ${classValue} text `}
+            <div data-product={product} className={`${classes['option-label']} ${classValue} text `}
                  style={{
                 ...style,
                 ...{
@@ -163,22 +164,22 @@ class Label extends Abstract{
                     margin : 0,
                     overflow: 'hidden'
                 }}>{item.label}</p>
-                <div className="label-line">
-                    <div className="line"></div>
+                <div className={classes["label-line"]}>
+                    <div className={classes["line"]}></div>
                 </div>
             </div>
         );
         if (item.option_image) {
-            let base_img = item.hasOwnProperty('base_image') && item.base_image ?
+            const base_img = item.hasOwnProperty('base_image') && item.base_image ?
                 <img className='hidden' src={item.base_image} alt={item.base_image}/> : null;
             label = (
-                <div data-product={product} className={`option-label ${classValue}`} style={style} >
+                <div data-product={product} className={`${classes['option-label']} ${classValue}`} style={style} >
                     <img style={imgStyle} src={item.option_image} alt={item.label}/>
                     {base_img}
-                    <div className="label-line">
+                    <div className={classes["label-line"]}>
                         <div className="line"></div>
                     </div>
-                    <div className="label-check-selected">
+                    <div className={classes["label-check-selected"]}>
                         <CheckIcon style={{fill:'#fff'}}/>
                     </div>
                 </div>
@@ -186,7 +187,7 @@ class Label extends Abstract{
         }else if(item.type === 'color'){
             if(this.colourNameToHex(item.label)){
                 label = (
-                    <div data-product={product} className={`option-label ${classValue}`}
+                    <div data-product={product} className={`${classes['option-label']} ${classValue}`}
                          style={{
                              ...style,
                              ...{
@@ -197,10 +198,10 @@ class Label extends Abstract{
                              }
                          }}
                     >
-                        <div className="label-line">
+                        <div className={classes["label-line"]}>
                             <div className="line"/>
                         </div>
-                        <div className="label-check-selected">
+                        <div className={classes["label-check-selected"]}>
                             <CheckIcon style={{fill:'#fff'}}/>
                         </div>
                     </div>
@@ -209,7 +210,7 @@ class Label extends Abstract{
 
         }
 
-        return <div  id={`label-${item.id}`} onClick={(e)=>this.handleSelect(e,item)}>{label}</div>
+        return <div role="presentation" id={`label-${item.id}`} onClick={(e)=>this.handleSelect(e,item)}>{label}</div>
     };
 
     render(){
@@ -218,7 +219,7 @@ class Label extends Abstract{
 
     colourNameToHex = (colour) =>
     {
-        let colours = {"aliceblue":"#f0f8ff","antiquewhite":"#faebd7","aqua":"#00ffff","aquamarine":"#7fffd4","azure":"#f0ffff",
+        const colours = {"aliceblue":"#f0f8ff","antiquewhite":"#faebd7","aqua":"#00ffff","aquamarine":"#7fffd4","azure":"#f0ffff",
             "beige":"#f5f5dc","bisque":"#ffe4c4","black":"#000000","blanchedalmond":"#ffebcd","blue":"#0000ff","blueviolet":"#8a2be2","brown":"#a52a2a","burlywood":"#deb887",
             "cadetblue":"#5f9ea0","chartreuse":"#7fff00","chocolate":"#d2691e","coral":"#ff7f50","cornflowerblue":"#6495ed","cornsilk":"#fff8dc","crimson":"#dc143c","cyan":"#00ffff",
             "darkblue":"#00008b","darkcyan":"#008b8b","darkgoldenrod":"#b8860b","darkgray":"#a9a9a9","darkgreen":"#006400","darkkhaki":"#bdb76b","darkmagenta":"#8b008b","darkolivegreen":"#556b2f",

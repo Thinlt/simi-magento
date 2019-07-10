@@ -3,7 +3,9 @@
         width: 1430px;
     }
 }
-
+.flex {
+    display: flex;
+}
 /**
  * App loading
  * */

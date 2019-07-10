@@ -4,6 +4,7 @@ import Identify from 'src/simi/Helper/Identify'
 
 class Simple extends Abstract {
     renderView=()=>{
+        const {classes} = this.props
         ////simple, configurable ....
         let price_label = <div></div>;
         let special_price_label = <div></div>;
@@ -11,7 +12,6 @@ class Simple extends Abstract {
         let price_including_tax = <div></div>;
         let price = <div></div>;
         if (this.prices.has_special_price !== null && this.prices.has_special_price === 1) {
-            console.log(this.prices)
             let sale_off = 0;
             if (this.prices.show_ex_in_price !== null && this.prices.show_ex_in_price === 1) {
                 special_price_label = (<div>{this.prices.special_price_label}</div>);
@@ -28,7 +28,7 @@ class Simple extends Abstract {
             sale_off = sale_off.toFixed(0);
             price_label = (
                 <div>{this.formatPrice(this.prices.regular_price, false)} <span
-                    className="sale_off">-{sale_off}%</span></div>
+                    className={classes["sale_off"]}>-{sale_off}%</span></div>
             );
         } else {
             if (this.prices.show_ex_in_price !== null && this.prices.show_ex_in_price === 1) {
@@ -43,7 +43,7 @@ class Simple extends Abstract {
             }
         }
         return (
-            <div className="product-prices small" >
+            <div className={`${classes['product-prices']}`} >
                 {price}
                 {price_label}
                 {special_price_label}

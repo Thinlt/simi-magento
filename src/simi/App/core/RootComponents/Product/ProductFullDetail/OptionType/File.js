@@ -13,6 +13,7 @@ class File extends Abstract {
     }
 
     render(){
+        const {classes} = this.props
         const notes = []
         const ObjOptions = this.props.data
         if (!ObjOptions.input_name)
@@ -20,21 +21,21 @@ class File extends Abstract {
 
         if (ObjOptions.file_extension)
             notes.push(
-                <p className="note" key="file_extension">
+                <p className={classes["note"]} key="file_extension">
                     {Identify.__('Compatible file extensions to upload:')} {ObjOptions.file_extension}
                 </p>
             )
         
         if (ObjOptions.image_size_x && parseInt(ObjOptions.image_size_x))
             notes.push(
-                <p className="note" key="image_size_x">
+                <p className={classes["note"]} key="image_size_x">
                     {Identify.__(`Maximum image width: %@px`).replace('%@', ObjOptions.image_size_x)}
                 </p>
             )
         
         if (ObjOptions.image_size_y && parseInt(ObjOptions.image_size_y))
             notes.push(
-                <p className="note" key="image_size_y">
+                <p className={classes["note"]} key="image_size_y">
                     {Identify.__(`Maximum image height: %@px`).replace('%@', ObjOptions.image_size_y)}
                 </p>
             )
@@ -83,17 +84,22 @@ class File extends Abstract {
             const filePath = input.files[0]
             this.getBase64(filePath, (result) => {
                 if (result) {
+                    let base64 = result.split("base64,");
+                    base64 = base64[base64.length-1];
+                    base64 = base64.split('"');
+                    base64 = base64[0];
+                    console.log(base64)
                     showFogLoading()
                     const fileData = {
                         type: filePath.type,
                         name: filePath.name,
                         size: filePath.size,
-                        base64: result
+                        base64: base64
                     }
                     uploadFile(this.uploadReturned.bind(this), {fileData})
-                } else {
-                    showToastMessage(Identify.__('Cannot read file content'))
+                    return
                 }
+                showToastMessage(Identify.__('Cannot read file content'))
             });
         }
     }

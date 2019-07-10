@@ -1,3 +1,5 @@
+import {taxConfig} from './Pricing'
+
 //prepare product price and options
 export const prepareProduct = (product) => {
     const modedProduct = Object.assign({}, product)
@@ -6,7 +8,8 @@ export const prepareProduct = (product) => {
     if (price.regularPrice.amount.value < price.minimalPrice.amount.value) {
         price.has_special_price = true
     }
-    price.show_ex_in_price = (price.regularPrice.adjustments && price.regularPrice.adjustments.length)?1:0
+    const merchantTaxConfig = taxConfig()
+    price.show_ex_in_price = (price.regularPrice.adjustments && price.regularPrice.adjustments.length)?parseInt(merchantTaxConfig.tax_display_type, 10) === 3?1:0:0
 
     price.minimalPrice.excl_tax_amount = addExcludedTaxAmount(price.minimalPrice.amount, price.minimalPrice.adjustments)
     price.regularPrice.excl_tax_amount = addExcludedTaxAmount(price.regularPrice.amount, price.regularPrice.adjustments)
