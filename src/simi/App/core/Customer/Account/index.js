@@ -265,12 +265,11 @@ class CustomerLayout extends React.Component{
 
 const mapStateToProps = ({ user }) => {
     const { currentUser, isSignedIn } = user
-    const { firstname, lastname, email, extension_attributes } = currentUser;
+    const { firstname, lastname, email } = currentUser;
     return {
         firstname,
         lastname,
         email,
-        extension_attributes,
         isSignedIn
     };
 }

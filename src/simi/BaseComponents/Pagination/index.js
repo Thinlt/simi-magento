@@ -30,8 +30,8 @@ class Pagination extends React.Component {
         });
     };
 
-    renderItem =(item)=>{
-        return this.props.renderItem(item)
+    renderItem =(item, index)=>{
+        return this.props.renderItem(item, index)
     };
 
     handleChangePage =(next = true)=>{
