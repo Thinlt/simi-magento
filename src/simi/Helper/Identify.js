@@ -151,7 +151,6 @@ class Identify {
             return 3;
         }
     }
-
 }
 
 export default Identify;
