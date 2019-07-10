@@ -9,7 +9,6 @@ import Quantity from './ProductQuantity';
 import RichText from 'src/simi/BaseComponents/RichText';
 import defaultClasses from './productFullDetail.css';
 import appendOptionsToPayload from 'src/util/appendOptionsToPayload';
-import findMatchingVariant from 'src/util/findMatchingProductVariant';
 import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
 import {prepareProduct} from 'src/simi/Helper/Product'
@@ -17,94 +16,79 @@ import ProductPrice from '../Component/Productprice';
 import CustomOptions from './CustomOptions';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
 import {configColor} from 'src/simi/Config'
+import {showToastMessage} from 'src/simi/Helper/Message';
 
 const ConfigurableOptions = React.lazy(() => import('./ConfigurableOptions'));
 
-class ProductFullDetail extends Component {
-    static propTypes = {
-        product: shape({
-            __typename: string,
-            id: number,
-            sku: string.isRequired,
-            price: shape({
-                regularPrice: shape({
-                    amount: shape({
-                        currency: string.isRequired,
-                        value: number.isRequired
-                    })
-                }).isRequired
-            }).isRequired,
-            media_gallery_entries: arrayOf(
-                shape({
-                    label: string,
-                    position: number,
-                    disabled: bool,
-                    file: string.isRequired
-                })
-            ),
-            description: string
-        }).isRequired,
-        addToCart: func.isRequired,
-        getCartDetails: func.isRequired,
-        toggleMessages: func.isRequired,
-    };
-    
-    static getDerivedStateFromProps(props, state) {
-        const { configurable_options } = props.product;
-        const optionCodes = new Map(state.optionCodes);
-
-        // if this is a simple product, do nothing
-        if (!isProductConfigurable(props.product)) {
-            return null;
-        }
-
-        // otherwise, cache attribute codes to avoid lookup cost later
-        for (const option of configurable_options) {
-            optionCodes.set(option.attribute_id, option.attribute_code);
-        }
-        
-console.log(state)
-        return { optionCodes };
-    }
-
+class ProductFullDetail extends Component {  
     state = {
         optionCodes: new Map(),
         optionSelections: new Map(),
     };
-    
     quantity = 1
+      
+    static getDerivedStateFromProps(props, state) {
+        const { configurable_options } = props.product;
+        const optionCodes = new Map(state.optionCodes);
+        // if this is a simple product, do nothing
+        if (!isProductConfigurable(props.product)) {
+            return null;
+        }
+        // otherwise, cache attribute codes to avoid lookup cost later
+        for (const option of configurable_options) {
+            optionCodes.set(option.attribute_id, option.attribute_code);
+        }
+        return { optionCodes };
+    }
 
     setQuantity = quantity => this.quantity = quantity;
+
+    prepareParams = () => {
+        const { props, state, quantity, isMissingConfigurableOptions } = this;
+        const { optionSelections } = state;
+        const { product } = props;
+
+        const params = {product: String(product.id), qty: quantity?String(quantity):'1'}
+        if (this.customOption) {
+            const customOptParams = this.customOption.getParams()
+            if (customOptParams && customOptParams.options) {
+                params['options'] = customOptParams.options
+            } else
+                this.missingOption = true
+        }
+        if (optionSelections) {
+            if (isMissingConfigurableOptions) {
+                this.missingOption = true
+            }
+            const super_attribute = {}
+            optionSelections.forEach((value, key) => {
+                super_attribute[String(key)] = String(value)
+            })
+            params['super_attribute'] = super_attribute
+        }
+        return params
+    }
 
     addToCart = () => {
         const { props, state, quantity } = this;
         const { optionSelections, optionCodes } = state;
         const { addToCart, product } = props;
 
-        const payload = {
-            item: product,
-            productType: product.__typename,
-            quantity
-        };
         if (Identify.hasConnector() && product && product.id) {
-            const params = {product: String(product.id), qty: quantity?String(quantity):'1'}
-            if (this.customOption) {
-                const customOptParams = this.customOption.getParams()
-                if (customOptParams && customOptParams.options) {
-                    params['options'] = customOptParams.options
-                } else
-                    return
-            }
-            if (optionSelections) {
-                const super_attribute = {}
-                optionSelections.forEach((value, key) => {
-                    super_attribute[String(key)] = String(value)
-                })
-                params['super_attribute'] = super_attribute
+            this.missingOption = false
+            const params = this.prepareParams()
+            if (this.missingOption) {
+                showToastMessage(Identify.__('Please select the options required (*)'));
+                return
             }
             showFogLoading()
             simiAddToCart(this.addToCartCallBack, params)
         } else {
+            const payload = {
+                item: product,
+                productType: product.__typename,
+                quantity
+            };
             if (isProductConfigurable(product)) {
                 appendOptionsToPayload(payload, optionSelections, optionCodes);
             }
@@ -138,7 +122,7 @@ console.log(state)
         }
     }
 
-    handleSelectionChange = (optionId, selection) => {
+    handleConfigurableSelectionChange = (optionId, selection) => {
         this.setState(({ optionSelections }) => ({
             optionSelections: new Map(optionSelections).set(
                 optionId,
@@ -147,12 +131,20 @@ console.log(state)
         }));
     };
 
+    get isMissingConfigurableOptions() {
+        const { product } = this.props;
+        const { configurable_options } = product;
+        const numProductOptions = configurable_options.length;
+        const numProductSelections = this.state.optionSelections.size;
+        return numProductSelections < numProductOptions;
+    }
+
     get fallback() {
         return <Loading />;
     }
 
     get productOptions() {
-        const { fallback, handleSelectionChange, props } = this;
+        const { fallback, handleConfigurableSelectionChange, props } = this;
         const { simiExtraField } = props
         const { configurable_options } = props.product;
         const isConfigurable = isProductConfigurable(props.product);
@@ -173,69 +165,11 @@ console.log(state)
                     isConfigurable &&
                     <ConfigurableOptions
                         options={configurable_options}
-                        onSelectionChange={handleSelectionChange}
+                        onSelectionChange={handleConfigurableSelectionChange}
                     />
                 }
             </Suspense>
         );
-    }
-
-    get mediaGalleryEntries() {
-        const { props, state } = this;
-        const { product } = props;
-        const { optionCodes, optionSelections } = state;
-        const { media_gallery_entries, variants } = product;
-
-        const isConfigurable = isProductConfigurable(product);
-
-        if (
-            !isConfigurable ||
-            (isConfigurable && optionSelections.size === 0)
-        ) {
-            return media_gallery_entries;
-        }
-
-        const item = findMatchingVariant({
-            optionCodes,
-            optionSelections,
-            variants
-        });
-
-        if (!item) {
-            return media_gallery_entries;
-        }
-
-        const images = [
-            ...item.product.media_gallery_entries,
-            ...media_gallery_entries
-        ];
-        //filterout the duplicate images
-        const returnedImages = []
-        var obj = {};
-        images.forEach(image=> {
-            if (!obj[image.file]) {
-                obj[image.file] = true
-                returnedImages.push(image)
-            }
-        })
-        return returnedImages
-    }
-
-    get isMissingOptions() {
-        const { product } = this.props;
-
-        // Non-configurable products can't be missing options
-        if (!isProductConfigurable(product)) {
-            return false;
-        }
-
-        // Configurable products are missing options if we have fewer
-        // option selections than the product has options.
-        const { configurable_options } = product;
-        const numProductOptions = configurable_options.length;
-        const numProductSelections = this.state.optionSelections.size;
-
-        return numProductSelections < numProductOptions;
     }
 
     render() {
@@ -244,18 +178,15 @@ console.log(state)
             addToCart,
             mediaGalleryEntries,
             productOptions,
-            props
+            props,
+            state
         } = this;
+        const {
+            optionCodes,
+            optionSelections,
+        } = state
         const { classes, simiExtraField } = props;
-
         const product = prepareProduct(props.product)
-
-        // We want this key to change whenever mediaGalleryEntries changes.
-        // Make it dependent on a unique value in each entry (file),
-        // and the order.
-        const carouselKey = mediaGalleryEntries.reduce((fullKey, entry) => {
-            return `${fullKey},${entry.file}`;
-        }, '');
 
         return (
             <div className={`${classes.root} container`}>
@@ -265,7 +196,7 @@ console.log(state)
                     </h1>
                 </div>
                 <div className={classes.imageCarousel}>
-                    <Carousel images={mediaGalleryEntries} key={carouselKey} />
+                    <Carousel images={mediaGalleryEntries} key={Identify.randomString(5)} optionCodes={optionCodes} optionSelections={optionSelections} product={product}/>
                 </div>
                 <div className={classes.mainActions}>
                     <div className={classes.productPrice}>
@@ -297,5 +228,33 @@ console.log(state)
         );
     }
 }
+
+ProductFullDetail.propTypes = {
+    product: shape({
+        __typename: string,
+        id: number,
+        sku: string.isRequired,
+        price: shape({
+            regularPrice: shape({
+                amount: shape({
+                    currency: string.isRequired,
+                    value: number.isRequired
+                })
+            }).isRequired
+        }).isRequired,
+        media_gallery_entries: arrayOf(
+            shape({
+                label: string,
+                position: number,
+                disabled: bool,
+                file: string.isRequired
+            })
+        ),
+        description: string
+    }).isRequired,
+    addToCart: func.isRequired,
+    getCartDetails: func.isRequired,
+    toggleMessages: func.isRequired,
+};
 
 export default classify(defaultClasses)(ProductFullDetail);

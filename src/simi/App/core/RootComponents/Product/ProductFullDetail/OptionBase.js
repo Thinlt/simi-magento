@@ -95,9 +95,6 @@ class OptionBase extends React.Component {
                 break;
             }
         }
-        if(!check){
-            showToastMessage(Identify.__('Please select the options required (*)'));
-        }
         return check;
     }
 }
