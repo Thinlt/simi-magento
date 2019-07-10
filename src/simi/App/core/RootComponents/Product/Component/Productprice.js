@@ -19,7 +19,8 @@ class ProductPrice extends React.Component {
 
     render(){
         console.log('render')
-        const {data, simiExtraField} = this.props
+        const {data} = this.props
+        const {simiExtraField} = data
         const {classes} = this
 
         let stockLabel = ''

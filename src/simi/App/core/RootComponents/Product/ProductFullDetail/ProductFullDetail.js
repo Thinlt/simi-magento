@@ -1,5 +1,5 @@
 import React, { Component, Suspense } from 'react';
-import { arrayOf, bool, func, number, shape, string } from 'prop-types';
+import { arrayOf, bool, number, shape, string } from 'prop-types';
 import classify from 'src/classify';
 import Loading from 'src/simi/BaseComponents/Loading'
 import { Colorbtn } from 'src/simi/BaseComponents/Button'
@@ -72,7 +72,7 @@ class ProductFullDetail extends Component {
     addToCart = () => {
         const { props, state, quantity } = this;
         const { optionSelections, optionCodes } = state;
-        const { addToCart, product } = props;
+        const { addItemToCart, product } = props;
 
         if (Identify.hasConnector() && product && product.id) {
             this.missingOption = false
@@ -93,7 +93,7 @@ class ProductFullDetail extends Component {
                 appendOptionsToPayload(payload, optionSelections, optionCodes);
             }
             showFogLoading()
-            addToCart(payload);
+            addItemToCart(payload);
         }
     };
 
@@ -145,12 +145,18 @@ class ProductFullDetail extends Component {
 
     get productOptions() {
         const { fallback, handleConfigurableSelectionChange, props } = this;
-        const { simiExtraField } = props
-        const { configurable_options } = props.product;
+        const { configurable_options, simiExtraField } = props.product;
         const isConfigurable = isProductConfigurable(props.product);
 
         return (
             <Suspense fallback={fallback}>
+                {
+                    isConfigurable &&
+                    <ConfigurableOptions
+                        options={configurable_options}
+                        onSelectionChange={handleConfigurableSelectionChange}
+                    />
+                }
                 {
                     ( simiExtraField && simiExtraField.app_options) &&
                     <CustomOptions 
@@ -159,13 +165,6 @@ class ProductFullDetail extends Component {
                         product_id={this.props.product.entity_id}
                         ref={e => this.customOption = e}
                         parent={this}
-                    />
-                }
-                {
-                    isConfigurable &&
-                    <ConfigurableOptions
-                        options={configurable_options}
-                        onSelectionChange={handleConfigurableSelectionChange}
                     />
                 }
             </Suspense>
@@ -185,7 +184,7 @@ class ProductFullDetail extends Component {
             optionCodes,
             optionSelections,
         } = state
-        const { classes, simiExtraField } = props;
+        const { classes } = props;
         const product = prepareProduct(props.product)
 
         return (
@@ -200,7 +199,7 @@ class ProductFullDetail extends Component {
                 </div>
                 <div className={classes.mainActions}>
                     <div className={classes.productPrice}>
-                        <ProductPrice ref={(price) => this.Price = price} data={product} simiExtraField={simiExtraField}/>
+                        <ProductPrice ref={(price) => this.Price = price} data={product}/>
                     </div>
                     <div className={classes.options}>{productOptions}</div>
                     <div className={classes.cartActions}>
@@ -251,10 +250,7 @@ ProductFullDetail.propTypes = {
             })
         ),
         description: string
-    }).isRequired,
-    addToCart: func.isRequired,
-    getCartDetails: func.isRequired,
-    toggleMessages: func.isRequired,
+    }).isRequired
 };
 
 export default classify(defaultClasses)(ProductFullDetail);

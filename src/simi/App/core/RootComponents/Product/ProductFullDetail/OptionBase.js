@@ -1,6 +1,4 @@
 import React from 'react';
-import Identify from "src/simi/Helper/Identify";
-import {showToastMessage} from 'src/simi/Helper/Message';
 import {formatPrice} from "src/simi/Helper/Pricing";
 import {configColor} from "src/simi/Config";
 
