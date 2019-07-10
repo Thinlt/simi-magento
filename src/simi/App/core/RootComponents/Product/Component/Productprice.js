@@ -7,21 +7,37 @@ class ProductPrice extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = {prices: props.data.price};
+        this.state = {
+            customOptionPrice: {exclT:0, inclT:0}
+        };
         this.classes = defaultClasses
-        console.log(props.data.price)
-        console.log('construct')
     }
     
-    updatePrices(prices) {
-        this.setState({prices: prices});
+    setCustomOptionPrice(exclT, inclT) {
+        this.setState({
+            customOptionPrice: {exclT, inclT}
+        })
+    }
+
+
+
+    calcPrices(price) {
+        const {customOptionPrice} = this.state
+        const calculatedPrices = JSON.parse(JSON.stringify(price))
+        calculatedPrices.minimalPrice.excl_tax_amount.value += customOptionPrice.exclT;
+        calculatedPrices.minimalPrice.amount.value += customOptionPrice.inclT;
+        calculatedPrices.regularPrice.excl_tax_amount.value += customOptionPrice.exclT;
+        calculatedPrices.regularPrice.amount.value += customOptionPrice.inclT;
+        calculatedPrices.maximalPrice.excl_tax_amount.value += customOptionPrice.exclT;
+        calculatedPrices.maximalPrice.amount.value += customOptionPrice.inclT;
+        return calculatedPrices
     }
 
     render(){
-        console.log('render')
         const {data} = this.props
         const {simiExtraField} = data
         const {classes} = this
+        const prices = this.calcPrices(data.price)
 
         let stockLabel = ''
         if (simiExtraField && simiExtraField.attribute_values) {
@@ -33,7 +49,7 @@ class ProductPrice extends React.Component {
                 
         const priceLabel = (data.type_id === "grouped")?'':(
             <div className={classes['prices-layout']}>
-                <Price config={1} prices={this.state.prices} type={data.type_id} classes={classes}/>
+                <Price config={1} key={Identify.randomString(5)} prices={prices} type={data.type_id} classes={classes}/>
             </div>
         );
         return (

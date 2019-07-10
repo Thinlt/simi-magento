@@ -20,8 +20,6 @@ class CustomOptions extends OptionBase {
 
     constructor(props){
         super(props);
-        this.exclT = 0;
-        this.inclT = 0;
         this.classes = defaultClasses
     }
 
@@ -128,11 +126,8 @@ class CustomOptions extends OptionBase {
     };
 
     updatePrices = (selected = this.selected) => {
-        const prices = this.parentObj.Price.state.prices;
-        prices.minimalPrice.excl_tax_amount.value -= this.exclT;
-        prices.minimalPrice.amount.value -= this.inclT;
-        this.exclT = 0;
-        this.inclT = 0;
+        let exclT = 0;
+        let inclT = 0;
         const customOptions = this.data.custom_options;
         const customSelected = selected;
         for (const c in customOptions) {
@@ -146,11 +141,11 @@ class CustomOptions extends OptionBase {
                         || option.type === "field" || option.type === "file") {
                             const value = values[0];
                         if (value.price_excluding_tax) {
-                            this.exclT += parseFloat(value.price_excluding_tax.price);
-                            this.inclT += parseFloat(value.price_including_tax.price);
+                            exclT += parseFloat(value.price_excluding_tax.price);
+                            inclT += parseFloat(value.price_including_tax.price);
                         } else {
-                            this.exclT += parseFloat(value.price);
-                            this.inclT += parseFloat(value.price);
+                            exclT += parseFloat(value.price);
+                            inclT += parseFloat(value.price);
                         }
                     } else {
                         for (const v in values) {
@@ -159,22 +154,22 @@ class CustomOptions extends OptionBase {
                                 if (selected.indexOf(value.id) !== -1) {
                                     //add price
                                     if (value.price_excluding_tax) {
-                                        this.exclT += parseFloat(value.price_excluding_tax.price);
-                                        this.inclT += parseFloat(value.price_including_tax.price);
+                                        exclT += parseFloat(value.price_excluding_tax.price);
+                                        inclT += parseFloat(value.price_including_tax.price);
                                     } else {
-                                        this.exclT += parseFloat(value.price);
-                                        this.inclT += parseFloat(value.price);
+                                        exclT += parseFloat(value.price);
+                                        inclT += parseFloat(value.price);
                                     }
                                 }
                             } else {
                                 if (value.id === selected) {
                                     //add price
                                     if (value.price_excluding_tax) {
-                                        this.exclT += parseFloat(value.price_excluding_tax.price);
-                                        this.inclT += parseFloat(value.price_including_tax.price);
+                                        exclT += parseFloat(value.price_excluding_tax.price);
+                                        inclT += parseFloat(value.price_including_tax.price);
                                     } else {
-                                        this.exclT += parseFloat(value.price);
-                                        this.inclT += parseFloat(value.price);
+                                        exclT += parseFloat(value.price);
+                                        inclT += parseFloat(value.price);
                                     }
                                 }
                             }
@@ -182,11 +177,8 @@ class CustomOptions extends OptionBase {
                     }
                 }
             }
-        }
-        prices.minimalPrice.excl_tax_amount.value += this.exclT;
-        prices.minimalPrice.amount.value += this.inclT;
-
-        this.parentObj.Price.updatePrices(prices);
+        }        
+        this.parentObj.Price.setCustomOptionPrice(inclT, exclT);
     }
     
     getParams = () =>{

@@ -48,7 +48,7 @@ class Product extends Component {
                         if (loading) return <Loading />;
 
                         const product = data.productDetail.items[0];
-                        let simiExtraField = data.simiProductDetaileExtraField
+                        let simiExtraField = data.simiProductDetailExtraField
                         simiExtraField = simiExtraField?JSON.parse(simiExtraField):null
                         product.simiExtraField = simiExtraField
 

@@ -46,10 +46,9 @@ class Product extends Component {
                     if (error) return <div>Data Fetch Error</div>;
                     if (loading) return <Loading />;
                     const product = data.productDetail.items[0];
-                    let simiExtraField = data.simiProductDetaileExtraField
+                    let simiExtraField = data.simiProductDetailExtraField
                     simiExtraField = simiExtraField?JSON.parse(simiExtraField):null
                     product.simiExtraField = simiExtraField
-
                     return (
                         <ProductFullDetail
                             product={this.mapProduct(product)}
