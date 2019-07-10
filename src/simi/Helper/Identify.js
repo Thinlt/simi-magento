@@ -151,61 +151,6 @@ class Identify {
             return 3;
         }
     }
-
-    static formatPrice(price, type = 0) {
-        if (typeof(price) !== "number") {
-            price = parseFloat(price);
-        }
-        //let merchant_config = JSON.parse(localStorage.getItem('merchant_config'));
-        let merchant_config = this.getStoreConfig();
-        if (merchant_config !== null && merchant_config.hasOwnProperty('simiStoreConfig') && merchant_config.simiStoreConfig.hasOwnProperty('config')) {
-            const config = merchant_config.simiStoreConfig.config;
-            let currency_symbol = config.base.currency_symbol || config.base.currency_code;
-            let currency_position = config.base.currency_position;
-            let decimal_separator = config.base.decimal_separator;
-            let thousand_separator = config.base.thousand_separator;
-            let max_number_of_decimals = config.base.max_number_of_decimals;
-            if (type === 1) {
-                return Identify.putThousandsSeparators(price, thousand_separator, decimal_separator, max_number_of_decimals);
-            }
-            if (currency_position === "before") {
-                return currency_symbol + Identify.putThousandsSeparators(price, thousand_separator, decimal_separator, max_number_of_decimals);
-            } else {
-                return Identify.putThousandsSeparators(price, thousand_separator, decimal_separator, max_number_of_decimals) + currency_symbol;
-            }
-        }
-
-    }
-
-    static putThousandsSeparators(value, sep, decimal, max_number_of_decimals) {
-        if (!max_number_of_decimals) {
-            let merchant_config = this.getStoreConfig();
-            max_number_of_decimals = merchant_config.simiStoreConfig.config.base.max_number_of_decimals || 2;
-        }
-
-        if (sep == null) {
-            sep = ',';
-        }
-        if (decimal == null) {
-            decimal = '.';
-        }
-
-        value = value.toFixed(max_number_of_decimals);
-        // check if it needs formatting
-        if (value.toString() === value.toLocaleString()) {
-            // split decimals
-            var parts = value.toString().split(decimal)
-            // format whole numbers
-            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, sep);
-            // put them back together
-            value = parts[1] ? parts.join(decimal) : parts[0];
-        } else {
-            value = value.toLocaleString();
-        }
-        return value;
-    }
-
-
 }
 
 export default Identify;

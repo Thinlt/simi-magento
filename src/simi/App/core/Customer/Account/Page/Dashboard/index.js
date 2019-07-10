@@ -63,6 +63,8 @@ const Dashboard = props => {
         return <Loading />
     }
 
+    
+
     return (
         <div className={classes['my-dashboard']}>
             {!isPhone ? (
@@ -104,13 +106,13 @@ const Dashboard = props => {
                         
                     </div>
                     <div className={classes["dash-column-box"]}>
-                        {customer.extension_attributes && customer.extension_attributes.hasOwnProperty('is_subscribed') ? (
+                        {data.hasOwnProperty('customer') && data.customer.hasOwnProperty('is_subscribed') ? (
                             <div className={classes["white-box-content"]}>
                                 <div className={classes["box-title"]}>
                                     {Identify.__("Newsletter")}
                                 </div>
                                 <p className={classes["desc"]}>
-                                    {customer.extension_attributes.is_subscribed === true
+                                    {data.customer.is_subscribed === true
                                         ? Identify.__(
                                             "You are subscribed to our newsletter"
                                         )

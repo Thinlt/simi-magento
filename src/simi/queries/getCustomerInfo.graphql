@@ -13,6 +13,7 @@ query customerInfo
     id
     default_shipping
     default_billing
+    is_subscribed
     addresses {
       id
       firstname

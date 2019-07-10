@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Pagination from 'src/simi/BaseComponents/Pagination'
 import Identify from 'src/simi/Helper/Identify'
 import Arrow from "src/simi/BaseComponents/Icon/Arrow";

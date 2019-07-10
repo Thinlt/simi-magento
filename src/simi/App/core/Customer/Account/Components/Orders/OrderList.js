@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Loading from "src/simi/BaseComponents/Loading";
 import Identify from 'src/simi/Helper/Identify'
+import { formatPrice } from 'src/simi/Helper/Pricing';
 import PaginationTable from './PaginationTable';
 import { Link } from 'react-router-dom';
 
@@ -42,7 +43,7 @@ const OrderList = props => {
                     item.customer_firstname
                 }  ${item.customer_lastname}`}</td> */}
                 <td data-title={Identify.__("Total")}>
-                    {Identify.formatPrice(item.grand_total)}
+                    {formatPrice(item.grand_total)}
                 </td>
                 <td className="order-status" data-title={Identify.__("Status")}>
                     {item.status}
