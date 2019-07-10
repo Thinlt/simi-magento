@@ -217,6 +217,7 @@ class Cart extends Component {
         }
         if(text) 
             this.props.toggleMessages([{type: success ? 'success' : 'error', message: text, auto_dismiss: true}])
+        this.props.getCartDetails();
         hideFogLoading();
     }
 
