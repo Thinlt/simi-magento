@@ -9,6 +9,8 @@ class ProductPrice extends React.Component {
         super(props);
         this.state = {prices: props.data.price};
         this.classes = defaultClasses
+        console.log(props.data.price)
+        console.log('construct')
     }
     
     updatePrices(prices) {
@@ -16,6 +18,7 @@ class ProductPrice extends React.Component {
     }
 
     render(){
+        console.log('render')
         const {data, simiExtraField} = this.props
         const {classes} = this
 

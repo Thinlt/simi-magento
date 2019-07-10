@@ -62,7 +62,8 @@ class ProductFullDetail extends Component {
         for (const option of configurable_options) {
             optionCodes.set(option.attribute_id, option.attribute_code);
         }
-
+        
+console.log(state)
         return { optionCodes };
     }
 
