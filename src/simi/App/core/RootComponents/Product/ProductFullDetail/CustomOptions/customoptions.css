@@ -1,0 +1,14 @@
+.custom-options {
+    padding: 1.5rem;
+}
+.option-title {
+    font-size: 17px;
+    font-weight: 500;
+    margin: 20px 0px 5px 0px;
+}
+.option-text-field input{
+    padding: 8px;
+}
+.form-group textarea {
+    min-width: 200px;
+}

@@ -63,14 +63,3 @@
     align-items: center;
     display: inline-flex;
 }
-
-.mask {
-    position: absolute;
-    left: -24px;
-    right: -24px;
-    top: -7px;
-    bottom: -7px;
-    background-color: rgb(var(--venia-grey));
-    opacity: 0.5;
-    z-index: 2;
-}

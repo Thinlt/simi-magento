@@ -2,7 +2,7 @@ import React from 'react'
 import Identify from "src/simi/Helper/Identify"
 import { Switch, Route } from 'react-router-dom';
 import {PbPageHoc} from 'src/simi/App/core/Pbpage';
-import ErrorView from 'src/components/ErrorView/index';
+import ErrorView from 'src/simi/App/core/ErrorView/index';
 import { Page } from '@magento/peregrine';
 
 const renderRoutingError = props => <ErrorView {...props} />;

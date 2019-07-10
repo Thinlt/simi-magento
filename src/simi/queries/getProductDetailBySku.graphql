@@ -11,6 +11,42 @@ query productDetail($sku: String, $onServer: Boolean!) {
                         currency
                         value
                     }
+                    adjustments {
+                        amount {
+                          currency
+                          value
+                        }
+                        code
+                        description
+                    }
+                }
+              	minimalPrice {
+                    amount {
+                        currency
+                        value
+                    }
+                    adjustments {
+                        amount {
+                          currency
+                          value
+                        }
+                        code
+                        description
+                    }
+                }
+              	maximalPrice {
+                    amount {
+                        currency
+                        value
+                    }
+                    adjustments {
+                        amount {
+                          currency
+                          value
+                        }
+                        code
+                        description
+                    }
                 }
             }
             description {

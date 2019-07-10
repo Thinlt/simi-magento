@@ -3,11 +3,13 @@ import { string, func } from 'prop-types';
 
 import { connect } from 'src/drivers';
 import { Simiquery } from 'src/simi/Network/Query'
-import { addItemToCart } from 'src/actions/cart';
+import { addItemToCart, getCartDetails } from 'src/actions/cart';
+import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import Loading from 'src/simi/BaseComponents/Loading'
 import ProductFullDetail from 'src/simi/App/core/RootComponents/Product/ProductFullDetail'
 import Identify from 'src/simi/Helper/Identify'
 import getProductDetailBySku from 'src/simi/queries/getProductDetailBySku.graphql'
+import connectorGetProductDetailBySku from 'src/simi/queries/simiconnector/getProductDetailBySku.graphql'
 
 /**
  * As of this writing, there is no single Product query type in the M2.3 schema.
@@ -46,7 +48,7 @@ class Product extends Component {
         if (sku) {
             return (
                 <Simiquery
-                    query={getProductDetailBySku}
+                    query={Identify.hasConnector()?connectorGetProductDetailBySku:getProductDetailBySku}
                     variables={{ sku: sku, onServer: false }}
                 >
                     {({ loading, error, data }) => {
@@ -54,11 +56,16 @@ class Product extends Component {
                         if (loading) return <Loading />;
 
                         const product = data.productDetail.items[0];
+                        let simiExtraField = data.simiProductDetaileExtraField
+                        simiExtraField = simiExtraField?JSON.parse(simiExtraField):null
 
                         return (
                             <ProductFullDetail
                                 product={this.mapProduct(product)}
                                 addToCart={this.props.addItemToCart}
+                                getCartDetails={this.props.getCartDetails}
+                                simiExtraField={simiExtraField}
+                                toggleMessages={this.props.toggleMessages}
                             />
                         );
                     }}
@@ -70,7 +77,9 @@ class Product extends Component {
 }
 
 const mapDispatchToProps = {
-    addItemToCart
+    addItemToCart,
+    getCartDetails,
+    toggleMessages
 };
 
 export default connect(

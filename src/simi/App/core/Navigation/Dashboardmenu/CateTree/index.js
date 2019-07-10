@@ -10,7 +10,6 @@ import { Simiquery } from 'src/simi/Network/Query'
 
 const cateUrlSuffix = '.html';
 
-const $ = window.$
 class CateTree extends React.Component {
     constructor(props){
         super(props);

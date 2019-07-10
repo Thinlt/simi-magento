@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { string, func } from 'prop-types';
 
-import { connect, Query } from 'src/drivers';
-import { addItemToCart } from 'src/actions/cart';
+import { connect } from 'src/drivers';
+import { addItemToCart, getCartDetails } from 'src/actions/cart';
 import Loading from 'src/simi/BaseComponents/Loading'
 import ProductFullDetail from './ProductFullDetail/ProductFullDetail';
+import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import getUrlKey from 'src/util/getUrlKey';
 import magentoProductQuery from 'src/simi/queries/getProductDetail.graphql';
 import simiProductQuery from 'src/simi/queries/simiconnector/getProductDetail.graphql';
 import Identify from 'src/simi/Helper/Identify'
+import { Simiquery } from 'src/simi/Network/Query'
 
 /**
  * As of this writing, there is no single Product query type in the M2.3 schema.
@@ -45,30 +47,35 @@ class Product extends Component {
     render() {
         const productQuery = Identify.hasConnector()?simiProductQuery:magentoProductQuery
         return (
-            <Query
+            <Simiquery
                 query={productQuery}
                 variables={{ urlKey: getUrlKey(), onServer: false }}
             >
                 {({ loading, error, data }) => {
                     if (error) return <div>Data Fetch Error</div>;
                     if (loading) return <Loading />;
-
                     const product = data.productDetail.items[0];
-
+                    let simiExtraField = data.simiProductDetaileExtraField
+                    simiExtraField = simiExtraField?JSON.parse(simiExtraField):null
                     return (
                         <ProductFullDetail
                             product={this.mapProduct(product)}
                             addToCart={this.props.addItemToCart}
+                            getCartDetails={this.props.getCartDetails}
+                            simiExtraField={simiExtraField}
+                            toggleMessages={this.props.toggleMessages}
                         />
                     );
                 }}
-            </Query>
+            </Simiquery>
         );
     }
 }
 
 const mapDispatchToProps = {
-    addItemToCart
+    addItemToCart,
+    getCartDetails,
+    toggleMessages
 };
 
 export default connect(

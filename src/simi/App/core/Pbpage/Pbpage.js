@@ -6,8 +6,6 @@ import PropTypes from 'prop-types'
 import Innercontent from './Innercontent'
 import { withRouter } from 'react-router-dom';
 
-const $ = window.$
-
 class Pbpage extends React.Component {
     constructor(props) {
         super(props)

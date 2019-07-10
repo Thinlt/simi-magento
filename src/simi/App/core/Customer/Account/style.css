@@ -958,6 +958,16 @@
     }
 }
 
+.is-invalid {
+    border-color: #d7282f;
+}
+
+.email-not-edit {
+    color: #d7282f;
+    text-align: center;
+    margin-top: 10px;
+}
+
 @media (max-width: 359px) {
     .form-address-row .checkbox-item .checkbox-item-text{
         margin-right: -22px;
