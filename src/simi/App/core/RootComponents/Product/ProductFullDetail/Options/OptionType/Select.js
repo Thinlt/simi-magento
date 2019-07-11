@@ -42,7 +42,7 @@ class Select extends Abstract {
             const element = (
                 <MenuItem key={Identify.randomString(5)} name={this.props.key_field} value={parseInt(i,10)}>
                     <div className={classes["option-row"]} style={{alignItems : 'center',fontFamily: 'Montserrat , sans-serif'}}>
-                        {<OptionLabel title={item.name}  classes={classes} item={item} style={{alignItems : 'center'}}/>}
+                        {<OptionLabel title={item.name} type_id='bundle' classes={classes} item={item} style={{alignItems : 'center'}}/>}
                     </div>
                 </MenuItem>
             );
