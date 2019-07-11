@@ -7,8 +7,9 @@ import Select from '../OptionType/Select';
 import TextField from '../OptionType/Text';
 import FileSelect from '../OptionType/File';
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent/'
+import OptionLabel from '../OptionLabel'
+import defaultClasses from './customoptions.css'
 
-const $ = window.$;
 const DatePicker = (props)=>{
     return <LazyComponent component={()=>import('../OptionType/Date')} {...props}/>
 }
@@ -19,56 +20,45 @@ class CustomOptions extends OptionBase {
 
     constructor(props){
         super(props);
-        this.exclT = 0;
-        this.inclT = 0;
+        this.classes = defaultClasses
     }
 
     renderOptions = () => {
+        const {classes} = this
         if(this.data instanceof Object && this.data.hasOwnProperty('custom_options')){
-            let options = this.data.custom_options;
+            const options = this.data.custom_options;
             if(!options) return <div></div>;
-            let mainClass = this;
-            let optionsHtml = options.map(function (item, index) {
-                let labelRequired = mainClass.renderLabelRequired(parseInt(item.isRequired,10));
+            const mainClass = this;
+            const optionsHtml = options.map(function (item) {
+                const labelRequired = mainClass.renderLabelRequired(parseInt(item.isRequired,10));
                 if(parseInt(item.isRequired,10) === 1){
                     mainClass.required.push(item.id);
                 }
+                
                 let priceLabel = "";
-                let showType = 2;
                 if (item.type === 'drop_down' || item.type === 'checkbox'
                     || item.type === 'multiple' || item.type === 'radio') {
-                    showType = 1;
+                } else {
+                    priceLabel = <OptionLabel item={item.values[0]} classes={classes} />
                 }
 
-                if (showType === 2) {
-                    let itemPrice = item.values[0];
-                    let prices = 0;
-                    if (itemPrice.price) {
-                        prices = itemPrice.price;
-                    } else if (itemPrice.price_including_tax) {
-                        prices = itemPrice.price_including_tax.price;
-                    }
-                    priceLabel = prices > 0 ?
-                        <span className="option-price" style={{marginLeft : 10}}>+ {mainClass.renderOptionPrice(prices)}</span> : null;
-                }
                 return (
-                    <div className="option-select" key={Identify.randomString(5)}>
-                        <div className="option-title">
+                    <div className={classes["option-select"]} key={Identify.randomString(5)}>
+                        <div className={classes["option-title"]}>
                             <span>{item.title}</span>
                             {labelRequired}
                             {priceLabel}
                         </div>
-                        <div className="option-content">
-                            <div className="option-list">
-                                {mainClass.renderContentOption(item,item.type, showType)}
+                        <div className={classes["option-content"]}>
+                            <div className={classes["option-list"]}>
+                                {mainClass.renderContentOption(item,item.type)}
                             </div>
-
                         </div>
                     </div>
                 );
             });
             return (
-                <div className="custom-options">
+                <div className={classes["custom-options"]}>
                     <div id="customOption" style={{marginTop: '10px'}}>
                         {optionsHtml}
                     </div>
@@ -77,71 +67,58 @@ class CustomOptions extends OptionBase {
         }
     }
 
-    renderContentOption = (ObjOptions, type, showType) => {
-        let id = ObjOptions.id;
+    renderContentOption = (ObjOptions, type) => {
+        const id = ObjOptions.id;
+        const {classes} = this
         
         if(type === 'multiple' || type === 'checkbox'){
-            return this.renderMutilCheckbox(ObjOptions, id,showType)
+            return this.renderMutilCheckbox(ObjOptions, id)
         }
         if(type === 'radio'){
-            return <Radio data={ObjOptions} id={id} parent={this} />
+            return <Radio data={ObjOptions} id={id} parent={this} classes={classes}/>
         }
         if(type === 'drop_down' || type === 'select' ){
             return <div style={{marginTop:-10}}>
-                        <Select data={ObjOptions} id={id} parent={this}/>
+                        <Select data={ObjOptions} id={id} parent={this} classes={classes}/>
                 </div>
         }
         if(type === 'date'){
             return <div style={{marginTop:-10}}>
-                        <DatePicker id={id} parent={this}/>
+                        <DatePicker id={id} parent={this} classes={classes}/>
                     </div>
         }
         if(type === 'time'){
             return <div style={{marginTop:-10}}>
-                    <TimePicker id={id} parent={this}/>
+                    <TimePicker id={id} parent={this} classes={classes}/>
                 </div>
         }
         if(type === 'date_time'){
             return (
                 <div style={{marginTop:-10}}>
-                    <DatePicker datetime={true} id={id} parent={this}/>
-                    <TimePicker datetime={true} id={id} parent={this}/>
+                    <DatePicker datetime={true} id={id} parent={this} classes={classes}/>
+                    <TimePicker datetime={true} id={id} parent={this} classes={classes}/>
                 </div>
             )
         }
         if(type === 'field'){
-            return <TextField id={id} parent={this} max_characters={ObjOptions.max_characters}/>
+            return <TextField id={id} parent={this} max_characters={ObjOptions.max_characters} classes={classes}/>
         }
         if(type === 'area'){
-            return <TextField id={id} parent={this} type={type}/>
+            return <TextField id={id} parent={this} type={type} classes={classes}/>
         }
         
         if(type === 'file'){
-            return <FileSelect data={ObjOptions} id={id} parent={this} type={type}/>
+            return <FileSelect data={ObjOptions} id={id} parent={this} type={type} classes={classes}/>
         }
     };
 
-    renderMutilCheckbox =(ObjOptions, id = '0',showType)=>{
-        let values = ObjOptions.values;
-        let html = values.map(item => {
-            let prices = 0;
-            if (showType === 1) {
-                if (item.price) {
-                    prices = item.price;
-                } else if (item.price_including_tax) {
-                    prices = item.price_including_tax.price;
-                }
-            }
-            let symbol = prices > 0 ? <span style={{margin:'0 10px'}}>+</span> : null;
-            prices = prices > 0 ? <span className="child-price">{this.renderOptionPrice(prices)}</span> : null;
-            let label  = <div style={{display : 'flex'}}>
-                <span className="child-label">{item.title}</span>
-                {symbol}
-                {prices}
-            </div>;
+    renderMutilCheckbox =(ObjOptions, id = '0')=>{
+        const {classes} = this
+        const values = ObjOptions.values;
+        const html = values.map(item => {
             return (
-                <div key={Identify.randomString(5)} className="option-row">
-                    <Checkbox id={id} label={label}  value={item.id} parent={this}/>
+                <div key={Identify.randomString(5)} className={classes["option-row"]}>
+                    <Checkbox id={id} item={item} value={item.id} parent={this} classes={classes}/>
                 </div>
             )
         });
@@ -149,11 +126,8 @@ class CustomOptions extends OptionBase {
     };
 
     updatePrices = (selected = this.selected) => {
-        const prices = this.parentObj.Price.state.prices;
-        prices.minimalPrice.excl_tax_amount.value -= this.exclT;
-        prices.minimalPrice.amount.value -= this.inclT;
-        this.exclT = 0;
-        this.inclT = 0;
+        let exclT = 0;
+        let inclT = 0;
         const customOptions = this.data.custom_options;
         const customSelected = selected;
         for (const c in customOptions) {
@@ -167,11 +141,11 @@ class CustomOptions extends OptionBase {
                         || option.type === "field" || option.type === "file") {
                             const value = values[0];
                         if (value.price_excluding_tax) {
-                            this.exclT += parseFloat(value.price_excluding_tax.price);
-                            this.inclT += parseFloat(value.price_including_tax.price);
+                            exclT += parseFloat(value.price_excluding_tax.price);
+                            inclT += parseFloat(value.price_including_tax.price);
                         } else {
-                            this.exclT += parseFloat(value.price);
-                            this.inclT += parseFloat(value.price);
+                            exclT += parseFloat(value.price);
+                            inclT += parseFloat(value.price);
                         }
                     } else {
                         for (const v in values) {
@@ -180,22 +154,22 @@ class CustomOptions extends OptionBase {
                                 if (selected.indexOf(value.id) !== -1) {
                                     //add price
                                     if (value.price_excluding_tax) {
-                                        this.exclT += parseFloat(value.price_excluding_tax.price);
-                                        this.inclT += parseFloat(value.price_including_tax.price);
+                                        exclT += parseFloat(value.price_excluding_tax.price);
+                                        inclT += parseFloat(value.price_including_tax.price);
                                     } else {
-                                        this.exclT += parseFloat(value.price);
-                                        this.inclT += parseFloat(value.price);
+                                        exclT += parseFloat(value.price);
+                                        inclT += parseFloat(value.price);
                                     }
                                 }
                             } else {
                                 if (value.id === selected) {
                                     //add price
                                     if (value.price_excluding_tax) {
-                                        this.exclT += parseFloat(value.price_excluding_tax.price);
-                                        this.inclT += parseFloat(value.price_including_tax.price);
+                                        exclT += parseFloat(value.price_excluding_tax.price);
+                                        inclT += parseFloat(value.price_including_tax.price);
                                     } else {
-                                        this.exclT += parseFloat(value.price);
-                                        this.inclT += parseFloat(value.price);
+                                        exclT += parseFloat(value.price);
+                                        inclT += parseFloat(value.price);
                                     }
                                 }
                             }
@@ -203,23 +177,15 @@ class CustomOptions extends OptionBase {
                     }
                 }
             }
-        }
-        prices.minimalPrice.excl_tax_amount.value += this.exclT;
-        prices.minimalPrice.amount.value += this.inclT;
-        this.parentObj.Price.updatePrices(prices);
+        }        
+        this.parentObj.Price.setCustomOptionPrice(inclT, exclT);
     }
-
-    setParamQty = ()=>{
-        let qty = $('input.option-qty').val();
-        this.params['qty'] = qty;
-    };
-
-    getParams = ()=>{
+    
+    getParams = () =>{
         if(!this.checkOptionRequired()){
             return false;
         }
         this.setParamOption('options');
-        this.setParamQty();
         return this.params;
     }
     render(){

@@ -3,28 +3,18 @@ import Abstract from "./Abstract";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Identify from "src/simi/Helper/Identify";
-import { withStyles } from '@material-ui/core/styles';
-import {configColor} from "src/simi/Config/index";
-const styles = {
-    root: {
-        color:'#333',
-        '&$checked': {
-            color: configColor.button_background,
-        },
-    },
-    checked: {},
-}
+import OptionLabel from '../OptionLabel'
+
 class RadioField extends Abstract {
     constructor(props) {
         super(props);
-        let defaultValue = this.setDefaultSelected(0,false).toString();
+        const defaultValue = this.setDefaultSelected(0,false).toString();
         this.state = {
             value : defaultValue
         };
         this.showTier = false;
         if(this.type_id === 'bundle'){
-            let defaultItem = defaultValue !== 0 ? this.props.data.selections[defaultValue] : {};
+            const defaultItem = defaultValue !== 0 ? this.props.data.selections[defaultValue] : {};
             this.showTier = defaultItem.tierPrice && defaultItem.tierPrice.length > 0;
         }
 
@@ -34,35 +24,17 @@ class RadioField extends Abstract {
         this.setState({ value: val });
         this.updateSelected(this.key,val);
         this.updateForBundle(val,'radio');
-        // $('.radio-option-'+this.key+'').find('svg').css({
-        //     fill : '#000000de',
-        //     color : '#000000de'
-        // });
-        // let id = `.radio-option-${val}`;
-        // $(id).find('svg').css('fill',this.configColor.button_background)
-        // $(id).find('svg').css('color',this.configColor.button_text_color)
     };
 
     renderWithBundle = (data)=>{
-        let options = data.selections;
-        let items = [];
-        let {classes} = this.props
-        for (let i in options) {
-            let item = options[i];
-            let price = 0;
-            if (item.price) {
-                price = item.price;
-            }
-            if (item.priceInclTax) {
-                price = item.priceInclTax;
-            }
-            if (Identify.magentoPlatform() === 2) {
-                price = parseFloat(item.prices.finalPrice.amount);
-            }
+        const options = data.selections;
+        const items = [];
+        const {classes} = this.props
+        for (const i in options) {
+            const item = options[i];
+            const label  = <OptionLabel classes={classes} item={item} />
 
-            let label  = this.renderLableItem(item.name,price);
-
-            let element = (
+            const element = (
                 <FormControlLabel
                     className={`radio-option-${this.key} radio-option-${i}`}
                     key={i}
@@ -80,21 +52,15 @@ class RadioField extends Abstract {
     };
 
     renderWithCustom = (data)=>{
-        let values = data.values;
-        let {classes} = this.props
-        let items = values.map(item => {
-            let prices = 0;
-            if (item.price) {
-                prices = item.price;
-            } else if (item.price_including_tax) {
-                prices = item.price_including_tax.price;
-            }
+        const values = data.values;
+        const {classes} = this.props
+        const items = values.map(item => {
             return (
                 <FormControlLabel
                     className={`radio-option-${this.key} radio-option-${item.id}`}
                     key={item.id}
                     value={item.id}
-                    label={this.renderLableItem(item.title,prices)}
+                    label={<OptionLabel classes={classes} item={item} />}
                     control={<Radio classes={{
                         root: classes.root,
                         checked: classes.checked,
@@ -112,7 +78,7 @@ class RadioField extends Abstract {
     }
 
     render = () => {
-        let {data} = this.props;
+        const {data, classes} = this.props;
         let items = null;
         if(this.type_id === 'bundle'){
             items = this.renderWithBundle(data);
@@ -121,17 +87,16 @@ class RadioField extends Abstract {
             items = this.renderWithCustom(data);
         }
         return (
-            <div>
+            <React.Fragment>
                 <RadioGroup value={this.state.value} onChange={this.updateCheck}  name="radioOptions">
                     {items}
                 </RadioGroup>
-                <div className="option-tier-prices" id={`tier-prices-radio-${this.key}`}></div>
-            </div>
-
+                <div className={classes["option-tier-prices"]} id={`tier-prices-radio-${this.key}`}></div>
+            </React.Fragment>
         );
     }
 }
 RadioField.defaultProps = {
     type : 1
 };
-export default withStyles(styles)(RadioField);
+export default RadioField;

@@ -13,7 +13,7 @@ import {
 import { compose } from 'redux';
 import classify from 'src/classify';
 
-class Msg extends React.Component {
+class TopMessage extends React.Component {
 
     removeMessage = (id) => {
         const {simiMessages} = this.props
@@ -135,4 +135,4 @@ export default compose(
         mapStateToProps,
         mapDispatchToProps
     )
-)(Msg);
+)(TopMessage);

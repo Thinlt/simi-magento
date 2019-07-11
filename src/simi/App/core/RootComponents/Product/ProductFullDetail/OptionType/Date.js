@@ -19,10 +19,10 @@ class DateField extends Abstract {
             date: date,
         });
         if(date){
-            let key = this.key;
+            const key = this.key;
             let value = this.convertDate(date);
             if(this.props.datetime){
-                let datetime = this.props.parent.selected[key];
+                const datetime = this.props.parent.selected[key];
                 if(datetime instanceof Object){
                     value = {...datetime,...value};
                 }
@@ -34,10 +34,10 @@ class DateField extends Abstract {
     };
 
     convertDate = (date) => {
-        let d = date.getDate();
+        const d = date.getDate();
         let m = date.getMonth() + 1;
         m = m < 10 ? "0"+m : m;
-        let y = date.getFullYear();
+        const y = date.getFullYear();
         return {
             year : y,
             month : parseInt(m,10),
@@ -57,11 +57,12 @@ class DateField extends Abstract {
     };
 
     renderDate = ()=> {
-        let text = Identify.isRtl() ? 'yyyy/mm/dd' : 'dd/mm/yyyy';
+        const {classes} = this.props
+        const text = Identify.isRtl() ? 'yyyy/mm/dd' : 'dd/mm/yyyy';
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
                 <DatePicker
-                    className="date-picker"
+                    className={classes["date-picker"]}
                     hintText={<div className="flex"><span>{Identify.__('Select date')}</span> <span>: {text}</span></div>}
                     value={this.state.date}
                     minDate={new Date()}
@@ -74,7 +75,6 @@ class DateField extends Abstract {
                     }}
                 />
             </MuiThemeProvider>
-
         )
     }
 

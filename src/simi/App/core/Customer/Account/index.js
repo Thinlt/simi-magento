@@ -11,11 +11,11 @@ import classify from 'src/classify';
 import {Link} from 'react-router-dom'
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
+import Dashboard from './Page/Dashboard';
 import Wishlist from './Page/Wishlist'
 import Newsletter from './Page/Newsletter';
 import AddressBook from './Page/AddressBook';
-
-const $ = window.$;
+import Profile from './Page/Profile';
 class CustomerLayout extends React.Component{
 
     constructor(props) {
@@ -156,16 +156,23 @@ class CustomerLayout extends React.Component{
 
     renderContent = ()=>{
         const {page} = this.state;
+        const { firstname, lastname, email, extension_attributes } = this.props;
+        const data = {
+            firstname,
+            lastname,
+            email,
+            extension_attributes
+        }
         let content = null;
         switch (page) {
             case 'dashboard':
-                content = 'customer dashboard 1'
+                content = <Dashboard customer={data} classes={this.props.classes} history={this.props.history} isPhone={this.state.isPhone}/>
                 break;
             case 'address-book':
                 content = <AddressBook />
                 break;
             case 'edit':
-                content = 'profile'
+                content = <Profile data={data} history={this.props.history} isPhone={this.state.isPhone} classes={this.props.classes}/>
                 break;
             case 'my-order':
                 content = 'my order'
@@ -258,9 +265,11 @@ class CustomerLayout extends React.Component{
 
 const mapStateToProps = ({ user }) => {
     const { currentUser, isSignedIn } = user
-    const { firstname } = currentUser;
+    const { firstname, lastname, email } = currentUser;
     return {
         firstname,
+        lastname,
+        email,
         isSignedIn
     };
 }

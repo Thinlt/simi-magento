@@ -1,4 +1,3 @@
-const $ = window.$
 export function showFogLoading() {
     $(document).ready(function () {
         $('#app-loading').css({display: 'flex'});

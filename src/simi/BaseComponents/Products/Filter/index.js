@@ -6,8 +6,6 @@ import Dropdownplus from 'src/simi/BaseComponents/Dropdownplus'
 import { mergeClasses } from 'src/classify'
 import { withRouter } from 'react-router-dom';
 
-const $ = window.$;
-
 class Filter extends React.Component {
 
     constructor(props) {

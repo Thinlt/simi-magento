@@ -958,6 +958,16 @@
     }
 }
 
+.is-invalid {
+    border-color: #d7282f;
+}
+
+.email-not-edit {
+    color: #d7282f;
+    text-align: center;
+    margin-top: 10px;
+}
+
 @media (max-width: 359px) {
     .form-address-row .checkbox-item .checkbox-item-text{
         margin-right: -22px;
@@ -980,6 +990,28 @@ favourite
         display: flex;    
         justify-content: space-between;
         flex-wrap: wrap;
+    }
+
+    .table-siminia > tbody > tr > td,
+    .table-siminia > tbody > tr > th,
+    .table-siminia > tfoot > tr > td,
+    .table-siminia > tfoot > tr > th,
+    .table-siminia > thead > tr > td,
+    .table-siminia > thead > tr > th {
+        padding: 8px 8px;
+    }
+
+    .dashboard-content {
+        margin-right: 20px;
+        margin-left: 20px;
+    }
+
+    .dash-column-box .email {
+        word-break: break-all;
+    } 
+
+    .dash-column-box .edit-information {
+        margin-top: 10px;
     }
 }
 

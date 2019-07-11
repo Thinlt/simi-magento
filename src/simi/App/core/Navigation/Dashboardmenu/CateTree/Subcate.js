@@ -4,7 +4,6 @@ import ExpandLess from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowUp";
 import ExpandMore from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowDown";
 import Identify from 'src/simi/Helper/Identify';
 import Loading from 'src/simi/BaseComponents/Loading/ReactLoading'
-const $ = window.$;
 
 const cateUrlSuffix = '.html';
 

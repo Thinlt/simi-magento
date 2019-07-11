@@ -14,9 +14,9 @@ class Time extends Abstract {
         this.setState({time});
         if(time){
             let val = this.convertTime(time);
-            let key = this.key;
+            const key = this.key;
             if(this.props.datetime){
-                let datetime = this.props.parent.selected[key];
+                const datetime = this.props.parent.selected[key];
                 if(datetime instanceof Object){
                     val = {...datetime,...val};
                 }

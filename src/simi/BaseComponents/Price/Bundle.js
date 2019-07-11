@@ -2,7 +2,7 @@ import React from 'react';
 import Abstract from './Abstract';
 import Identify from 'src/simi/Helper/Identify';
 import {configColor} from 'src/simi/Config';
-const $ = window.$;
+
 class BundlePrice extends Abstract {
 
     showConfiguredPrice =(element,price,label = null)=>{

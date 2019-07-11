@@ -4,7 +4,6 @@ import Arrowup from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowUp"
 import defaultClasses from './index.css'
 import { mergeClasses } from 'src/classify'
 
-const $ = window.$
 class Dropdownoption extends React.Component {
     sliding = false
     

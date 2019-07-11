@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { string, func } from 'prop-types';
 
-import { connect } from 'src/drivers';
 import { Simiquery } from 'src/simi/Network/Query'
-import { addItemToCart } from 'src/actions/cart';
 import Loading from 'src/simi/BaseComponents/Loading'
 import ProductFullDetail from 'src/simi/App/core/RootComponents/Product/ProductFullDetail'
 import Identify from 'src/simi/Helper/Identify'
 import getProductDetailBySku from 'src/simi/queries/getProductDetailBySku.graphql'
+import connectorGetProductDetailBySku from 'src/simi/queries/simiconnector/getProductDetailBySku.graphql'
 
 /**
  * As of this writing, there is no single Product query type in the M2.3 schema.
@@ -20,11 +19,6 @@ class Product extends Component {
     static propTypes = {
         addItemToCart: func.isRequired,
         cartId: string
-    };
-
-    addToCart = async (item, quantity) => {
-        const { addItemToCart, cartId } = this.props;
-        await addItemToCart({ cartId, item, quantity });
     };
 
     componentDidMount() {
@@ -46,7 +40,7 @@ class Product extends Component {
         if (sku) {
             return (
                 <Simiquery
-                    query={getProductDetailBySku}
+                    query={Identify.hasConnector()?connectorGetProductDetailBySku:getProductDetailBySku}
                     variables={{ sku: sku, onServer: false }}
                 >
                     {({ loading, error, data }) => {
@@ -54,11 +48,13 @@ class Product extends Component {
                         if (loading) return <Loading />;
 
                         const product = data.productDetail.items[0];
+                        let simiExtraField = data.simiProductDetailExtraField
+                        simiExtraField = simiExtraField?JSON.parse(simiExtraField):null
+                        product.simiExtraField = simiExtraField
 
                         return (
                             <ProductFullDetail
                                 product={this.mapProduct(product)}
-                                addToCart={this.props.addItemToCart}
                             />
                         );
                     }}
@@ -69,11 +65,4 @@ class Product extends Component {
     }
 }
 
-const mapDispatchToProps = {
-    addItemToCart
-};
-
-export default connect(
-    null,
-    mapDispatchToProps
-)(Product);
+export default Product;

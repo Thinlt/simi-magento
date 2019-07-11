@@ -4,7 +4,6 @@ import HeaderNavMegaitem from './HeaderNavMegaitem'
 import { Link } from 'src/drivers';
 import NavTrigger from './navTrigger'
 import MenuIcon from 'src/simi/BaseComponents/Icon/Menu'
-const $ = window.$
 
 class Navigation extends React.Component{
     toggleMegaItemContainer() {
