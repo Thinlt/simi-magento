@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import Identify from "src/simi/Helper/Identify";
 
 const AddressItem = props => {
     const { addressData, classes } = props;

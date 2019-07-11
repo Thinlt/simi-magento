@@ -682,6 +682,7 @@
     .dashboard-content {
         margin: 0;
         padding: 16px;
+        width: auto;
     }
     .body-customer-dashboard #data-breadcrumb {
         display: block;

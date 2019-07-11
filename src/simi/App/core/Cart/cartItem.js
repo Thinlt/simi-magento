@@ -4,7 +4,7 @@ import Deleteicon from 'src/simi/BaseComponents/Icon/Trash'
 import {configColor} from 'src/simi/Config'
 import { Price } from '@magento/peregrine'
 import { resourceUrl } from 'src/simi/Helper/Url'
-
+import ReactHTMLParse from 'react-html-parser';
 import defaultClasses from './cartItem.css'
 
 const CartItem = props => {
@@ -31,7 +31,7 @@ const CartItem = props => {
             const option = options[i];
             optionText.push(
                 <div key={Identify.randomString(5)}>
-                    <b>{option.label}</b> : {option.value}
+                    <b>{option.label}</b> : {ReactHTMLParse(option.value)}
                 </div>
             );
         }
