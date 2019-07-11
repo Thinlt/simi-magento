@@ -6,7 +6,8 @@ import {validateEmpty} from 'src/simi/Helper/Validation';
 import TitleHelper from 'src/simi/Helper/TitleHelper';
 import Loading from "src/simi/BaseComponents/Loading";
 import { SimiMutation } from 'src/simi/Network/Query';
-import CUSTOMER_ADDRESS from 'src/simi/queries/customerAddressUpdate.graphql';
+import CUSTOMER_ADDRESS_UPDATE from 'src/simi/queries/customerAddressUpdate.graphql';
+import CUSTOMER_ADDRESS_CREATE from 'src/simi/queries/customerAddressCreate.graphql';
 
 const SimiText = asField(({ fieldState, ...props }) => (
     <React.Fragment>
@@ -33,6 +34,11 @@ const SimiSelect = asField(({ fieldState, ...props }) => (
 const Edit = props => {
 
     const { addressData, countries} = props
+
+    var CUSTOMER_MUTATION = CUSTOMER_ADDRESS_CREATE;
+    if (addressData.id) {
+        CUSTOMER_MUTATION = CUSTOMER_ADDRESS_UPDATE;
+    }
 
     const getFormApi = (formApi) => {
         // formApi.setValue('firstname', addressData.firstname)
@@ -86,6 +92,34 @@ const Edit = props => {
         return null
     }
 
+    var loading = false;
+
+    const buttonSubmitHandle = (mutaionCallback, formApi) => {
+        loading = true;
+        var values = formApi.getValues();
+        formApi.submitForm();
+        if (formApi.getState().invalid) {
+            loading = false;
+            return null; // not submit until form has no error
+        }
+        if (values.region) {
+            var oldRegionValue = values.region;
+            var region;
+            if (values.region) region = getRegionObject(values.country_id, values.region.region_id);
+            if (region) {
+                values.region.region = region.name;
+                values.region.region_id = region.id;
+                values.region.region_code = region.code;
+            } else {
+                values.region.region = oldRegionValue.region ? oldRegionValue.region : null;
+                values.region.region_id = null;
+                values.region.region_code = null;
+            }
+        }
+        values.id = addressData.id; //address id
+        mutaionCallback({ variables: values });
+    }
+
     const StateProvince = () => {
         const { value } = useFieldState('country_id');
 
@@ -128,7 +162,7 @@ const Edit = props => {
         }
     }
 
-    var loading = false;
+    
     return (
         <div className="edit-address">
             {TitleHelper.renderMetaHeader({title: Identify.__('Edit Address')})}
@@ -179,7 +213,7 @@ const Edit = props => {
                         </div>
                         <div className="form-row">
                             <label htmlFor="input-country">{Identify.__('Country')}<span>*</span></label>
-                            <SimiSelect id="input-country" field="country_id" initialValue={addressData.country_id} validate={validateOption} validateOnChange>
+                            <SimiSelect id="input-country" field="country_id" initialValue={addressData.country_id || 'US'} validate={validateOption} validateOnChange>
                                 { countries.map((country, index) => {
                                     return country.full_name_locale !== null ? 
                                         <Option value={country.id} key={index} >{country.full_name_locale}</Option> : null
@@ -198,38 +232,19 @@ const Edit = props => {
                         </div>
                     </div>
                     <div className="form-button">
-                        <SimiMutation mutation={CUSTOMER_ADDRESS}>
-                            {(updateCustomerAddress, { data }) => {
+                        <SimiMutation mutation={CUSTOMER_MUTATION}>
+                            {(mutaionCallback, { data }) => {
                                 if (data) {
-                                    props.setIsEditAddress(null);
+                                    if (addressData.id) {
+                                        var addressResult = data.updateCustomerAddress;
+                                    } else {
+                                        var addressResult = data.createCustomerAddress;
+                                    }
+                                    props.dispatchEdit({changeType: addressData.addressType, changeData: addressResult});
                                 }
                                 return (
                                     <>
-                                        <button onClick={() => {
-                                            loading = true;
-                                            var values = formApi.getValues();
-                                            var formSubmit = formApi.submitForm();
-                                            if (formApi.getState().invalid) {
-                                                loading = false;
-                                                return null; // not submit until form has no error
-                                            }
-                                            if (values.region) {
-                                                var oldRegionValue = values.region;
-                                                var region;
-                                                if (values.region) region = getRegionObject(values.country_id, values.region.region_id);
-                                                if (region) {
-                                                    values.region.region = region.name;
-                                                    values.region.region_id = region.id;
-                                                    values.region.region_code = region.code;
-                                                } else {
-                                                    values.region.region = oldRegionValue.region ? oldRegionValue.region : null;
-                                                    values.region.region_id = null;
-                                                    values.region.region_code = null;
-                                                }
-                                            }
-                                            values.id = addressData.id; //address id
-                                            updateCustomerAddress({ variables: values });
-                                        }}>
+                                        <button onClick={() => buttonSubmitHandle(mutaionCallback, formApi)}>
                                             <span>{Identify.__('Save Address')}</span>
                                         </button>
                                         {(data === undefined && loading) && <Loading />}

@@ -1,8 +1,7 @@
-import React, {useReducer, useMemo} from 'react';
+import React, {useReducer, useCallback} from 'react';
 import Identify from 'src/simi/Helper/Identify';
 import Pagination from './pagination';
 import ListItem from './listItem';
-// import Loading from "src/simi/BaseComponents/Loading";
 
 const List = props => {
     const { items } = props;
@@ -12,25 +11,27 @@ const List = props => {
     }
 
     const deleteAddressHandle = (id) => {
-        props.deleteAddress(id);
+        props.mutaionCallback({ variables: {id: id}});
+        props.dispatchDelete(id);
+        dispatch({dataItems: items});
     }
 
     const renderItems = (itemsRender) => {
-        let rendering = items
-        if (typeof itemsRender !== 'indefined') {
-            rendering = itemsRender
+        let rendering = items;
+        if (typeof itemsRender !== 'undefined') {
+            rendering = itemsRender;
         }
         return rendering.map((item, index) => {
-            return <ListItem data={item} key={index} editAddress={editAddressHandle} deleteAddress={() => deleteAddressHandle(index)}/>
+            item.index = index; // add index of array to item
+            return <ListItem data={item} editAddress={editAddressHandle} deleteAddress={deleteAddressHandle} key={index}/>
         })
     }
 
     const reducer = (state, action) => {
         return {...state, ...{dataItems: action.items}}
     }
-
-    const [state, dispatch] = useReducer(reducer, {dataItems: items});
-    const memoizedItems = useMemo(() => renderItems(state.dataItems), [state]);
+    const reducerMemoized = useCallback(reducer, [items]);
+    const [state, dispatch] = useReducer(reducerMemoized, {dataItems: items});
 
     const renderPagination = () => {
         if (items.length < 1) {
@@ -55,7 +56,7 @@ const List = props => {
                         <th className="col actions"></th>
                     </tr>
                 </thead>
-                <tbody>{memoizedItems}</tbody>
+                <tbody>{renderItems(state.dataItems)}</tbody>
             </table>
             {renderPagination()}
         </div>

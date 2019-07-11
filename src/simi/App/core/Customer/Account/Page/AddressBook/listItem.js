@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import Identify from 'src/simi/Helper/Identify';
 
 const ListItem = props => {
 
+    const { data } = props;
+    const { id } = data;
+
+    const deleteCallback = useCallback((e) => {
+        e.preventDefault();
+        props.deleteAddress(id);
+    }, [id]);
+
     const editAddressHandle = (id) => {
         props.editAddress(id);
     }
-
-    const deleteAddressHandle = (id) => {
-        props.deleteAddress(id);
-    }
-
-    const { data } = props;
-    const { id } = data;
 
     return (
         <tr>
@@ -27,7 +28,7 @@ const ListItem = props => {
             <td data-th={Identify.__("Actions")}>
                 <a href="" onClick={e => {e.preventDefault(); editAddressHandle(id)}}>{Identify.__("Edit")}</a>
                 |
-                <a href="" onClick={e => {e.preventDefault(); deleteAddressHandle(id)}}>{Identify.__("Delete")}</a>
+                <a href="" onClick={deleteCallback}>{Identify.__("Delete")}</a>
             </td>
         </tr>
     );
