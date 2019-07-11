@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 class Pagination extends React.Component {
 
     static defaultProps = {
+        classes: {},
         hideOnSinglePage: false,
         className: '',
         onChange: ()=>{},
@@ -25,6 +26,7 @@ class Pagination extends React.Component {
     }
 
     static propTypes = {
+        classes: PropTypes.object,
         hideOnSinglePage: PropTypes.bool,
         className: PropTypes.string,
         onChange: PropTypes.func,
@@ -66,6 +68,7 @@ class Pagination extends React.Component {
         };
         
         this.newState = {...this.state}
+        this.classes = props.classes;
     }
 
     componentWillMount() {
@@ -202,7 +205,7 @@ class Pagination extends React.Component {
             return null
         }
         return (
-            <div className="info"><span>Items {pageFrom} - {pageTo < size ? pageTo : size} of {size}</span></div>
+            <div className={this.classes["info"]}><span>Items {pageFrom} - {pageTo < size ? pageTo : size} of {size}</span></div>
         );
     }
 
@@ -213,7 +216,7 @@ class Pagination extends React.Component {
             return null
         }
         return (
-            <div className="options-size">
+            <div className={this.classes["options-size"]}>
                 <span>Show</span>
                 <select onChange={this.optionsHandle} value={pageSize}>
                     {

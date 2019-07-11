@@ -4,7 +4,7 @@ import Pagination from './pagination';
 import ListItem from './listItem';
 
 const List = props => {
-    const { items } = props;
+    const { items, classes } = props;
 
     const editAddressHandle = (id) => {
         props.editAddress(id);
@@ -23,7 +23,7 @@ const List = props => {
         }
         return rendering.map((item, index) => {
             item.index = index; // add index of array to item
-            return <ListItem data={item} editAddress={editAddressHandle} deleteAddress={deleteAddressHandle} key={index}/>
+            return <ListItem data={item} editAddress={editAddressHandle} deleteAddress={deleteAddressHandle} key={index} classes={classes}/>
         })
     }
 
@@ -37,11 +37,11 @@ const List = props => {
         if (items.length < 1) {
             return null
         }
-        return <Pagination dispatch={dispatch} dataItems={items} pageSize={10}/>
+        return <Pagination className={classes["pagination"]} dispatch={dispatch} dataItems={items} pageSize={10} classes={classes}/>
     }
 
     return (
-        <div className="table-wrap">
+        <div className={classes["table-wrap"]}>
             <table>
                 <thead>
                     <tr>

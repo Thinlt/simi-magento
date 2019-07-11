@@ -190,10 +190,10 @@ const AddressBook = props => {
 
     const renderDefaultAddress = () => {
         return (
-            <div className="address-content">
-                <div className="billing-address">
-                    <span className="box-title">{Identify.__("Default Billing Address")}</span>
-                    <div className="box-content">
+            <div className={classes["address-content"]}>
+                <div className={classes["billing-address"]}>
+                    <span className={classes["box-title"]}>{Identify.__("Default Billing Address")}</span>
+                    <div className={classes["box-content"]}>
                         <address>
                             {defaultBilling.firstname} {defaultBilling.lastname}<br/>
                             {defaultBilling.street ? <>{defaultBilling.street}<br/></> : ''}
@@ -208,13 +208,13 @@ const AddressBook = props => {
                             }
                         </address>
                     </div>
-                    <div className="box-action">
+                    <div className={classes["box-action"]}>
                         <a href="" onClick={e => editDefaultAddressHandle(e, defaultBilling.id, 'billing')}><span>{Identify.__("Change Billing Address")}</span></a>
                     </div>
                 </div>
-                <div className="shipping-address">
-                    <span className="box-title">{Identify.__("Default Shipping Address")}</span>
-                    <div className="box-content">
+                <div className={classes["shipping-address"]}>
+                    <span className={classes["box-title"]}>{Identify.__("Default Shipping Address")}</span>
+                    <div className={classes["box-content"]}>
                         <address>
                             {defaultShipping.firstname} {defaultShipping.lastname}<br/>
                             {defaultShipping.street ? <>{defaultShipping.street}<br/></> : ''}
@@ -229,7 +229,7 @@ const AddressBook = props => {
                             }
                         </address>
                     </div>
-                    <div className="box-action">
+                    <div className={classes["box-action"]}>
                         <a href="" onClick={e => editDefaultAddressHandle(e, defaultShipping.id, 'shipping')}><span>{Identify.__("Change Shipping Address")}</span></a>
                     </div>
                 </div>
@@ -240,21 +240,21 @@ const AddressBook = props => {
     return (
         <div className={classes["address-book"]}>
             {addressEditing ? 
-                <Edit dispatchEdit={dispatch} addressData={addressEditing} countries={countries} user={user} />
+                <Edit dispatchEdit={dispatch} addressData={addressEditing} countries={countries} user={user} classes={classes}/>
             :
             <>
                 {TitleHelper.renderMetaHeader({title:Identify.__('Address Book')})}
                 <h1>{Identify.__("Address Book")}</h1>
-                <div className="default-address">
-                    <div className="address-label">{Identify.__("Default Addresses")}</div>
+                <div className={classes['default-address']}>
+                    <div className={classes["address-label"]}>{Identify.__("Default Addresses")}</div>
                     {data ? renderDefaultAddress() : <Loading />}
                 </div>
-                <div className="additional-address">
-                    <div className="address-label">{Identify.__("Additional Address Entries")}</div>
+                <div className={classes["additional-address"]}>
+                    <div className={classes["address-label"]}>{Identify.__("Additional Address Entries")}</div>
                     {data ? 
                         <SimiMutation mutation={CUSTOMER_ADDRESS_DELETE}>
                             {(mutaionCallback, { data }) => {
-                                return <List items={addressList} editAddress={editAddressOther} mutaionCallback={mutaionCallback} dispatchDelete={deleteAddressOther}/>
+                                return <List items={addressList} editAddress={editAddressOther} mutaionCallback={mutaionCallback} dispatchDelete={deleteAddressOther} classes={classes}/>
                             }}
                         </SimiMutation>
                     : 
@@ -262,7 +262,7 @@ const AddressBook = props => {
                     }
                 </div>
                 
-                <div className="btn add-new-address">
+                <div className={classes["btn"]+' btn '+classes["add-new-address"]}>
                     <button onClick={addNewAddress}><span>{Identify.__("Add New Address")}</span></button>
                 </div>
             </>

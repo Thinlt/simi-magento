@@ -33,7 +33,7 @@ const SimiSelect = asField(({ fieldState, ...props }) => (
 
 const Edit = props => {
 
-    const { addressData, countries} = props
+    const { addressData, countries, classes } = props
 
     var CUSTOMER_MUTATION = CUSTOMER_ADDRESS_CREATE;
     if (addressData.id) {
@@ -164,54 +164,54 @@ const Edit = props => {
 
     
     return (
-        <div className="edit-address">
+        <div className={classes['edit-address']}>
             {TitleHelper.renderMetaHeader({title: Identify.__('Edit Address')})}
             <Form id="address-form" getApi={getFormApi} onSubmit={formSubmit} onChange={formChange}>
                 {({ formApi }) => (
                     <>
-                    <div className="col-left">
-                        <div className="form-row">
-                            <div className="col-label">{Identify.__('Contact Information')}</div>
+                    <div className={classes["col-left"]}>
+                        <div className={classes["form-row"]}>
+                            <div className={classes["col-label"]}>{Identify.__('Contact Information')}</div>
                         </div>
-                        <div className="form-row">
+                        <div className={classes["form-row"]}>
                             <label htmlFor="input-firstname">{Identify.__('First Name')}<span>*</span></label>
                             <SimiText id="input-firstname" field="firstname" initialValue={addressData.firstname} validate={validate} validateOnBlur validateOnChange />
                         </div>
-                        <div className="form-row">
+                        <div className={classes["form-row"]}>
                             <label htmlFor="input-lastname">{Identify.__('Last Name')}<span>*</span></label>
                             <SimiText id="input-lastname" field="lastname" initialValue={addressData.lastname} validate={validate}  validateOnBlur validateOnChange />
                         </div>
-                        <div className="form-row">
+                        <div className={classes["form-row"]}>
                             <label htmlFor="input-company">{Identify.__('Company')}</label>
                             <SimiText id="input-company" field="company" initialValue={addressData.company} validateOnBlur validateOnChange />
                         </div>
-                        <div className="form-row">
+                        <div className={classes["form-row"]}>
                             <label htmlFor="input-telephone">{Identify.__('Phone Number')}<span>*</span></label>
                             <SimiText id="input-telephone" field="telephone" initialValue={addressData.telephone} validate={validate}  validateOnBlur validateOnChange />
                         </div>
                     </div>
-                    <div className="col-right">
-                        <div className="form-row">
-                            <div className="col-label">{Identify.__('Address')}</div>
+                    <div className={classes["col-right"]}>
+                        <div className={classes["form-row"]}>
+                            <div className={classes["col-label"]}>{Identify.__('Address')}</div>
                         </div>
-                        <div className="form-row">
+                        <div className={classes["form-row"]}>
                             <label htmlFor="input-street1">{Identify.__('Street Address')}<span>*</span></label>
                             <SimiText id="input-street1" field="street[0]" initialValue={addressData.street[0]} validate={validateStreet}  validateOnBlur validateOnChange />
                             <SimiText id="input-street2" field="street[1]" initialValue={addressData.street[1]}/>
                             <SimiText id="input-street3" field="street[2]" initialValue={addressData.street[2]}/>
                         </div>
-                        <div className="form-row">
+                        <div className={classes["form-row"]}>
                             <label htmlFor="input-city">{Identify.__('City')}<span>*</span></label>
                             <SimiText id="input-city" field="city" initialValue={addressData.city} validate={validate}  validateOnBlur validateOnChange />
                         </div>
-                        <div className="form-row" id="state-province">
+                        <div className={classes["form-row"]} id="state-province">
                             <StateProvince />
                         </div>
-                        <div className="form-row">
+                        <div className={classes["form-row"]}>
                             <label htmlFor="input-postcode">{Identify.__('Zip/Postal Code')}<span>*</span></label>
                             <SimiText id="input-postcode" field="postcode" initialValue={addressData.postcode} validate={validate} validateOnBlur validateOnChange />
                         </div>
-                        <div className="form-row">
+                        <div className={classes["form-row"]}>
                             <label htmlFor="input-country">{Identify.__('Country')}<span>*</span></label>
                             <SimiSelect id="input-country" field="country_id" initialValue={addressData.country_id || 'US'} validate={validateOption} validateOnChange>
                                 { countries.map((country, index) => {
@@ -220,18 +220,18 @@ const Edit = props => {
                                 })}
                             </SimiSelect>
                         </div>
-                        <div className="form-row">
-                            <div className="checkbox">
+                        <div className={classes["form-row"]}>
+                            <div className={classes["checkbox"]}>
                                 <Checkbox id="checkbox-billing" field="default_billing" initialValue={addressData.default_billing} />
                                 <label htmlFor="checkbox-billing">{Identify.__('Use as my default billing address')}</label>
                             </div>
-                            <div className="checkbox">
+                            <div className={classes["checkbox"]}>
                                 <Checkbox id="checkbox-shipping" field="default_shipping" initialValue={addressData.default_shipping} />
                                 <label htmlFor="checkbox-shipping">{Identify.__('Use as my default shipping address')}</label>
                             </div>
                         </div>
                     </div>
-                    <div className="form-button">
+                    <div className={classes["form-button"]}>
                         <SimiMutation mutation={CUSTOMER_MUTATION}>
                             {(mutaionCallback, { data }) => {
                                 if (data) {
@@ -244,9 +244,11 @@ const Edit = props => {
                                 }
                                 return (
                                     <>
-                                        <button onClick={() => buttonSubmitHandle(mutaionCallback, formApi)}>
-                                            <span>{Identify.__('Save Address')}</span>
-                                        </button>
+                                        <div className={'btn '+classes["btn"]+' '+classes["save-address"]}>
+                                            <button onClick={() => buttonSubmitHandle(mutaionCallback, formApi)}>
+                                                <span>{Identify.__('Save Address')}</span>
+                                            </button>
+                                        </div>
                                         {(data === undefined && loading) && <Loading />}
                                     </>
                                 );
