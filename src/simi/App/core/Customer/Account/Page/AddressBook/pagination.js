@@ -80,7 +80,7 @@ class Pagination extends React.Component {
         if (this.state && this.state.hasOwnProperty('pageSize')) {
             pageSize = this.newState.pageSize
         }
-        return (Math.floor(total / pageSize) + 1);
+        return (Math.ceil(total / pageSize));
     }
 
     calculatePageFromTo(current, pageSize) {
