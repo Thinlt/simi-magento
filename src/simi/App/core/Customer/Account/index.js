@@ -15,6 +15,8 @@ import Dashboard from './Page/Dashboard';
 import Wishlist from './Page/Wishlist'
 import Newsletter from './Page/Newsletter';
 import Profile from './Page/Profile';
+import MyOrder from './Page/OrderHistory';
+import OrderDetail from './Page/OrderDetail';
 
 class CustomerLayout extends React.Component{
 
@@ -175,13 +177,13 @@ class CustomerLayout extends React.Component{
                 content = <Profile data={data} history={this.props.history} isPhone={this.state.isPhone} classes={this.props.classes}/>
                 break;
             case 'my-order':
-                content = 'my order'
+                content = <MyOrder data={data} isPhone={this.state.isPhone} classes={this.props.classes} history={this.props.history}/>
                 break;
             case 'newsletter':
                 content = <Newsletter classes={this.props.classes}/>
                 break;
             case 'order-detail':
-                content = 'order history detail'
+                content = <OrderDetail classes={this.props.classes} history={this.props.history} isPhone={this.state.isPhone}/>
                 break;
             case 'wishlist':
                 content = <Wishlist history={this.props.history} classes={this.props.classes}/>
