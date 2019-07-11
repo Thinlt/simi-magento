@@ -7,7 +7,7 @@ class Abstract extends React.Component {
         this.key = this.props.id;
         this.selected = this.parent.selected;
         this.configColor = configColor;
-        this.type_id = this.parent.getProductType()
+        this.type_id = props.type_id?props.type_id:this.parent.getProductType()
     }
     
     setDefaultSelected = (val,multi=true)=>{

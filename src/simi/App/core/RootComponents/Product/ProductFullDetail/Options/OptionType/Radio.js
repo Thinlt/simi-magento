@@ -15,7 +15,7 @@ class RadioField extends Abstract {
         this.showTier = false;
         if(this.type_id === 'bundle'){
             const defaultItem = defaultValue !== 0 ? this.props.data.selections[defaultValue] : {};
-            this.showTier = defaultItem.tierPrice && defaultItem.tierPrice.length > 0;
+            this.showTier = defaultItem && defaultItem.tierPrice && defaultItem.tierPrice.length > 0;
         }
 
     }
@@ -32,18 +32,19 @@ class RadioField extends Abstract {
         const {classes} = this.props
         for (const i in options) {
             const item = options[i];
-            const label  = <OptionLabel classes={classes} item={item} />
-
+            const label  = <OptionLabel title={item.name} classes={classes} item={item} type_id={this.type_id}/>
             const element = (
                 <FormControlLabel
                     className={`radio-option-${this.key} radio-option-${i}`}
                     key={i}
                     value={i}
                     label={label}
-                    control={<Radio classes={{
-                        root: classes.root,
-                        checked: classes.checked,
-                    }}/>}
+                    control={<Radio 
+                        classes={{
+                            root: classes.root,
+                            checked: classes.checked,
+                        }}
+                    />}
                 />
             );
             items.push(element);
@@ -60,7 +61,7 @@ class RadioField extends Abstract {
                     className={`radio-option-${this.key} radio-option-${item.id}`}
                     key={item.id}
                     value={item.id}
-                    label={<OptionLabel classes={classes} item={item} />}
+                    label={<OptionLabel title={item.title} classes={classes} item={item}/>}
                     control={<Radio classes={{
                         root: classes.root,
                         checked: classes.checked,
