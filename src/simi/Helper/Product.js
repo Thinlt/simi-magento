@@ -2,7 +2,7 @@ import {taxConfig} from './Pricing'
 
 //prepare product price and options
 export const prepareProduct = (product) => {
-    const modedProduct = Object.assign({}, product)
+    const modedProduct = JSON.parse(JSON.stringify(product))
     const price = modedProduct.price
     price.has_special_price = false
     if (price.regularPrice.amount.value < price.minimalPrice.amount.value) {

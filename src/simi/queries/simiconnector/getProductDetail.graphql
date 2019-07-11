@@ -4,6 +4,7 @@ query productDetail($urlKey: String, $onServer: Boolean!) {
             __typename
             id
             sku
+            type_id
             name
             price {
                 regularPrice {
@@ -97,5 +98,5 @@ query productDetail($urlKey: String, $onServer: Boolean!) {
             meta_description @include(if: $onServer)
         }
     }
-  	simiProductDetaileExtraField(filter: { url_key: { eq: $urlKey } })
+  	simiProductDetailExtraField(filter: { url_key: { eq: $urlKey } })
 }
