@@ -1,25 +1,26 @@
+#import "../Fragments/SimiPrice"
 query productSearch($inputText: String, $currentPage: Int, $pageSize: Int, $categoryId: String, $sort: ProductSortInput, $simiFilter: String) {
     simiproducts(search: $inputText, pageSize: $pageSize, currentPage: $currentPage, filter: {category_id: {eq: $categoryId}}, sort: $sort, simiFilter: $simiFilter) {
         total_count
         filters {
-        name
-        filter_items_count
-        request_var
-        filter_items_count
-        filter_items {
-            label
-            value_string
-        }
+            name
+            filter_items_count
+            request_var
+            filter_items_count
+            filter_items {
+                label
+                value_string
+            }
         }
         simi_filters {
-        name
-        filter_items_count
-        request_var
-        filter_items_count
-        filter_items {
-            label
-            value_string
-        }
+            name
+            filter_items_count
+            request_var
+            filter_items_count
+            filter_items {
+                label
+                value_string
+            }
         }
         sort_fields {
             default
@@ -45,48 +46,7 @@ query productSearch($inputText: String, $currentPage: Int, $pageSize: Int, $cate
             type_id
             special_to_date
             price {
-                regularPrice {
-                    amount {
-                        currency
-                        value
-                    }
-                    adjustments {
-                        amount {
-                            currency
-                            value
-                        }
-                        code
-                        description
-                    }
-                }
-                minimalPrice {
-                    amount {
-                        currency
-                        value
-                    }
-                    adjustments {
-                        amount {
-                            currency
-                            value
-                        }
-                        code
-                        description
-                    }
-                }
-                maximalPrice {
-                    amount {
-                        currency
-                        value
-                    }
-                    adjustments {
-                        amount {
-                            currency
-                            value
-                        }
-                        code
-                        description
-                    }
-                }
+                ... SimiPrice
             }
         }
         page_info {
