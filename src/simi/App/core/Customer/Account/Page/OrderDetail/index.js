@@ -173,7 +173,7 @@ class Detail extends React.Component {
                                 </div>
                                 <div className={classes["order-item-info"]}>
                                     <div
-                                        className="des-order"
+                                        className={classes["des-order"]}
                                         style={{}}
                                     >
                                         <div className={classes["item-name"]}>
