@@ -1,8 +1,8 @@
 #import "../Fragments/SimiPrice"
 #import "../Fragments/ConfigurableOptions"
 #import "../Fragments/GroupOptions"
-query productDetail($urlKey: String, $onServer: Boolean!) {
-    productDetail: products(filter: { url_key: { eq: $urlKey } }) {
+query productDetail($sku: String, $onServer: Boolean!) {
+    productDetail: products(filter: { sku: { eq: $sku } }) {
         items {
             __typename
             id
@@ -34,5 +34,4 @@ query productDetail($urlKey: String, $onServer: Boolean!) {
             meta_description @include(if: $onServer)
         }
     }
-  	simiProductDetailExtraField(filter: { url_key: { eq: $urlKey } })
 }

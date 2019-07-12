@@ -5,7 +5,7 @@ import { Simiquery } from 'src/simi/Network/Query'
 import Loading from 'src/simi/BaseComponents/Loading'
 import ProductFullDetail from 'src/simi/App/core/RootComponents/Product/ProductFullDetail'
 import Identify from 'src/simi/Helper/Identify'
-import getProductDetailBySku from 'src/simi/queries/getProductDetailBySku.graphql'
+import getProductDetailBySku from 'src/simi/queries/catalog/getProductDetailBySku.graphql'
 import connectorGetProductDetailBySku from 'src/simi/queries/simiconnector/getProductDetailBySku.graphql'
 
 /**
@@ -17,7 +17,6 @@ import connectorGetProductDetailBySku from 'src/simi/queries/simiconnector/getPr
  */
 class Product extends Component {
     static propTypes = {
-        addItemToCart: func.isRequired,
         cartId: string
     };
 

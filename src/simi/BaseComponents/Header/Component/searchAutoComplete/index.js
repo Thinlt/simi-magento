@@ -3,7 +3,7 @@ import { bool, func, shape, string } from 'prop-types';
 import { simiUseQuery } from 'src/simi/Network/Query'
 
 import { mergeClasses } from 'src/classify';
-import PRODUCT_SEARCH from 'src/simi/queries/productSearch.graphql';
+import PRODUCT_SEARCH from 'src/simi/queries/catalog/productSearch.graphql';
 import SIMI_PRODUCT_SEARCH from 'src/simi/queries/simiconnector/productSearch.graphql';
 import Suggestions from './suggestions';
 import Close from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
