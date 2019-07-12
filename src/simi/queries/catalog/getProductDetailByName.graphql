@@ -1,8 +1,8 @@
 #import "../Fragments/SimiPrice"
 #import "../Fragments/ConfigurableOptions"
 #import "../Fragments/GroupOptions"
-query productDetail($urlKey: String, $onServer: Boolean!) {
-    productDetail: products(filter: { url_key: { eq: $urlKey } }) {
+query productDetailByName($name: String, $onServer: Boolean!) {
+    products(filter: { name: { eq: $name } }) {
         items {
             __typename
             id
@@ -12,15 +12,6 @@ query productDetail($urlKey: String, $onServer: Boolean!) {
             price {
                 ... SimiPrice
             }
-            description {
-                html
-            }
-            media_gallery_entries {
-                label
-                position
-                disabled
-                file
-            }
             ... on ConfigurableProduct {
                 ... ConfigurableOptions
             }
@@ -28,11 +19,8 @@ query productDetail($urlKey: String, $onServer: Boolean!) {
                 ... GroupOptions
             }
             meta_title @include(if: $onServer)
-            # Yes, Products have `meta_keyword` and
-            # everything else has `meta_keywords`.
             meta_keyword @include(if: $onServer)
             meta_description @include(if: $onServer)
         }
     }
-  	simiProductDetailExtraField(filter: { url_key: { eq: $urlKey } })
 }

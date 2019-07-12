@@ -61,28 +61,22 @@ class BundleOption extends OptionBase {
         let priceInclTax = 0;
         let priceExclTax = 0;
         const attributes = this.data.bundle_options.options;
-
+console.log(selected)
         for (const i in selected) {
             const values = selected[i];
             const option = attributes[i];
             const selections = option.selections;
-
             if (values) {
                 for (const j in values) {
                     let element = selections[values];
-                    let check = true;
-                    const input = $('input.option-qty-'+i);
-                    let qty = input.val()?parseInt(input.val(), 10): 1;
-                    const input_value = input.attr('data-id');
-                    let check_qty = input_value === values;
+                    const input = $('input.option-qty-'+i)
                     if(values instanceof Array){
-                        check = false;
                         element = selections[values[j]];
-                        check_qty = input_value === values[0];
                     }
 
                     if (element) {
-                        qty = check_qty ? qty : element.qty;
+                        const qty = input.val()?parseInt(input.val(), 10): element.qty;
+
                         if(element.tierPrice.length > 0){
                             for (const t in element.tierPrice) {
                                 const item = element.tierPrice[t];
@@ -92,10 +86,11 @@ class BundleOption extends OptionBase {
                                 }
                             }
                         }
-                        priceInclTax += parseFloat(parseFloat(element.prices.basePrice.amount)*qty);
-                        priceExclTax += parseFloat(parseFloat(element.prices.finalPrice.amount)*qty);
+                        console.log('plus')
+                        console.log(parseFloat(parseFloat(element.prices.finalPrice.amount)*qty))
+                        priceExclTax += parseFloat(parseFloat(element.prices.basePrice.amount)*qty);
+                        priceInclTax += parseFloat(parseFloat(element.prices.finalPrice.amount)*qty);
                     }
-                    if(check) break;
                 }
             }
         }
@@ -104,8 +99,7 @@ class BundleOption extends OptionBase {
 
     renderAttribute = (type, obj, id, labelRequried) => {
         const {classes} = this
-        console.log(obj)
-        const hidden = type === parseInt(obj.isMulti, 10) || type === 'checkbox' ? 'hidden' : '';
+        const hidden = obj.isMulti || type === 'checkbox' ? 'hidden' : '';
         const {selected} = this
         const attributes = this.data.bundle_options.options;
         let customQty = false
@@ -180,13 +174,11 @@ class BundleOption extends OptionBase {
         if(type === 'select'){
             return <Select data={ObjOptions} id={key} parent={this} classes={classes} type_id='bundle'/>
         }
-        if(!parseInt(ObjOptions.isMulti, 10) || type ==='radio'){
-            return <Radio data={ObjOptions} id={key} parent={this} classes={classes} type_id='bundle'/>
-        }
-        if(type === parseInt(ObjOptions.isMulti, 10) || type === 'checkbox'){
+        if (ObjOptions.isMulti) {
             return this.renderMultiCheckbox(ObjOptions, type, id)
         }
-    };
+        return <Radio data={ObjOptions} id={key} parent={this} classes={classes} type_id='bundle'/>
+    }
 
     setParamQty =(keyQty = null)=>{
         const obj = this;

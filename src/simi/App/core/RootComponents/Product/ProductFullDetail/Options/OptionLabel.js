@@ -64,6 +64,9 @@ const Optionlabel = props => {
         } else {
             returnedLabel = renderOnePrice(item.prices.finalPrice.amount)
         }
+    } else {
+        console.log(type_id)
+        console.log(item)
     }
     return returnedLabel
 }
