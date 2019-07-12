@@ -61,11 +61,16 @@ class BundleOption extends OptionBase {
         let priceInclTax = 0;
         let priceExclTax = 0;
         const attributes = this.data.bundle_options.options;
+<<<<<<< Updated upstream
 console.log(selected)
+=======
+
+>>>>>>> Stashed changes
         for (const i in selected) {
             const values = selected[i];
             const option = attributes[i];
             const selections = option.selections;
+<<<<<<< Updated upstream
             if (values) {
                 for (const j in values) {
                     let element = selections[values];
@@ -77,6 +82,25 @@ console.log(selected)
                     if (element) {
                         const qty = input.val()?parseInt(input.val(), 10): element.qty;
 
+=======
+
+            if (values) {
+                for (const j in values) {
+                    let element = selections[values];
+                    let check = true;
+                    const input = $('input.option-qty-'+i);
+                    let qty = input.val()?parseInt(input.val(), 10): 1;
+                    const input_value = input.attr('data-id');
+                    let check_qty = input_value === values;
+                    if(values instanceof Array){
+                        check = false;
+                        element = selections[values[j]];
+                        check_qty = input_value === values[0];
+                    }
+
+                    if (element) {
+                        qty = check_qty ? qty : element.qty;
+>>>>>>> Stashed changes
                         if(element.tierPrice.length > 0){
                             for (const t in element.tierPrice) {
                                 const item = element.tierPrice[t];
@@ -86,11 +110,18 @@ console.log(selected)
                                 }
                             }
                         }
+<<<<<<< Updated upstream
                         console.log('plus')
                         console.log(parseFloat(parseFloat(element.prices.finalPrice.amount)*qty))
                         priceExclTax += parseFloat(parseFloat(element.prices.basePrice.amount)*qty);
                         priceInclTax += parseFloat(parseFloat(element.prices.finalPrice.amount)*qty);
                     }
+=======
+                        priceInclTax += parseFloat(parseFloat(element.prices.basePrice.amount)*qty);
+                        priceExclTax += parseFloat(parseFloat(element.prices.finalPrice.amount)*qty);
+                    }
+                    if(check) break;
+>>>>>>> Stashed changes
                 }
             }
         }
@@ -99,7 +130,12 @@ console.log(selected)
 
     renderAttribute = (type, obj, id, labelRequried) => {
         const {classes} = this
+<<<<<<< Updated upstream
         const hidden = obj.isMulti || type === 'checkbox' ? 'hidden' : '';
+=======
+        console.log(obj)
+        const hidden = type === parseInt(obj.isMulti, 10) || type === 'checkbox' ? 'hidden' : '';
+>>>>>>> Stashed changes
         const {selected} = this
         const attributes = this.data.bundle_options.options;
         let customQty = false
@@ -174,11 +210,21 @@ console.log(selected)
         if(type === 'select'){
             return <Select data={ObjOptions} id={key} parent={this} classes={classes} type_id='bundle'/>
         }
+<<<<<<< Updated upstream
         if (ObjOptions.isMulti) {
             return this.renderMultiCheckbox(ObjOptions, type, id)
         }
         return <Radio data={ObjOptions} id={key} parent={this} classes={classes} type_id='bundle'/>
     }
+=======
+        if(!parseInt(ObjOptions.isMulti, 10) || type ==='radio'){
+            return <Radio data={ObjOptions} id={key} parent={this} classes={classes} type_id='bundle'/>
+        }
+        if(type === parseInt(ObjOptions.isMulti, 10) || type === 'checkbox'){
+            return this.renderMultiCheckbox(ObjOptions, type, id)
+        }
+    };
+>>>>>>> Stashed changes
 
     setParamQty =(keyQty = null)=>{
         const obj = this;

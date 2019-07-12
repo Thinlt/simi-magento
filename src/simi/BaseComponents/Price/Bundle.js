@@ -23,6 +23,10 @@ class BundlePrice extends Abstract {
         let product_to_label = <div></div>;
         let to_price_excluding_tax = <div></div>;
         let to_price_including_tax = <div></div>;
+<<<<<<< Updated upstream
+=======
+        console.log(this.prices)
+>>>>>>> Stashed changes
 
         if (this.prices.show_ex_in_price && this.prices.show_ex_in_price === 1) {
             product_from_label = <div>{Identify.__('From')}:</div>;
