@@ -82,7 +82,7 @@ class Detail extends React.Component {
                         <div className={classes["line-num"]}>
                             <b>{Identify.__("Order status:")}</b>
                             <span
-                                className="green"
+                                className={classes["green"]}
                                 style={{
                                     marginLeft: 42,
                                     textTransform: "capitalize"
@@ -97,7 +97,7 @@ class Detail extends React.Component {
                             <div className={classes["detail-col"]}>
                                 <div className={classes["line-num"]}>
                                     <b>{Identify.__("Delivery Address:")}</b>
-                                    <div className={classes["address green"]}>
+                                    <div className={`${classes["address"]} ${classes["green"]}`}>
                                         {data.shipping_address.street[0] && (
                                             <span style={{ display: "block" }}>
                                                 {ReactHTMLParse(
@@ -296,9 +296,9 @@ class Detail extends React.Component {
                             <span className={classes["bold"]}>{Identify.__('VAT')}</span>
                             <span className="price">{this.getFormatPrice(totalPrice.tax)}</span>
                         </div>
-                        <div className={classes["summary-price-line"]}>
+                        <div className={`${classes["summary-price-line"]} ${classes['total']}`}>
                             <span className={classes["bold"]}>{Identify.__('Total')}</span>
-                            <span className="price">{totalPrice.tax ? this.getFormatPrice(totalPrice.grand_total_incl_tax) : this.getFormatPrice(totalPrice.shipping_hand_excl_tax)}</span>
+                            <span className={classes["price"]}>{totalPrice.tax ? this.getFormatPrice(totalPrice.grand_total_incl_tax) : this.getFormatPrice(totalPrice.shipping_hand_excl_tax)}</span>
                         </div>
                     </div>}
                     
