@@ -7,6 +7,7 @@ import Loading from "src/simi/BaseComponents/Loading";
 import { simiUseQuery } from 'src/simi/Network/Query' 
 import getCustomerInfoQuery from 'src/simi/queries/getCustomerInfo.graphql'
 import AddressItem from './AddressItem'; 
+import TitleHelper from 'src/simi/Helper/TitleHelper';
 
 const Dashboard = props => {
     const {classes, history, isPhone, customer} = props;
@@ -26,11 +27,11 @@ const Dashboard = props => {
 
     const renderDefaultAddress = (item, default_billing, default_shipping) => {
         let defaultBilling = item.find(value => {
-            return value.id = default_billing
+            return value.id === parseInt(default_billing, 10);
         });
 
         const defaultShipping = item.find(value => {
-            return value.id = default_shipping
+            return value.id === parseInt(default_shipping, 10);
         })
         
         return (
@@ -39,21 +40,31 @@ const Dashboard = props => {
                     <div className={classes["box-title"]}>
                         {Identify.__("Default Billing Address")}
                     </div>
-                    <AddressItem
-                        addressData={defaultBilling}
-                        classes={classes}
-                    />
-                    <Link className={classes["edit-item"]} to={`/addresses.html/${defaultBilling.id}`}>{Identify.__("Edit address")}</Link>
+                    {defaultBilling ? (
+                        <React.Fragment>
+                             <AddressItem
+                                addressData={defaultBilling}
+                                classes={classes}
+                            />
+                            <Link className={classes["edit-item"]} to={`/addresses.html/${defaultBilling.id}`}>{Identify.__("Edit address")}</Link>
+                        </React.Fragment>
+                    ) : <div>{Identify.__('You have not set a default billing address.  ')}</div>}
+    
                 </div>
                 <div className={classes["dash-column-box"]}>
                     <div className={classes["box-title"]}>
                         {Identify.__("Default Shipping Address")}
                     </div>
-                    <AddressItem
-                        addressData={defaultShipping}
-                        classes={classes}
-                    />
-                    <Link className={classes["edit-item"]} to={`/addresses.html/${defaultShipping.id}`}>{Identify.__("Edit address")}</Link>
+                    {defaultShipping ? (
+                        <React.Fragment>
+                            <AddressItem
+                                addressData={defaultShipping}
+                                classes={classes}
+                            />
+                            <Link className={classes["edit-item"]} to={`/addresses.html/${defaultShipping.id}`}>{Identify.__("Edit address")}</Link>
+                        </React.Fragment>
+                    ) : <div>{Identify.__('You have not set a default shipping address.')}</div>}
+                    
                 </div>
             </div>
         );
@@ -63,10 +74,12 @@ const Dashboard = props => {
         return <Loading />
     }
 
-    
-
     return (
         <div className={classes['my-dashboard']}>
+            {TitleHelper.renderMetaHeader({
+                title: Identify.__('Dashboard'),
+                desc: Identify.__('Dashboard') 
+            })}
             {!isPhone ? (
                     <div className={classes["dashboard-recent-orders"]}>
                         <div className={classes["customer-page-title"]}>

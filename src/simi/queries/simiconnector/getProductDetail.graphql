@@ -1,3 +1,6 @@
+#import "../Fragments/SimiPrice"
+#import "../Fragments/ConfigurableOptions"
+#import "../Fragments/GroupOptions"
 query productDetail($urlKey: String, $onServer: Boolean!) {
     productDetail: products(filter: { url_key: { eq: $urlKey } }) {
         items {
@@ -7,48 +10,7 @@ query productDetail($urlKey: String, $onServer: Boolean!) {
             type_id
             name
             price {
-                regularPrice {
-                    amount {
-                        currency
-                        value
-                    }
-                    adjustments {
-                        amount {
-                          currency
-                          value
-                        }
-                        code
-                        description
-                    }
-                }
-              	minimalPrice {
-                    amount {
-                        currency
-                        value
-                    }
-                    adjustments {
-                        amount {
-                          currency
-                          value
-                        }
-                        code
-                        description
-                    }
-                }
-              	maximalPrice {
-                    amount {
-                        currency
-                        value
-                    }
-                    adjustments {
-                        amount {
-                          currency
-                          value
-                        }
-                        code
-                        description
-                    }
-                }
+                ... SimiPrice
             }
             description {
                 html
@@ -60,36 +22,10 @@ query productDetail($urlKey: String, $onServer: Boolean!) {
                 file
             }
             ... on ConfigurableProduct {
-                configurable_options {
-                    attribute_code
-                    attribute_id
-                    id
-                    label
-                    values {
-                        default_label
-                        label
-                        store_label
-                        use_default_value
-                        value_index
-                    }
-                }
-                variants {
-                    attributes {
-                        code
-                        value_index
-                    }
-                    product {
-                        id
-                        media_gallery_entries {
-                            disabled
-                            file
-                            label
-                            position
-                        }
-                        sku
-                        stock_status
-                    }
-                }
+                ... ConfigurableOptions
+            }
+            ... on GroupedProduct {
+                ... GroupOptions
             }
             meta_title @include(if: $onServer)
             # Yes, Products have `meta_keyword` and

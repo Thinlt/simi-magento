@@ -30,19 +30,6 @@ class OptionBase extends React.Component {
         return null;
     };
 
-    renderLabelOption = (title,price)=>{
-        const symbol = price > 0 ? <span style={{margin:'0 10px'}}>+</span> : null;
-        price = price > 0 ? this.renderOptionPrice(price) : null;
-        const label  = <div style={{display : 'flex',fontWeight: '400'}} className={`label-option-text`}>
-                        <span style={{
-                            fontSize: '16px',
-                        }}>1 x {title}</span>
-                        {symbol}
-                        {price}
-                    </div>;
-        return label;
-    };
-
     getStatePrice =(PriceComponent = this.parentObj.Price)=>{
         return PriceComponent.state.prices;
     };
@@ -74,7 +61,7 @@ class OptionBase extends React.Component {
     };
 
     getProductType = () => {
-        return this.props.parent.product_type;
+        return this.parentObj.props.product.type_id;
     };
 
     /*

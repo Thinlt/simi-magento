@@ -8,7 +8,7 @@ import classify from 'src/classify';
 import getQueryParameterValue from 'src/util/getQueryParameterValue';
 import Loading from 'src/simi/BaseComponents/Loading'
 import defaultClasses from './search.css';
-import PRODUCT_SEARCH from 'src/simi/queries/productSearch.graphql';
+import PRODUCT_SEARCH from 'src/simi/queries/catalog/productSearch.graphql';
 import SIMI_PRODUCT_SEARCH from 'src/simi/queries/simiconnector/productSearch.graphql';
 import Products from 'src/simi/BaseComponents/Products'
 import CloseIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Close';

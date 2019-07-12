@@ -13,12 +13,13 @@ import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
 import {prepareProduct} from 'src/simi/Helper/Product'
 import ProductPrice from '../Component/Productprice';
-import CustomOptions from './CustomOptions';
+import CustomOptions from './Options/CustomOptions';
+import BundleOptions from './Options/Bundle';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
 import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
 
-const ConfigurableOptions = React.lazy(() => import('./ConfigurableOptions'));
+const ConfigurableOptions = React.lazy(() => import('./Options/ConfigurableOptions'));
 
 class ProductFullDetail extends Component {  
     state = {
@@ -44,7 +45,7 @@ class ProductFullDetail extends Component {
     setQuantity = quantity => this.quantity = quantity;
 
     prepareParams = () => {
-        const { props, state, quantity, isMissingConfigurableOptions } = this;
+        const { props, state, quantity } = this;
         const { optionSelections } = state;
         const { product } = props;
 
@@ -56,8 +57,15 @@ class ProductFullDetail extends Component {
             } else
                 this.missingOption = true
         }
-        if (optionSelections) {
-            if (isMissingConfigurableOptions) {
+        if (this.bundleOption) {
+            const bundleOptParams = this.bundleOption.getParams()
+            if (bundleOptParams && bundleOptParams.bundle_option_qty && bundleOptParams.bundle_option) {
+                params['bundle_option'] = bundleOptParams.bundle_option
+                params['bundle_option_qty'] = bundleOptParams.bundle_option_qty
+            }
+        }
+        if (optionSelections && optionSelections.size) {
+            if (this.isMissingConfigurableOptions) {
                 this.missingOption = true
             }
             const super_attribute = {}
@@ -145,9 +153,9 @@ class ProductFullDetail extends Component {
 
     get productOptions() {
         const { fallback, handleConfigurableSelectionChange, props } = this;
-        const { configurable_options, simiExtraField } = props.product;
+        const { configurable_options, simiExtraField, type_id } = props.product;
         const isConfigurable = isProductConfigurable(props.product);
-
+        console.log(simiExtraField)
         return (
             <Suspense fallback={fallback}>
                 {
@@ -158,7 +166,17 @@ class ProductFullDetail extends Component {
                     />
                 }
                 {
-                    ( simiExtraField && simiExtraField.app_options) &&
+                    type_id === 'bundle' &&
+                    <BundleOptions 
+                        key={Identify.randomString(5)}
+                        app_options={simiExtraField.app_options}
+                        product_id={this.props.product.entity_id}
+                        ref={e => this.bundleOption = e}
+                        parent={this}
+                    />
+                }
+                {
+                    ( simiExtraField && simiExtraField.app_options && simiExtraField.app_options.custom_options) &&
                     <CustomOptions 
                         key={Identify.randomString(5)}
                         app_options={simiExtraField.app_options}

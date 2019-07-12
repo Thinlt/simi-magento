@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import Loading from "src/simi/BaseComponents/Loading";
+import React from 'react';
+// import Loading from "src/simi/BaseComponents/Loading";
 import Identify from 'src/simi/Helper/Identify'
 import { formatPrice } from 'src/simi/Helper/Pricing';
 import PaginationTable from './PaginationTable';
 import { Link } from 'react-router-dom';
 
 const OrderList = props => {
-    const {classes, history, showForDashboard ,data} = props
-    const cols = 
+    const { classes, showForDashboard, data } = props
+    const cols =
         [
             { title: Identify.__("Order #"), width: "14.02%" },
             { title: Identify.__("Date"), width: "15.67%" },
@@ -16,8 +16,8 @@ const OrderList = props => {
             { title: Identify.__("Status"), width: "12.58%" },
             { title: Identify.__(""), width: "12.27%" }
         ];
-    const limit = 15;
-    const currentPage= 1;
+    const limit = 10;
+    const currentPage = 1;
 
     const renderOrderItem = (item, index) => {
         let date = Date.parse(item.created_at);
@@ -27,7 +27,7 @@ const OrderList = props => {
         date = date.getDate() + "/" + m + "/" + date.getFullYear();
         const location = {
             pathname: "/orderdetails.html/" + item.increment_id,
-            state: {orderData: item}
+            state: { orderData: item }
         };
         return (
             <tr key={index}>
@@ -63,7 +63,7 @@ const OrderList = props => {
                         {Identify.__("You have no items in your order")}
                     </div>
                 ) : (
-                    <PaginationTable 
+                    <PaginationTable
                         renderItem={renderOrderItem}
                         data={showForDashboard ? data.customerOrders.items.slice(0, 3) : data.customerOrders.items}
                         cols={cols}
@@ -73,7 +73,7 @@ const OrderList = props => {
                         classes={classes}
                     />
                 )
-            } 
+            }
         </div>
     )
 }
