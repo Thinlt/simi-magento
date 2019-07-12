@@ -20,11 +20,7 @@ query customerInfo
       lastname
       street
       city
-      region {
-        region_code
-        region
-        region_id
-      }
+      postcode
     }
   }
 }

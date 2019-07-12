@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import LoadingSpiner from 'src/simi/BaseComponents/Loading/LoadingSpiner'
 import { number } from 'prop-types';
 import { simiUseQuery } from 'src/simi/Network/Query';
-import categoryQuery from 'src/simi/queries/getCategory.graphql';
+import categoryQuery from 'src/simi/queries/catalog/getCategory.graphql';
 import simicntrCategoryQuery from 'src/simi/queries/simiconnector/getCategory.graphql'
 import Products from 'src/simi/BaseComponents/Products';
 import { resourceUrl } from 'src/simi/Helper/Url'

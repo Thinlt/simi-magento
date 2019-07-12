@@ -6,12 +6,14 @@ import Product from 'src/simi/App/core/Product';
 import Logout from 'src/simi/App/core/Customer/Logout'
 import Home from 'src/simi/App/core/RootComponents/CMS/Home'
 import Cart from 'src/simi/App/core/Cart'
+import Checkout from 'src/simi/App/core/Checkout'
+import Thankyou from 'src/simi/App/core/Checkout/Thankyou'
 import Account from 'src/simi/App/core/Customer/Account'
 import Contact from 'src/simi/App/core/Contact/Contact'
 
-const Checkout = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/core/Checkout')} {...props}/>
-}
+// const Checkout = (props) => {
+//     return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/core/Checkout')} {...props}/>
+// }
 
 const Login = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Login"*/'src/simi/App/core/Customer/Login')} {...props}/>
@@ -45,6 +47,10 @@ const router = {
     checkout : {
         path: '/checkout.html',
         render : (location) => <Checkout {...location}/>
+    },
+    thankyou : {
+        path: '/thankyou.html',
+        render : (location) => <Thankyou {...location}/>
     },
     login : {
         path: '/login.html',

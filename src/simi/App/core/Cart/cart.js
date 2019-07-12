@@ -22,6 +22,10 @@ import Total from 'src/simi/BaseComponents/Total'
 import {Colorbtn, Whitebtn} from 'src/simi/BaseComponents/Button'
 import {configColor} from 'src/simi/Config'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
+import { updateCoupon } from 'src/simi/Model/Cart';
+import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
+import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+
 
 class Cart extends Component {
     static propTypes = {
@@ -185,8 +189,61 @@ class Cart extends Component {
         this.props.history.push('/checkout.html')
     }
 
+    handleCoupon = (e) => {
+        const coupon = document.querySelector('#coupon_field').value;
+        if(!coupon) {
+            this.props.toggleMessages([{type: 'error', message: 'Please enter coupon code', auto_dismiss: true}]);
+            return null;
+        }
+        showFogLoading()
+        const params = {
+            coupon_code: coupon
+        }
+        updateCoupon(this.processData, params)
+    }
+
+    processData = (data) => {
+        let text = '';
+        let success = false;
+        if (data.message) {
+            let messages = data.message;
+            for (let i in messages) {
+                let message = messages[i];
+                text += message + ' ';
+            }
+        }
+        if(data.total && data.total.coupon_code) {
+            success = true;
+        }
+        if(text) 
+            this.props.toggleMessages([{type: success ? 'success' : 'error', message: text, auto_dismiss: true}])
+        this.props.getCartDetails();
+        hideFogLoading();
+    }
+
+    get couponView () {
+        const { cart, classes } = this.props;
+        let value = "";
+        if (cart.totals.coupon_code) {
+            value = cart.totals.coupon_code;
+        }
+
+        return (
+            <div className={`${classes["coupon-code"]}`} id={classes["cart-coupon-form"]}>
+                <div className={classes["coupon-code-title"]}>{Identify.__('Promo code')}</div>
+                <div className={classes["coupon-code-area-tablet"]}>
+                    <input id="coupon_field" type="text" placeholder={Identify.__('enter code here')} defaultValue={value}/>
+                </div>
+                <Whitebtn
+                    id={classes["submit-coupon"]} onClick={(e) => this.handleCoupon(e)}
+                    text={Identify.__('Apply')}
+                />
+            </div>
+        )
+    }
+
     get miniCartInner() {
-        const { productList, props, total, checkoutButton } = this;
+        const { productList, props, total, checkoutButton, couponView } = this;
         const { cart: { isLoading },classes, isCartEmpty,cart } = props;
 
         const loading = isLoading?
@@ -230,6 +287,7 @@ class Cart extends Component {
                     }
                 </div>
                 <div className={classes.body}>{productList}</div>
+                {couponView}
                 {total}
                 {checkoutButton}
             </Fragment>
@@ -259,7 +317,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     getCartDetails,
     updateItemInCart,
-    removeItemFromCart
+    removeItemFromCart,
+    toggleMessages,
 };
 
 export default compose(

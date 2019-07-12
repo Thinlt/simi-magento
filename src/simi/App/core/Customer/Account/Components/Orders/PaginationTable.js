@@ -1,3 +1,6 @@
+/* eslint-disable prefer-const */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react'
 import Pagination from 'src/simi/BaseComponents/Pagination'
 import Identify from 'src/simi/Helper/Identify'
@@ -62,11 +65,12 @@ class PaginationTable extends Pagination {
         const renderPageNumbers = pageNumbers.map(number => {
             let active = number === obj.state.currentPage ? 'active': '';
             return (
+                // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                 <li
                     key={number}
                     id={number}
                     onClick={(e)=>this.changePage(e)}
-                    className={active}
+                    className={`${classes['page-nums']} ${classes[active]}`}
                 >
                     {number}
                 </li>

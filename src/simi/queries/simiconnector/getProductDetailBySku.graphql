@@ -1,53 +1,16 @@
+#import "../Fragments/SimiPrice"
+#import "../Fragments/ConfigurableOptions"
+#import "../Fragments/GroupOptions"
 query productDetail($sku: String, $onServer: Boolean!) {
     productDetail: products(filter: { sku: { eq: $sku } }) {
         items {
             __typename
             id
             sku
+            type_id
             name
             price {
-                regularPrice {
-                    amount {
-                        currency
-                        value
-                    }
-                    adjustments {
-                        amount {
-                          currency
-                          value
-                        }
-                        code
-                        description
-                    }
-                }
-              	minimalPrice {
-                    amount {
-                        currency
-                        value
-                    }
-                    adjustments {
-                        amount {
-                          currency
-                          value
-                        }
-                        code
-                        description
-                    }
-                }
-              	maximalPrice {
-                    amount {
-                        currency
-                        value
-                    }
-                    adjustments {
-                        amount {
-                          currency
-                          value
-                        }
-                        code
-                        description
-                    }
-                }
+                ... SimiPrice
             }
             description {
                 html
@@ -59,36 +22,10 @@ query productDetail($sku: String, $onServer: Boolean!) {
                 file
             }
             ... on ConfigurableProduct {
-                configurable_options {
-                    attribute_code
-                    attribute_id
-                    id
-                    label
-                    values {
-                        default_label
-                        label
-                        store_label
-                        use_default_value
-                        value_index
-                    }
-                }
-                variants {
-                    attributes {
-                        code
-                        value_index
-                    }
-                    product {
-                        id
-                        media_gallery_entries {
-                            disabled
-                            file
-                            label
-                            position
-                        }
-                        sku
-                        stock_status
-                    }
-                }
+                ... ConfigurableOptions
+            }
+            ... on GroupedProduct {
+                ... GroupOptions
             }
             meta_title @include(if: $onServer)
             # Yes, Products have `meta_keyword` and
@@ -97,5 +34,5 @@ query productDetail($sku: String, $onServer: Boolean!) {
             meta_description @include(if: $onServer)
         }
     }
-  	simiProductDetaileExtraField(filter:  { sku: { eq: $sku }})
+  	simiProductDetailExtraField(filter:  { sku: { eq: $sku }})
 }

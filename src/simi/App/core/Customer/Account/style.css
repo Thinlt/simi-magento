@@ -376,8 +376,13 @@
     font-weight: bold;
     font-size: 16px;
 }
-.customer-recent-orders #page-numbers li.active{
-    background: #333132;
+
+.page-nums{
+    padding: 0 3px;
+}
+
+.active{
+    background: #333132; 
     color: #FFFFFF;
 }
 .customer-recent-orders #page-numbers li.icon-page-number{
@@ -388,6 +393,14 @@
 }
 .customer-recent-orders #page-numbers li:last-child{
     margin-right: 0;
+}
+
+#page-numbers li{
+    margin-right: 5px;
+}
+
+.icon-page-number{
+    line-height: 0px;
 }
 
 /* newsletter */
@@ -632,6 +645,9 @@
     .dashboard-menu {
         width: 100%;
     }
+    .dashboard-content{
+        margin-left: 0px !important;
+    }
     .customer-dashboard .container {
         padding: 0;
     }
@@ -666,6 +682,7 @@
     .dashboard-content {
         margin: 0;
         padding: 16px;
+        width: auto;
     }
     .body-customer-dashboard #data-breadcrumb {
         display: block;

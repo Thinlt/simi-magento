@@ -52,11 +52,13 @@
 }
 
 .cartActions {
-    padding: 0 15px;
+    padding: 1rem 1.5rem;
+    margin-top: 30px;
     margin-bottom: 30px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    width: 100%;
 }
 
 .product-quantity {
@@ -75,7 +77,6 @@
 .add-to-cart-ctn {
     width: 70%;
     min-width: 200px;
-    max-width: 300px;
 }
 
 .add-to-cart-btn {
@@ -84,6 +85,8 @@
 }
 
 .description {
+    margin-top: 15px;
+    width: 100%;
     border-top: solid #eaeaea 1px;
     padding: 1.5rem;
 }

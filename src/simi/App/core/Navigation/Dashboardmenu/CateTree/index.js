@@ -5,7 +5,7 @@ import CateIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/List'
 import SubCate from "./Subcate";
 import ExpandLess from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowUp";
 import ExpandMore from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowDown";
-import navigationMenu from 'src/simi/queries/getCateTree.graphql';
+import navigationMenu from 'src/simi/queries/catalog/getCateTree.graphql';
 import { Simiquery } from 'src/simi/Network/Query'
 
 const cateUrlSuffix = '.html';
