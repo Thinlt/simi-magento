@@ -16,9 +16,12 @@ import Wishlist from './Page/Wishlist'
 import Newsletter from './Page/Newsletter';
 import AddressBook from './Page/AddressBook';
 import Profile from './Page/Profile';
+<<<<<<< HEAD
 import MyOrder from './Page/OrderHistory';
 import OrderDetail from './Page/OrderDetail';
 
+=======
+>>>>>>> develop
 class CustomerLayout extends React.Component{
 
     constructor(props) {

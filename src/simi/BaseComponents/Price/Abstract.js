@@ -3,7 +3,7 @@ import {configColor} from 'src/simi/Config';
 import {formatPrice as helperFormatPrice} from 'src/simi/Helper/Pricing';
 
 const style = {
-    pirce: {
+    price: {
         color: configColor.price_color,
     },
     specialPrice: {
