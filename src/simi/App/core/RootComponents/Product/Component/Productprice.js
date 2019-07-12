@@ -3,6 +3,7 @@ import Identify from 'src/simi/Helper/Identify';
 import Price from 'src/simi/BaseComponents/Price';
 import defaultClasses from './productprice.css'
 import ObjectHelper from 'src/simi/Helper/ObjectHelper';
+import PropTypes from 'prop-types';
 
 const initState = {
     customOptionPrice: {exclT:0, inclT:0}
@@ -34,10 +35,10 @@ class ProductPrice extends React.Component {
 
     calcConfigurablePrice = (price) => {
         const {sltdConfigOption} = this.state
-        const {data} = this.props
+        const {data, configurableOptionSelection} = this.props
         const {simiExtraField} = data
 
-        if (simiExtraField) {
+        if (simiExtraField && configurableOptionSelection) {
             const {configurable_options} = simiExtraField.app_options
             if (configurable_options && configurable_options.index && configurable_options.optionPrices) {
                 let sub_product_id = null
@@ -121,4 +122,13 @@ class ProductPrice extends React.Component {
         );
     }
 }
+
+ProductPrice.propTypes = {
+    data: PropTypes.object.isRequired,
+    configurableOptionSelection: PropTypes.instanceOf(Map)
+}
+ProductPrice.defaultProps = {
+    configurableOptionSelection: new Map(),
+}
+
 export default ProductPrice;
