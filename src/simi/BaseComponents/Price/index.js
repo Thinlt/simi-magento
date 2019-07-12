@@ -1,18 +1,8 @@
 import React from 'react';
-import {formatPrice as helperFormatPrice} from 'src/simi/Helper/Pricing';
-import {configColor} from 'src/simi/Config';
 import PropTypes from 'prop-types';
 import BundlePrice from './Bundle';
 import Simple from './Simple';
 import Grouped from './Grouped';
-const style = {
-    price: {
-        color: configColor.price_color,
-    },
-    specialPrice: {
-        color: configColor.special_price_color
-    }
-};
 
 class PriceComponent extends React.Component {
     constructor(props) {
@@ -20,38 +10,18 @@ class PriceComponent extends React.Component {
         this.type = this.props.type;
     }
 
-    formatPrice(price, special = true) {
-        const {props} = this
-        const classes = props.clasess?props.clasess:{}
-        style.price = {...style.price,...this.props.stylePrice};
-        style.specialPrice = {...style.specialPrice,...this.props.styleSpecialPrice};
-        if (special) {
-            return (
-                <span className={`${classes['price']}`} style={style.price}>
-                    {helperFormatPrice(price)}
-                </span>
-            );
-        } else {
-            return (
-                <span className={`${classes['price']} ${classes['old']}`} style={style.specialPrice}>
-                    {helperFormatPrice(price)}
-                </span>
-            );
-
-        }
-    }
-
     renderView() {
-        this.prices = this.props.prices;
+        this.prices = this.props.prices
         if (this.type === "bundle") {
             return <BundlePrice prices={this.prices} parent={this} classes={this.props.classes} />
         }
-        else if (this.type === "grouped") { // for list page
+        else if (this.type === "grouped") { 
+            // for list page group product
             return <Grouped prices={this.prices} parent={this} classes={this.props.classes} />
         }
         else {
             ////simple, configurable ....
-            return <Simple prices={this.prices} parent={this} classes={this.props.classes} size={this.props.size ? this.props.size : window.innerWidth<768 ? 20 : 28}/>
+            return <Simple prices={this.prices} parent={this} classes={this.props.classes}/>
         }
     }
 
@@ -67,11 +37,13 @@ PriceComponent.defaultProps = {
     prices : 0,
     type : 'simple',
     stylePrice : {},
-    styleSpecialPrice : {}
+    styleSpecialPrice : {},
+    classes : {},
 };
 PriceComponent.propTypes = {
     type : PropTypes.string,
     stylePrice : PropTypes.object,
-    styleSpecialPrice : PropTypes.object
+    styleSpecialPrice : PropTypes.object,
+    classes : PropTypes.object,
 };
 export default PriceComponent;

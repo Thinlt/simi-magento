@@ -118,7 +118,7 @@ class CustomOptions extends OptionBase {
         const html = values.map(item => {
             return (
                 <div key={Identify.randomString(5)} className={classes["option-row"]}>
-                    <Checkbox id={id} item={item} value={item.id} parent={this} classes={classes}/>
+                    <Checkbox title={item.title} id={id} item={item} value={item.id} parent={this} classes={classes}/>
                 </div>
             )
         });
