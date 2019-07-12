@@ -33,7 +33,7 @@ class CheckboxField extends Abstract {
 
     render = () => {
         this.className += ' checkbox-option';
-        const { classes, item } = this.props;
+        const { classes, item, title } = this.props;
         return (
             <div className={classes["option-value-item-checkbox"]} id={`check-box-option-${this.props.value}`} style={{width : '100%'}}>
                 <FormControlLabel
@@ -51,7 +51,7 @@ class CheckboxField extends Abstract {
                             checked: classes.checked,
                         }}
                     />}
-                    label={<OptionLabel classes={classes} item={item}/>}
+                    label={<OptionLabel title={title} classes={classes} item={item} type_id={this.type_id}/>}
                 />
 
             </div>

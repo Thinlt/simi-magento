@@ -39,7 +39,7 @@ class CustomOptions extends OptionBase {
                 if (item.type === 'drop_down' || item.type === 'checkbox'
                     || item.type === 'multiple' || item.type === 'radio') {
                 } else {
-                    priceLabel = <OptionLabel item={item.values[0]} classes={classes} />
+                    priceLabel = <OptionLabel title={item.title} item={item.values[0]} classes={classes} />
                 }
 
                 return (
