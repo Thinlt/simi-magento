@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { string, func } from 'prop-types';
+import { string } from 'prop-types';
 
 import { Simiquery } from 'src/simi/Network/Query'
 import Loading from 'src/simi/BaseComponents/Loading'

@@ -1,6 +1,7 @@
 import React from 'react';
 import {configColor} from 'src/simi/Config';
 import Identify from 'src/simi/Helper/Identify';
+import PropTypes from 'prop-types';
 export const Qty = (props)=>{
     const {classes} = props
     let style = {
@@ -13,7 +14,9 @@ export const Qty = (props)=>{
         direction : 'ltr'
     };
     style = {...style,...props.inputStyle};
-    const className = classes['option-number']?classes['option-number']:'' + " " + props.className;
+    console.log(props)
+    let className = classes['option-number']?classes['option-number']:''
+    className +=  " " + props.className
     const value = props.value ? parseInt(props.value,10) : 1;
     return (
         <input
@@ -29,6 +32,20 @@ export const Qty = (props)=>{
         />
     )
 };
+
+Qty.propTypes = {
+    className: PropTypes.string,
+    dataId: PropTypes.number,
+    value: PropTypes.number,
+    classes: PropTypes.object,
+    onChange: PropTypes.func,
+}
+
+Qty.defaultProps = {
+    className: '',
+    value: 1,
+    classes: {}
+}
 
 export const InputField = (props)=>{
     const {classes} = props

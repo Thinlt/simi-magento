@@ -15,6 +15,7 @@ import {prepareProduct} from 'src/simi/Helper/Product'
 import ProductPrice from '../Component/Productprice';
 import CustomOptions from './Options/CustomOptions';
 import BundleOptions from './Options/Bundle';
+import GroupedOptions from './Options/GroupedOptions';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
 import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
@@ -62,6 +63,13 @@ class ProductFullDetail extends Component {
             if (bundleOptParams && bundleOptParams.bundle_option_qty && bundleOptParams.bundle_option) {
                 params['bundle_option'] = bundleOptParams.bundle_option
                 params['bundle_option_qty'] = bundleOptParams.bundle_option_qty
+            }
+        }
+        if (this.groupedOption) {
+            const groupedOptionParams = this.groupedOption.getParams()
+            console.log(groupedOptionParams)
+            if (groupedOptionParams && groupedOptionParams.super_group) {
+                params['super_group'] = groupedOptionParams.super_group
             }
         }
         if (optionSelections && optionSelections.size) {
@@ -155,7 +163,6 @@ class ProductFullDetail extends Component {
         const { fallback, handleConfigurableSelectionChange, props } = this;
         const { configurable_options, simiExtraField, type_id } = props.product;
         const isConfigurable = isProductConfigurable(props.product);
-        console.log(simiExtraField)
         return (
             <Suspense fallback={fallback}>
                 {
@@ -172,6 +179,16 @@ class ProductFullDetail extends Component {
                         app_options={simiExtraField.app_options}
                         product_id={this.props.product.entity_id}
                         ref={e => this.bundleOption = e}
+                        parent={this}
+                    />
+                }
+                {
+                    type_id === 'grouped' &&
+                    <GroupedOptions 
+                        key={Identify.randomString(5)}
+                        app_options={props.product.items?props.product.items:[]}
+                        product_id={this.props.product.entity_id}
+                        ref={e => this.groupedOption = e}
                         parent={this}
                     />
                 }
