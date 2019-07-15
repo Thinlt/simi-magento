@@ -4,7 +4,7 @@ import TitleHelper from 'src/simi/Helper/TitleHelper'
 import Loading from "src/simi/BaseComponents/Loading";
 import Item from "./Item";
 import { simiUseQuery } from 'src/simi/Network/Query'
-import getWishlistQuery from 'src/simi/queries/getWishlist.graphql'
+import getWishlistQuery from 'src/simi/queries/wishlist/getWishlist.graphql'
 
 
 const Wishlist = props => {

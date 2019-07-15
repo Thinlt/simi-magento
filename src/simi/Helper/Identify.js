@@ -138,6 +138,17 @@ class Identify {
         console.log('This browser does not support local storage');
     }
 
+    static ApiDataStorage(key='',type='get',data={}){
+        let api_data = this.getDataFromStoreage(this.SESSION_STOREAGE,key);
+        if(type === 'get'){
+            return api_data
+        }else if(type === 'update' && data){
+            api_data = api_data ? api_data : {};
+            api_data = {...api_data,...data}
+            this.storeDataToStoreage(this.SESSION_STOREAGE,key,api_data)
+        }
+    }
+
     /*
     Version control
     */
@@ -151,7 +162,6 @@ class Identify {
             return 3;
         }
     }
-
 }
 
 export default Identify;

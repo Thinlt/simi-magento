@@ -1,7 +1,9 @@
 import React from 'react';
 import {configColor} from 'src/simi/Config';
 import Identify from 'src/simi/Helper/Identify';
+import PropTypes from 'prop-types';
 export const Qty = (props)=>{
+    const {classes} = props
     let style = {
         border: '1px solid ' + configColor.button_background,
         padding: 0,
@@ -12,22 +14,41 @@ export const Qty = (props)=>{
         direction : 'ltr'
     };
     style = {...style,...props.inputStyle};
-    const className = "option-number " + props.className;
+    console.log(props)
+    let className = classes['option-number']?classes['option-number']:''
+    className +=  " " + props.className
     const value = props.value ? parseInt(props.value,10) : 1;
     return (
-      <input
-          min={1}
-          type="number"
-          defaultValue={value}
-          pattern="[1-9]*"
-          className={className}
-          style={style}
-          data-id={props.id}
-      />
+        <input
+            min={1}
+            type="number"
+            defaultValue={value}
+            pattern="[1-9]*"
+            className={className}
+            style={style}
+            data-id={props.dataId}
+            onChange={props.onChange?props.onChange:null}
+            disabled={props.disabled}
+        />
     )
 };
 
+Qty.propTypes = {
+    className: PropTypes.string,
+    dataId: PropTypes.number,
+    value: PropTypes.number,
+    classes: PropTypes.object,
+    onChange: PropTypes.func,
+}
+
+Qty.defaultProps = {
+    className: '',
+    value: 1,
+    classes: {}
+}
+
 export const InputField = (props)=>{
+    const {classes} = props
     const type = props.type ? props.type : 'text';
     const name = props.name ? props.name : '';
     const labelStyle = {
@@ -37,7 +58,11 @@ export const InputField = (props)=>{
         fontSize : 16
     }
     const label = props.label ?
-        <label htmlFor={name} style={labelStyle}>{Identify.__(props.label)}<span style={{marginLeft : 5,color : 'red'}} className='required-label'>{props.required ? props.required : ''}</span></label>
+        <label htmlFor={name} style={labelStyle}>{Identify.__(props.label)}
+            <span style={{marginLeft : 5,color : 'red'}} className={classes['required-label']}>
+                {props.required ? props.required : ''}
+            </span>
+        </label>
         : null;
     const value = props.value ? props.value : '';
     const className = props.className ? props.className : '';
@@ -50,7 +75,10 @@ export const InputField = (props)=>{
         paddingLeft: 16,
     }
     return (
-        <div className="input-field"  key={Identify.randomString(5)} style={{marginBottom : 15}}>
+        <div
+            className={classes['input-field']}
+            key={Identify.makeid()}
+            style={{marginBottom : 15}}>
             {label}
             <input
                 type={type}
@@ -59,9 +87,10 @@ export const InputField = (props)=>{
                 className={className}
                 defaultValue={value}
                 style={{...inputStyle,...props.style}}
+                onChange={props.onChange?props.onChange:null}
                 {...props.input}
             />
-            <div className="error-message">
+            <div className={classes["error-message"]}>
                 {Identify.__('This field is required')}
             </div>
         </div>

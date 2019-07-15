@@ -376,8 +376,17 @@
     font-weight: bold;
     font-size: 16px;
 }
-.customer-recent-orders #page-numbers li.active{
-    background: #333132;
+
+.product-code{
+    vertical-align: middle
+}
+
+.page-nums{
+    padding: 0 3px;
+}
+
+.active{
+    background: #333132; 
     color: #FFFFFF;
 }
 .customer-recent-orders #page-numbers li.icon-page-number{
@@ -388,6 +397,18 @@
 }
 .customer-recent-orders #page-numbers li:last-child{
     margin-right: 0;
+}
+
+#page-numbers li{
+    margin-right: 5px;
+}
+
+.icon-page-number{
+    line-height: 0px;
+}
+
+.cart-item-value span{
+    color: rgb(171, 69, 47) !important;
 }
 
 /* newsletter */
@@ -564,6 +585,7 @@
 .order-detail-table .order-item-info{
     margin-top: 6px;
 }
+
 .detail-order__col.item-qty{
     text-align: center;
 }
@@ -632,6 +654,9 @@
     .dashboard-menu {
         width: 100%;
     }
+    .dashboard-content{
+        margin-left: 0px !important;
+    }
     .customer-dashboard .container {
         padding: 0;
     }
@@ -666,6 +691,7 @@
     .dashboard-content {
         margin: 0;
         padding: 16px;
+        width: auto;
     }
     .body-customer-dashboard #data-breadcrumb {
         display: block;
@@ -958,6 +984,16 @@
     }
 }
 
+.is-invalid {
+    border-color: #d7282f;
+}
+
+.email-not-edit {
+    color: #d7282f;
+    text-align: center;
+    margin-top: 10px;
+}
+
 @media (max-width: 359px) {
     .form-address-row .checkbox-item .checkbox-item-text{
         margin-right: -22px;
@@ -980,6 +1016,28 @@ favourite
         display: flex;    
         justify-content: space-between;
         flex-wrap: wrap;
+    }
+
+    .table-siminia > tbody > tr > td,
+    .table-siminia > tbody > tr > th,
+    .table-siminia > tfoot > tr > td,
+    .table-siminia > tfoot > tr > th,
+    .table-siminia > thead > tr > td,
+    .table-siminia > thead > tr > th {
+        padding: 8px 8px;
+    }
+
+    .dashboard-content {
+        margin-right: 20px;
+        margin-left: 20px;
+    }
+
+    .dash-column-box .email {
+        word-break: break-all;
+    } 
+
+    .dash-column-box .edit-information {
+        margin-top: 10px;
     }
 }
 
