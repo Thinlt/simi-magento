@@ -1,26 +1,8 @@
-#import "../Fragments/SimiPrice"
-#import "../Fragments/ConfigurableOptions"
-#import "../Fragments/GroupOptions"
+#import "../Fragments/ProductDetail"
 query productDetailByName($name: String, $onServer: Boolean!) {
     products(filter: { name: { eq: $name } }) {
         items {
-            __typename
-            id
-            sku
-            type_id
-            name
-            price {
-                ... SimiPrice
-            }
-            ... on ConfigurableProduct {
-                ... ConfigurableOptions
-            }
-            ... on GroupedProduct {
-                ... GroupOptions
-            }
-            meta_title @include(if: $onServer)
-            meta_keyword @include(if: $onServer)
-            meta_description @include(if: $onServer)
+            ... ProductDetail
         }
     }
 }
