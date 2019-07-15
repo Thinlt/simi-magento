@@ -191,50 +191,57 @@ const AddressBook = props => {
     }
 
     const renderDefaultAddress = () => {
+        if ( !defaultBilling.id && !defaultShipping.id ) {
+            return <div>{Identify.__("No default billing/shipping address selected.")}</div>
+        }
         return (
             <div className={classes["address-content"]}>
-                <div className={classes["billing-address"]}>
-                    <span className={classes["box-title"]}>{Identify.__("Default Billing Address")}</span>
-                    <div className={classes["box-content"]}>
-                        <address>
-                            {defaultBilling.firstname} {defaultBilling.lastname}<br/>
-                            {defaultBilling.street ? <>{defaultBilling.street}<br/></> : ''}
-                            {defaultBilling.postcode ? <>{defaultBilling.postcode}, </> : ''}
-                            {defaultBilling.city ? <>{defaultBilling.city}, </>: ''}
-                            {defaultBilling.region ? <>{defaultBilling.region.region_code}<br/></>: ''}
-                            {defaultBillingCountry.full_name_locale ? <>{defaultBillingCountry.full_name_locale}<br/></> : ''}
-                            {defaultBilling.telephone && 
-                                <>
-                                    T: <a href={"tel:"+defaultBilling.telephone}>{defaultBilling.telephone}</a>
-                                </>
-                            }
-                        </address>
+                { defaultBilling.id &&
+                    <div className={classes["billing-address"]}>
+                        <span className={classes["box-title"]}>{Identify.__("Default Billing Address")}</span>
+                        <div className={classes["box-content"]}>
+                            <address>
+                                {defaultBilling.firstname} {defaultBilling.lastname}<br/>
+                                {defaultBilling.street ? <>{defaultBilling.street}<br/></> : ''}
+                                {defaultBilling.postcode ? <>{defaultBilling.postcode}, </> : ''}
+                                {defaultBilling.city ? <>{defaultBilling.city}, </>: ''}
+                                {defaultBilling.region ? <>{defaultBilling.region.region_code}<br/></>: ''}
+                                {defaultBillingCountry.full_name_locale ? <>{defaultBillingCountry.full_name_locale}<br/></> : ''}
+                                {defaultBilling.telephone && 
+                                    <>
+                                        T: <a href={"tel:"+defaultBilling.telephone}>{defaultBilling.telephone}</a>
+                                    </>
+                                }
+                            </address>
+                        </div>
+                        <div className={classes["box-action"]}>
+                            <a href="" onClick={e => editDefaultAddressHandle(e, defaultBilling.id, 'billing')}><span>{Identify.__("Change Billing Address")}</span></a>
+                        </div>
                     </div>
-                    <div className={classes["box-action"]}>
-                        <a href="" onClick={e => editDefaultAddressHandle(e, defaultBilling.id, 'billing')}><span>{Identify.__("Change Billing Address")}</span></a>
+                }
+                { defaultShipping.id &&
+                    <div className={classes["shipping-address"]}>
+                        <span className={classes["box-title"]}>{Identify.__("Default Shipping Address")}</span>
+                        <div className={classes["box-content"]}>
+                            <address>
+                                {defaultShipping.firstname} {defaultShipping.lastname}<br/>
+                                {defaultShipping.street ? <>{defaultShipping.street}<br/></> : ''}
+                                {defaultShipping.postcode ? <>{defaultShipping.postcode}, </> : ''}
+                                {defaultShipping.city ? <>{defaultShipping.city}, </>: ''}
+                                {defaultShipping.region ? <>{defaultShipping.region.region_code}<br/></>: ''}
+                                {defaultShippingCountry.full_name_locale ? <>{defaultShippingCountry.full_name_locale}<br/></> : ''}
+                                {defaultShipping.telephone && 
+                                    <>
+                                        T: <a href={"tel:"+defaultShipping.telephone}>{defaultShipping.telephone}</a>
+                                    </>
+                                }
+                            </address>
+                        </div>
+                        <div className={classes["box-action"]}>
+                            <a href="" onClick={e => editDefaultAddressHandle(e, defaultShipping.id, 'shipping')}><span>{Identify.__("Change Shipping Address")}</span></a>
+                        </div>
                     </div>
-                </div>
-                <div className={classes["shipping-address"]}>
-                    <span className={classes["box-title"]}>{Identify.__("Default Shipping Address")}</span>
-                    <div className={classes["box-content"]}>
-                        <address>
-                            {defaultShipping.firstname} {defaultShipping.lastname}<br/>
-                            {defaultShipping.street ? <>{defaultShipping.street}<br/></> : ''}
-                            {defaultShipping.postcode ? <>{defaultShipping.postcode}, </> : ''}
-                            {defaultShipping.city ? <>{defaultShipping.city}, </>: ''}
-                            {defaultShipping.region ? <>{defaultShipping.region.region_code}<br/></>: ''}
-                            {defaultShippingCountry.full_name_locale ? <>{defaultShippingCountry.full_name_locale}<br/></> : ''}
-                            {defaultShipping.telephone && 
-                                <>
-                                    T: <a href={"tel:"+defaultShipping.telephone}>{defaultShipping.telephone}</a>
-                                </>
-                            }
-                        </address>
-                    </div>
-                    <div className={classes["box-action"]}>
-                        <a href="" onClick={e => editDefaultAddressHandle(e, defaultShipping.id, 'shipping')}><span>{Identify.__("Change Shipping Address")}</span></a>
-                    </div>
-                </div>
+                }
             </div>
         )
     }
