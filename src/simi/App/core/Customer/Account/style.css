@@ -377,6 +377,10 @@
     font-size: 16px;
 }
 
+.product-code{
+    vertical-align: middle
+}
+
 .page-nums{
     padding: 0 3px;
 }
@@ -401,6 +405,10 @@
 
 .icon-page-number{
     line-height: 0px;
+}
+
+.cart-item-value span{
+    color: rgb(171, 69, 47) !important;
 }
 
 /* newsletter */
@@ -577,6 +585,7 @@
 .order-detail-table .order-item-info{
     margin-top: 6px;
 }
+
 .detail-order__col.item-qty{
     text-align: center;
 }

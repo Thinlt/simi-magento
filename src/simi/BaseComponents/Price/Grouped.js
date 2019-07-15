@@ -1,50 +1,32 @@
 import React from 'react';
 import Abstract from './Abstract';
-import {configColor} from 'src/simi/Config';
 import Identify from 'src/simi/Helper/Identify';
 class Grouped extends Abstract {
 
-    renderView = ()=>{
-        let from_label = <span className="from-label"
-                               style={{fontSize : 20,fontWeight : 800,color : configColor.price_color,marginRight : 5}}>
-                            {Identify.__('From')}
-                        </span>;
-        let label_style = {
-            display : 'flex',
-            alignItems : 'baseline'
-        };
-        if(this.prices.show_ex_in_price && this.prices.show_ex_in_price === 1){
-            let price_excl = <div>
-                                    <div>{Identify.__('Excl. Tax')}</div>
-                                    <div style={label_style}>
-                                        {from_label}
-                                        {this.formatPrice(this.prices.price_excluding_tax.price)}
-                                    </div>
-                            </div>;
-            let price_incl = <div>
-                                <div>{Identify.__('Incl. Tax')}</div>
-                                <div style={label_style}>
-                                    {from_label}
-                                    {this.formatPrice(this.prices.price_including_tax.price)}
-                                </div>
-                            </div>;
-            return(
-                <div>
-                    {price_excl}
-                    {price_incl}
-                </div>
-            )
-        }else {
-            let price = <div style={label_style}>
-                    {from_label}
-                    {this.formatPrice(this.prices.price)}
-                </div>;
-            return(
-                <div>
-                    {price}
-                </div>
-            )
+    renderView=()=>{
+        const {classes} = this.props
+        let product_from_label = <div></div>;
+        let from_price_excluding_tax = <div></div>;
+        let from_price_including_tax = <div></div>;
+
+        if (this.prices.show_ex_in_price && this.prices.show_ex_in_price === 1) {
+            product_from_label = <div>{Identify.__('Starting at')}:</div>;
+            from_price_excluding_tax =
+                <div>{Identify.__('Excl. Tax')}: {this.formatPrice(this.prices.minimalPrice.excl_tax_amount.value)}</div>
+            from_price_including_tax =
+                <div>{Identify.__('Incl. Tax')}: {this.formatPrice(this.prices.minimalPrice.amount.value)}</div>
+        } else {
+            product_from_label =
+                <div>{Identify.__('Starting at')}: {this.formatPrice(this.prices.minimalPrice.amount.value)}</div>;
         }
+        
+        return (
+            <div className={`${classes['product-prices']} small`}>
+                {product_from_label}
+                {from_price_excluding_tax}
+                {from_price_including_tax}
+            </div>
+        );
     }
 
     render(){

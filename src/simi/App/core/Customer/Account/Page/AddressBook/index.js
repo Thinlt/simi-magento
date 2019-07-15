@@ -139,7 +139,9 @@ const AddressBook = props => {
                         break;
                     }
                 }
-                item.region_code = item.region.region_code
+                if (item.region) {
+                    item.region_code = item.region.region_code || null
+                }
                 item.country = country.full_name_locale
                 addressList.push(item)
             }
