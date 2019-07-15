@@ -21,6 +21,10 @@ const AddressBook = props => {
     const { data } = queryResult;
     const { runQuery } = queryApi;
     const { customer, countries } = data || {};
+    const { simiStoreConfig } = Identify.getStoreConfig();
+    const storeConfig = simiStoreConfig && simiStoreConfig.config ? simiStoreConfig.config : {};
+    const { address_fields_config, address_option } = storeConfig.customer ? storeConfig.customer : {};
+    
     const { addresses } = customer || {};
     // const [queryResultCountries, queryApiCountries] = simiUseQuery(GET_COUNTRIES, true);
     // const dataCountries = queryResultCountries.data;
@@ -202,12 +206,12 @@ const AddressBook = props => {
                         <div className={classes["box-content"]}>
                             <address>
                                 {defaultBilling.firstname} {defaultBilling.lastname}<br/>
-                                {defaultBilling.street ? <>{defaultBilling.street}<br/></> : ''}
-                                {defaultBilling.postcode ? <>{defaultBilling.postcode}, </> : ''}
-                                {defaultBilling.city ? <>{defaultBilling.city}, </>: ''}
-                                {defaultBilling.region ? <>{defaultBilling.region.region_code}<br/></>: ''}
-                                {defaultBillingCountry.full_name_locale ? <>{defaultBillingCountry.full_name_locale}<br/></> : ''}
-                                {defaultBilling.telephone && 
+                                {address_fields_config.street_show && defaultBilling.street ? <>{defaultBilling.street}<br/></> : ''}
+                                {address_fields_config.zipcode_show && defaultBilling.postcode ? <>{defaultBilling.postcode}, </> : ''}
+                                {address_fields_config.city_show && defaultBilling.city ? <>{defaultBilling.city}, </>: ''}
+                                {address_fields_config.region_id_show && defaultBilling.region ? <>{defaultBilling.region.region_code}<br/></>: ''}
+                                {address_fields_config.country_id_show && defaultBillingCountry.full_name_locale ? <>{defaultBillingCountry.full_name_locale}<br/></> : ''}
+                                {address_fields_config.telephone_show && defaultBilling.telephone && 
                                     <>
                                         T: <a href={"tel:"+defaultBilling.telephone}>{defaultBilling.telephone}</a>
                                     </>
@@ -225,12 +229,12 @@ const AddressBook = props => {
                         <div className={classes["box-content"]}>
                             <address>
                                 {defaultShipping.firstname} {defaultShipping.lastname}<br/>
-                                {defaultShipping.street ? <>{defaultShipping.street}<br/></> : ''}
-                                {defaultShipping.postcode ? <>{defaultShipping.postcode}, </> : ''}
-                                {defaultShipping.city ? <>{defaultShipping.city}, </>: ''}
-                                {defaultShipping.region ? <>{defaultShipping.region.region_code}<br/></>: ''}
-                                {defaultShippingCountry.full_name_locale ? <>{defaultShippingCountry.full_name_locale}<br/></> : ''}
-                                {defaultShipping.telephone && 
+                                {address_fields_config.street_show && defaultShipping.street ? <>{defaultShipping.street}<br/></> : ''}
+                                {address_fields_config.zipcode_show && defaultShipping.postcode ? <>{defaultShipping.postcode}, </> : ''}
+                                {address_fields_config.city_show && defaultShipping.city ? <>{defaultShipping.city}, </>: ''}
+                                {address_fields_config.region_id_show && defaultShipping.region ? <>{defaultShipping.region.region_code}<br/></>: ''}
+                                {address_fields_config.country_id_show && defaultShippingCountry.full_name_locale ? <>{defaultShippingCountry.full_name_locale}<br/></> : ''}
+                                {address_fields_config.telephone_show && defaultShipping.telephone && 
                                     <>
                                         T: <a href={"tel:"+defaultShipping.telephone}>{defaultShipping.telephone}</a>
                                     </>
@@ -249,7 +253,9 @@ const AddressBook = props => {
     return (
         <div className={classes["address-book"]}>
             {addressEditing ? 
-                <Edit dispatchEdit={dispatch} addressData={addressEditing} countries={countries} user={user} classes={classes}/>
+                <Edit dispatchEdit={dispatch} addressData={addressEditing} countries={countries}
+                    address_fields_config={address_fields_config} address_option={address_option}
+                    user={user} classes={classes}/>
             :
             <>
                 {TitleHelper.renderMetaHeader({title:Identify.__('Address Book')})}
@@ -263,7 +269,9 @@ const AddressBook = props => {
                     {data ? 
                         <SimiMutation mutation={CUSTOMER_ADDRESS_DELETE}>
                             {(mutaionCallback, { data }) => {
-                                return <List items={addressList} editAddress={editAddressOther} mutaionCallback={mutaionCallback} dispatchDelete={deleteAddressOther} classes={classes}/>
+                                return <List items={addressList} editAddress={editAddressOther} 
+                                    address_fields_config={address_fields_config} address_option={address_option}
+                                    mutaionCallback={mutaionCallback} dispatchDelete={deleteAddressOther} classes={classes}/>
                             }}
                         </SimiMutation>
                     : 
