@@ -1,0 +1,24 @@
+fragment DownloadableOptions on DownloadableProduct{
+    downloadable_product_samples {
+        id
+        title
+        sort_order
+        sample_type
+        sample_file
+        sample_url
+    }
+    downloadable_product_links {
+        id
+        title
+        sort_order
+        is_shareable
+        price
+        number_of_downloads
+        link_type
+        sample_type
+        sample_file
+        sample_url
+    }
+    links_purchased_separately
+    links_title
+}

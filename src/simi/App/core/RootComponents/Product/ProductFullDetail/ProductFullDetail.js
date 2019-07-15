@@ -16,6 +16,7 @@ import ProductPrice from '../Component/Productprice';
 import CustomOptions from './Options/CustomOptions';
 import BundleOptions from './Options/Bundle';
 import GroupedOptions from './Options/GroupedOptions';
+//import DownloadableOptions from './Options/DownloadableOptions';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
 import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
@@ -67,7 +68,6 @@ class ProductFullDetail extends Component {
         }
         if (this.groupedOption) {
             const groupedOptionParams = this.groupedOption.getParams()
-            console.log(groupedOptionParams)
             if (groupedOptionParams && groupedOptionParams.super_group) {
                 params['super_group'] = groupedOptionParams.super_group
             }
@@ -192,6 +192,16 @@ class ProductFullDetail extends Component {
                         parent={this}
                     />
                 }
+                {/*
+                    type_id === 'downloadable' &&
+                    <DownloadableOptions 
+                        key={Identify.randomString(5)}
+                        app_options={this.props.product}
+                        product_id={this.props.product.entity_id}
+                        ref={e => this.downloadableOption = e}
+                        parent={this}
+                    />
+                */}
                 {
                     ( simiExtraField && simiExtraField.app_options && simiExtraField.app_options.custom_options) &&
                     <CustomOptions 
@@ -221,6 +231,7 @@ class ProductFullDetail extends Component {
         } = state
         const { classes } = props;
         const product = prepareProduct(props.product)
+        const { type_id } = product;
 
         return (
             <div className={`${classes.root} container`}>
@@ -242,11 +253,14 @@ class ProductFullDetail extends Component {
                     </div>
                     <div className={classes.options}>{productOptions}</div>
                     <div className={classes.cartActions}>
-                        <Quantity
-                            classes={classes}
-                            initialValue={this.quantity}
-                            onValueChange={this.setQuantity}
-                        />
+                        {
+                            type_id !== 'grouped' &&
+                            <Quantity
+                                classes={classes}
+                                initialValue={this.quantity}
+                                onValueChange={this.setQuantity}
+                            />
+                        }
                         <div className={classes["add-to-cart-ctn"]}>
                             <Colorbtn 
                                 style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
