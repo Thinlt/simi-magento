@@ -9,16 +9,18 @@ const Techspec = props => {
         const tspecitems = []
         for (const i in additional) {
             const additional_detail = additional[i]
-            tspecitems.push(
-                <div className={classes.tspecitem} key={i}>
-                    <div className={classes.tspecitemtitle}>
-                        {additional_detail.label}
+            if (additional_detail.value) {
+                tspecitems.push(
+                    <div className={classes.tspecitem} key={i}>
+                        <div className={classes.tspecitemtitle}>
+                            {additional_detail.label}
+                        </div>
+                        <div className={classes.tspecitemvalue}>
+                            {additional_detail.value}
+                        </div>
                     </div>
-                    <div className={classes.tspecitemvalue}>
-                        {additional_detail.value}
-                    </div>
-                </div>
-            )
+                )
+            }
         }
         return (
             <div>

@@ -17,7 +17,8 @@ import { addToWishlist as simiAddToWishlist } from 'src/simi/Model/Wishlist';
 import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
 import ReactHTMLParse from 'react-html-parser';
-import { TopReview } from './Review/index'
+import { TopReview, ReviewList } from './Review/index'
+import SocialShare from 'src/simi/BaseComponents/SocialShare';
 import Description from './Description';
 import Techspec from './Techspec';
 
@@ -312,9 +313,11 @@ class ProductFullDetail extends Component {
                             onClick={addToWishlist}
                             text={Identify.__('Add to Favourites')}/>
                     </div>
+                    <div className={classes.socialShare}><SocialShare id={product.id} className={classes.socialShareItem} /></div>
                 </div>
                 <div className={classes.description}><Description product={product}/></div>
                 <div className={classes.techspec}><Techspec product={product}/></div>
+                <div className={classes.reviewList}><ReviewList product={product} product_id={product.id}/></div>
             </div>
         );
     }
