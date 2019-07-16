@@ -13,16 +13,18 @@ import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
 import {prepareProduct} from 'src/simi/Helper/Product'
 import ProductPrice from '../Component/Productprice';
-import CustomOptions from './Options/CustomOptions';
-import BundleOptions from './Options/Bundle';
-import GroupedOptions from './Options/GroupedOptions';
-import DownloadableOptions from './Options/DownloadableOptions';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
 import { addToWishlist as simiAddToWishlist } from 'src/simi/Model/Wishlist';
 import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
+import Techspec from './Techspec';
+import ReactHTMLParse from 'react-html-parser';
 
 const ConfigurableOptions = React.lazy(() => import('./Options/ConfigurableOptions'));
+const CustomOptions = React.lazy(() => import('./Options/CustomOptions'));
+const BundleOptions = React.lazy(() => import('./Options/Bundle'));
+const GroupedOptions = React.lazy(() => import('./Options/GroupedOptions'));
+const DownloadableOptions = React.lazy(() => import('./Options/DownloadableOptions'));
 
 class ProductFullDetail extends Component {  
     state = {
@@ -268,7 +270,7 @@ class ProductFullDetail extends Component {
             <div className={`${classes.root} container`}>
                 <div className={classes.title}>
                     <h1 className={classes.productName}>
-                        <span>{name?name:product.simiExtraField?product.simiExtraField.attribute_values.name:''}</span>
+                        <span>{ReactHTMLParse(name)}</span>
                     </h1>
                 </div>
                 <div className={classes.imageCarousel}>
@@ -309,10 +311,11 @@ class ProductFullDetail extends Component {
                 </div>
                 <div className={classes.description}>
                     <h2 className={classes.descriptionTitle}>
-                        <span>Product Description</span>
+                        <span>{Identify.__('Description')}</span>
                     </h2>
                     <RichText content={product.description} />
                 </div>
+                <div className={classes.techspec}><Techspec product={product}/></div>
             </div>
         );
     }
