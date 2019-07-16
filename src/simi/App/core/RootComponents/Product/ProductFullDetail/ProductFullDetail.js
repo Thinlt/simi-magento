@@ -2,7 +2,7 @@ import React, { Component, Suspense } from 'react';
 import { arrayOf, bool, number, shape, string } from 'prop-types';
 import classify from 'src/classify';
 import Loading from 'src/simi/BaseComponents/Loading'
-import { Colorbtn } from 'src/simi/BaseComponents/Button'
+import { Colorbtn, Whitebtn } from 'src/simi/BaseComponents/Button'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import Carousel from './ProductImageCarousel';
 import Quantity from './ProductQuantity';
@@ -18,6 +18,7 @@ import BundleOptions from './Options/Bundle';
 import GroupedOptions from './Options/GroupedOptions';
 import DownloadableOptions from './Options/DownloadableOptions';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
+import { addToWishlist as simiAddToWishlist } from 'src/simi/Model/Wishlist';
 import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
 
@@ -123,25 +124,58 @@ class ProductFullDetail extends Component {
     addToCartCallBack = (data) => {
         hideFogLoading()
         if (data.errors) {
-            if (data.errors.length) {
-                const errors = data.errors.map(error => {
-                    return {
-                        type: 'error',
-                        message: error.message,
-                        auto_dismiss: true
-                    }
-                });
-                this.props.toggleMessages(errors)
-            }
+            this.showError(data)
         } else {
-            if (data.message && data.message.length) {
-                this.props.toggleMessages([{
-                    type: 'success',
-                    message: data.message[0],
-                    auto_dismiss: true
-                }])
-            }
+            this.showSuccess(data)
             this.props.getCartDetails()
+        }
+    }
+
+    addToWishlist = () => {
+        const {product, isSignedIn, history} = this.props
+        if (!isSignedIn) {
+            history.push('/login.html')
+        } else if (Identify.hasConnector() && product && product.id) {
+            this.missingOption = false
+            const params = this.prepareParams()
+            showFogLoading()
+            simiAddToWishlist(this.addToWishlistCallBack, params)
+        }
+    }
+
+    addToWishlistCallBack = (data) => {
+        hideFogLoading()
+        if (data.errors) {
+            this.showError(data)
+        } else {
+            this.props.toggleMessages([{
+                type: 'success',
+                message: Identify.__('Product was added to your wishlist'),
+                auto_dismiss: true
+            }])
+        }
+    }
+
+    showError(data) {
+        if (data.errors.length) {
+            const errors = data.errors.map(error => {
+                return {
+                    type: 'error',
+                    message: error.message,
+                    auto_dismiss: true
+                }
+            });
+            this.props.toggleMessages(errors)
+        }
+    }
+
+    showSuccess(data) {
+        if (data.message && data.message.length) {
+            this.props.toggleMessages([{
+                type: 'success',
+                message: data.message[0],
+                auto_dismiss: true
+            }])
         }
     }
 
@@ -225,17 +259,8 @@ class ProductFullDetail extends Component {
 
     render() {
         hideFogLoading()
-        const {
-            addToCart,
-            mediaGalleryEntries,
-            productOptions,
-            props,
-            state
-        } = this;
-        const {
-            optionCodes,
-            optionSelections,
-        } = state
+        const { addToCart, mediaGalleryEntries, productOptions, props, state, addToWishlist } = this;
+        const { optionCodes, optionSelections, } = state
         const { classes } = props;
         const product = prepareProduct(props.product)
         const { type_id, name } = product;
@@ -274,6 +299,12 @@ class ProductFullDetail extends Component {
                                 onClick={addToCart}
                                 text={Identify.__('Add to Cart')}/>
                         </div>
+                    </div>
+                    <div className={classes.wishlistActions}>
+                        <Whitebtn 
+                            className={classes["add-to-wishlist-btn"]} 
+                            onClick={addToWishlist}
+                            text={Identify.__('Add to Favourites')}/>
                     </div>
                 </div>
                 <div className={classes.description}>
