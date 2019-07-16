@@ -16,7 +16,7 @@ import ProductPrice from '../Component/Productprice';
 import CustomOptions from './Options/CustomOptions';
 import BundleOptions from './Options/Bundle';
 import GroupedOptions from './Options/GroupedOptions';
-//import DownloadableOptions from './Options/DownloadableOptions';
+import DownloadableOptions from './Options/DownloadableOptions';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
 import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
@@ -192,16 +192,16 @@ class ProductFullDetail extends Component {
                         parent={this}
                     />
                 }
-                {/*
+                {
                     type_id === 'downloadable' &&
                     <DownloadableOptions 
                         key={Identify.randomString(5)}
-                        app_options={this.props.product}
+                        app_options={simiExtraField.app_options}
                         product_id={this.props.product.entity_id}
                         ref={e => this.downloadableOption = e}
                         parent={this}
                     />
-                */}
+                }
                 {
                     ( simiExtraField && simiExtraField.app_options && simiExtraField.app_options.custom_options) &&
                     <CustomOptions 
@@ -231,13 +231,12 @@ class ProductFullDetail extends Component {
         } = state
         const { classes } = props;
         const product = prepareProduct(props.product)
-        const { type_id } = product;
-
+        const { type_id, name } = product;
         return (
             <div className={`${classes.root} container`}>
                 <div className={classes.title}>
                     <h1 className={classes.productName}>
-                        <span>{product.name}</span>
+                        <span>{name?name:product.simiExtraField?product.simiExtraField.attribute_values.name:''}</span>
                     </h1>
                 </div>
                 <div className={classes.imageCarousel}>

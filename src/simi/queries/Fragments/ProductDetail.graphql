@@ -1,7 +1,6 @@
 #import "./SimiPrice"
 #import "./ConfigurableOptions"
 #import "./GroupOptions"
-#import "./DownloadableOptions"
 fragment ProductDetail on ProductInterface{
     __typename
     id
@@ -25,9 +24,6 @@ fragment ProductDetail on ProductInterface{
     }
     ... on GroupedProduct {
         ... GroupOptions
-    }
-    ... on DownloadableProduct {
-        ... DownloadableOptions
     }
     meta_title @include(if: $onServer)
     # Yes, Products have `meta_keyword` and

@@ -6,7 +6,8 @@ import ObjectHelper from 'src/simi/Helper/ObjectHelper';
 import PropTypes from 'prop-types';
 
 const initState = {
-    customOptionPrice: {exclT:0, inclT:0}
+    customOptionPrice: {exclT:0, inclT:0},
+    downloadableOptionPrice: {exclT:0, inclT:0},
 }
 
 class ProductPrice extends React.Component {
@@ -21,6 +22,11 @@ class ProductPrice extends React.Component {
     setCustomOptionPrice(exclT, inclT) {
         this.setState({
             customOptionPrice: {exclT, inclT}
+        })
+    }
+    setDownloadableOptionPrice(exclT, inclT) {
+        this.setState({
+            downloadableOptionPrice: {exclT, inclT}
         })
     }
 
@@ -67,7 +73,7 @@ class ProductPrice extends React.Component {
     }
 
     calcPrices(price) {
-        const {customOptionPrice} = this.state
+        const {customOptionPrice, downloadableOptionPrice} = this.state
         const calculatedPrices = JSON.parse(JSON.stringify(price))
         const {data} = this.props
         if (data.type_id === 'configurable')
@@ -80,6 +86,15 @@ class ProductPrice extends React.Component {
         calculatedPrices.regularPrice.amount.value += customOptionPrice.inclT;
         calculatedPrices.maximalPrice.excl_tax_amount.value += customOptionPrice.exclT;
         calculatedPrices.maximalPrice.amount.value += customOptionPrice.inclT;
+
+        // downloadable option
+        calculatedPrices.minimalPrice.excl_tax_amount.value += downloadableOptionPrice.exclT;
+        calculatedPrices.minimalPrice.amount.value += downloadableOptionPrice.inclT;
+        calculatedPrices.regularPrice.excl_tax_amount.value += downloadableOptionPrice.exclT;
+        calculatedPrices.regularPrice.amount.value += downloadableOptionPrice.inclT;
+        calculatedPrices.maximalPrice.excl_tax_amount.value += downloadableOptionPrice.exclT;
+        calculatedPrices.maximalPrice.amount.value += downloadableOptionPrice.inclT;
+        
         return calculatedPrices
     }
 

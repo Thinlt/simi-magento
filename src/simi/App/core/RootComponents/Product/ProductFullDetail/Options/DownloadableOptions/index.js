@@ -1,86 +1,143 @@
 import React from 'react';
 import Identify from 'src/simi/Helper/Identify';
-import Price from 'src/simi/BaseComponents/Price'
 import OptionBase from '../OptionBase'
-import {Qty} from 'src/simi/BaseComponents/Input'
 import defaultClasses from './downloadableoptions.css'
+import Checkbox from '../OptionType/Checkbox';
 
-class GroupOptions extends OptionBase {
-
-    constructor(props) {
-        super(props)
+class DownloadableOptions extends OptionBase {
+    constructor(props){
+        super(props);
         this.classes = defaultClasses
+        this.exclT = 0;
+        this.inclT = 0;
+        console.log(this.data)
     }
 
     renderOptions =()=>{
-        const attributes = this.data;
         const objOptions = [];
-
-        for (const i in attributes) {
-            const attribute = attributes[i];
-            const element = this.renderContentAttribute(attribute);
-            objOptions.push(element);
+        if (this.data.download_options) {
+            const attributes = this.data.download_options;
+            for (const i in attributes) {
+                const attribute = attributes[i];
+                const element = this.renderAttribute(attribute,i);
+                objOptions.push(element);
+            }
         }
-        const header = (
-            <div className="row product-options-group-header">
-                <div className={`col-sm-8 col-xs-8 ${Identify.isRtl()? 'pull-right' : ''}`} style={{textAlign: Identify.isRtl() ? 'right' : 'left',textTransform : 'uppercase',fontWeight : 600}}>
-                    {Identify.__('Product')}
-                </div>
-                <div className={`col-sm-4 col-xs-4 ${Identify.isRtl()? 'pull-right' : ''}`} style={{textAlign: "center",textTransform : 'uppercase',fontWeight : 600,paddingLeft : 30}}>
-                    {Identify.__('Qty')}
-                </div>
-            </div>
-        );
         return (
-            <div key={Identify.randomString(5)}>
-                <form id="groupOption">
-                    {(objOptions && objOptions.length > 0)?header:''}
+            <div>
+                <form id="downloadableOption" className="product-options-tablet">
                     {objOptions}
                 </form>
-            </div>);
+            </div>
+        );
     };
 
-    renderContentAttribute = (attribute) => {
-        const {classes} = this
-        const id = attribute.product.id
-        const qty = attribute.qty;
+    renderAttribute = (attribute,id)=>{
         return (
-            <div id={`attribute-${id}`} key={Identify.randomString(5)} className={`row ${classes['product-options-group-item']}`}>
-                <div className={`col-sm-8 col-xs-8 ${Identify.isRtl()? 'pull-right' : ''}`}>
-                    <div className={classes["option-title"]} style={{fontWeight : 500}}>{attribute.product.name}</div>
-                    <Price type={attribute.product.type_id} prices={attribute.product.price} classes={classes}/>
+            <div key={Identify.randomString(5)} className="option-select">
+                <div className="option-title">
+                    <span>{attribute.title}</span>
                 </div>
-                <div className={`col-sm-4 col-xs-4 text-center ${Identify.isRtl()? 'pull-right' : ''}`}>
-                    {
-                        <Qty 
-                            classes={classes}
-                            dataId={id}
-                            key={id}
-                            value={qty} 
-                            className={`${classes['option-qty']} option-qty option-qty-${id}`} 
-                            inputStyle={{margin: '0 15px', borderRadius: 0, border: 'solid #eaeaea 1px', maxWidth: 50}} 
-                            onChange={() => this.updatePrices()}
-                        />
-                    }
+                <div className="option-content">
+                    <div className="options-list">
+                        {this.renderMultiCheckbox(attribute, id)}
+                    </div>
                 </div>
-            </div>);
-    }
-
-    setParamQty =(keyQty = null)=>{
-        const json = {};
-        const qty = $('input.option-qty');
-        qty.each(function () {
-            const val = $(this).val();
-            const id = $(this).attr('data-id');
-            json[id] = val;
-        });
-        this.params[keyQty] = json;
+            </div>
+        )
     };
 
-    getParams = () => {
-        this.setParamQty('super_group');
-        return this.params;
+    renderMultiCheckbox =(ObjOptions, id = '0')=>{
+        const {classes} = this
+        const options = ObjOptions.value;
+        const objs = [];
+        for (const i in options) {
+            const item = options[i];
+            const element = (
+                <div key={Identify.randomString(5)} className="option-row">
+                    <Checkbox id={id} title={item.title} value={item.id} parent={this} item={item} classes={classes}/>
+                </div>
+            );
+
+            objs.push(element);
+        }
+        return objs;
+    };
+
+    updatePrices = (selected = this.selected)=>{
+        let exclT = 0;
+        let inclT = 0;
+        const downloadableOptions = this.data.download_options;
+        selected = selected[0];
+        for (const d in downloadableOptions) {
+            const option = downloadableOptions[d];
+            const values = option.value;
+            for (const v in values) {
+                const value = values[v];
+                if (Array.isArray(selected)) {
+                    if (selected.indexOf(value.id) !== -1) {
+                        if (value.price_excluding_tax) {
+                            exclT += parseFloat(value.price_excluding_tax.price);
+                            inclT += parseFloat(value.price_including_tax.price);
+                        } else {
+                            //excl and incl is equal when server return only one price
+                            exclT += parseFloat(value.price);
+                            inclT += parseFloat(value.price);
+                        }
+                    }
+                } else {
+                    if (value.id === selected) {
+                        //add price
+                        if (value.price_excluding_tax) {
+                            exclT += parseFloat(value.price_excluding_tax.price);
+                            inclT += parseFloat(value.price_including_tax.price);
+                        } else {
+                            //excl and incl is equal when server return only one price
+                            exclT += parseFloat(value.price);
+                            inclT += parseFloat(value.price);
+                        }
+                    }
+                }
+
+            }
+        }
+        this.parentObj.Price.setDownloadableOptionPrice(inclT, exclT);
     }
+
+    setParamQty = ()=>{
+        const qty = $('input.option-qty').val();
+        this.params['qty'] = qty;
+    };
+
+    getParamsCustomOption = () => {
+        if(this.Custom && this.Custom.data.custom_options){
+            const params = this.Custom.selected;
+            this.params['options'] = params;
+        }
+    };
+
+    getParams = ()=>{
+        if(!this.checkOptionRequired()) return false;
+        this.selected = this.selected[0];
+        this.setParamOption('links');
+        this.getParamsCustomOption();
+        this.setParamQty();
+        return this.params;
+    };
+
+    getParamsCustomOption = () => {
+        if(this.Custom && this.Custom.data.custom_options){
+            const params = this.Custom.selected;
+            this.params['options'] = params;
+        }
+    };
+
+    getParams = ()=>{
+        if(!this.checkOptionRequired() || !this.Custom.checkOptionRequired()) return false;
+        this.selected = this.selected[0];
+        this.setParamOption('links');
+        return this.params;
+    };
 
     render(){
         return (
@@ -90,4 +147,4 @@ class GroupOptions extends OptionBase {
         )
     }
 }
-export default GroupOptions;
+export default DownloadableOptions;
