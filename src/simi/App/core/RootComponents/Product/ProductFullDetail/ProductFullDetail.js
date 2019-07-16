@@ -72,7 +72,14 @@ class ProductFullDetail extends Component {
                 params['super_group'] = groupedOptionParams.super_group
             }
         }
-        if (optionSelections && optionSelections.size) {
+        if (this.downloadableOption) {
+            const downloadableOption = this.downloadableOption.getParams()
+            if (downloadableOption && downloadableOption.links) {
+                params['links'] = downloadableOption.links
+            } else
+                this.missingOption = true
+        }
+        if (optionSelections && optionSelections.size) { //configurable option
             if (this.isMissingConfigurableOptions) {
                 this.missingOption = true
             }

@@ -72,6 +72,15 @@ class ProductPrice extends React.Component {
         }
     }
 
+    addOptionPrice(calculatedPrices, optionPrice) {
+        calculatedPrices.minimalPrice.excl_tax_amount.value += optionPrice.exclT;
+        calculatedPrices.minimalPrice.amount.value += optionPrice.inclT;
+        calculatedPrices.regularPrice.excl_tax_amount.value += optionPrice.exclT;
+        calculatedPrices.regularPrice.amount.value += optionPrice.inclT;
+        calculatedPrices.maximalPrice.excl_tax_amount.value += optionPrice.exclT;
+        calculatedPrices.maximalPrice.amount.value += optionPrice.inclT;
+    }
+
     calcPrices(price) {
         const {customOptionPrice, downloadableOptionPrice} = this.state
         const calculatedPrices = JSON.parse(JSON.stringify(price))
@@ -80,20 +89,11 @@ class ProductPrice extends React.Component {
             this.calcConfigurablePrice(calculatedPrices)
         
         // custom option
-        calculatedPrices.minimalPrice.excl_tax_amount.value += customOptionPrice.exclT;
-        calculatedPrices.minimalPrice.amount.value += customOptionPrice.inclT;
-        calculatedPrices.regularPrice.excl_tax_amount.value += customOptionPrice.exclT;
-        calculatedPrices.regularPrice.amount.value += customOptionPrice.inclT;
-        calculatedPrices.maximalPrice.excl_tax_amount.value += customOptionPrice.exclT;
-        calculatedPrices.maximalPrice.amount.value += customOptionPrice.inclT;
+        this.addOptionPrice(calculatedPrices, customOptionPrice)
 
         // downloadable option
-        calculatedPrices.minimalPrice.excl_tax_amount.value += downloadableOptionPrice.exclT;
-        calculatedPrices.minimalPrice.amount.value += downloadableOptionPrice.inclT;
-        calculatedPrices.regularPrice.excl_tax_amount.value += downloadableOptionPrice.exclT;
-        calculatedPrices.regularPrice.amount.value += downloadableOptionPrice.inclT;
-        calculatedPrices.maximalPrice.excl_tax_amount.value += downloadableOptionPrice.exclT;
-        calculatedPrices.maximalPrice.amount.value += downloadableOptionPrice.inclT;
+        if (data.type_id === 'downloadable')
+            this.addOptionPrice(calculatedPrices, downloadableOptionPrice)
         
         return calculatedPrices
     }
