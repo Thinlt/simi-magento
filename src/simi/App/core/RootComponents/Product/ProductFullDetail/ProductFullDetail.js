@@ -6,7 +6,6 @@ import { Colorbtn, Whitebtn } from 'src/simi/BaseComponents/Button'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import Carousel from './ProductImageCarousel';
 import Quantity from './ProductQuantity';
-import RichText from 'src/simi/BaseComponents/RichText';
 import defaultClasses from './productFullDetail.css';
 import appendOptionsToPayload from 'src/util/appendOptionsToPayload';
 import isProductConfigurable from 'src/util/isProductConfigurable';
@@ -17,8 +16,10 @@ import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
 import { addToWishlist as simiAddToWishlist } from 'src/simi/Model/Wishlist';
 import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
-import Techspec from './Techspec';
 import ReactHTMLParse from 'react-html-parser';
+import { TopReview } from './Review/index'
+import Description from './Description';
+import Techspec from './Techspec';
 
 const ConfigurableOptions = React.lazy(() => import('./Options/ConfigurableOptions'));
 const CustomOptions = React.lazy(() => import('./Options/CustomOptions'));
@@ -265,7 +266,9 @@ class ProductFullDetail extends Component {
         const { optionCodes, optionSelections, } = state
         const { classes } = props;
         const product = prepareProduct(props.product)
+        console.log(product)
         const { type_id, name } = product;
+        const hasReview = product.simiExtraField && product.simiExtraField.app_reviews
         return (
             <div className={`${classes.root} container`}>
                 <div className={classes.title}>
@@ -281,6 +284,7 @@ class ProductFullDetail extends Component {
                         product={product}/>
                 </div>
                 <div className={classes.mainActions}>
+                    {hasReview && <div className={classes.topReview}><TopReview app_reviews={product.simiExtraField.app_reviews}/></div>}
                     <div className={classes.productPrice}>
                         <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections}/>
                     </div>
@@ -309,12 +313,7 @@ class ProductFullDetail extends Component {
                             text={Identify.__('Add to Favourites')}/>
                     </div>
                 </div>
-                <div className={classes.description}>
-                    <h2 className={classes.descriptionTitle}>
-                        <span>{Identify.__('Description')}</span>
-                    </h2>
-                    <RichText content={product.description} />
-                </div>
+                <div className={classes.description}><Description product={product}/></div>
                 <div className={classes.techspec}><Techspec product={product}/></div>
             </div>
         );

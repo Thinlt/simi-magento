@@ -46,9 +46,11 @@
         width: 100%;
     }
 }
-
+.topReview {
+    padding: 1rem 1.5rem 0 1.5rem;
+}
 .productPrice {
-    padding: 1rem 1.5rem;
+    padding: 0 1.5rem;
 }
 
 .cartActions {
@@ -97,11 +99,6 @@
     width: 100%;
     border-top: solid #eaeaea 1px;
     padding: 1.5rem;
-}
-
-.descriptionTitle {
-    font-size: 20px;
-    margin-bottom: 20px;
 }
 .techspec {
     margin-top: 15px;
