@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {getReviews} from 'src/simi/Model/Product';
 import Loading from 'src/simi/BaseComponents/Loading';
 import Identify from 'src/simi/Helper/Identify';
@@ -6,22 +6,19 @@ import Pagination from 'src/simi/BaseComponents/Pagination';
 import {StaticRate} from 'src/simi/BaseComponents/Rate'
 import classes from './reviewList.css';
 
-class ReviewList extends React.Component {
-    constructor(props){
-        super(props);
-        const {product_id} = this.props;
-        const api_data = Identify.ApiDataStorage('product_list_review');
-        this.state = {
-            data : (api_data && api_data instanceof Object && api_data.hasOwnProperty(product_id))?api_data[product_id]:null
-        };
-    }
+const ReviewList = props => {
 
-    get renderListItem() {
-        const {data} = this.state;
+    const {product_id} = props;
+    const api_data = Identify.ApiDataStorage('product_list_review');
+    const initData = (api_data && api_data instanceof Object && api_data.hasOwnProperty(product_id))?api_data[product_id]:null
+
+    const [data, setData] = useState(initData)
+
+    const renderListItem = () => {
         if(data){
             return (
                 <div className={classes["list-review-item"]}>
-                    <Pagination data={data.reviews} renderItem={this.renderItem} classes={classes}/>
+                    <Pagination data={data.reviews} renderItem={renderItem} classes={classes}/>
                 </div>
             )
         }
@@ -30,7 +27,7 @@ class ReviewList extends React.Component {
         </div>
     };
 
-    renderItem = (item)=>{
+    const renderItem = (item)=>{
         if(item.hasOwnProperty('votes')){
             const rating_votes = item.votes.map((rate, index) => {
                 const point = rate.value;
@@ -81,14 +78,13 @@ class ReviewList extends React.Component {
         )
     };
 
-
-    componentDidMount(){
-        if(!this.state.data){
-            getReviews(this.setData, this.props.product_id)
+    useEffect(() => {
+        if(!data) {
+            getReviews(apiCallBack, product_id)
         }
-    }
+    });
 
-    setData = (data) => {
+    const apiCallBack = (data) => {
         if (data.errors) {
             const errors = data.errors;
             let text = "";
@@ -100,29 +96,24 @@ class ReviewList extends React.Component {
                 Identify.showToastMessage(text);
             }
         } else {
-            this.setState({
-                data: data,
-            });
+            setData(data)
             const api_data = {};
-            api_data[this.props.product_id] = data
+            api_data[props.product_id] = data
             Identify.ApiDataStorage('product_list_review','update',api_data)
         }
     }
 
-    render (){
-        console.log(this.state.data)
-        if(!this.state.data){
-            return (<Loading />);
-        }
-        const {renderListItem} = this
-        return (
-            <div>
-                <h2 className={classes.reviewlistTitle}>
-                    <span>{Identify.__('Customer Reviews')}</span>
-                </h2>
-                {renderListItem}
-            </div>
-        )
+    if(!data){
+        return (<Loading />);
     }
+
+    return (
+        <div>
+            <h2 className={classes.reviewlistTitle}>
+                <span>{Identify.__('Customer Reviews')}</span>
+            </h2>
+            {renderListItem()}
+        </div>
+    )
 }
 export default ReviewList
