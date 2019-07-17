@@ -187,6 +187,40 @@
     padding-right: 32px;
     background-color: rgba(33, 39, 46, 0.7);
 }
+
+.productlist-content .product-horizotal {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+@media (max-width: 1023px) {
+    .product-horizotal .horizontal-item {
+        width: 100%;
+        padding: 0 40px;
+        max-width: unset;
+    }
+}
+
+@media (min-width: 1024px) {
+    .product-horizotal .horizontal-item {
+        width: 22.7%;
+    }
+    
+    .product-horizotal .horizontal-item.middle {
+        margin-right: 3%;
+    }  
+}
+
+@media (min-width: 1920px) {
+    .product-horizotal .horizontal-item {
+        width: 318px;
+    }
+    
+    .product-horizotal .horizontal-item.middle {
+        margin-right: 42px;
+    }  
+}
+
 @media (max-width: 1440px) {
     .cta-row .cta-item{
         height: auto;

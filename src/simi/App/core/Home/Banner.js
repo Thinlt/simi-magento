@@ -2,6 +2,7 @@ import React from 'react'
 import {Carousel} from "react-responsive-carousel";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Identify from "src/simi/Helper/Identify";
+import BannerItem from "./BannerItem";
 import { Colorbtn } from "src/simi/BaseComponents/Button";
 
 const Banner = props => {
@@ -24,21 +25,6 @@ const Banner = props => {
     }
     let title = null;
 
-    const renderItem = (item, title, key) => {
-        let w = '100%';
-        let h = '100%'
-        return (
-            <div 
-                style={{position: 'relative', maxWidth: w, minHeight: h}} 
-                className={classes['banner-item']} 
-                id={`banner-item-${key}`}
-            >
-                {title}
-                <img className="img-responsive" width={w} height={h} src={item.banner_name} alt={item.banner_title}/>
-            </div>
-        )
-    }
-
     const renderBannerTitle = item => {
         let action = () => {}
         if (parseInt(item.type, 10) === 1) {
@@ -48,7 +34,7 @@ const Banner = props => {
                 state: {'product_id': item.product_id}
             };
             action = () => history.push(location);
-        }else if(item.type === "2"){
+        }else if(parseInt(item.type, 10) === 2){
             let location = {
                 pathname: `/products?cat=${item.category_id}`,
                 state: {category_page_id: item.category_id}
@@ -73,9 +59,6 @@ const Banner = props => {
     }
 
     const bannerData = data.homebanners.map((item, index) => {
-        if (isShowHomeTitle && isShowHomeTitle !== 0 && isShowHomeTitle !== '0') {
-            title = renderBannerTitle(item)
-        }
         title = renderBannerTitle(item)
         if (!item.banner_name) return '';
         return (
@@ -83,7 +66,7 @@ const Banner = props => {
                 key={index}
                 style={{cursor: 'pointer'}}
             >
-                {renderItem(item, title, index)}
+                <BannerItem item={item} classes={classes} history={history}/>
             </div>
         );
     })
@@ -91,7 +74,7 @@ const Banner = props => {
     return (
         <div className={classes["banner-homepage"]}>
             <div className="container">
-                <Carousel {...slideSettings} onChange={(id)=>this.handleShowTitle(id)}>
+                <Carousel {...slideSettings}>
                     {bannerData}
                 </Carousel>
             </div>

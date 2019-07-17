@@ -15,9 +15,8 @@ const Home = props => {
     useEffect(() => {
         if(!data) {
             getHomeData(setData);
-        } 
-       
-    },[!data])
+        }
+    },[])
 
     const setData = (data) => {
         if(!data.errors) {
@@ -32,7 +31,7 @@ const Home = props => {
     return (
         <React.Fragment>
             <Banner data={data} classes={classes} history={history}/>
-            <HomeCat data={data} classes={classes} history={history}/>
+            <HomeCat catData={data} classes={classes} history={history}/>
             <ProductList homeData={data} classes={classes} history={history}/>
         </React.Fragment>
 
