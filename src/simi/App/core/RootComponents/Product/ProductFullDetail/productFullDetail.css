@@ -54,7 +54,6 @@
 .cartActions {
     padding: 1rem 1.5rem;
     margin-top: 30px;
-    margin-bottom: 30px;
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -82,7 +81,17 @@
     width: 100%;
     padding: 12px;
 }
-
+.wishlistActions {
+    padding: 0 1.5rem 1rem;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    width: 100%;
+}
+.add-to-wishlist-btn {
+    width: 100%;
+}
 .description {
     margin-top: 15px;
     width: 100%;

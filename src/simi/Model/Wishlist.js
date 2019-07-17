@@ -1,5 +1,9 @@
 import { sendRequest } from 'src/simi/Network/RestMagento';
 
+export const addToWishlist = (callBack , params) => {
+    sendRequest('rest/V1/simiconnector/wishlistitems', callBack, 'POST', {}, params)
+}
+
 export const getWishlist = (callBack) => {
     sendRequest('rest/V1/simiconnector/wishlistitems', callBack)
 }

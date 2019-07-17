@@ -1,8 +1,37 @@
-#import "../Fragments/ProductDetail"
+#import "../Fragments/SimiPrice"
+#import "../Fragments/ConfigurableOptions"
+#import "../Fragments/GroupOptions"
 query productDetail($urlKey: String, $onServer: Boolean!) {
     productDetail: products(filter: { url_key: { eq: $urlKey } }) {
         items {
-            ... ProductDetail
+            __typename
+            id
+            sku
+            type_id
+            name
+            price {
+                ... SimiPrice
+            }
+            description {
+                html
+            }
+            media_gallery_entries {
+                label
+                position
+                disabled
+                file
+            }
+            ... on ConfigurableProduct {
+                ... ConfigurableOptions
+            }
+            ... on GroupedProduct {
+                ... GroupOptions
+            }
+            meta_title @include(if: $onServer)
+            # Yes, Products have `meta_keyword` and
+            # everything else has `meta_keywords`.
+            meta_keyword @include(if: $onServer)
+            meta_description @include(if: $onServer)
         }
     }
 }
