@@ -46,17 +46,17 @@
         width: 100%;
     }
 }
-
+.topReview {
+    padding: 1rem 1.5rem 0 1.5rem;
+}
 .productPrice {
-    padding: 1rem 1.5rem;
+    padding: 0 1.5rem;
 }
 
 .cartActions {
     padding: 1rem 1.5rem;
     margin-top: 30px;
-    margin-bottom: 30px;
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
 }
@@ -75,7 +75,7 @@
 }
 
 .add-to-cart-ctn {
-    width: 70%;
+    width: 100%;
     min-width: 200px;
 }
 
@@ -83,15 +83,46 @@
     width: 100%;
     padding: 12px;
 }
+.wishlistActions {
+    padding: 0 1.5rem 1rem;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    width: 100%;
+}
+.add-to-wishlist-btn {
+    width: 100%;
+}
+.socialShare {
+    padding: 0 1.5rem 1rem;
+}
+.socialShareItem {
 
+}
 .description {
     margin-top: 15px;
     width: 100%;
     border-top: solid #eaeaea 1px;
     padding: 1.5rem;
 }
-
-.descriptionTitle {
-    font-size: 20px;
-    margin-bottom: 20px;
+.techspec {
+    margin-top: 15px;
+    width: 100%;
+    border-top: solid #eaeaea 1px;
+    padding: 1.5rem;
+}
+.reviewList {
+    margin-top: 15px;
+    padding: 1.5rem;
+    width: 100%;
+    border-top: solid #eaeaea 1px;
+    margin-bottom: 25px;
+}
+.newReview {
+    margin-top: 15px;
+    padding: 1.5rem;
+    width: 100%;
+    border-top: solid #eaeaea 1px;
+    margin-bottom: 25px;
 }

@@ -52,7 +52,7 @@ const Optionlabel = props => {
     }
 
     //custom opton label
-    if (type_id === 'custom_options' && item.price_excluding_tax && item.price_including_tax && item.price_including_tax.price) {
+    if ((type_id === 'simple' || type_id === 'configurable') && item.price_excluding_tax && item.price_including_tax && item.price_including_tax.price) {
         if (parseInt(merchantTaxConfig.tax_display_type) === 3 && (item.price_excluding_tax.price !== item.price_including_tax.price)) {
             returnedLabel = renderBothPrices(item.price_including_tax.price, item.price_excluding_tax.price)
         } else {
@@ -64,9 +64,14 @@ const Optionlabel = props => {
         } else {
             returnedLabel = renderOnePrice(item.prices.finalPrice.amount)
         }
+    } else if (type_id === 'downloadable') { 
+        if (item.price_including_tax.price && item.price_excluding_tax.price){
+            returnedLabel = renderBothPrices(item.price_including_tax.price, item.price_excluding_tax.price)
+        } else if (item.price) {
+            returnedLabel = renderOnePrice(item.prices.finalPrice.amount)
+        }
     } else {
-        console.log(type_id)
-        console.log(item)
+        // no price cases
     }
     return returnedLabel
 }
@@ -82,7 +87,7 @@ Optionlabel.propTypes = {
 Optionlabel.defaultProps = {
     style : {},
     classes : {},
-    type_id : 'custom_options',
+    type_id : 'simple',
 }
 
 export default Optionlabel

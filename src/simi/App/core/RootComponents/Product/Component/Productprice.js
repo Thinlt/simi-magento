@@ -3,9 +3,11 @@ import Identify from 'src/simi/Helper/Identify';
 import Price from 'src/simi/BaseComponents/Price';
 import defaultClasses from './productprice.css'
 import ObjectHelper from 'src/simi/Helper/ObjectHelper';
+import PropTypes from 'prop-types';
 
 const initState = {
-    customOptionPrice: {exclT:0, inclT:0}
+    customOptionPrice: {exclT:0, inclT:0},
+    downloadableOptionPrice: {exclT:0, inclT:0},
 }
 
 class ProductPrice extends React.Component {
@@ -22,6 +24,11 @@ class ProductPrice extends React.Component {
             customOptionPrice: {exclT, inclT}
         })
     }
+    setDownloadableOptionPrice(exclT, inclT) {
+        this.setState({
+            downloadableOptionPrice: {exclT, inclT}
+        })
+    }
 
     static getDerivedStateFromProps(nextProps, prevState) {
         const {configurableOptionSelection} = nextProps
@@ -34,10 +41,10 @@ class ProductPrice extends React.Component {
 
     calcConfigurablePrice = (price) => {
         const {sltdConfigOption} = this.state
-        const {data} = this.props
+        const {data, configurableOptionSelection} = this.props
         const {simiExtraField} = data
 
-        if (simiExtraField) {
+        if (simiExtraField && configurableOptionSelection) {
             const {configurable_options} = simiExtraField.app_options
             if (configurable_options && configurable_options.index && configurable_options.optionPrices) {
                 let sub_product_id = null
@@ -65,20 +72,29 @@ class ProductPrice extends React.Component {
         }
     }
 
+    addOptionPrice(calculatedPrices, optionPrice) {
+        calculatedPrices.minimalPrice.excl_tax_amount.value += optionPrice.exclT;
+        calculatedPrices.minimalPrice.amount.value += optionPrice.inclT;
+        calculatedPrices.regularPrice.excl_tax_amount.value += optionPrice.exclT;
+        calculatedPrices.regularPrice.amount.value += optionPrice.inclT;
+        calculatedPrices.maximalPrice.excl_tax_amount.value += optionPrice.exclT;
+        calculatedPrices.maximalPrice.amount.value += optionPrice.inclT;
+    }
+
     calcPrices(price) {
-        const {customOptionPrice} = this.state
+        const {customOptionPrice, downloadableOptionPrice} = this.state
         const calculatedPrices = JSON.parse(JSON.stringify(price))
         const {data} = this.props
         if (data.type_id === 'configurable')
             this.calcConfigurablePrice(calculatedPrices)
         
         // custom option
-        calculatedPrices.minimalPrice.excl_tax_amount.value += customOptionPrice.exclT;
-        calculatedPrices.minimalPrice.amount.value += customOptionPrice.inclT;
-        calculatedPrices.regularPrice.excl_tax_amount.value += customOptionPrice.exclT;
-        calculatedPrices.regularPrice.amount.value += customOptionPrice.inclT;
-        calculatedPrices.maximalPrice.excl_tax_amount.value += customOptionPrice.exclT;
-        calculatedPrices.maximalPrice.amount.value += customOptionPrice.inclT;
+        this.addOptionPrice(calculatedPrices, customOptionPrice)
+
+        // downloadable option
+        if (data.type_id === 'downloadable')
+            this.addOptionPrice(calculatedPrices, downloadableOptionPrice)
+        
         return calculatedPrices
     }
 
@@ -121,4 +137,13 @@ class ProductPrice extends React.Component {
         );
     }
 }
+
+ProductPrice.propTypes = {
+    data: PropTypes.object.isRequired,
+    configurableOptionSelection: PropTypes.instanceOf(Map)
+}
+ProductPrice.defaultProps = {
+    configurableOptionSelection: new Map(),
+}
+
 export default ProductPrice;

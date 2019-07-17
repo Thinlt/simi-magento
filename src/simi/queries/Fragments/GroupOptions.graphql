@@ -4,6 +4,7 @@ fragment GroupOptions on GroupedProduct{
         qty
         position
         product{
+            id
             sku
             name
             type_id

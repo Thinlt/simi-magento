@@ -39,7 +39,7 @@ class CustomOptions extends OptionBase {
                 if (item.type === 'drop_down' || item.type === 'checkbox'
                     || item.type === 'multiple' || item.type === 'radio') {
                 } else {
-                    priceLabel = <OptionLabel title={item.title} item={item.values[0]} classes={classes} />
+                    priceLabel = <OptionLabel title={''} item={item.values[0]} classes={classes} />
                 }
 
                 return (
@@ -118,7 +118,7 @@ class CustomOptions extends OptionBase {
         const html = values.map(item => {
             return (
                 <div key={Identify.randomString(5)} className={classes["option-row"]}>
-                    <Checkbox id={id} item={item} value={item.id} parent={this} classes={classes}/>
+                    <Checkbox title={item.title} id={id} item={item} value={item.id} parent={this} classes={classes}/>
                 </div>
             )
         });
@@ -178,7 +178,7 @@ class CustomOptions extends OptionBase {
                 }
             }
         }        
-        this.parentObj.Price.setCustomOptionPrice(inclT, exclT);
+        this.parentObj.Price.setCustomOptionPrice(exclT, inclT);
     }
     
     getParams = () =>{

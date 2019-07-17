@@ -82,7 +82,7 @@ class Detail extends React.Component {
                         <div className={classes["line-num"]}>
                             <b>{Identify.__("Order status:")}</b>
                             <span
-                                className="green"
+                                className={classes["green"]}
                                 style={{
                                     marginLeft: 42,
                                     textTransform: "capitalize"
@@ -97,20 +97,12 @@ class Detail extends React.Component {
                             <div className={classes["detail-col"]}>
                                 <div className={classes["line-num"]}>
                                     <b>{Identify.__("Delivery Address:")}</b>
-                                    <div className={classes["address green"]}>
-                                        {data.shipping_address.street[0] && (
+                                    <div className={`${classes["address"]} ${classes["green"]}`}>
+                                        {data.shipping_address.street && (
                                             <span style={{ display: "block" }}>
                                                 {ReactHTMLParse(
                                                     data.shipping_address
-                                                        .street[0]
-                                                )}
-                                            </span>
-                                        )}
-                                        {data.shipping_address.street[1] && (
-                                            <span style={{ display: "block" }}>
-                                                {ReactHTMLParse(
-                                                    data.shipping_address
-                                                        .street[1]
+                                                        .street
                                                 )}
                                             </span>
                                         )}
@@ -173,7 +165,7 @@ class Detail extends React.Component {
                                 </div>
                                 <div className={classes["order-item-info"]}>
                                     <div
-                                        className="des-order"
+                                        className={classes["des-order"]}
                                         style={{}}
                                     >
                                         <div className={classes["item-name"]}>
@@ -296,9 +288,9 @@ class Detail extends React.Component {
                             <span className={classes["bold"]}>{Identify.__('VAT')}</span>
                             <span className="price">{this.getFormatPrice(totalPrice.tax)}</span>
                         </div>
-                        <div className={classes["summary-price-line"]}>
+                        <div className={`${classes["summary-price-line"]} ${classes['total']}`}>
                             <span className={classes["bold"]}>{Identify.__('Total')}</span>
-                            <span className="price">{totalPrice.tax ? this.getFormatPrice(totalPrice.grand_total_incl_tax) : this.getFormatPrice(totalPrice.shipping_hand_excl_tax)}</span>
+                            <span className={classes["price"]}>{totalPrice.tax ? this.getFormatPrice(totalPrice.grand_total_incl_tax) : this.getFormatPrice(totalPrice.shipping_hand_excl_tax)}</span>
                         </div>
                     </div>}
                     
