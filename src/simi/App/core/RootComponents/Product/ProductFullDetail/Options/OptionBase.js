@@ -30,14 +30,6 @@ class OptionBase extends React.Component {
         return null;
     };
 
-    getStatePrice =(PriceComponent = this.parentObj.Price)=>{
-        return PriceComponent.state.prices;
-    };
-
-    updateStatePrice = (prices = this.getStatePrice(),PriceComponent = this.parentObj.Price)=>{
-        PriceComponent.updatePrices(prices);
-    };
-
     updatePrices=(selected = this.selected) =>{
         console.log(selected)
         return <div></div>;

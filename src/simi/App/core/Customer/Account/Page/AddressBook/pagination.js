@@ -154,6 +154,8 @@ class Pagination extends React.Component {
         let jumpNext = (lastPager + middleNumber) <= allPages ? lastPager + middleNumber : allPages;
         let prevPage = this.prevPage(current);
         let nextPage = this.nextPage(current);
+        let disabledPrev = prevPage === current ? this.classes['disabled']:'';
+        let disabledNext = nextPage === current ? this.classes['disabled']:'';
 
         let pages = []
         for (let i=firstPager; i<=lastPager; i++) {
@@ -169,7 +171,8 @@ class Pagination extends React.Component {
             {allPages > 1 && 
                 <ul>
                     {props.showPrevNext ? 
-                        <li><a href="" title={`Go to page ${prevPage}`} onClick={(e)=> {this.gotoPage(prevPage); e.preventDefault()}}>{typeof props.prevIcon === 'function' ? props.prevIcon():props.prevIcon}</a></li>
+                        
+                        <li className={disabledPrev}><a href="" title={`Go to page ${prevPage}`} onClick={(e)=> {this.gotoPage(prevPage); e.preventDefault()}}>{typeof props.prevIcon === 'function' ? props.prevIcon():props.prevIcon}</a></li>
                         : null
                     }
                     {props.showJumper && jumpPrev < firstPager ? 
@@ -178,7 +181,7 @@ class Pagination extends React.Component {
                     }
 
                     {pages.map((page, index) => {
-                        let activeClass = current === page ? 'active' : '';
+                        let activeClass = current === page ? this.classes['active'] : '';
                         return <li className={activeClass} key={index}><a href="" title={`Go to page ${page}`} onClick={(e)=> {this.gotoPage(page); e.preventDefault()}}>{page}</a></li>
                     })}
 
@@ -187,7 +190,7 @@ class Pagination extends React.Component {
                         : null
                     }
                     {props.showPrevNext ? 
-                        <li><a href="" title={`Go to page ${nextPage}`} onClick={(e)=> {this.gotoPage(nextPage); e.preventDefault()}}>{typeof props.nextIcon === 'function' ? props.nextIcon():props.nextIcon}</a></li>
+                        <li className={disabledNext}><a href="" title={`Go to page ${nextPage}`} onClick={(e)=> {this.gotoPage(nextPage); e.preventDefault()}}>{typeof props.nextIcon === 'function' ? props.nextIcon():props.nextIcon}</a></li>
                         : null
                     }
                 </ul>

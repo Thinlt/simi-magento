@@ -3,7 +3,7 @@ import {configColor} from 'src/simi/Config';
 import Identify from 'src/simi/Helper/Identify';
 import PropTypes from 'prop-types';
 export const Qty = (props)=>{
-    const {classes} = props
+    const {classes, value} = props
     let style = {
         border: '1px solid ' + configColor.button_background,
         padding: 0,
@@ -17,7 +17,6 @@ export const Qty = (props)=>{
     console.log(props)
     let className = classes['option-number']?classes['option-number']:''
     className +=  " " + props.className
-    const value = props.value ? parseInt(props.value,10) : 1;
     return (
         <input
             min={1}
@@ -43,7 +42,6 @@ Qty.propTypes = {
 
 Qty.defaultProps = {
     className: '',
-    value: 1,
     classes: {}
 }
 

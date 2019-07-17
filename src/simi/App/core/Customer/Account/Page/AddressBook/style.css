@@ -132,9 +132,20 @@
 .address-book .additional-address .pagination > ul li.active{
     background-color: #fbc96a;
 }
+.address-book .additional-address .pagination > ul li.disabled{
+    background-color: #eaeaea;
+    color: #b5b5b5;
+}
+.address-book .additional-address .pagination > ul li.disabled > a{
+    color: #b5b5b5;
+    cursor: auto;
+}
 .address-book .additional-address .pagination > ul li > a{
     text-decoration: none;
     user-select: none;
+    display: block;
+    line-height: 22px;
+    padding: 0px;
 }
 .address-book .additional-address .pagination > ul li > a:visited, 
 .address-book .additional-address .pagination > ul li > a:visited{
