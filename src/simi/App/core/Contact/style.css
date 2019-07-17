@@ -57,9 +57,12 @@
     }
 }
 
-.contact-info{
-    padding: 60px 80px 70px;
+@media screen and (min-width: 768px){
+    .contact-info{
+        padding: 145px 80px 70px;
+    }
 }
+
 
 .contact-info .contact-item{
     padding: 12px 0;

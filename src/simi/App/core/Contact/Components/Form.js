@@ -1,6 +1,7 @@
 /* eslint-disable prefer-const */
 import React, { Component } from 'react';
-import Identify from 'src/simi/Helper/Identify'
+import Identify from 'src/simi/Helper/Identify';
+import { validateEmail } from 'src/simi/Helper/Validation';
 // import {compose} from 'redux';
 import classify from "src/classify";
 import defaultClasses from "../style.css";
@@ -32,41 +33,74 @@ class Form extends Component {
         }
     }
 
+    validateForm = () => {
+        let formCheck = true;
+        $('#contact-form').find('.required').each(function () {
+            if ($(this).val() === '' || $(this).val().length === 0) {
+                formCheck = false;
+                $(".message").show();
+            } else {
+                $(".message").hide();
+                if ($(this).attr('name') === 'email') {
+                    if (!validateEmail($(this).val())) {
+                        formCheck = false;
+                        $(".invalid-email").show();
+                    }
+                }
+            }
+        });
+
+        return formCheck;
+    };
+
     handleSubmit = (e) => {
         e.preventDefault();
+        const isValidated = this.validateForm()
         const form = $('#contact-form').serializeArray();
         let value = {};
-        for(let i in form){
-            let field = form[i];
-            value[field.name] = field.value;
+        if(isValidated){
+            for(let i in form){
+                let field = form[i];
+                
+                value[field.name] = field.value;
+            }
+            showFogLoading();
+            sendContact(value,this.proceedData.bind(this))
         }
         // console.log(value)
-        showFogLoading();
-        sendContact(value,this.proceedData.bind(this))
     }
 
     render() {
         const { classes } = this.props
         // console.log(data, 'log ')
         
+        const errorMessage = <small className="message" style={{display: 'none', color:"#fa0a11"}}>This field is required</small>
+        const errorEmail = <small className="invalid-email" style={{display: 'none', color:"#fa0a11"}}>Invalid email</small>
+
         return (
             <div className={classes['form-container']}>
                 <form id="contact-form" onSubmit={this.handleSubmit}>
                     <h2>{Identify.__("Contact Us")}</h2>
                     <div className='form-group'>
-                        <input type="text" className={`form-control ${classes['base-textField']} required`} name="name" placeholder="Name *" required={true}/>
+                        <input type="text" className={`form-control ${classes['base-textField']} required`} name="name" placeholder="Name *" />
+                        {errorMessage}
                     </div>
                     <div className='form-group'>
-                        <input type="text" className={`form-control ${classes['base-textField']} required`} name="company" placeholder="Company Name *" required={true}/>
+                        <input type="text" className={`form-control ${classes['base-textField']} required`} name="company" placeholder="Company Name *" />
+                        {errorMessage}
                     </div>
                     <div className='form-group'>
-                        <input type="text" className={`form-control ${classes['base-textField']} required`} name="email" placeholder="Email Address *" required={true}/>
+                        <input type="text" className={`form-control ${classes['base-textField']} required`} name="email" placeholder="Email Address *" />
+                        {errorMessage}
+                        {errorEmail}
                     </div>
                     <div className='form-group'>
-                        <input type="text" className={`form-control ${classes['base-textField']} required`} name="phone" placeholder="Telephone *" required={true}/>
+                        <input type="text" className={`form-control ${classes['base-textField']} required`} name="phone" placeholder="Telephone *" />
+                        {errorMessage}
                     </div>
                     <div className="form-group fg-textarea">
-                        <textarea className={`form-control ${classes['base-textareaField']}`} name="message" cols="30" rows="5" placeholder="Enter your message here" required={true}></textarea>
+                        <textarea className={`form-control ${classes['base-textareaField']} required`} name="message" cols="30" rows="5" placeholder="Enter your message here" ></textarea>
+                        {errorMessage}
                     </div>
                     <div className={classes["flex__space-between"]}>
                         <span className={classes["requirement"]}>*Required fields</span>

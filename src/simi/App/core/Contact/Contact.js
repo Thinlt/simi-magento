@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Form from './Components/Form';
+import ContactForm from './Components/Form';
 import Info from './Components/Info';
 // import Loading from 'src/simi/BaseComponents/Loading'
 import {compose} from 'redux';
@@ -12,7 +12,7 @@ class Contact extends Component {
             <div className="contact-page">
                 <div className="container">
                     <div className="col-xs-12 col-sm-6">
-                        <Form/>
+                        <ContactForm/>
                     </div>
                     <div className="col-xs-12 col-sm-6">
                         <Info/>
