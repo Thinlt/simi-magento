@@ -107,9 +107,9 @@ class Pagination extends React.Component {
         if(this.state.currentPage >= this.startPage && this.endPage > 4){
             prevPageIcon = <BackIcon style={{width: 6}}/>;
         }
-        
+        console.log(classes)
         const pagesSelection = (total>1)?(
-            <ul id="page-numbers" style={{
+            <ul id="page-numbers" classes={classes["page-numbers"]} style={{
                 border : 'none',
                 padding : 0,
                 display : 'flex',

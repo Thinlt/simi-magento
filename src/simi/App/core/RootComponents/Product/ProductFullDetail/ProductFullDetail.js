@@ -17,7 +17,7 @@ import { addToWishlist as simiAddToWishlist } from 'src/simi/Model/Wishlist';
 import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
 import ReactHTMLParse from 'react-html-parser';
-import { TopReview, ReviewList } from './Review/index'
+import { TopReview, ReviewList, NewReview } from './Review/index'
 import SocialShare from 'src/simi/BaseComponents/SocialShare';
 import Description from './Description';
 import Techspec from './Techspec';
@@ -174,10 +174,10 @@ class ProductFullDetail extends Component {
     }
 
     showSuccess(data) {
-        if (data.message && data.message.length) {
+        if (data.message) {
             this.props.toggleMessages([{
                 type: 'success',
-                message: data.message[0],
+                message: Array.isArray(data.message)?data.message[0]:data.message,
                 auto_dismiss: true
             }])
         }
@@ -317,7 +317,8 @@ class ProductFullDetail extends Component {
                 </div>
                 <div className={classes.description}><Description product={product}/></div>
                 <div className={classes.techspec}><Techspec product={product}/></div>
-                <div className={classes.reviewList}><ReviewList product={product} product_id={product.id}/></div>
+                <div className={classes.reviewList}><ReviewList product_id={product.id}/></div>
+                <div className={classes.newReview}><NewReview product={product} toggleMessages={this.props.toggleMessages}/></div>
             </div>
         );
     }
