@@ -34,6 +34,7 @@ const SimiSelect = asField(({ fieldState, ...props }) => (
 const Edit = props => {
 
     const { addressData, countries, classes, address_fields_config } = props;
+    const addressConfig = address_fields_config;
 
     var CUSTOMER_MUTATION = CUSTOMER_ADDRESS_CREATE;
     if (addressData.id) {
@@ -48,21 +49,33 @@ const Edit = props => {
         return !validateEmpty(value) ? 'This is a required field.' : undefined;
     }
 
-    const validateStreet = (value) => {
-        if (typeof value === 'array') {
-            for(var i in value){
-                if (!validateEmpty(value[i])) {
-                    return 'This is a required field.';
-                }
-            }
-        } else {
+    const validateCondition = (value, opt) => {
+        if (opt === 'req') {
             return !validateEmpty(value) ? 'This is a required field.' : undefined;
         }
+        return undefined;
     }
 
-    const validateOption = (value) => {
-        var valid = !value || !validateEmpty(value) ? 'Please select an option.' : undefined;
-        return valid;
+    const validateStreet = (value, opt) => {
+        if (opt === 'req') {
+            if (typeof value === 'array') {
+                for(var i in value){
+                    if (!validateEmpty(value[i])) {
+                        return 'This is a required field.';
+                    }
+                }
+            } else {
+                return !validateEmpty(value) ? 'This is a required field.' : undefined;
+            }
+        }
+        return undefined;
+    }
+
+    const validateOption = (value, opt) => {
+        if (opt === 'req') {
+            return !value || !validateEmpty(value) ? 'Please select an option.' : undefined;
+        }
+        return undefined;
     }
 
     const formSubmit = (values) => {
@@ -117,79 +130,63 @@ const Edit = props => {
             }
         }
         // required values
-        var config = address_fields_config;
-        if (!values.telephone) values.telephone     = config.telephone_default || 'NA';
-        if (!values.street) values.street           = [config.street_default || 'NA'];
-        if (!values.country_id) values.country_id   = config.country_id_default || 'US';
-        if (!values.city) values.city               = config.city_default || 'NA';
-        if (!values.postcode) values.postcode       = config.zipcode_default || 'NA';
+        var config = addressConfig;
+        if (config) {
+            if (!values.telephone) values.telephone     = config.telephone_default || 'NA';
+            if (!values.street) values.street           = [config.street_default || 'NA'];
+            if (!values.country_id) values.country_id   = config.country_id_default || 'US';
+            if (!values.city) values.city               = config.city_default || 'NA';
+            if (!values.postcode) values.postcode       = config.zipcode_default || 'NA';
+        }
 
         values.id = addressData.id; //address id
         mutaionCallback({ variables: values });
     }
 
-    const StateProvince = () => {
-        const { value } = useFieldState('country_id');
-        var stateShow = address_fields_config.region_id_show;
+    const StateProvince = (props) => {
+        const { showOption } = props;
+        var countryFieldState = useFieldState('country_id');
+        var country_id = countryFieldState.value;
 
         // get country
         var country;
         for(var i in countries) {
-            if (countries[i].id === value){
+            if (countries[i].id === country_id){
                 country = countries[i];
                 break;
             }
         }
         if (country && country.available_regions && country.available_regions.length) {
-            var regionValue = addressData.region.region_id
-            if (addressData.country_id !== value) {
+            var regionValue = addressData.region.region_id;
+            var required = 'opt';
+            if (addressData.country_id !== country_id) {
                 regionValue = null;
+            }
+            if (showOption !== 'opt') {
+                required = 'req';
             }
             return (
                 <>
-                { stateShow === 'req' ? 
-                    <>
-                    <label htmlFor="input-state">{Identify.__('State/Province')}<span>*</span></label>
-                    <SimiSelect id="input-state" field="region[region_id]" initialValue={regionValue} 
-                        key={regionValue} validate={validateOption} validateOnChange >
+                    <label htmlFor="input-state">{Identify.__('State/Province')}{required === 'req' && <span>*</span>}</label>
+                    <SimiSelect id="input-state" field="region[region_id]" initialValue={regionValue} key={regionValue} 
+                        validate={(value) => validateOption(value, required)} validateOnChange >
                         <Option value="" key={-1}>{Identify.__('Please select a region, state or province.')}</Option>
                         {country.available_regions.map((region, index) => {
                             return <Option value={region.id} key={index}>{region.name}</Option>
                         })}
                     </SimiSelect>
-                    </>
-                :
-                    <>
-                    <label htmlFor="input-state">{Identify.__('State/Province')}</label>
-                    <SimiSelect id="input-state" field="region[region_id]" initialValue={regionValue} 
-                        key={regionValue} >
-                        <Option value="" key={-1}>{Identify.__('Please select a region, state or province.')}</Option>
-                        {country.available_regions.map((region, index) => {
-                            return <Option value={region.id} key={index}>{region.name}</Option>
-                        })}
-                    </SimiSelect>
-                    </>
-                }
                 </>
             );
         } else {
             var regionValue = addressData.region.region
-            if (addressData.country_id !== value) {
-                regionValue = null;
+            if (addressData.country_id !== country_id && country_id !== undefined) {
+                regionValue = null; //reset value region field when change country
             }
             return (
                 <>
-                { stateShow === 'req' ? 
-                    <>
-                        <label htmlFor="input-state">{Identify.__('State/Province')}<span>*</span></label>
-                        <SimiText id="input-state" field="region[region]" initialValue={regionValue} validate={validateOption} validateOnChange/>
-                    </>
-                :
-                    <>
-                        <label htmlFor="input-state">{Identify.__('State/Province')}</label>
-                        <SimiText id="input-state" field="region[region]" initialValue={regionValue} />
-                    </>
-                }
+                    <label htmlFor="input-state">{Identify.__('State/Province')}{showOption === 'req' && <span>*</span>}</label>
+                    <SimiText id="input-state" field="region[region]" initialValue={regionValue} 
+                        validate={(value) => validateOption(value, showOption)} validateOnChange/>
                 </>
             )
         }
@@ -215,47 +212,41 @@ const Edit = props => {
                             <SimiText id="input-lastname" field="lastname" initialValue={addressData.lastname} validate={validate} validateOnBlur validateOnChange />
                         </div>
 
-                        { address_fields_config.company_show && 
+                        { (!addressConfig || (addressConfig && addressConfig.company_show)) && 
                             <div className={classes["form-row"]}>
-                            { address_fields_config.company_show === 'req' ? 
-                            <>
-                                <label htmlFor="input-company">{Identify.__('Company')}<span>*</span></label>
-                                <SimiText id="input-company" field="company" initialValue={addressData.company} validate={validate} validateOnBlur validateOnChange />
-                            </>
-                            :
-                            <>
-                                <label htmlFor="input-company">{Identify.__('Company')}</label>
-                                <SimiText id="input-company" field="company" initialValue={addressData.company} />
-                            </>
-                            }
+                                <label htmlFor="input-company">
+                                    {Identify.__('Company')}
+                                    {addressConfig && addressConfig.company_show === 'req' && <span>*</span>}
+                                </label>
+                                <SimiText id="input-company" field="company" initialValue={addressData.company} 
+                                    validate={(value) => validateCondition(value, addressConfig && addressConfig.company_show || 'opt')} 
+                                    validateOnBlur validateOnChange
+                                />
                             </div>
                         }
 
                         {
-                            address_fields_config.telephone_show && 
+                            (!addressConfig || (addressConfig && addressConfig.telephone_show)) && 
                             <div className={classes["form-row"]}>
-                                { address_fields_config.telephone_show === 'req' ?
-                                <>
-                                    <label htmlFor="input-telephone">{Identify.__('Phone Number')}<span>*</span></label>
-                                    <SimiText id="input-telephone" field="telephone" initialValue={addressData.telephone} validate={validate}  validateOnBlur validateOnChange />
-                                </>
-                                :
-                                <>
-                                    <label htmlFor="input-telephone">{Identify.__('Phone Number')}</label>
-                                    <SimiText id="input-telephone" field="telephone" initialValue={addressData.telephone} />
-                                </>
-                                }
+                                <label htmlFor="input-telephone">
+                                    {Identify.__('Phone Number')}
+                                    {addressConfig && addressConfig.telephone_show !== 'req' ? null : <span>*</span>}
+                                </label>
+                                <SimiText id="input-telephone" field="telephone" initialValue={addressData.telephone} 
+                                    validate={(value) => validateCondition(value, addressConfig && addressConfig.telephone_show || 'req')} 
+                                    validateOnBlur validateOnChange />
                             </div>
                         }
                     </div>
                     <div className={classes["col-right"]}>
                         {
-                            address_fields_config.street_show || 
-                            address_fields_config.city_show || 
-                            address_fields_config.region_id_show || 
-                            address_fields_config.zipcode_show || 
-                            address_fields_config.country_id_show ? 
-
+                            (!addressConfig || (addressConfig && (
+                                addressConfig.street_show || 
+                                addressConfig.city_show || 
+                                addressConfig.region_id_show || 
+                                addressConfig.zipcode_show || 
+                                addressConfig.country_id_show
+                            ))) ? 
                             <div className={classes["form-row"]}>
                                 <div className={classes["col-label"]}>{Identify.__('Address')}</div>
                             </div>
@@ -263,87 +254,66 @@ const Edit = props => {
                             <></>
                         }
 
-                        { address_fields_config.street_show && 
+                        { (!addressConfig || (addressConfig && addressConfig.street_show)) && 
                             <div className={classes["form-row"]}>
-                                {
-                                    address_fields_config.street_show === 'req' ? 
-                                    <>
-                                    <label htmlFor="input-street1">{Identify.__('Street Address')}<span>*</span></label>
-                                    <SimiText id="input-street1" field="street[0]" initialValue={addressData.street[0]} validate={validateStreet} validateOnBlur validateOnChange />
-                                    </>
-                                :
-                                    <>
-                                    <label htmlFor="input-street1">{Identify.__('Street Address')}</label>
-                                    <SimiText id="input-street1" field="street[0]" initialValue={addressData.street[0]} />
-                                    </>
-                                }
+                                <label htmlFor="input-street1">
+                                    {Identify.__('Street Address')}
+                                    {addressConfig && addressConfig.street_show !== 'req' ? null : <span>*</span>}
+                                </label>
+                                <SimiText id="input-street1" field="street[0]" initialValue={addressData.street[0]} 
+                                    validate={(value) => validateStreet(value, addressConfig && addressConfig.street_show || 'req')} 
+                                    validateOnBlur validateOnChange />
                                 <SimiText id="input-street2" field="street[1]" initialValue={addressData.street[1]}/>
                                 <SimiText id="input-street3" field="street[2]" initialValue={addressData.street[2]}/>
                             </div>
                         }
 
-                        { address_fields_config.city_show && 
+                        { (!addressConfig || (addressConfig && addressConfig.city_show)) && 
                             <div className={classes["form-row"]}>
-                                {
-                                    address_fields_config.city_show === 'req' ? 
-                                    <>
-                                    <label htmlFor="input-city">{Identify.__('City')}<span>*</span></label>
-                                    <SimiText id="input-city" field="city" initialValue={addressData.city} validate={validate}  validateOnBlur validateOnChange />
-                                    </>
-                                    :
-                                    <>
-                                    <label htmlFor="input-city">{Identify.__('City')}</label>
-                                    <SimiText id="input-city" field="city" initialValue={addressData.city} />
-                                    </>
-                                }
+                                <label htmlFor="input-city">
+                                    {Identify.__('City')}
+                                    {addressConfig && addressConfig.city_show !== 'req' ? null : <span>*</span>} 
+                                </label>
+                                <SimiText id="input-city" field="city" initialValue={addressData.city} 
+                                    validate={(value) => validateCondition(value, addressConfig && addressConfig.city_show || 'req')} 
+                                    validateOnBlur validateOnChange />
                             </div>
                         }
 
-                        { address_fields_config.region_id_show && 
+                        { (!addressConfig || (addressConfig && addressConfig.region_id_show)) && 
                             <div className={classes["form-row"]} id="state-province">
-                                <StateProvince />
+                                <StateProvince showOption={addressConfig && addressConfig.region_id_show || undefined } />
                             </div>
                         }
 
-                        { address_fields_config.zipcode_show && 
+                        { (!addressConfig || (addressConfig && addressConfig.zipcode_show)) && 
                             <div className={classes["form-row"]}>
-                                { address_fields_config.zipcode_show === 'req' ?
-                                <>
-                                    <label htmlFor="input-postcode">{Identify.__('Zip/Postal Code')}<span>*</span></label>
-                                    <SimiText id="input-postcode" field="postcode" initialValue={addressData.postcode} validate={validate} validateOnBlur validateOnChange />
-                                </>
-                                :
-                                <>
-                                    <label htmlFor="input-postcode">{Identify.__('Zip/Postal Code')}</label>
-                                    <SimiText id="input-postcode" field="postcode" initialValue={addressData.postcode} />
-                                </>
-                                }
+                                <label htmlFor="input-postcode">
+                                    {Identify.__('Zip/Postal Code')}
+                                    {addressConfig && addressConfig.zipcode_show !== 'req' ? null : <span>*</span>}
+                                </label>
+                                <SimiText id="input-postcode" field="postcode" initialValue={addressData.postcode} 
+                                    validate={(value) => validateCondition(value, addressConfig && addressConfig.zipcode_show || 'req')} 
+                                    validateOnBlur validateOnChange 
+                                />
                             </div>
                         }
 
-                        { address_fields_config.country_id_show && 
+                        { (!addressConfig || (addressConfig && addressConfig.country_id_show)) && 
                             <div className={classes["form-row"]}>
-                                { address_fields_config.country_id_show === 'req'?
-                                <>
-                                    <label htmlFor="input-country">{Identify.__('Country')}<span>*</span></label>
-                                    <SimiSelect id="input-country" field="country_id" initialValue={addressData.country_id || 'US'} validate={validateOption} validateOnChange>
-                                        { countries.map((country, index) => {
-                                            return country.full_name_locale !== null ? 
-                                                <Option value={country.id} key={index} >{country.full_name_locale}</Option> : null
-                                        })}
-                                    </SimiSelect>
-                                </>
-                                :
-                                <>
-                                    <label htmlFor="input-country">{Identify.__('Country')}</label>
-                                    <SimiSelect id="input-country" field="country_id" initialValue={addressData.country_id || 'US'} validate={validateOption} validateOnChange>
-                                        { countries.map((country, index) => {
-                                            return country.full_name_locale !== null ? 
-                                                <Option value={country.id} key={index} >{country.full_name_locale}</Option> : null
-                                        })}
-                                    </SimiSelect>
-                                </>
-                                }
+                                <label htmlFor="input-country">
+                                    {Identify.__('Country')}
+                                    {addressConfig && addressConfig.country_id_show !== 'req' ? null : <span>*</span>}
+                                </label>
+                                <SimiSelect id="input-country" field="country_id" initialValue={addressConfig && addressConfig.country_id_default || addressData.country_id || 'US'} 
+                                    validate={(value) => validateOption(value, addressConfig && addressConfig.country_id_show || 'req')} 
+                                    validateOnChange
+                                >
+                                    { countries.map((country, index) => {
+                                        return country.full_name_locale !== null ? 
+                                            <Option value={country.id} key={index} >{country.full_name_locale}</Option> : null
+                                    })}
+                                </SimiSelect>
                             </div>
                         }
 
