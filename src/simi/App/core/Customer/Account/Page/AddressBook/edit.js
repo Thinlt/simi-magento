@@ -33,7 +33,7 @@ const SimiSelect = asField(({ fieldState, ...props }) => (
 
 const Edit = props => {
 
-    const { addressData, countries, classes, address_fields_config, address_option } = props;
+    const { addressData, countries, classes, address_fields_config } = props;
 
     var CUSTOMER_MUTATION = CUSTOMER_ADDRESS_CREATE;
     if (addressData.id) {
@@ -117,11 +117,12 @@ const Edit = props => {
             }
         }
         // required values
-        if (!values.telephone) values.telephone = 'NA';
-        if (!values.street) values.street = ['NA'];
-        if (!values.country_id) values.country_id = 'US';
-        if (!values.city) values.city = 'NA';
-        if (!values.postcode) values.postcode = 'NA';
+        var config = address_fields_config;
+        if (!values.telephone) values.telephone     = config.telephone_default || 'NA';
+        if (!values.street) values.street           = [config.street_default || 'NA'];
+        if (!values.country_id) values.country_id   = config.country_id_default || 'US';
+        if (!values.city) values.city               = config.city_default || 'NA';
+        if (!values.postcode) values.postcode       = config.zipcode_default || 'NA';
 
         values.id = addressData.id; //address id
         mutaionCallback({ variables: values });
