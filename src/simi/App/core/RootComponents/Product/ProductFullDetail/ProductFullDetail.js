@@ -6,23 +6,27 @@ import { Colorbtn, Whitebtn } from 'src/simi/BaseComponents/Button'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import Carousel from './ProductImageCarousel';
 import Quantity from './ProductQuantity';
-import RichText from 'src/simi/BaseComponents/RichText';
 import defaultClasses from './productFullDetail.css';
 import appendOptionsToPayload from 'src/util/appendOptionsToPayload';
 import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
 import {prepareProduct} from 'src/simi/Helper/Product'
 import ProductPrice from '../Component/Productprice';
-import CustomOptions from './Options/CustomOptions';
-import BundleOptions from './Options/Bundle';
-import GroupedOptions from './Options/GroupedOptions';
-import DownloadableOptions from './Options/DownloadableOptions';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
 import { addToWishlist as simiAddToWishlist } from 'src/simi/Model/Wishlist';
 import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
+import ReactHTMLParse from 'react-html-parser';
+import { TopReview, ReviewList, NewReview } from './Review/index'
+import SocialShare from 'src/simi/BaseComponents/SocialShare';
+import Description from './Description';
+import Techspec from './Techspec';
 
 const ConfigurableOptions = React.lazy(() => import('./Options/ConfigurableOptions'));
+const CustomOptions = React.lazy(() => import('./Options/CustomOptions'));
+const BundleOptions = React.lazy(() => import('./Options/Bundle'));
+const GroupedOptions = React.lazy(() => import('./Options/GroupedOptions'));
+const DownloadableOptions = React.lazy(() => import('./Options/DownloadableOptions'));
 
 class ProductFullDetail extends Component {  
     state = {
@@ -170,10 +174,10 @@ class ProductFullDetail extends Component {
     }
 
     showSuccess(data) {
-        if (data.message && data.message.length) {
+        if (data.message) {
             this.props.toggleMessages([{
                 type: 'success',
-                message: data.message[0],
+                message: Array.isArray(data.message)?data.message[0]:data.message,
                 auto_dismiss: true
             }])
         }
@@ -263,12 +267,14 @@ class ProductFullDetail extends Component {
         const { optionCodes, optionSelections, } = state
         const { classes } = props;
         const product = prepareProduct(props.product)
+        console.log(product)
         const { type_id, name } = product;
+        const hasReview = product.simiExtraField && product.simiExtraField.app_reviews
         return (
             <div className={`${classes.root} container`}>
                 <div className={classes.title}>
                     <h1 className={classes.productName}>
-                        <span>{name?name:product.simiExtraField?product.simiExtraField.attribute_values.name:''}</span>
+                        <span>{ReactHTMLParse(name)}</span>
                     </h1>
                 </div>
                 <div className={classes.imageCarousel}>
@@ -279,6 +285,7 @@ class ProductFullDetail extends Component {
                         product={product}/>
                 </div>
                 <div className={classes.mainActions}>
+                    {hasReview && <div className={classes.topReview}><TopReview app_reviews={product.simiExtraField.app_reviews}/></div>}
                     <div className={classes.productPrice}>
                         <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections}/>
                     </div>
@@ -306,13 +313,12 @@ class ProductFullDetail extends Component {
                             onClick={addToWishlist}
                             text={Identify.__('Add to Favourites')}/>
                     </div>
+                    <div className={classes.socialShare}><SocialShare id={product.id} className={classes.socialShareItem} /></div>
                 </div>
-                <div className={classes.description}>
-                    <h2 className={classes.descriptionTitle}>
-                        <span>Product Description</span>
-                    </h2>
-                    <RichText content={product.description} />
-                </div>
+                <div className={classes.description}><Description product={product}/></div>
+                <div className={classes.techspec}><Techspec product={product}/></div>
+                <div className={classes.reviewList}><ReviewList product_id={product.id}/></div>
+                <div className={classes.newReview}><NewReview product={product} toggleMessages={this.props.toggleMessages}/></div>
             </div>
         );
     }
