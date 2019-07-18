@@ -3,13 +3,14 @@ import Identify from "src/simi/Helper/Identify";
 import { simiUseQuery } from 'src/simi/Network/Query' 
 import getCategory from 'src/simi/queries/catalog/getCateProductsNoFilter.graphql'
 import Loading from "src/simi/BaseComponents/Loading";
-import GridItem from "./Item";
+import { GridItem } from "src/simi/BaseComponents/GridItem";
 
 const ProductItem = props => {
     const {classes, dataProduct, history} = props;
     const [queryResult, queryApi] = simiUseQuery(getCategory, false);
     const {data} = queryResult
     const {runQuery} = queryApi
+  
 
     useEffect(() => {
         runQuery({
@@ -22,9 +23,14 @@ const ProductItem = props => {
         })
     },[])
 
+    const handleAction = (location) => {
+        history.push(location);
+    }
+
     if(!data) return <Loading />
 
     const renderProductItem = (item,lastInRow) => {
+        console.log(item);
         return (
             <div
                 key={`horizontal-item-${item.id}`}
@@ -35,7 +41,7 @@ const ProductItem = props => {
                 >
                 <GridItem
                     item={item}
-                    history={history}
+                    handleLink={handleAction}
                     // lazyImage={this.state.isPhone}
                     // showBuyNow={this.props.homepage?false:true}
                 />
@@ -43,8 +49,8 @@ const ProductItem = props => {
         );
     }
 
-    const renderProductGrid = (item) => {
-        const products = data.products.items.map((item, index) => {
+    const renderProductGrid = (items) => {
+        const products = items.map((item, index) => {
             return renderProductItem(item, (index % 4 === 3))
         });
         
@@ -71,7 +77,7 @@ const ProductItem = props => {
  
     }
 
-    return 'No product was found';
+    return 'Product was found';
 }
 
 export default ProductItem;
