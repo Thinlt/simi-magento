@@ -28,10 +28,25 @@ const getCategoryNameQr = gql`
 
 const Search = props => {
     const { classes, location, history } = props;
+    
     let currentPage = Identify.findGetParameter('page')
     currentPage = currentPage?Number(currentPage):1
     let pageSize = Identify.findGetParameter('product_list_limit')
     pageSize = pageSize?Number(pageSize):window.innerWidth < 1024?12:24
+    sortByData = null
+    const productListOrder = Identify.findGetParameter('product_list_order')
+    const productListDir = Identify.findGetParameter('product_list_dir')
+    const newSortByData = productListOrder?productListDir?{[productListOrder]: productListDir.toUpperCase()}:{[productListOrder]: 'ASC'}:null
+    if (newSortByData && (!sortByData || !ObjectHelper.shallowEqual(sortByData, newSortByData))) {
+        sortByData = newSortByData
+    }
+    filterData = null
+    const productListFilter = Identify.findGetParameter('filter')
+    if (productListFilter) {
+        if (JSON.parse(productListFilter)){
+            filterData = productListFilter
+        }
+    }
 
     const inputText = getQueryParameterValue({
         location,
@@ -49,6 +64,13 @@ const Search = props => {
     const queryVariable = categoryId
         ? { inputText, categoryId }
         : { inputText };
+
+    queryVariable.pageSize = pageSize
+    queryVariable.currentPage = currentPage
+    if (filterData)
+        queryVariable.simiFilter = filterData
+    if (sortByData)
+        queryVariable.sort = sortByData
 
     const handleClearCategoryFilter = () => {
         history.push(`/search.html?query=${inputText}`) 
