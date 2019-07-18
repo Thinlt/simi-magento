@@ -98,19 +98,11 @@ class Detail extends React.Component {
                                 <div className={classes["line-num"]}>
                                     <b>{Identify.__("Delivery Address:")}</b>
                                     <div className={`${classes["address"]} ${classes["green"]}`}>
-                                        {data.shipping_address.street[0] && (
+                                        {data.shipping_address.street && (
                                             <span style={{ display: "block" }}>
                                                 {ReactHTMLParse(
                                                     data.shipping_address
-                                                        .street[0]
-                                                )}
-                                            </span>
-                                        )}
-                                        {data.shipping_address.street[1] && (
-                                            <span style={{ display: "block" }}>
-                                                {ReactHTMLParse(
-                                                    data.shipping_address
-                                                        .street[1]
+                                                        .street
                                                 )}
                                             </span>
                                         )}
