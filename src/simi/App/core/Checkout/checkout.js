@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { Util } from '@magento/peregrine';
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
 import {
@@ -19,12 +20,12 @@ import {
     beginCheckout,
     cancelCheckout,
     editOrder,
-    submitShippingAddress,
     submitOrder,
     submitShippingMethod,
-    submitBillingAddress,
     submitPaymentMethod
 } from 'src/actions/checkout';
+
+import { submitShippingAddress, submitBillingAddress } from 'src/simi/Redux/actions/simiactions';
 
 import classify from 'src/classify'
 import defaultClasses from './checkout.css';
@@ -38,6 +39,11 @@ import { Link } from 'react-router-dom';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import EditableForm from './editableForm';
 import Panel from 'src/simi/BaseComponents/Panel';
+import { toggleMessages, simiSignedIn } from 'src/simi/Redux/actions/simiactions';
+import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
+
+const { BrowserPersistence } = Util;
+const storage = new BrowserPersistence();
 
 const isCheckoutReady = checkout => {
     const {
@@ -62,11 +68,6 @@ const isCheckoutReady = checkout => {
 
 class Checkout extends Component {
     static propTypes = {
-        /* cart: shape({
-            details: object.isRequired,
-            cartId: string,
-            totals: object,
-        }).isRequired, */
         beginCheckout: func,
         cancelCheckout: func,
         cart: shape({
@@ -97,18 +98,51 @@ class Checkout extends Component {
         submitShippingAddress: func,
         submitShippingMethod: func,
         submitBillingAddress: func,
-        user: object
+        user: object,
+        simiSignedIn: func
     };
 
-    async componentDidMount() {
-        //beginning checkout
-
-        const { beginCheckout, getCartDetails } = this.props;
-        await beginCheckout();
-
-        /* get cart detail */
-        await getCartDetails();
+    constructor(...args) {
+        super(...args)
+        const isPhone = window.innerWidth < 1024
+        this.state = {
+            isPhone: isPhone
+        };
     }
+
+
+    setIsPhone() {
+        const obj = this;
+        window.onresize = function () {
+            const width = window.innerWidth;
+            const isPhone = width < 1024
+            if (obj.state.isPhone !== isPhone) {
+                obj.setState({ isPhone: isPhone })
+            }
+        }
+    }
+
+    async componentDidMount() {
+        const { props, setIsPhone } = this;
+        setIsPhone();
+
+        const { beginCheckout, getCartDetails } = props;
+
+        try {
+            // get cart detail
+            const aa = await getCartDetails();
+            // The getCartDetails call is now done!
+            if (typeof aa === 'undefined') {
+                //beginning checkout
+                beginCheckout();
+            }
+
+            // Do something
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
 
     get breadcrumb() {
         return <BreadCrumb breadcrumb={[{ name: 'Home', link: '/' }, { name: 'Basket', link: '/cart.html' }, { name: 'Checkout', link: '/checkout.html' }]} />
@@ -149,8 +183,34 @@ class Checkout extends Component {
     }
 
     placeOrder = () => {
-        const { submitOrder, checkout } = this.props;
+        const { submitOrder, checkout, toggleMessages } = this.props;
+        const { paymentData, shippingAddress, shippingMethod, billingAddress } = checkout;
+
+        if (toggleMessages) {
+            if (!shippingAddress || isObjectEmpty(shippingAddress)) {
+                Identify.smoothScrollToView($("#id-message"));
+                toggleMessages([{ type: 'error', message: Identify.__('Please choose a shipping address'), auto_dismiss: true }])
+                return;
+            }
+            if (!billingAddress || isObjectEmpty(billingAddress)) {
+                Identify.smoothScrollToView($("#id-message"));
+                toggleMessages([{ type: 'error', message: Identify.__('Please choose a billing address'), auto_dismiss: true }])
+                return;
+            }
+            if (!shippingMethod || !shippingMethod.length) {
+                Identify.smoothScrollToView($("#id-message"));
+                toggleMessages([{ type: 'error', message: Identify.__('Please choose a shipping method '), auto_dismiss: true }])
+                return;
+            }
+            if (!paymentData || isObjectEmpty(paymentData)) {
+                Identify.smoothScrollToView($("#id-message"));
+                toggleMessages([{ type: 'error', message: Identify.__('Please choose a payment method'), auto_dismiss: true }])
+                return;
+            }
+        }
+
         if (isCheckoutReady(checkout)) {
+            showFogLoading();
             submitOrder();
         }
         return;
@@ -184,6 +244,8 @@ class Checkout extends Component {
 
     get checkoutInner() {
         const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail } = this;
+        let { isPhone } = this.state;
+        let containerSty = isPhone ? { marginTop: 35 } : {};
         const { classes,
             cart,
             checkout,
@@ -193,7 +255,9 @@ class Checkout extends Component {
             submitShippingAddress,
             submitOrder,
             submitPaymentMethod,
-            submitBillingAddress } = props;
+            submitBillingAddress,
+            user,
+            simiSignedIn } = props;
         const { shippingAddress,
             submitting,
             availableShippingMethods,
@@ -233,12 +297,16 @@ class Checkout extends Component {
             submitBillingAddress,
             submitShippingMethod,
             submitting,
-            paymentMethods
+            paymentMethods,
+            user,
+            simiSignedIn
         };
 
         if (checkout.step && checkout.step === 'receipt') {
             this.handleLink('/thankyou.html');
         }
+
+        hideFogLoading()
 
         return <React.Fragment>
             {this.breadcrumb}
@@ -257,6 +325,7 @@ class Checkout extends Component {
                         renderContent={<EditableForm {...stepProps} editing='billingAddress' />}
                         isToggle={true}
                         expanded={true}
+                        containerStyle={containerSty}
                         headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                     />
 
@@ -279,7 +348,7 @@ class Checkout extends Component {
                 </div>
                 <div className={defaultClasses[`checkout-col-3`]}>
                     <div className={defaultClasses['col-3-content']}>
-                        <OrderSummary parent={this} cart={cart} cartCurrencyCode={cartCurrencyCode} checkout={checkout} />
+                        <OrderSummary parent={this} isPhone={isPhone} cart={cart} cartCurrencyCode={cartCurrencyCode} checkout={checkout} />
                         {btnPlaceOrder}
                     </div>
                 </div>
@@ -315,7 +384,9 @@ const mapDispatchToProps = {
     submitOrder,
     submitShippingMethod,
     submitBillingAddress,
-    submitPaymentMethod
+    submitPaymentMethod,
+    toggleMessages,
+    simiSignedIn
 };
 
 export default compose(

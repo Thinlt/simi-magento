@@ -12,16 +12,15 @@ const $ = window.$;
 
 const OrderSummary = (props) => {
 
-    const { cart, cartCurrencyCode, classes, checkout } = props;
+    const { cart, cartCurrencyCode, classes, checkout, isPhone } = props;
     const { details } = cart;
     const { shippingAddress } = checkout;
-    // console.log(cart);
 
     const totalLabel = details && details.hasOwnProperty('items_count') && details.items_count + Identify.__(' items in cart');
 
     const { is_virtual } = details;
 
-    const orderItem = details && details.items && details.items.map((o_item, idx) => {
+    const orderItem = details && details.items && details.items.map(o_item => {
         let itemsOption = '';
         let optionElement = ''
         if (o_item.options.length > 0) {
@@ -127,11 +126,13 @@ const OrderSummary = (props) => {
         </div>
     )
 
+    let containerSty = isPhone ? {marginTop: 35} : {};
     return <div className={defaultClasses['order-summary']} id="order-summary">
         <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Order Summary')}</div>}
             renderContent={renderView}
             isToggle={false}
             expanded={true}
+            containerStyle={containerSty}
         />
     </div>
 }

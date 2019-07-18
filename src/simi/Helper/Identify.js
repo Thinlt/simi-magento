@@ -91,7 +91,7 @@ class Identify {
     }
 
 
-    /* 
+    /*
     store/get data from storage
     */
     static storeDataToStoreage(type, key, data) {
@@ -152,7 +152,7 @@ class Identify {
     /*
     Version control
     */
-    //version control 
+    //version control
     static detectPlatforms() {
         if (navigator.userAgent.match(/iPad|iPhone|iPod/)) {
             return 1;
@@ -161,6 +161,25 @@ class Identify {
         } else {
             return 3;
         }
+    }
+
+    static smoothScrollToView = (querySelector, duration = 350) => {
+        if(querySelector && querySelector.offset() instanceof Object){
+            let offsetTop = querySelector.offset().top;
+
+            let elementHeight = querySelector.height();
+            let windowHeight = $(window).height();
+            let offset = offsetTop;
+
+            if (elementHeight < windowHeight) {
+                offset = offsetTop - ((windowHeight / 2) - (elementHeight / 2));
+            }
+
+            $('html, body').animate({
+                scrollTop: offset
+            }, duration);
+        }
+
     }
 }
 

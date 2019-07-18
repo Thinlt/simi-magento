@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Form, useFieldState } from 'informed';
+import { Form } from 'informed';
 import { array, bool, func, shape, string } from 'prop-types';
 
 import { mergeClasses } from 'src/classify';
@@ -29,8 +29,8 @@ const ShippingForm = props => {
                 value: carrier_code
             })
         );
-        initialValue =
-            shippingMethod || availableShippingMethods[0].carrier_code;
+
+        initialValue = shippingMethod
     } else {
         selectableShippingMethods = [];
         initialValue = '';
@@ -67,9 +67,8 @@ const ShippingForm = props => {
     }
 
     return (
-        <Form className={classes.root} onSubmit={handleSubmit}>
+        <Form className={classes.root} onSubmit={handleSubmit} >
             <div className={classes.body}>
-                {/* <h2 className={classes.heading}>{Identify.__("Shipping Information")}</h2> */}
                 <FieldShippingMethod {...childFieldProps} />
             </div>
         </Form>

@@ -10,6 +10,7 @@
 .checkout-column {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 75px;
 }
 .checkout-column .checkout-col-1,
 .checkout-column .checkout-col-2,
@@ -38,4 +39,20 @@
 }
 .btn-place-order {
     margin-top: 25px;
+}
+
+@media (max-width: 1023px) {
+    .checkout-column {
+        display: block;
+    }
+    .checkout-column .checkout-col-1,
+    .checkout-column .checkout-col-2,
+    .checkout-column .checkout-col-3 {
+        width: 100%;
+        float: none;
+        margin: 0;
+    }
+    .checkout-column .checkout-col-3{
+        max-width: none;
+    }
 }

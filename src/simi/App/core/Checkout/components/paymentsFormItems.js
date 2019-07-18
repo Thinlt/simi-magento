@@ -86,8 +86,6 @@ const PaymentsFormItems = props => {
         handleSuccess(parseData)
     }
 
-    // console.log(thisInitialValue);
-
     return (
         <Fragment>
             <div className={classes.body}>
