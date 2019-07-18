@@ -5,9 +5,9 @@ import {configColor} from 'src/simi/Config'
 import ReactHTMLParse from 'react-html-parser';
 import { Link } from 'src/drivers';
 import Trash from 'src/simi/BaseComponents/Icon/Trash';
-import { Price } from '@magento/peregrine';
 import { removeWlItem, addWlItemToCart } from 'src/simi/Model/Wishlist'
 import {hideFogLoading, showFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
+import Price from 'src/simi/BaseComponents/Price'
 
 const productUrlSuffix = '.html';
 
@@ -131,11 +131,8 @@ class Item extends React.Component {
                     <Link to={this.location} className={classes["product-name"]}>{ReactHTMLParse(item.product.name)}</Link>
                     <div className={classes["prices-layout"]} id={`price-${item.product_id}`}>
                         {
-                            (item.product.price && item.product.price.regularPrice && item.product.price.regularPrice.amount) &&
-                            <Price
-                                value={parseFloat(item.product.price.regularPrice.amount.value)}
-                                currencyCode={item.product.price.regularPrice.amount.currency}
-                            />
+                            (item.product.price) &&
+                            <Price prices={item.product.price} type={item.product.price} classes={classes}/>
                         }
                     </div>
                 </div>

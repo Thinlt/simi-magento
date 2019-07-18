@@ -3,9 +3,12 @@ import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent'
 import CreateAccountPage from 'src/components/CreateAccountPage/index';
 import Home from 'src/simi/App/core/RootComponents/CMS/Home'
 
-const Checkout = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/core/Checkout')} {...props}/>
-}
+import Checkout from 'src/simi/App/core/Checkout'
+import Thankyou from 'src/simi/App/core/Checkout/Thankyou'
+
+// const Checkout = (props) => {
+//     return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/core/Checkout')} {...props}/>
+// }
 
 const Login = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Login"*/'src/simi/App/core/Customer/Login')} {...props}/>
@@ -35,6 +38,7 @@ const Logout = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Logout"*/'src/simi/App/core/Customer/Logout')} {...props}/>
 }
 
+
 const router = {
     home : {
         path: '/',
@@ -63,6 +67,10 @@ const router = {
     checkout : {
         path: '/checkout.html',
         render : (location) => <Checkout {...location}/>
+    },
+    thankyou : {
+        path: '/thankyou.html',
+        render : (location) => <Thankyou {...location}/>
     },
     login : {
         path: '/login.html',
