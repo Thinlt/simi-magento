@@ -7,7 +7,6 @@ import {
     /* validateRegionCode */
 } from 'src/util/formValidators';
 
-import { validateRegionCode } from 'src/simi/utils/formValidators';
 
 import defaultClasses from './formFields.css';
 import combine from 'src/util/combineValidators';
