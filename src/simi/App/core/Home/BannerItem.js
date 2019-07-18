@@ -31,7 +31,7 @@ const BannerItem = props => {
                     <div className={classes["title"]}>{item.banner_title}</div>
                 </div>
                 <Colorbtn 
-                    text={"show"}
+                    text={"Show"}
                     className={`${classes["banner-action"]}`}/>
             </div>
         )
