@@ -1,24 +1,13 @@
 import React from "react";
-import { compose } from 'redux';
-import { connect } from 'src/drivers';
 import Identify from "src/simi/Helper/Identify";
 import {Colorbtn} from 'src/simi/BaseComponents/Button'
 import {configColor} from 'src/simi/Config'
 import ReactHTMLParse from 'react-html-parser';
 import { Link } from 'src/drivers';
 import Trash from 'src/simi/BaseComponents/Icon/Trash';
-import {confirmAlert} from 'react-confirm-alert';
-import classify from 'src/classify';
-import itemStyle from './item.css';
 import { Price } from '@magento/peregrine';
 import { removeWlItem, addWlItemToCart } from 'src/simi/Model/Wishlist'
-import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
-import { getCartDetails } from 'src/actions/cart';
-import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
-import confirmAllertStyles from 'react-confirm-alert/src/react-confirm-alert.css'
-
-
-const defaultClasses = {...confirmAllertStyles, ...itemStyle }
+import {hideFogLoading, showFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 
 const productUrlSuffix = '.html';
 
@@ -38,14 +27,16 @@ class Item extends React.Component {
             }
         } else if (this.addCart || this.removeItem) {
             if (this.addCart) {
-                this.props.toggleMessages([{type: 'success', message: Identify.__('This product has been moved to cart')}])
+                this.props.toggleMessages([{type: 'success', message: Identify.__('This product has been moved to cart'), auto_dismiss: true}])
                 const { getCartDetails } = this.props;
                 if (getCartDetails)
                     getCartDetails()
+                showFogLoading()
                 this.props.getWishlist()
             }
             if (this.removeItem) {
-                this.props.toggleMessages([{type: 'success', message: Identify.__('This product has been removed from your wishlist')}])
+                this.props.toggleMessages([{type: 'success', message: Identify.__('This product has been removed from your wishlist'), auto_dismiss: true}])
+                showFogLoading()
                 this.props.getWishlist()
             }
         }
@@ -68,19 +59,9 @@ class Item extends React.Component {
 
     onTrashItem = (id) => {
         if(id){
-            confirmAlert({
-                title: '',
-                message: Identify.__('Are you sure you want to delete this product?'),
-                buttons: [
-                    {
-                        label: Identify.__('Confirm'),
-                        onClick: () => this.handleTrashItem(id)
-                    },
-                    {
-                        label: Identify.__('Cancel'),
-                    }
-                ]
-            });
+            if (confirm(Identify.__('Are you sure you want to delete this product?')) == true) {
+                this.handleTrashItem(id)
+            }
         }
     }
 
@@ -108,7 +89,7 @@ class Item extends React.Component {
             },
         }
         
-        const addToCartString = (item.is_salable && (parseInt(item.is_salable, 10) !== 1)) ? Identify.__('Out of stock') : Identify.__('Buy now');
+        const addToCartString = Identify.__('Buy now')
         
         const image = item.product.small_image.url && (
             <div 
@@ -124,7 +105,7 @@ class Item extends React.Component {
                 <span 
                     role="presentation"
                     className={classes["trash-item"]}
-                    style={{position: 'absolute', bottom: 1, left: 1, width: 30, height: 30, cursor: 'pointer', zIndex: 22}} onClick={() => this.onTrashItem(item.id)}>
+                    style={{position: 'absolute', bottom: 1, left: 1, width: 30, height: 30, cursor: 'pointer', zIndex: 1}} onClick={() => this.onTrashItem(item.id)}>
                     <Trash style={{fill: '#333132', width: 30, height: 30}} />
                 </span>
             </div>
@@ -164,14 +145,4 @@ class Item extends React.Component {
     }
 }
 
-const mapDispatchToProps = {
-    toggleMessages,
-    getCartDetails
-}
-export default compose(
-    classify(defaultClasses),
-    connect(
-        null,
-        mapDispatchToProps
-    )
-)(Item);
+export default Item
