@@ -1,0 +1,33 @@
+@media (max-width: 1024px) {
+    .account-favourites .product-grid {
+        display: flex;    
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+}
+@media (min-width: 1024px) and (max-width: 1919px) {
+    .account-favourites .product-grid {
+        margin-left: -22px;
+    }
+}
+@media (min-width: 1920px){
+    .account-favourites .product-grid {
+        margin-left: -40px;
+    }
+}
+
+.siminia-wishlist-item {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    margin-top: 16px;
+    vertical-align: top;
+    width: 48%;
+}
+
+@media (min-width: 1024px) { 
+    .siminia-wishlist-item {
+        width: 25%;
+        padding-left: 22px;
+    }
+}

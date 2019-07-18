@@ -5,10 +5,10 @@ import Loading from "src/simi/BaseComponents/Loading";
 import Item from "./Item";
 import { simiUseQuery } from 'src/simi/Network/Query'
 import getWishlistQuery from 'src/simi/queries/wishlist/getWishlist.graphql'
-
+import classes from './index.css'
 
 const Wishlist = props => {
-    const {classes, history} = props    
+    const { history} = props    
     const [queryResult, queryApi] = simiUseQuery(getWishlistQuery, false);
     const { data } = queryResult;
     const { runQuery } = queryApi;
@@ -38,7 +38,7 @@ const Wishlist = props => {
                     <div
                         className={`${
                             index % 4 === 0 ? classes["first"] : ""
-                        } ${classes['siminia-product-list-item']}`}
+                        } ${classes['siminia-wishlist-item']}`}
                         key={itemKey}
                     >
                         <Item
