@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Identify from "src/simi/Helper/Identify";
 import {Link} from 'react-router-dom'
 import { Whitebtn } from 'src/simi/BaseComponents/Button';
