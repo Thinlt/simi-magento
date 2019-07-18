@@ -30,7 +30,11 @@ const ProductItem = props => {
     if(!data) return <Loading />
 
     const renderProductItem = (item,lastInRow) => {
-        console.log(item);
+        const itemData =  {
+            ...item,
+            small_image:
+                typeof item.small_image === 'object' && item.small_image.hasOwnProperty('url') ? item.small_image.url : item.small_image
+        }
         return (
             <div
                 key={`horizontal-item-${item.id}`}
@@ -40,10 +44,8 @@ const ProductItem = props => {
                 }}
                 >
                 <GridItem
-                    item={item}
+                    item={itemData}
                     handleLink={handleAction}
-                    // lazyImage={this.state.isPhone}
-                    // showBuyNow={this.props.homepage?false:true}
                 />
             </div>
         );
