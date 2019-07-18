@@ -1,44 +1,18 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import ArrowRight from 'src/simi/BaseComponents/Icon/TapitaIcons/ArrowLeft';
-import { simiUseQuery } from 'src/simi/Network/Query' 
-import getCategory from 'src/simi/queries/catalog/getCategory.graphql'
+
+const cateUrlSuffix = '.html';
 
 const HomeCatItem = props => {
     const {item, classes, history} = props;
-    const [queryResult, queryApi] = simiUseQuery(getCategory, false);
-    const {data} = queryResult
-    const {runQuery} = queryApi
-
-    useEffect(() => {
-        runQuery({
-            variables: {
-                id: Number(item.category_id),
-                currentPage: Number(1),
-                pageSize: Number(8),
-                stringId: String(item.category_id),
-            }
-        })
-    }, [])
 
     const action = () => {
-        let pathname = '/';
-        if(data.category.breadcrumbs && data.category.breadcrumbs instanceof Array) {
-            data.category.breadcrumbs.forEach(value => {
-                pathname += value.category_url_key + '/';
-            }) 
-        }
-
-        if(data.category.url_key) {
-            pathname += data.category.url_key + '.html';
-            let location = {
-                pathname,
-            }
-            history.push(location);
-        }
+        if (item.url_path)
+            history.push(item.url_path + cateUrlSuffix);
     }
 
     return (
-        <div className={classes["home-cate-item"]} onClick={() => action()}>
+        <div role="presentation" className={classes["home-cate-item"]} onClick={() => action()}>
             <div className={classes["cate-img"]}>
                 <img src={window.innerWidth < 1024 ?  item.simicategory_filename : item.simicategory_filename_tablet}
                      alt={item.simicategory_name}/>

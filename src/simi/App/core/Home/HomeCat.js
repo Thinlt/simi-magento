@@ -7,7 +7,7 @@ const HomeCat = props => {
     const renderCat = () => {
         if(catData.home.homecategories && catData.home.homecategories.homecategories instanceof Array && catData.home.homecategories.homecategories.length > 0) {
             const dataCat = catData.home.homecategories.homecategories;
-            let cate = dataCat.map((item, key) => {
+            const cate = dataCat.map((item, key) => {
                 return (
                     <HomeCatItem item={item} history={history} key={key} classes={classes}/>
                 )
