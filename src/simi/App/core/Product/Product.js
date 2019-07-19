@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { string, func } from 'prop-types';
+import { string } from 'prop-types';
 
-import { connect } from 'src/drivers';
 import { Simiquery } from 'src/simi/Network/Query'
-import { addItemToCart, getCartDetails } from 'src/actions/cart';
-import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import Loading from 'src/simi/BaseComponents/Loading'
 import ProductFullDetail from 'src/simi/App/core/RootComponents/Product/ProductFullDetail'
 import Identify from 'src/simi/Helper/Identify'
-import getProductDetailBySku from 'src/simi/queries/getProductDetailBySku.graphql'
+import getProductDetailBySku from 'src/simi/queries/catalog/getProductDetailBySku.graphql'
 import connectorGetProductDetailBySku from 'src/simi/queries/simiconnector/getProductDetailBySku.graphql'
 
 /**
@@ -20,13 +17,7 @@ import connectorGetProductDetailBySku from 'src/simi/queries/simiconnector/getPr
  */
 class Product extends Component {
     static propTypes = {
-        addItemToCart: func.isRequired,
         cartId: string
-    };
-
-    addToCart = async (item, quantity) => {
-        const { addItemToCart, cartId } = this.props;
-        await addItemToCart({ cartId, item, quantity });
     };
 
     componentDidMount() {
@@ -56,16 +47,13 @@ class Product extends Component {
                         if (loading) return <Loading />;
 
                         const product = data.productDetail.items[0];
-                        let simiExtraField = data.simiProductDetaileExtraField
+                        let simiExtraField = data.simiProductDetailExtraField
                         simiExtraField = simiExtraField?JSON.parse(simiExtraField):null
+                        product.simiExtraField = simiExtraField
 
                         return (
                             <ProductFullDetail
                                 product={this.mapProduct(product)}
-                                addToCart={this.props.addItemToCart}
-                                getCartDetails={this.props.getCartDetails}
-                                simiExtraField={simiExtraField}
-                                toggleMessages={this.props.toggleMessages}
                             />
                         );
                     }}
@@ -76,13 +64,4 @@ class Product extends Component {
     }
 }
 
-const mapDispatchToProps = {
-    addItemToCart,
-    getCartDetails,
-    toggleMessages
-};
-
-export default connect(
-    null,
-    mapDispatchToProps
-)(Product);
+export default Product;

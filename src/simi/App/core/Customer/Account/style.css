@@ -376,8 +376,17 @@
     font-weight: bold;
     font-size: 16px;
 }
-.customer-recent-orders #page-numbers li.active{
-    background: #333132;
+
+.product-code{
+    vertical-align: middle
+}
+
+.page-nums{
+    padding: 0 3px;
+}
+
+.active{
+    background: #333132; 
     color: #FFFFFF;
 }
 .customer-recent-orders #page-numbers li.icon-page-number{
@@ -388,6 +397,18 @@
 }
 .customer-recent-orders #page-numbers li:last-child{
     margin-right: 0;
+}
+
+#page-numbers li{
+    margin-right: 5px;
+}
+
+.icon-page-number{
+    line-height: 0px;
+}
+
+.cart-item-value span{
+    color: rgb(171, 69, 47) !important;
 }
 
 /* newsletter */
@@ -564,6 +585,7 @@
 .order-detail-table .order-item-info{
     margin-top: 6px;
 }
+
 .detail-order__col.item-qty{
     text-align: center;
 }
@@ -632,6 +654,9 @@
     .dashboard-menu {
         width: 100%;
     }
+    .dashboard-content{
+        margin-left: 0px !important;
+    }
     .customer-dashboard .container {
         padding: 0;
     }
@@ -666,6 +691,7 @@
     .dashboard-content {
         margin: 0;
         padding: 16px;
+        width: auto;
     }
     .body-customer-dashboard #data-breadcrumb {
         display: block;
@@ -973,25 +999,11 @@
         margin-right: -22px;
     }
 }
-
 /*
-favourite
+Order history
 */
-@media (min-width: 1920px){
-    .account-favourites .product-grid {
-        margin-left: -40px;
-    }
-    .product-grid .no-product{
-        margin-left: 40px;
-    }
-}
-@media (max-width: 1024px) {
-    .account-favourites .product-grid {
-        display: flex;    
-        justify-content: space-between;
-        flex-wrap: wrap;
-    }
 
+@media (max-width: 1024px) {
     .table-siminia > tbody > tr > td,
     .table-siminia > tbody > tr > th,
     .table-siminia > tfoot > tr > td,
@@ -1016,9 +1028,6 @@ favourite
 }
 
 @media (min-width: 1024px) and (max-width: 1919px) {
-    .account-favourites .product-grid {
-        margin-left: -22px;
-    }
     .product-grid .no-product{
         margin-left: 22px;
     }
@@ -1044,6 +1053,10 @@ favourite
         padding: 0;
         margin-left: 75px;
         width: 240px;
+    }
+
+    .product-grid .no-product{
+        margin-left: 40px;
     }
 
     .product-grid .siminia-product-list-item.first{

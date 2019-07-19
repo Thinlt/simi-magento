@@ -1,8 +1,8 @@
 import React from 'react'
 import Identify from "src/simi/Helper/Identify"
 import { Switch, Route } from 'react-router-dom';
-import {PbPageHoc} from 'src/simi/App/core/Pbpage';
-import ErrorView from 'src/simi/App/core/ErrorView/index';
+import {PbPageHoc} from 'src/simi/BaseComponents/Pbpage';
+import ErrorView from 'src/simi/BaseComponents/ErrorView/index';
 import { Page } from '@magento/peregrine';
 
 const renderRoutingError = props => <ErrorView {...props} />;
@@ -79,6 +79,7 @@ class Abstract extends React.Component{
                 <Route exact {...router.cart}/>
                 <Route exact {...router.product_detail}/>
                 <Route exact {...router.checkout}/>
+                <Route exact {...router.thankyou}/>
                 <Route exact {...router.account}/>
                 <Route exact {...router.address_book}/>
                 <Route exact {...router.oder_history}/>
@@ -105,7 +106,7 @@ class Abstract extends React.Component{
                 document.getElementById("rtl-stylesheet").remove();
             }
             catch (err) {
-                
+
             }
         }
     }

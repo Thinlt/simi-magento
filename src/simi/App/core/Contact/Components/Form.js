@@ -5,35 +5,19 @@ import Identify from 'src/simi/Helper/Identify'
 import classify from "src/classify";
 import defaultClasses from "../style.css";
 import {Colorbtn} from '../../../../BaseComponents/Button';
+import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
+import { sendContact } from '../../../../Model/Contact';
+import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { connect } from 'src/drivers';
 import { compose } from 'redux';
-import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
-import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 
 const $ = window.$;
 class Form extends Component {
-    handleSubmit = (e) => {
-        e.preventDefault();
-        const form = $('#contact-form').serializeArray();
-        let value = {};
-        for(let i in form){
-            let field = form[i];
-            value[field.name] = field.value;
-        }
-        // console.log(value)
-        showFogLoading()
-        this.props.sendContact(value)
-        // this.processData(this.props.data)
-    }
-
-    render() {
-        const { classes, data } = this.props
-        // console.log(data, 'log ')
+    proceedData(data){
         if(data){
             hideFogLoading()
-            console.log(data.length)
-            if (data.length) {
-                const errors = data.map(error => {
+            if (data.errors.length) {
+                const errors = data.errors.map(error => {
                     return {
                         type: 'error',
                         message: error.message,
@@ -46,6 +30,25 @@ class Form extends Component {
         } else {
             this.props.toggleMessages({type: 'success', message: Identify.__('Thank you, we will contact you soon')})
         }
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const form = $('#contact-form').serializeArray();
+        let value = {};
+        for(let i in form){
+            let field = form[i];
+            value[field.name] = field.value;
+        }
+        // console.log(value)
+        showFogLoading();
+        sendContact(value,this.proceedData.bind(this))
+    }
+
+    render() {
+        const { classes } = this.props
+        // console.log(data, 'log ')
+        
         return (
             <div className={classes['form-container']}>
                 <form id="contact-form" onSubmit={this.handleSubmit}>
@@ -76,14 +79,6 @@ class Form extends Component {
     }
 }
 
-const mapStateToProps = ({contact}) => {
-    const { data } = contact;
-    console.log(data, 'data ......')
-    return {
-        data
-    }
-}
-
 const mapDispatchToProps = {
     toggleMessages,
 }
@@ -91,7 +86,7 @@ const mapDispatchToProps = {
 export default compose(
     classify(defaultClasses),
     connect(
-        mapStateToProps,
+        null,
         mapDispatchToProps
     )
 ) (Form);

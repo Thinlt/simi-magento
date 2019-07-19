@@ -8,7 +8,7 @@ import Branch from './categoryBranch';
 import Leaf from './categoryLeaf';
 import CategoryTree from './categoryTree';
 import defaultClasses from './categoryTree.css';
-import navigationMenu from 'src/simi/queries/getNavigationMenu.graphql';
+import navigationMenu from 'src/simi/queries/catalog/getNavigationMenu.graphql';
 
 class Tree extends Component {
     static propTypes = {

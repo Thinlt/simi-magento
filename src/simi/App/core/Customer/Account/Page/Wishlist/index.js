@@ -1,14 +1,19 @@
 import React, { useEffect } from 'react';
+import { connect } from 'src/drivers';
 import Identify from 'src/simi/Helper/Identify'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import Loading from "src/simi/BaseComponents/Loading";
 import Item from "./Item";
 import { simiUseQuery } from 'src/simi/Network/Query'
-import getWishlistQuery from 'src/simi/queries/getWishlist.graphql'
-
+import getWishlistQuery from 'src/simi/queries/wishlist/getWishlist.graphql'
+import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+import { getCartDetails } from 'src/actions/cart';
+import {hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
+import classes from './index.css'
+import Pagination from 'src/simi/BaseComponents/Pagination';
 
 const Wishlist = props => {
-    const {classes, history} = props    
+    const { history, toggleMessages, getCartDetails} = props    
     const [queryResult, queryApi] = simiUseQuery(getWishlistQuery, false);
     const { data } = queryResult;
     const { runQuery } = queryApi;
@@ -23,38 +28,44 @@ const Wishlist = props => {
         }
     }, [data]);
 
+    
+    const renderItem = (item, index) => {
+        return (
+            <div
+                className={`${
+                    index % 4 === 0 ? classes["first"] : ""
+                } ${classes['siminia-wishlist-item']}`}
+                key={item.id}
+            >
+                <Item
+                    item={item}
+                    lazyImage={true}
+                    className={`${
+                        index % 4 === 0 ? classes["first"] : ""
+                    }`}
+                    classes={classes}
+                    showBuyNow={true}
+                    parent={this}
+                    getWishlist={getWishlist}
+                    toggleMessages={toggleMessages}
+                    getCartDetails={getCartDetails}
+                    history={history}
+                /> 
+            </div>
+        )
+    }
+
     let rows = null
     if (!data || !data.wishlist) {
         return <Loading />;
     } else {
+        hideFogLoading()
         const {wishlist} = data
         if (wishlist.items_count && wishlist.items && wishlist.items.length) {
             const wishlistData = wishlist.items;
-            rows = wishlistData.map((item, index) => {
-                const itemKey = `tablet-product-items-${
-                    item.product_id
-                }-${index}`;
-                return (
-                    <div
-                        className={`${
-                            index % 4 === 0 ? classes["first"] : ""
-                        } ${classes['siminia-product-list-item']}`}
-                        key={itemKey}
-                    >
-                        <Item
-                            item={item}
-                            lazyImage={true}
-                            className={`${
-                                index % 4 === 0 ? classes["first"] : ""
-                            }`}
-                            showBuyNow={true}
-                            parent={this}
-                            getWishlist={getWishlist}
-                            history={history}
-                        /> 
-                    </div>
-                );
-            });
+            return (
+                rows = <Pagination data={wishlistData} renderItem={renderItem} classes={classes} itemsPerPageOptions={[8, 16, 32]} limit={8}/>
+            )
         }
     }
 
@@ -83,4 +94,11 @@ const Wishlist = props => {
     )
 }
 
-export default Wishlist;
+const mapDispatchToProps = {
+    toggleMessages,
+    getCartDetails
+}
+export default connect(
+    null,
+    mapDispatchToProps
+)(Wishlist);
