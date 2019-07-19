@@ -1,12 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 // import Loading from "src/simi/BaseComponents/Loading";
 import Identify from 'src/simi/Helper/Identify'
 import { formatPrice } from 'src/simi/Helper/Pricing';
 import PaginationTable from './PaginationTable';
 import { Link } from 'react-router-dom';
+import defaultClasses from './style.css'
+import classify from "src/classify";
 
 const OrderList = props => {
     const { classes, showForDashboard, data } = props
+    const [limit, setLimit] = useState(10);
+    const [title, setTitle] = useState('Show')
     const cols =
         [
             { title: Identify.__("Order #"), width: "14.02%" },
@@ -16,7 +20,7 @@ const OrderList = props => {
             { title: Identify.__("Status"), width: "12.58%" },
             { title: Identify.__(""), width: "12.27%" }
         ];
-    const limit = 10;
+    // const limit = 2;
     const currentPage = 1;
 
     const renderOrderItem = (item, index) => {
@@ -69,8 +73,11 @@ const OrderList = props => {
                         cols={cols}
                         showPageNumber={!showForDashboard}
                         limit={limit}
+                        setLimit={setLimit}
                         currentPage={currentPage}
                         classes={classes}
+                        title={title}
+                        setTitle={setTitle}
                     />
                 )
             }
@@ -78,4 +85,4 @@ const OrderList = props => {
     )
 }
 
-export default OrderList;
+export default classify(defaultClasses)(OrderList);

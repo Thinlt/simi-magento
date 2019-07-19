@@ -5,6 +5,7 @@ import React from 'react'
 import Pagination from 'src/simi/BaseComponents/Pagination'
 import Identify from 'src/simi/Helper/Identify'
 import Arrow from "src/simi/BaseComponents/Icon/Arrow";
+import DropDown from 'src/simi/BaseComponents/Dropdownoption';
 
 class PaginationTable extends Pagination {
     constructor(props) {
@@ -30,10 +31,10 @@ class PaginationTable extends Pagination {
         }
     }
 
-    changePage(event) {
-        this.changePage({
-            currentPage: Number(event.target.id)
-        })
+    componentDidUpdate(prevProps){
+        if(this.props.limit !== prevProps.limit){
+            this.setState({limit: this.props.limit})
+        }
     }
 
     handleChangePage =(next = true, total)=>{
@@ -48,6 +49,27 @@ class PaginationTable extends Pagination {
         this.setState({
             currentPage : currentPage
         })
+    }
+
+    changeLimit = (e) => {
+        const {setLimit, setTitle} = this.props;
+        setLimit(e.target.value)
+        setTitle(e.target.value)
+    }
+
+    renderDropDown = () => {
+        const {classes, title} = this.props;
+        return(
+            <div>
+            <DropDown title={`${title} items`} className={classes['dropdown-show-item']}>
+                <ul>
+                    <li onClick={this.changeLimit} value={10}>10</li>
+                    <li onClick={this.changeLimit} value={20}>20</li>
+                </ul>
+            </DropDown>
+
+            </div>
+        )
     }
 
     renderPageNumber = (total)=> {
@@ -94,7 +116,7 @@ class PaginationTable extends Pagination {
                 padding : 0,
                 display : 'flex',
                 alignItems : 'center',
-                fontSize : 14
+                fontSize : 14,
             }}>
                 <li className={classes["icon-page-number"]} onClick={()=>this.handleChangePage(false, total)}>{prevPageIcon}</li>
                 {renderPageNumbers}
@@ -119,12 +141,13 @@ class PaginationTable extends Pagination {
             <div className={classes["config-page"]}
                  style={{
                      display : 'flex',
-                     alignItems : 'center',
+                     alignItems : 'baseline',
                      justifyContent : 'space-between',
                      clear: 'both'
                  }}
             >
                 {itemsPerPage}
+                {this.renderDropDown()}
                 {pagesSelection}
             </div>
         )
