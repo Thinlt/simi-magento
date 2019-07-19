@@ -57,37 +57,44 @@ class BundleOption extends OptionBase {
         </div>);
     };
 
+
+    getTierPriceElement = (element) => {
+        if(element.tierPrice.length > 0){
+            for (const t in element.tierPrice) {
+                const item = element.tierPrice[t];
+                if(qty === parseInt(item.price_qty,10)){
+                    return item;
+                }
+            }
+        }
+        return element
+    }
+
     updatePrices = (selected = this.selected) =>{
         let priceInclTax = 0;
         let priceExclTax = 0;
         const attributes = this.data.bundle_options.options;
-console.log(selected)
         for (const i in selected) {
             const values = selected[i];
             const option = attributes[i];
             const selections = option.selections;
             if (values) {
-                for (const j in values) {
-                    let element = selections[values];
-                    const input = $('input.option-qty-'+i)
-                    if(values instanceof Array){
-                        element = selections[values[j]];
-                    }
-
-                    if (element) {
-                        const qty = input.val()?parseInt(input.val(), 10): element.qty;
-
-                        if(element.tierPrice.length > 0){
-                            for (const t in element.tierPrice) {
-                                const item = element.tierPrice[t];
-                                if(qty === parseInt(item.price_qty,10)){
-                                    element = item;
-                                    break;
-                                }
-                            }
+                const input = $('input.option-qty-'+i)
+                if(values instanceof Array) { //multi select
+                    for (const j in values) {
+                        let element = selections[values[j]];
+                        if (element) {
+                            const qty = input.val()?parseInt(input.val(), 10): element.qty;
+                            element = this.getTierPriceElement(element)
+                            priceExclTax += parseFloat(parseFloat(element.prices.basePrice.amount)*qty);
+                            priceInclTax += parseFloat(parseFloat(element.prices.finalPrice.amount)*qty);
                         }
-                        console.log('plus')
-                        console.log(parseFloat(parseFloat(element.prices.finalPrice.amount)*qty))
+                    }
+                } else { //single select
+                    let element = selections[values];
+                    if (element) {
+                        const qty = input.val()?parseInt(input.val(), 10): element.qty; 
+                        element = this.getTierPriceElement(element)
                         priceExclTax += parseFloat(parseFloat(element.prices.basePrice.amount)*qty);
                         priceInclTax += parseFloat(parseFloat(element.prices.finalPrice.amount)*qty);
                     }
