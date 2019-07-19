@@ -1,4 +1,5 @@
 import * as Constants from 'src/simi/Config/Constants';
+import CacheHelper from 'src/simi/Helper/CacheHelper';
 
 class Identify {
     static SESSION_STOREAGE = 1;
@@ -53,6 +54,18 @@ class Identify {
     Store config
     */
     static saveStoreConfig(data) {
+        //check version
+        if (data && data.simiStoreConfig && data.simiStoreConfig.pwa_studio_client_ver_number) {
+            const {pwa_studio_client_ver_number} = data.simiStoreConfig
+            const curentVer = this.getDataFromStoreage(Identify.LOCAL_STOREAGE, Constants.CLIENT_VER)
+            if (curentVer && curentVer !== pwa_studio_client_ver_number) {
+                console.log('New version released, updating..')
+                CacheHelper.clearCaches()
+                window.location.reload()
+            }
+            this.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.CLIENT_VER, pwa_studio_client_ver_number)
+        }
+        //save to storeview + currency to local storage
         if (data.simiStoreConfig && data.simiStoreConfig.config_json && (typeof data.simiStoreConfig.config_json) === 'string') {
             const simi_config = JSON.parse(data.simiStoreConfig.config_json)
             if (simi_config && simi_config.storeview) {
@@ -61,6 +74,7 @@ class Identify {
                     this.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, simi_config.storeview.base.customer_identity)
             }
         }
+        //save store config to session storage
         this.storeDataToStoreage(Identify.SESSION_STOREAGE, Constants.STORE_CONFIG, data)
     }
     static getStoreConfig() {
@@ -91,7 +105,7 @@ class Identify {
     }
 
 
-    /* 
+    /*
     store/get data from storage
     */
     static storeDataToStoreage(type, key, data) {
@@ -152,7 +166,7 @@ class Identify {
     /*
     Version control
     */
-    //version control 
+    //version control
     static detectPlatforms() {
         if (navigator.userAgent.match(/iPad|iPhone|iPod/)) {
             return 1;
@@ -162,6 +176,29 @@ class Identify {
             return 3;
         }
     }
+
+    static smoothScrollToView = (querySelector, duration = 350) => {
+        if(querySelector && querySelector.offset() instanceof Object){
+            let offsetTop = querySelector.offset().top;
+
+            let elementHeight = querySelector.height();
+            let windowHeight = $(window).height();
+            let offset = offsetTop;
+
+            if (elementHeight < windowHeight) {
+                offset = offsetTop - ((windowHeight / 2) - (elementHeight / 2));
+            }
+
+            $('html, body').animate({
+                scrollTop: offset
+            }, duration);
+        }
+
+    }
+
+    static validateEmail(email) {
+        return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+    };
 }
 
 export default Identify;

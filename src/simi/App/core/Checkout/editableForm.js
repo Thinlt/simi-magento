@@ -1,14 +1,18 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, Fragment } from 'react';
 import { array, bool, func, object, oneOf, shape, string } from 'prop-types';
 
 import AddressForm from './addressForm';
 import PaymentsForm from './paymentsForm';
 import ShippingForm from './shippingForm';
+import AddressItem from 'src/simi/BaseComponents/Address';
+import isObjectEmpty from 'src/util/isObjectEmpty';
+import defaultClass from './editableForm.css';
 
 /**
  * The EditableForm component renders the actual edit forms for the sections
  * within the form.
  */
+
 const EditableForm = props => {
     const {
         editing,
@@ -21,7 +25,9 @@ const EditableForm = props => {
         directory: { countries },
         paymentMethods,
         submitBillingAddress,
-        submitPaymentMethod
+        submitPaymentMethod,
+        user,
+        simiSignedIn
     } = props;
 
     const handleCancel = useCallback(() => {
@@ -69,23 +75,46 @@ const EditableForm = props => {
         [submitPaymentMethod]
     );
 
+    // if (user && user.isSignedIn && user.currentUser.id && (!props.shippingAddress || !props.billingAddress) && flg_ship) {
+    //     flg_ship = 0;
+    //     const { currentUser } = user;
+    //     const { default_billing, default_shipping } = currentUser;
+
+    //     if (!props.shippingAddress && default_shipping && currentUser.hasOwnProperty('addresses') && currentUser.addresses.length){
+    //         const df_Address = currentUser.addresses.find(
+    //             ({id}) => parseInt(id, 10) === parseInt(default_shipping, 10)
+    //         )
+    //         if (df_Address){
+    //             handleSubmitAddressForm(df_Address)
+    //         }
+    //     }
+    // }
+
     switch (editing) {
         case 'address': {
-            let { shippingAddress } = props;
+            let { shippingAddress, billingAddress } = props;
             if (!shippingAddress) {
                 shippingAddress = undefined;
             }
 
             return (
-                <AddressForm
-                    cancel={handleCancel}
-                    countries={countries}
-                    isAddressInvalid={isAddressInvalid}
-                    invalidAddressMessage={invalidAddressMessage}
-                    initialValues={shippingAddress}
-                    submit={handleSubmitAddressForm}
-                    submitting={submitting}
-                />
+                <Fragment>
+                    <AddressForm
+                        cancel={handleCancel}
+                        countries={countries}
+                        isAddressInvalid={isAddressInvalid}
+                        invalidAddressMessage={invalidAddressMessage}
+                        initialValues={shippingAddress}
+                        submit={handleSubmitAddressForm}
+                        submitting={submitting}
+                        billingAddressSaved={billingAddress}
+                        submitBilling={handleSubmitBillingForm}
+                        user={user}
+                        simiSignedIn={simiSignedIn}
+                    />
+                    {shippingAddress && !isObjectEmpty(shippingAddress) ?
+                        <AddressItem classes={defaultClass} data={shippingAddress} /> : null}
+                </Fragment>
             );
         }
 
@@ -96,16 +125,22 @@ const EditableForm = props => {
             }
 
             return (
-                <AddressForm
-                    cancel={handleCancel}
-                    countries={countries}
-                    isAddressInvalid={isAddressInvalid}
-                    invalidAddressMessage={invalidAddressMessage}
-                    initialValues={billingAddress}
-                    submit={handleSubmitBillingForm}
-                    submitting={submitting}
-                    billingForm={true}
-                />
+                <Fragment>
+                    <AddressForm
+                        cancel={handleCancel}
+                        countries={countries}
+                        isAddressInvalid={isAddressInvalid}
+                        invalidAddressMessage={invalidAddressMessage}
+                        initialValues={billingAddress}
+                        submit={handleSubmitBillingForm}
+                        submitting={submitting}
+                        billingForm={true}
+                        user={user}
+                    />
+                    {billingAddress && !isObjectEmpty(billingAddress) && !billingAddress.hasOwnProperty('sameAsShippingAddress') ?
+                        <AddressItem classes={defaultClass} data={billingAddress} /> : null}
+                </Fragment>
+
             );
         }
 
@@ -126,8 +161,10 @@ const EditableForm = props => {
                 />
             );
         }
+
         case 'shippingMethod': {
             const { availableShippingMethods, shippingMethod } = props;
+
             return (
                 <ShippingForm
                     availableShippingMethods={availableShippingMethods}
@@ -138,6 +175,7 @@ const EditableForm = props => {
                 />
             );
         }
+
         default: {
             return null;
         }
@@ -160,7 +198,8 @@ EditableForm.propTypes = {
     directory: shape({
         countries: array
     }),
-    paymentMethods: array
+    paymentMethods: array,
+    user: object
 };
 
 export default EditableForm;

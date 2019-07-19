@@ -4,6 +4,7 @@ import DatePicker from 'material-ui/DatePicker';
 import Identify from "src/simi/Helper/Identify";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import CloseIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Close';
 const muiTheme = getMuiTheme({});
 class DateField extends Abstract {
 
@@ -18,8 +19,8 @@ class DateField extends Abstract {
         this.setState({
             date: date,
         });
+        const {key} = this;
         if(date){
-            const key = this.key;
             let value = this.convertDate(date);
             if(this.props.datetime){
                 const datetime = this.props.parent.selected[key];
@@ -27,9 +28,9 @@ class DateField extends Abstract {
                     value = {...datetime,...value};
                 }
             }
-            this.props.parent.updateOptions(key,value);
+            this.props.parent.updateOptions(key,value)
         }else{
-            this.deleteSelected(this.key);
+            this.deleteSelected(key)
         }
     };
 
@@ -58,23 +59,29 @@ class DateField extends Abstract {
 
     renderDate = ()=> {
         const {classes} = this.props
+        const {date} = this.state
         const text = Identify.isRtl() ? 'yyyy/mm/dd' : 'dd/mm/yyyy';
         return (
-            <MuiThemeProvider muiTheme={muiTheme}>
-                <DatePicker
-                    className={classes["date-picker"]}
-                    hintText={<div className="flex"><span>{Identify.__('Select date')}</span> <span>: {text}</span></div>}
-                    value={this.state.date}
-                    minDate={new Date()}
-                    mode={window.innerWidth < 768 ? 'portrait' : "landscape"}
-                    onChange={this.handleChange}
-                    formatDate={this.formatDate}
-                    textFieldStyle={{
-                        fontFamily : 'Montserrat, sans-serif',
-                        color : 'rgba(0, 0, 0, 0.87)'
-                    }}
-                />
-            </MuiThemeProvider>
+            <div className={classes['date-picker-ctn']}>
+                <MuiThemeProvider muiTheme={muiTheme}>
+                    <DatePicker
+                        className={classes["date-picker"]}
+                        hintText={<div className="flex"><span>{Identify.__('Select date')}</span> <span>: {text}</span></div>}
+                        value={date}
+                        minDate={new Date()}
+                        mode={window.innerWidth < 768 ? 'portrait' : "landscape"}
+                        onChange={this.handleChange}
+                        formatDate={this.formatDate}
+                        textFieldStyle={{
+                            fontFamily : 'Montserrat, sans-serif',
+                            color : 'rgba(0, 0, 0, 0.87)'
+                        }}
+                    />
+                </MuiThemeProvider>
+                <div role="presentation" className={classes['clear-date']} onClick={()=>this.handleChange()}>
+                    {date && <CloseIcon style={{width: 12, height: 12, fill: '#aeaeae'}}/>}
+                </div>
+            </div>
         )
     }
 

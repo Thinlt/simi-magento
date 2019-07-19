@@ -1,16 +1,22 @@
 import React, { Fragment, useCallback } from 'react';
-import { useFormState } from 'informed';
+import {connect} from 'react-redux';
+import { useFormState, useMemo } from 'informed';
 
 import { mergeClasses } from 'src/classify';
 import Identify from 'src/simi/Helper/Identify';
 import defaultClasses from './fieldShippingMethod.css';
-import Label from '../label';
 import Select from 'src/components/Select';
 
 const fieldShippingMethod = (props) => {
     const { classes, initialValue, selectableShippingMethods, availableShippingMethods, cancel, submit } = props;
 
     const formState = useFormState();
+
+    /* const value = useMemo(
+        () =>( return initialValue , {}),
+        [initialValue]
+    ); */
+
 
     const handleSelectMethod = useCallback(
         (shippingMethod) => {
@@ -42,7 +48,6 @@ const fieldShippingMethod = (props) => {
             className={defaultClasses['ship-method_field']}
             id={classes.shippingMethod}
         >
-            {/*   */}
             <Select
                 field="shippingMethod"
                 initialValue={initialValue}

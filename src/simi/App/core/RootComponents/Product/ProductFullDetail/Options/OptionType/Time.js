@@ -4,6 +4,7 @@ import TimePicker from 'material-ui/TimePicker';
 import Identify from "src/simi/Helper/Identify";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import CloseIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Close';
 const muiTheme = getMuiTheme({});
 class Time extends Abstract {
     state = {
@@ -46,19 +47,26 @@ class Time extends Abstract {
     };
 
     renderTimePicker = () => {
+        const {classes} = this.props
+        const {time} = this.state
         return (
-            <MuiThemeProvider muiTheme={muiTheme}>
-                <TimePicker
-                    format="ampm"
-                    hintText={Identify.__('Select time') + ": --:-- --"}
-                    value={this.state.time}
-                    onChange={this.handleChangeTimePicker}
-                    textFieldStyle={{
-                        fontFamily : 'Montserrat, sans-serif',
-                        color : 'rgba(0, 0, 0, 0.87)'
-                    }}
-                />
-            </MuiThemeProvider>
+            <div className={classes['time-picker-ctn']}>
+                <MuiThemeProvider muiTheme={muiTheme}>
+                    <TimePicker
+                        format="ampm"
+                        hintText={Identify.__('Select time') + ": --:-- --"}
+                        value={time}
+                        onChange={this.handleChangeTimePicker}
+                        textFieldStyle={{
+                            fontFamily : 'Montserrat, sans-serif',
+                            color : 'rgba(0, 0, 0, 0.87)'
+                        }}
+                    />
+                </MuiThemeProvider>
+                <div role="presentation" className={classes['clear-time']} onClick={()=>this.handleChangeTimePicker()}>
+                    {time && <CloseIcon style={{width: 12, height: 12, fill: '#aeaeae'}}/>}
+                </div>
+            </div>
 
         )
     }

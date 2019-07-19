@@ -31,7 +31,9 @@ const AddressForm = props => {
         initialValues,
         submit,
         submitting,
-        billingForm
+        billingForm,
+        billingAddressSaved,
+        submitBilling
     } = props;
 
     const classes = mergeClasses(defaultClasses, props.classes);
@@ -85,10 +87,30 @@ const AddressForm = props => {
     }
     selectableCountries.unshift(callGetCountries);
 
+    const handleSubmitBillingSameFollowShipping = useCallback(
+        () => {
+            const billingAddress = {
+                sameAsShippingAddress: true
+            }
+            submitBilling(billingAddress);
+        },
+        [submitBilling]
+    )
+
     const handleSubmit = useCallback(
         values => {
             if (values.hasOwnProperty('addresses_same')) delete values.addresses_same
+            if (values.hasOwnProperty('selected_shipping_address')) delete values.selected_shipping_address
+            if (values.hasOwnProperty('password')) delete values.password
+            if (values.save_in_address_book) {
+                values.save_in_address_book = 1;
+            } else {
+                values.save_in_address_book = 0;
+            }
             submit(values);
+            if(!billingForm && !billingAddressSaved){
+                handleSubmitBillingSameFollowShipping();
+            }
         },
         [submit]
     );
@@ -108,7 +130,7 @@ const AddressForm = props => {
             className={classes.root}
             initialValues={values}
             onSubmit={handleSubmit}
-            style={{display: 'inline-block'}}
+            style={{display: 'inline-block', width: '100%'}}
         >
             <FormFields {...formChildrenProps} />
         </Form>
@@ -146,19 +168,3 @@ AddressForm.defaultProps = {
 };
 
 export default AddressForm;
-
-/*
-const mockAddress = {
-    country_id: 'US',
-    firstname: 'Veronica',
-    lastname: 'Costello',
-    street: ['6146 Honey Bluff Parkway'],
-    city: 'Calder',
-    postcode: '49628-7978',
-    region_id: 33,
-    region_code: 'MI',
-    region: 'Michigan',
-    telephone: '(555) 229-3326',
-    email: 'veronica@example.com'
-};
-*/
