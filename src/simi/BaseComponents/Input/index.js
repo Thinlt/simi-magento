@@ -14,7 +14,6 @@ export const Qty = (props)=>{
         direction : 'ltr'
     };
     style = {...style,...props.inputStyle};
-    console.log(props)
     let className = classes['option-number']?classes['option-number']:''
     className +=  " " + props.className
     return (
@@ -34,7 +33,10 @@ export const Qty = (props)=>{
 
 Qty.propTypes = {
     className: PropTypes.string,
-    dataId: PropTypes.number,
+    dataId: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
     value: PropTypes.number,
     classes: PropTypes.object,
     onChange: PropTypes.func,
