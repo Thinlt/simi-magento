@@ -150,7 +150,7 @@ class BundleOption extends OptionBase {
         )
     }
 
-    renderMultiCheckbox =(ObjOptions, type = 'checkbox', id = '0')=>{
+    renderMultiCheckbox =(ObjOptions, id = '0')=>{
         const {classes} = this
         const options = ObjOptions.selections;
         const values = ObjOptions.values;
@@ -182,7 +182,7 @@ class BundleOption extends OptionBase {
             return <Select data={ObjOptions} id={key} parent={this} classes={classes} type_id='bundle'/>
         }
         if (ObjOptions.isMulti) {
-            return this.renderMultiCheckbox(ObjOptions, type, id)
+            return this.renderMultiCheckbox(ObjOptions, id)
         }
         return <Radio data={ObjOptions} id={key} parent={this} classes={classes} type_id='bundle'/>
     }
@@ -223,7 +223,7 @@ class BundleOption extends OptionBase {
 
     renderBtnCustomize =()=>{
         return(
-            <div role="presentation" className="" onClick={(e)=>this.handleChangeBtn()}>
+            <div role="presentation" className="" onClick={()=>this.handleChangeBtn()}>
                 <Whitebtn
                     style={{
                         paddingLeft: 20,
