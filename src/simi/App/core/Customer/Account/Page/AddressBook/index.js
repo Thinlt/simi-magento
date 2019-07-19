@@ -13,10 +13,12 @@ import CUSTOMER_ADDRESS_DELETE from 'src/simi/queries/customerAddressDelete.grap
 import List from './list';
 import Edit from './edit';
 import defaultClasses from './style.css';
+import { withRouter } from 'react-router-dom';
 
 const AddressBook = props => {
     
-    const {user, classes} = props;
+    const {user, classes, history} = props;
+    
     const [queryResult, queryApi] = simiUseQuery(CUSTOMER_ADDRESS, false);
     const { data } = queryResult;
     const { runQuery } = queryApi;
@@ -34,10 +36,19 @@ const AddressBook = props => {
     const getAddresses = () => {
         runQuery({});
     }
+
+    // check edit address from dashboard redirect
+    let defaultEditAddress = null; 
+    
+    if(history.location.state && typeof history.location.state === 'object') {
+        console.log('run');
+        defaultEditAddress = history.location.state
+        console.log(defaultEditAddress)
+    }
     
     const [ addressesState, setAddressesState ] = useState(addresses);
 
-    var [ addressEditing, setAddressEditing ] = useState(null);
+    var [ addressEditing, setAddressEditing ] = useState(defaultEditAddress);
     
     var defaultBilling = {};
     var defaultShipping = {};
@@ -105,8 +116,8 @@ const AddressBook = props => {
             }
         }
         // setAddressesState(newAddressesState);
-        setAddressEditing(null);
-        return {...state, addresses: newAddressesState, addressEditing: null, };
+        setAddressEditing(defaultEditAddress);
+        return {...state, addresses: newAddressesState, addressEditing: defaultEditAddress, };
     }
     const memoizedReducer = useCallback((...args) => {
         return reducerEdit(...args);
@@ -298,6 +309,7 @@ const mapStateToProps = ({ user }) => {
 
 export default compose(
     classify(defaultClasses),
+    withRouter,
     connect(
         mapStateToProps
     )

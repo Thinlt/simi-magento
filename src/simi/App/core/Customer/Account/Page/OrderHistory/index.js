@@ -23,8 +23,6 @@ const MyOrder = props => {
         }
     }, [data])
 
-    console.log(data)
-
     if (!data) {
         return <Loading />
     }
