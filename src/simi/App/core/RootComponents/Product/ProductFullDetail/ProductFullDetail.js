@@ -268,8 +268,8 @@ class ProductFullDetail extends Component {
         const { classes } = props;
         const product = prepareProduct(props.product)
         console.log(product)
-        const { type_id, name } = product;
-        const hasReview = product.simiExtraField && product.simiExtraField.app_reviews
+        const { type_id, name, simiExtraField } = product;
+        const hasReview = simiExtraField && simiExtraField.app_reviews
         return (
             <div className={`${classes.root} container`}>
                 <div className={classes.title}>
@@ -315,8 +315,9 @@ class ProductFullDetail extends Component {
                     </div>
                     <div className={classes.socialShare}><SocialShare id={product.id} className={classes.socialShareItem} /></div>
                 </div>
-                <div className={classes.description}><Description product={product}/></div>
-                <div className={classes.techspec}><Techspec product={product}/></div>
+                {product.description && <div className={classes.description}><Description product={product}/></div>}
+                {(simiExtraField && simiExtraField.additional && simiExtraField.additional.length) 
+                    && <div className={classes.techspec}><Techspec product={product}/></div>}
                 <div className={classes.reviewList}><ReviewList product_id={product.id}/></div>
                 <div className={classes.newReview}><NewReview product={product} toggleMessages={this.props.toggleMessages}/></div>
             </div>

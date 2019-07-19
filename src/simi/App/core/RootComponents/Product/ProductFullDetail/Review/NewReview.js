@@ -10,7 +10,6 @@ import {smoothScrollToView} from 'src/simi/Helper/Behavior'
 
 const NewReview = props => {
     const {product} = props
-    console.log(product)
     if (!product.simiExtraField || !product.simiExtraField.app_reviews || !product.simiExtraField.app_reviews.form_add_reviews || !product.simiExtraField.app_reviews.form_add_reviews.length)
         return ''
 
