@@ -52,11 +52,15 @@ const Optionlabel = props => {
     }
 
     //custom opton label
-    if ((type_id === 'simple' || type_id === 'configurable') && item.price_excluding_tax && item.price_including_tax && item.price_including_tax.price) {
-        if (parseInt(merchantTaxConfig.tax_display_type) === 3 && (item.price_excluding_tax.price !== item.price_including_tax.price)) {
-            returnedLabel = renderBothPrices(item.price_including_tax.price, item.price_excluding_tax.price)
-        } else {
-            returnedLabel = renderOnePrice(item.price_including_tax.price)
+    if (type_id === 'simple' || type_id === 'configurable') {
+        if (item.price_excluding_tax && item.price_including_tax && item.price_including_tax.price) {
+            if (parseInt(merchantTaxConfig.tax_display_type) === 3 && (item.price_excluding_tax.price !== item.price_including_tax.price)) {
+                returnedLabel = renderBothPrices(item.price_including_tax.price, item.price_excluding_tax.price)
+            } else {
+                returnedLabel = renderOnePrice(item.price_including_tax.price)
+            }
+        } else if (item.price) {
+            returnedLabel = renderOnePrice(item.price)
         }
     } else if (type_id === 'bundle' && item.prices) {
         if (parseInt(merchantTaxConfig.tax_display_type) === 3 && (item.prices.finalPrice.amount !== item.prices.basePrice.amount)) {
@@ -68,12 +72,16 @@ const Optionlabel = props => {
         if (item.price_including_tax.price && item.price_excluding_tax.price){
             returnedLabel = renderBothPrices(item.price_including_tax.price, item.price_excluding_tax.price)
         } else if (item.price) {
-            returnedLabel = renderOnePrice(item.prices.finalPrice.amount)
+            returnedLabel = renderOnePrice(item.price)
         }
-    } else {
-        // no price cases
     }
-    return returnedLabel
+    return (
+        <div style={style} className={classes['label-option-text']}>
+            <span style={{
+                fontSize: '16px',
+            }}>{returnedLabel}</span>
+        </div>
+    )
 }
 
 Optionlabel.propTypes = {

@@ -1,9 +1,7 @@
 import React from 'react';
 import Abstract from "./Abstract";
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import OptionLabel from '../OptionLabel'
+import Identify from 'src/simi/Helper/Identify'
 
 class RadioField extends Abstract {
     constructor(props) {
@@ -12,12 +10,6 @@ class RadioField extends Abstract {
         this.state = {
             value : defaultValue
         };
-        this.showTier = false;
-        if(this.type_id === 'bundle'){
-            const defaultItem = defaultValue !== 0 ? this.props.data.selections[defaultValue] : {};
-            this.showTier = defaultItem && defaultItem.tierPrice && defaultItem.tierPrice.length > 0;
-        }
-
     }
 
     updateCheck = (e,val)=> {
@@ -27,25 +19,37 @@ class RadioField extends Abstract {
     };
 
     renderWithBundle = (data)=>{
+        const {value} = this.state
         const options = data.selections;
+        if (data && data.isRequired === '0') {
+            if (!options[0])
+                options[0] = {
+                    id: 0,
+                    name: Identify.__('None')
+                }
+        }
         const items = [];
         const {classes} = this.props
         for (const i in options) {
             const item = options[i];
             const label  = <OptionLabel title={item.name} classes={classes} item={item} type_id={this.type_id}/>
             const element = (
-                <FormControlLabel
-                    className={`radio-option-${this.key} radio-option-${i}`}
-                    key={i}
-                    value={i}
-                    label={label}
-                    control={<Radio 
-                        classes={{
-                            root: classes.root,
-                            checked: classes.checked,
-                        }}
-                    />}
-                />
+                <div 
+                    role="presentation" 
+                    className={`${classes['radio-option']} radio-option-${this.key} radio-option-${i}`}
+                    key={i} onClick={(e) => this.updateCheck(e, i)} >
+                    <div className={`${classes['radio-option-input']} `}>
+                        <input 
+                            type="radio" 
+                            name={`radio-${item.name}`} 
+                            value={i}
+                            checked={value===i}
+                            onChange={() => {}} 
+                        />
+                    </div>
+                    {label}
+                </div>
+
             );
             items.push(element);
         }
@@ -53,33 +57,40 @@ class RadioField extends Abstract {
     };
 
     renderWithCustom = (data)=>{
+        const {value} = this.state
         const values = data.values;
         const {classes} = this.props
+        if (data && data.isRequired === '0') {
+            if (values[0] && values[0].id !== 0)
+                values.unshift({
+                    id: 0,
+                    title: Identify.__('None')
+                })
+        }
         const items = values.map(item => {
             return (
-                <FormControlLabel
-                    className={`radio-option-${this.key} radio-option-${item.id}`}
-                    key={item.id}
-                    value={item.id}
-                    label={<OptionLabel title={item.title} classes={classes} item={item}/>}
-                    control={<Radio classes={{
-                        root: classes.root,
-                        checked: classes.checked,
-                    }}/>}
-                />
+                <div 
+                    role="presentation" 
+                    className={`${classes['radio-option']} radio-option-${this.key} radio-option-${item.id}`} 
+                    key={item.id} onClick={(e) => this.updateCheck(e, item.id)} >
+                    <div  className={`${classes['radio-option-input']} `}>
+                        <input 
+                            type="radio" 
+                            name={`radio-${data.id}`} 
+                            value={item.id}
+                            checked={value===item.id}
+                            onChange={() => {}} 
+                        />
+                    </div>
+                    <OptionLabel title={item.title} classes={classes} item={item}/>
+                </div>
             )
         })
         return items;
     };
 
-    componentDidMount(){
-        if(this.showTier){
-            this.updateForBundle(this.state.value,'radio');
-        }
-    }
-
     render = () => {
-        const {data, classes} = this.props;
+        const {data} = this.props;
         let items = null;
         if(this.type_id === 'bundle'){
             items = this.renderWithBundle(data);
@@ -89,10 +100,7 @@ class RadioField extends Abstract {
         }
         return (
             <React.Fragment>
-                <RadioGroup value={this.state.value} onChange={this.updateCheck}  name="radioOptions">
-                    {items}
-                </RadioGroup>
-                <div className={classes["option-tier-prices"]} id={`tier-prices-radio-${this.key}`}></div>
+                {items}
             </React.Fragment>
         );
     }

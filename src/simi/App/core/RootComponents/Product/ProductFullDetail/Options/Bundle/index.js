@@ -59,7 +59,7 @@ class BundleOption extends OptionBase {
 
 
     getTierPriceElement = (element) => {
-        if(element.tierPrice.length > 0){
+        if(element.tierPrice && element.tierPrice.length > 0){
             for (const t in element.tierPrice) {
                 const item = element.tierPrice[t];
                 if(qty === parseInt(item.price_qty,10)){
@@ -83,7 +83,7 @@ class BundleOption extends OptionBase {
                 if(values instanceof Array) { //multi select
                     for (const j in values) {
                         let element = selections[values[j]];
-                        if (element) {
+                        if (element && element.prices) {
                             const qty = input.val()?parseInt(input.val(), 10): element.qty;
                             element = this.getTierPriceElement(element)
                             priceExclTax += parseFloat(parseFloat(element.prices.basePrice.amount)*qty);
@@ -92,7 +92,7 @@ class BundleOption extends OptionBase {
                     }
                 } else { //single select
                     let element = selections[values];
-                    if (element) {
+                    if (element && element.prices) {
                         const qty = input.val()?parseInt(input.val(), 10): element.qty; 
                         element = this.getTierPriceElement(element)
                         priceExclTax += parseFloat(parseFloat(element.prices.basePrice.amount)*qty);
