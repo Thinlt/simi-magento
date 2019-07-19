@@ -14,7 +14,10 @@ import { connect } from 'src/drivers';
 import Dashboard from './Page/Dashboard';
 import Wishlist from './Page/Wishlist'
 import Newsletter from './Page/Newsletter';
+import AddressBook from './Page/AddressBook';
 import Profile from './Page/Profile';
+import MyOrder from './Page/OrderHistory';
+import OrderDetail from './Page/OrderDetail';
 
 class CustomerLayout extends React.Component{
 
@@ -169,19 +172,19 @@ class CustomerLayout extends React.Component{
                 content = <Dashboard customer={data} classes={this.props.classes} history={this.props.history} isPhone={this.state.isPhone}/>
                 break;
             case 'address-book':
-                content = 'adresses book'
+                content = <AddressBook />
                 break;
             case 'edit':
                 content = <Profile data={data} history={this.props.history} isPhone={this.state.isPhone} classes={this.props.classes}/>
                 break;
             case 'my-order':
-                content = 'my order'
+                content = <MyOrder data={data} isPhone={this.state.isPhone} classes={this.props.classes} history={this.props.history}/>
                 break;
             case 'newsletter':
                 content = <Newsletter classes={this.props.classes}/>
                 break;
             case 'order-detail':
-                content = 'order history detail'
+                content = <OrderDetail classes={this.props.classes} history={this.props.history} isPhone={this.state.isPhone}/>
                 break;
             case 'wishlist':
                 content = <Wishlist history={this.props.history} classes={this.props.classes}/>
@@ -265,12 +268,11 @@ class CustomerLayout extends React.Component{
 
 const mapStateToProps = ({ user }) => {
     const { currentUser, isSignedIn } = user
-    const { firstname, lastname, email, extension_attributes } = currentUser;
+    const { firstname, lastname, email } = currentUser;
     return {
         firstname,
         lastname,
         email,
-        extension_attributes,
         isSignedIn
     };
 }

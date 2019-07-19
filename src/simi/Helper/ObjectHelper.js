@@ -34,6 +34,17 @@ class ObjectHelper {
             !this.shallowEqual(instance.state, nextState)
         );
     }
+    
+    static mapToObject(map, forceString = true) {
+        const obj = {};
+        for (const [key, value] of map) {
+            if (forceString)
+                obj[String(key)] = String(value);
+            else
+                obj[key] = value;
+        }
+        return obj
+    }
 }
 
 export default ObjectHelper;
