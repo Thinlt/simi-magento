@@ -19,27 +19,27 @@ const Footer = props => {
     const pageCustomerServices = [
         {
             id: 1,
-            link: "/about-us",
+            link: "/",
             title: "About"
         },
         {
             id: 2,
-            link: "/delivery-return",
+            link: "/",
             title: "Delivery & returns"
         },
         {
             id: 3,
-            link: "/trade-services",
+            link: "/",
             title: "Trade services"
         },
         {
             id: 4,
-            link: "/branch-finder",
+            link: "/",
             title: "Branch Finder"
         },
         {
             id: 5,
-            link: "/contacts",
+            link: "/",
             title: "Contact us"
         }
     ];
@@ -47,17 +47,17 @@ const Footer = props => {
     const pagePolicies = [
         {
             id: 1,
-            link: "/terms-conditions",
+            link: "/",
             title: "Terms & Conditions of supply"
         },
         {
             id: 2,
-            link: "/terms-conditions",
+            link: "/",
             title: "Terms of use"
         },
         {
             id: 3,
-            link: "/terms-conditions",
+            link: "/",
             title: "Privacy & cookie policy"
         }
     ];
