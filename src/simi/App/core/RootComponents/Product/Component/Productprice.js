@@ -127,8 +127,7 @@ class ProductPrice extends React.Component {
                     {
                         data.sku && 
                         <div className={`${classes["product-sku"]} flex`} id="product-sku">
-                            <span className={classes['sku-label']}>{Identify.__('Sku') + ": "}</span>
-                            {data.sku}
+                            <span className={classes['sku-label']}>{Identify.__('Sku') + ": "} {data.sku}</span>
                         </div>
                     }
                 </div>
