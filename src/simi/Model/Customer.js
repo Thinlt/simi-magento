@@ -7,3 +7,9 @@ export const simiSignIn = (callBack, postData) => {
 export const editCustomer = (callBack, postData) => {
     sendRequest('rest/V1/simiconnector/customers', callBack, 'PUT', {}, postData);
 }
+
+export const checkExistingCustomer = (callBack, email) => {
+    let params = {};
+    params['customer_email'] = email;
+    sendRequest('rest/V1/simiconnector/customers/checkexisting', callBack, 'GET', params);
+}

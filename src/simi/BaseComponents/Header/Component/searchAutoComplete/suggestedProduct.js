@@ -46,12 +46,16 @@ class SuggestedProduct extends Component {
 
         const uri = resourceUrl(`/${url_key}${productUrlSuffix}`);
 
+        console.log(small_image)
         return (
             <Link className={classes.root} to={uri} onClick={handleClick}>
                 <span className={classes.image}>
                     <img
                         alt={name}
-                        src={small_image}
+                        src={resourceUrl(small_image, {
+                            type: 'image-product',
+                            width: 60
+                        })}
                         style={{maxWidth: 60, maxHeight: 60}}
                     />
                 </span>

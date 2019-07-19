@@ -10,7 +10,7 @@ const ErrorView = props => {
         ? Identify.__('That page could not be found. Please try again.')
         : Identify.__('Something went wrong. Please try again.')
 
-    return <h1>{message}</h1>;
+    return <h1 style={{textAlign: 'center', marginTop: 20, padding: 15}}>{message}</h1>;
 }
 
 export default ErrorView;
