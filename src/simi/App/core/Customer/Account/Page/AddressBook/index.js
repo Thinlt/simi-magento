@@ -207,7 +207,10 @@ const AddressBook = props => {
                         <div className={classes["box-content"]}>
                             <address>
                                 {defaultBilling.firstname} {defaultBilling.lastname}<br/>
-                                {(!addressConfig || addressConfig && addressConfig.street_show) && defaultBilling.street ? <>{defaultBilling.street}<br/></> : ''}
+                                {(!addressConfig || addressConfig && addressConfig.street_show) && defaultBilling.street ? 
+                                    <>{defaultBilling.street.map((address, index) => {
+                                    return <React.Fragment key={index}>{address}<br/></React.Fragment>;
+                                })}</> : ''}
                                 {(!addressConfig || addressConfig && addressConfig.zipcode_show) && defaultBilling.postcode ? <>{defaultBilling.postcode}, </> : ''}
                                 {(!addressConfig || addressConfig && addressConfig.city_show) && defaultBilling.city ? <>{defaultBilling.city}, </>: ''}
                                 {(!addressConfig || addressConfig && addressConfig.region_id_show) && defaultBilling.region ? <>{defaultBilling.region.region_code}<br/></>: ''}
@@ -230,7 +233,10 @@ const AddressBook = props => {
                         <div className={classes["box-content"]}>
                             <address>
                                 {defaultShipping.firstname} {defaultShipping.lastname}<br/>
-                                {(!addressConfig || addressConfig && addressConfig.street_show) && defaultShipping.street ? <>{defaultShipping.street}<br/></> : ''}
+                                {(!addressConfig || addressConfig && addressConfig.street_show) && defaultShipping.street ? 
+                                    <>{defaultShipping.street.map((address, index) => {
+                                        return <React.Fragment key={index}>{address}<br/></React.Fragment>;
+                                })}</> : ''}
                                 {(!addressConfig || addressConfig && addressConfig.zipcode_show) && defaultShipping.postcode ? <>{defaultShipping.postcode}, </> : ''}
                                 {(!addressConfig || addressConfig && addressConfig.city_show) && defaultShipping.city ? <>{defaultShipping.city}, </>: ''}
                                 {(!addressConfig || addressConfig && addressConfig.region_id_show) && defaultShipping.region ? <>{defaultShipping.region.region_code}<br/></>: ''}
