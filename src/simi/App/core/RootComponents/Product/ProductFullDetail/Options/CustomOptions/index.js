@@ -130,11 +130,14 @@ class CustomOptions extends OptionBase {
         let inclT = 0;
         const customOptions = this.data.custom_options;
         const customSelected = selected;
+        console.log(customSelected)
         for (const c in customOptions) {
             const option = customOptions[c];
             for (const s in customSelected) {
                 if (option.id === s) {
                     const selected = customSelected[s];
+                    if (!selected) //when value is zero
+                        continue
                     const values = option.values;
                     if (option.type === "date" || option.type === "time"
                         || option.type === "date_time" || option.type === "area"
@@ -177,7 +180,7 @@ class CustomOptions extends OptionBase {
                     }
                 }
             }
-        }        
+        }
         this.parentObj.Price.setCustomOptionPrice(exclT, inclT);
     }
     

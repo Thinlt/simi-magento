@@ -46,7 +46,6 @@ class SuggestedProduct extends Component {
 
         const uri = resourceUrl(`/${url_key}${productUrlSuffix}`);
 
-        console.log(small_image)
         return (
             <Link className={classes.root} to={uri} onClick={handleClick}>
                 <span className={classes.image}>
