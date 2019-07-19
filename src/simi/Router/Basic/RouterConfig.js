@@ -39,6 +39,7 @@ const Logout = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Logout"*/'src/simi/App/core/Customer/Logout')} {...props}/>
 }
 
+
 const router = {
     home : {
         path: '/',
