@@ -69,12 +69,12 @@ class ProductImage extends React.Component {
         })
     }
 
-    onChangeItemDefault = (e) => {
-        console.log('Onchange');
+    onChangeItemDefault = () => {
+        
     }
 
-    onClickThumbDefault = (e) => {
-        console.log('Click Thumb');
+    onClickThumbDefault = () => {
+        
     }
 
     sortAndFilterImages = memoize(items =>
@@ -143,10 +143,9 @@ class ProductImage extends React.Component {
 
     render() {
         this.images = this.sortedImages()
-        console.log(this.images)
         return (
             <div className={classes['product-detail-carousel']}>
-                <Carousel showArrows={this.showArrows}
+                <Carousel showArrows={this.showArrows}  
                           showThumbs={this.showThumbs}
                           showIndicators={this.showIndicators}
                           showStatus={this.showStatus}

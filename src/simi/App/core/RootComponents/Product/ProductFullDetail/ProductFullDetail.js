@@ -18,6 +18,7 @@ import { addToWishlist as simiAddToWishlist } from 'src/simi/Model/Wishlist';
 import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
 import ReactHTMLParse from 'react-html-parser';
+import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
 import { TopReview, ReviewList, NewReview } from './Review/index'
 import SocialShare from 'src/simi/BaseComponents/SocialShare';
 import Description from './Description';
@@ -262,6 +263,10 @@ class ProductFullDetail extends Component {
         );
     }
 
+    breadcrumb = (product) => {
+        return <BreadCrumb breadcrumb={[{name:'Home',link:'/'},{name:product.name}]} history={this.props.history}/>
+    }
+    
     render() {
         hideFogLoading()
         const { addToCart, mediaGalleryEntries, productOptions, props, state, addToWishlist } = this;
@@ -273,6 +278,7 @@ class ProductFullDetail extends Component {
         const hasReview = simiExtraField && simiExtraField.app_reviews
         return (
             <div className={`${classes.root} container`}>
+                {this.breadcrumb(product)}
                 {TitleHelper.renderMetaHeader({
                     title: product.meta_title?product.meta_title:product.name?product.name:'',
                     desc: product.meta_description?product.meta_description:product.description?product.description:''
