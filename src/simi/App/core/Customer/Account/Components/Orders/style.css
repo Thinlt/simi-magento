@@ -2,3 +2,8 @@
     position: inherit;
     width: auto;
 }
+
+.dropdown-show-item .dropdown-options li:hover{
+    background-color: rgba(15, 125, 55, 0.05);
+    cursor: pointer;
+}

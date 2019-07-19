@@ -62,7 +62,7 @@ class PaginationTable extends Pagination {
         return(
             <div>
             <DropDown title={`${title} items`} className={classes['dropdown-show-item']}>
-                <ul>
+                <ul className={classes['dropdown-options']}>
                     <li onClick={this.changeLimit} value={10}>10</li>
                     <li onClick={this.changeLimit} value={20}>20</li>
                 </ul>
