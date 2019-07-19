@@ -1,26 +1,42 @@
 import React from 'react'
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent'
-import Search from 'src/simi/App/core/RootComponents/Search';
 import CreateAccountPage from 'src/components/CreateAccountPage/index';
-import Product from 'src/simi/App/core/Product';
-import Logout from 'src/simi/App/core/Customer/Logout'
 import Home from 'src/simi/App/core/RootComponents/CMS/Home'
-import Cart from 'src/simi/App/core/Cart'
-import Checkout from 'src/simi/App/core/Checkout'
-import Thankyou from 'src/simi/App/core/Checkout/Thankyou'
-import Account from 'src/simi/App/core/Customer/Account'
-import Contact from 'src/simi/App/core/Contact/Contact'
 
-// const Checkout = (props) => {
-//     return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/core/Checkout')} {...props}/>
-// }
+const Checkout = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/core/Checkout')} {...props}/>
+}
+
+const Thankyou = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Thankyou"*/'src/simi/App/core/Checkout/Thankyou')} {...props}/>
+}
 
 const Login = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Login"*/'src/simi/App/core/Customer/Login')} {...props}/>
 }
 
-const Account1 = (props) => {
+const Account = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Account"*/'src/simi/App/core/Customer/Account')} {...props}/>
+}
+
+const Cart = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Cart"*/'src/simi/App/core/Cart')} {...props}/>
+}
+
+const Contact = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Contact"*/'src/simi/App/core/Contact/Contact')} {...props}/>
+}
+
+const Product = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "SimiProduct"*/'src/simi/App/core/Product')} {...props}/>
+}
+
+const Search = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Search"*/'src/simi/App/core/RootComponents/Search')} {...props}/>
+}
+
+const Logout = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Logout"*/'src/simi/App/core/Customer/Logout')} {...props}/>
 }
 
 const router = {
@@ -42,6 +58,10 @@ const router = {
     },
     product_detail : {
         path: '/product.html',
+        render : (location) => <Product {...location}/>
+    },
+    category_page : {
+        path: '/category.html',
         render : (location) => <Product {...location}/>
     },
     checkout : {

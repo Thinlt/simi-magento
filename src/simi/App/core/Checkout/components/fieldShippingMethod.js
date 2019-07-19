@@ -1,5 +1,6 @@
 import React, { Fragment, useCallback } from 'react';
-import { useFormState } from 'informed';
+import {connect} from 'react-redux';
+import { useFormState, useMemo } from 'informed';
 
 import { mergeClasses } from 'src/classify';
 import Identify from 'src/simi/Helper/Identify';
@@ -10,6 +11,12 @@ const fieldShippingMethod = (props) => {
     const { classes, initialValue, selectableShippingMethods, availableShippingMethods, cancel, submit } = props;
 
     const formState = useFormState();
+
+    /* const value = useMemo(
+        () =>( return initialValue , {}),
+        [initialValue]
+    ); */
+
 
     const handleSelectMethod = useCallback(
         (shippingMethod) => {

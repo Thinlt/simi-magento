@@ -1,4 +1,4 @@
-{  
+{
   "name": "@simicart/siminia",
   "version": "3.0.0",
   "description": "Siminia Project",
@@ -24,7 +24,7 @@
     "validate-queries": "yarn run download-schema && graphql validate-magento-pwa-queries --project siminia",
     "watch": "webpack-dev-server --progress --color --env.mode development"
   },
-  "repository": "github:Simicart/siminia",  
+  "repository": "github:Simicart/siminia",
   "author": "SimiCart",
   "license": "(OSL-3.0 OR AFL-3.0)",
   "bugs": {
@@ -53,7 +53,6 @@
     "prop-types": "~15.7.2",
     "react": "~16.8.3",
     "react-apollo": "~2.5.3",
-    "react-confirm-alert": "^2.4.1",
     "react-dom": "~16.8.3",
     "react-feather": "~1.1.6",
     "react-helmet": "^5.2.1",

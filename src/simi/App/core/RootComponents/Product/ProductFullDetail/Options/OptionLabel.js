@@ -64,9 +64,14 @@ const Optionlabel = props => {
         } else {
             returnedLabel = renderOnePrice(item.prices.finalPrice.amount)
         }
+    } else if (type_id === 'downloadable') { 
+        if (item.price_including_tax.price && item.price_excluding_tax.price){
+            returnedLabel = renderBothPrices(item.price_including_tax.price, item.price_excluding_tax.price)
+        } else if (item.price) {
+            returnedLabel = renderOnePrice(item.prices.finalPrice.amount)
+        }
     } else {
-        console.log(type_id)
-        console.log(item)
+        // no price cases
     }
     return returnedLabel
 }

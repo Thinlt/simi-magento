@@ -11,10 +11,6 @@ import Identify from 'src/simi/Helper/Identify';
 import ObjectHelper from 'src/simi/Helper/ObjectHelper';
 import { withRouter } from 'react-router-dom';
 
-
-var sortByData = null
-var filterData = null
-
 const Category = props => {
     const { id } = props;
     let pageSize = Identify.findGetParameter('product_list_limit')
@@ -25,11 +21,12 @@ const Category = props => {
     const productListOrder = Identify.findGetParameter('product_list_order')
     const productListDir = Identify.findGetParameter('product_list_dir')
     
+    let sortByData = null
     const newSortByData = productListOrder?productListDir?{[productListOrder]: productListDir.toUpperCase()}:{[productListOrder]: 'ASC'}:null
     if (newSortByData && (!sortByData || !ObjectHelper.shallowEqual(sortByData, newSortByData))) {
         sortByData = newSortByData
     }
-
+    let filterData = null
     const productListFilter = Identify.findGetParameter('filter')
     if (productListFilter) {
         if (JSON.parse(productListFilter)){

@@ -8,10 +8,11 @@ import { connect } from 'src/drivers';
 import { compose } from 'redux';
 import actions from 'src/actions/checkoutReceipt';
 import { createAccount } from 'src/actions/checkout';
-
+import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import Identify from 'src/simi/Helper/Identify';
 
 const Thankyou = props => {
+    hideFogLoading()
     const { createAccount, history, reset, user } = props;
 
     const classes = mergeClasses(defaultClasses, props.classes);

@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { Util } from '@magento/peregrine';
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
 import {
@@ -41,9 +40,6 @@ import EditableForm from './editableForm';
 import Panel from 'src/simi/BaseComponents/Panel';
 import { toggleMessages, simiSignedIn } from 'src/simi/Redux/actions/simiactions';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
-
-const { BrowserPersistence } = Util;
-const storage = new BrowserPersistence();
 
 const isCheckoutReady = checkout => {
     const {
@@ -130,11 +126,11 @@ class Checkout extends Component {
 
         try {
             // get cart detail
-            const aa = await getCartDetails();
+            const cartDT = await getCartDetails();
             // The getCartDetails call is now done!
-            if (typeof aa === 'undefined') {
+            if (typeof cartDT === 'undefined') {
                 //beginning checkout
-                beginCheckout();
+                await beginCheckout();
             }
 
             // Do something
@@ -183,7 +179,7 @@ class Checkout extends Component {
     }
 
     placeOrder = () => {
-        const { submitOrder, checkout, toggleMessages } = this.props;
+        const { submitOrder, checkout, toggleMessages, cart } = this.props;
         const { paymentData, shippingAddress, shippingMethod, billingAddress } = checkout;
 
         if (toggleMessages) {
@@ -197,7 +193,7 @@ class Checkout extends Component {
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a billing address'), auto_dismiss: true }])
                 return;
             }
-            if (!shippingMethod || !shippingMethod.length) {
+            if (!cart.is_virtual && (!shippingMethod || !shippingMethod.length)) {
                 Identify.smoothScrollToView($("#id-message"));
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a shipping method '), auto_dismiss: true }])
                 return;
@@ -305,8 +301,9 @@ class Checkout extends Component {
         if (checkout.step && checkout.step === 'receipt') {
             this.handleLink('/thankyou.html');
         }
-
-        hideFogLoading()
+        if (!isCheckoutReady(checkout)) {
+            hideFogLoading()
+        }
 
         return <React.Fragment>
             {this.breadcrumb}

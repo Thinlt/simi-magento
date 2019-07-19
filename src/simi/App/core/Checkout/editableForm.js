@@ -12,6 +12,7 @@ import defaultClass from './editableForm.css';
  * The EditableForm component renders the actual edit forms for the sections
  * within the form.
  */
+
 const EditableForm = props => {
     const {
         editing,
@@ -74,6 +75,21 @@ const EditableForm = props => {
         [submitPaymentMethod]
     );
 
+    // if (user && user.isSignedIn && user.currentUser.id && (!props.shippingAddress || !props.billingAddress) && flg_ship) {
+    //     flg_ship = 0;
+    //     const { currentUser } = user;
+    //     const { default_billing, default_shipping } = currentUser;
+
+    //     if (!props.shippingAddress && default_shipping && currentUser.hasOwnProperty('addresses') && currentUser.addresses.length){
+    //         const df_Address = currentUser.addresses.find(
+    //             ({id}) => parseInt(id, 10) === parseInt(default_shipping, 10)
+    //         )
+    //         if (df_Address){
+    //             handleSubmitAddressForm(df_Address)
+    //         }
+    //     }
+    // }
+
     switch (editing) {
         case 'address': {
             let { shippingAddress, billingAddress } = props;
@@ -97,7 +113,7 @@ const EditableForm = props => {
                         simiSignedIn={simiSignedIn}
                     />
                     {shippingAddress && !isObjectEmpty(shippingAddress) ?
-                    <AddressItem classes={defaultClass} data={shippingAddress} /> : null}
+                        <AddressItem classes={defaultClass} data={shippingAddress} /> : null}
                 </Fragment>
             );
         }
@@ -109,17 +125,22 @@ const EditableForm = props => {
             }
 
             return (
-                <AddressForm
-                    cancel={handleCancel}
-                    countries={countries}
-                    isAddressInvalid={isAddressInvalid}
-                    invalidAddressMessage={invalidAddressMessage}
-                    initialValues={billingAddress}
-                    submit={handleSubmitBillingForm}
-                    submitting={submitting}
-                    billingForm={true}
-                    user={user}
-                />
+                <Fragment>
+                    <AddressForm
+                        cancel={handleCancel}
+                        countries={countries}
+                        isAddressInvalid={isAddressInvalid}
+                        invalidAddressMessage={invalidAddressMessage}
+                        initialValues={billingAddress}
+                        submit={handleSubmitBillingForm}
+                        submitting={submitting}
+                        billingForm={true}
+                        user={user}
+                    />
+                    {billingAddress && !isObjectEmpty(billingAddress) && !billingAddress.hasOwnProperty('sameAsShippingAddress') ?
+                        <AddressItem classes={defaultClass} data={billingAddress} /> : null}
+                </Fragment>
+
             );
         }
 
