@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { arrayOf, func, object, shape, string } from 'prop-types';
 
 import classify from 'src/classify';
-import getOptionType from './getOptionType';
-import SwatchList from './swatchList';
 import TileList from './tileList';
 import defaultClasses from './option.css';
 
@@ -30,18 +28,8 @@ class Option extends Component {
         }
     };
 
-    get listComponent() {
-        const { attribute_code, values } = this.props;
-
-        // TODO: get an explicit field from the API
-        // that identifies an attribute as a swatch
-        const optionType = getOptionType({ attribute_code, values });
-
-        return optionType === 'swatch' ? SwatchList : TileList;
-    }
-
     render() {
-        const { handleSelectionChange, listComponent: ValueList, props } = this;
+        const { handleSelectionChange, props } = this;
         const { classes, label, values } = props;
 
         return (
@@ -49,7 +37,7 @@ class Option extends Component {
                 <h3 className={classes.title}>
                     <span>{label}</span>
                 </h3>
-                <ValueList
+                <TileList
                     getItemKey={getItemKey}
                     items={values}
                     onSelectionChange={handleSelectionChange}
