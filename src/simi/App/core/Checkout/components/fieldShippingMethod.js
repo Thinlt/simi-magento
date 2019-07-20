@@ -4,7 +4,6 @@ import { useFormState } from 'informed';
 import { mergeClasses } from 'src/classify';
 import Identify from 'src/simi/Helper/Identify';
 import defaultClasses from './fieldShippingMethod.css';
-import Label from '../label';
 import Select from 'src/components/Select';
 
 const fieldShippingMethod = (props) => {
@@ -42,7 +41,6 @@ const fieldShippingMethod = (props) => {
             className={defaultClasses['ship-method_field']}
             id={classes.shippingMethod}
         >
-            {/*   */}
             <Select
                 field="shippingMethod"
                 initialValue={initialValue}

@@ -82,25 +82,28 @@ class File extends Abstract {
             this.uploadingId = id
             const input = document.getElementById(id)
             const filePath = input.files[0]
-            this.getBase64(filePath, (result) => {
-                if (result) {
-                    let base64 = result.split("base64,");
-                    base64 = base64[base64.length-1];
-                    base64 = base64.split('"');
-                    base64 = base64[0];
-                    console.log(base64)
-                    showFogLoading()
-                    const fileData = {
-                        type: filePath.type,
-                        name: filePath.name,
-                        size: filePath.size,
-                        base64: base64
+            if (filePath) {
+                this.getBase64(filePath, (result) => {
+                    if (result) {
+                        let base64 = result.split("base64,");
+                        base64 = base64[base64.length-1];
+                        base64 = base64.split('"');
+                        base64 = base64[0];
+                        showFogLoading()
+                        const fileData = {
+                            type: filePath.type,
+                            name: filePath.name,
+                            size: filePath.size,
+                            base64: base64
+                        }
+                        uploadFile(this.uploadReturned.bind(this), {fileData})
+                        return
                     }
-                    uploadFile(this.uploadReturned.bind(this), {fileData})
-                    return
-                }
-                showToastMessage(Identify.__('Cannot read file content'))
-            });
+                    this.deleteSelected(this.uploadingId)
+                    showToastMessage(Identify.__('Cannot read file content'))
+                });
+            }
+            this.deleteSelected(this.uploadingId)
         }
     }
 }

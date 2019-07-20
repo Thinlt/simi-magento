@@ -6,8 +6,9 @@ import defaultClasses from './style.css';
 import PropTypes from 'prop-types';
 
 const TextBox = props => {
-    const { classes } = props;
-    let className = 'form-control base-textField ';
+    let { classes } = props;
+    if(props.parentclasses) classes = {...classes, ...props.parentclasses};
+    let className = `form-control ${classes['base-textField']} `;
     let label = props.label;
     let id = '';
     if(props.className) className = className + props.className;
@@ -15,7 +16,7 @@ const TextBox = props => {
     if (props.id) id = props.id;
 
     return (
-        <div className={`form-group ${props.name}`} key={props.name}>
+        <div className={`form-group ${classes[props.name]}`} key={props.name}>
             {props.label && <label htmlFor={id}>{label} {props.required ? <span>*</span> : ''}</label>}
             <div className={classes["input-group-field"]}>
                 <div className={classes["input-field-content"]}>

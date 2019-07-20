@@ -1,5 +1,5 @@
 {{> templates/open-document}}
-    <title>{{model.name}} - {{site.name}}</title>
+    <title>{{model.name}}</title>
     {{#model}}
     <meta name="title" content="{{name}}">
     <meta name="keywords" content="{{meta_keyword}}">

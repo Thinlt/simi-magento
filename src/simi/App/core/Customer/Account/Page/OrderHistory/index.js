@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
 import OrderHistory from 'src/simi/App/core/Customer/Account/Components/Orders/OrderList';
-import { Whitebtn } from 'src/simi/BaseComponents/Button';
 import Identify from "src/simi/Helper/Identify";
-import { Link } from 'react-router-dom'
 import Loading from "src/simi/BaseComponents/Loading";
 import { simiUseQuery } from 'src/simi/Network/Query'
 import getCustomerInfoQuery from 'src/simi/queries/getCustomerInfo.graphql'
 
 const MyOrder = props => {
-    const { classes, isPhone } = props;
+    const { classes } = props;
     const [queryResult, queryApi] = simiUseQuery(getCustomerInfoQuery, false);
     const { data } = queryResult
     const { runQuery } = queryApi;
@@ -22,8 +20,6 @@ const MyOrder = props => {
             getCustomerInfo();
         }
     }, [data])
-
-    console.log(data)
 
     if (!data) {
         return <Loading />

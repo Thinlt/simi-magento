@@ -5,6 +5,7 @@ import ListItem from './listItem';
 
 const List = props => {
     const { items, classes, address_fields_config, address_option } = props;
+    const addressConfig = address_fields_config;
 
     const editAddressHandle = (id) => {
         props.editAddress(id);
@@ -24,7 +25,7 @@ const List = props => {
         return rendering.map((item, index) => {
             item.index = index; // add index of array to item
             return <ListItem data={item} editAddress={editAddressHandle} deleteAddress={deleteAddressHandle} key={index} classes={classes}
-                address_fields_config={address_fields_config} address_option={address_option}
+                address_fields_config={addressConfig} address_option={address_option}
             />
         })
     }
@@ -49,14 +50,14 @@ const List = props => {
                     <tr>
                         <th className="col firstname">{Identify.__("First Name")}</th>
                         <th className="col lastname">{Identify.__("Last Name")}</th>
-                        { address_fields_config.street_show ? 
+                        {(!addressConfig || addressConfig && addressConfig.street_show) ? 
                             <th className="col streetaddress">{Identify.__("Street Address")}</th> : null
                         }
-                        {address_fields_config.city_show ? <th className="col city">{Identify.__("City")}</th> : null}
-                        {address_fields_config.country_id_show ? <th className="col country">{Identify.__("Country")}</th> : null}
-                        {address_fields_config.region_id_show ? <th className="col state">{Identify.__("State")}</th> : null}
-                        {address_fields_config.zipcode_show ? <th className="col zip">{Identify.__("Zip/Postal Code")}</th> : null}
-                        {address_fields_config.telephone_show ? <th className="col phone">{Identify.__("Phone")}</th> : null}
+                        {(!addressConfig || addressConfig && addressConfig.city_show) ? <th className="col city">{Identify.__("City")}</th> : null}
+                        {(!addressConfig || addressConfig && addressConfig.country_id_show) ? <th className="col country">{Identify.__("Country")}</th> : null}
+                        {(!addressConfig || addressConfig && addressConfig.region_id_show) ? <th className="col state">{Identify.__("State")}</th> : null}
+                        {(!addressConfig || addressConfig && addressConfig.zipcode_show) ? <th className="col zip">{Identify.__("Zip/Postal Code")}</th> : null}
+                        {(!addressConfig || addressConfig && addressConfig.telephone_show) ? <th className="col phone">{Identify.__("Phone")}</th> : null}
                         <th className="col actions"></th>
                     </tr>
                 </thead>

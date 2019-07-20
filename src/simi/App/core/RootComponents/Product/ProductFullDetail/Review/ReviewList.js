@@ -15,7 +15,7 @@ const ReviewList = props => {
     const [data, setData] = useState(initData)
 
     const renderListItem = () => {
-        if(data){
+        if(data && data.reviews && data.reviews.length) {
             return (
                 <div className={classes["list-review-item"]}>
                     <Pagination data={data.reviews} renderItem={renderItem} classes={classes}/>

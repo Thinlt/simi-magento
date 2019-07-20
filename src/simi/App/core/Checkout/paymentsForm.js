@@ -46,7 +46,6 @@ PaymentsForm.propTypes = {
         city: string,
         postcode: string,
         region_code: string,
-        sameAsShippingAddress: bool,
         street0: array
     }),
     paymentMethods: array

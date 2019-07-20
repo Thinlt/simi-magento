@@ -31,7 +31,9 @@ const AddressForm = props => {
         initialValues,
         submit,
         submitting,
-        billingForm
+        billingForm,
+        billingAddressSaved,
+        submitBilling
     } = props;
 
     const classes = mergeClasses(defaultClasses, props.classes);
@@ -85,10 +87,24 @@ const AddressForm = props => {
     }
     selectableCountries.unshift(callGetCountries);
 
+    const handleSubmitBillingSameFollowShipping = useCallback(
+        () => {
+            const billingAddress = {
+                sameAsShippingAddress: true
+            }
+            submitBilling(billingAddress);
+        },
+        [submitBilling]
+    )
+
     const handleSubmit = useCallback(
         values => {
             if (values.hasOwnProperty('addresses_same')) delete values.addresses_same
+            if (values.hasOwnProperty('selected_shipping_address')) delete values.selected_shipping_address
             submit(values);
+            if(!billingForm && !billingAddressSaved){
+                handleSubmitBillingSameFollowShipping();
+            }
         },
         [submit]
     );
@@ -102,13 +118,13 @@ const AddressForm = props => {
         initialCountry,
         selectableCountries
     };
-
+// console.log(values)
     return (
         <Form
             className={classes.root}
             initialValues={values}
             onSubmit={handleSubmit}
-            style={{display: 'inline-block'}}
+            style={{display: 'inline-block', width: '100%'}}
         >
             <FormFields {...formChildrenProps} />
         </Form>
