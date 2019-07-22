@@ -34,14 +34,14 @@ class Newsletter extends React.Component {
                             <SimiMutation mutation={CUSTOMER_NEWSLETTER_UPDATE}>
                                 {(updateCustomer, { data }) => {
                                     
-                                    {/* if (data) {
+                                    if (data) {
 
                                         this.props.toggleMessages([{
                                                 type: 'error',
                                                 message: "Newsletter is subcribed successfully!",
                                                 auto_dismiss: true
                                         }]);
-                                    } */}
+                                    }
 
                                     return (
                                     <>
@@ -88,5 +88,6 @@ const mapDispatchToProps = {
 // )(Newsletter);
 
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(Newsletter);
