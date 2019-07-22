@@ -46,7 +46,7 @@ const Dashboard = props => {
                                 addressData={defaultBilling}
                                 classes={classes}
                             />
-                            <Link className={classes["edit-item"]} to={{pathname: '/addresses.html', state: defaultBilling}}>{Identify.__("Edit address")}</Link>
+                            <Link className={classes["edit-item"]} to={{pathname: '/addresses.html', state: { addressEditing: defaultBilling}}}>{Identify.__("Edit address")}</Link>
                         </React.Fragment>
                     ) : <div>{Identify.__('You have not set a default billing address.  ')}</div>}
     
@@ -61,7 +61,7 @@ const Dashboard = props => {
                                 addressData={defaultShipping}
                                 classes={classes}
                             />
-                            <Link className={classes["edit-item"]} to={{pathname: '/addresses.html', state: defaultShipping}}>{Identify.__("Edit address")}</Link>
+                            <Link className={classes["edit-item"]} to={{pathname: '/addresses.html', state: { addressEditing: defaultShipping}}}>{Identify.__("Edit address")}</Link>
                         </React.Fragment>
                     ) : <div>{Identify.__('You have not set a default shipping address.')}</div>}
                     
