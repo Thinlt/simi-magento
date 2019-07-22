@@ -37,18 +37,9 @@ const AddressBook = props => {
         runQuery({});
     }
 
-    // check edit address from dashboard redirect
-    let defaultEditAddress = null; 
-    
-    if(history.location.state && typeof history.location.state === 'object') {
-        console.log('run');
-        defaultEditAddress = history.location.state
-        console.log(defaultEditAddress)
-    }
-    
     const [ addressesState, setAddressesState ] = useState(addresses);
 
-    var [ addressEditing, setAddressEditing ] = useState(defaultEditAddress);
+    var [ addressEditing, setAddressEditing ] = useState(null);
     
     var defaultBilling = {};
     var defaultShipping = {};
@@ -116,8 +107,8 @@ const AddressBook = props => {
             }
         }
         // setAddressesState(newAddressesState);
-        setAddressEditing(defaultEditAddress);
-        return {...state, addresses: newAddressesState, addressEditing: defaultEditAddress, };
+        setAddressEditing(null);
+        return {...state, addresses: newAddressesState, addressEditing: null, };
     }
     const memoizedReducer = useCallback((...args) => {
         return reducerEdit(...args);
