@@ -132,7 +132,7 @@ class Item extends React.Component {
                     <div className={classes["prices-layout"]} id={`price-${item.product_id}`}>
                         {
                             (item.product.price) &&
-                            <Price prices={item.product.price} type={item.product.price} classes={classes}/>
+                            <Price prices={item.product.price} type={item.product.type_id} classes={classes}/>
                         }
                     </div>
                 </div>

@@ -137,7 +137,7 @@ class DownloadableOptions extends OptionBase {
 
     getParams = ()=>{
         if(!this.checkOptionRequired()) return false;
-        this.selected = this.selected[0];
+            this.selected = this.selected?this.selected[0]:{};
         this.setParamOption('links');
         return this.params;
     };

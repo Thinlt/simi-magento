@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { connect } from 'src/drivers';
 import Identify from 'src/simi/Helper/Identify'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
-import Loading from "src/simi/BaseComponents/Loading";
 import Item from "./Item";
 import { simiUseQuery } from 'src/simi/Network/Query'
 import getWishlistQuery from 'src/simi/queries/wishlist/getWishlist.graphql'
@@ -56,9 +55,7 @@ const Wishlist = props => {
     }
 
     let rows = null
-    if (!data || !data.wishlist) {
-        return <Loading />;
-    } else {
+    if (data && data.wishlist) {
         hideFogLoading()
         const {wishlist} = data
         if (wishlist.items_count && wishlist.items && wishlist.items.length) {

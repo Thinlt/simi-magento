@@ -1,5 +1,5 @@
 import React from 'react';
-import { func, shape, string } from 'prop-types';
+import { shape, string } from 'prop-types';
 import { Form } from 'informed';
 
 import Checkbox from 'src/components/Checkbox';
@@ -10,10 +10,15 @@ import classes from './createAccount.css';
 import {configColor} from 'src/simi/Config'
 import Identify from 'src/simi/Helper/Identify'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
+import { createAccount } from 'src/simi/Model/Customer'
+import {showToastMessage} from 'src/simi/Helper/Message';
+import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
 
 const CreateAccount = props => {
     const { createAccountError } = props;
     const errorMessage = createAccountError && (Object.keys(createAccountError).length !== 0) ? Identify.__('An error occurred. Please try again.'):null
+    let registeringEmail = null
+    let registeringPassword = null
 
     const initialValues = () => {
         const { initialValues } = props;
@@ -26,13 +31,29 @@ const CreateAccount = props => {
     }
 
     const handleSubmit = values => {
-        const { onSubmit } = props;
-        if (typeof onSubmit === 'function') {
-            onSubmit(values);
-        }
+        showFogLoading()
+        registeringEmail = values.customer.email
+        registeringPassword = values.password
+        createAccount(registerDone, values)
     };
 
-    
+    const registerDone = (data) => {
+        hideFogLoading()
+        if (data.errors) {
+            console.log('nooo')
+            let errorMsg = ''
+            if (data.errors.length) {
+                data.errors.map(error => {
+                    errorMsg += error.message
+                })
+                showToastMessage(errorMsg)
+            }
+        } else {
+            props.onSignIn(registeringEmail, registeringPassword)
+        }
+    }
+
+
     return (
         <React.Fragment>
             {TitleHelper.renderMetaHeader({
@@ -115,8 +136,7 @@ CreateAccount.propTypes = {
         email: string,
         firstName: string,
         lastName: string
-    }),
-    onSubmit: func
+    })
 }
 
 CreateAccount.defaultProps = {
