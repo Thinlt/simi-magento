@@ -46,7 +46,7 @@ const Dashboard = props => {
                                 addressData={defaultBilling}
                                 classes={classes}
                             />
-                            <Link className={classes["edit-item"]} to={`/addresses.html/${defaultBilling.id}`}>{Identify.__("Edit address")}</Link>
+                            <Link className={classes["edit-item"]} to={{pathname: '/addresses.html', state: defaultBilling}}>{Identify.__("Edit address")}</Link>
                         </React.Fragment>
                     ) : <div>{Identify.__('You have not set a default billing address.  ')}</div>}
     
@@ -61,7 +61,7 @@ const Dashboard = props => {
                                 addressData={defaultShipping}
                                 classes={classes}
                             />
-                            <Link className={classes["edit-item"]} to={`/addresses.html/${defaultShipping.id}`}>{Identify.__("Edit address")}</Link>
+                            <Link className={classes["edit-item"]} to={{pathname: '/addresses.html', state: defaultShipping}}>{Identify.__("Edit address")}</Link>
                         </React.Fragment>
                     ) : <div>{Identify.__('You have not set a default shipping address.')}</div>}
                     
@@ -107,6 +107,7 @@ const Dashboard = props => {
                             <div className={classes["box-title"]}>
                                 {Identify.__("Contact information")}
                             </div>
+                            <p className={`${classes["desc"]} ${classes["email"]}`}>{`${customer.firstname} ${customer.lastname}`}</p>
                             <p className={`${classes["desc"]} ${classes["email"]}`}>{customer.email}</p>
                             <Link className={classes["edit-link"]} to={{ pathname: '/profile.html', state: {profile_edit: 'password'} }}>{Identify.__("Change password")}</Link>
                         </div>

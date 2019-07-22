@@ -13,10 +13,12 @@ import CUSTOMER_ADDRESS_DELETE from 'src/simi/queries/customerAddressDelete.grap
 import List from './list';
 import Edit from './edit';
 import defaultClasses from './style.css';
+import { withRouter } from 'react-router-dom';
 
 const AddressBook = props => {
     
-    const {user, classes} = props;
+    const {user, classes, history} = props;
+    
     const [queryResult, queryApi] = simiUseQuery(CUSTOMER_ADDRESS, false);
     const { data } = queryResult;
     const { runQuery } = queryApi;
@@ -34,7 +36,7 @@ const AddressBook = props => {
     const getAddresses = () => {
         runQuery({});
     }
-    
+
     const [ addressesState, setAddressesState ] = useState(addresses);
 
     var [ addressEditing, setAddressEditing ] = useState(null);
@@ -304,6 +306,7 @@ const mapStateToProps = ({ user }) => {
 
 export default compose(
     classify(defaultClasses),
+    withRouter,
     connect(
         mapStateToProps
     )
