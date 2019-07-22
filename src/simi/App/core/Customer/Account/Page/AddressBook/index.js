@@ -59,21 +59,40 @@ const AddressBook = props => {
     // create a reducer to use hook to rerender page after save changed
     const reducerEdit = (state, action) => {
         var newAddressesState = state.addresses;
+        var addressEditingReducer = null;
         switch(action.changeType){
             case 'initial':
                 newAddressesState = action.initialAddresses;
+                //edit address when passing from dashboard or other page, it is addressEditing when redirecting from location
+                if (history && history.location && history.location.state && history.location.state.addressEditing) {
+                    addressEditingReducer = history.location.state.addressEditing;
+                    addressEditingReducer.addressType = 'history'; // pass this value to edit form
+                }
                 break;
+
+            case 'history':
+                    history.push('/account.html');
+                    break;
+                    
             case 'billing':
                 // defaultBilling = action.changeData;
                 break;
             case 'shipping':
                 // defaultShipping = action.changeData;
                 break;
+            
             case 'new':
                 if (action.changeData.id) {
                     newAddressesState.push(action.changeData);
                 }
                 break;
+            
+            case 'edit':
+                if (action.addressData) {
+                    addressEditingReducer = action.addressData;
+                }
+                break;
+
             case 'other':
                 break;
             case 'delete':
@@ -106,9 +125,8 @@ const AddressBook = props => {
                 }
             }
         }
-        // setAddressesState(newAddressesState);
-        setAddressEditing(null);
-        return {...state, addresses: newAddressesState, addressEditing: null, };
+        // setAddressEditing(null);
+        return {...state, addresses: newAddressesState, addressEditing: addressEditingReducer, };
     }
     const memoizedReducer = useCallback((...args) => {
         return reducerEdit(...args);
@@ -126,6 +144,9 @@ const AddressBook = props => {
             dispatch({changeType: 'initial', initialAddresses: addresses}); //dispatch change addressesState
         }
     }, [data]);
+
+    // now addressEditing controlled by reducer
+    addressEditing = state.addressEditing;
 
     // re-render data after reducer call
     if (state.addresses) {
@@ -157,13 +178,21 @@ const AddressBook = props => {
 
     //add new address
     const addNewAddress = () => {
-        setAddressEditing({
+        // setAddressEditing({
+        //     addressType: 'new',
+        //     street: ['', '', ''], 
+        //     region: {region: null, region_id: null, region_code: null},
+        //     default_billing: false, 
+        //     default_shipping: false
+        // });
+        // dispatch edit address
+        dispatch({changeType: 'edit', addressData: {
             addressType: 'new',
             street: ['', '', ''], 
             region: {region: null, region_id: null, region_code: null},
             default_billing: false, 
             default_shipping: false
-        });
+        }}); 
     }
 
     //id - address id
@@ -176,7 +205,9 @@ const AddressBook = props => {
             var address = defaultShipping;
         }
         address.addressType = addressType;
-        setAddressEditing(address);
+        // setAddressEditing(address);
+        // dispatch edit address
+        dispatch({changeType: 'edit', addressData: address});
         return e;
     }
 
@@ -190,7 +221,9 @@ const AddressBook = props => {
                 break;
             }
         }
-        setAddressEditing(address);
+        // setAddressEditing(address);
+        // dispatch edit address
+        dispatch({changeType: 'edit', addressData: address});
     }
 
     const deleteAddressOther = (id) => {
