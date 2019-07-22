@@ -510,7 +510,7 @@
     font-size: 16px;
     line-height: 24px;
     display: flex;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 .order-detail__summary .detail-col:not(:first-child){
     margin-left: 100px
