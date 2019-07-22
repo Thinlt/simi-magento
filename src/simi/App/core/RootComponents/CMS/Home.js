@@ -1,5 +1,5 @@
 import React from 'react'
-import { PbPageHoc } from 'src/simi/App/core/Pbpage'
+import { PbPageHoc } from 'src/simi/BaseComponents/Pbpage'
 import Identify from 'src/simi/Helper/Identify'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import DefaultHome from 'src/simi/App/core/Home'

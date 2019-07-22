@@ -47,6 +47,7 @@ const CartItem = props => {
     }
     
     const location = `/product.html?sku=${item.sku}`
+    const image = (item.image && item.image.file)?item.image.file:item.simi_image
     return (
         <div key={Identify.randomString(5)} className={defaultClasses['cart-siminia-item']}>
             <div className={defaultClasses['img-and-name']}>
@@ -59,14 +60,12 @@ const CartItem = props => {
                     style={{borderColor: configColor.image_border_color}}>
                     <img 
                         src={
-                            item.image.file ? 
-                            resourceUrl(item.image.file, {
+                            image ? 
+                            resourceUrl(image, {
                             type: 'image-product',
                             width: 300
                         }):
-                            window.SMCONFIGS.logo_url?
-                            window.SMCONFIGS.logo_url:
-                            'https://www.simicart.com/skin/frontend/default/simicart2.1/images/simicart/new_logo_small.png'
+                            Identify.logoUrl()
                         } 
                         alt={item.name} />
                 </div>

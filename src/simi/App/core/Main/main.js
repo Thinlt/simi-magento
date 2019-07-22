@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bool, shape, string } from 'prop-types';
 
 import classify from 'src/classify';
+import Footer from '../Footer';
 import Header from 'src/simi/BaseComponents/Header'
 import Identify from 'src/simi/Helper/Identify'
 import Connection from 'src/simi/Network/SimiConnection'
@@ -32,11 +33,10 @@ class Main extends Component {
     };
 
     get classes() {
-        const { classes, isMasked } = this.props;
-        const suffix = isMasked ? '_masked' : '';
+        const { classes } = this.props;
 
         return ['page', 'root'].reduce(
-            (acc, val) => ({ ...acc, [val]: classes[`${val}${suffix}`] }),
+            (acc, val) => ({ ...acc, [val]: classes[`${val}`] }),
             {}
         );
     }
@@ -49,6 +49,7 @@ class Main extends Component {
                 <Header storeConfig={storeConfig}/>
                 <div id="data-breadcrumb"/>
                 {storeConfig && <div className={classes.page} id="siminia-main-page">{children}</div>}
+                <Footer />
             </React.Fragment>
         )
     }

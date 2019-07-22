@@ -1,14 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Quantity extends Component {
-    render() {
-        const { classes, initialValue, onValueChange } = this.props;
-        return (
-            <div className={classes['product-quantity']}>
-                <input defaultValue={initialValue} type="number" onChange={onValueChange}/>
-            </div>
-        );
+const Quantity = props => {
+    const { classes, initialValue, onValueChange } = props;
+    const changedValue = () => {
+        const qtyField = $('#product-detail-qty')
+        let qty = parseInt(qtyField.val())
+        if (!Number.isInteger(parseInt(qty)) || qty <= 0) {
+            qty = 1
+        }
+        onValueChange(qty)
+        $('#product-detail-qty').val(qty)
     }
+    return (
+        <div className={classes['product-quantity']}>
+            <input defaultValue={initialValue} id="product-detail-qty" type="number" onChange={changedValue}/>
+        </div>
+    );
 }
 
 export default Quantity;

@@ -1,0 +1,4 @@
+.payment-method-item label {
+    grid-template-columns: auto;
+    margin-left: 0;
+}

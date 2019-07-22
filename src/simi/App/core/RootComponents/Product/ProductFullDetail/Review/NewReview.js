@@ -10,7 +10,6 @@ import {smoothScrollToView} from 'src/simi/Helper/Behavior'
 
 const NewReview = props => {
     const {product} = props
-    console.log(product)
     if (!product.simiExtraField || !product.simiExtraField.app_reviews || !product.simiExtraField.app_reviews.form_add_reviews || !product.simiExtraField.app_reviews.form_add_reviews.length)
         return ''
 
@@ -73,7 +72,7 @@ const NewReview = props => {
                 <span>{Identify.__("You're reviewing:")} {Identify.__(product.name)}</span>
             </h2>
             <div className={classes["review-form"]} style={{padding: '8px'}}>
-                <p className={classes["your-rating-title"]}>{Identify.__('Your Rating')}<span className={classes["rq"]}>*</span></p>
+                <p className={classes["your-rating-title"]}>{Identify.__('Your Rating')}</p>
                 <table className={classes["table"]}>
                     <tbody>
                     {rates.map((item, index) => {

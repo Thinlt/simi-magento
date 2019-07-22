@@ -105,7 +105,7 @@ class Identify {
     }
 
 
-    /* 
+    /*
     store/get data from storage
     */
     static storeDataToStoreage(type, key, data) {
@@ -166,7 +166,7 @@ class Identify {
     /*
     Version control
     */
-    //version control 
+    //version control
     static detectPlatforms() {
         if (navigator.userAgent.match(/iPad|iPhone|iPod/)) {
             return 1;
@@ -175,6 +175,16 @@ class Identify {
         } else {
             return 3;
         }
+    }
+
+    /*
+    Logo Url
+    */
+
+    static logoUrl = () => {
+        return window.SMCONFIGS.logo_url ?
+            window.SMCONFIGS.logo_url :
+        'https://www.simicart.com/skin/frontend/default/simicart2.1/images/simicart/new_logo_small.png'
     }
 }
 

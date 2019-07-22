@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { bool, func, shape, string } from 'prop-types';
 import { simiUseQuery } from 'src/simi/Network/Query'
 
@@ -10,8 +10,33 @@ import Close from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
 import defaultClasses from './searchAutoComplete.css';
 import Identify from 'src/simi/Helper/Identify'
 
+
+function useOutsideAlerter(ref, setVisible) {
+    function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target) && setVisible) {
+            if (setVisible)
+                setVisible(false)
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    });
+}
+
+  
+
 const SearchAutoComplete = props => {
     const { setVisible, visible, value } = props;
+
+    //handle click outsite
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef, setVisible);
+
+    //get search result
     const searchQuery = Identify.hasConnector()?SIMI_PRODUCT_SEARCH:PRODUCT_SEARCH
     const [queryResult, queryApi] = simiUseQuery(searchQuery);
     const { data, error, loading } = queryResult;
@@ -27,15 +52,15 @@ const SearchAutoComplete = props => {
         data.products = data.simiproducts
 
     if (error) {
-        message = 'An error occurred while fetching results.';
+        message = Identify.__('An error occurred while fetching results.');
     } else if (loading) {
-        message = 'Fetching results...';
+        message = Identify.__('Fetching results...');
     } else if (!data) {
-        message = 'Search for a product';
+        message = Identify.__('Search for a product');
     } else if (!data.products.items.length) {
-        message = 'No results were found.';
+        message = Identify.__('No results were found.');
     } else {
-        message = `${data.products.items.length} items`;
+        message = Identify.__('%s items').replace('%s', data.products.items.length);
     }
 
     // run the query once on mount, and again whenever state changes
@@ -49,7 +74,7 @@ const SearchAutoComplete = props => {
     }, [resetState, runQuery, setLoading, valid, value, visible]);
 
     return (
-        <div className={rootClassName}>
+        <div className={rootClassName} ref={wrapperRef}>
             <div role="button" tabIndex="0" className={classes['close-icon']} onClick={() => setVisible(false)} onKeyUp={() => setVisible(false)}>
                 <Close style={{width: 14, height: 14, display: 'block'}} />
             </div>
