@@ -24,7 +24,7 @@ import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import * as Constants from 'src/simi/Config/Constants'
 import LoadingImg from 'src/simi/BaseComponents/Loading/LoadingImg';
-
+import {smoothScrollToView} from 'src/simi/Helper/Behavior';
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
 
@@ -35,7 +35,7 @@ const listAddress = (addresses) => {
             const labelA = address.firstname + ' ' + address.lastname + ', ' + address.city + ', ' + address.region.region;
             return { value: address.id, label: labelA };
         });
-        const ctoSelect = { value: '', label: Identify.__('--- Please choose ---') };
+        const ctoSelect = { value: '', label: Identify.__('Please choose') };
         html.unshift(ctoSelect);
 
         const new_Address = { value: 'new_address', label: Identify.__('New Address') };
@@ -50,7 +50,7 @@ const listState = (states) => {
         html = states.map(itemState => {
             return { value: itemState.code, label: itemState.name };
         });
-        const ctoState = { value: '', label: Identify.__('--- Please choose ---') };
+        const ctoState = { value: '', label: Identify.__('Please choose') };
         html.unshift(ctoState);
     }
     return html;
@@ -58,23 +58,6 @@ const listState = (states) => {
 
 let existCustomer = false;
 let showState = null;
-// let handlingEmail = false;
-
-let defaultConfigFields = [
-    'company_show',
-    'street_show',
-    'country_id_show',
-    'region_id_show',
-    'city_show',
-    'zipcode_show',
-    'telephone_show',
-    'fax_show',
-    'prefix_show',
-    'suffix_show',
-    'dob_show',
-    'gender_show',
-    'taxvat_show',
-]
 
 const FormFields = (props) => {
     const { classes,
@@ -88,7 +71,8 @@ const FormFields = (props) => {
         billingAddressSaved,
         submitBilling,
         simiSignedIn,
-        countries } = props;
+        countries,
+        configFields } = props;
 
     const { isSignedIn, currentUser } = user;
 
@@ -100,7 +84,7 @@ const FormFields = (props) => {
 
     existCustomer = isSignedIn ? false : existCustomer;
 
-    let formState = useFormState();
+    const formState = useFormState();
 
     const handleSubmitBillingSameFollowShipping = useCallback(
         () => {
@@ -182,7 +166,7 @@ const FormFields = (props) => {
                 handleActionSignIn(data)
             }
         } else {
-            Identify.smoothScrollToView($("#id-message"));
+            smoothScrollToView($("#id-message"));
             toggleMessages([{ type: 'error', message: Identify.__('The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.'), auto_dismiss: true }])
         }
     }
@@ -190,29 +174,13 @@ const FormFields = (props) => {
     const handleSignIn = () => {
         const { email, password } = formState.values;
         if (!email || !password) {
-            Identify.smoothScrollToView($("#id-message"));
+            smoothScrollToView($("#id-message"));
             toggleMessages([{ type: 'error', message: Identify.__('Email and password is required to login!'), auto_dismiss: true }])
             return;
         }
         const username = email;
         simiSignIn(setDataLogin, { username, password })
         showFogLoading()
-    }
-
-    const simiGetStoreConfig = Identify.getStoreConfig();
-    const simiStoreViewCustomer = simiGetStoreConfig.simiStoreConfig.config.customer;
-
-    let configFields = null;
-    if (simiStoreViewCustomer && simiStoreViewCustomer.hasOwnProperty('address_fields_config')) {
-        const { address_fields_config } = simiStoreViewCustomer;
-        configFields = useMemo(
-            () =>
-                defaultConfigFields.reduce((acc, key) => {
-                    acc[key] = address_fields_config[key];
-                    return acc;
-                }, {}),
-            [address_fields_config]
-        )
     }
 
     const onHandleSelectCountry = () => {
@@ -225,7 +193,7 @@ const FormFields = (props) => {
         const { available_regions: regions } = country;
         if (country.available_regions && Array.isArray(regions) && regions.length && (!configFields || (configFields && configFields.hasOwnProperty('region_id_show') && configFields.region_id_show))) {
             showState = <div className={classes.region_code}>
-                <Field label="State">
+                <Field label={Identify.__("State")}>
                     <Select field="region_code" items={listState(regions)} validate={(!configFields || (configFields && configFields.hasOwnProperty('street_show') && configFields.street_show === 'req')) ? isRequired : ''} />
                 </Field>
             </div>
@@ -237,7 +205,7 @@ const FormFields = (props) => {
     const viewFields = !formState.values.addresses_same ? (
         <Fragment>
             {isSignedIn && default_shipping && <div className={classes.shipping_address}>
-                <Field label="Select Shipping">
+                <Field label={Identify.__("Select Shipping")}>
                     <Select
                         field="selected_shipping_address"
                         initialValue={default_shipping}
@@ -249,7 +217,7 @@ const FormFields = (props) => {
             {!isSignedIn || !default_billing || shippingNewForm ?
                 <Fragment>
                     <div className={classes.email}>
-                        <Field label="Email">
+                        <Field label={Identify.__("Email")}>
                             <TextInput
                                 id={classes.email}
                                 field="email"
@@ -282,7 +250,7 @@ const FormFields = (props) => {
                     </Fragment>
                     }
                     <div className={classes.firstname}>
-                        <Field label="First Name">
+                        <Field label={Identify.__("First Name")}>
                             <TextInput
                                 id={classes.firstname}
                                 field="firstname"
@@ -291,7 +259,7 @@ const FormFields = (props) => {
                         </Field>
                     </div>
                     <div className={classes.lastname}>
-                        <Field label="Last Name">
+                        <Field label={Identify.__("Last Name")}>
                             <TextInput
                                 id={classes.lastname}
                                 field="lastname"
@@ -301,7 +269,7 @@ const FormFields = (props) => {
                     </div>
                     {configFields && configFields.hasOwnProperty('company_show') && configFields.company_show ?
                         <div className={classes.company}>
-                            <Field label="Company">
+                            <Field label={Identify.__("Company")}>
                                 <TextInput
                                     id={classes.company}
                                     field="company"
@@ -312,7 +280,7 @@ const FormFields = (props) => {
                         : null}
                     {!configFields || (configFields && configFields.hasOwnProperty('street_show') && configFields.street_show) ?
                         <div className={classes.street0}>
-                            <Field label="Street">
+                            <Field label={Identify.__("Street")}>
                                 <TextInput
                                     id={classes.street0}
                                     field="street[0]"
@@ -320,16 +288,13 @@ const FormFields = (props) => {
                                 />
                             </Field>
                             <Field>
-                                <TextInput
-                                    field="street[1]"
-                                    validate={''}
-                                />
+                                <TextInput field="street[1]" />
                             </Field>
                         </div>
                         : null}
                     {!configFields || (configFields && configFields.hasOwnProperty('city_show') && configFields.city_show) ?
                         <div className={classes.city}>
-                            <Field label="City">
+                            <Field label={Identify.__("City")}>
                                 <TextInput
                                     id={classes.city}
                                     field="city"
@@ -339,7 +304,7 @@ const FormFields = (props) => {
                         </div> : null}
                     {!configFields || (configFields && configFields.hasOwnProperty('zipcode_show') && configFields.zipcode_show) ?
                         <div className={classes.postcode}>
-                            <Field label="ZIP">
+                            <Field label={Identify.__("ZIP")}>
                                 <TextInput
                                     id={classes.postcode}
                                     field="postcode"
@@ -349,7 +314,7 @@ const FormFields = (props) => {
                         </div> : null}
                     {!configFields || (configFields && configFields.hasOwnProperty('country_id_show') && configFields.country_id_show) ?
                         <div className={classes.country}>
-                            <Field label="Country">
+                            <Field label={Identify.__("Country")}>
                                 <Select
                                     field="country_id"
                                     initialValue={initialCountry}
@@ -362,7 +327,7 @@ const FormFields = (props) => {
                     {showState}
                     {!configFields || (configFields && configFields.hasOwnProperty('telephone_show') && configFields.telephone_show) ?
                         <div className={classes.telephone}>
-                            <Field label="Phone">
+                            <Field label={Identify.__("Phone")}>
                                 <TextInput
                                     id={classes.telephone}
                                     field="telephone"
@@ -372,7 +337,7 @@ const FormFields = (props) => {
                         </div> : null}
                     {configFields && configFields.hasOwnProperty('fax_show') && configFields.fax_show ?
                         <div className={classes.fax}>
-                            <Field label="Fax">
+                            <Field label={Identify.__("Fax")}>
                                 <TextInput
                                     id={classes.fax}
                                     field="fax"
@@ -383,7 +348,7 @@ const FormFields = (props) => {
                         : null}
                     {configFields && configFields.hasOwnProperty('prefix_show') && configFields.prefix_show ?
                         <div className={classes.prefix}>
-                            <Field label="Prefix">
+                            <Field label={Identify.__("Prefix")}>
                                 <TextInput
                                     id={classes.prefix}
                                     field="prefix"
@@ -394,7 +359,7 @@ const FormFields = (props) => {
                         : null}
                     {configFields && configFields.hasOwnProperty('suffix_show') && configFields.suffix_show ?
                         <div className={classes.suffix}>
-                            <Field label="Suffix">
+                            <Field label={Identify.__("Suffix")}>
                                 <TextInput
                                     id={classes.suffix}
                                     field="suffix"
@@ -405,7 +370,7 @@ const FormFields = (props) => {
                         : null}
                     {configFields && configFields.hasOwnProperty('taxvat_show') && configFields.taxvat_show ?
                         <div className={classes.vat_id}>
-                            <Field label="VAT">
+                            <Field label={Identify.__("VAT")}>
                                 <TextInput
                                     id={classes.vat_id}
                                     field="vat_id"

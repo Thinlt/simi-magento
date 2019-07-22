@@ -42,7 +42,6 @@ export const submitShippingAddress = payload =>
         let { formValues: address } = payload;
         try {
             address = formatAddress(address, countries);
-            // if (address.id) delete address.id
         } catch (error) {
             dispatch(
                 checkoutActions.shippingAddress.reject({
@@ -188,11 +187,11 @@ export function formatAddress(address = {}, countries = []) {
     } else {
         let region = {};
         if (address.hasOwnProperty('region_code')) {
-            let { region_code } = address;
+            const { region_code } = address;
             region = regions.find(({ code }) => code === region_code);
         } else if (address.hasOwnProperty('region') && !isObjectEmpty(address.region)) {
             const region_list = address.region;
-            let { region_code } = region_list;
+            const { region_code } = region_list;
             if (region_code) {
                 region = regions.find(({ code }) => code === region_code);
             } else {

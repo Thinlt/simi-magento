@@ -2,13 +2,13 @@ import React, { useCallback, Fragment } from 'react';
 import { useFormState, asField, BasicRadioGroup } from 'informed';
 import { array, bool, func, shape, string } from 'prop-types';
 
-import BraintreeDropin from './paymentMethods/braintreeDropin';
 import Button from 'src/components/Button';
-import RadioGroup from 'src/components/RadioGroup';
 import Radio from 'src/components/RadioGroup/radio';
 import defaultClasses from './paymentsFormItems.css';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import Identify from 'src/simi/Helper/Identify';
+import BraintreeDropin from './paymentMethods/braintreeDropin';
+import CCType from './paymentMethods/ccType';
 
 /**
  * This component is meant to be nested within an `informed` form. It utilizes
@@ -23,10 +23,10 @@ const PaymentsFormItems = props => {
         classes,
         setIsSubmitting,
         submit,
-        submitting,
         isSubmitting,
         paymentMethods,
-        initialValues
+        initialValues,
+        paymentCode
     } = props;
 
     // Currently form state toggles dirty from false to true because of how
@@ -55,6 +55,9 @@ const PaymentsFormItems = props => {
         selectablePaymentMethods = []
     }
 
+    const ccPayment = { value: 'cc_type', label: 'Credit card' }
+    selectablePaymentMethods.push(ccPayment);
+
     let thisInitialValue = null;
     if (initialValues && !isObjectEmpty(initialValues)) {
         if (initialValues.value) {
@@ -82,8 +85,11 @@ const PaymentsFormItems = props => {
 
         const p_method = formState.values['payment_method'];
         let parseData = {};
-        if (p_method === 'checkmo' || p_method === 'free' || p_method === 'cashondelivery' || p_method === 'banktransfer') {
-            // save data to reducer with standard payment method
+        if (p_method === 'checkmo'
+            || p_method === 'free'
+            || p_method === 'cashondelivery'
+            || p_method === 'banktransfer') {
+            // payment type 0
 
             parseData = selectablePaymentMethods.find(
                 ({ value }) => value === p_method
@@ -96,7 +102,7 @@ const PaymentsFormItems = props => {
     const handleSubmit = useCallback(() => {
         setIsSubmitting(true);
     }, [setIsSubmitting]);
-
+    console.log(selectablePaymentMethods);
     const renderMethod = () => {
         let mt = null;
         if (selectablePaymentMethods.length) {
@@ -116,6 +122,11 @@ const PaymentsFormItems = props => {
                     </Fragment>
                 }
 
+                if (ite.value === 'cc_type' && formState.values['payment_method'] === ite.value) {
+                    console.log('aaa');
+                    frameCard = <CCType />
+                }
+
                 return <Fragment key={ite.value}>
                     <Radio label={ite.label} value={ite.value} />
                     {frameCard}
@@ -128,18 +139,10 @@ const PaymentsFormItems = props => {
     return (
         <Fragment>
             <div className={classes.body}>
-                {/* <div className={classes.braintree}>
-                    <BraintreeDropin
-                        shouldRequestPaymentNonce={isSubmitting}
-                        onError={handleError}
-                        onSuccess={handleSuccess}
-                    />
-                </div> */}
                 <div className={defaultClasses['payment-method-item']}>
-                    <CustomRadioPayment initialValue={thisInitialValue} field="payment_method" key={thisInitialValue} onChange={() => selectPaymentMethod()}>
+                    <CustomRadioPayment initialValue={paymentCode} field="payment_method" key={thisInitialValue} onChange={() => selectPaymentMethod()}>
                         {renderMethod()}
                     </CustomRadioPayment>
-                    {/* <RadioGroup field="payment_method" initialValue={thisInitialValue} items={selectablePaymentMethods} onChange={() => selectPaymentMethod()} /> */}
                 </div>
             </div>
 

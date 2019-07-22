@@ -1,11 +1,12 @@
-import React, { useCallback, useMemo } from 'react';
-import { Form} from 'informed';
+import React, { useCallback, useMemo, Fragment } from 'react';
+import { Form } from 'informed';
 import { array, bool, func, object, shape, string } from 'prop-types';
 
 import { mergeClasses } from 'src/classify';
 import defaultClasses from './addressForm.css';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import FormFields from './components/formFields';
+import Identify from 'src/simi/Helper/Identify';
 
 const fields = [
     'city',
@@ -15,8 +16,28 @@ const fields = [
     'postcode',
     'region_code',
     'street',
-    'telephone'
+    'telephone',
+    'company',
+    'fax',
+    'prefix',
+    'suffix',
+    'vat_id',
+    'save_in_address_book'
 ];
+
+const defaultConfigFields = [
+    'company_show',
+    'street_show',
+    'country_id_show',
+    'region_id_show',
+    'city_show',
+    'zipcode_show',
+    'telephone_show',
+    'fax_show',
+    'prefix_show',
+    'suffix_show',
+    'taxvat_show',
+]
 
 const DEFAULT_FORM_VALUES = {
     addresses_same: true
@@ -41,7 +62,7 @@ const AddressForm = props => {
 
     let initialFormValues = initialValues;
 
-    if(billingForm){
+    if (billingForm) {
         fields.push('addresses_same');
         if (isObjectEmpty(initialValues)) {
             initialFormValues = DEFAULT_FORM_VALUES;
@@ -60,10 +81,31 @@ const AddressForm = props => {
         }
     }
 
+    const simiGetStoreConfig = Identify.getStoreConfig();
+    const simiStoreViewCustomer = simiGetStoreConfig.simiStoreConfig.config.customer;
+
+    let configFields = null;
+    if (simiStoreViewCustomer && simiStoreViewCustomer.hasOwnProperty('address_fields_config')) {
+        const { address_fields_config } = simiStoreViewCustomer;
+        configFields = useMemo(
+            () =>
+                defaultConfigFields.reduce((acc, key) => {
+                    acc[key] = address_fields_config[key];
+                    return acc;
+                }, {}),
+            [address_fields_config]
+        )
+    }
+
     const values = useMemo(
         () =>
             fields.reduce((acc, key) => {
-                acc[key] = initialFormValues[key];
+                if (key === 'save_in_address_book') {
+                    acc[key] = initialFormValues[key] ? true : false;
+                } else {
+                    acc[key] = initialFormValues[key];
+                }
+
                 return acc;
             }, {}),
         [initialFormValues]
@@ -71,7 +113,7 @@ const AddressForm = props => {
 
     let initialCountry;
     let selectableCountries;
-    const callGetCountries = {value: '', label: 'Please choose'}
+    const callGetCountries = { value: '', label: Identify.__('Please choose') }
 
     if (countries && countries.length) {
         selectableCountries = countries.map(
@@ -95,7 +137,7 @@ const AddressForm = props => {
             submitBilling(billingAddress);
         },
         [submitBilling]
-    )
+    );
 
     const handleSubmit = useCallback(
         values => {
@@ -107,8 +149,8 @@ const AddressForm = props => {
             } else {
                 values.save_in_address_book = 0;
             }
-            submit(values);
-            if(!billingForm && !billingAddressSaved){
+            submit(JSON.parse(JSON.stringify(values)));
+            if (!billingForm && !billingAddressSaved) {
                 handleSubmitBillingSameFollowShipping();
             }
         },
@@ -122,7 +164,8 @@ const AddressForm = props => {
         submit,
         validationMessage,
         initialCountry,
-        selectableCountries
+        selectableCountries,
+        configFields
     };
 
     return (
@@ -130,7 +173,8 @@ const AddressForm = props => {
             className={classes.root}
             initialValues={values}
             onSubmit={handleSubmit}
-            style={{display: 'inline-block', width: '100%'}}
+            key={Identify.randomString()}
+            style={{ display: 'inline-block', width: '100%' }}
         >
             <FormFields {...formChildrenProps} />
         </Form>

@@ -7,6 +7,7 @@ import ShippingForm from './shippingForm';
 import AddressItem from 'src/simi/BaseComponents/Address';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import defaultClass from './editableForm.css';
+import Identify from 'src/simi/Helper/Identify';
 
 /**
  * The EditableForm component renders the actual edit forms for the sections
@@ -27,7 +28,8 @@ const EditableForm = props => {
         submitBillingAddress,
         submitPaymentMethod,
         user,
-        simiSignedIn
+        simiSignedIn,
+        paymentCode
     } = props;
 
     const handleCancel = useCallback(() => {
@@ -75,24 +77,10 @@ const EditableForm = props => {
         [submitPaymentMethod]
     );
 
-    // if (user && user.isSignedIn && user.currentUser.id && (!props.shippingAddress || !props.billingAddress) && flg_ship) {
-    //     flg_ship = 0;
-    //     const { currentUser } = user;
-    //     const { default_billing, default_shipping } = currentUser;
-
-    //     if (!props.shippingAddress && default_shipping && currentUser.hasOwnProperty('addresses') && currentUser.addresses.length){
-    //         const df_Address = currentUser.addresses.find(
-    //             ({id}) => parseInt(id, 10) === parseInt(default_shipping, 10)
-    //         )
-    //         if (df_Address){
-    //             handleSubmitAddressForm(df_Address)
-    //         }
-    //     }
-    // }
-
     switch (editing) {
         case 'address': {
-            let { shippingAddress, billingAddress } = props;
+            const {billingAddress} = props;
+            let { shippingAddress } = props;
             if (!shippingAddress) {
                 shippingAddress = undefined;
             }
@@ -155,9 +143,11 @@ const EditableForm = props => {
                     cancel={handleCancel}
                     countries={countries}
                     initialValues={paymentData}
+                    paymentCode={paymentCode}
                     submit={handleSubmitPaymentsForm}
                     submitting={submitting}
                     paymentMethods={paymentMethods}
+                    /* key={Identify.randomString()} */
                 />
             );
         }
@@ -172,6 +162,7 @@ const EditableForm = props => {
                     shippingMethod={shippingMethod}
                     submit={handleSubmitShippingForm}
                     submitting={submitting}
+                    key={Identify.randomString()}
                 />
             );
         }

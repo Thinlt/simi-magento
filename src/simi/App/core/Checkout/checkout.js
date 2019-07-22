@@ -40,7 +40,7 @@ import EditableForm from './editableForm';
 import Panel from 'src/simi/BaseComponents/Panel';
 import { toggleMessages, simiSignedIn } from 'src/simi/Redux/actions/simiactions';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
-
+import {smoothScrollToView} from 'src/simi/Helper/Behavior'
 const isCheckoutReady = checkout => {
     const {
         billingAddress,
@@ -77,6 +77,7 @@ class Checkout extends Component {
             editing: oneOf(['address', 'billingAddress', 'paymentMethod', 'shippingMethod']),
             invalidAddressMessage: string,
             isAddressInvalid: bool,
+            paymentCode: string,
             paymentData: object,
             shippingAddress: object,
             shippingMethod: string,
@@ -184,22 +185,22 @@ class Checkout extends Component {
 
         if (toggleMessages) {
             if (!shippingAddress || isObjectEmpty(shippingAddress)) {
-                Identify.smoothScrollToView($("#id-message"));
+                smoothScrollToView($("#id-message"));
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a shipping address'), auto_dismiss: true }])
                 return;
             }
             if (!billingAddress || isObjectEmpty(billingAddress)) {
-                Identify.smoothScrollToView($("#id-message"));
+                smoothScrollToView($("#id-message"));
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a billing address'), auto_dismiss: true }])
                 return;
             }
             if (!cart.is_virtual && (!shippingMethod || !shippingMethod.length)) {
-                Identify.smoothScrollToView($("#id-message"));
+                smoothScrollToView($("#id-message"));
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a shipping method '), auto_dismiss: true }])
                 return;
             }
             if (!paymentData || isObjectEmpty(paymentData)) {
-                Identify.smoothScrollToView($("#id-message"));
+                smoothScrollToView($("#id-message"));
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a payment method'), auto_dismiss: true }])
                 return;
             }
@@ -240,8 +241,8 @@ class Checkout extends Component {
 
     get checkoutInner() {
         const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail } = this;
-        let { isPhone } = this.state;
-        let containerSty = isPhone ? { marginTop: 35 } : {};
+        const { isPhone } = this.state;
+        const containerSty = isPhone ? { marginTop: 35 } : {};
         const { classes,
             cart,
             checkout,
@@ -260,12 +261,13 @@ class Checkout extends Component {
             shippingMethod,
             billingAddress,
             paymentData,
+            paymentCode,
             invalidAddressMessage,
             isAddressInvalid,
             shippingTitle } = checkout;
 
         const { paymentMethods, is_virtual } = cart;
-        let { editing } = checkout;
+        const { editing } = checkout;
 
         const stepProps = {
             availableShippingMethods,
@@ -282,6 +284,7 @@ class Checkout extends Component {
                 !!shippingMethod && !isObjectEmpty(shippingMethod),
             invalidAddressMessage,
             isAddressInvalid,
+            paymentCode,
             paymentData,
             ready: isCheckoutReady(checkout),
             shippingAddress,
@@ -301,11 +304,12 @@ class Checkout extends Component {
         if (checkout.step && checkout.step === 'receipt') {
             this.handleLink('/thankyou.html');
         }
+
         if (!isCheckoutReady(checkout)) {
             hideFogLoading()
         }
 
-        return <React.Fragment>
+        return <Fragment>
             {this.breadcrumb}
             <div className={defaultClasses['checkout-page-title']}>{Identify.__("Checkout")}</div>
             {!cartDetail ? checkoutEmpty : <div className={defaultClasses['checkout-column']}>
@@ -350,7 +354,7 @@ class Checkout extends Component {
                     </div>
                 </div>
             </div>}
-        </React.Fragment>
+        </Fragment>
     }
 
     render() {
