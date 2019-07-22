@@ -102,9 +102,6 @@
     "webpack-cli": "~3.2.3",
     "webpack-dev-server": "~3.2.1"
   },
-  "optionalDependencies": {
-    "sharp": "~0.21.2"
-  },
   "engines": {
     "node": "8.10.0 || >=10.7.0",
     "yarn": ">=1.12.0"
