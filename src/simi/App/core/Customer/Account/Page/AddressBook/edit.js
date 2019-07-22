@@ -192,7 +192,6 @@ const Edit = props => {
         }
     }
 
-    
     return (
         <div className={classes['edit-address']}>
             {TitleHelper.renderMetaHeader({title: Identify.__('Edit Address')})}
