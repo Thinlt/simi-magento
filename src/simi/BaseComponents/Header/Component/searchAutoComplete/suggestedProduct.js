@@ -7,6 +7,7 @@ import { resourceUrl } from 'src/simi/Helper/Url'
 import ReactHTMLParse from 'react-html-parser';
 
 import defaultClasses from './suggestedProduct.css';
+import Identify from '../../../../Helper/Identify';
 
 const productUrlSuffix = '.html';
 
@@ -51,10 +52,10 @@ class SuggestedProduct extends Component {
                 <span className={classes.image}>
                     <img
                         alt={name}
-                        src={resourceUrl(small_image, {
+                        src={small_image? resourceUrl(small_image, {
                             type: 'image-product',
                             width: 60
-                        })}
+                        }) : Identify.logoUrl()}
                         style={{maxWidth: 60, maxHeight: 60}}
                     />
                 </span>
