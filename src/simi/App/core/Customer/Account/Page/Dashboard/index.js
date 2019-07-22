@@ -10,7 +10,7 @@ import AddressItem from './AddressItem';
 import TitleHelper from 'src/simi/Helper/TitleHelper';
 
 const Dashboard = props => {
-    const {classes, history, isPhone, customer} = props;
+    const {classes, isPhone, customer} = props;
     const [queryResult, queryApi] = simiUseQuery(getCustomerInfoQuery, false);
     const {data} = queryResult
     const { runQuery } = queryApi;
@@ -26,7 +26,7 @@ const Dashboard = props => {
     }, [data])
 
     const renderDefaultAddress = (item, default_billing, default_shipping) => {
-        let defaultBilling = item.find(value => {
+        const defaultBilling = item.find(value => {
             return value.id === parseInt(default_billing, 10);
         });
 
