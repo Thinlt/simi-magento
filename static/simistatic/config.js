@@ -7,7 +7,7 @@ var SMCONFIGS = {
     logo_url: "https://www.simicart.com/skin/frontend/default/simicart2.0/images/simicart/new_logo_small.png",
     has_connector: true,
     //eg. url is https://codymap.com/magento23 and media url must include pub, value should be 'magento23/pub/'
-    media_url_prefix :'pub/'
+    media_url_prefix :'magento23/pub/'
 };
 
 var DEFAULT_COLORS = {

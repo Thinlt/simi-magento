@@ -65,9 +65,7 @@ const CartItem = props => {
                             type: 'image-product',
                             width: 300
                         }):
-                            window.SMCONFIGS.logo_url?
-                            window.SMCONFIGS.logo_url:
-                            'https://www.simicart.com/skin/frontend/default/simicart2.1/images/simicart/new_logo_small.png'
+                            Identify.logoUrl()
                         } 
                         alt={item.name} />
                 </div>

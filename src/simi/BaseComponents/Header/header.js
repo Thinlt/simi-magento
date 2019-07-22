@@ -45,7 +45,7 @@ class Header extends React.Component{
             <div className={`${this.classes['search-icon']} ${this.classes['header-logo']}`} >
                 <Link to='/'>
                     <img 
-                        src="https://www.simicart.com/skin/frontend/default/simicart2.0/images/simicart/new_logo_small.png" 
+                        src={Identify.logoUrl()}
                         alt="siminia-logo" style={!isPhone?{width: 206, height: 48}:{width: 135, height: 32}}/>
                 </Link>
             </div>
