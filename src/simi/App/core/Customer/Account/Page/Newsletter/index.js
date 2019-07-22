@@ -9,6 +9,7 @@ import { Simiquery, SimiMutation } from 'src/simi/Network/Query'
 import CUSTOMER_NEWSLETTER from 'src/simi/queries/customerNewsletter.graphql';
 import CUSTOMER_NEWSLETTER_UPDATE from 'src/simi/queries/customerNewsletterUpdate.graphql';
 import defaultClasses from './style.css';
+import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 
 class Newsletter extends React.Component {
 
@@ -33,16 +34,21 @@ class Newsletter extends React.Component {
                         return (
                             <SimiMutation mutation={CUSTOMER_NEWSLETTER_UPDATE}>
                                 {(updateCustomer, { data }) => {
-                                    
-                                    if (data) {
-
-                                        this.props.toggleMessages([{
-                                                type: 'error',
-                                                message: "Newsletter is subcribed successfully!",
-                                                auto_dismiss: true
-                                        }]);
+                                    if (data && data.updateCustomer && data.updateCustomer.customer) {
+                                        if (data.updateCustomer.customer.is_subscribed === true) {
+                                            this.props.toggleMessages([{
+                                                    type: 'success',
+                                                    message: "Newsletter is subcribed successfully!",
+                                                    auto_dismiss: true
+                                            }]);
+                                        } else {
+                                            this.props.toggleMessages([{
+                                                    type: 'success',
+                                                    message: "Newsletter is unsubcribed successfully!",
+                                                    auto_dismiss: true
+                                            }]);
+                                        }
                                     }
-
                                     return (
                                     <>
                                         <div className={classes["account-newsletter"]}>
@@ -79,15 +85,10 @@ const mapDispatchToProps = {
     toggleMessages,
 }
 
-// export default compose(
-//     classify(defaultClasses),
-//     connect(
-//         mapStateToProps,
-//         mapDispatchToProps
-//     )
-// )(Newsletter);
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+export default compose(
+    classify(defaultClasses),
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )
 )(Newsletter);
