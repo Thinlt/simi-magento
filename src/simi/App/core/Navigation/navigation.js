@@ -7,6 +7,7 @@ import Identify from 'src/simi/Helper/Identify'
 import Dashboardmenu from './Dashboardmenu'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
+import { connect } from 'src/drivers';
 
 class Navigation extends PureComponent {
     static propTypes = {
@@ -116,8 +117,6 @@ class Navigation extends PureComponent {
     renderDashboardMenu(className, jsonSimiCart) {
         const {
             classes,
-            closeDrawer,
-            isOpen,
             rootCategoryId
         } = this.props;
 
@@ -188,15 +187,15 @@ class Navigation extends PureComponent {
     render() {
         const {
             categoryTree,
-            props,
-            setRootNodeIdToParent
+            props
         } = this
 
         const {
             classes,
-            closeDrawer,
-            isOpen,
+            drawer,
         } = props;
+        const isOpen = drawer === 'nav';
+
         const className = isOpen ? classes.root_open : classes.root;
 
         const simicartConfig = Identify.getAppDashboardConfigs()
@@ -214,7 +213,15 @@ class Navigation extends PureComponent {
     }
 }
 
+const mapStateToProps = ({ app }) => {
+    const { drawer } = app
+    return {
+        drawer
+    }
+}
+
 export default compose(
+    connect( mapStateToProps ),
     withRouter,
     classify(defaultClasses)
 )(Navigation);
