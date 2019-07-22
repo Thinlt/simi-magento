@@ -23,6 +23,8 @@ import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import * as Constants from 'src/simi/Config/Constants'
 import { Util } from '@magento/peregrine';
+import {smoothScrollToView} from 'src/simi/Helper/Behavior'
+
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
 
@@ -156,7 +158,7 @@ const FormFields = (props) => {
                 handleActionSignIn(data)
             }
         } else {
-            Identify.smoothScrollToView($("#id-message"));
+            smoothScrollToView($("#id-message"));
             toggleMessages([{ type: 'error', message: Identify.__('The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.'), auto_dismiss: true }])
         }
     }
@@ -164,7 +166,7 @@ const FormFields = (props) => {
     const handleSignIn = () => {
         const { email, password } = formState.values;
         if (!email || !password) {
-            Identify.smoothScrollToView($("#id-message"));
+            smoothScrollToView($("#id-message"));
             toggleMessages([{ type: 'error', message: Identify.__('Email and password is required to login!'), auto_dismiss: true }])
             return;
         }
