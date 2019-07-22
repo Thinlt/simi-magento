@@ -41,6 +41,7 @@ import EditableForm from './editableForm';
 import Panel from 'src/simi/BaseComponents/Panel';
 import { toggleMessages, simiSignedIn } from 'src/simi/Redux/actions/simiactions';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
+import {smoothScrollToView} from 'src/simi/Helper/Behavior'
 
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
@@ -188,22 +189,22 @@ class Checkout extends Component {
 
         if (toggleMessages) {
             if (!shippingAddress || isObjectEmpty(shippingAddress)) {
-                Identify.smoothScrollToView($("#id-message"));
+                smoothScrollToView($("#id-message"));
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a shipping address'), auto_dismiss: true }])
                 return;
             }
             if (!billingAddress || isObjectEmpty(billingAddress)) {
-                Identify.smoothScrollToView($("#id-message"));
+                smoothScrollToView($("#id-message"));
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a billing address'), auto_dismiss: true }])
                 return;
             }
             if (!shippingMethod || !shippingMethod.length) {
-                Identify.smoothScrollToView($("#id-message"));
+                smoothScrollToView($("#id-message"));
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a shipping method '), auto_dismiss: true }])
                 return;
             }
             if (!paymentData || isObjectEmpty(paymentData)) {
-                Identify.smoothScrollToView($("#id-message"));
+                smoothScrollToView($("#id-message"));
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a payment method'), auto_dismiss: true }])
                 return;
             }

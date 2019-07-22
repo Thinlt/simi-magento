@@ -4,12 +4,13 @@ import classify from 'src/classify';
 import Loading from 'src/simi/BaseComponents/Loading'
 import { Colorbtn, Whitebtn } from 'src/simi/BaseComponents/Button'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
-import Carousel from './ProductImageCarousel';
+import ProductImage from './ProductImage';
 import Quantity from './ProductQuantity';
 import defaultClasses from './productFullDetail.css';
 import appendOptionsToPayload from 'src/util/appendOptionsToPayload';
 import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
+import TitleHelper from 'src/simi/Helper/TitleHelper'
 import {prepareProduct} from 'src/simi/Helper/Product'
 import ProductPrice from '../Component/Productprice';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
@@ -17,6 +18,7 @@ import { addToWishlist as simiAddToWishlist } from 'src/simi/Model/Wishlist';
 import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
 import ReactHTMLParse from 'react-html-parser';
+import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
 import { TopReview, ReviewList, NewReview } from './Review/index'
 import SocialShare from 'src/simi/BaseComponents/SocialShare';
 import Description from './Description';
@@ -261,6 +263,10 @@ class ProductFullDetail extends Component {
         );
     }
 
+    breadcrumb = (product) => {
+        return <BreadCrumb breadcrumb={[{name:'Home',link:'/'},{name:product.name}]} history={this.props.history}/>
+    }
+    
     render() {
         hideFogLoading()
         const { addToCart, mediaGalleryEntries, productOptions, props, state, addToWishlist } = this;
@@ -272,20 +278,26 @@ class ProductFullDetail extends Component {
         const hasReview = simiExtraField && simiExtraField.app_reviews
         return (
             <div className={`${classes.root} container`}>
+                {this.breadcrumb(product)}
+                {TitleHelper.renderMetaHeader({
+                    title: product.meta_title?product.meta_title:product.name?product.name:'',
+                    desc: product.meta_description?product.meta_description:product.description?product.description:''
+                })}
                 <div className={classes.title}>
                     <h1 className={classes.productName}>
                         <span>{ReactHTMLParse(name)}</span>
                     </h1>
                 </div>
                 <div className={classes.imageCarousel}>
-                    <Carousel 
+                    <ProductImage 
                         images={mediaGalleryEntries} 
                         optionCodes={optionCodes} 
                         optionSelections={optionSelections} 
-                        product={product}/>
+                        product={product}
+                    />
                 </div>
                 <div className={classes.mainActions}>
-                    {hasReview && <div className={classes.topReview}><TopReview app_reviews={product.simiExtraField.app_reviews}/></div>}
+                    {hasReview ? <div className={classes.topReview}><TopReview app_reviews={product.simiExtraField.app_reviews}/></div> : ''}
                     <div className={classes.productPrice}>
                         <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections}/>
                     </div>
@@ -316,8 +328,8 @@ class ProductFullDetail extends Component {
                     <div className={classes.socialShare}><SocialShare id={product.id} className={classes.socialShareItem} /></div>
                 </div>
                 {product.description && <div className={classes.description}><Description product={product}/></div>}
-                {(simiExtraField && simiExtraField.additional && simiExtraField.additional.length) 
-                    && <div className={classes.techspec}><Techspec product={product}/></div>}
+                {(simiExtraField && simiExtraField.additional && simiExtraField.additional.length) ?
+                    <div className={classes.techspec}><Techspec product={product}/></div> : ''}
                 <div className={classes.reviewList}><ReviewList product_id={product.id}/></div>
                 <div className={classes.newReview}><NewReview product={product} toggleMessages={this.props.toggleMessages}/></div>
             </div>

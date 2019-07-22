@@ -5,16 +5,6 @@
     z-index: 1;
 }
 
-.root_masked {
-    composes: root;
-    height: 100vh;
-    overflow: hidden;
-}
-
 .page {
     min-height: 100vh;
-}
-
-.page_masked {
-    composes: page;
 }
