@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 import "./../../style.css";
 import { getOrderDetail, getReOrder } from 'src/simi/Model/Orders';
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
+import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+import { connect } from 'src/drivers';
 
 class Detail extends React.Component {
     state = {
@@ -35,7 +37,7 @@ class Detail extends React.Component {
     getDataReOrder = (data) => {
         if(data){
             hideFogLoading();
-            props.toggleMessages([{type:'success', message: data.message}])    
+            this.props.toggleMessages([{type:'success', message: data.message}])    
         }
     }
 
@@ -332,7 +334,7 @@ class Detail extends React.Component {
                     style={{width: "20%", marginBottom:"10px"}}
                     onClick={()=>{
                         showFogLoading();
-                        getReOrder(this.id,this.processData)
+                        getReOrder(this.id,this.getDataReOrder)
                     }}
                 />
                 {this.renderTableItems()}
@@ -342,4 +344,12 @@ class Detail extends React.Component {
         );
     }
 }
-export default Detail;
+
+const mapDispatchToProps = {
+    toggleMessages,
+}
+
+export default connect(
+        null,
+        mapDispatchToProps
+    )(Detail);
