@@ -7,7 +7,8 @@ import Loading from "src/simi/BaseComponents/Loading";
 import ReactHTMLParse from "react-html-parser";
 import { Link } from "react-router-dom";
 import "./../../style.css";
-import { getOrderDetail } from 'src/simi/Model/Orders';
+import { getOrderDetail, getReOrder } from 'src/simi/Model/Orders';
+import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 
 class Detail extends React.Component {
     state = {
@@ -28,6 +29,13 @@ class Detail extends React.Component {
         this.id = this.props.history.location.state.orderData.increment_id;
         if (!this.state.data && !this.state.loaded && this.id) {
             getOrderDetail(this.id, this.processData.bind(this))  
+        }
+    }
+
+    getDataReOrder = (data) => {
+        if(data){
+            hideFogLoading();
+            props.toggleMessages([{type:'success', message: data.message}])    
         }
     }
 
@@ -318,6 +326,15 @@ class Detail extends React.Component {
                     {Identify.__("Order overview")}
                 </div>
                 {this.renderSummary()}
+                <Whitebtn 
+                    className={classes["back-all-orders"]} 
+                    text={Identify.__('Re-order')} 
+                    style={{width: "20%", marginBottom:"10px"}}
+                    onClick={()=>{
+                        showFogLoading();
+                        getReOrder(this.id,this.processData)
+                    }}
+                />
                 {this.renderTableItems()}
                 {this.renderFooter()}
             </div>
