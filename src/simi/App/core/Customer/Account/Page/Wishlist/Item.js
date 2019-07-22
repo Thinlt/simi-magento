@@ -7,9 +7,10 @@ import { Link } from 'src/drivers';
 import Trash from 'src/simi/BaseComponents/Icon/Trash';
 import { removeWlItem, addWlItemToCart } from 'src/simi/Model/Wishlist'
 import {hideFogLoading, showFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
-import Price from 'src/simi/BaseComponents/Price'
+import { resourceUrl } from 'src/simi/Helper/Url'
+import { formatPrice } from 'src/simi/Helper/Pricing';
 
-const productUrlSuffix = '.html';
+const prdUrlSuffix = '.html'
 
 class Item extends React.Component {
     processData(data) {
@@ -47,7 +48,7 @@ class Item extends React.Component {
 
     addToCart(id, location = false) {
         const item = this.props.item;
-        if (!item.product || item.product.type_id !== 'simple') {
+        if (item.type_id !== 'simple') {
             if (location)
                 this.props.history.push(location)
             return
@@ -76,22 +77,18 @@ class Item extends React.Component {
         if (!this.currencyCode)
             this.currencyCode = storeConfig?storeConfig.simiStoreConfig?storeConfig.simiStoreConfig.currency:storeConfig.storeConfig.default_display_currency_code:null
         const {item, classes} = this.props;
-        if(!item || !item.product){
-            return null;
-        }
-        
         this.location = {
-            pathname: `/${item.product.url_key}${productUrlSuffix}`,
+            pathname: item.product_url_key + prdUrlSuffix,
             state: {
-                product_sku: item.product.sku,
-                product_id: item.product.id,
+                product_sku: item.product_sku,
+                product_id: item.product_id,
                 item_data: item
             },
         }
         
         const addToCartString = Identify.__('Buy Now')
         
-        const image = item.product.small_image.url && (
+        const image = item.product_image && (
             <div 
                 className={classes["siminia-product-image"]}
                 style={{borderColor: configColor.image_border_color,
@@ -99,13 +96,19 @@ class Item extends React.Component {
                 }}>
                 <Link to={this.location}>
                     <div style={{position:'absolute',top:0,bottom:0,width: '100%', padding: 1}}>
-                        <img src={item.product.small_image.url} alt={item.product.name}/>
+                        <img src={resourceUrl(item.product_image, {
+                                type: 'image-product',
+                                width: 100
+                            })} alt={item.product_name}/>
                     </div>
                 </Link>
                 <span 
                     role="presentation"
                     className={classes["trash-item"]}
-                    style={{position: 'absolute', bottom: 1, left: 1, width: 30, height: 30, cursor: 'pointer', zIndex: 1}} onClick={() => this.onTrashItem(item.id)}>
+                    style={{
+                        position: 'absolute', bottom: 1, left: 1, width: 30, height: 30, 
+                        cursor: 'pointer', zIndex: 1}} 
+                    onClick={() => this.onTrashItem(item.wishlist_item_id)}>
                     <Trash style={{fill: '#333132', width: 30, height: 30}} />
                 </span>
             </div>
@@ -113,11 +116,14 @@ class Item extends React.Component {
 
         const itemAction = 
             <div className={classes["product-item-action"]}>
-                <Colorbtn 
-                    style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
-                    className={classes["grid-add-cart-btn"]} 
-                    onClick={() => this.addToCart(item.id, this.location)}
-                    text={addToCartString}/>
+                {
+                    item.type_id === 'simple' &&
+                    <Colorbtn 
+                        style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
+                        className={classes["grid-add-cart-btn"]} 
+                        onClick={() => this.addToCart(item.wishlist_item_id, this.location)}
+                        text={addToCartString}/>
+                }
                 <Link 
                     className={classes["view-link"]}
                     to={this.location}
@@ -125,15 +131,15 @@ class Item extends React.Component {
             </div>
         
         return (
-            <div className={`${classes['product-item']} ${classes['siminia-product-grid-item']} ${this.props.showBuyNow?classes['two-btn']:classes['one-btn']}`}>
+            <div className={`${classes['product-item']} ${classes['siminia-product-grid-item']} ${item.type_id !== 'simple'?classes['two-btn']:classes['one-btn']}`}>
                 {image}
                 <div className={classes["siminia-product-des"]}>
-                    <Link to={this.location} className={classes["product-name"]}>{ReactHTMLParse(item.product.name)}</Link>
-                    <div className={classes["prices-layout"]} id={`price-${item.product_id}`}>
-                        {
-                            (item.product.price) &&
-                            <Price prices={item.product.price} type={item.product.type_id} classes={classes}/>
-                        }
+                    <Link to={this.location} className={classes["product-name"]}>{ReactHTMLParse(item.product_name)}</Link>
+                    <div 
+                        className={classes["prices-layout"]} 
+                        id={`price-${item.product_id}`} 
+                        style={{color: configColor.price_color}}>
+                        {formatPrice(parseFloat(item.product_price))}
                     </div>
                 </div>
                 {itemAction}
