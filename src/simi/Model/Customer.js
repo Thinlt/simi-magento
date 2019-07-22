@@ -9,7 +9,11 @@ export const editCustomer = (callBack, postData) => {
 }
 
 export const checkExistingCustomer = (callBack, email) => {
-    let params = {};
+    const params = {};
     params['customer_email'] = email;
     sendRequest('rest/V1/simiconnector/customers/checkexisting', callBack, 'GET', params);
+}
+
+export const forgotPassword = (callBack, email) => {
+    sendRequest('rest/V1/simiconnector/customers/forgetpassword', callBack, 'GET', {email});
 }

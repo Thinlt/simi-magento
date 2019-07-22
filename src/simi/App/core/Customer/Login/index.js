@@ -3,8 +3,8 @@ import defaultClasses from './login.css';
 import classify from 'src/classify';
 import Identify from 'src/simi/Helper/Identify';
 import SignIn from './SignIn';
-import CreateAccount from 'src/components/CreateAccount';
-import ForgotPassword from 'src/components/ForgotPassword';
+import CreateAccount from './CreateAccount';
+import ForgotPassword from './ForgotPassword';
 import { connect } from 'src/drivers';
 import { compose } from 'redux';
 import BackIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Back';
@@ -13,10 +13,8 @@ import TitleHelper from 'src/simi/Helper/TitleHelper'
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 
 import {
-    completePasswordReset,
     createAccount,
-    getUserDetails,
-    resetPassword
+    getUserDetails
 } from 'src/actions/user';
 
 class Login extends Component {
@@ -77,22 +75,11 @@ class Login extends Component {
      */
     setForgotPasswordForm = () => {
         this.forgotPassword = className => {
-            const {
-                completePasswordReset,
-                forgotPassword,
-                resetPassword
-            } = this.props;
-            const { email, isInProgress } = forgotPassword;
-
             return (
                 <div className={className}>
                     <ForgotPassword
-                        completePasswordReset={completePasswordReset}
-                        email={email}
                         initialValues={{ email: this.state.defaultUsername }}
-                        isInProgress={isInProgress}
                         onClose={this.closeForgotPassword}
-                        resetPassword={resetPassword}
                     />
                 </div>
             );
@@ -250,10 +237,8 @@ const mapStateToProps = ({ user }) => {
 };
 
 const mapDispatchToProps = {
-    completePasswordReset,
     createAccount,
     getUserDetails,
-    resetPassword,
     toggleMessages
 };
 

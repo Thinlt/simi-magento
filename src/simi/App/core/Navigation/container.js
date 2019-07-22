@@ -4,8 +4,7 @@ import { getAllCategories } from 'src/actions/catalog';
 import {
     completePasswordReset,
     createAccount,
-    getUserDetails,
-    resetPassword
+    getUserDetails
 } from 'src/actions/user';
 import Navigation from './navigation';
 
@@ -30,8 +29,7 @@ const mapDispatchToProps = {
     completePasswordReset,
     createAccount,
     getAllCategories,
-    getUserDetails,
-    resetPassword
+    getUserDetails
 };
 
 export default connect(

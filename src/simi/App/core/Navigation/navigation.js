@@ -26,16 +26,11 @@ class Navigation extends PureComponent {
         createAccount: func.isRequired,
         email: string,
         firstname: string,
-        forgotPassword: shape({
-            email: string,
-            isInProgress: bool
-        }),
         getAllCategories: func.isRequired,
         getUserDetails: func.isRequired,
         isOpen: bool,
         isSignedIn: bool,
         lastname: string,
-        resetPassword: func.isRequired,
         signInError: object
     };
 
@@ -59,7 +54,6 @@ class Navigation extends PureComponent {
     state = {
         isCreateAccountOpen: false,
         isSignInOpen: false,
-        isForgotPasswordOpen: false,
         rootNodeId: null,
         currentPath: null,
         isPhone: window.innerWidth < 1024,

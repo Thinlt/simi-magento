@@ -89,7 +89,7 @@ class Item extends React.Component {
             },
         }
         
-        const addToCartString = Identify.__('Buy now')
+        const addToCartString = Identify.__('Buy Now')
         
         const image = item.product.small_image.url && (
             <div 
