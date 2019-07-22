@@ -1,5 +1,6 @@
 import React, { Component, Suspense } from 'react';
 import { arrayOf, bool, number, shape, string } from 'prop-types';
+import {smoothScrollToView} from 'src/simi/Helper/Behavior'
 import classify from 'src/classify';
 import Loading from 'src/simi/BaseComponents/Loading'
 import { Colorbtn, Whitebtn } from 'src/simi/BaseComponents/Button'
@@ -271,11 +272,11 @@ class ProductFullDetail extends Component {
         hideFogLoading()
         const { addToCart, mediaGalleryEntries, productOptions, props, state, addToWishlist } = this;
         const { optionCodes, optionSelections, } = state
-        const { classes } = props;
+        const { classes, isSignedIn } = props;
         const product = prepareProduct(props.product)
         console.log(product)
         const { type_id, name, simiExtraField } = product;
-        const hasReview = simiExtraField && simiExtraField.app_reviews
+        const hasReview = simiExtraField && simiExtraField.app_reviews && simiExtraField.app_reviews.number
         return (
             <div className={`${classes.root} container`}>
                 {this.breadcrumb(product)}
@@ -298,6 +299,12 @@ class ProductFullDetail extends Component {
                 </div>
                 <div className={classes.mainActions}>
                     {hasReview ? <div className={classes.topReview}><TopReview app_reviews={product.simiExtraField.app_reviews}/></div> : ''}
+                    {
+                        isSignedIn &&
+                        <div role="presentation" className={classes.reviewBtn} onClick={()=>smoothScrollToView($('#product-detail-new-review'))}>
+                            {hasReview ? Identify.__('Submit Review') : Identify.__('Be the first to review this product')}
+                        </div>
+                    }
                     <div className={classes.productPrice}>
                         <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections}/>
                     </div>
@@ -331,7 +338,12 @@ class ProductFullDetail extends Component {
                 {(simiExtraField && simiExtraField.additional && simiExtraField.additional.length) ?
                     <div className={classes.techspec}><Techspec product={product}/></div> : ''}
                 <div className={classes.reviewList}><ReviewList product_id={product.id}/></div>
-                <div className={classes.newReview}><NewReview product={product} toggleMessages={this.props.toggleMessages}/></div>
+                {
+                    isSignedIn &&
+                    <div className={classes.newReview} id="product-detail-new-review">
+                        <NewReview product={product} toggleMessages={this.props.toggleMessages}/>
+                    </div>
+                }
             </div>
         );
     }

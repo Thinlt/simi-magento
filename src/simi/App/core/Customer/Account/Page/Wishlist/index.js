@@ -6,17 +6,17 @@ import Item from "./Item";
 import {getWishlist} from 'src/simi/Model/Wishlist'
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { getCartDetails } from 'src/actions/cart';
-import {hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import classes from './index.css'
 import Pagination from 'src/simi/BaseComponents/Pagination';
 import Loading from 'src/simi/BaseComponents/Loading'
-
+import {hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 
 const Wishlist = props => {
     const { history, toggleMessages, getCartDetails} = props    
     const [data, setData] = useState(null)
 
     const gotWishlist = (data) => {
+        hideFogLoading()
         if (data.errors && data.errors.length) {
             const errors = data.errors.map(error => {
                 return {
@@ -31,8 +31,12 @@ const Wishlist = props => {
         }
     }
 
-    if (!data) {        
-        getWishlist(gotWishlist, {limit: 9999, no_price: 1});
+    const getWishlistItem = () => {
+        getWishlist(gotWishlist, {limit: 9999, no_price: 1})
+    }
+
+    if (!data) {
+        getWishlistItem()
     }
 
     const renderItem = (item, index) => {
@@ -52,7 +56,7 @@ const Wishlist = props => {
                     classes={classes}
                     showBuyNow={true}
                     parent={this}
-                    getWishlist={getWishlist}
+                    getWishlist={getWishlistItem}
                     toggleMessages={toggleMessages}
                     getCartDetails={getCartDetails}
                     history={history}
@@ -63,7 +67,6 @@ const Wishlist = props => {
 
     let rows = null
     if (data && data.wishlistitems) {
-        hideFogLoading()
         const {wishlistitems, total} = data
         if (total && wishlistitems && wishlistitems.length) {
             return (

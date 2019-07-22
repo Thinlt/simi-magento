@@ -54,7 +54,6 @@ class Item extends React.Component {
             return
         }
         this.addCart = true;
-        showFogLoading();
         addWlItemToCart(id, this.processData.bind(this))
     }
 

@@ -118,8 +118,8 @@ const CartItem = props => {
                 role="button"
                 tabIndex="0"
                 className={`${defaultClasses['sub-item']} ${defaultClasses['item-delete']}`} 
-                onClick={() => props.removeItemFromCart({item: item})} 
-                onKeyUp={() => props.removeItemFromCart({item: item})}
+                onClick={() => {if (confirm(Identify.__("Are you sure?")) === true) props.removeItemFromCart({item: item})}} 
+                onKeyUp={() => {if (confirm(Identify.__("Are you sure?")) === true) props.removeItemFromCart({item: item})}} 
             >
                 <Deleteicon
                     style={{width: '22px', height: '22px'}} />

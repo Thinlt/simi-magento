@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { func, number, shape, string } from 'prop-types';
-import { Price } from '@magento/peregrine';
+import Price from 'src/simi/BaseComponents/Price'
 import classify from 'src/classify';
 import { Link } from 'src/drivers';
 import { resourceUrl } from 'src/simi/Helper/Url'
@@ -20,7 +20,7 @@ const SuggestedProduct = props => {
         }
     }
     const logoUrl = Identify.logoUrl()
-    const { classes, url_key, small_image, name, price } = props;
+    const { classes, url_key, small_image, name, price, type_id } = props;
     const [imageUrl, setImageUrl] = useState(small_image)
     const uri = resourceUrl(`/${url_key}${productUrlSuffix}`);
     const place_holder_img = <img alt={name} src={logoUrl} style={{maxWidth: 60, maxHeight: 60}}/>
@@ -43,10 +43,7 @@ const SuggestedProduct = props => {
             </span>
             <span className={classes.name}>{ReactHTMLParse(name)}</span>
             <span className={classes.price}>
-                <Price
-                    currencyCode={price.regularPrice.amount.currency}
-                    value={price.regularPrice.amount.value}
-                />
+                <Price prices={price} type={type_id} classes={classes} />
             </span>
         </Link>
     );
