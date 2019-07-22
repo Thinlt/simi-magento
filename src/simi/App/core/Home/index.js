@@ -13,15 +13,27 @@ import * as Constants from 'src/simi/Config/Constants';
 
 const Home = props => {
     const { classes, history } = props;
+    const [isPhone, setIsPhone] = useState(window.innerWidth < 1024)
     const simiSessId = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID)
     const cached_home = simiSessId?Identify.ApiDataStorage(`home_lite_${simiSessId}`):null
 
     const [data, setHomeData] = useState(cached_home)
+
+    const resizePhone = () => {
+        window.onresize = function () {
+            const width = window.innerWidth;
+            const newIsPhone = width < 1024
+            if(isPhone !== newIsPhone){
+                setIsPhone(newIsPhone)
+            }
+        }
+    }
     useEffect(() => {
         if(!data) {
             getHomeData(setData);
         }
-    },[])
+        resizePhone();
+    },[data, isPhone])
 
     const setData = (data) => {
         if(!data.errors) {
@@ -37,7 +49,7 @@ const Home = props => {
 
     return (
         <React.Fragment>
-            <Banner data={data} classes={classes} history={history}/>
+            <Banner data={data} classes={classes} history={history} isPhone={isPhone}/>
             <HomeCat catData={data} classes={classes} history={history}/>
             <ProductList homeData={data} classes={classes} history={history}/>
         </React.Fragment>
