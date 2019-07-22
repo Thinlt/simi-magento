@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import React from "react";
 import Identify from "src/simi/Helper/Identify";
 import { formatPrice } from "src/simi/Helper/Pricing";
@@ -16,9 +17,9 @@ class Detail extends React.Component {
     componentWillMount() {
         const {history} = this.props
         this.id = history.location.state.orderData.increment_id || null;
-        let api = Identify.ApiDataStorage('quoteOrder') || {}
+        const api = Identify.ApiDataStorage('quoteOrder') || {}
         if(api.hasOwnProperty(this.id)){
-            let data = api[this.id]
+            const data = api[this.id]
             this.setState({data,loaded:true})
         }
     }
@@ -40,13 +41,13 @@ class Detail extends React.Component {
     }
 
     getDateFormat = dateData => {
-        let date = new Date(dateData);
-        let day = date.getDate();
-        let month =
+        const date = new Date(dateData);
+        const day = date.getDate();
+        const month =
             date.getMonth() + 1 < 10
                 ? "0" + (date.getMonth() + 1)
                 : date.getMonth() + 1;
-        let year = date.getFullYear();
+        const year = date.getFullYear();
 
         return day + "/" + month + "/" + year;
     };

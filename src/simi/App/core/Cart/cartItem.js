@@ -47,6 +47,7 @@ const CartItem = props => {
     }
     
     const location = `/product.html?sku=${item.sku}`
+    const image = (item.image && item.image.file)?item.image.file:item.simi_image
     return (
         <div key={Identify.randomString(5)} className={defaultClasses['cart-siminia-item']}>
             <div className={defaultClasses['img-and-name']}>
@@ -59,8 +60,8 @@ const CartItem = props => {
                     style={{borderColor: configColor.image_border_color}}>
                     <img 
                         src={
-                            item.image.file ? 
-                            resourceUrl(item.image.file, {
+                            image ? 
+                            resourceUrl(image, {
                             type: 'image-product',
                             width: 300
                         }):

@@ -9,10 +9,13 @@ const ListItem = props => {
 
     const deleteCallback = useCallback((e) => {
         e.preventDefault();
-        props.deleteAddress(id);
+        if (confirm(Identify.__("Are you sure?"))) {
+            props.deleteAddress(id);
+        }
     }, [id]);
 
-    const editAddressHandle = (id) => {
+    const editAddressHandle = (e) => {
+        e.preventDefault();
         props.editAddress(id);
     }
 
@@ -45,7 +48,7 @@ const ListItem = props => {
                 : null
             }
             <td data-th={Identify.__("Actions")}>
-                <a className={classes["edit"]} href="" onClick={e => {e.preventDefault(); editAddressHandle(id)}}>{Identify.__("Edit")}</a>
+                <a className={classes["edit"]} href="" onClick={editAddressHandle}>{Identify.__("Edit")}</a>
                 |
                 <a className={classes["delete"]} href="" onClick={deleteCallback}>{Identify.__("Delete")}</a>
             </td>
