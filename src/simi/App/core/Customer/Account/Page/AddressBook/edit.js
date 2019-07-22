@@ -192,8 +192,6 @@ const Edit = props => {
         }
     }
 
-    if(!countries) return <Loading />
-    
     return (
         <div className={classes['edit-address']}>
             {TitleHelper.renderMetaHeader({title: Identify.__('Edit Address')})}
