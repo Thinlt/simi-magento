@@ -54,10 +54,7 @@ const OrderSummary = (props) => {
                             resourceUrl(o_item.image.file, {
                                 type: 'image-product',
                                 width: 300
-                            }) :
-                            window.SMCONFIGS.logo_url ?
-                                window.SMCONFIGS.logo_url :
-                                'https://www.simicart.com/skin/frontend/default/simicart2.1/images/simicart/new_logo_small.png'
+                            }) : Identify.logoUrl()
                     } alt={o_item.name} width={80} height={80}
                         style={{ objectFit: 'scale-down' }} />
                 </div>

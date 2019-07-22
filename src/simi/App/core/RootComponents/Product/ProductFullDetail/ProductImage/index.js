@@ -143,19 +143,22 @@ class ProductImage extends React.Component {
 
     render() {
         this.images = this.sortedImages()
+        const {images} = this
         return (
             <div className={classes['product-detail-carousel']}>
-                <Carousel showArrows={this.showArrows}  
-                          showThumbs={this.showThumbs}
-                          showIndicators={this.showIndicators}
-                          showStatus={this.showStatus}
-                          onClickItem={(e) => this.openImageLightbox(e)}
-                          onClickThumb={(e) => this.onClickThumbDefault(e)}
-                          onChange={(e) => this.onChangeItemDefault(e)}
-                          infiniteLoop={true}
-                          autoPlay={this.autoPlay}
-                          thumbWidth={80}
-                          statusFormatter={this.statusFormatter}
+                <Carousel 
+                        key={(images && images[0] && images[0].file) ? images[0].file : Identify.randomString(5)}
+                        showArrows={this.showArrows}  
+                        showThumbs={this.showThumbs}
+                        showIndicators={this.showIndicators}
+                        showStatus={this.showStatus}
+                        onClickItem={(e) => this.openImageLightbox(e)}
+                        onClickThumb={(e) => this.onClickThumbDefault(e)}
+                        onChange={(e) => this.onChangeItemDefault(e)}
+                        infiniteLoop={true}
+                        autoPlay={this.autoPlay}
+                        thumbWidth={80}
+                        statusFormatter={this.statusFormatter}
                 >
                     {this.renderImage()}
                 </Carousel>
