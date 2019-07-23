@@ -31,7 +31,7 @@ import defaultClasses from './checkout.css';
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import Identify from 'src/simi/Helper/Identify'
 import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
-import OrderSummary from "./OrderSummary"
+import OrderSummary from "./OrderSummary/index"
 import { configColor } from 'src/simi/Config'
 import { Colorbtn } from 'src/simi/BaseComponents/Button'
 import { Link } from 'react-router-dom';
@@ -40,7 +40,10 @@ import EditableForm from './editableForm';
 import Panel from 'src/simi/BaseComponents/Panel';
 import { toggleMessages, simiSignedIn } from 'src/simi/Redux/actions/simiactions';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
-import {smoothScrollToView} from 'src/simi/Helper/Behavior'
+import { smoothScrollToView } from 'src/simi/Helper/Behavior';
+import Coupon from 'src/simi/BaseComponents/Coupon';
+
+
 const isCheckoutReady = checkout => {
     const {
         billingAddress,
@@ -149,12 +152,6 @@ class Checkout extends Component {
         this.props.history.push(link)
     }
 
-    get cartId() {
-        const { cart } = this.props;
-
-        return cart && cart.details && cart.details.id;
-    }
-
     get cartDetail() {
         const { cart } = this.props;
 
@@ -169,14 +166,6 @@ class Checkout extends Component {
             cart.details.currency &&
             cart.details.currency.quote_currency_code
         );
-    }
-
-    handleBack() {
-        this.props.history.goBack()
-    }
-
-    handleLink(link) {
-        this.props.history.push(link)
     }
 
     placeOrder = () => {
@@ -254,7 +243,9 @@ class Checkout extends Component {
             submitPaymentMethod,
             submitBillingAddress,
             user,
-            simiSignedIn } = props;
+            simiSignedIn,
+            toggleMessages,
+            getCartDetails } = props;
         const { shippingAddress,
             submitting,
             availableShippingMethods,
@@ -301,6 +292,18 @@ class Checkout extends Component {
             simiSignedIn
         };
 
+        let cpValue = "";
+        if (cart.totals.coupon_code) {
+            cpValue = cart.totals.coupon_code;
+        }
+
+        const childCPProps = {
+            classes,
+            value: cpValue,
+            toggleMessages,
+            getCartDetails
+        }
+
         if (checkout.step && checkout.step === 'receipt') {
             this.handleLink('/thankyou.html');
         }
@@ -342,6 +345,14 @@ class Checkout extends Component {
                         renderContent={<EditableForm {...stepProps} editing='paymentMethod' />}
                         isToggle={true}
                         expanded={true}
+                        containerStyle={{ marginTop: 35 }}
+                        headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                    />
+
+                    <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Coupon Code')}</div>}
+                        renderContent={<Coupon {...childCPProps} />}
+                        isToggle={true}
+                        expanded={false}
                         containerStyle={{ marginTop: 35 }}
                         headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                     />
