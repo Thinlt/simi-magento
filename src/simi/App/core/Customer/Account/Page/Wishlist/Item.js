@@ -9,6 +9,7 @@ import { removeWlItem, addWlItemToCart } from 'src/simi/Model/Wishlist'
 import {hideFogLoading, showFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import { resourceUrl } from 'src/simi/Helper/Url'
 import { formatPrice } from 'src/simi/Helper/Pricing';
+import Image from 'src/simi/BaseComponents/Image'
 
 const prdUrlSuffix = '.html'
 
@@ -95,7 +96,7 @@ class Item extends React.Component {
                 }}>
                 <Link to={this.location}>
                     <div style={{position:'absolute',top:0,bottom:0,width: '100%', padding: 1}}>
-                        <img src={resourceUrl(item.product_image, {
+                        <Image src={resourceUrl(item.product_image, {
                                 type: 'image-product',
                                 width: 100
                             })} alt={item.product_name}/>
