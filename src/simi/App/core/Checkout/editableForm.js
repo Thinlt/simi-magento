@@ -1,9 +1,9 @@
 import React, { useCallback, Fragment } from 'react';
 import { array, bool, func, object, oneOf, shape, string } from 'prop-types';
 
-import AddressForm from './addressForm';
-import PaymentsForm from './paymentsForm';
-import ShippingForm from './shippingForm';
+import AddressForm from './AddressForm/AddressForm';
+import PaymentsForm from './PaymentsForm/PaymentsForm';
+import ShippingForm from './ShippingForm/ShippingForm';
 import AddressItem from 'src/simi/BaseComponents/Address';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import defaultClass from './editableForm.css';
@@ -147,7 +147,7 @@ const EditableForm = props => {
                     submit={handleSubmitPaymentsForm}
                     submitting={submitting}
                     paymentMethods={paymentMethods}
-                    /* key={Identify.randomString()} */
+                    key={Identify.randomString()}
                 />
             );
         }

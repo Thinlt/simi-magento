@@ -1,26 +1,25 @@
 import React, { useCallback } from 'react';
 import { Form } from 'informed';
-import { array, bool, func, shape, string } from 'prop-types';
+import { array, func, shape, string } from 'prop-types';
 
 import { mergeClasses } from 'src/classify';
-import defaultClasses from './shippingForm.css';
+import defaultClasses from './ShippingForm.css';
 import Identify from 'src/simi/Helper/Identify';
-import FieldShippingMethod from './components/fieldShippingMethod';
+import FieldShippingMethod from '../components/fieldShippingMethod';
 
 const ShippingForm = props => {
     const {
         availableShippingMethods,
         cancel,
         shippingMethod,
-        submit,
-        submitting
+        submit
     } = props;
     const classes = mergeClasses(defaultClasses, props.classes);
 
     let initialValue;
     let selectableShippingMethods;
 
-    const defaultMethod = { value: '', label: 'Please choose' }
+    const defaultMethod = { value: '', label: Identify.__('Please choose') }
 
     if (availableShippingMethods.length) {
         selectableShippingMethods = availableShippingMethods.map(
@@ -86,8 +85,7 @@ ShippingForm.propTypes = {
         shippingMethod: string
     }),
     shippingMethod: string,
-    submit: func.isRequired,
-    submitting: bool
+    submit: func.isRequired
 };
 
 ShippingForm.defaultProps = {

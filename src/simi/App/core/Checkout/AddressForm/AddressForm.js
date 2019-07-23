@@ -1,11 +1,11 @@
-import React, { useCallback, useMemo, Fragment } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Form } from 'informed';
 import { array, bool, func, object, shape, string } from 'prop-types';
 
 import { mergeClasses } from 'src/classify';
-import defaultClasses from './addressForm.css';
+import defaultClasses from './AddressForm.css';
 import isObjectEmpty from 'src/util/isObjectEmpty';
-import FormFields from './components/formFields';
+import FormFields from '../components/formFields';
 import Identify from 'src/simi/Helper/Identify';
 
 const fields = [
@@ -45,7 +45,6 @@ const DEFAULT_FORM_VALUES = {
 
 const AddressForm = props => {
     const {
-        cancel,
         countries,
         isAddressInvalid,
         invalidAddressMessage,
@@ -122,7 +121,7 @@ const AddressForm = props => {
                 value: id
             })
         );
-        initialCountry = values.country || countries[0].id;
+        initialCountry = values.country || '' //countries[0].id;
     } else {
         selectableCountries = [];
         initialCountry = '';
@@ -182,7 +181,6 @@ const AddressForm = props => {
 };
 
 AddressForm.propTypes = {
-    cancel: func.isRequired,
     classes: shape({
         body: string,
         button: string,
