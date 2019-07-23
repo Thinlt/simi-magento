@@ -28,29 +28,6 @@ import Coupon from 'src/simi/BaseComponents/Coupon'
 
 
 class Cart extends Component {
-    static propTypes = {
-        cart: shape({
-            details: object,
-            cartId: string,
-            totals: object,
-            isLoading: bool,
-            isUpdatingItem: bool
-        }),
-        classes: shape({
-            body: string,
-            header: string,
-            root_open: string,
-            root: string,
-            subtotalLabel: string,
-            subtotalValue: string,
-            summary: string,
-            title: string,
-            totals: string
-        }),
-        isCartEmpty: bool,
-        updateItemInCart: func,
-    };
-
     constructor(...args) {
         super(...args)
         const isPhone = window.innerWidth < 1024
@@ -72,6 +49,7 @@ class Cart extends Component {
     }
 
     componentDidMount() {
+        showFogLoading()
         this.setIsPhone()
         const { getCartDetails } = this.props;
         getCartDetails();
@@ -273,6 +251,29 @@ class Cart extends Component {
             </div>
         );
     }
+}
+
+Cart.propTypes = {
+    cart: shape({
+        details: object,
+        cartId: string,
+        totals: object,
+        isLoading: bool,
+        isUpdatingItem: bool
+    }),
+    classes: shape({
+        body: string,
+        header: string,
+        root_open: string,
+        root: string,
+        subtotalLabel: string,
+        subtotalValue: string,
+        summary: string,
+        title: string,
+        totals: string
+    }),
+    isCartEmpty: bool,
+    updateItemInCart: func,
 }
 
 const mapStateToProps = state => {

@@ -10,7 +10,7 @@ import { compose } from 'redux';
 import ProductList from './ProductList';
 import Identify from 'src/simi/Helper/Identify';
 import * as Constants from 'src/simi/Config/Constants';
-
+import './home.scss'
 const Home = props => {
     const { classes, history } = props;
     const [isPhone, setIsPhone] = useState(window.innerWidth < 1024)

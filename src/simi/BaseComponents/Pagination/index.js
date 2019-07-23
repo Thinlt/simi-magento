@@ -21,13 +21,21 @@ class Pagination extends React.Component {
         this.setState({
             currentPage: Number(event.target.id)
         });
+        if (this.props.changedPage) {
+            this.props.changedPage(event.target.id)
+        }
     }
 
     changeLimit = (event) => {
+        this.startPage = 1;
+        this.endPage = this.startPage + 3;
         this.setState({
             limit: Number(event.target.value),
             currentPage : 1
         });
+        if (this.props.changeLimit) {
+            this.props.changeLimit(event.target.value)
+        }
     };
 
     renderItem =(item, index)=>{
@@ -46,6 +54,9 @@ class Pagination extends React.Component {
         this.setState({
             currentPage : currentPage
         })
+        if (this.props.changedPage) {
+            this.props.changedPage(event.target.id)
+        }
     }
 
     renderPageNumber = (total)=>{
@@ -237,6 +248,8 @@ Pagination.propTypes = {
     renderItem : PropTypes.func,
     itemCount: PropTypes.number,
     itemsPerPageOptions: PropTypes.array,
-    classes: PropTypes.object
+    classes: PropTypes.object,
+    changedPage : PropTypes.func,
+    changeLimit : PropTypes.func,
 };
 export default Pagination;
