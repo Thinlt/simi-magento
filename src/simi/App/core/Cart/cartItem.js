@@ -3,7 +3,7 @@ import Identify from 'src/simi/Helper/Identify'
 import Deleteicon from 'src/simi/BaseComponents/Icon/Trash'
 import {configColor} from 'src/simi/Config'
 import { Price } from '@magento/peregrine'
-import { resourceUrl } from 'src/simi/Helper/Url'
+import { resourceUrl, logoUrl } from 'src/simi/Helper/Url'
 import ReactHTMLParse from 'react-html-parser';
 import defaultClasses from './cartItem.css'
 
@@ -65,9 +65,7 @@ const CartItem = props => {
                             type: 'image-product',
                             width: 300
                         }):
-                            window.SMCONFIGS.logo_url?
-                            window.SMCONFIGS.logo_url:
-                            'https://www.simicart.com/skin/frontend/default/simicart2.1/images/simicart/new_logo_small.png'
+                            logoUrl()
                         } 
                         alt={item.name} />
                 </div>
@@ -120,8 +118,8 @@ const CartItem = props => {
                 role="button"
                 tabIndex="0"
                 className={`${defaultClasses['sub-item']} ${defaultClasses['item-delete']}`} 
-                onClick={() => props.removeItemFromCart({item: item})} 
-                onKeyUp={() => props.removeItemFromCart({item: item})}
+                onClick={() => {if (confirm(Identify.__("Are you sure?")) === true) props.removeItemFromCart({item: item})}} 
+                onKeyUp={() => {if (confirm(Identify.__("Are you sure?")) === true) props.removeItemFromCart({item: item})}} 
             >
                 <Deleteicon
                     style={{width: '22px', height: '22px'}} />

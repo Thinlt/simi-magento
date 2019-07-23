@@ -8,10 +8,13 @@ query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, 
         id
         image
         breadcrumbs {
-        category_name
-        category_url_key
-        __typename
+            category_name
+            category_url_key
+            __typename
         }
+        meta_title
+        meta_keywords
+        meta_description
         __typename
     }
     products(pageSize: $pageSize, currentPage: $currentPage, filter: {category_id: {eq: $stringId}}, sort: $sort) {

@@ -8,6 +8,7 @@ import Arrow from 'src/simi/BaseComponents/Icon/Arrowup';
 import Total from 'src/simi/BaseComponents/Total';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import AddressItem from 'src/simi/BaseComponents/Address';
+import { logoUrl } from 'src/simi/Helper/Url'
 const $ = window.$;
 
 const OrderSummary = (props) => {
@@ -54,10 +55,7 @@ const OrderSummary = (props) => {
                             resourceUrl(o_item.image.file, {
                                 type: 'image-product',
                                 width: 300
-                            }) :
-                            window.SMCONFIGS.logo_url ?
-                                window.SMCONFIGS.logo_url :
-                                'https://www.simicart.com/skin/frontend/default/simicart2.1/images/simicart/new_logo_small.png'
+                            }) : logoUrl()
                     } alt={o_item.name} width={80} height={80}
                         style={{ objectFit: 'scale-down' }} />
                 </div>

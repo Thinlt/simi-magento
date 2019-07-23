@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import ProductDetail from './ProductDetail';
-import { simiUseQuery } from 'src/simi/Network/Query' 
-import getCategory from 'src/simi/queries/catalog/getCateProductsNoFilter.graphql'
 
 const ProductList = props => {
     const {classes, homeData, history} = props;

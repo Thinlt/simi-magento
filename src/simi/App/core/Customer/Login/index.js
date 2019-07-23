@@ -3,24 +3,24 @@ import defaultClasses from './login.css';
 import classify from 'src/classify';
 import Identify from 'src/simi/Helper/Identify';
 import SignIn from './SignIn';
-import CreateAccount from 'src/components/CreateAccount';
-import ForgotPassword from 'src/components/ForgotPassword';
+import CreateAccount from './CreateAccount';
+import ForgotPassword from './ForgotPassword';
 import { connect } from 'src/drivers';
 import { compose } from 'redux';
 import BackIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Back';
 import { withRouter } from 'react-router-dom';
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+import { simiSignIn as signinApi } from 'src/simi/Model/Customer'
+import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
+import  * as Constants from 'src/simi/Config/Constants'
+import { Util } from '@magento/peregrine'
+import { simiSignedIn } from 'src/simi/Redux/actions/simiactions';
 
-import {
-    completePasswordReset,
-    createAccount,
-    getUserDetails,
-    resetPassword
-} from 'src/actions/user';
+const { BrowserPersistence } = Util;
+const storage = new BrowserPersistence();
 
 class Login extends Component {
-
     state = {
         isCreateAccountOpen: false,
         isSignInOpen: true,
@@ -38,8 +38,8 @@ class Login extends Component {
                 <SignIn
                     classes={classes}
                     showCreateAccountForm={this.setCreateAccountForm}
-                    setDefaultUsername={this.setDefaultUsername}
                     onForgotPassword={this.setForgotPasswordForm}
+                    onSignIn={this.onSignIn.bind(this)}
                 />
             </div>
         );
@@ -48,19 +48,11 @@ class Login extends Component {
     createAccount = () => {};
 
     setCreateAccountForm = () => {
-        /*
-        When the CreateAccount component mounts, its email input will be set to
-        the value of the SignIn component's email input.
-        Inform's initialValue is set on component mount.
-        Once the create account button is dirtied, always render the CreateAccount
-        Component to show animation.
-        */
         this.createAccount = className => {
             return (
                 <div className={className}>
                     <CreateAccount
-                        onSubmit={this.props.createAccount}
-                        initialValues={{ email: this.state.defaultUsername }}
+                        onSignIn={this.onSignIn.bind(this)}
                     />
                 </div>
             );
@@ -68,31 +60,14 @@ class Login extends Component {
         this.showCreateAccountForm();
     };
 
-    forgotPassword = () => {};
+    forgotPassword = () => {}
 
-    /*
-     * When the ForgotPassword component is mounted, its email input will be set to
-     * the value of the SignIn component's email input.
-     * Our common Input component handles initialValue only when component is mounted.
-     */
     setForgotPasswordForm = () => {
         this.forgotPassword = className => {
-            const {
-                completePasswordReset,
-                forgotPassword,
-                resetPassword
-            } = this.props;
-            const { email, isInProgress } = forgotPassword;
-
             return (
                 <div className={className}>
                     <ForgotPassword
-                        completePasswordReset={completePasswordReset}
-                        email={email}
-                        initialValues={{ email: this.state.defaultUsername }}
-                        isInProgress={isInProgress}
                         onClose={this.closeForgotPassword}
-                        resetPassword={resetPassword}
                     />
                 </div>
             );
@@ -118,13 +93,8 @@ class Login extends Component {
         const { classes } = this.props;
         const isOpen = isForgotPasswordOpen;
         const className = isOpen ? classes.form_open : classes.form_closed;
-
         return this.forgotPassword(className);
     }
-
-    setDefaultUsername = nextDefaultUsername => {
-        this.setState(() => ({ defaultUsername: nextDefaultUsername }));
-    };
 
     showCreateAccountForm = () => {
         this.setState(() => ({
@@ -142,15 +112,7 @@ class Login extends Component {
         }));
     };
 
-    hideCreateAccountForm = () => {
-        this.setState(() => ({
-            isCreateAccountOpen: false,
-            isSignInOpen: true,
-            isForgotPasswordOpen: false
-        }));
-    };
-
-    hideForgotPasswordForm = () => {
+    showLoginForm = () => {
         this.setState(() => ({
             isForgotPasswordOpen: false,
             isSignInOpen: true,
@@ -158,18 +120,39 @@ class Login extends Component {
         }));
     };
 
+    onSignIn(username, password) {
+        Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null)
+        signinApi(this.signinCallback.bind(this), { username, password })
+        showFogLoading()
+    };
+
+    signinCallback = (data) => {
+        hideFogLoading()
+        if (this.props.simiSignedIn) {
+            if (data && !data.errors) {
+                if (data.customer_access_token) {
+                    Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, data.customer_identity)
+                    setToken(data.customer_access_token)
+                    this.props.simiSignedIn(data.customer_access_token)
+                } else {
+                    setToken(data)
+                    this.props.simiSignedIn(data)
+                }
+            }
+            else
+                this.setState({ signInError: true})
+        }
+    }
 
     render() {
         const {
             createAccountForm,
-            hideCreateAccountForm,
             signInForm,
             forgotPasswordForm,
-            hideForgotPasswordForm,
+            showLoginForm,
             props,
             state
         } = this;
-
         const {
             isCreateAccountOpen,
             isForgotPasswordOpen
@@ -190,13 +173,7 @@ class Login extends Component {
             if (this.props.toggleMessages)
                 this.props.toggleMessages([{type: 'success', message: message, auto_dismiss: true}])
         }
-
-        const handleBack =
-            isCreateAccountOpen
-                ? hideCreateAccountForm
-                : isForgotPasswordOpen
-                ? hideForgotPasswordForm
-                : null;
+        const showBackBtn = isCreateAccountOpen || isForgotPasswordOpen
 
         const title =
             isCreateAccountOpen
@@ -212,12 +189,12 @@ class Login extends Component {
                 })}
                 <div className={classes['login-background']} >
                     <div className={classes['login-container']} >
-                        <div className={`${classes['login-header']} ${handleBack&&classes['has-back-btn']}`}>
+                        <div className={`${classes['login-header']} ${showBackBtn&&classes['has-back-btn']}`}>
                             {
-                                handleBack &&
+                                (showBackBtn) &&
                                 <div role="presentation" 
                                     className={classes['login-header-back']}
-                                    onClick={handleBack}
+                                    onClick={showLoginForm}
                                     >
                                     <BackIcon style={{width: 20, height: 20}}/>
                                 </div>
@@ -250,11 +227,8 @@ const mapStateToProps = ({ user }) => {
 };
 
 const mapDispatchToProps = {
-    completePasswordReset,
-    createAccount,
-    getUserDetails,
-    resetPassword,
-    toggleMessages
+    toggleMessages,
+    simiSignedIn
 };
 
 export default compose(
@@ -265,3 +239,9 @@ export default compose(
         mapDispatchToProps
     )
 )(Login);
+
+
+async function setToken(token) {
+    // TODO: Get correct token expire time from API
+    return storage.setItem('signin_token', token, 3600);
+}

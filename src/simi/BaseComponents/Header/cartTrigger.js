@@ -16,7 +16,7 @@ import { resourceUrl } from 'src/simi/Helper/Url'
 export class Trigger extends Component {
     constructor(props) {
         super(props)
-        props.createCart()
+        //props.createCart() //want to init cart at first, uncomment this
     }
 
     static propTypes = {

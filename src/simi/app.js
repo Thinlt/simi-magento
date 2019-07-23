@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { array, bool, func, shape, string } from 'prop-types';
+import { array, bool, func } from 'prop-types';
 
 import Main from 'src/simi/App/core/Main';
 import Mask from 'src/simi/BaseComponents/Mask';
@@ -11,12 +11,8 @@ import errorRecord from 'src/util/createErrorRecord';
 
 class App extends Component {
     static propTypes = {
-        app: shape({
-            drawer: string,
-            hasBeenOffline: bool,
-            isOnline: bool,
-            overlay: bool.isRequired
-        }).isRequired,
+        hasBeenOffline: bool,
+        isOnline: bool,
         closeDrawer: func.isRequired,
         markErrorHandled: func.isRequired,
         unhandledErrors: array
@@ -28,7 +24,7 @@ class App extends Component {
         };
     }
 
-    shouldComponentUpdate(nextProps,nextState){
+    shouldComponentUpdate(nextProps){
         //avoid re-render with duplicated error
         let update = true
         if (nextProps.unhandledErrors && nextProps.unhandledErrors.length) {
@@ -65,8 +61,7 @@ class App extends Component {
     }
 
     get onlineIndicator() {
-        const { app } = this.props;
-        const { hasBeenOffline, isOnline } = app;
+        const { hasBeenOffline, isOnline } = this.props;
 
         // Only show online indicator when
         // online after being offline
@@ -94,26 +89,20 @@ class App extends Component {
             return errorFallback;
         }
         const {
-            app,
             closeDrawer,
             markErrorHandled,
             unhandledErrors
         } = this.props;
         const { onlineIndicator } = this;
-        const { drawer, overlay } = app;
-        const navIsOpen = drawer === 'nav';
-        const cartIsOpen = drawer === 'cart';
-
+        
         return (
             <Fragment>
-                {/* <Main isMasked={overlay}>*/}
-                <Main isMasked={navIsOpen}>
+                <Main>
                     {onlineIndicator}
                     {renderRoutes()}
                 </Main>
-                {/*<Mask isActive={overlay} dismiss={closeDrawer} />*/}
-                <Mask isActive={navIsOpen} dismiss={closeDrawer} />
-                <Navigation isOpen={navIsOpen} />
+                <Mask dismiss={closeDrawer} />
+                <Navigation />
                 <ErrorNotifications
                     errors={unhandledErrors}
                     onDismissError={markErrorHandled}
