@@ -46,7 +46,7 @@ const CartItem = props => {
         updateItemInCart(payload, item.item_id);
     }
     
-    const location = `/product.html?sku=${item.sku}`
+    const location = `/product.html?sku=${item.simi_sku?item.simi_sku:item.sku}`
     const image = (item.image && item.image.file)?item.image.file:item.simi_image
     return (
         <div key={Identify.randomString(5)} className={defaultClasses['cart-siminia-item']}>

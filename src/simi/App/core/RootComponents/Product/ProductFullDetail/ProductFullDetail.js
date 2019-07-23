@@ -24,7 +24,7 @@ import { TopReview, ReviewList, NewReview } from './Review/index'
 import SocialShare from 'src/simi/BaseComponents/SocialShare';
 import Description from './Description';
 import Techspec from './Techspec';
-import RelatedProducts from './RelatedProducts';
+import LinkedProducts from './LinkedProducts';
 
 const ConfigurableOptions = React.lazy(() => import('./Options/ConfigurableOptions'));
 const CustomOptions = React.lazy(() => import('./Options/CustomOptions'));
@@ -345,7 +345,8 @@ class ProductFullDetail extends Component {
                         <NewReview product={product} toggleMessages={this.props.toggleMessages}/>
                     </div>
                 }
-                <RelatedProducts product={product} />
+                <LinkedProducts product={product} link_type="related" history={this.props.history}/>
+                <LinkedProducts product={product} link_type="crosssell" history={this.props.history}/>
             </div>
         );
     }
