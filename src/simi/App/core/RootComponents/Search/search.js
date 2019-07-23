@@ -14,6 +14,7 @@ import Products from 'src/simi/BaseComponents/Products'
 import CloseIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Close';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
+import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
 
 var sortByData = null
 var filterData = null
@@ -109,7 +110,7 @@ const Search = props => {
                 if (loading) return <Loading />;
 
                 if (data && data.simiproducts) {
-                    data.products = data.simiproducts
+                    data.products = applySimiProductListItemExtraField(data.simiproducts)
                     if (data.products.simi_filters)
                         data.products.filters = data.products.simi_filters
                 }

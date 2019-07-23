@@ -56,7 +56,7 @@ Grid item
 
 .siminia-product-des .product-name.small {
     width: 100%;
-    font-size: 16px;
+    font-size: 17px;
     margin-bottom: 10px;
     margin-bottom: 8px;
     text-align: start;
@@ -106,6 +106,21 @@ Image
     object-fit: contain;
 }
 
+/*
+Rate
+*/
+.item-review-rate {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+.item-review-count {
+    display: inline-block;
+    font-size: 14px;
+    margin: 0 5px;
+    line-height: 15px;
+}
 .siminia-product-grid-item .siminia-product-des {
     text-align: left;
     margin: 8px auto 0 auto;

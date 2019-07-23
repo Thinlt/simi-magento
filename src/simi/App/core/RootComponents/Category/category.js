@@ -11,6 +11,7 @@ import ObjectHelper from 'src/simi/Helper/ObjectHelper';
 import { withRouter } from 'react-router-dom';
 import {Simiquery} from 'src/simi/Network/Query'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
+import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
 
 var sortByData = null
 var filterData = null
@@ -55,7 +56,7 @@ const Category = props => {
                 if (!data || !data.category) return <LoadingSpiner />;
 
                 if (data && data.simiproducts) {
-                    data.products = data.simiproducts
+                    data.products = applySimiProductListItemExtraField(data.simiproducts)
                     if (data.products.simi_filters)
                         data.products.filters = data.products.simi_filters
                 }

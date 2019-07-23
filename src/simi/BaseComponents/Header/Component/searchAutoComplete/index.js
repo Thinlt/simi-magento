@@ -9,6 +9,7 @@ import Suggestions from './suggestions';
 import Close from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
 import defaultClasses from './searchAutoComplete.css';
 import Identify from 'src/simi/Helper/Identify'
+import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
 
 
 function useOutsideAlerter(ref, setVisible) {
@@ -49,7 +50,7 @@ const SearchAutoComplete = props => {
     let message = '';
 
     if(data && data.simiproducts)
-        data.products = data.simiproducts
+        data.products = applySimiProductListItemExtraField(data.simiproducts)
 
     if (error) {
         message = Identify.__('An error occurred while fetching results.');

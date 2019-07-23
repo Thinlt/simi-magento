@@ -53,5 +53,9 @@ query productSearch($inputText: String, $currentPage: Int, $pageSize: Int, $cate
             total_pages
         }
         total_count
+        simiProductListItemExtraField {
+            sku
+            extraData
+        }
     }
 }

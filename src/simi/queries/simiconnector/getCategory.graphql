@@ -83,6 +83,10 @@ query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, 
             total_pages
         }
         total_count
+        simiProductListItemExtraField {
+            sku
+            extraData
+        }
         __typename
     }
 }
