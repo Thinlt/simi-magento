@@ -1,6 +1,7 @@
  import React from 'react';
  import PropTypes from 'prop-types';
  
+ const $ = window.$
 class SocialShare extends React.PureComponent{
     componentDidMount(){
         let url = this.props.sharingUrl?this.props.sharingUrl:document.URL
