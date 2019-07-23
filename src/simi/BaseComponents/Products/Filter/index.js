@@ -5,9 +5,9 @@ import Checkbox from 'src/simi/BaseComponents/Checkbox'
 import Dropdownplus from 'src/simi/BaseComponents/Dropdownplus'
 import { mergeClasses } from 'src/classify'
 import { withRouter } from 'react-router-dom';
+import { formatPrice } from 'src/simi/Helper/Pricing';
 
 class Filter extends React.Component {
-
     constructor(props) {
         super(props);
         const isPhone = window.innerWidth < 1024 ;
@@ -48,7 +48,20 @@ class Filter extends React.Component {
                 this.items.map((item) => {
                     if (item && item.request_var && item.filter_items && this.activedItems[item.request_var]) {
                         item.filter_items.map((filter_item)=> {
-                            if (filter_item.value_string === String(this.activedItems[item.request_var])) {
+                            const is_price = item.request_var === 'price'
+                            if (
+                                (filter_item.value_string === String(this.activedItems[item.request_var])) ||
+                                is_price
+                            ) {
+                                let filter_item_label = filter_item.label
+                                if (is_price) {
+                                    filter_item_label = this.activedItems[item.request_var]
+                                    const splited_prices = this.activedItems[item.request_var].split('-')
+                                    if (splited_prices.length === 2) {
+                                        filter_item_label = <>{formatPrice(parseFloat(splited_prices[0]))} - {formatPrice(parseFloat(splited_prices[1]))}</>
+                                    }
+                                }
+
                                 this.rowsActived.push(
                                     <div key={Identify.randomString(5)} className={classes["active-filter-item"]}>
                                         <div className={classes["filter-name"]}>
@@ -59,8 +72,8 @@ class Filter extends React.Component {
                                                 classes={this.classes}
                                                 key={Identify.randomString(5)}
                                                 className={classes["filter-item"]}
-                                                onClick={() => obj.deleteFilter(filter_item.value_string)}
-                                                label={filter_item.label}
+                                                onClick={() => obj.deleteFilter(item.request_var)}
+                                                label={filter_item_label}
                                                 selected={true}
                                             /> 
                                         }
@@ -177,10 +190,13 @@ class Filter extends React.Component {
     }
 
     deleteFilter(attribute) {
-        const {history, location} = this.props
+        const {history, location, filterData} = this.props
         const { search } = location;
-        const filterParams = {}
+        const filterParams = filterData?filterData:{}
+        console.log(filterParams)
+        console.log(attribute)
         delete filterParams[attribute]
+        console.log(filterParams)
         const queryParams = new URLSearchParams(search);
         queryParams.set('filter', JSON.stringify(filterParams));
         history.push({ search: queryParams.toString() });

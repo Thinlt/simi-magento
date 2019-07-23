@@ -1,6 +1,7 @@
 import React from 'react'
 import Identify from 'src/simi/Helper/Identify'
 import Deleteicon from 'src/simi/BaseComponents/Icon/Trash'
+import Image from 'src/simi/BaseComponents/Image'
 import {configColor} from 'src/simi/Config'
 import { Price } from '@magento/peregrine'
 import { resourceUrl, logoUrl } from 'src/simi/Helper/Url'
@@ -58,13 +59,13 @@ const CartItem = props => {
                     }}
                     className={defaultClasses['img-cart-container']}
                     style={{borderColor: configColor.image_border_color}}>
-                    <img 
+                    <Image 
                         src={
                             image ? 
                             resourceUrl(image, {
-                            type: 'image-product',
-                            width: 300
-                        }):
+                                type: 'image-product',
+                                width: 300
+                            }):
                             logoUrl()
                         } 
                         alt={item.name} />

@@ -1,4 +1,4 @@
-import React , { useState } from 'react';
+import React from 'react';
 import defaultClasses from './item.css'
 import {configColor} from 'src/simi/Config';
 import PropTypes from 'prop-types';
@@ -9,6 +9,7 @@ import {prepareProduct} from 'src/simi/Helper/Product'
 import { Link } from 'src/drivers';
 import LazyLoad from 'react-lazyload';
 import { logoUrl } from 'src/simi/Helper/Url'
+import Image from 'src/simi/BaseComponents/Image'
 
 const productUrlSuffix = '.html';
 
@@ -18,7 +19,7 @@ const Griditem = props => {
     const { classes } = props
     if (!item) return '';
     const itemClasses = mergeClasses(defaultClasses, classes);
-    const { name, url_key, id, small_image, price, type_id } = item
+    const { name, url_key, id, price, type_id, small_image } = item
     const location = {
         pathname: `/${url_key}${productUrlSuffix}`,
         state: {
@@ -27,8 +28,6 @@ const Griditem = props => {
         },
     }
     
-    const [imageUrl, setImageUrl] = useState(small_image)
-
     const image = (
         <div 
             role="presentation"
@@ -36,11 +35,10 @@ const Griditem = props => {
             style={{borderColor: configColor.image_border_color,
                 backgroundColor: 'white'
             }}
-            onError={() => {if(imageUrl !== logo_url) setImageUrl(logo_url)}}
             >
             <div style={{position:'absolute',top:0,bottom:0,width: '100%', padding: 1}}>
                 <Link to={location}>
-                    {<img src={imageUrl} alt={name}/>}
+                    {<Image src={small_image} alt={name}/>}
                 </Link>
             </div>
         </div>
