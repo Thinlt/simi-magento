@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import Identify from 'src/simi/Helper/Identify'
-import classes from './linkedProducts.css'
+import classes from './linkedProduct.css'
 import { simiUseQuery } from 'src/simi/Network/Query' 
 import getLinkedProducts from 'src/simi/queries/catalog/getLinkedProducts.graphql'
 import Loading from "src/simi/BaseComponents/Loading"
