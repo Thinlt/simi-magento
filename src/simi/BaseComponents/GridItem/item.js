@@ -14,7 +14,7 @@ const productUrlSuffix = '.html';
 
 const Griditem = props => {
     const item = prepareProduct(props.item)
-    const logoUrl = logoUrl()
+    const logo_url = logoUrl()
     const { classes } = props
     if (!item) return '';
     const itemClasses = mergeClasses(defaultClasses, classes);
@@ -36,7 +36,7 @@ const Griditem = props => {
             style={{borderColor: configColor.image_border_color,
                 backgroundColor: 'white'
             }}
-            onError={() => {if(imageUrl !== logoUrl) setImageUrl(logoUrl)}}
+            onError={() => {if(imageUrl !== logo_url) setImageUrl(logo_url)}}
             >
             <div style={{position:'absolute',top:0,bottom:0,width: '100%', padding: 1}}>
                 <Link to={location}>
@@ -50,7 +50,7 @@ const Griditem = props => {
         <div className={`${itemClasses["product-item"]} ${itemClasses["siminia-product-grid-item"]}`}>
             {
                 props.lazyImage?
-                (<LazyLoad placeholder={<img alt={name} src={logoUrl} style={{maxWidth: 60, maxHeight: 60}}/>}>
+                (<LazyLoad placeholder={<img alt={name} src={logo_url} style={{maxWidth: 60, maxHeight: 60}}/>}>
                     {image}
                 </LazyLoad>):
                 image

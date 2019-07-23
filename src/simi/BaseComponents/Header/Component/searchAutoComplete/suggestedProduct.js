@@ -19,11 +19,11 @@ const SuggestedProduct = props => {
             onNavigate();
         }
     }
-    const logoUrl = logoUrl()
+    const logo_url = logoUrl()
     const { classes, url_key, small_image, name, price, type_id } = props;
     const [imageUrl, setImageUrl] = useState(small_image)
     const uri = resourceUrl(`/${url_key}${productUrlSuffix}`);
-    const place_holder_img = <img alt={name} src={logoUrl} style={{maxWidth: 60, maxHeight: 60}}/>
+    const place_holder_img = <img alt={name} src={logo_url} style={{maxWidth: 60, maxHeight: 60}}/>
 
     return (
         <Link className={classes.root} to={uri} onClick={handleClick}>
@@ -37,7 +37,7 @@ const SuggestedProduct = props => {
                             width: 60
                         }) : logoUrl()}
                         style={{maxWidth: 60, maxHeight: 60}}
-                        onError={() => {if(imageUrl !== logoUrl) setImageUrl(logoUrl)}}
+                        onError={() => {if(imageUrl !== logo_url) setImageUrl(logo_url)}}
                     />
                 </LazyLoad>
             </span>
