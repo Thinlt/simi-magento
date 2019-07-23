@@ -10,6 +10,7 @@ import Identify from 'src/simi/Helper/Identify';
 import ObjectHelper from 'src/simi/Helper/ObjectHelper';
 import { withRouter } from 'react-router-dom';
 import {Simiquery} from 'src/simi/Network/Query'
+import TitleHelper from 'src/simi/Helper/TitleHelper'
 
 var sortByData = null
 var filterData = null
@@ -61,6 +62,10 @@ const Category = props => {
                 const categoryTitle = data && data.category ? data.category.name : '';
                 return (
                     <div className="container">
+                        {TitleHelper.renderMetaHeader({
+                            title: data.category.meta_title?data.category.meta_title:data.category.name,
+                            desc: data.category.meta_description
+                        })}
                         {
                             (data.category && data.category.name && data.category.image) &&
                             <CategoryHeader

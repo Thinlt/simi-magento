@@ -177,23 +177,14 @@ class Identify {
         }
     }
 
-    static smoothScrollToView = (querySelector, duration = 350) => {
-        if(querySelector && querySelector.offset() instanceof Object){
-            let offsetTop = querySelector.offset().top;
+    /*
+    Logo Url
+    */
 
-            let elementHeight = querySelector.height();
-            let windowHeight = $(window).height();
-            let offset = offsetTop;
-
-            if (elementHeight < windowHeight) {
-                offset = offsetTop - ((windowHeight / 2) - (elementHeight / 2));
-            }
-
-            $('html, body').animate({
-                scrollTop: offset
-            }, duration);
-        }
-
+    static logoUrl = () => {
+        return window.SMCONFIGS.logo_url ?
+            window.SMCONFIGS.logo_url :
+        'https://www.simicart.com/skin/frontend/default/simicart2.1/images/simicart/new_logo_small.png'
     }
 }
 

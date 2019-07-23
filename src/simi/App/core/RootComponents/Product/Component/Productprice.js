@@ -112,9 +112,12 @@ class ProductPrice extends React.Component {
                 stockLabel = Identify.__('In stock');
         }
                 
-        const priceLabel = (data.type_id === "grouped")?'':(
+        const priceLabel = (
             <div className={classes['prices-layout']}>
-                <Price config={1} key={Identify.randomString(5)} prices={prices} type={data.type_id} classes={classes}/>
+                {
+                    (data.type_id !== "grouped") &&
+                    <Price config={1} key={Identify.randomString(5)} prices={prices} type={data.type_id} classes={classes}/>
+                }
             </div>
         );
         return (

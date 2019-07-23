@@ -118,7 +118,7 @@ class CustomerLayout extends React.Component{
     }
 
     renderMenu = () => {
-        const {classes, firstname} = this.props
+        const {classes, firstname, lastname} = this.props
         const menuConfig = this.getMenuConfig()
         const {page} = this.state;
         const menu = menuConfig.map(item => {
@@ -137,7 +137,7 @@ class CustomerLayout extends React.Component{
             <div className={classes["dashboard-menu"]}>
                 <div className={classes["menu-header"]}>
                     <div className={classes["welcome-customer"]}>
-                        {Identify.__("Welcome, %s").replace('%s', firstname)}
+                        {Identify.__("Welcome, %s").replace('%s', firstname + ' ' + lastname)}
                     </div>
                     <div role="presentation" className={classes["menu-logout"]} onClick={()=>this.handleLink('/logout.html')}>
                         <div className="hidden-xs">{Identify.__('Log out')}</div>

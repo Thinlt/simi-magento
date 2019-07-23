@@ -71,10 +71,10 @@ class Cart extends Component {
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         this.setIsPhone()
         const { getCartDetails } = this.props;
-        await getCartDetails();
+        getCartDetails();
     }
 
     get cartId() {
@@ -94,7 +94,7 @@ class Cart extends Component {
     }
 
     get productList() {
-        const { cart, removeItemFromCart, classes, updateItemInCart } = this.props;
+        const { cart, classes, updateItemInCart } = this.props;
         if (!cart)
             return
         const { cartCurrencyCode, cartId } = this;
@@ -128,7 +128,7 @@ class Cart extends Component {
                         isPhone={this.state.isPhone}
                         currencyCode={cartCurrencyCode}
                         itemTotal={itemTotal}
-                        removeItemFromCart={removeItemFromCart}
+                        removeItemFromCart={this.removeItemFromCart.bind(this)}
                         updateItemInCart={updateItemInCart}
                         history={this.props.history}
                         handleLink={this.handleLink.bind(this)}/>;
@@ -187,6 +187,11 @@ class Cart extends Component {
 
     handleGoCheckout() {
         this.props.history.push('/checkout.html')
+    }
+
+    removeItemFromCart(data) {
+        showFogLoading()
+        this.props.removeItemFromCart(data)
     }
 
     handleCoupon = (e) => {
@@ -295,6 +300,7 @@ class Cart extends Component {
     }
 
     render() {
+        hideFogLoading()
         return (
             <div className="container">
                 {TitleHelper.renderMetaHeader({
