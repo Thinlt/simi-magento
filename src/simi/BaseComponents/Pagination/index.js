@@ -21,13 +21,21 @@ class Pagination extends React.Component {
         this.setState({
             currentPage: Number(event.target.id)
         });
+        if (this.props.changedPage) {
+            this.props.changedPage(event.target.id)
+        }
     }
 
     changeLimit = (event) => {
+        this.startPage = 1;
+        this.endPage = this.startPage + 3;
         this.setState({
             limit: Number(event.target.value),
             currentPage : 1
         });
+        if (this.props.changeLimit) {
+            this.props.changeLimit(event.target.value)
+        }
     };
 
     renderItem =(item, index)=>{
@@ -46,6 +54,9 @@ class Pagination extends React.Component {
         this.setState({
             currentPage : currentPage
         })
+        if (this.props.changedPage) {
+            this.props.changedPage(event.target.id)
+        }
     }
 
     renderPageNumber = (total)=>{
@@ -64,7 +75,8 @@ class Pagination extends React.Component {
             let active = number === obj.state.currentPage ?
                 {
                     borderRadius: '15px',
-                    background: '#f2f2f2',
+                    background: '#eaeaea',
+                    fontWeight : 600,
                 } : {};
             active = {
                 ...active,
@@ -107,7 +119,6 @@ class Pagination extends React.Component {
         if(this.state.currentPage >= this.startPage && this.endPage > 4){
             prevPageIcon = <BackIcon style={{width: 6}}/>;
         }
-        console.log(classes)
         const pagesSelection = (total>1)?(
             <ul id="page-numbers" classes={classes["page-numbers"]} style={{
                 border : 'none',
@@ -116,9 +127,9 @@ class Pagination extends React.Component {
                 alignItems : 'center',
                 fontSize : 14
             }}>
-                <li role="presentation" className={classes["icon-page-number"]} styles={{padding: '6px 6px 0 6px', cursor: 'pointer'}} onClick={()=>this.handleChangePage(false)}>{prevPageIcon}</li>
-                {renderPageNumbers}
-                <li role="presentation" className={classes["icon-page-number"]} styles={{padding: '6px 6px 0 6px', cursor: 'pointer'}} onClick={()=>this.handleChangePage(true)}>{nextPageIcon}</li>
+                <li role="presentation" className={classes["icon-page-number"]} style={{padding: '6px 6px 0 6px', cursor: 'pointer'}} onClick={()=>this.handleChangePage(false)}>{prevPageIcon}</li>
+                    {renderPageNumbers}
+                <li role="presentation" className={classes["icon-page-number"]} style={{padding: '6px 6px 0 6px', cursor: 'pointer'}} onClick={()=>this.handleChangePage(true)}>{nextPageIcon}</li>
             </ul>
         ):'';
         const {currentPage,limit} = this.state;
@@ -237,6 +248,8 @@ Pagination.propTypes = {
     renderItem : PropTypes.func,
     itemCount: PropTypes.number,
     itemsPerPageOptions: PropTypes.array,
-    classes: PropTypes.object
+    classes: PropTypes.object,
+    changedPage : PropTypes.func,
+    changeLimit : PropTypes.func,
 };
 export default Pagination;

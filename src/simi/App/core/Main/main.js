@@ -33,11 +33,10 @@ class Main extends Component {
     };
 
     get classes() {
-        const { classes, isMasked } = this.props;
-        const suffix = isMasked ? '_masked' : '';
+        const { classes } = this.props;
 
         return ['page', 'root'].reduce(
-            (acc, val) => ({ ...acc, [val]: classes[`${val}${suffix}`] }),
+            (acc, val) => ({ ...acc, [val]: classes[`${val}`] }),
             {}
         );
     }

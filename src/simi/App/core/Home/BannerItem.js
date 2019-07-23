@@ -4,7 +4,7 @@ const prdUrlSuffix = '.html';
 const cateUrlSuffix = '.html';
 
 const BannerItem = props => {
-    const {classes, history, item} = props;
+    const {classes, history, item, isPhone} = props;
 
     const renderBannerTitle = item => {
         let action = () => {}
@@ -39,13 +39,29 @@ const BannerItem = props => {
     
     const w = '100%';
     const h = '100%';
+    let img = '';
+    if(isPhone) {
+        if(item.banner_name_tablet) {
+            img = item.banner_name_tablet;
+        } else if(item.banner_name) {
+            img = item.banner_name
+        }
+    } else {
+        if(item.banner_name) {
+            img = item.banner_name;
+        } else if(item.banner_name_tablet) {
+            img = item.banner_name_tablet
+        }
+    }
+
+
     return (
         <div 
             style={{position: 'relative', maxWidth: w, minHeight: h}} 
             className={classes['banner-item']}
         >
             {renderBannerTitle(item)}
-            <img className="img-responsive" width={w} height={h} src={window.innerWidth < 1024 ? item.banner_name : item.banner_name_tablet} alt={item.banner_title}/>
+            <img className="img-responsive" width={w} height={h} src={img} alt={item.banner_title}/>
         </div>
     )
 }

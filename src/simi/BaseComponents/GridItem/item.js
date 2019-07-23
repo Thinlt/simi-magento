@@ -1,5 +1,4 @@
-import React from 'react';
-import ObjectHelper from 'src/simi/Helper/ObjectHelper';
+import React , { useState } from 'react';
 import defaultClasses from './item.css'
 import {configColor} from 'src/simi/Config';
 import PropTypes from 'prop-types';
@@ -8,74 +7,71 @@ import { mergeClasses } from 'src/classify'
 import Price from 'src/simi/BaseComponents/Price';
 import {prepareProduct} from 'src/simi/Helper/Product'
 import { Link } from 'src/drivers';
+import LazyLoad from 'react-lazyload';
+import { logoUrl } from 'src/simi/Helper/Url'
 
 const productUrlSuffix = '.html';
 
-class Griditem extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-        this.item = prepareProduct(this.props.item)
+const Griditem = props => {
+    const item = prepareProduct(props.item)
+    const logo_url = logoUrl()
+    const { classes } = props
+    if (!item) return '';
+    const itemClasses = mergeClasses(defaultClasses, classes);
+    const { name, url_key, id, small_image, price, type_id } = item
+    const location = {
+        pathname: `/${url_key}${productUrlSuffix}`,
+        state: {
+            product_id: id,
+            item_data: item
+        },
     }
+    
+    const [imageUrl, setImageUrl] = useState(small_image)
 
-    shouldComponentUpdate(nextProps,nextState){
-        if (!this.item)
-            return ObjectHelper.shallowCompare(this,nextProps,nextState);
-        else
-            return (JSON.stringify(this.item) !== JSON.stringify(nextProps.item));
-    }
+    const image = (
+        <div 
+            role="presentation"
+            className={itemClasses["siminia-product-image"]}
+            style={{borderColor: configColor.image_border_color,
+                backgroundColor: 'white'
+            }}
+            onError={() => {if(imageUrl !== logo_url) setImageUrl(logo_url)}}
+            >
+            <div style={{position:'absolute',top:0,bottom:0,width: '100%', padding: 1}}>
+                <Link to={location}>
+                    {<img src={imageUrl} alt={name}/>}
+                </Link>
+            </div>
+        </div>
+    )
 
-    render() {
-        const { classes } = this.props
-        const { item } = this
-
-        if (!item)
-            return '';
-        const itemClasses = mergeClasses(defaultClasses, classes);
-        const { name, url_key, id, small_image, price, type_id } = item
-        this.location = {
-            pathname: `/${url_key}${productUrlSuffix}`,
-            state: {
-                product_id: id,
-                item_data: item
-            },
-        }
-        
-        const image = (
-            <div 
-                role="presentation"
-                className={itemClasses["siminia-product-image"]}
-                style={{borderColor: configColor.image_border_color,
-                    backgroundColor: 'white'
-                }}>
-                <div style={{position:'absolute',top:0,bottom:0,width: '100%', padding: 1}}>
-                    <Link to={this.location}>
-                        {<img src={small_image} alt={name}/>}
-                    </Link>
+    return (
+        <div className={`${itemClasses["product-item"]} ${itemClasses["siminia-product-grid-item"]}`}>
+            {
+                props.lazyImage?
+                (<LazyLoad placeholder={<img alt={name} src={logo_url} style={{maxWidth: 60, maxHeight: 60}}/>}>
+                    {image}
+                </LazyLoad>):
+                image
+            }
+            <div className={itemClasses["siminia-product-des"]}>
+                <div role="presentation" className={`${itemClasses["product-name"]} ${itemClasses["small"]}`} onClick={()=>props.handleLink(location)}>{ReactHTMLParse(name)}</div>
+                <div role="presentation" className={itemClasses["prices-layout"]} id={`price-${id}`} onClick={()=>props.handleLink(location)}>
+                    <Price
+                        prices={price} type={type_id}
+                    />
                 </div>
             </div>
-        )
-        return (
-            <div className={`${itemClasses["product-item"]} ${itemClasses["siminia-product-grid-item"]}`}>
-                {
-                    image
-                }
-                <div className={itemClasses["siminia-product-des"]}>
-                    <div role="presentation" className={`${itemClasses["product-name"]} ${itemClasses["small"]}`} onClick={()=>this.props.handleLink(this.location)}>{ReactHTMLParse(name)}</div>
-                    <div role="presentation" className={itemClasses["prices-layout"]} id={`price-${id}`} onClick={()=>this.props.handleLink(this.location)}>
-                        <Price
-                            prices={price} type={type_id}
-                        />
-                    </div>
-                </div>
-            </div>
-        );
-    }
+        </div>
+    )
 }
 
 Griditem.contextTypes = {
     item: PropTypes.object,
     handleLink: PropTypes.func,
     classes: PropTypes.object,
+    lazyImage: PropTypes.bool,
 }
 
 export default Griditem;

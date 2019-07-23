@@ -7,6 +7,7 @@ import Identify from "src/simi/Helper/Identify";
 
 const Item = props => {
     const { classes, item, history } = props;
+    
     const location = {
         pathname: `/${item.url_key}.html`
     }

@@ -3,7 +3,8 @@ import {configColor} from 'src/simi/Config';
 import Identify from 'src/simi/Helper/Identify';
 import PropTypes from 'prop-types';
 export const Qty = (props)=>{
-    const {classes, value} = props
+    const {classes, value, onChange, dataId} = props
+    const thisInputId = 'qty-field-' + Identify.randomString(10)
     let style = {
         border: '1px solid ' + configColor.button_background,
         padding: 0,
@@ -14,19 +15,33 @@ export const Qty = (props)=>{
         direction : 'ltr'
     };
     style = {...style,...props.inputStyle};
-    console.log(props)
     let className = classes['option-number']?classes['option-number']:''
     className +=  " " + props.className
+
+    const changedValue = (e) => {
+        if (!e.target)
+            return
+        const input = e.target
+        let qty = input.value
+        if (!Number.isInteger(parseInt(qty)) || qty <= 0) {
+            qty = 1
+        }
+        input.value = qty
+        if (onChange)
+            onChange(qty)
+    }
+
     return (
         <input
+            id={thisInputId}
             min={1}
             type="number"
             defaultValue={value}
             pattern="[1-9]*"
             className={className}
             style={style}
-            data-id={props.dataId}
-            onChange={props.onChange?props.onChange:null}
+            data-id={dataId}
+            onChange={e => changedValue(e)}
             disabled={props.disabled}
         />
     )
@@ -34,7 +49,10 @@ export const Qty = (props)=>{
 
 Qty.propTypes = {
     className: PropTypes.string,
-    dataId: PropTypes.number,
+    dataId: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
     value: PropTypes.number,
     classes: PropTypes.object,
     onChange: PropTypes.func,

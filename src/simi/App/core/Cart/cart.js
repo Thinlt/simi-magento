@@ -22,35 +22,12 @@ import Total from 'src/simi/BaseComponents/Total'
 import {Colorbtn, Whitebtn} from 'src/simi/BaseComponents/Button'
 import {configColor} from 'src/simi/Config'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
-import { updateCoupon } from 'src/simi/Model/Cart';
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+import Coupon from 'src/simi/BaseComponents/Coupon'
 
 
 class Cart extends Component {
-    static propTypes = {
-        cart: shape({
-            details: object,
-            cartId: string,
-            totals: object,
-            isLoading: bool,
-            isUpdatingItem: bool
-        }),
-        classes: shape({
-            body: string,
-            header: string,
-            root_open: string,
-            root: string,
-            subtotalLabel: string,
-            subtotalValue: string,
-            summary: string,
-            title: string,
-            totals: string
-        }),
-        isCartEmpty: bool,
-        updateItemInCart: func,
-    };
-
     constructor(...args) {
         super(...args)
         const isPhone = window.innerWidth < 1024
@@ -71,10 +48,11 @@ class Cart extends Component {
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+        showFogLoading()
         this.setIsPhone()
         const { getCartDetails } = this.props;
-        await getCartDetails();
+        getCartDetails();
     }
 
     get cartId() {
@@ -94,7 +72,7 @@ class Cart extends Component {
     }
 
     get productList() {
-        const { cart, removeItemFromCart, classes, updateItemInCart } = this.props;
+        const { cart, classes, updateItemInCart } = this.props;
         if (!cart)
             return
         const { cartCurrencyCode, cartId } = this;
@@ -122,13 +100,13 @@ class Cart extends Component {
                     })
                 }
                 if (itemTotal) {
-                    const element = <CartItem   
-                        key={Identify.randomString(5)} 
-                        item={item} 
+                    const element = <CartItem
+                        key={Identify.randomString(5)}
+                        item={item}
                         isPhone={this.state.isPhone}
                         currencyCode={cartCurrencyCode}
                         itemTotal={itemTotal}
-                        removeItemFromCart={removeItemFromCart}
+                        removeItemFromCart={this.removeItemFromCart.bind(this)}
                         updateItemInCart={updateItemInCart}
                         history={this.props.history}
                         handleLink={this.handleLink.bind(this)}/>;
@@ -164,10 +142,10 @@ class Cart extends Component {
         return (
             <div className={classes['cart-btn-section']}>
                 <Whitebtn className={classes['continue-shopping']} onClick={() => this.handleBack()} text={Identify.__('Continue shopping')}/>
-                <Colorbtn 
-                    id="go-checkout" 
+                <Colorbtn
+                    id="go-checkout"
                     style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
-                    className={classes["go-checkout"]} 
+                    className={classes["go-checkout"]}
                     onClick={() => this.handleGoCheckout()} text={Identify.__('Pay Securely')}/>
             </div>
         )
@@ -189,57 +167,25 @@ class Cart extends Component {
         this.props.history.push('/checkout.html')
     }
 
-    handleCoupon = (e) => {
-        const coupon = document.querySelector('#coupon_field').value;
-        if(!coupon) {
-            this.props.toggleMessages([{type: 'error', message: 'Please enter coupon code', auto_dismiss: true}]);
-            return null;
-        }
+    removeItemFromCart(data) {
         showFogLoading()
-        const params = {
-            coupon_code: coupon
-        }
-        updateCoupon(this.processData, params)
-    }
-
-    processData = (data) => {
-        let text = '';
-        let success = false;
-        if (data.message) {
-            let messages = data.message;
-            for (let i in messages) {
-                let message = messages[i];
-                text += message + ' ';
-            }
-        }
-        if(data.total && data.total.coupon_code) {
-            success = true;
-        }
-        if(text) 
-            this.props.toggleMessages([{type: success ? 'success' : 'error', message: text, auto_dismiss: true}])
-        this.props.getCartDetails();
-        hideFogLoading();
+        this.props.removeItemFromCart(data)
     }
 
     get couponView () {
-        const { cart, classes } = this.props;
+        const { cart, classes, toggleMessages, getCartDetails } = this.props;
         let value = "";
         if (cart.totals.coupon_code) {
             value = cart.totals.coupon_code;
         }
 
-        return (
-            <div className={`${classes["coupon-code"]}`} id={classes["cart-coupon-form"]}>
-                <div className={classes["coupon-code-title"]}>{Identify.__('Promo code')}</div>
-                <div className={classes["coupon-code-area-tablet"]}>
-                    <input id="coupon_field" type="text" placeholder={Identify.__('enter code here')} defaultValue={value}/>
-                </div>
-                <Whitebtn
-                    id={classes["submit-coupon"]} onClick={(e) => this.handleCoupon(e)}
-                    text={Identify.__('Apply')}
-                />
-            </div>
-        )
+        const childCPProps = {
+            classes,
+            value,
+            toggleMessages,
+            getCartDetails
+        }
+        return <Coupon {...childCPProps} />
     }
 
     get miniCartInner() {
@@ -247,16 +193,16 @@ class Cart extends Component {
         const { cart: { isLoading },classes, isCartEmpty,cart } = props;
 
         const loading = isLoading?
-            <div 
+            <div
                 className={classes['siminia-cart-page-loading']}
                 style={{borderBottom: `solid 1px #eaeaea`}}
                 >
-                <Loading 
+                <Loading
                     loadingStyle={{width:25,height:25}}
                     divStyle={{marginTop: 0}}
                 />
             </div>:''
-            
+
         if (isCartEmpty) {
             return (
                 <div className={classes['cart-page-siminia']}>
@@ -279,7 +225,7 @@ class Cart extends Component {
                     </div>
                     {   cart.details && cart.details.items_count &&
                         <div className={classes['cart-title']}>
-                            <Basket/> 
+                            <Basket/>
                             <div>
                                 {Identify.__('Your basket contains: %s item(s)').replace('%s', cart.details.items_count)}
                             </div>
@@ -295,6 +241,7 @@ class Cart extends Component {
     }
 
     render() {
+        hideFogLoading()
         return (
             <div className="container">
                 {TitleHelper.renderMetaHeader({
@@ -304,6 +251,29 @@ class Cart extends Component {
             </div>
         );
     }
+}
+
+Cart.propTypes = {
+    cart: shape({
+        details: object,
+        cartId: string,
+        totals: object,
+        isLoading: bool,
+        isUpdatingItem: bool
+    }),
+    classes: shape({
+        body: string,
+        header: string,
+        root_open: string,
+        root: string,
+        subtotalLabel: string,
+        subtotalValue: string,
+        summary: string,
+        title: string,
+        totals: string
+    }),
+    isCartEmpty: bool,
+    updateItemInCart: func,
 }
 
 const mapStateToProps = state => {

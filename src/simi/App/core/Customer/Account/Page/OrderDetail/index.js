@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable prefer-const */
+import React, { useState, useEffect } from "react";
 import Identify from "src/simi/Helper/Identify";
 import { formatPrice } from "src/simi/Helper/Pricing";
 import { Whitebtn } from "src/simi/BaseComponents/Button";
@@ -6,63 +7,67 @@ import Loading from "src/simi/BaseComponents/Loading";
 import ReactHTMLParse from "react-html-parser";
 import { Link } from "react-router-dom";
 import "./../../style.css";
-import { getOrderDetail } from 'src/simi/Model/Orders';
+import { getOrderDetail, getReOrder } from 'src/simi/Model/Orders';
+import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading'
+import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+import { connect } from 'src/drivers';
 
-class Detail extends React.Component {
-    state = {
-        data: null
-    }
+const Detail = (props) => {
+    const [data, setData] = useState(null)
+    const [loaded, setLoaded] = useState(false)
+    const { history, classes, isPhone } = props
+    const id = history.location.state.orderData.increment_id || null;
 
-    componentWillMount() {
-        const {history} = this.props
-        this.id = history.location.state.orderData.increment_id || null;
-        let api = Identify.ApiDataStorage('quoteOrder') || {}
-        if(api.hasOwnProperty(this.id)){
-            let data = api[this.id]
-            this.setState({data,loaded:true})
+    useEffect(() => {
+        const api = Identify.ApiDataStorage('quoteOrder') || {}
+        if (api.hasOwnProperty(id)) {
+            const data = api[id]
+            setData(data)
+            setLoaded(true)
+        }
+        if (!data && !loaded && id) {
+            getOrderDetail(id, processData)
+        }
+    }, [])
+
+    const getDataReOrder = (data) => {
+        if (data) {
+            hideFogLoading();
+            props.toggleMessages([{ type: 'success', message: data.message }])
         }
     }
 
-    componentDidMount() {
-        this.id = this.props.history.location.state.orderData.increment_id;
-        if (!this.state.data && !this.state.loaded && this.id) {
-            getOrderDetail(this.id, this.processData.bind(this))  
-        }
-    }
-
-    processData(data) {
+    const processData = (data) => {
         let dataArr = {}
-        const key = this.id;
+        const key = id;
         let dataOrder = data.order;
-        this.setState({ data: dataOrder });
+        setData(dataOrder)
         dataArr[key] = dataOrder;
-        Identify.ApiDataStorage("quoteOrder",'update',dataArr);
+        Identify.ApiDataStorage("quoteOrder", 'update', dataArr);
     }
 
-    getDateFormat = dateData => {
-        let date = new Date(dateData);
-        let day = date.getDate();
-        let month =
+    const getDateFormat = dateData => {
+        const date = new Date(dateData);
+        const day = date.getDate();
+        const month =
             date.getMonth() + 1 < 10
                 ? "0" + (date.getMonth() + 1)
                 : date.getMonth() + 1;
-        let year = date.getFullYear();
+        const year = date.getFullYear();
 
         return day + "/" + month + "/" + year;
     };
 
-    getFormatPrice = value => {
+    const getFormatPrice = value => {
         return formatPrice(Number(value))
     }
 
-    onBackOrder = () => {
-        this.props.history.push({pathname: '/orderhistory.html'});
+    const onBackOrder = () => {
+        history.push({ pathname: '/orderhistory.html' });
     }
 
-    renderSummary = () => {
+    const renderSummary = () => {
         let html = null;
-        const { data } = this.state;
-        const { classes } = this.props
         if (data) {
             html = (
                 <div className={classes["order-detail__summary"]}>
@@ -76,7 +81,7 @@ class Detail extends React.Component {
                         <div className={classes["line-num"]}>
                             <b>{Identify.__("Order placed on:")}</b>
                             <span style={{ marginLeft: 16 }}>
-                                {this.getDateFormat(data.created_at)}
+                                {getDateFormat(data.created_at)}
                             </span>
                         </div>
                         <div className={classes["line-num"]}>
@@ -126,12 +131,9 @@ class Detail extends React.Component {
         return html;
     };
 
-    renderItem = items => {
+    const renderItem = items => {
         let html = null;
-        const {isPhone, classes} = this.props;
-        const { data } = this.state;
         const totalPrice = data.total;
-        // const show_vat = this.props.show_vat;
         
         if (items.length > 0) {
             html = items.map((item, index) => {
@@ -199,7 +201,7 @@ class Detail extends React.Component {
                                 style={{}}
                             >
                                 {
-                                    totalPrice.tax ? this.getFormatPrice(item.price_incl_tax) : this.getFormatPrice(item.price)
+                                    totalPrice.tax ? getFormatPrice(item.price_incl_tax) : getFormatPrice(item.price)
                                 }
                             </div>
                         </div>
@@ -210,9 +212,9 @@ class Detail extends React.Component {
                                 style={{}}
                             >
                                 {
-                                totalPrice.tax
-                                        ? this.getFormatPrice(item.row_total_incl_tax)
-                                        : this.getFormatPrice(item.row_total)
+                                    totalPrice.tax
+                                        ? getFormatPrice(item.row_total_incl_tax)
+                                        : getFormatPrice(item.row_total)
                                 }
                             </div>
                         </div>
@@ -223,10 +225,8 @@ class Detail extends React.Component {
         return html;
     };
 
-    renderTableItems = () => {
+    const renderTableItems = () => {
         let html = null;
-        const { data } = this.state;
-        const { isPhone, classes } = this.props;
 
         if (data) {
             html = (
@@ -253,7 +253,7 @@ class Detail extends React.Component {
                     </div>}
                     <div className={classes["order-body"]}>
                         {data.order_items.length > 0
-                            ? this.renderItem(data.order_items)
+                            ? renderItem(data.order_items)
                             : Identify.__("No product found!")}
                     </div>
                 </div>
@@ -262,66 +262,72 @@ class Detail extends React.Component {
         return html;
     };
 
-    renderFooter = () => {
-        const {data} = this.state;
-        const { classes } = this.props;
+    const renderFooter = () => {
         const totalPrice = data.total;
-        console.log(totalPrice)
 
         return (
             <div className={classes["detail-order-footer"]}>
                 <div className={classes["delivery-restrictions"]}>
-                    <b className={classes["title"]} style={{display: 'block'}}>{Identify.__('Delivery Restrictions')}</b>
+                    <b className={classes["title"]} style={{ display: 'block' }}>{Identify.__('Delivery Restrictions')}</b>
                     <textarea name="delevery_retriction" readOnly defaultValue={data.shipping_restriction} placeholder={Identify.__('e.g. no through route, low bridges etc.')}></textarea>
                 </div>
                 <div className={classes["box-total-price"]}>
                     {totalPrice && <div className={classes["total-sub-price-container"]}>
                         <div className={classes["summary-price-line"]}>
                             <span className={classes["bold"]}>{Identify.__('Subtotal')}</span>
-                            <span className="price">{totalPrice.tax ? this.getFormatPrice(totalPrice.subtotal_incl_tax) : this.getFormatPrice(totalPrice.subtotal_excl_tax)}</span>
+                            <span className="price">{totalPrice.tax ? getFormatPrice(totalPrice.subtotal_incl_tax) : getFormatPrice(totalPrice.subtotal_excl_tax)}</span>
                         </div>
                         <div className={classes["summary-price-line"]}>
                             <span className={classes["bold"]}>{Identify.__('Delivery')}</span>
-                            <span className="price">{totalPrice.tax ? this.getFormatPrice(totalPrice.shipping_hand_incl_tax) : this.getFormatPrice(totalPrice.shipping_hand_excl_tax)}</span>
+                            <span className="price">{totalPrice.tax ? getFormatPrice(totalPrice.shipping_hand_incl_tax) : getFormatPrice(totalPrice.shipping_hand_excl_tax)}</span>
                         </div>
                         <div className={classes["summary-price-line"]}>
                             <span className={classes["bold"]}>{Identify.__('VAT')}</span>
-                            <span className="price">{this.getFormatPrice(totalPrice.tax)}</span>
+                            <span className="price">{getFormatPrice(totalPrice.tax)}</span>
                         </div>
                         <div className={`${classes["summary-price-line"]} ${classes['total']}`}>
                             <span className={classes["bold"]}>{Identify.__('Total')}</span>
-                            <span className={classes["price"]}>{totalPrice.tax ? this.getFormatPrice(totalPrice.grand_total_incl_tax) : this.getFormatPrice(totalPrice.shipping_hand_excl_tax)}</span>
+                            <span className={classes["price"]}>{totalPrice.tax ? getFormatPrice(totalPrice.grand_total_incl_tax) : getFormatPrice(totalPrice.shipping_hand_excl_tax)}</span>
                         </div>
                     </div>}
-                    
-                    <Whitebtn className={classes["back-all-orders"]} text={Identify.__('Back to all orders')} onClick={this.onBackOrder} />
+
+                    <Whitebtn className={classes["back-all-orders"]} text={Identify.__('Back to all orders')} onClick={onBackOrder} />
                 </div>
             </div>
         )
     }
 
-    render() {
-        const { data } = this.state;
-        const { classes } = this.props;
-        if (!data) {
-            return <Loading />;
-        }
-
-        // if (!this.id) {
-        //     this.getBrowserHistory().goBack();
-        // }
-
-        return (
-            <div className={classes["dashboard-acc-order-detail"]}>
-                <div className={classes["customer-page-title"]}>
-                    {Identify.__("Order overview")}
-                </div>
-                {this.renderSummary()}
-                {this.renderTableItems()}
-                {this.renderFooter()}
-            </div>
-            // <div>Hello</div>
-        );
+    if (!data) {
+        return <Loading />;
     }
+
+    return (
+        <div className={classes["dashboard-acc-order-detail"]}>
+            <div className={classes["customer-page-title"]}>
+                {Identify.__("Order overview")}
+            </div>
+            {renderSummary()}
+            <Whitebtn
+                className={classes["back-all-orders"]}
+                text={Identify.__('Re-order')}
+                style={{ width: "20%", marginBottom: "10px" }}
+                onClick={() => {
+                    showFogLoading();
+                    getReOrder(id, getDataReOrder)
+                }}
+            />
+            {renderTableItems()}
+            {renderFooter()}
+        </div>
+        // <div>Hello</div>
+    );
 }
-export default Detail;
+
+const mapDispatchToProps = {
+    toggleMessages,
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(Detail);

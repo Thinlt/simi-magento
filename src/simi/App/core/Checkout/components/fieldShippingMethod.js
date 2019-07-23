@@ -1,8 +1,6 @@
 import React, { Fragment, useCallback } from 'react';
 import { useFormState } from 'informed';
 
-import { mergeClasses } from 'src/classify';
-import Identify from 'src/simi/Helper/Identify';
 import defaultClasses from './fieldShippingMethod.css';
 import Select from 'src/components/Select';
 

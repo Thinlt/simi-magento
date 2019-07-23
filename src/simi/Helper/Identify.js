@@ -177,23 +177,18 @@ class Identify {
         }
     }
 
-    static smoothScrollToView = (querySelector, duration = 350) => {
-        if(querySelector && querySelector.offset() instanceof Object){
-            let offsetTop = querySelector.offset().top;
+    static validateEmail(email) {
+        return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+    }
 
-            let elementHeight = querySelector.height();
-            let windowHeight = $(window).height();
-            let offset = offsetTop;
+    static PadWithZeroes(number, length) {
 
-            if (elementHeight < windowHeight) {
-                offset = offsetTop - ((windowHeight / 2) - (elementHeight / 2));
-            }
-
-            $('html, body').animate({
-                scrollTop: offset
-            }, duration);
+        let my_string = '' + number;
+        while (my_string.length < length) {
+            my_string = '0' + my_string;
         }
 
+        return my_string;
     }
 }
 

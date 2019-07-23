@@ -5,7 +5,7 @@ import Identify from "src/simi/Helper/Identify";
 import BannerItem from "./BannerItem";
 
 const Banner = props => {
-    const {classes, history} = props;
+    const {classes, history, isPhone} = props;
     const data = props.data.home.homebanners;
     const bannerCount = data.length;
     const configs = Identify.getStoreConfig();
@@ -23,16 +23,19 @@ const Banner = props => {
         transitionTime : 500
     }
 
-    const bannerData = data.homebanners.map((item, index) => {
-        if (!item.banner_name) return '';
-        return (
-            <div
-                key={index}
-                style={{cursor: 'pointer'}}
-            >
-                <BannerItem item={item} classes={classes} history={history}/>
-            </div>
-        );
+    const bannerData = [];
+    data.homebanners.forEach((item, index) => {
+        if (item.banner_name && item.banner_name_tablet) {
+            bannerData.push(
+                <div
+                    key={index}
+                    style={{cursor: 'pointer'}}
+                >
+                    <BannerItem item={item} classes={classes} history={history} isPhone={isPhone}/>
+                </div>
+            )
+        }
+        
     })
 
     return (

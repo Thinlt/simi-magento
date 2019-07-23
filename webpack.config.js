@@ -66,6 +66,20 @@ module.exports = async function(env) {
         module: {
             rules: [
                 {
+                    test: /\.scss$/,
+                    use: [
+                        {
+                            loader: "style-loader"
+                        }, 
+                        {
+                            loader: "css-loader"
+                        }, 
+                        {
+                            loader: "sass-loader"
+                        }
+                    ]
+                },
+                {
                     test: /\.graphql$/,
                     exclude: /node_modules/,
                     use: [
@@ -96,8 +110,7 @@ module.exports = async function(env) {
                             loader: 'css-loader',
                             options: {
                                 importLoaders: 1,
-                                localIdentName:
-                                    '[name]-[local]-[hash:base64:3]',
+                                localIdentName: '[name]-[local]-[hash:base64:3]',
                                 modules: true
                             }
                         }
@@ -120,6 +133,8 @@ module.exports = async function(env) {
             }
         }),
         plugins: [
+            // // This is necessary to emit hot updates (currently CSS only):
+            new webpack.HotModuleReplacementPlugin(),
             await makeMagentoRootComponentsPlugin({
                 rootComponentsDirs,
                 context: __dirname
