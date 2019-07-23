@@ -26,7 +26,7 @@ const Dashboard = props => {
     }, [data])
 
     const renderDefaultAddress = (item, default_billing, default_shipping) => {
-        let defaultBilling = item.find(value => {
+        const defaultBilling = item.find(value => {
             return value.id === parseInt(default_billing, 10);
         });
 
