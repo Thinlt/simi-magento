@@ -1,5 +1,5 @@
 import React from 'react';
-import defaultClasses from './order-summary.css';
+import defaultClasses from './OrderSummary.css';
 import Panel from 'src/simi/BaseComponents/Panel';
 import Identify from 'src/simi/Helper/Identify';
 import { configColor } from 'src/simi/Config';
@@ -8,11 +8,12 @@ import Arrow from 'src/simi/BaseComponents/Icon/Arrowup';
 import Total from 'src/simi/BaseComponents/Total';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import AddressItem from 'src/simi/BaseComponents/Address';
+import { logoUrl } from 'src/simi/Helper/Url'
 const $ = window.$;
 
 const OrderSummary = (props) => {
 
-    const { cart, cartCurrencyCode, classes, checkout, isPhone } = props;
+    const { cart, cartCurrencyCode, checkout, isPhone } = props;
     const { details } = cart;
     const { shippingAddress } = checkout;
 
@@ -54,7 +55,7 @@ const OrderSummary = (props) => {
                             resourceUrl(o_item.image.file, {
                                 type: 'image-product',
                                 width: 300
-                            }) : Identify.logoUrl()
+                            }) : logoUrl()
                     } alt={o_item.name} width={80} height={80}
                         style={{ objectFit: 'scale-down' }} />
                 </div>
@@ -72,13 +73,13 @@ const OrderSummary = (props) => {
     })
 
     const handleToggleItems = (e) => {
-        let parent = $(e.currentTarget);
+        const parent = $(e.currentTarget);
         parent.next('ul').slideToggle('fast');
         $('.item-count .expand_icon').toggleClass('rotate-180')
     }
 
     const handleToggleOption = (e) => {
-        let parent = $(e.currentTarget);
+        const parent = $(e.currentTarget);
         parent.next('.options-selected').slideToggle('fast');
         parent.children('.arrow-down').toggleClass('rotate-180');
     }
@@ -123,7 +124,7 @@ const OrderSummary = (props) => {
         </div>
     )
 
-    let containerSty = isPhone ? {marginTop: 35} : {};
+    const containerSty = isPhone ? {marginTop: 35} : {};
     return <div className={defaultClasses['order-summary']} id="order-summary">
         <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Order Summary')}</div>}
             renderContent={renderView}

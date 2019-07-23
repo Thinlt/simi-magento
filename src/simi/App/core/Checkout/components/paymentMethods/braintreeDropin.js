@@ -10,7 +10,7 @@
  *   https://braintree.github.io/braintree-web-drop-in/docs/current/Dropin.html#requestPaymentMethod.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { bool, func, shape, string } from 'prop-types';
 import { Util } from '@magento/peregrine';
 
@@ -30,6 +30,7 @@ const CONTAINER_ID = 'braintree-dropin-container';
  * 1) Mount and asynchronously create the dropin via the braintree api.
  * 2) On submission (triggered by a parent), request the payment nonce.
  */
+
 const BraintreeDropin = props => {
     const { onError, onSuccess, shouldRequestPaymentNonce } = props;
     const classes = mergeClasses(defaultClasses, props.classes);

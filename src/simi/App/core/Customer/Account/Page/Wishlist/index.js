@@ -10,8 +10,9 @@ import classes from './index.css'
 import Pagination from 'src/simi/BaseComponents/Pagination';
 import Loading from 'src/simi/BaseComponents/Loading'
 import {hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
+import {smoothScrollToView} from 'src/simi/Helper/Behavior'
 
-const Wishlist = props => {
+const Wishlist = props => {    
     const { history, toggleMessages, getCartDetails} = props    
     const [data, setData] = useState(null)
 
@@ -69,43 +70,45 @@ const Wishlist = props => {
     if (data && data.wishlistitems) {
         const {wishlistitems, total} = data
         if (total && wishlistitems && wishlistitems.length) {
-            return (
-                rows = <Pagination 
+            rows = (
+                <Pagination 
                     data={wishlistitems} 
                     renderItem={renderItem} 
                     classes={classes} 
                     itemsPerPageOptions={[2, 8, 16, 32]} 
                     limit={8}
                     itemCount={total}
-                    />
-            )
-        } else {
-            return (
-                <div className={classes["account-my-wishlist"]}>
-                    {TitleHelper.renderMetaHeader({
-                        title:Identify.__('Favourites')
-                    })}
-                    <div className={classes["customer-page-title"]}>
-                        {Identify.__("Favourites")}
-                    </div>
-                    <div className={classes["account-favourites"]}>
-                        <div className={classes["product-grid"]}>
-                            {rows ? rows : (
-                                <div className={classes["no-product"]}>
-                                    <p>
-                                        {Identify.__(
-                                            "There are no products matching the selection"
-                                        )}
-                                    </p>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
+                    changedPage={()=>smoothScrollToView($('#root'))}
+                    changeLimit={()=>smoothScrollToView($('#root'))}
+                />
             )
         }
+    } else {
+        rows = <Loading />
     }
-    return <Loading />
+    return (
+        <div className={classes["account-my-wishlist"]}>
+            {TitleHelper.renderMetaHeader({
+                    title:Identify.__('Favourites')
+            })}
+            <div className={classes["customer-page-title"]}>
+                {Identify.__("Favourites")}
+            </div>
+            <div className={classes["account-favourites"]}>
+                <div className={classes["product-grid"]}>
+                    {rows ? rows : (
+                        <div className={classes["no-product"]}>
+                            <p>
+                                {Identify.__(
+                                    "There are no products matching the selection"
+                                )}
+                            </p>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    )
 }
 
 const mapDispatchToProps = {

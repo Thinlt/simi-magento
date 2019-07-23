@@ -1,4 +1,4 @@
-import React , { useState } from 'react';
+import React from 'react';
 import defaultClasses from './item.css'
 import {configColor} from 'src/simi/Config';
 import PropTypes from 'prop-types';
@@ -8,17 +8,18 @@ import Price from 'src/simi/BaseComponents/Price';
 import {prepareProduct} from 'src/simi/Helper/Product'
 import { Link } from 'src/drivers';
 import LazyLoad from 'react-lazyload';
-import Identify from 'src/simi/Helper/Identify';
+import { logoUrl } from 'src/simi/Helper/Url'
+import Image from 'src/simi/BaseComponents/Image'
 
 const productUrlSuffix = '.html';
 
 const Griditem = props => {
     const item = prepareProduct(props.item)
-    const logoUrl = Identify.logoUrl()
+    const logo_url = logoUrl()
     const { classes } = props
     if (!item) return '';
     const itemClasses = mergeClasses(defaultClasses, classes);
-    const { name, url_key, id, small_image, price, type_id } = item
+    const { name, url_key, id, price, type_id, small_image } = item
     const location = {
         pathname: `/${url_key}${productUrlSuffix}`,
         state: {
@@ -27,8 +28,6 @@ const Griditem = props => {
         },
     }
     
-    const [imageUrl, setImageUrl] = useState(small_image)
-
     const image = (
         <div 
             role="presentation"
@@ -36,11 +35,10 @@ const Griditem = props => {
             style={{borderColor: configColor.image_border_color,
                 backgroundColor: 'white'
             }}
-            onError={() => {if(imageUrl !== logoUrl) setImageUrl(logoUrl)}}
             >
             <div style={{position:'absolute',top:0,bottom:0,width: '100%', padding: 1}}>
                 <Link to={location}>
-                    {<img src={imageUrl} alt={name}/>}
+                    {<Image src={small_image} alt={name}/>}
                 </Link>
             </div>
         </div>
@@ -50,7 +48,7 @@ const Griditem = props => {
         <div className={`${itemClasses["product-item"]} ${itemClasses["siminia-product-grid-item"]}`}>
             {
                 props.lazyImage?
-                (<LazyLoad placeholder={<img alt={name} src={logoUrl} style={{maxWidth: 60, maxHeight: 60}}/>}>
+                (<LazyLoad placeholder={<img alt={name} src={logo_url} style={{maxWidth: 60, maxHeight: 60}}/>}>
                     {image}
                 </LazyLoad>):
                 image

@@ -27,3 +27,13 @@ export const convertToSlug = (Text) => {
         .replace(/ +/g,'-')
         ;
 }
+
+/*
+Logo Url
+*/
+
+export const logoUrl = () => {
+    return window.SMCONFIGS.logo_url ?
+        window.SMCONFIGS.logo_url :
+    'https://www.simicart.com/skin/frontend/default/simicart2.1/images/simicart/new_logo_small.png'
+}

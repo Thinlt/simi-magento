@@ -39,7 +39,7 @@ class Panel extends React.Component {
             styles.container = {
                 ...styles.container,
                 ...{
-                    boxShadow: '0px 1px 1px 1px rgba(45,45,45,0.35)'
+                    border: '1px solid rgba(112, 112, 112)'
                 },
                 ...containerStyle
             }

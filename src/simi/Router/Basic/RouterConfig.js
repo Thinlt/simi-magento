@@ -3,12 +3,13 @@ import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent'
 import CreateAccountPage from 'src/components/CreateAccountPage/index';
 import Home from 'src/simi/App/core/RootComponents/CMS/Home'
 
-import Checkout from 'src/simi/App/core/Checkout'
-import Thankyou from 'src/simi/App/core/Checkout/Thankyou'
+const Checkout = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/core/Checkout')} {...props}/>
+}
 
-// const Checkout = (props) => {
-//     return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/core/Checkout')} {...props}/>
-// }
+const Thankyou = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Thankyou"*/'src/simi/App/core/Checkout/Thankyou')} {...props}/>
+}
 
 const Login = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Login"*/'src/simi/App/core/Customer/Login')} {...props}/>
