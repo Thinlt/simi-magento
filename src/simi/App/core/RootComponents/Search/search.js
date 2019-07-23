@@ -9,7 +9,6 @@ import getQueryParameterValue from 'src/util/getQueryParameterValue';
 import Loading from 'src/simi/BaseComponents/Loading'
 import defaultClasses from './search.css';
 import PRODUCT_SEARCH from 'src/simi/queries/catalog/productSearch.graphql';
-import SIMI_PRODUCT_SEARCH from 'src/simi/queries/simiconnector/productSearch.graphql';
 import Products from 'src/simi/BaseComponents/Products'
 import CloseIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Close';
 import { compose } from 'redux';
@@ -102,9 +101,8 @@ const Search = props => {
         </div>
     );
 
-    const searchQuery = Identify.hasConnector()?SIMI_PRODUCT_SEARCH:PRODUCT_SEARCH
     return (
-        <Simiquery query={searchQuery} variables={queryVariable}>
+        <Simiquery query={PRODUCT_SEARCH} variables={queryVariable}>
             {({ loading, error, data }) => {
                 if (error) return <div>Data Fetch Error</div>;
                 if (loading) return <Loading />;

@@ -37,11 +37,10 @@ query productDetail($urlKey: String, $onServer: Boolean!) {
             ... on GroupedProduct {
                 ... GroupOptions
             }
-            meta_title @include(if: $onServer)
-            # Yes, Products have `meta_keyword` and
-            # everything else has `meta_keywords`.
+            meta_title
             meta_keyword @include(if: $onServer)
-            meta_description @include(if: $onServer)
+            meta_description
         }
     }
+  	simiProductDetailExtraField(filter: { url_key: { eq: $urlKey } })
 }

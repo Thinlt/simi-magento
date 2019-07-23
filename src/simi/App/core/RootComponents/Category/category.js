@@ -1,8 +1,7 @@
 import React from 'react';
 import LoadingSpiner from 'src/simi/BaseComponents/Loading/LoadingSpiner'
 import { number } from 'prop-types';
-import categoryQuery from 'src/simi/queries/catalog/getCategory.graphql';
-import simicntrCategoryQuery from 'src/simi/queries/simiconnector/getCategory.graphql'
+import simicntrCategoryQuery from 'src/simi/queries/catalog/getCategory.graphql'
 import Products from 'src/simi/BaseComponents/Products';
 import { resourceUrl } from 'src/simi/Helper/Url'
 import CategoryHeader from './categoryHeader'
@@ -48,7 +47,7 @@ const Category = props => {
     if (sortByData)
         variables.sort = sortByData
         
-    const cateQuery = Identify.hasConnector()?simicntrCategoryQuery:categoryQuery
+    const cateQuery = simicntrCategoryQuery
     return (
         <Simiquery query={cateQuery} variables={variables}>
             {({ loading, error, data }) => {

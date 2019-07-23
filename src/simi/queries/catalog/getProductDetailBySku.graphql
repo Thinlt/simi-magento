@@ -44,4 +44,5 @@ query productDetail($sku: String, $onServer: Boolean!) {
             meta_description @include(if: $onServer)
         }
     }
+  	simiProductDetailExtraField(filter:  { sku: { eq: $sku }})
 }

@@ -3,8 +3,7 @@ import { bool, func, shape, string } from 'prop-types';
 import { simiUseQuery } from 'src/simi/Network/Query'
 
 import { mergeClasses } from 'src/classify';
-import PRODUCT_SEARCH from 'src/simi/queries/catalog/productSearch.graphql';
-import SIMI_PRODUCT_SEARCH from 'src/simi/queries/simiconnector/productSearch.graphql';
+import searchQuery from 'src/simi/queries/catalog/productSearch.graphql'
 import Suggestions from './suggestions';
 import Close from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
 import defaultClasses from './searchAutoComplete.css';
@@ -38,7 +37,6 @@ const SearchAutoComplete = props => {
     useOutsideAlerter(wrapperRef, setVisible);
 
     //get search result
-    const searchQuery = Identify.hasConnector()?SIMI_PRODUCT_SEARCH:PRODUCT_SEARCH
     const [queryResult, queryApi] = simiUseQuery(searchQuery);
     const { data, error, loading } = queryResult;
     const { resetState, runQuery, setLoading } = queryApi;
