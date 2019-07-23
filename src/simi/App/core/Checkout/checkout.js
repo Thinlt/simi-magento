@@ -168,6 +168,11 @@ class Checkout extends Component {
         );
     }
 
+    get userSignedIn(){
+        const { user } = this.props;
+        return user && user.isSignedIn;
+    }
+
     placeOrder = () => {
         const { submitOrder, checkout, toggleMessages, cart } = this.props;
         const { paymentData, shippingAddress, shippingMethod, billingAddress } = checkout;
@@ -229,7 +234,7 @@ class Checkout extends Component {
     }
 
     get checkoutInner() {
-        const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail } = this;
+        const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail, userSignedIn } = this;
         const { isPhone } = this.state;
         const containerSty = isPhone ? { marginTop: 35 } : {};
         const { classes,
@@ -305,7 +310,13 @@ class Checkout extends Component {
         }
 
         if (checkout.step && checkout.step === 'receipt') {
-            this.handleLink('/thankyou.html');
+            const locate = {
+                pathname: '/thankyou.html',
+                state: {
+                    isUserSignedIn: userSignedIn
+                }
+              };
+            this.handleLink(locate);
         }
 
         if (!isCheckoutReady(checkout)) {
