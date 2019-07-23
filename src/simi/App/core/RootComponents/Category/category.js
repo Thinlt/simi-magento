@@ -54,7 +54,7 @@ const Category = props => {
                 if (error) return <div>Data Fetch Error</div>;
                 if (!data || !data.category) return <LoadingSpiner />;
 
-                if (data && data.simiproducts) {
+                if (data) {
                     data.products = applySimiProductListItemExtraField(data.simiproducts)
                     if (data.products.simi_filters)
                         data.products.filters = data.products.simi_filters

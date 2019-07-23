@@ -47,7 +47,7 @@ const SearchAutoComplete = props => {
     const rootClassName = visible ? classes.root_visible : classes.root_hidden;
     let message = '';
 
-    if(data && data.simiproducts)
+    if(data)
         data.products = applySimiProductListItemExtraField(data.simiproducts)
 
     if (error) {

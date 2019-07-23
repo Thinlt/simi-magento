@@ -107,7 +107,7 @@ const Search = props => {
                 if (error) return <div>Data Fetch Error</div>;
                 if (loading) return <Loading />;
 
-                if (data && data.simiproducts) {
+                if (data) {
                     data.products = applySimiProductListItemExtraField(data.simiproducts)
                     if (data.products.simi_filters)
                         data.products.filters = data.products.simi_filters

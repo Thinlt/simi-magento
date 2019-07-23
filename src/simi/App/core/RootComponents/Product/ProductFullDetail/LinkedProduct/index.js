@@ -5,6 +5,7 @@ import { simiUseQuery } from 'src/simi/Network/Query'
 import getLinkedProducts from 'src/simi/queries/catalog/getLinkedProducts.graphql'
 import Loading from "src/simi/BaseComponents/Loading"
 import { GridItem } from 'src/simi/BaseComponents/GridItem'
+import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
 
 const LinkedProducts = props => {
     const {product, history} = props
@@ -35,8 +36,9 @@ const LinkedProducts = props => {
             },[data])
 
             let linkedProducts = <Loading />
-            if (data && data.products && data.products.items) {
+            if (data && data.simiproducts && data.simiproducts.items) {
                 linkedProducts = []
+                data.products = applySimiProductListItemExtraField(data.simiproducts)
                 data.products.items.every((item, index) => {
                     let count = 0
                     if (count < maxItem) {
