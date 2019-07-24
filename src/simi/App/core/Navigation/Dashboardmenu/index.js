@@ -93,9 +93,9 @@ class Dashboardmenu extends React.Component {
                 else if (type === 20)
                     this.bottomContains.menu = true
             })
-            try {
-                $('#siminia-main-page').css('margin-bottom', '38px')
-            } catch (err) { }
+            // try {
+            //     $('#siminia-main-page').css('margin-bottom', '38px')
+            // } catch (err) { console.log(err)}
             return <BottomMenu parent={this} bottomMenuItems={props.bottomMenuItems} classes={props.classes} />
         }
         return <div></div>
