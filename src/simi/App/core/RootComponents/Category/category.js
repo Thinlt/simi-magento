@@ -11,6 +11,7 @@ import { withRouter } from 'react-router-dom';
 import {Simiquery} from 'src/simi/Network/Query'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
+import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
 
 var sortByData = null
 var filterData = null
@@ -60,8 +61,19 @@ const Category = props => {
                         data.products.filters = data.products.simi_filters
                 }
                 const categoryTitle = data && data.category ? data.category.name : '';
+                const breadcrumb = [{name: "Home", link: '/'}];
+                if(data && data.category && data.category.breadcrumbs instanceof Array) {
+                    data.category.breadcrumbs.forEach(item => {
+                        breadcrumb.push({name: item.category_name, link: '/' + item.category_url_key + '.html'})
+                    })
+
+                    breadcrumb.push({name: data.category.name})
+                } 
+                
+
                 return (
                     <div className="container">
+                        <BreadCrumb breadcrumb={breadcrumb} history={props.history}/>
                         {TitleHelper.renderMetaHeader({
                             title: data.category.meta_title?data.category.meta_title:data.category.name,
                             desc: data.category.meta_description
