@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-onchange */
 /* eslint-disable prefer-const */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
@@ -5,7 +6,6 @@ import React from 'react'
 import Pagination from 'src/simi/BaseComponents/Pagination'
 import Identify from 'src/simi/Helper/Identify'
 import Arrow from "src/simi/BaseComponents/Icon/Arrow";
-import DropDown from 'src/simi/BaseComponents/Dropdownoption';
 
 class PaginationTable extends Pagination {
     constructor(props) {
@@ -52,23 +52,18 @@ class PaginationTable extends Pagination {
     }
 
     changeLimit = (e) => {
-        const {setLimit, setTitle} = this.props;
+        const {setLimit} = this.props;
         setLimit(e.target.value)
-        setTitle(e.target.value)
     }
 
     renderDropDown = () => {
-        const {classes, title} = this.props;
+        const {classes} = this.props;
         return(
-            <div>
-            <DropDown title={`${title} items`} className={classes['dropdown-show-item']}>
-                <ul className={classes['dropdown-options']}>
-                    <li onClick={this.changeLimit} value={10}>10</li>
-                    <li onClick={this.changeLimit} value={20}>20</li>
-                </ul>
-            </DropDown>
-
-            </div>
+            <select itemType="number" className={classes['dropdown-show-item']} onChange={this.changeLimit}>
+                <option value={Number(10)}>10</option>
+                <option value={20}>20</option>
+                <option value={30}>30</option>
+            </select>
         )
     }
 
@@ -141,13 +136,17 @@ class PaginationTable extends Pagination {
             <div className={classes["config-page"]}
                  style={{
                      display : 'flex',
-                     alignItems : 'baseline',
+                     alignItems : 'center',
                      justifyContent : 'space-between',
                      clear: 'both'
                  }}
             >
-                {itemsPerPage}
-                {this.renderDropDown()}
+                <div style={{display:"flex", alignItems:"center"}}>
+                    {itemsPerPage}
+                    <div style={{display:"flex"}}>
+                        {Identify.__("Show")} {this.renderDropDown()}{Identify.__(" per page")}
+                    </div>
+                </div>
                 {pagesSelection}
             </div>
         )

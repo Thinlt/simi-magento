@@ -10,6 +10,8 @@ import { Link } from 'src/drivers';
 import LazyLoad from 'react-lazyload';
 import { logoUrl } from 'src/simi/Helper/Url'
 import Image from 'src/simi/BaseComponents/Image'
+import {StaticRate} from 'src/simi/BaseComponents/Rate'
+import Identify from 'src/simi/Helper/Identify'
 
 const productUrlSuffix = '.html';
 
@@ -19,7 +21,7 @@ const Griditem = props => {
     const { classes } = props
     if (!item) return '';
     const itemClasses = mergeClasses(defaultClasses, classes);
-    const { name, url_key, id, price, type_id, small_image } = item
+    const { name, url_key, id, price, type_id, small_image, simiExtraField } = item
     const location = {
         pathname: `/${url_key}${productUrlSuffix}`,
         state: {
@@ -54,6 +56,17 @@ const Griditem = props => {
                 image
             }
             <div className={itemClasses["siminia-product-des"]}>
+                {
+                    (simiExtraField && simiExtraField.app_reviews) && 
+                    (
+                        <div className={itemClasses["item-review-rate"]}>
+                            <StaticRate rate={simiExtraField.app_reviews.rate} classes={itemClasses}/>
+                            <span className={itemClasses["item-review-count"]}>
+                                ({simiExtraField.app_reviews.number} {(simiExtraField.app_reviews.number)?Identify.__('Reviews'):Identify.__('Review')})
+                            </span>
+                        </div>
+                    )
+                }
                 <div role="presentation" className={`${itemClasses["product-name"]} ${itemClasses["small"]}`} onClick={()=>props.handleLink(location)}>{ReactHTMLParse(name)}</div>
                 <div role="presentation" className={itemClasses["prices-layout"]} id={`price-${id}`} onClick={()=>props.handleLink(location)}>
                     <Price
