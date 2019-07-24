@@ -1,4 +1,4 @@
-import React , { useState } from 'react';
+import React from 'react';
 import defaultClasses from './item.css'
 import {configColor} from 'src/simi/Config';
 import PropTypes from 'prop-types';
@@ -9,16 +9,19 @@ import {prepareProduct} from 'src/simi/Helper/Product'
 import { Link } from 'src/drivers';
 import LazyLoad from 'react-lazyload';
 import { logoUrl } from 'src/simi/Helper/Url'
+import Image from 'src/simi/BaseComponents/Image'
+import {StaticRate} from 'src/simi/BaseComponents/Rate'
+import Identify from 'src/simi/Helper/Identify'
 
 const productUrlSuffix = '.html';
 
 const Griditem = props => {
     const item = prepareProduct(props.item)
-    const logoUrl = logoUrl()
+    const logo_url = logoUrl()
     const { classes } = props
     if (!item) return '';
     const itemClasses = mergeClasses(defaultClasses, classes);
-    const { name, url_key, id, small_image, price, type_id } = item
+    const { name, url_key, id, price, type_id, small_image, simiExtraField } = item
     const location = {
         pathname: `/${url_key}${productUrlSuffix}`,
         state: {
@@ -27,8 +30,6 @@ const Griditem = props => {
         },
     }
     
-    const [imageUrl, setImageUrl] = useState(small_image)
-
     const image = (
         <div 
             role="presentation"
@@ -36,11 +37,10 @@ const Griditem = props => {
             style={{borderColor: configColor.image_border_color,
                 backgroundColor: 'white'
             }}
-            onError={() => {if(imageUrl !== logoUrl) setImageUrl(logoUrl)}}
             >
             <div style={{position:'absolute',top:0,bottom:0,width: '100%', padding: 1}}>
                 <Link to={location}>
-                    {<img src={imageUrl} alt={name}/>}
+                    {<Image src={small_image} alt={name}/>}
                 </Link>
             </div>
         </div>
@@ -50,12 +50,23 @@ const Griditem = props => {
         <div className={`${itemClasses["product-item"]} ${itemClasses["siminia-product-grid-item"]}`}>
             {
                 props.lazyImage?
-                (<LazyLoad placeholder={<img alt={name} src={logoUrl} style={{maxWidth: 60, maxHeight: 60}}/>}>
+                (<LazyLoad placeholder={<img alt={name} src={logo_url} style={{maxWidth: 60, maxHeight: 60}}/>}>
                     {image}
                 </LazyLoad>):
                 image
             }
             <div className={itemClasses["siminia-product-des"]}>
+                {
+                    (simiExtraField && simiExtraField.app_reviews) && 
+                    (
+                        <div className={itemClasses["item-review-rate"]}>
+                            <StaticRate rate={simiExtraField.app_reviews.rate} classes={itemClasses}/>
+                            <span className={itemClasses["item-review-count"]}>
+                                ({simiExtraField.app_reviews.number} {(simiExtraField.app_reviews.number)?Identify.__('Reviews'):Identify.__('Review')})
+                            </span>
+                        </div>
+                    )
+                }
                 <div role="presentation" className={`${itemClasses["product-name"]} ${itemClasses["small"]}`} onClick={()=>props.handleLink(location)}>{ReactHTMLParse(name)}</div>
                 <div role="presentation" className={itemClasses["prices-layout"]} id={`price-${id}`} onClick={()=>props.handleLink(location)}>
                     <Price

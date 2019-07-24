@@ -1,6 +1,7 @@
 .dropdown-show-item{
     position: inherit;
     width: auto;
+    margin: 0 5px;
 }
 
 .dropdown-show-item .dropdown-options li:hover{

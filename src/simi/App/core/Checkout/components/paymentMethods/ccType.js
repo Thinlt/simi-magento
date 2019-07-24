@@ -4,7 +4,6 @@ import Identify from 'src/simi/Helper/Identify';
 const $ = window.$;
 
 const ccType = (props) => {
-    console.log('cc type');
     const onCCNUmberInput = e => {
         $(e.currentTarget).val(formatCC(e.currentTarget.value));
     };
@@ -47,7 +46,8 @@ const ccType = (props) => {
     };
 
     return <form className={defaultClass['cc-form-fields']}>
-        <div className="container-cc_form">
+        Coming soon!
+        {/* <div className="container-cc_form">
             <div className="cc-field">
                 <label htmlFor="cc_number">
                     {Identify.__('Credit Card Number')}
@@ -55,7 +55,7 @@ const ccType = (props) => {
                 </label>
                 <input name="cc_number" id="cc_number" className='required' type="text" onInput={(e) => onCCNUmberInput(e)} placeholder="xxxx - xxxx - xxxx - xxxx" />
             </div>
-        </div>
+        </div> */}
     </form>
 }
 

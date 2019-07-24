@@ -62,7 +62,6 @@ const PaymentsFormItems = props => {
     if (initialValues && !isObjectEmpty(initialValues)) {
         if (initialValues.value) {
             thisInitialValue = initialValues.value;
-            // thisInitialValue.title = initialValues.label;
         }
     }
 
@@ -102,7 +101,7 @@ const PaymentsFormItems = props => {
     const handleSubmit = useCallback(() => {
         setIsSubmitting(true);
     }, [setIsSubmitting]);
-    console.log(selectablePaymentMethods);
+
     const renderMethod = () => {
         let mt = null;
         if (selectablePaymentMethods.length) {
@@ -123,7 +122,6 @@ const PaymentsFormItems = props => {
                 }
 
                 if (ite.value === 'cc_type' && formState.values['payment_method'] === ite.value) {
-                    console.log('aaa');
                     frameCard = <CCType />
                 }
 

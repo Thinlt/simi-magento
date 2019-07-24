@@ -15,7 +15,7 @@ import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/Gl
 const OrderList = props => {
     const { classes, showForDashboard, data } = props
     const [limit, setLimit] = useState(10);
-    const [title, setTitle] = useState('Show')
+    const [title, setTitle] = useState(10)
     const cols =
         [
             { title: Identify.__("Order #"), width: "14.02%" },
@@ -91,7 +91,7 @@ const OrderList = props => {
                         data={showForDashboard ? data.customerOrders.items.slice(0, 3) : data.customerOrders.items}
                         cols={cols}
                         showPageNumber={!showForDashboard}
-                        limit={limit}
+                        limit={typeof(limit) === 'string' ? parseInt(limit): limit}
                         setLimit={setLimit}
                         currentPage={currentPage}
                         classes={classes}

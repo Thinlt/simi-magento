@@ -1,15 +1,12 @@
-import React, { useCallback, Fragment, useState, useMemo } from 'react';
+import React, { useCallback, Fragment, useState } from 'react';
 import { useFormState } from 'informed';
 import { Util } from '@magento/peregrine';
 import {
     validateEmail,
-    isRequired,
-    hasLengthExactly,
-    /* validateRegionCode */
+    isRequired
 } from 'src/util/formValidators';
 
 import defaultClasses from './formFields.css';
-import { mergeClasses } from 'src/classify'
 import combine from 'src/util/combineValidators';
 import TextInput from 'src/components/TextInput';
 import Field from 'src/components/Field';
@@ -56,7 +53,6 @@ const listState = (states) => {
     return html;
 }
 
-let existCustomer = false;
 let showState = null;
 
 const FormFields = (props) => {
@@ -78,11 +74,13 @@ const FormFields = (props) => {
 
     const { addresses, default_billing, default_shipping } = currentUser;
 
+    const checkCustomer = false;
+
     const [shippingNewForm, setShippingNewForm] = useState(false);
     const [handlingEmail, setHandlingEmail] = useState(false)
-    // const [existCustomer, setExistCustomer] = useState(false);
+    const [existCustomer, setExistCustomer] = useState(checkCustomer);
 
-    existCustomer = isSignedIn ? false : existCustomer;
+    // existCustomer = isSignedIn ? false : existCustomer;
 
     const formState = useFormState();
 
@@ -134,9 +132,9 @@ const FormFields = (props) => {
     const processData = (data) => {
         setHandlingEmail(false);
         if (data.hasOwnProperty('customer') && !isObjectEmpty(data.customer) && data.customer.email) {
-            existCustomer = true;
+            setExistCustomer(true);
         } else {
-            existCustomer = false
+            setExistCustomer(false);
         }
     }
 
@@ -216,7 +214,7 @@ const FormFields = (props) => {
             </div>}
             {!isSignedIn || !default_billing || shippingNewForm ?
                 <Fragment>
-                    <div className={classes.email}>
+                    {!isSignedIn && <div className={classes.email}>
                         <Field label={Identify.__("Email")}>
                             <TextInput
                                 id={classes.email}
@@ -226,7 +224,7 @@ const FormFields = (props) => {
                             />
                             {handlingEmail && <LoadingImg divStyle={{ marginTop: 5 }} />}
                         </Field>
-                    </div>
+                    </div>}
                     {existCustomer && <Fragment>
                         <div className={classes.password}>
                             <Field label="Password">
@@ -422,7 +420,7 @@ const FormFields = (props) => {
 
     return <Fragment>
         <div className={classes.body}>
-            {billingForm && <Checkbox field="addresses_same" label="Billing address same as shipping address" onChange={() => checkSameShippingAddress()} />}
+            {billingForm && <Checkbox field="addresses_same" label={Identify.__("Billing address same as shipping address")} onChange={() => checkSameShippingAddress()} />}
             {viewFields}
         </div>
         {viewSubmit}
