@@ -8,8 +8,7 @@ import Identify from 'src/simi/Helper/Identify'
 import Connection from 'src/simi/Network/SimiConnection'
 import LoadingComponent  from 'src/simi/BaseComponents/Loading'
 import * as Constants from 'src/simi/Config/Constants';
-import storeConfigDataQuery from 'src/simi/queries/getStoreConfigData.graphql'
-import simiStoreConfigDataQuery from 'src/simi/queries/simiconnector/getStoreConfigData.graphql'
+import simiStoreConfigDataQuery from 'src/simi/queries/getStoreConfigData.graphql'
 import { Simiquery } from 'src/simi/Network/Query'
 import defaultClasses from './main.css';
 
@@ -62,7 +61,7 @@ class Main extends Component {
                 </div>
                 { Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, Constants.STORE_CONFIG) ?
                     this.mainContent(Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, Constants.STORE_CONFIG)) :
-                    <Simiquery query={Identify.hasConnector()?simiStoreConfigDataQuery:storeConfigDataQuery}>
+                    <Simiquery query={simiStoreConfigDataQuery}>
                         {({ data }) => {
                             if (data && data.storeConfig) {
                                 Identify.saveStoreConfig(data)

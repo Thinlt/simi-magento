@@ -8,7 +8,6 @@ import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/Gl
 import ProductImage from './ProductImage';
 import Quantity from './ProductQuantity';
 import defaultClasses from './productFullDetail.css';
-import appendOptionsToPayload from 'src/util/appendOptionsToPayload';
 import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
 import TitleHelper from 'src/simi/Helper/TitleHelper'
@@ -102,11 +101,9 @@ class ProductFullDetail extends Component {
     }
 
     addToCart = () => {
-        const { props, state, quantity } = this;
-        const { optionSelections, optionCodes } = state;
-        const { addItemToCart, product } = props;
-
-        if (Identify.hasConnector() && product && product.id) {
+        const { props } = this;
+        const {  product } = props;
+        if (product && product.id) {
             this.missingOption = false
             const params = this.prepareParams()
             if (this.missingOption) {
@@ -115,17 +112,6 @@ class ProductFullDetail extends Component {
             }
             showFogLoading()
             simiAddToCart(this.addToCartCallBack, params)
-        } else {
-            const payload = {
-                item: product,
-                productType: product.__typename,
-                quantity
-            };
-            if (isProductConfigurable(product)) {
-                appendOptionsToPayload(payload, optionSelections, optionCodes);
-            }
-            showFogLoading()
-            addItemToCart(payload);
         }
     };
 
@@ -143,7 +129,7 @@ class ProductFullDetail extends Component {
         const {product, isSignedIn, history} = this.props
         if (!isSignedIn) {
             history.push('/login.html')
-        } else if (Identify.hasConnector() && product && product.id) {
+        } else if (product && product.id) {
             this.missingOption = false
             const params = this.prepareParams()
             showFogLoading()
@@ -273,7 +259,7 @@ class ProductFullDetail extends Component {
         hideFogLoading()
         const { addToCart, mediaGalleryEntries, productOptions, props, state, addToWishlist } = this;
         const { optionCodes, optionSelections, } = state
-        const { classes, isSignedIn } = props;
+        const { classes } = props;
         const product = prepareProduct(props.product)
         console.log(product)
         const { type_id, name, simiExtraField } = product;

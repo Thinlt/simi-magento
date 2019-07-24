@@ -4,9 +4,7 @@ import { string } from 'prop-types';
 import Loading from 'src/simi/BaseComponents/Loading'
 import ProductFullDetail from './ProductFullDetail';
 import getUrlKey from 'src/util/getUrlKey';
-import magentoProductQuery from 'src/simi/queries/catalog/getProductDetail.graphql';
-import simiProductQuery from 'src/simi/queries/simiconnector/getProductDetail.graphql';
-import Identify from 'src/simi/Helper/Identify'
+import productQuery from 'src/simi/queries/catalog/getProductDetail.graphql';
 import { Simiquery } from 'src/simi/Network/Query'
 
 /**
@@ -36,7 +34,6 @@ class Product extends Component {
     }
 
     render() {
-        const productQuery = Identify.hasConnector()?simiProductQuery:magentoProductQuery
         return (
             <Simiquery
                 query={productQuery}
