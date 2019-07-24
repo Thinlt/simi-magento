@@ -1,17 +1,19 @@
 import React, { useCallback, Fragment } from 'react';
 import { array, bool, func, object, oneOf, shape, string } from 'prop-types';
 
-import AddressForm from './addressForm';
-import PaymentsForm from './paymentsForm';
-import ShippingForm from './shippingForm';
+import AddressForm from './AddressForm/AddressForm';
+import PaymentsForm from './PaymentsForm/PaymentsForm';
+import ShippingForm from './ShippingForm/ShippingForm';
 import AddressItem from 'src/simi/BaseComponents/Address';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import defaultClass from './editableForm.css';
+import Identify from 'src/simi/Helper/Identify';
 
 /**
  * The EditableForm component renders the actual edit forms for the sections
  * within the form.
  */
+
 const EditableForm = props => {
     const {
         editing,
@@ -26,7 +28,8 @@ const EditableForm = props => {
         submitBillingAddress,
         submitPaymentMethod,
         user,
-        simiSignedIn
+        simiSignedIn,
+        paymentCode
     } = props;
 
     const handleCancel = useCallback(() => {
@@ -76,7 +79,8 @@ const EditableForm = props => {
 
     switch (editing) {
         case 'address': {
-            let { shippingAddress, billingAddress } = props;
+            const {billingAddress} = props;
+            let { shippingAddress } = props;
             if (!shippingAddress) {
                 shippingAddress = undefined;
             }
@@ -97,7 +101,7 @@ const EditableForm = props => {
                         simiSignedIn={simiSignedIn}
                     />
                     {shippingAddress && !isObjectEmpty(shippingAddress) ?
-                    <AddressItem classes={defaultClass} data={shippingAddress} /> : null}
+                        <AddressItem classes={defaultClass} data={shippingAddress} /> : null}
                 </Fragment>
             );
         }
@@ -109,17 +113,22 @@ const EditableForm = props => {
             }
 
             return (
-                <AddressForm
-                    cancel={handleCancel}
-                    countries={countries}
-                    isAddressInvalid={isAddressInvalid}
-                    invalidAddressMessage={invalidAddressMessage}
-                    initialValues={billingAddress}
-                    submit={handleSubmitBillingForm}
-                    submitting={submitting}
-                    billingForm={true}
-                    user={user}
-                />
+                <Fragment>
+                    <AddressForm
+                        cancel={handleCancel}
+                        countries={countries}
+                        isAddressInvalid={isAddressInvalid}
+                        invalidAddressMessage={invalidAddressMessage}
+                        initialValues={billingAddress}
+                        submit={handleSubmitBillingForm}
+                        submitting={submitting}
+                        billingForm={true}
+                        user={user}
+                    />
+                    {billingAddress && !isObjectEmpty(billingAddress) && !billingAddress.hasOwnProperty('sameAsShippingAddress') ?
+                        <AddressItem classes={defaultClass} data={billingAddress} /> : null}
+                </Fragment>
+
             );
         }
 
@@ -134,9 +143,11 @@ const EditableForm = props => {
                     cancel={handleCancel}
                     countries={countries}
                     initialValues={paymentData}
+                    paymentCode={paymentCode}
                     submit={handleSubmitPaymentsForm}
                     submitting={submitting}
                     paymentMethods={paymentMethods}
+                    key={Identify.randomString()}
                 />
             );
         }
@@ -151,6 +162,7 @@ const EditableForm = props => {
                     shippingMethod={shippingMethod}
                     submit={handleSubmitShippingForm}
                     submitting={submitting}
+                    key={Identify.randomString()}
                 />
             );
         }

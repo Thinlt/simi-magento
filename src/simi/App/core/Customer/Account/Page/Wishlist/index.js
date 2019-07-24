@@ -1,41 +1,52 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'src/drivers';
 import Identify from 'src/simi/Helper/Identify'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
-import Loading from "src/simi/BaseComponents/Loading";
 import Item from "./Item";
-import { simiUseQuery } from 'src/simi/Network/Query'
-import getWishlistQuery from 'src/simi/queries/wishlist/getWishlist.graphql'
+import {getWishlist} from 'src/simi/Model/Wishlist'
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { getCartDetails } from 'src/actions/cart';
-import {hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import classes from './index.css'
 import Pagination from 'src/simi/BaseComponents/Pagination';
+import Loading from 'src/simi/BaseComponents/Loading'
+import {hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
+import {smoothScrollToView} from 'src/simi/Helper/Behavior'
 
-const Wishlist = props => {
+const Wishlist = props => {    
     const { history, toggleMessages, getCartDetails} = props    
-    const [queryResult, queryApi] = simiUseQuery(getWishlistQuery, false);
-    const { data } = queryResult;
-    const { runQuery } = queryApi;
+    const [data, setData] = useState(null)
 
-    const getWishlist = () => {
-        runQuery({});
+    const gotWishlist = (data) => {
+        hideFogLoading()
+        if (data.errors && data.errors.length) {
+            const errors = data.errors.map(error => {
+                return {
+                    type: 'error',
+                    message: error.message,
+                    auto_dismiss: true
+                }
+            });
+            toggleMessages(errors)
+        } else {
+            setData(data)
+        }
     }
 
-    useEffect(() => {
-        if (!data) {        
-            getWishlist();
-        }
-    }, [data]);
+    const getWishlistItem = () => {
+        getWishlist(gotWishlist, {limit: 9999, no_price: 1})
+    }
 
-    
+    if (!data) {
+        getWishlistItem()
+    }
+
     const renderItem = (item, index) => {
         return (
             <div
+                key={item.wishlist_item_id}
                 className={`${
                     index % 4 === 0 ? classes["first"] : ""
                 } ${classes['siminia-wishlist-item']}`}
-                key={item.id}
             >
                 <Item
                     item={item}
@@ -46,7 +57,7 @@ const Wishlist = props => {
                     classes={classes}
                     showBuyNow={true}
                     parent={this}
-                    getWishlist={getWishlist}
+                    getWishlist={getWishlistItem}
                     toggleMessages={toggleMessages}
                     getCartDetails={getCartDetails}
                     history={history}
@@ -56,23 +67,29 @@ const Wishlist = props => {
     }
 
     let rows = null
-    if (!data || !data.wishlist) {
-        return <Loading />;
-    } else {
-        hideFogLoading()
-        const {wishlist} = data
-        if (wishlist.items_count && wishlist.items && wishlist.items.length) {
-            const wishlistData = wishlist.items;
-            return (
-                rows = <Pagination data={wishlistData} renderItem={renderItem} classes={classes} itemsPerPageOptions={[8, 16, 32]} limit={8}/>
+    if (data && data.wishlistitems) {
+        const {wishlistitems, total} = data
+        if (total && wishlistitems && wishlistitems.length) {
+            rows = (
+                <Pagination 
+                    data={wishlistitems} 
+                    renderItem={renderItem} 
+                    classes={classes} 
+                    itemsPerPageOptions={[2, 8, 16, 32]} 
+                    limit={8}
+                    itemCount={total}
+                    changedPage={()=>smoothScrollToView($('#root'))}
+                    changeLimit={()=>smoothScrollToView($('#root'))}
+                />
             )
         }
+    } else {
+        rows = <Loading />
     }
-
     return (
         <div className={classes["account-my-wishlist"]}>
             {TitleHelper.renderMetaHeader({
-                title:Identify.__('Favourites')
+                    title:Identify.__('Favourites')
             })}
             <div className={classes["customer-page-title"]}>
                 {Identify.__("Favourites")}

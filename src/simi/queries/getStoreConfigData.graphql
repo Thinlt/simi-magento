@@ -1,4 +1,10 @@
-query storeConfigData {
+query storeConfigData($storeId: Int, $currency: String) {
+    simiStoreConfig(storeId: $storeId, currency: $currency) {
+        store_id
+        currency
+        pwa_studio_client_ver_number
+        config_json
+    }
     storeConfig {
         id
         copyright

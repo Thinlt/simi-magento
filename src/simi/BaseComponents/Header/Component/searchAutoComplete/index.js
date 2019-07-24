@@ -3,12 +3,12 @@ import { bool, func, shape, string } from 'prop-types';
 import { simiUseQuery } from 'src/simi/Network/Query'
 
 import { mergeClasses } from 'src/classify';
-import PRODUCT_SEARCH from 'src/simi/queries/catalog/productSearch.graphql';
-import SIMI_PRODUCT_SEARCH from 'src/simi/queries/simiconnector/productSearch.graphql';
+import searchQuery from 'src/simi/queries/catalog/productSearch.graphql'
 import Suggestions from './suggestions';
 import Close from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
 import defaultClasses from './searchAutoComplete.css';
 import Identify from 'src/simi/Helper/Identify'
+import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
 
 
 function useOutsideAlerter(ref, setVisible) {
@@ -37,7 +37,6 @@ const SearchAutoComplete = props => {
     useOutsideAlerter(wrapperRef, setVisible);
 
     //get search result
-    const searchQuery = Identify.hasConnector()?SIMI_PRODUCT_SEARCH:PRODUCT_SEARCH
     const [queryResult, queryApi] = simiUseQuery(searchQuery);
     const { data, error, loading } = queryResult;
     const { resetState, runQuery, setLoading } = queryApi;
@@ -48,8 +47,8 @@ const SearchAutoComplete = props => {
     const rootClassName = visible ? classes.root_visible : classes.root_hidden;
     let message = '';
 
-    if(data && data.simiproducts)
-        data.products = data.simiproducts
+    if(data)
+        data.products = applySimiProductListItemExtraField(data.simiproducts)
 
     if (error) {
         message = Identify.__('An error occurred while fetching results.');

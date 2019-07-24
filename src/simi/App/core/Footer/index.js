@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import defaultStyle from './style.css'
 import classify from 'src/classify';
-import Newsletter from './Newsletter';
+// import Newsletter from './Newsletter';
 import Identify from "src/simi/Helper/Identify";
 import {Link} from 'react-router-dom';
 import Copyright from './Copyright';
@@ -13,33 +13,34 @@ import Expansion from 'src/simi/BaseComponents/Expansion'
 const Footer = props => {
     const {classes} = props;
     const [isPhone, setIsPhone] = useState(window.innerWidth < 1024);
+    const $ = window.$;
     const [expanded, setExpanded] = useState(null);
-    let pagec1 = 1;
-    let pagep2 = 2;
+    const pagec1 = 1;
+    const pagep2 = 2;
     const pageCustomerServices = [
         {
             id: 1,
-            link: "/",
+            link: "#",
             title: "About"
         },
         {
             id: 2,
-            link: "/",
+            link: "#",
             title: "Delivery & returns"
         },
         {
             id: 3,
-            link: "/",
+            link: "#",
             title: "Trade services"
         },
         {
             id: 4,
-            link: "/",
+            link: "#",
             title: "Branch Finder"
         },
         {
             id: 5,
-            link: "/",
+            link: "/contact.html",
             title: "Contact us"
         }
     ];
@@ -47,17 +48,17 @@ const Footer = props => {
     const pagePolicies = [
         {
             id: 1,
-            link: "/",
+            link: "#",
             title: "Terms & Conditions of supply"
         },
         {
             id: 2,
-            link: "/",
+            link: "#",
             title: "Terms of use"
         },
         {
             id: 3,
-            link: "/",
+            link: "#",
             title: "Privacy & cookie policy"
         }
     ];
@@ -69,7 +70,7 @@ const Footer = props => {
             result = pages.map((page, index) => {
                 return (
                     <li key={index}>
-                        <Link to="/">{page.title}</Link>
+                        <Link to={page.link}>{page.title}</Link>
                     </li>
                 );
             })
@@ -79,13 +80,13 @@ const Footer = props => {
     }
 
     const resizePhone = () => {
-        window.onresize = function () {
+        $(window).resize(function() {
             const width = window.innerWidth;
             const newIsPhone = width < 1024
             if(isPhone !== newIsPhone){
                 setIsPhone(newIsPhone)
             }
-        }
+        })
     }
 
     const handleExpand = (expanded) => {
@@ -93,8 +94,8 @@ const Footer = props => {
     }
 
     useEffect(() => {
-        resizePhone()
-    }, [])
+        resizePhone();
+    })
 
     return (
         <div className={classes['footer-app']}>
@@ -142,13 +143,13 @@ const Footer = props => {
                                 {Identify.__("Connect")}
                             </span>
                             <div className={classes["social__md-block"]}>
-                                <a href='/' target="__blank">
+                                <a href='https://www.facebook.com/simicart' target="__blank">
                                     <Facebook className={classes["facebook-icon"]} style={{width: "50px", height: "50px"}} />
                                 </a>
-                                <a href='/' target="__blank">
+                                <a href='https://twitter.com/SimiCart' target="__blank">
                                     <Twitter className={classes["twitter-icon"]} style={{width: "50px", height: "50px"}} />
                                 </a>
-                                <a href='/' target="__blank">
+                                <a href='https://www.instagram.com/simicart.official/' target="__blank">
                                     <Instagram className={classes["instagram-icon"]} style={{width: "50px", height: "50px"}} />
                                 </a>
                             </div>

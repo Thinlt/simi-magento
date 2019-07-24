@@ -1,5 +1,6 @@
 import React, { Component, Suspense } from 'react';
 import { arrayOf, bool, number, shape, string } from 'prop-types';
+import {smoothScrollToView} from 'src/simi/Helper/Behavior'
 import classify from 'src/classify';
 import Loading from 'src/simi/BaseComponents/Loading'
 import { Colorbtn, Whitebtn } from 'src/simi/BaseComponents/Button'
@@ -7,7 +8,6 @@ import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/Gl
 import ProductImage from './ProductImage';
 import Quantity from './ProductQuantity';
 import defaultClasses from './productFullDetail.css';
-import appendOptionsToPayload from 'src/util/appendOptionsToPayload';
 import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
 import TitleHelper from 'src/simi/Helper/TitleHelper'
@@ -23,6 +23,7 @@ import { TopReview, ReviewList, NewReview } from './Review/index'
 import SocialShare from 'src/simi/BaseComponents/SocialShare';
 import Description from './Description';
 import Techspec from './Techspec';
+import LinkedProduct from './LinkedProduct';
 
 const ConfigurableOptions = React.lazy(() => import('./Options/ConfigurableOptions'));
 const CustomOptions = React.lazy(() => import('./Options/CustomOptions'));
@@ -100,11 +101,9 @@ class ProductFullDetail extends Component {
     }
 
     addToCart = () => {
-        const { props, state, quantity } = this;
-        const { optionSelections, optionCodes } = state;
-        const { addItemToCart, product } = props;
-
-        if (Identify.hasConnector() && product && product.id) {
+        const { props } = this;
+        const {  product } = props;
+        if (product && product.id) {
             this.missingOption = false
             const params = this.prepareParams()
             if (this.missingOption) {
@@ -113,17 +112,6 @@ class ProductFullDetail extends Component {
             }
             showFogLoading()
             simiAddToCart(this.addToCartCallBack, params)
-        } else {
-            const payload = {
-                item: product,
-                productType: product.__typename,
-                quantity
-            };
-            if (isProductConfigurable(product)) {
-                appendOptionsToPayload(payload, optionSelections, optionCodes);
-            }
-            showFogLoading()
-            addItemToCart(payload);
         }
     };
 
@@ -141,7 +129,7 @@ class ProductFullDetail extends Component {
         const {product, isSignedIn, history} = this.props
         if (!isSignedIn) {
             history.push('/login.html')
-        } else if (Identify.hasConnector() && product && product.id) {
+        } else if (product && product.id) {
             this.missingOption = false
             const params = this.prepareParams()
             showFogLoading()
@@ -275,7 +263,7 @@ class ProductFullDetail extends Component {
         const product = prepareProduct(props.product)
         console.log(product)
         const { type_id, name, simiExtraField } = product;
-        const hasReview = simiExtraField && simiExtraField.app_reviews
+        const hasReview = simiExtraField && simiExtraField.app_reviews && simiExtraField.app_reviews.number
         return (
             <div className={`${classes.root} container`}>
                 {this.breadcrumb(product)}
@@ -298,6 +286,9 @@ class ProductFullDetail extends Component {
                 </div>
                 <div className={classes.mainActions}>
                     {hasReview ? <div className={classes.topReview}><TopReview app_reviews={product.simiExtraField.app_reviews}/></div> : ''}
+                    <div role="presentation" className={classes.reviewBtn} onClick={()=>smoothScrollToView($('#product-detail-new-review'))}>
+                        {hasReview ? Identify.__('Submit Review') : Identify.__('Be the first to review this product')}
+                    </div>
                     <div className={classes.productPrice}>
                         <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections}/>
                     </div>
@@ -331,7 +322,11 @@ class ProductFullDetail extends Component {
                 {(simiExtraField && simiExtraField.additional && simiExtraField.additional.length) ?
                     <div className={classes.techspec}><Techspec product={product}/></div> : ''}
                 <div className={classes.reviewList}><ReviewList product_id={product.id}/></div>
-                <div className={classes.newReview}><NewReview product={product} toggleMessages={this.props.toggleMessages}/></div>
+                <div className={classes.newReview} id="product-detail-new-review">
+                    <NewReview product={product} toggleMessages={this.props.toggleMessages}/>
+                </div>
+                <LinkedProduct product={product} link_type="related" history={this.props.history}/>
+                <LinkedProduct product={product} link_type="crosssell" history={this.props.history}/>
             </div>
         );
     }

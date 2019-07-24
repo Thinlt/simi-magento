@@ -10,10 +10,9 @@ import { compose } from 'redux';
 import ProductList from './ProductList';
 import Identify from 'src/simi/Helper/Identify';
 import * as Constants from 'src/simi/Config/Constants';
-
+import './home.scss'
 const Home = props => {
     const { classes, history } = props;
-    const $ = window.$;
     const [isPhone, setIsPhone] = useState(window.innerWidth < 1024)
     const simiSessId = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID)
     const cached_home = simiSessId?Identify.ApiDataStorage(`home_lite_${simiSessId}`):null
@@ -34,10 +33,6 @@ const Home = props => {
             getHomeData(setData);
         }
         resizePhone();
-
-        if(isPhone) {
-            $('#siminia-main-page').css('margin-bottom', 'unset')
-        }
     },[data, isPhone])
 
     const setData = (data) => {

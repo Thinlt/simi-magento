@@ -1,5 +1,5 @@
 #import "../Fragments/SimiPrice"
-query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, $sort: ProductSortInput) {
+query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, $sort: ProductSortInput, $simiFilter: String) {
     category(id: $id) {
         product_count
             description
@@ -12,14 +12,18 @@ query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, 
         category_url_key
         __typename
         }
+        meta_title
+        meta_keywords
+        meta_description
         __typename
     }
-    products(pageSize: $pageSize, currentPage: $currentPage, filter: {category_id: {eq: $stringId}}, sort: $sort) {
+    simiproducts(pageSize: $pageSize, currentPage: $currentPage, filter: {category_id: {eq: $stringId}}, sort: $sort, simiFilter: $simiFilter) {
         total_count
         filters {
         name
         filter_items_count
         request_var
+        filter_items_count
         filter_items {
             label
             value_string
@@ -27,11 +31,36 @@ query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, 
         }
         __typename
         }
+        simi_filters {
+        name
+        filter_items_count
+        request_var
+        filter_items_count
+        filter_items {
+            label
+            value_string
+            __typename
+        }
+        __typename
+        }
+        sort_fields {
+            default
+            options {
+                value
+                label
+            }
+            __typename
+        }
         items {
             id
             name
             sku
             small_image {
+                url
+                label
+                __typename
+            }
+            thumbnail {
                 url
                 label
                 __typename
@@ -48,11 +77,16 @@ query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, 
             price {
                 ... SimiPrice
             }
+        __typename
         }
         page_info {
             total_pages
         }
         total_count
+        simiProductListItemExtraField {
+            sku
+            extraData
+        }
         __typename
     }
 }

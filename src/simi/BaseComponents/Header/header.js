@@ -12,6 +12,7 @@ import { Link } from 'src/drivers';
 import HeaderNavigation from './Component/HeaderNavigation'
 import MyAccount from './Component/MyAccount'
 import { withRouter } from 'react-router-dom';
+import { logoUrl } from 'src/simi/Helper/Url'
 
 const SearchForm = React.lazy(() => import('./Component/SearchForm'));
 
@@ -45,7 +46,7 @@ class Header extends React.Component{
             <div className={`${this.classes['search-icon']} ${this.classes['header-logo']}`} >
                 <Link to='/'>
                     <img 
-                        src={Identify.logoUrl()}
+                        src={logoUrl()}
                         alt="siminia-logo" style={!isPhone?{width: 206, height: 48}:{width: 135, height: 32}}/>
                 </Link>
             </div>

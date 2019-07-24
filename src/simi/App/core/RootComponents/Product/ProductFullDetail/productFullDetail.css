@@ -51,6 +51,16 @@
 }
 .productPrice {
     padding: 0 1.5rem;
+    padding-bottom: 15px;
+}
+.reviewBtn {
+    padding: 1rem 1.5rem 0 1.5rem;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+}
+.reviewBtn:hover {
+    text-decoration: underline;
 }
 
 .cartActions {

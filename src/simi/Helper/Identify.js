@@ -4,13 +4,7 @@ import CacheHelper from 'src/simi/Helper/CacheHelper';
 class Identify {
     static SESSION_STOREAGE = 1;
     static LOCAL_STOREAGE = 2;
-    /*
-    connecter
-    */
-    static hasConnector() {
-        return (window.SMCONFIGS && window.SMCONFIGS.has_connector)
-    }
-
+    
     /*
     String
     */
@@ -177,14 +171,18 @@ class Identify {
         }
     }
 
-    /*
-    Logo Url
-    */
+    static validateEmail(email) {
+        return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+    }
 
-    static logoUrl = () => {
-        return window.SMCONFIGS.logo_url ?
-            window.SMCONFIGS.logo_url :
-        'https://www.simicart.com/skin/frontend/default/simicart2.1/images/simicart/new_logo_small.png'
+    static PadWithZeroes(number, length) {
+
+        let my_string = '' + number;
+        while (my_string.length < length) {
+            my_string = '0' + my_string;
+        }
+
+        return my_string;
     }
 }
 

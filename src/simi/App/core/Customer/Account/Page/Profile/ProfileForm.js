@@ -135,8 +135,8 @@ const ProfileForm = props => {
 
     const handleSaveProfile = (e) => {
         e.preventDefault();
-        let formValue = $("#harlows-edit-profile").serializeArray();
-        let isValidForm = validateForm(formValue);
+        const formValue = $("#harlows-edit-profile").serializeArray();
+        const isValidForm = validateForm(formValue);
         if (isValidForm) {
             let params = {
                 email: data.email
@@ -192,12 +192,13 @@ const ProfileForm = props => {
                             required
                             onChange={e => handleOnChange(e)}
                         />
-                        <div className="group-password-strong">
+                        <div className={classes["group-password-strong"]}>
                             <TextBox
                                 label={Identify.__("New password")}
                                 name="new_password"
                                 type="password"
                                 className="required"
+                                parentclasses={classes}
                                 required
                                 onChange={e => handleOnChange(e)}
                             />
@@ -218,47 +219,55 @@ const ProfileForm = props => {
 
     return (
         <form onSubmit={handleSaveProfile} id="harlows-edit-profile">
-            <div className={classes["main__edit-column"]}>
-                <h4 className={classes["title"]}>
-                    {Identify.__("Edit account information")}
-                </h4>
-                <TextBox
-                    defaultValue={data.firstname}
-                    label={Identify.__("First name")}
-                    name="firstname"
-                    className="required"
-                    required={true}
-                    onChange={handleOnChange}
-                />
-                <TextBox
-                    defaultValue={data.lastname}
-                    label={Identify.__("Last name")}
-                    name="lastname"
-                    className="required"
-                    required={true}
-                    onChange={handleOnChange}
-                />
-                <Checkbox
-                    className={classes["first"]}
-                    label={Identify.__("Change email")}
-                    onClick={() => handleChangeForm(changeForm === 'email' ? false : 'email')}
-                    selected={changeForm === 'email'}
-                />
-                <Checkbox
-                    className=""
-                    label={Identify.__("Change password")}
-                    onClick={() => handleChangeForm(changeForm === 'password' ? false : 'password')}
-                    selected={changeForm === 'password'}
-                />
-                <div className={`${classes["alternative__edit-column"]} ${(changeForm === 'email' || changeForm === 'password') ? 'active': ''}`}>
+            <div className={classes['row-edit-profile']}>
+                <div className={classes["main__edit-column"]}>
+                    <h4 className={classes["title"]}>
+                        {Identify.__("Edit account information")}
+                    </h4>
+                    <TextBox
+                        defaultValue={data.firstname}
+                        label={Identify.__("First name")}
+                        name="firstname"
+                        className="required"
+                        required={true}
+                        onChange={handleOnChange}
+                    />
+                    <TextBox
+                        defaultValue={data.lastname}
+                        label={Identify.__("Last name")}
+                        name="lastname"
+                        className="required"
+                        required={true}
+                        onChange={handleOnChange}
+                    />
+                    <Checkbox
+                        className={classes["first"]}
+                        label={Identify.__("Change email")}
+                        onClick={() => handleChangeForm(changeForm === 'email' ? false : 'email')}
+                        selected={changeForm === 'email'}
+                    />
+                    <Checkbox
+                        className=""
+                        label={Identify.__("Change password")}
+                        onClick={() => handleChangeForm(changeForm === 'password' ? false : 'password')}
+                        selected={changeForm === 'password'}
+                    />
+                    {!isPhone && <Whitebtn
+                                text={Identify.__("Save")}
+                                className={classes["save-profile"]}
+                                type="submit"
+                            />}
+                </div>
+                <div className={`${classes["alternative__edit-column"]} ${(changeForm === 'email' || changeForm === 'password') ? `active`: ''}`}>
                     {renderAlternativeForm()}
                 </div>
-                {!isPhone && <Whitebtn
-                    text={Identify.__("Save")}
-                    className={classes["save-profile"]}
-                    type="submit"
-                />}
+                {isPhone && <Whitebtn
+                                text={Identify.__("Save")}
+                                className={classes["save-profile"]}
+                                type="submit"
+                            />}
             </div>
+            
         </form>
     )
 }

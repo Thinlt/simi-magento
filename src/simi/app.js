@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { array, bool, func, shape, string } from 'prop-types';
+import { array, bool, func } from 'prop-types';
 
 import Main from 'src/simi/App/core/Main';
 import Mask from 'src/simi/BaseComponents/Mask';
@@ -24,7 +24,7 @@ class App extends Component {
         };
     }
 
-    shouldComponentUpdate(nextProps,nextState){
+    shouldComponentUpdate(nextProps){
         //avoid re-render with duplicated error
         let update = true
         if (nextProps.unhandledErrors && nextProps.unhandledErrors.length) {
@@ -84,7 +84,6 @@ class App extends Component {
     state = App.initialState;
 
     render() {
-        console.log('app rendered')
         const { errorFallback } = this;
         if (errorFallback) {
             return errorFallback;

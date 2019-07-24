@@ -118,7 +118,7 @@ class CustomerLayout extends React.Component{
     }
 
     renderMenu = () => {
-        const {classes, firstname} = this.props
+        const {classes, firstname, lastname} = this.props
         const menuConfig = this.getMenuConfig()
         const {page} = this.state;
         const menu = menuConfig.map(item => {
@@ -137,7 +137,7 @@ class CustomerLayout extends React.Component{
             <div className={classes["dashboard-menu"]}>
                 <div className={classes["menu-header"]}>
                     <div className={classes["welcome-customer"]}>
-                        {Identify.__("Welcome, %s").replace('%s', firstname)}
+                        {Identify.__("Welcome, %s").replace('%s', firstname + ' ' + lastname)}
                     </div>
                     <div role="presentation" className={classes["menu-logout"]} onClick={()=>this.handleLink('/logout.html')}>
                         <div className="hidden-xs">{Identify.__('Log out')}</div>
@@ -221,7 +221,7 @@ class CustomerLayout extends React.Component{
                             {Identify.__('Our trade services')}
                         </div>
                         <div className={classes["sidebar-action"]}>
-                            <Link to="/trade-services">
+                            <Link to="#">
                                 {Identify.__('Find out more')}
                             </Link>
                         </div>
@@ -231,7 +231,7 @@ class CustomerLayout extends React.Component{
                             {Identify.__('Branch Finder')}
                         </div>
                         <div className={classes["sidebar-action"]}>
-                            <Link to='/branch-finder'>
+                            <Link to='#'>
                                 {Identify.__('Search')}
                             </Link>
                         </div>
@@ -249,7 +249,7 @@ class CustomerLayout extends React.Component{
         return (
             <React.Fragment>
                 <div className={`${classes['customer-dashboard']} ${page}`} style={{minHeight:window.innerHeight-200}}>
-                    <BreadCrumb breadcrumb={[{name:'Home',link:'/'},{name:'Account'}]}/>
+                    <BreadCrumb history={this.props.history} breadcrumb={[{name:'Home', link:'/'},{name:'Account'}]}/>
                     <div className={`${classes['container']} container`}>
                         <div className={classes["dashboard-layout"]}>
                             {this.renderMenu()}

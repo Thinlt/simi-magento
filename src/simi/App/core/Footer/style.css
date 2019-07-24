@@ -84,8 +84,8 @@
     align-items: flex-start;
 }
 .col-custom-20pr {
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 24px;
+    padding-left: 24px;
     width: 20%;
     float: left;
 }

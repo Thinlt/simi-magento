@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { func, number, shape, string } from 'prop-types';
-import { Price } from '@magento/peregrine';
+import Price from 'src/simi/BaseComponents/Price'
 import classify from 'src/classify';
 import { Link } from 'src/drivers';
 import { resourceUrl } from 'src/simi/Helper/Url'
@@ -8,7 +8,8 @@ import ReactHTMLParse from 'react-html-parser';
 import LazyLoad from 'react-lazyload';
 
 import defaultClasses from './suggestedProduct.css';
-import Identify from 'src/simi/Helper/Identify';
+import { logoUrl } from 'src/simi/Helper/Url'
+import Image from 'src/simi/BaseComponents/Image'
 
 const productUrlSuffix = '.html';
 
@@ -19,34 +20,29 @@ const SuggestedProduct = props => {
             onNavigate();
         }
     }
-    const logoUrl = Identify.logoUrl()
-    const { classes, url_key, small_image, name, price } = props;
-    const [imageUrl, setImageUrl] = useState(small_image)
+    const logo_url = logoUrl()
+    const { classes, url_key, small_image, name, price, type_id } = props;
     const uri = resourceUrl(`/${url_key}${productUrlSuffix}`);
-    const place_holder_img = <img alt={name} src={logoUrl} style={{maxWidth: 60, maxHeight: 60}}/>
+    const place_holder_img = <img alt={name} src={logo_url} style={{maxWidth: 60, maxHeight: 60}}/>
 
     return (
         <Link className={classes.root} to={uri} onClick={handleClick}>
             <span className={classes.image}>
                 <LazyLoad 
                     placeholder={place_holder_img}>
-                    <img
+                    <Image
                         alt={name}
-                        src={imageUrl? resourceUrl(imageUrl, {
+                        src={small_image? resourceUrl(small_image, {
                             type: 'image-product',
                             width: 60
-                        }) : Identify.logoUrl()}
+                        }) : logoUrl()}
                         style={{maxWidth: 60, maxHeight: 60}}
-                        onError={() => {if(imageUrl !== logoUrl) setImageUrl(logoUrl)}}
                     />
                 </LazyLoad>
             </span>
             <span className={classes.name}>{ReactHTMLParse(name)}</span>
             <span className={classes.price}>
-                <Price
-                    currencyCode={price.regularPrice.amount.currency}
-                    value={price.regularPrice.amount.value}
-                />
+                <Price prices={price} type={type_id} classes={classes} />
             </span>
         </Link>
     );
