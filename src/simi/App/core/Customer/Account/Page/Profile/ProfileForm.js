@@ -135,8 +135,8 @@ const ProfileForm = props => {
 
     const handleSaveProfile = (e) => {
         e.preventDefault();
-        let formValue = $("#harlows-edit-profile").serializeArray();
-        let isValidForm = validateForm(formValue);
+        const formValue = $("#harlows-edit-profile").serializeArray();
+        const isValidForm = validateForm(formValue);
         if (isValidForm) {
             let params = {
                 email: data.email
@@ -192,12 +192,13 @@ const ProfileForm = props => {
                             required
                             onChange={e => handleOnChange(e)}
                         />
-                        <div className="group-password-strong">
+                        <div className={classes["group-password-strong"]}>
                             <TextBox
                                 label={Identify.__("New password")}
                                 name="new_password"
                                 type="password"
                                 className="required"
+                                parentclasses={classes}
                                 required
                                 onChange={e => handleOnChange(e)}
                             />

@@ -14,7 +14,7 @@ const Banner = props => {
         autoPlay: true,
         showArrows: false,
         showThumbs: false,
-        showIndicators: (bannerCount && bannerCount !== 1),
+        showIndicators: (bannerCount && bannerCount !== 1) || isPhone ? false : true,
         showStatus: false,
         infiniteLoop: true,
         rtl: parseInt(configs.simiStoreConfig.config.base.is_rtl, 10) === 1,

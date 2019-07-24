@@ -13,28 +13,29 @@ import Expansion from 'src/simi/BaseComponents/Expansion'
 const Footer = props => {
     const {classes} = props;
     const [isPhone, setIsPhone] = useState(window.innerWidth < 1024);
+    const $ = window.$;
     const [expanded, setExpanded] = useState(null);
     const pagec1 = 1;
     const pagep2 = 2;
     const pageCustomerServices = [
         {
             id: 1,
-            link: "/",
+            link: "#",
             title: "About"
         },
         {
             id: 2,
-            link: "/",
+            link: "#",
             title: "Delivery & returns"
         },
         {
             id: 3,
-            link: "/",
+            link: "#",
             title: "Trade services"
         },
         {
             id: 4,
-            link: "/",
+            link: "#",
             title: "Branch Finder"
         },
         {
@@ -47,17 +48,17 @@ const Footer = props => {
     const pagePolicies = [
         {
             id: 1,
-            link: "/",
+            link: "#",
             title: "Terms & Conditions of supply"
         },
         {
             id: 2,
-            link: "/",
+            link: "#",
             title: "Terms of use"
         },
         {
             id: 3,
-            link: "/",
+            link: "#",
             title: "Privacy & cookie policy"
         }
     ];
@@ -79,13 +80,13 @@ const Footer = props => {
     }
 
     const resizePhone = () => {
-        window.onresize = function () {
+        $(window).resize(function() {
             const width = window.innerWidth;
             const newIsPhone = width < 1024
             if(isPhone !== newIsPhone){
                 setIsPhone(newIsPhone)
             }
-        }
+        })
     }
 
     const handleExpand = (expanded) => {
@@ -93,8 +94,8 @@ const Footer = props => {
     }
 
     useEffect(() => {
-        resizePhone()
-    },[isPhone])
+        resizePhone();
+    })
 
     return (
         <div className={classes['footer-app']}>
