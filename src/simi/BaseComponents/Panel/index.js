@@ -3,6 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Identify from '../../Helper/Identify'
 import PropTypes from 'prop-types';
+import './style.scss'
 
 const styles = {
     container: {
@@ -25,15 +26,15 @@ class Panel extends React.Component {
 
     handleToggleOpen = (id) => {
         if (this.props.isToggle) {
-            let panel = $('#' + id);
+            const panel = $('#' + id);
             panel.find('.panel-icon svg').toggleClass('rotate-180')
             panel.find('.panel-content').slideToggle()
         }
     };
 
     render() {
-        let id = 'panel-' + Identify.randomString()
-        let { headerStyle, isBox, expanded, className, title, titleSecondary, isToggle, renderContent, containerStyle } = this.props;
+        const id = 'panel-' + Identify.randomString()
+        const { headerStyle, isBox, expanded, className, title, titleSecondary, isToggle, renderContent, containerStyle } = this.props;
         styles.header = { ...styles.header, ...headerStyle, }
         if (isBox) {
             styles.container = {

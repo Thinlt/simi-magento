@@ -55,8 +55,8 @@ const PaymentsFormItems = props => {
         selectablePaymentMethods = []
     }
 
-    const ccPayment = { value: 'cc_type', label: 'Credit card' }
-    selectablePaymentMethods.push(ccPayment);
+    // const ccPayment = { value: 'cc_type', label: 'Credit card' }
+    // selectablePaymentMethods.push(ccPayment);
 
     let thisInitialValue = null;
     if (initialValues && !isObjectEmpty(initialValues)) {
