@@ -166,16 +166,18 @@ const Edit = props => {
                 required = 'req';
             }
             return (
-                <>
+                <div className={classes['state-option']}>
                     <label htmlFor="input-state">{Identify.__('State/Province')}{required === 'req' && <span>*</span>}</label>
-                    <SimiSelect id="input-state" field="region[region_id]" initialValue={regionValue} key={regionValue} 
-                        validate={(value) => validateOption(value, required)} validateOnChange >
-                        <Option value="" key={-1}>{Identify.__('Please select a region, state or province.')}</Option>
-                        {country.available_regions.map((region, index) => {
-                            return <Option value={region.id} key={index}>{region.name}</Option>
-                        })}
-                    </SimiSelect>
-                </>
+                    <div>
+                        <SimiSelect id="input-state" field="region[region_id]" initialValue={regionValue} key={regionValue} 
+                            validate={(value) => validateOption(value, required)} validateOnChange >
+                            <Option value="" key={-1}>{Identify.__('Please select a region, state or province.')}</Option>
+                            {country.available_regions.map((region, index) => {
+                                return <Option value={region.id} key={index}>{region.name}</Option>
+                            })}
+                        </SimiSelect>
+                    </div>
+                </div>
             );
         } else {
             var regionValue = addressData.region.region
@@ -183,11 +185,13 @@ const Edit = props => {
                 regionValue = null; //reset value region field when change country
             }
             return (
-                <>
+                <div className={classes['state-text']}>
                     <label htmlFor="input-state">{Identify.__('State/Province')}{showOption === 'req' && <span>*</span>}</label>
-                    <SimiText id="input-state" field="region[region]" initialValue={regionValue} 
-                        validate={(value) => validateOption(value, showOption)} validateOnChange/>
-                </>
+                    <div>
+                        <SimiText id="input-state" field="region[region]" initialValue={regionValue} 
+                            validate={(value) => validateCondition(value, showOption)} validateOnChange/>
+                    </div>
+                </div>
             )
         }
     }
@@ -280,7 +284,7 @@ const Edit = props => {
                         }
 
                         { (!addressConfig || (addressConfig && addressConfig.region_id_show)) && 
-                            <div className={classes["form-row"]} id="state-province">
+                            <div className={classes["form-row"]+' '+classes["state-province"]} id="state-province">
                                 <StateProvince showOption={addressConfig && addressConfig.region_id_show || undefined } />
                             </div>
                         }
