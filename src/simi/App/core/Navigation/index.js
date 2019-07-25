@@ -6,11 +6,12 @@ import { getUserDetails } from 'src/actions/user';
 import Navigation from './navigation';
 
 const mapStateToProps = ({ app, user }) => {
-    const { currentUser } = user;
+    const { currentUser, isSignedIn } = user;
     const { drawer } = app
     return {
         drawer,
-        currentUser
+        currentUser,
+        isSignedIn
     }
 }
 const mapDispatchToProps = {

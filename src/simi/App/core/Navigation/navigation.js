@@ -6,8 +6,9 @@ import Dashboardmenu from './Dashboardmenu'
 import { withRouter } from 'react-router-dom';
 
 const Navigation = props => {
-    const { getUserDetails } = props
-    getUserDetails();
+    const { getUserDetails, currentUser, isSignedIn } = props
+    if (isSignedIn && (!currentUser || !currentUser.email)) //get user detail when missing (from refreshing)
+        getUserDetails();
 
     const [isPhone, setIsPhone] = useState(window.innerWidth < 1024)
 

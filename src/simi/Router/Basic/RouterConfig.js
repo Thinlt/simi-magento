@@ -2,6 +2,7 @@ import React from 'react'
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent'
 import CreateAccountPage from 'src/components/CreateAccountPage/index';
 import Home from 'src/simi/App/core/RootComponents/CMS/Home'
+import NoMatch from 'src/simi/App/core/NoMatch'
 
 const Checkout = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/core/Checkout')} {...props}/>
@@ -112,6 +113,9 @@ const router = {
     contact: {
         path: '/contact.html',
         render : location => <Contact {...location} page={`contact`}/>
+    },
+    noMatch: {
+        component : location => <NoMatch {...location} />
     }
 }
 export default router;
