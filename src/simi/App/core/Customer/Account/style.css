@@ -155,7 +155,7 @@
 .group-password-strong{
     margin-bottom: 15px;
 }
-.group-password-strong .form-group{
+.group-password-strong .new_password{
     margin-bottom: 0
 }
 .group-password-strong .password-strength{

@@ -242,6 +242,14 @@
     vertical-align: middle;
 }
 
+.form-row.state-province .state-option {display: flex;}
+.form-row.state-province .state-option > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
 @media (max-width: 1024px){
     .address-book {
         max-width: 580px;

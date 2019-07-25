@@ -26,14 +26,14 @@ import {
 
 import { submitShippingAddress, submitBillingAddress } from 'src/simi/Redux/actions/simiactions';
 
-import classify from 'src/classify'
+import classify from 'src/classify';
 import defaultClasses from './checkout.css';
-import TitleHelper from 'src/simi/Helper/TitleHelper'
-import Identify from 'src/simi/Helper/Identify'
-import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
-import OrderSummary from "./OrderSummary/index"
-import { configColor } from 'src/simi/Config'
-import { Colorbtn } from 'src/simi/BaseComponents/Button'
+import TitleHelper from 'src/simi/Helper/TitleHelper';
+import Identify from 'src/simi/Helper/Identify';
+import BreadCrumb from "src/simi/BaseComponents/BreadCrumb";
+import OrderSummary from "./OrderSummary/index";
+import { configColor } from 'src/simi/Config';
+import { Colorbtn } from 'src/simi/BaseComponents/Button';
 import { Link } from 'react-router-dom';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import EditableForm from './editableForm';
@@ -110,7 +110,6 @@ class Checkout extends Component {
         };
     }
 
-
     setIsPhone() {
         const obj = this;
         window.onresize = function () {
@@ -142,7 +141,6 @@ class Checkout extends Component {
             console.log(err)
         }
     }
-
 
     get breadcrumb() {
         return <BreadCrumb breadcrumb={[{ name: 'Home', link: '/' }, { name: 'Basket', link: '/cart.html' }, { name: 'Checkout', link: '/checkout.html' }]} />

@@ -54,6 +54,7 @@ const BannerItem = props => {
         }
     }
 
+    if(!img) return null
 
     return (
         <div 

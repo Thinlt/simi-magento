@@ -65,7 +65,6 @@ class Dashboardmenu extends React.Component {
                     ref={node => this.leftMenu = node} 
                     leftMenuItems={this.props.leftMenuItems} 
                     isPhone={this.props.isPhone}
-                    rootCategoryId={this.props.rootCategoryId}
                     handleLink={this.handleLink.bind(this)}
                     parent={this}
                 />
@@ -93,9 +92,9 @@ class Dashboardmenu extends React.Component {
                 else if (type === 20)
                     this.bottomContains.menu = true
             })
-            try {
-                $('#siminia-main-page').css('margin-bottom', '38px')
-            } catch (err) { }
+            // try {
+            //     $('#siminia-main-page').css('margin-bottom', '38px')
+            // } catch (err) { console.log(err)}
             return <BottomMenu parent={this} bottomMenuItems={props.bottomMenuItems} classes={props.classes} />
         }
         return <div></div>
@@ -118,7 +117,6 @@ Dashboardmenu.contextTypes = {
     leftMenuItems: PropTypes.object,
     router: PropTypes.object,
     classes: PropTypes.object,
-    rootCategoryId: PropTypes.string,
     history: PropTypes.object,
 };
 

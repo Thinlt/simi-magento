@@ -24,7 +24,9 @@ const ListItem = props => {
             <td data-th={Identify.__("First Name")}>{data.firstname}</td>
             <td data-th={Identify.__("Last Name")}>{data.lastname}</td>
             {(!addressConfig || addressConfig && addressConfig.street_show) ?  
-                <td data-th={Identify.__("Street Address")}>{data.street}</td>
+                <td data-th={Identify.__("Street Address")} style={{display: 'flex', flexDirection: 'column'}}>{data.street.map((address, index) => {
+                    return <span key={index}>{address}</span>
+                })}</td>
                 : null
             }
             {(!addressConfig || addressConfig && addressConfig.city_show) ?  
