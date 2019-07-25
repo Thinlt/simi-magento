@@ -34,9 +34,8 @@ class Filter extends React.Component {
         this.setIsPhone();
     }
 
-    renderActivedFilter() {
-        const obj = this
-        const {props, classes} = this
+    renderActivedFilters() {
+        const {props} = this
         const {filterData} = props
         if (props.data)
             this.items = props.data;
@@ -46,39 +45,26 @@ class Filter extends React.Component {
                 this.activedItems = filterData;
                 this.rowsActived = []
                 this.items.map((item) => {
-                    if (item && item.request_var && item.filter_items && this.activedItems[item.request_var]) {
+                    const is_price = item.request_var === 'price'
+                    if (is_price) {
+                        if (this.activedItems[item.request_var]) {
+                            let filter_item_label = this.activedItems[item.request_var]
+                            const splited_prices = filter_item_label.split('-')
+                            if (splited_prices.length === 2) {
+                                if (splited_prices[1])
+                                    filter_item_label = <>{formatPrice(parseFloat(splited_prices[0]))} - {formatPrice(parseFloat(splited_prices[1]))}</>
+                                else
+                                    filter_item_label = <>{formatPrice(parseFloat(splited_prices[0]))} {Identify.__('and above')}</>
+                            }
+                            this.rowsActived.push(this.renderActivedFilterItem(item, filter_item_label))
+                        }
+                    } else if (item && item.request_var && item.filter_items && this.activedItems[item.request_var]) {
                         item.filter_items.map((filter_item)=> {
-                            const is_price = item.request_var === 'price'
                             if (
-                                (filter_item.value_string === String(this.activedItems[item.request_var])) ||
-                                is_price
+                                (filter_item.value_string === String(this.activedItems[item.request_var]))
                             ) {
-                                let filter_item_label = filter_item.label
-                                if (is_price) {
-                                    filter_item_label = this.activedItems[item.request_var]
-                                    const splited_prices = this.activedItems[item.request_var].split('-')
-                                    if (splited_prices.length === 2) {
-                                        filter_item_label = <>{formatPrice(parseFloat(splited_prices[0]))} - {formatPrice(parseFloat(splited_prices[1]))}</>
-                                    }
-                                }
-
-                                this.rowsActived.push(
-                                    <div key={Identify.randomString(5)} className={classes["active-filter-item"]}>
-                                        <div className={classes["filter-name"]}>
-                                            <span className={`${classes['filter-name-text']} ${classes['root-menu']}`}>{Identify.__(item.name)}</span>
-                                        </div>
-                                        {
-                                            <Checkbox
-                                                classes={this.classes}
-                                                key={Identify.randomString(5)}
-                                                className={classes["filter-item"]}
-                                                onClick={() => obj.deleteFilter(item.request_var)}
-                                                label={filter_item_label}
-                                                selected={true}
-                                            /> 
-                                        }
-                                    </div>
-                                )
+                                const filter_item_label = filter_item.label
+                                this.rowsActived.push(this.renderActivedFilterItem(item, filter_item_label))
                             }
                         })
                     }
@@ -89,6 +75,27 @@ class Filter extends React.Component {
                 );
             }
         }
+    }
+
+    renderActivedFilterItem(item, filter_item_label) {
+        const { classes } = this
+        return (
+            <div key={Identify.randomString(5)} className={classes["active-filter-item"]}>
+                <div className={classes["filter-name"]}>
+                    <span className={`${classes['filter-name-text']} ${classes['root-menu']}`}>{Identify.__(item.name)}</span>
+                </div>
+                {
+                    <Checkbox
+                        classes={this.classes}
+                        key={Identify.randomString(5)}
+                        className={classes["filter-item"]}
+                        onClick={() => this.deleteFilter(item.request_var)}
+                        label={filter_item_label}
+                        selected={true}
+                    /> 
+                }
+            </div>
+        )
     }
     
     renderFilterItems() {
@@ -193,10 +200,7 @@ class Filter extends React.Component {
         const {history, location, filterData} = this.props
         const { search } = location;
         const filterParams = filterData?filterData:{}
-        console.log(filterParams)
-        console.log(attribute)
         delete filterParams[attribute]
-        console.log(filterParams)
         const queryParams = new URLSearchParams(search);
         queryParams.set('filter', JSON.stringify(filterParams));
         history.push({ search: queryParams.toString() });
@@ -219,7 +223,7 @@ class Filter extends React.Component {
         const activeFilter = filterData?
             (
                 <div className={classes["active-filter"]}>
-                    {this.renderActivedFilter()}
+                    {this.renderActivedFilters()}
                 </div>
             ):
             ''

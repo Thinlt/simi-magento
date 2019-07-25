@@ -221,7 +221,7 @@ class CustomerLayout extends React.Component{
                             {Identify.__('Our trade services')}
                         </div>
                         <div className={classes["sidebar-action"]}>
-                            <Link to="/trade-services">
+                            <Link to="#">
                                 {Identify.__('Find out more')}
                             </Link>
                         </div>
@@ -231,7 +231,7 @@ class CustomerLayout extends React.Component{
                             {Identify.__('Branch Finder')}
                         </div>
                         <div className={classes["sidebar-action"]}>
-                            <Link to='/branch-finder'>
+                            <Link to='#'>
                                 {Identify.__('Search')}
                             </Link>
                         </div>
@@ -249,7 +249,7 @@ class CustomerLayout extends React.Component{
         return (
             <React.Fragment>
                 <div className={`${classes['customer-dashboard']} ${page}`} style={{minHeight:window.innerHeight-200}}>
-                    <BreadCrumb breadcrumb={[{name:'Home',link:'/'},{name:'Account'}]}/>
+                    <BreadCrumb history={this.props.history} breadcrumb={[{name:'Home', link:'/'},{name:'Account'}]}/>
                     <div className={`${classes['container']} container`}>
                         <div className={classes["dashboard-layout"]}>
                             {this.renderMenu()}

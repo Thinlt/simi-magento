@@ -50,7 +50,7 @@ const Home = props => {
     return (
         <React.Fragment>
             <Banner data={data} classes={classes} history={history} isPhone={isPhone}/>
-            <HomeCat catData={data} classes={classes} history={history}/>
+            <HomeCat catData={data} classes={classes} history={history} isPhone={isPhone}/>
             <ProductList homeData={data} classes={classes} history={history}/>
         </React.Fragment>
 
