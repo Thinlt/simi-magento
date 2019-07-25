@@ -12,8 +12,8 @@ import { logoUrl } from 'src/simi/Helper/Url'
 import Image from 'src/simi/BaseComponents/Image'
 import {StaticRate} from 'src/simi/BaseComponents/Rate'
 import Identify from 'src/simi/Helper/Identify'
+import { productUrlSuffix } from 'src/simi/Helper/Url';
 
-const productUrlSuffix = '.html';
 
 const Griditem = props => {
     const item = prepareProduct(props.item)
@@ -23,7 +23,7 @@ const Griditem = props => {
     const itemClasses = mergeClasses(defaultClasses, classes);
     const { name, url_key, id, price, type_id, small_image, simiExtraField } = item
     const location = {
-        pathname: `/${url_key}${productUrlSuffix}`,
+        pathname: `/${url_key}${productUrlSuffix()}`,
         state: {
             product_id: id,
             item_data: item

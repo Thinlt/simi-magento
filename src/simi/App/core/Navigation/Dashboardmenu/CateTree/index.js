@@ -1,12 +1,11 @@
 import React from 'react';
 import Identify from 'src/simi/Helper/Identify';
+import {cateUrlSuffix} from 'src/simi/Helper/Url';
 import {configColor} from 'src/simi/Config';
 import CateIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/List'
 import SubCate from "./Subcate";
 import ExpandLess from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowUp";
 import ExpandMore from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowDown";
-
-const cateUrlSuffix = '.html';
 
 class CateTree extends React.Component {
     constructor(props){
@@ -44,7 +43,7 @@ class CateTree extends React.Component {
                 const cate_name = <div className={classes["root-menu"]} >{obj.renderTitleMenu(item.name)}</div>;
                 const hasChild = (item.children && item.children.length > 0)
                 let location = {
-                    pathname: item.url_path !== undefined ? "/" + item.url_path + cateUrlSuffix :  "/products.html?cat=" + item.id,
+                    pathname: item.url_path !== undefined ? "/" + item.url_path + cateUrlSuffix() :  "/products.html?cat=" + item.id,
                     state: {
                         cate_id: item.id,
                         hasChild: hasChild,

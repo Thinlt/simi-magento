@@ -12,6 +12,7 @@ import {Simiquery} from 'src/simi/Network/Query'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
 import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
+import { cateUrlSuffix } from 'src/simi/Helper/Url';
 
 var sortByData = null
 var filterData = null
@@ -64,7 +65,7 @@ const Category = props => {
                 const breadcrumb = [{name: "Home", link: '/'}];
                 if(data && data.category && data.category.breadcrumbs instanceof Array) {
                     data.category.breadcrumbs.forEach(item => {
-                        breadcrumb.push({name: item.category_name, link: '/' + item.category_url_key + '.html'})
+                        breadcrumb.push({name: item.category_name, link: '/' + item.category_url_key + cateUrlSuffix()})
                     })
 
                     breadcrumb.push({name: data.category.name})

@@ -30,11 +30,9 @@ const HomeCatItem = props => {
             img = item.simicategory_filename_tablet;
         }
     }
-
+ 
 
     return (
-
-        <div role="presentation" className={classes['home-cate-item']} onClick={() => action()}>
         <div role="presentation" className={"home-cate-item"} onClick={() => action()}>
             <div className={"cate-img"}>
                 <img src={img}
