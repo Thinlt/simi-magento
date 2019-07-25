@@ -21,7 +21,7 @@ const themePaths = {
     src: path.resolve(__dirname, 'src'),
     output: path.resolve(__dirname, 'dist')
 };
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const rootComponentsDirs = ['./src/simi/App/core/RootComponents/'];
 const libs = [
     'apollo-cache-inmemory',
@@ -43,7 +43,7 @@ const libs = [
 
 module.exports = async function(env) {
     const mode = (env && env.mode) || process.env.NODE_ENV || 'development';
-
+    const isDevMode = mode === 'development'
     const enableServiceWorkerDebugging =
         validEnv.ENABLE_SERVICE_WORKER_DEBUGGING;
 
@@ -68,15 +68,10 @@ module.exports = async function(env) {
                 {
                     test: /\.scss$/,
                     use: [
-                        {
-                            loader: "style-loader"
-                        }, 
-                        {
-                            loader: "css-loader"
-                        }, 
-                        {
-                            loader: "sass-loader"
-                        }
+                        // fallback to style-loader in development
+                        process.env.NODE_ENV !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
+                        "css-loader",
+                        "sass-loader"
                     ]
                 },
                 {
@@ -130,9 +125,16 @@ module.exports = async function(env) {
         resolve: await MagentoResolver.configure({
             paths: {
                 root: __dirname
-            }
+            },
+            extensions : ['.js','.jxs','.scss']
         }),
         plugins: [
+            new MiniCssExtractPlugin({
+                // Options similar to the same options in webpackOptions.output
+                // both options are optional
+                filename: "[name].css",
+                chunkFilename: "[id].css"
+            }),
             // // This is necessary to emit hot updates (currently CSS only):
             new webpack.HotModuleReplacementPlugin(),
             await makeMagentoRootComponentsPlugin({

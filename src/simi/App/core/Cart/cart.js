@@ -24,7 +24,9 @@ import {configColor} from 'src/simi/Config'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+
 import Coupon from 'src/simi/BaseComponents/Coupon'
+
 
 
 class Cart extends Component {

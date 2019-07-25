@@ -1,4 +1,5 @@
 import makeOptimizedUrl from 'src/util/makeUrl'
+import Identify from './Identify'
 
 export const resourceUrl = (path, { type, width } = {}) => {
     const urlBuffer = window.SMCONFIGS.media_url_prefix?window.SMCONFIGS.media_url_prefix:''
@@ -31,9 +32,41 @@ export const convertToSlug = (Text) => {
 /*
 Logo Url
 */
-
 export const logoUrl = () => {
     return window.SMCONFIGS.logo_url ?
         window.SMCONFIGS.logo_url :
     'https://www.simicart.com/skin/frontend/default/simicart2.1/images/simicart/new_logo_small.png'
+}
+
+/*
+Url suffix
+*/
+export const cateUrlSuffix = () => {
+    const savedSuffix = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'CATEGORY_URL_SUFFIX')
+    if (savedSuffix)
+        return savedSuffix
+    try {
+        const storeConfig = Identify.getStoreConfig()
+        const suffix = storeConfig.simiStoreConfig.config.catalog.seo.category_url_suffix
+        Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'CATEGORY_URL_SUFFIX', suffix);
+        return suffix
+    } catch (err) {
+
+    }
+    return '.html'
+}
+
+export const productUrlSuffix = () => {
+    const savedSuffix = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'PRODUCT_URL_SUFFIX')
+    if (savedSuffix)
+        return savedSuffix
+    try {
+        const storeConfig = Identify.getStoreConfig()
+        const suffix = storeConfig.simiStoreConfig.config.catalog.seo.product_url_suffix
+        Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'PRODUCT_URL_SUFFIX', suffix);
+        return suffix
+    } catch (err) {
+
+    }
+    return '.html'
 }

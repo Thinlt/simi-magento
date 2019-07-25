@@ -4,8 +4,7 @@ import ExpandLess from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowUp";
 import ExpandMore from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowDown";
 import Identify from 'src/simi/Helper/Identify';
 import Loading from 'src/simi/BaseComponents/Loading/ReactLoading'
-
-const cateUrlSuffix = '.html';
+import { cateUrlSuffix } from 'src/simi/Helper/Url';
 
 class SubCate extends React.Component{
     state = { open: false };
@@ -29,7 +28,7 @@ class SubCate extends React.Component{
         if(item){
             if(item.children !== null){
                 const obj = this;
-                const url_path = (item.url_path && item.url_path!=='/') ? "/" + item.url_path + cateUrlSuffix :  "/products.html?cat=" + item.id
+                const url_path = (item.url_path && item.url_path!=='/') ? "/" + item.url_path + cateUrlSuffix() :  "/products.html?cat=" + item.id
                 const url = {
                     pathname: url_path,
                     state: {
@@ -41,7 +40,7 @@ class SubCate extends React.Component{
                 const all_products = this.renderMenuItem(<div className={classes["menu-cate-name-item"]} >{Identify.__('All Products')}</div>,url);
                 sub_cate = item.children.map(function (item,key) {
                     const cate_name = <div className={classes["menu-cate-name-item"]} >{Identify.__(item.name)}</div>;
-                    const url_path = (item.url_path && item.url_path!=='/') ? "/" + item.url_path + cateUrlSuffix : "/products.html?cat=" + item.id
+                    const url_path = (item.url_path && item.url_path!=='/') ? "/" + item.url_path + cateUrlSuffix() : "/products.html?cat=" + item.id
                     const hasChild = (item.children && item.children.length > 0)
                     const location = {
                         pathname: url_path,
