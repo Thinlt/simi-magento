@@ -7,7 +7,6 @@ class Breadcrumb extends React.Component{
         if(data.length > 0){
             const size = data.length;
             const breadcrumb = data.map((item,key) => {
-                console.log(item);
                 const action = size === key+1 ? ()=>{} : ()=>history.push(item.link)
                 const arrow = size === key+1 ? null : <span className="breadcrumb-arrow" style={{margin :'0 5px'}}> > </span>
                 return (
