@@ -130,7 +130,7 @@ class LeftMenuContent extends React.Component{
 
     renderSections() {
         const obj = this
-        const {classes, rootCategoryId, isSignedIn} = this.props
+        const {classes, isSignedIn} = this.props
         const items = []
         const iconProps = {
             style: styles.iconMenu
@@ -172,10 +172,9 @@ class LeftMenuContent extends React.Component{
                             )
                             return
                         } else if (itemType.type_id === 14) {
-                            if (rootCategoryId)
-                                items.push(
-                                    <CateTree key={`item-${menuitem.entity_id}`} rootCategoryId={rootCategoryId} classes={classes} handleMenuItem={this.handleMenuItem.bind(this)}/>
-                                )
+                            items.push(
+                                <CateTree key={`item-${menuitem.entity_id}`} classes={classes} handleMenuItem={this.handleMenuItem.bind(this)}/>
+                            )
                             return
                         } else if (itemType.type_id === 12) {
                             items.push(

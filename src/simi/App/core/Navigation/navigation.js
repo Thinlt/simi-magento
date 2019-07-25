@@ -1,119 +1,25 @@
-import React, { PureComponent } from 'react';
-import { bool, func, object, shape, string } from 'prop-types';
-import classify from 'src/classify';
-import CategoryTree from './categoryTree'
-import defaultClasses from './navigation.css'
+import React, { useState } from 'react';
+import { func, string} from 'prop-types';
+import classes from './navigation.css'
 import Identify from 'src/simi/Helper/Identify'
 import Dashboardmenu from './Dashboardmenu'
 import { withRouter } from 'react-router-dom';
-import { compose } from 'redux';
-import { connect } from 'src/drivers';
 
-class Navigation extends PureComponent {
-    static propTypes = {
-        classes: shape({
-            authBar: string,
-            body: string,
-            form_closed: string,
-            form_open: string,
-            root: string,
-            root_open: string,
-            signIn_closed: string,
-            signIn_open: string
-        }),
-        closeDrawer: func.isRequired,
-        completePasswordReset: func.isRequired,
-        createAccount: func.isRequired,
-        email: string,
-        firstname: string,
-        getAllCategories: func.isRequired,
-        getUserDetails: func.isRequired,
-        isOpen: bool,
-        isSignedIn: bool,
-        lastname: string,
-        signInError: object
-    };
+const Navigation = props => {
+    const { getUserDetails } = props
+    getUserDetails();
 
-    static getDerivedStateFromProps(props, state) {
-        if (!state.rootNodeId && props.rootCategoryId) {
-            return {
-                ...state,
-                rootNodeId: props.rootCategoryId
-            };
+    const [isPhone, setIsPhone] = useState(window.innerWidth < 1024)
+
+    $(window).resize(function () {
+        const width = window.innerWidth;
+        const newIsPhone = width < 1024;
+        if(isPhone !== newIsPhone){
+            setIsPhone(newIsPhone)
         }
+    })
 
-        return state;
-    }
-
-    componentDidMount() {
-        this.props.getUserDetails();
-        this.props.getAllCategories();
-        this.setIsPhone();
-    }
-
-    state = {
-        isCreateAccountOpen: false,
-        isSignInOpen: false,
-        rootNodeId: null,
-        currentPath: null,
-        isPhone: window.innerWidth < 1024,
-    };
-
-    setIsPhone(){
-        const obj = this;
-        $(window).resize(function () {
-            const width = window.innerWidth;
-            const isPhone = width < 1024;
-            if(obj.state.isPhone !== isPhone){
-                obj.setState({isPhone})
-            }
-        })
-    }
-
-    get categoryTree() {
-        const { props, setCurrentPath, state } = this;
-        const { rootNodeId } = state;
-        const { closeDrawer } = props;
-
-        return rootNodeId ? (
-            <CategoryTree
-                rootNodeId={props.rootCategoryId}
-                currentId={rootNodeId}
-                updateRootNodeId={setCurrentPath}
-                onNavigate={closeDrawer}
-            />
-        ) : null;
-    }
-
-    setCurrentPath = currentPath => {
-        const path = currentPath.split('/').reverse();
-        const rootNodeId = parseInt(path[0]);
-
-        this.setState(() => ({
-            rootNodeId: rootNodeId,
-            currentPath: path
-        }));
-    };
-
-    setRootNodeIdToParent = () => {
-        const path = this.state.currentPath;
-        const parentId =
-            path.length > 1 ? parseInt(path[1]) : this.props.rootCategoryId;
-        path.shift();
-
-        this.setState(() => ({
-            rootNodeId: parentId,
-            currentPath: path
-        }));
-    };
-
-
-    renderDashboardMenu(className, jsonSimiCart) {
-        const {
-            classes,
-            rootCategoryId
-        } = this.props;
-
+    const renderDashboardMenu = (className, jsonSimiCart) => {
         let leftMenuItems = null
         let bottomMenuItems = null
         let config = null
@@ -125,7 +31,7 @@ class Navigation extends PureComponent {
                 config.api_version &&
                 parseInt(config.api_version, 10)
             ) {
-                if (this.state.isPhone) {
+                if (isPhone) {
                     if (
                         app_settings.show_leftmenu_mobile &&
                         (parseInt(app_settings.show_leftmenu_mobile, 10) === 1) &&
@@ -169,53 +75,32 @@ class Navigation extends PureComponent {
                     className={className} 
                     classes={classes} 
                     leftMenuItems={leftMenuItems} 
-                    rootCategoryId={rootCategoryId} 
                     bottomMenuItems={bottomMenuItems} 
                     config={config} 
-                    history={this.props.history}
-                    isPhone={this.state.isPhone}
+                    history={props.history}
+                    isPhone={isPhone}
                 />
             )
     }
 
-    render() {
-        const {
-            categoryTree,
-            props
-        } = this
-
-        const {
-            classes,
-            drawer,
-        } = props;
-        const isOpen = drawer === 'nav';
-
-        const className = isOpen ? classes.root_open : classes.root;
-
-        const simicartConfig = Identify.getAppDashboardConfigs()
-        if (simicartConfig) {
-            const dbMenu = this.renderDashboardMenu(className, simicartConfig)
-            if (dbMenu)
-                return dbMenu
-        }
-        
-        return (
-            <aside className={className}>
-                <nav className={classes.body}>{categoryTree}</nav>
-            </aside>
-        )
+    const {
+        drawer,
+    } = props;
+    const isOpen = drawer === 'nav';
+    const className = isOpen ? classes.root_open : classes.root;
+    const simicartConfig = Identify.getAppDashboardConfigs()
+    if (simicartConfig) {
+        const dbMenu = renderDashboardMenu(className, simicartConfig)
+        if (dbMenu)
+            return dbMenu
     }
+    return ''
 }
 
-const mapStateToProps = ({ app }) => {
-    const { drawer } = app
-    return {
-        drawer
-    }
-}
+Navigation.propTypes = {
+    closeDrawer: func.isRequired,
+    getUserDetails: func.isRequired,
+    drawer: string
+};
 
-export default compose(
-    connect( mapStateToProps ),
-    withRouter,
-    classify(defaultClasses)
-)(Navigation);
+export default (withRouter)(Navigation);
