@@ -26,14 +26,14 @@ import {
 
 import { submitShippingAddress, submitBillingAddress } from 'src/simi/Redux/actions/simiactions';
 
-import classify from 'src/classify'
+import classify from 'src/classify';
 import defaultClasses from './checkout.css';
-import TitleHelper from 'src/simi/Helper/TitleHelper'
-import Identify from 'src/simi/Helper/Identify'
-import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
-import OrderSummary from "./OrderSummary/index"
-import { configColor } from 'src/simi/Config'
-import { Colorbtn } from 'src/simi/BaseComponents/Button'
+import TitleHelper from 'src/simi/Helper/TitleHelper';
+import Identify from 'src/simi/Helper/Identify';
+import BreadCrumb from "src/simi/BaseComponents/BreadCrumb";
+import OrderSummary from "./OrderSummary/index";
+import { configColor } from 'src/simi/Config';
+import { Colorbtn } from 'src/simi/BaseComponents/Button';
 import { Link } from 'react-router-dom';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import EditableForm from './editableForm';
@@ -110,7 +110,6 @@ class Checkout extends Component {
         };
     }
 
-
     setIsPhone() {
         const obj = this;
         window.onresize = function () {
@@ -143,7 +142,6 @@ class Checkout extends Component {
         }
     }
 
-
     get breadcrumb() {
         return <BreadCrumb breadcrumb={[{ name: 'Home', link: '/' }, { name: 'Basket', link: '/cart.html' }, { name: 'Checkout', link: '/checkout.html' }]} />
     }
@@ -166,6 +164,11 @@ class Checkout extends Component {
             cart.details.currency &&
             cart.details.currency.quote_currency_code
         );
+    }
+
+    get userSignedIn(){
+        const { user } = this.props;
+        return user && user.isSignedIn;
     }
 
     placeOrder = () => {
@@ -229,7 +232,7 @@ class Checkout extends Component {
     }
 
     get checkoutInner() {
-        const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail } = this;
+        const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail, userSignedIn } = this;
         const { isPhone } = this.state;
         const containerSty = isPhone ? { marginTop: 35 } : {};
         const { classes,
@@ -305,7 +308,13 @@ class Checkout extends Component {
         }
 
         if (checkout.step && checkout.step === 'receipt') {
-            this.handleLink('/thankyou.html');
+            const locate = {
+                pathname: '/thankyou.html',
+                state: {
+                    isUserSignedIn: userSignedIn
+                }
+              };
+            this.handleLink(locate);
         }
 
         if (!isCheckoutReady(checkout)) {

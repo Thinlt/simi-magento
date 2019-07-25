@@ -7,6 +7,7 @@ import {
     getUserDetails,
 } from 'src/actions/user';
 import isObjectEmpty from 'src/util/isObjectEmpty';
+import Identify from 'src/simi/Helper/Identify';
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
 
@@ -41,7 +42,7 @@ export const submitShippingAddress = payload =>
         const { countries } = directory;
         let { formValues: address } = payload;
         try {
-            address = formatAddress(address, countries);
+            address = Identify.formatAddress(address, countries);
         } catch (error) {
             dispatch(
                 checkoutActions.shippingAddress.reject({
@@ -70,7 +71,7 @@ export const submitBillingAddress = payload =>
         if (!payload.sameAsShippingAddress) {
             const { countries } = directory;
             try {
-                desiredBillingAddress = formatAddress(payload, countries);
+                desiredBillingAddress = Identify.formatAddress(payload, countries);
             } catch (error) {
                 dispatch(checkoutActions.billingAddress.reject(error));
                 return;
@@ -176,53 +177,3 @@ export const fullFillAddress = () => {
     }
 }
 
-/* helpers */
-
-export function formatAddress(address = {}, countries = []) {
-    const country = countries.find(({ id }) => id === address.country_id);
-
-    const { available_regions: regions } = country;
-    if (!country.available_regions) {
-        return address
-    } else {
-        let region = {};
-        if (address.hasOwnProperty('region_code')) {
-            const { region_code } = address;
-            region = regions.find(({ code }) => code === region_code);
-        } else if (address.hasOwnProperty('region') && !isObjectEmpty(address.region)) {
-            const region_list = address.region;
-            const { region_code } = region_list;
-            if (region_code) {
-                region = regions.find(({ code }) => code === region_code);
-            } else {
-                region = { region: "Mississippi", region_code: "MS", region_id: 35 };
-            }
-        } else {
-            //fake region to accept current shipping address
-            region = { region: "Mississippi", region_code: "MS", region_id: 35 };
-        }
-
-        return {
-            ...address,
-            country_id: address.country_id,
-            region_id: parseInt(region.id, 10),
-            region_code: region.code,
-            region: region.name
-        }
-    }
-    /* let region = {};
-    if (regions) {
-        region = regions.find(({ code }) => code === region_code);
-    } else {
-        //fake region to accept current shipping address
-        region = { region: "Mississippi", region_code: "MS", region_id: 35 };
-    }
-
-    return {
-        ...address,
-        country_id: address.country_id,
-        region_id: parseInt(region.id, 10),
-        region_code: region.code,
-        region: region.name
-    }; */
-}

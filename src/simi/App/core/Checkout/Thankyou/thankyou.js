@@ -25,7 +25,11 @@ const Thankyou = props => {
     const hasOrderId = () => {
         return order && order.id;
     }
-    console.log(user)
+
+    const userSignedIn = () => {
+        return history && history.location.state && history.location.state.isUserSignedIn;
+    }
+
     /* const handleViewOrderDetails = useCallback(() => {
         // TODO: Implement/connect/redirect to order details page.
 
@@ -37,7 +41,15 @@ const Thankyou = props => {
         }
         const padOrderId = Identify.PadWithZeroes(order.id, 9);
         const orderId = '/orderdetails.html/' + padOrderId;
-        history.push(orderId);
+        const orderLocate = {
+            pathname: orderId,
+            state: {
+                orderData: {
+                    increment_id: padOrderId
+                }
+            }
+        }
+        history.push(orderLocate);
     }
 
     return (
@@ -46,7 +58,7 @@ const Thankyou = props => {
                 <div className={classes.body}>
                     <h2 className={classes.header}>{Identify.__('Thank you for your purchase!')}</h2>
                     <div className={classes.textBlock}>{Identify.__('You will receive an order confirmation email with order status and other details.')}</div>
-                    {user && user.email ? (
+                    {userSignedIn() ? (
                         <Fragment>
                             <div className={classes.textBlock}>{Identify.__('You can also visit your account page for more information.')}</div>
                             <Button onClick={handleViewOrderDetails}>
