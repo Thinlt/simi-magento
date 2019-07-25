@@ -22,6 +22,7 @@ const fields = [
     'prefix',
     'suffix',
     'vat_id',
+    'country_id',
     'save_in_address_book'
 ];
 
@@ -37,7 +38,7 @@ const defaultConfigFields = [
     'prefix_show',
     'suffix_show',
     'taxvat_show',
-]
+];
 
 const DEFAULT_FORM_VALUES = {
     addresses_same: true
@@ -141,7 +142,7 @@ const AddressForm = props => {
     const handleSubmit = useCallback(
         values => {
             if (values.hasOwnProperty('addresses_same')) delete values.addresses_same
-            if (values.hasOwnProperty('selected_shipping_address')) delete values.selected_shipping_address
+            if (values.hasOwnProperty('selected_address_field')) delete values.selected_address_field
             if (values.hasOwnProperty('password')) delete values.password
             if (values.save_in_address_book) {
                 values.save_in_address_book = 1;
@@ -156,6 +157,10 @@ const AddressForm = props => {
         [submit]
     );
 
+    const handleFormReset = () => {
+        Object.keys(values).forEach(k => values[k] = null)
+    }
+
     const formChildrenProps = {
         ...props,
         classes,
@@ -164,7 +169,8 @@ const AddressForm = props => {
         validationMessage,
         initialCountry,
         selectableCountries,
-        configFields
+        configFields,
+        handleFormReset
     };
 
     return (

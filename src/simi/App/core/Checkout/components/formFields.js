@@ -1,4 +1,4 @@
-import React, { useCallback, Fragment, useState } from 'react';
+import React, { useCallback, Fragment, useState, useEffect } from 'react';
 import { useFormState } from 'informed';
 import { Util } from '@magento/peregrine';
 import {
@@ -68,7 +68,8 @@ const FormFields = (props) => {
         submitBilling,
         simiSignedIn,
         countries,
-        configFields } = props;
+        configFields,
+        handleFormReset } = props;
 
     const { isSignedIn, currentUser } = user;
 
@@ -84,6 +85,19 @@ const FormFields = (props) => {
 
     const formState = useFormState();
 
+    const storageShipping = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'shipping_address');
+    const storageBilling = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'billing_address');
+
+    const initialShipping = !billingForm && isSignedIn && storageShipping ? storageShipping : default_shipping ? default_shipping : null;
+    const initialBilling = billingForm && isSignedIn && storageBilling ? storageBilling : default_billing ? default_billing : null;
+
+    const resetForm = useCallback(
+        () => {
+            handleFormReset()
+        },
+        [handleFormReset]
+    )
+
     const handleSubmitBillingSameFollowShipping = useCallback(
         () => {
             const billingAddress = {
@@ -95,29 +109,42 @@ const FormFields = (props) => {
     )
 
     const handleChooseShipping = () => {
-        if (formState.values.selected_shipping_address !== 'new_address') {
-            const { selected_shipping_address } = formState.values;
+        if (formState.values.selected_address_field !== 'new_address') {
+            const { selected_address_field } = formState.values;
             setShippingNewForm(false);
             const shippingFilter = addresses.find(
-                ({ id }) => id === parseInt(selected_shipping_address, 10)
+                ({ id }) => id === parseInt(selected_address_field, 10)
             );
 
             if (shippingFilter) {
                 if (!shippingFilter.email) shippingFilter.email = currentUser.email;
 
+                if (shippingFilter.id) {
+                    if (billingForm) {
+                        Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'billing_address', shippingFilter.id);
+                    } else {
+                        Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'shipping_address', shippingFilter.id);
+                    }
+                }
                 handleSubmit(shippingFilter);
                 if (!billingForm && !billingAddressSaved) {
                     handleSubmitBillingSameFollowShipping();
                 }
             }
         } else {
+            if (billingForm) {
+                Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'billing_address', 'new_address');
+            } else {
+                Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'shipping_address', 'new_address');
+            }
             setShippingNewForm(true);
+            resetForm();
         }
     }
 
     const handleSubmit = useCallback(
         values => {
-            if (values.hasOwnProperty('selected_shipping_address')) delete values.selected_shipping_address
+            if (values.hasOwnProperty('selected_address_field')) delete values.selected_address_field
             if (values.hasOwnProperty('password')) delete values.password
             if (values.save_in_address_book) {
                 values.save_in_address_book = 1;
@@ -209,17 +236,17 @@ const FormFields = (props) => {
 
     const viewFields = !formState.values.addresses_same ? (
         <Fragment>
-            {isSignedIn && default_shipping && <div className={classes.shipping_address}>
-                <Field label={Identify.__("Select Shipping")}>
+            {isSignedIn && <div className={classes.shipping_address}>
+                <Field label={billingForm ? Identify.__("Select Billing") : Identify.__("Select Shipping")}>
                     <Select
-                        field="selected_shipping_address"
-                        initialValue={default_shipping}
+                        field="selected_address_field"
+                        initialValue={billingForm ? initialBilling : initialShipping}
                         items={listAddress(addresses)}
                         onChange={() => handleChooseShipping()}
                     />
                 </Field>
             </div>}
-            {!isSignedIn || !default_billing || shippingNewForm ?
+            {!isSignedIn || shippingNewForm || ((billingForm && storageBilling === 'new_address') || (!billingForm && storageShipping === 'new_address')) ?
                 <Fragment>
                     {!isSignedIn && <div className={classes.email}>
                         <Field label={Identify.__("Email")} required>
@@ -392,7 +419,7 @@ const FormFields = (props) => {
         </Fragment>
     ) : null;
 
-    const viewSubmit = !formState.values.addresses_same && (!isSignedIn || !default_billing || shippingNewForm) ? (
+    const viewSubmit = !formState.values.addresses_same && (!isSignedIn || shippingNewForm || ((billingForm && storageBilling === 'new_address') || (!billingForm && storageShipping === 'new_address'))) ? (
         <div className={classes.footer}>
             <Button
                 className={classes.button}

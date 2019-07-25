@@ -41,7 +41,15 @@ const Thankyou = props => {
         }
         const padOrderId = Identify.PadWithZeroes(order.id, 9);
         const orderId = '/orderdetails.html/' + padOrderId;
-        history.push(orderId);
+        const orderLocate = {
+            pathname: orderId,
+            state: {
+                orderData: {
+                    increment_id: padOrderId
+                }
+            }
+        }
+        history.push(orderLocate);
     }
 
     return (

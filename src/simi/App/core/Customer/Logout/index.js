@@ -9,7 +9,9 @@ const Logout = props => {
     const { signOut, history, isSignedIn } = props
     if (isSignedIn) {
         if (!loggingOut) {
-            loggingOut = true
+            loggingOut = true;
+            sessionStorage.removeItem("shipping_address");
+            sessionStorage.removeItem("billing_address");
             signOut({ history })
         } else {
             console.log('Already logging out')
