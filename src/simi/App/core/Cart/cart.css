@@ -155,6 +155,10 @@
     height: 40px;
 }
 
+.cart-btn-section {
+    margin-bottom: 38px;
+}
+
 @media (min-width: 1024px) {
     .cart-btn-section {
         margin-top: 20px;

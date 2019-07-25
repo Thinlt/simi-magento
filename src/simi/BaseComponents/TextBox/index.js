@@ -1,6 +1,5 @@
 import React from 'react';
 import './style.css'
-import Identify from "src/simi/Helper/Identify";
 import classify from 'src/classify';
 import defaultClasses from './style.css';
 import PropTypes from 'prop-types';
@@ -9,7 +8,7 @@ const TextBox = props => {
     let { classes } = props;
     if(props.parentclasses) classes = {...classes, ...props.parentclasses};
     let className = `form-control ${classes['base-textField']} `;
-    let label = props.label;
+    const label = props.label;
     let id = '';
     if(props.className) className = className + props.className;
     if(props.required)  className = className + ' required'

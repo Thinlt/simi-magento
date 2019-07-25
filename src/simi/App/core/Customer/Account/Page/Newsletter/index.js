@@ -19,9 +19,9 @@ class Newsletter extends React.Component {
 
     render() {
         const {user, classes} = this.props;
-        TitleHelper.renderMetaHeader({title:Identify.__('Newsletter')})
         return (
             <div className={classes['newsletter-wrap']}>
+                {TitleHelper.renderMetaHeader({title:Identify.__('Newsletter')})}
                 <h1>{Identify.__('Newsletter Subscription')}</h1>
                 <div className={classes['subscription-title']}>{Identify.__('Subscription option')}</div>
                 <Simiquery query={CUSTOMER_NEWSLETTER}>

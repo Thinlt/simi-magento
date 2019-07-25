@@ -10,6 +10,15 @@ import Identify from "../../../Helper/Identify";
 import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
 
 class Contact extends Component {
+    componentDidMount() {
+        window.scrollTo(0, 0);
+    }
+
+    // componentWillMount() {
+    //     window.scrollTo(0, 0);
+    // }
+    
+    
     render() {
         return (
             <div className="contact-page">
