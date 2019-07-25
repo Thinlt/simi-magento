@@ -1,14 +1,13 @@
 import React from 'react'
 import ArrowRight from 'src/simi/BaseComponents/Icon/TapitaIcons/ArrowLeft';
-
-const cateUrlSuffix = '.html';
+import {cateUrlSuffix} from 'src/simi/Helper/Url';
 
 const HomeCatItem = props => {
     const {item, history, classes, isPhone} = props;
 
     const action = () => {
         if (item.url_path)
-            history.push(item.url_path + cateUrlSuffix);
+            history.push(item.url_path + cateUrlSuffix());
     }
 
     if(!item.simicategory_filename && !item.simicategory_filename_tablet) {
@@ -30,10 +29,11 @@ const HomeCatItem = props => {
             img = item.simicategory_filename_tablet;
         }
     }
- 
+
 
     return (
-        <div role="presentation" className={"home-cate-item"} onClick={() => action()}>
+
+        <div role="presentation" className={classes['home-cate-item']} onClick={() => action()}>
             <div className={"cate-img"}>
                 <img src={img}
                      alt={item.simicategory_name}/>
