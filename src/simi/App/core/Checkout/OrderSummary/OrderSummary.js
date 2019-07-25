@@ -8,7 +8,7 @@ import Arrow from 'src/simi/BaseComponents/Icon/Arrowup';
 import Total from 'src/simi/BaseComponents/Total';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import AddressItem from 'src/simi/BaseComponents/Address';
-import { logoUrl } from 'src/simi/Helper/Url'
+import { logoUrl } from 'src/simi/Helper/Url';
 const $ = window.$;
 
 const OrderSummary = (props) => {
@@ -75,13 +75,13 @@ const OrderSummary = (props) => {
     const handleToggleItems = (e) => {
         const parent = $(e.currentTarget);
         parent.next('ul').slideToggle('fast');
-        $('.item-count .expand_icon').toggleClass('rotate-180')
+        $(e.currentTarget).find('.expand_icon').toggleClass(defaultClasses['rotate-180'])
     }
 
     const handleToggleOption = (e) => {
         const parent = $(e.currentTarget);
         parent.next('.options-selected').slideToggle('fast');
-        parent.children('.arrow-down').toggleClass('rotate-180');
+        parent.children('.arrow-down').toggleClass(defaultClasses['rotate-180']);
     }
 
     const totalsSummary = (
@@ -91,8 +91,7 @@ const OrderSummary = (props) => {
     const summaryItem = (
         <div className={defaultClasses['order-review-container']}>
             <div className={defaultClasses['order-review item-box']}>
-                <div className={defaultClasses['order-items-header']} key={Identify.randomString()} id="order-items-header"
-                    onClick={(e) => handleToggleItems(e)}>
+                <div className={defaultClasses['order-items-header']} key={Identify.randomString()} id="order-items-header" onClick={(e) => handleToggleItems(e)}>
                     <div className={defaultClasses['item-count']}>
                         <span>{totalLabel} </span>
                         <Arrow className={'expand_icon'} />

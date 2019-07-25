@@ -28,6 +28,18 @@ class Login extends Component {
         isForgotPasswordOpen: false,
     };
 
+    stateForgot = () => {
+        const {history} = this.props;
+
+        return history.location && history.location.state && history.location.state.forgot;
+    }
+
+    componentDidMount(){
+        if (this.stateForgot()){
+            this.setForgotPasswordForm()
+        }
+    }
+
     get signInForm() {
         const { isSignInOpen } = this.state;
         const { classes } = this.props;
@@ -94,6 +106,7 @@ class Login extends Component {
         const { classes } = this.props;
         const isOpen = isForgotPasswordOpen;
         const className = isOpen ? classes.form_open : classes.form_closed;
+        console.log(isOpen);
         return this.forgotPassword(className);
     }
 
@@ -165,7 +178,7 @@ class Login extends Component {
             firstname,
             history
         } = props;
-
+console.log(history)
         if (isSignedIn) {
             history.push('/account.html')
             const message = firstname?
@@ -193,7 +206,7 @@ class Login extends Component {
                         <div className={`${classes['login-header']} ${showBackBtn&&classes['has-back-btn']}`}>
                             {
                                 (showBackBtn) &&
-                                <div role="presentation" 
+                                <div role="presentation"
                                     className={classes['login-header-back']}
                                     onClick={showLoginForm}
                                     >

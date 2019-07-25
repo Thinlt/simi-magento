@@ -3,6 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Identify from '../../Helper/Identify'
 import PropTypes from 'prop-types';
+import defaultClasses from './style.css';
 
 const styles = {
     container: {
@@ -25,15 +26,15 @@ class Panel extends React.Component {
 
     handleToggleOpen = (id) => {
         if (this.props.isToggle) {
-            let panel = $('#' + id);
-            panel.find('.panel-icon svg').toggleClass('rotate-180')
+            const panel = $('#' + id);
+            panel.find('.panel-icon svg').toggleClass(defaultClasses['rotate-180'])
             panel.find('.panel-content').slideToggle()
         }
     };
 
     render() {
-        let id = 'panel-' + Identify.randomString()
-        let { headerStyle, isBox, expanded, className, title, titleSecondary, isToggle, renderContent, containerStyle } = this.props;
+        const id = 'panel-' + Identify.randomString()
+        const { headerStyle, isBox, expanded, className, title, titleSecondary, isToggle, renderContent, containerStyle } = this.props;
         styles.header = { ...styles.header, ...headerStyle, }
         if (isBox) {
             styles.container = {
@@ -50,13 +51,14 @@ class Panel extends React.Component {
                 display: expanded ? 'block' : 'none'
             }
         }
+
         return (
             <div className={`panel-container ${className}`} id={id} style={styles.container}>
                 <div className="panel-header flex" style={styles.header} onClick={(e) => this.handleToggleOpen(id)}>
                     <div className={`panel-title`}>{title}</div>
                     <div className={`panel-secondary-title`}>{titleSecondary}</div>
                     {isToggle && (
-                        <div className={`panel-icon ${expanded ? 'rotate-180' : ''}`} style={{ marginLeft: 'auto' }}>
+                        <div className={`panel-icon ${expanded ? defaultClasses['rotate-180'] : ''}`} style={{ marginLeft: 'auto' }}>
                             <IconButton>
                                 <ExpandMoreIcon style={styles.icon} />
                             </IconButton>

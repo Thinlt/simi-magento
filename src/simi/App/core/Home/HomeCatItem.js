@@ -33,15 +33,17 @@ const HomeCatItem = props => {
 
 
     return (
+
+        <div role="presentation" className={classes['home-cate-item']} onClick={() => action()}>
         <div role="presentation" className={"home-cate-item"} onClick={() => action()}>
             <div className={"cate-img"}>
                 <img src={img}
                      alt={item.simicategory_name}/>
             </div>
-            <div className={"cate-title"}>
+            <div className={classes["cate-title"]}>
                 <div className={"--text"}>{item.simicategory_name}</div>
             </div>
-            <div className={"cate-arrow"}>
+            <div className={classes["cate-arrow"]}>
                 <ArrowRight color="#fff" style={{width:60,height:60}}/>
             </div>
         </div>
