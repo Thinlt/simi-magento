@@ -25,6 +25,7 @@ import TitleHelper from 'src/simi/Helper/TitleHelper'
 import { updateCoupon } from 'src/simi/Model/Cart';
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+import Close from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
 
 
 class Cart extends Component {
@@ -195,10 +196,15 @@ class Cart extends Component {
     }
 
     handleCoupon = (e) => {
-        const coupon = document.querySelector('#coupon_field').value;
-        if(!coupon) {
+
+        let coupon = document.querySelector('#coupon_field').value;
+        if(!coupon && e !== 'clear') {
             this.props.toggleMessages([{type: 'error', message: 'Please enter coupon code', auto_dismiss: true}]);
             return null;
+        }
+        if(e === 'clear') {
+            coupon = ''
+            this.clearCoupon = true
         }
         showFogLoading()
         const params = {
@@ -208,6 +214,7 @@ class Cart extends Component {
     }
 
     processData = (data) => {
+        
         let text = '';
         let success = false;
         if (data.message) {
@@ -219,6 +226,11 @@ class Cart extends Component {
         }
         if(data.total && data.total.coupon_code) {
             success = true;
+        }
+        if(this.clearCoupon){
+            this.clearCoupon = false
+            success = true
+            document.querySelector('#coupon_field').value = ''
         }
         if(text) 
             this.props.toggleMessages([{type: success ? 'success' : 'error', message: text, auto_dismiss: true}])
@@ -238,6 +250,9 @@ class Cart extends Component {
                 <div className={classes["coupon-code-title"]}>{Identify.__('Promo code')}</div>
                 <div className={classes["coupon-code-area-tablet"]}>
                     <input id="coupon_field" type="text" placeholder={Identify.__('enter code here')} defaultValue={value}/>
+                    {value && <button className={classes['btn-clear-coupon']} onClick={()=>this.handleCoupon('clear')}>
+                        <Close style={{width:15,height:15}}/>
+                    </button>   }
                 </div>
                 <Whitebtn
                     id={classes["submit-coupon"]} onClick={(e) => this.handleCoupon(e)}
