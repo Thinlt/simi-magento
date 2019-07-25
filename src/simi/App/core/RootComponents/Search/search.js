@@ -9,11 +9,11 @@ import getQueryParameterValue from 'src/util/getQueryParameterValue';
 import Loading from 'src/simi/BaseComponents/Loading'
 import defaultClasses from './search.css';
 import PRODUCT_SEARCH from 'src/simi/queries/catalog/productSearch.graphql';
-import SIMI_PRODUCT_SEARCH from 'src/simi/queries/simiconnector/productSearch.graphql';
 import Products from 'src/simi/BaseComponents/Products'
 import CloseIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Close';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
+import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
 
 var sortByData = null
 var filterData = null
@@ -101,15 +101,14 @@ const Search = props => {
         </div>
     );
 
-    const searchQuery = Identify.hasConnector()?SIMI_PRODUCT_SEARCH:PRODUCT_SEARCH
     return (
-        <Simiquery query={searchQuery} variables={queryVariable}>
+        <Simiquery query={PRODUCT_SEARCH} variables={queryVariable}>
             {({ loading, error, data }) => {
                 if (error) return <div>Data Fetch Error</div>;
                 if (loading) return <Loading />;
 
-                if (data && data.simiproducts) {
-                    data.products = data.simiproducts
+                if (data) {
+                    data.products = applySimiProductListItemExtraField(data.simiproducts)
                     if (data.products.simi_filters)
                         data.products.filters = data.products.simi_filters
                 }

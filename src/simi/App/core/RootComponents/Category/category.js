@@ -1,8 +1,7 @@
 import React from 'react';
 import LoadingSpiner from 'src/simi/BaseComponents/Loading/LoadingSpiner'
 import { number } from 'prop-types';
-import categoryQuery from 'src/simi/queries/catalog/getCategory.graphql';
-import simicntrCategoryQuery from 'src/simi/queries/simiconnector/getCategory.graphql'
+import simicntrCategoryQuery from 'src/simi/queries/catalog/getCategory.graphql'
 import Products from 'src/simi/BaseComponents/Products';
 import { resourceUrl } from 'src/simi/Helper/Url'
 import CategoryHeader from './categoryHeader'
@@ -11,6 +10,8 @@ import ObjectHelper from 'src/simi/Helper/ObjectHelper';
 import { withRouter } from 'react-router-dom';
 import {Simiquery} from 'src/simi/Network/Query'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
+import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
+import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
 
 var sortByData = null
 var filterData = null
@@ -47,21 +48,32 @@ const Category = props => {
     if (sortByData)
         variables.sort = sortByData
         
-    const cateQuery = Identify.hasConnector()?simicntrCategoryQuery:categoryQuery
+    const cateQuery = simicntrCategoryQuery
     return (
         <Simiquery query={cateQuery} variables={variables}>
             {({ loading, error, data }) => {
                 if (error) return <div>Data Fetch Error</div>;
                 if (!data || !data.category) return <LoadingSpiner />;
 
-                if (data && data.simiproducts) {
-                    data.products = data.simiproducts
+                if (data) {
+                    data.products = applySimiProductListItemExtraField(data.simiproducts)
                     if (data.products.simi_filters)
                         data.products.filters = data.products.simi_filters
                 }
                 const categoryTitle = data && data.category ? data.category.name : '';
+                const breadcrumb = [{name: "Home", link: '/'}];
+                if(data && data.category && data.category.breadcrumbs instanceof Array) {
+                    data.category.breadcrumbs.forEach(item => {
+                        breadcrumb.push({name: item.category_name, link: '/' + item.category_url_key + '.html'})
+                    })
+
+                    breadcrumb.push({name: data.category.name})
+                } 
+                
+
                 return (
                     <div className="container">
+                        <BreadCrumb breadcrumb={breadcrumb} history={props.history}/>
                         {TitleHelper.renderMetaHeader({
                             title: data.category.meta_title?data.category.meta_title:data.category.name,
                             desc: data.category.meta_description

@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { Util } from '@magento/peregrine';
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
 import {
@@ -27,24 +26,23 @@ import {
 
 import { submitShippingAddress, submitBillingAddress } from 'src/simi/Redux/actions/simiactions';
 
-import classify from 'src/classify'
+import classify from 'src/classify';
 import defaultClasses from './checkout.css';
-import TitleHelper from 'src/simi/Helper/TitleHelper'
-import Identify from 'src/simi/Helper/Identify'
-import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
-import OrderSummary from "./OrderSummary"
-import { configColor } from 'src/simi/Config'
-import { Colorbtn } from 'src/simi/BaseComponents/Button'
+import TitleHelper from 'src/simi/Helper/TitleHelper';
+import Identify from 'src/simi/Helper/Identify';
+import BreadCrumb from "src/simi/BaseComponents/BreadCrumb";
+import OrderSummary from "./OrderSummary/index";
+import { configColor } from 'src/simi/Config';
+import { Colorbtn } from 'src/simi/BaseComponents/Button';
 import { Link } from 'react-router-dom';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import EditableForm from './editableForm';
 import Panel from 'src/simi/BaseComponents/Panel';
 import { toggleMessages, simiSignedIn } from 'src/simi/Redux/actions/simiactions';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
-import {smoothScrollToView} from 'src/simi/Helper/Behavior'
+import { smoothScrollToView } from 'src/simi/Helper/Behavior';
+import Coupon from 'src/simi/BaseComponents/Coupon';
 
-const { BrowserPersistence } = Util;
-const storage = new BrowserPersistence();
 
 const isCheckoutReady = checkout => {
     const {
@@ -82,6 +80,7 @@ class Checkout extends Component {
             editing: oneOf(['address', 'billingAddress', 'paymentMethod', 'shippingMethod']),
             invalidAddressMessage: string,
             isAddressInvalid: bool,
+            paymentCode: string,
             paymentData: object,
             shippingAddress: object,
             shippingMethod: string,
@@ -111,7 +110,6 @@ class Checkout extends Component {
         };
     }
 
-
     setIsPhone() {
         const obj = this;
         window.onresize = function () {
@@ -131,11 +129,11 @@ class Checkout extends Component {
 
         try {
             // get cart detail
-            const aa = await getCartDetails();
+            const cartDT = await getCartDetails();
             // The getCartDetails call is now done!
-            if (typeof aa === 'undefined') {
+            if (typeof cartDT === 'undefined') {
                 //beginning checkout
-                beginCheckout();
+                await beginCheckout();
             }
 
             // Do something
@@ -144,19 +142,12 @@ class Checkout extends Component {
         }
     }
 
-
     get breadcrumb() {
         return <BreadCrumb breadcrumb={[{ name: 'Home', link: '/' }, { name: 'Basket', link: '/cart.html' }, { name: 'Checkout', link: '/checkout.html' }]} />
     }
 
     handleLink(link) {
         this.props.history.push(link)
-    }
-
-    get cartId() {
-        const { cart } = this.props;
-
-        return cart && cart.details && cart.details.id;
     }
 
     get cartDetail() {
@@ -175,16 +166,13 @@ class Checkout extends Component {
         );
     }
 
-    handleBack() {
-        this.props.history.goBack()
-    }
-
-    handleLink(link) {
-        this.props.history.push(link)
+    get userSignedIn(){
+        const { user } = this.props;
+        return user && user.isSignedIn;
     }
 
     placeOrder = () => {
-        const { submitOrder, checkout, toggleMessages } = this.props;
+        const { submitOrder, checkout, toggleMessages, cart } = this.props;
         const { paymentData, shippingAddress, shippingMethod, billingAddress } = checkout;
 
         if (toggleMessages) {
@@ -198,7 +186,7 @@ class Checkout extends Component {
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a billing address'), auto_dismiss: true }])
                 return;
             }
-            if (!shippingMethod || !shippingMethod.length) {
+            if (!cart.is_virtual && (!shippingMethod || !shippingMethod.length)) {
                 smoothScrollToView($("#id-message"));
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a shipping method '), auto_dismiss: true }])
                 return;
@@ -244,9 +232,9 @@ class Checkout extends Component {
     }
 
     get checkoutInner() {
-        const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail } = this;
-        let { isPhone } = this.state;
-        let containerSty = isPhone ? { marginTop: 35 } : {};
+        const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail, userSignedIn } = this;
+        const { isPhone } = this.state;
+        const containerSty = isPhone ? { marginTop: 35 } : {};
         const { classes,
             cart,
             checkout,
@@ -258,19 +246,22 @@ class Checkout extends Component {
             submitPaymentMethod,
             submitBillingAddress,
             user,
-            simiSignedIn } = props;
+            simiSignedIn,
+            toggleMessages,
+            getCartDetails } = props;
         const { shippingAddress,
             submitting,
             availableShippingMethods,
             shippingMethod,
             billingAddress,
             paymentData,
+            paymentCode,
             invalidAddressMessage,
             isAddressInvalid,
             shippingTitle } = checkout;
 
         const { paymentMethods, is_virtual } = cart;
-        let { editing } = checkout;
+        const { editing } = checkout;
 
         const stepProps = {
             availableShippingMethods,
@@ -287,6 +278,7 @@ class Checkout extends Component {
                 !!shippingMethod && !isObjectEmpty(shippingMethod),
             invalidAddressMessage,
             isAddressInvalid,
+            paymentCode,
             paymentData,
             ready: isCheckoutReady(checkout),
             shippingAddress,
@@ -303,13 +295,33 @@ class Checkout extends Component {
             simiSignedIn
         };
 
-        if (checkout.step && checkout.step === 'receipt') {
-            this.handleLink('/thankyou.html');
+        let cpValue = "";
+        if (cart.totals.coupon_code) {
+            cpValue = cart.totals.coupon_code;
         }
 
-        hideFogLoading()
+        const childCPProps = {
+            classes,
+            value: cpValue,
+            toggleMessages,
+            getCartDetails
+        }
 
-        return <React.Fragment>
+        if (checkout.step && checkout.step === 'receipt') {
+            const locate = {
+                pathname: '/thankyou.html',
+                state: {
+                    isUserSignedIn: userSignedIn
+                }
+              };
+            this.handleLink(locate);
+        }
+
+        if (!isCheckoutReady(checkout)) {
+            hideFogLoading()
+        }
+
+        return <Fragment>
             {this.breadcrumb}
             <div className={defaultClasses['checkout-page-title']}>{Identify.__("Checkout")}</div>
             {!cartDetail ? checkoutEmpty : <div className={defaultClasses['checkout-column']}>
@@ -346,6 +358,14 @@ class Checkout extends Component {
                         headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                     />
 
+                    <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Coupon Code')}</div>}
+                        renderContent={<Coupon {...childCPProps} />}
+                        isToggle={true}
+                        expanded={false}
+                        containerStyle={{ marginTop: 35 }}
+                        headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                    />
+
                 </div>
                 <div className={defaultClasses[`checkout-col-3`]}>
                     <div className={defaultClasses['col-3-content']}>
@@ -354,7 +374,7 @@ class Checkout extends Component {
                     </div>
                 </div>
             </div>}
-        </React.Fragment>
+        </Fragment>
     }
 
     render() {

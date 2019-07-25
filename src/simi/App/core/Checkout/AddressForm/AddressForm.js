@@ -1,11 +1,12 @@
 import React, { useCallback, useMemo } from 'react';
-import { Form} from 'informed';
+import { Form } from 'informed';
 import { array, bool, func, object, shape, string } from 'prop-types';
 
 import { mergeClasses } from 'src/classify';
-import defaultClasses from './addressForm.css';
+import defaultClasses from './AddressForm.css';
 import isObjectEmpty from 'src/util/isObjectEmpty';
-import FormFields from './components/formFields';
+import FormFields from '../components/formFields';
+import Identify from 'src/simi/Helper/Identify';
 
 const fields = [
     'city',
@@ -15,7 +16,28 @@ const fields = [
     'postcode',
     'region_code',
     'street',
-    'telephone'
+    'telephone',
+    'company',
+    'fax',
+    'prefix',
+    'suffix',
+    'vat_id',
+    'country_id',
+    'save_in_address_book'
+];
+
+const defaultConfigFields = [
+    'company_show',
+    'street_show',
+    'country_id_show',
+    'region_id_show',
+    'city_show',
+    'zipcode_show',
+    'telephone_show',
+    'fax_show',
+    'prefix_show',
+    'suffix_show',
+    'taxvat_show',
 ];
 
 const DEFAULT_FORM_VALUES = {
@@ -24,7 +46,6 @@ const DEFAULT_FORM_VALUES = {
 
 const AddressForm = props => {
     const {
-        cancel,
         countries,
         isAddressInvalid,
         invalidAddressMessage,
@@ -41,7 +62,7 @@ const AddressForm = props => {
 
     let initialFormValues = initialValues;
 
-    if(billingForm){
+    if (billingForm) {
         fields.push('addresses_same');
         if (isObjectEmpty(initialValues)) {
             initialFormValues = DEFAULT_FORM_VALUES;
@@ -60,10 +81,31 @@ const AddressForm = props => {
         }
     }
 
+    const simiGetStoreConfig = Identify.getStoreConfig();
+    const simiStoreViewCustomer = simiGetStoreConfig.simiStoreConfig.config.customer;
+
+    let configFields = null;
+    if (simiStoreViewCustomer && simiStoreViewCustomer.hasOwnProperty('address_fields_config')) {
+        const { address_fields_config } = simiStoreViewCustomer;
+        configFields = useMemo(
+            () =>
+                defaultConfigFields.reduce((acc, key) => {
+                    acc[key] = address_fields_config[key];
+                    return acc;
+                }, {}),
+            [address_fields_config]
+        )
+    }
+
     const values = useMemo(
         () =>
             fields.reduce((acc, key) => {
-                acc[key] = initialFormValues[key];
+                if (key === 'save_in_address_book') {
+                    acc[key] = initialFormValues[key] ? true : false;
+                } else {
+                    acc[key] = initialFormValues[key];
+                }
+
                 return acc;
             }, {}),
         [initialFormValues]
@@ -71,7 +113,7 @@ const AddressForm = props => {
 
     let initialCountry;
     let selectableCountries;
-    const callGetCountries = {value: '', label: 'Please choose'}
+    const callGetCountries = { value: '', label: Identify.__('Please choose') }
 
     if (countries && countries.length) {
         selectableCountries = countries.map(
@@ -80,7 +122,7 @@ const AddressForm = props => {
                 value: id
             })
         );
-        initialCountry = values.country || countries[0].id;
+        initialCountry = values.country || '' //countries[0].id;
     } else {
         selectableCountries = [];
         initialCountry = '';
@@ -95,19 +137,29 @@ const AddressForm = props => {
             submitBilling(billingAddress);
         },
         [submitBilling]
-    )
+    );
 
     const handleSubmit = useCallback(
         values => {
             if (values.hasOwnProperty('addresses_same')) delete values.addresses_same
-            if (values.hasOwnProperty('selected_shipping_address')) delete values.selected_shipping_address
-            submit(values);
-            if(!billingForm && !billingAddressSaved){
+            if (values.hasOwnProperty('selected_address_field')) delete values.selected_address_field
+            if (values.hasOwnProperty('password')) delete values.password
+            if (values.save_in_address_book) {
+                values.save_in_address_book = 1;
+            } else {
+                values.save_in_address_book = 0;
+            }
+            submit(JSON.parse(JSON.stringify(values)));
+            if (!billingForm && !billingAddressSaved) {
                 handleSubmitBillingSameFollowShipping();
             }
         },
         [submit]
     );
+
+    const handleFormReset = () => {
+        Object.keys(values).forEach(k => values[k] = null)
+    }
 
     const formChildrenProps = {
         ...props,
@@ -116,15 +168,18 @@ const AddressForm = props => {
         submit,
         validationMessage,
         initialCountry,
-        selectableCountries
+        selectableCountries,
+        configFields,
+        handleFormReset
     };
-// console.log(values)
+
     return (
         <Form
             className={classes.root}
             initialValues={values}
             onSubmit={handleSubmit}
-            style={{display: 'inline-block', width: '100%'}}
+            key={Identify.randomString()}
+            style={{ display: 'inline-block', width: '100%' }}
         >
             <FormFields {...formChildrenProps} />
         </Form>
@@ -132,7 +187,6 @@ const AddressForm = props => {
 };
 
 AddressForm.propTypes = {
-    cancel: func.isRequired,
     classes: shape({
         body: string,
         button: string,
@@ -162,19 +216,3 @@ AddressForm.defaultProps = {
 };
 
 export default AddressForm;
-
-/*
-const mockAddress = {
-    country_id: 'US',
-    firstname: 'Veronica',
-    lastname: 'Costello',
-    street: ['6146 Honey Bluff Parkway'],
-    city: 'Calder',
-    postcode: '49628-7978',
-    region_id: 33,
-    region_code: 'MI',
-    region: 'Michigan',
-    telephone: '(555) 229-3326',
-    email: 'veronica@example.com'
-};
-*/

@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import Identify from "src/simi/Helper/Identify";
 import { simiUseQuery } from 'src/simi/Network/Query' 
-import getCategory from 'src/simi/queries/catalog/getCateProductsNoFilter.graphql'
+import getCategory from 'src/simi/queries/catalog/getCategory.graphql'
 import Loading from "src/simi/BaseComponents/Loading";
 import { GridItem } from "src/simi/BaseComponents/GridItem";
+import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
 
 const ProductItem = props => {
     const {classes, dataProduct, history} = props;
@@ -15,7 +16,7 @@ const ProductItem = props => {
     useEffect(() => {
         runQuery({
             variables: {
-                // id: Number(id),
+                id: Number(dataProduct.category_id),
                 pageSize: Number(8),
                 currentPage: Number(1),
                 stringId: String(dataProduct.category_id)
@@ -68,11 +69,12 @@ const ProductItem = props => {
         )
     }
 
-    if(data.products.hasOwnProperty('items') && data.products.total_count > 0) {
+    if(data.simiproducts.hasOwnProperty('items') && data.simiproducts.total_count > 0) {
+        const productItem = applySimiProductListItemExtraField(data.simiproducts);
         return (
             <div className={classes["product-list"]}>
                 <div className={classes["product-horizotal"]}>
-                    {renderProductGrid(data.products.items)}
+                    {renderProductGrid(productItem.items)}
                 </div>
             </div>
         )

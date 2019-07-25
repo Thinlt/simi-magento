@@ -118,10 +118,11 @@
         white-space: nowrap;
     }
 
-    .cart-item-header > div {    
+    .cart-item-header > div {
         padding: 14px 18px;
     }
 }
+
 
 #cart-coupon-form {
     font-size: 16px;
@@ -217,6 +218,10 @@
     height: 40px;
 }
 
+.cart-btn-section {
+    margin-bottom: 38px;
+}
+
 @media (min-width: 1024px) {
     .cart-btn-section {
         margin-top: 20px;
@@ -244,7 +249,7 @@
     .cart-btn-section {
         margin-top: 20px;
     }
-    
+
     .cart-btn-section .go-checkout {
         margin-top: 8px;
     }

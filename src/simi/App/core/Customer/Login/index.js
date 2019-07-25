@@ -16,6 +16,7 @@ import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/Gl
 import  * as Constants from 'src/simi/Config/Constants'
 import { Util } from '@magento/peregrine'
 import { simiSignedIn } from 'src/simi/Redux/actions/simiactions';
+import {showToastMessage} from 'src/simi/Helper/Message';
 
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
@@ -26,6 +27,18 @@ class Login extends Component {
         isSignInOpen: true,
         isForgotPasswordOpen: false,
     };
+
+    stateForgot = () => {
+        const {history} = this.props;
+
+        return history.location && history.location.state && history.location.state.forgot;
+    }
+
+    componentDidMount(){
+        if (this.stateForgot()){
+            this.setForgotPasswordForm()
+        }
+    }
 
     get signInForm() {
         const { isSignInOpen } = this.state;
@@ -93,6 +106,7 @@ class Login extends Component {
         const { classes } = this.props;
         const isOpen = isForgotPasswordOpen;
         const className = isOpen ? classes.form_open : classes.form_closed;
+        console.log(isOpen);
         return this.forgotPassword(className);
     }
 
@@ -140,7 +154,7 @@ class Login extends Component {
                 }
             }
             else
-                this.setState({ signInError: true})
+                showToastMessage(Identify.__('The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.'))
         }
     }
 
@@ -164,7 +178,7 @@ class Login extends Component {
             firstname,
             history
         } = props;
-
+console.log(history)
         if (isSignedIn) {
             history.push('/account.html')
             const message = firstname?
@@ -192,7 +206,7 @@ class Login extends Component {
                         <div className={`${classes['login-header']} ${showBackBtn&&classes['has-back-btn']}`}>
                             {
                                 (showBackBtn) &&
-                                <div role="presentation" 
+                                <div role="presentation"
                                     className={classes['login-header-back']}
                                     onClick={showLoginForm}
                                     >

@@ -1,15 +1,10 @@
 import * as Constants from 'src/simi/Config/Constants';
 import CacheHelper from 'src/simi/Helper/CacheHelper';
+import isObjectEmpty from 'src/util/isObjectEmpty';
 
 class Identify {
     static SESSION_STOREAGE = 1;
     static LOCAL_STOREAGE = 2;
-    /*
-    connecter
-    */
-    static hasConnector() {
-        return (window.SMCONFIGS && window.SMCONFIGS.has_connector)
-    }
 
     /*
     String
@@ -177,14 +172,67 @@ class Identify {
         }
     }
 
-    /*
-    Logo Url
-    */
+    static validateEmail(email) {
+        return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+    }
 
-    static logoUrl = () => {
-        return window.SMCONFIGS.logo_url ?
-            window.SMCONFIGS.logo_url :
-        'https://www.simicart.com/skin/frontend/default/simicart2.1/images/simicart/new_logo_small.png'
+    static PadWithZeroes(number, length) {
+
+        let my_string = '' + number;
+        while (my_string.length < length) {
+            my_string = '0' + my_string;
+        }
+
+        return my_string;
+    }
+
+    static formatAddress(address = {}, countries = []) {
+        const country = countries.find(({ id }) => id === address.country_id);
+
+        const { available_regions: regions } = country;
+        if (!country.available_regions) {
+            return address
+        } else {
+            let region = {};
+            if (address.hasOwnProperty('region_code')) {
+                const { region_code } = address;
+                region = regions.find(({ code }) => code === region_code);
+            } else if (address.hasOwnProperty('region') && !isObjectEmpty(address.region)) {
+                const region_list = address.region;
+                const { region_code } = region_list;
+                if (region_code) {
+                    region = regions.find(({ code }) => code === region_code);
+                } else {
+                    region = { region: "Mississippi", region_code: "MS", region_id: 35 };
+                }
+            } else {
+                //fake region to accept current shipping address
+                region = { region: "Mississippi", region_code: "MS", region_id: 35 };
+            }
+
+            return {
+                ...address,
+                country_id: address.country_id,
+                region_id: parseInt(region.id, 10),
+                region_code: region.code,
+                region: region.name
+            }
+        }
+        /* let region = {};
+        if (regions) {
+            region = regions.find(({ code }) => code === region_code);
+        } else {
+            //fake region to accept current shipping address
+            region = { region: "Mississippi", region_code: "MS", region_id: 35 };
+        }
+
+        return {
+            ...address,
+            country_id: address.country_id,
+            region_id: parseInt(region.id, 10),
+            region_code: region.code,
+            region: region.name
+        }; */
     }
 }
 

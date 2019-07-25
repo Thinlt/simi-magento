@@ -7,6 +7,7 @@ import {
     getUserDetails,
 } from 'src/actions/user';
 import isObjectEmpty from 'src/util/isObjectEmpty';
+import Identify from 'src/simi/Helper/Identify';
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
 
@@ -18,8 +19,9 @@ export const changeSampleValue = value => async dispatch => {
 
 export const simiSignedIn = response => async dispatch => {
     dispatch(userActions.signIn.receive(response));
-    dispatch(getUserDetails());
-    dispatch(getCartDetails({ forceRefresh: true }))
+    dispatch(getUserDetails()).then(() => dispatch(fullFillAddress()));
+    dispatch(getCartDetails({ forceRefresh: true }));
+    // dispatch(fullFillAddress());
 }
 
 export const toggleMessages = value => async dispatch => {
@@ -40,8 +42,7 @@ export const submitShippingAddress = payload =>
         const { countries } = directory;
         let { formValues: address } = payload;
         try {
-            address = formatAddress(address, countries);
-            // if (address.id) delete address.id
+            address = Identify.formatAddress(address, countries);
         } catch (error) {
             dispatch(
                 checkoutActions.shippingAddress.reject({
@@ -70,7 +71,7 @@ export const submitBillingAddress = payload =>
         if (!payload.sameAsShippingAddress) {
             const { countries } = directory;
             try {
-                desiredBillingAddress = formatAddress(payload, countries);
+                desiredBillingAddress = Identify.formatAddress(payload, countries);
             } catch (error) {
                 dispatch(checkoutActions.billingAddress.reject(error));
                 return;
@@ -91,56 +92,88 @@ async function saveShippingAddress(address) {
 }
 
 async function saveBillingAddress(address) {
+    if (address.hasOwnProperty('region') && address.region instanceof Object) {
+        address = (({ region, ...others }) => ({ ...others }))(address)
+    }
+
+    address = (({ id, default_billing, default_shipping, ...others }) => ({ ...others }))(address);
     return storage.setItem('billing_address', address);
 }
 
-/* helpers */
+export const fullFillAddress = () => {
+    return async function thunk(dispatch, getState) {
+        const { user, checkout } = getState();
+        const { currentUser } = user;
+        if (user && user.isSignedIn && currentUser && currentUser.hasOwnProperty('addresses') && currentUser.addresses.length) {
+            const { addresses, default_shipping, default_billing } = currentUser;
+            const { shippingAddress, billingAddress } = checkout;
 
-export function formatAddress(address = {}, countries = []) {
-    const country = countries.find(({ id }) => id === address.country_id);
+            if (!shippingAddress && default_shipping) {
+                let df_Address = addresses.find(
+                    ({ id }) => parseInt(id, 10) === parseInt(default_shipping, 10)
+                )
+                if (df_Address) {
+                    try {
+                        const { region } = df_Address;
+                        if (region instanceof Object && !isObjectEmpty(region)) {
+                            df_Address = {
+                                ...df_Address, region_id: parseInt(region.region_id, 10),
+                                region_code: region.region_code,
+                                region: region.region
+                            }
+                        }
 
-    const { available_regions: regions } = country;
-    if (!country.available_regions) {
-        return address
-    } else {
-        let region = {};
-        if (address.hasOwnProperty('region_code')) {
-            let { region_code } = address;
-            region = regions.find(({ code }) => code === region_code);
-        } else if (address.hasOwnProperty('region') && !isObjectEmpty(address.region)) {
-            const region_list = address.region;
-            let { region_code } = region_list;
-            if (region_code) {
-                region = regions.find(({ code }) => code === region_code);
-            } else {
-                region = { region: "Mississippi", region_code: "MS", region_id: 35 };
+                    } catch (error) {
+                        dispatch(
+                            checkoutActions.shippingAddress.reject({
+                                incorrectAddressMessage: error.message
+                            })
+                        );
+                        return null;
+                    }
+
+                    await saveShippingAddress(df_Address);
+                    dispatch(checkoutActions.shippingAddress.accept(df_Address));
+                }
             }
-        } else {
-            //fake region to accept current shipping address
-            region = { region: "Mississippi", region_code: "MS", region_id: 35 };
+
+            if (!billingAddress && default_billing) {
+                let df_BAddress = addresses.find(
+                    ({ id }) => parseInt(id, 10) === parseInt(default_billing, 10)
+                )
+
+                if (default_shipping && (default_billing === default_shipping)) {
+                    df_BAddress = { sameAsShippingAddress: true }
+                }
+
+                if (df_BAddress) {
+                    if (!df_BAddress.sameAsShippingAddress) {
+                        try {
+                            const { region } = df_BAddress;
+                            if (region instanceof Object && !isObjectEmpty(region)) {
+                                df_BAddress = {
+                                    ...df_BAddress, region_id: parseInt(region.region_id, 10),
+                                    region_code: region.region_code,
+                                    region: region.region
+                                }
+                            }
+                        } catch (error) {
+                            dispatch(
+                                checkoutActions.billingAddress.reject({
+                                    incorrectAddressMessage: error.message
+                                })
+                            );
+                            return null;
+                        }
+                    }
+
+                    await saveBillingAddress(df_BAddress);
+                    dispatch(checkoutActions.billingAddress.accept(df_BAddress));
+                }
+            }
+
         }
 
-        return {
-            ...address,
-            country_id: address.country_id,
-            region_id: parseInt(region.id, 10),
-            region_code: region.code,
-            region: region.name
-        }
     }
-    /* let region = {};
-    if (regions) {
-        region = regions.find(({ code }) => code === region_code);
-    } else {
-        //fake region to accept current shipping address
-        region = { region: "Mississippi", region_code: "MS", region_id: 35 };
-    }
-
-    return {
-        ...address,
-        country_id: address.country_id,
-        region_id: parseInt(region.id, 10),
-        region_code: region.code,
-        region: region.name
-    }; */
 }
+

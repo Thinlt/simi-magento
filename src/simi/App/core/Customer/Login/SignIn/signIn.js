@@ -13,26 +13,10 @@ class SignIn extends Component {
     static propTypes = {
         isGettingDetails: bool,
         onForgotPassword: func.isRequired,
-        signIn: func,
-        signInError: object
+        signIn: func
     };
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            signInError: null
-        }
-    }
-
-    get errorMessage() {
-        const { signInError } = this.state
-        if (signInError) {
-            return Identify.__('The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.')
-        }
-    }
-
     render() {
-        const { errorMessage } = this;
         return (
             <div className={classes.root}>
                 {TitleHelper.renderMetaHeader({
@@ -66,9 +50,6 @@ class SignIn extends Component {
                             style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}>
                             {Identify.__('Sign In')}
                         </button>
-                    </div>
-                    <div className={classes.signInError}>
-                        {errorMessage}
                     </div>
                     <button
                         type="button"

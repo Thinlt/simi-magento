@@ -10,7 +10,7 @@ import { compose } from 'redux';
 import ProductList from './ProductList';
 import Identify from 'src/simi/Helper/Identify';
 import * as Constants from 'src/simi/Config/Constants';
-
+// import './home.scss'
 const Home = props => {
     const { classes, history } = props;
     const [isPhone, setIsPhone] = useState(window.innerWidth < 1024)
@@ -50,7 +50,7 @@ const Home = props => {
     return (
         <React.Fragment>
             <Banner data={data} classes={classes} history={history} isPhone={isPhone}/>
-            <HomeCat catData={data} classes={classes} history={history}/>
+            <HomeCat catData={data} classes={classes} history={history} isPhone={isPhone}/>
             <ProductList homeData={data} classes={classes} history={history}/>
         </React.Fragment>
 

@@ -188,6 +188,11 @@
     background-color: rgba(33, 39, 46, 0.7);
 }
 
+.banner-homepage img{
+    min-height: 490px !important;
+    object-fit: cover;
+}
+
 .productlist-content .product-horizotal {
     margin-top: 40px;
     margin-bottom: 40px;
@@ -253,10 +258,10 @@
     .banner-homepage .carousel-slider{
         height: 380px;
     }
-    .banner-homepage .carousel-slider .iron-image-container {
+    /* .banner-homepage .carousel-slider .iron-image-container {
         min-height: 380px !important;
-    }
-    .banner-homepage .carousel-slider .iron-image-container img{
+    } */
+    .banner-homepage img{
         min-height: 380px !important;
         object-fit: cover;
     }
