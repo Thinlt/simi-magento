@@ -6,6 +6,10 @@ import {
     isRequired
 } from 'src/util/formValidators';
 
+import {
+    validateTelephone
+} from 'src/simi/Helper/informedValidation';
+
 import defaultClasses from './formFields.css';
 import combine from 'src/util/combineValidators';
 import TextInput from 'src/components/TextInput';
@@ -363,7 +367,7 @@ const FormFields = (props) => {
                                 <TextInput
                                     id={classes.telephone}
                                     field="telephone"
-                                    validate={(!configFields || (configFields && configFields.hasOwnProperty('telephone_show') && configFields.telephone_show === 'req')) ? isRequired : ''}
+                                    validate={(!configFields || (configFields && configFields.hasOwnProperty('telephone_show') && configFields.telephone_show === 'req')) ? combine([isRequired, validateTelephone]) : ''}
                                 />
                             </Field>
                         </div> : null}

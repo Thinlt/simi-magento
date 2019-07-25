@@ -70,7 +70,7 @@ const PaymentsFormItems = props => {
     // callback will be rendered multiple times on first render. See above
     // comments for more info.
     const handleSuccess = useCallback(
-        value => {
+        value => { console.log(value)
             setIsSubmitting(false);
             submit({
                 code: formState.values['payment_method'],
@@ -108,21 +108,25 @@ const PaymentsFormItems = props => {
             mt = selectablePaymentMethods.map(ite => {
 
                 let frameCard = '';
-                // label with option have card
-                if (ite.value === 'braintree' && formState.values['payment_method'] === ite.value) {
-                    frameCard = <Fragment>
-                        <BraintreeDropin shouldRequestPaymentNonce={isSubmitting} onError={handleError} onSuccess={handleSuccess} />
-                        <Button
-                            className={classes.button}
-                            style={{ marginTop: 10, marginBottom: 20 }}
-                            type="button"
-                            onClick={() => handleSubmit()}
-                        >{Identify.__('Use Card')}</Button>
-                    </Fragment>
-                }
 
-                if (ite.value === 'cc_type' && formState.values['payment_method'] === ite.value) {
-                    frameCard = <CCType />
+                if (formState.values['payment_method'] === ite.value) {
+
+                    // label with option have card
+                    if (ite.value === 'braintree') {
+                        frameCard = <Fragment>
+                            <BraintreeDropin shouldRequestPaymentNonce={isSubmitting} onError={handleError} onSuccess={handleSuccess} />
+                            <Button
+                                className={classes.button}
+                                style={{ marginTop: 10, marginBottom: 20 }}
+                                type="button"
+                                onClick={() => handleSubmit()}
+                            >{Identify.__('Use Card')}</Button>
+                        </Fragment>
+                    }
+
+                    if (ite.value === 'cc_type') {
+                        frameCard = <CCType />
+                    }
                 }
 
                 return <Fragment key={ite.value}>
