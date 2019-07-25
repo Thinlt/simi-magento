@@ -14,7 +14,7 @@ const HomeCat = props => {
             })
 
             return (
-                <div className={'default-list-cate'}>
+                <div className={classes['default-list-cate']}>
                     {cate}
                 </div>
             )
@@ -23,7 +23,7 @@ const HomeCat = props => {
     }
 
     return (
-        <div className={"default-category"}>
+        <div className={classes["default-category"]}>
             <div className="container">
                 {renderCat()}
             </div>
