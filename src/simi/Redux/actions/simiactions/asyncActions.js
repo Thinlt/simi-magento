@@ -241,19 +241,25 @@ export const submitOrder = () =>
                 ? authedPaymentEndpoint
                 : guestPaymentEndpoint;
 
+            const bodyData = {
+                billingAddress: billing_address,
+                cartId: cartId,
+                email: shipping_address.email,
+                paymentMethod: {
+                    additional_data: {
+                        payment_method_nonce: paymentMethod.data.nonce
+                    },
+                    method: paymentMethod.code
+                }
+            };
+
+            if (paymentMethod.data.hasOwnProperty('purchaseorder') && paymentMethod.data.purchaseorder){
+                bodyData.paymentMethod['po_number'] = paymentMethod.data.purchaseorder;
+            }
+
             const response = await request(paymentEndpoint, {
                 method: 'POST',
-                body: JSON.stringify({
-                    billingAddress: billing_address,
-                    cartId: cartId,
-                    email: shipping_address.email,
-                    paymentMethod: {
-                        additional_data: {
-                            payment_method_nonce: paymentMethod.data.nonce
-                        },
-                        method: paymentMethod.code
-                    }
-                })
+                body: JSON.stringify(bodyData)
             });
 
             dispatch(

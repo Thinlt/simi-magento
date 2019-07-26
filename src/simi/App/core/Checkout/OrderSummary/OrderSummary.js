@@ -39,7 +39,7 @@ const OrderSummary = (props) => {
                 <div className={defaultClasses['item-options']}>
                     <div className={defaultClasses['show-label']} onClick={(e) => handleToggleOption(e)}>
                         <span>{Identify.__('See details')}</span>
-                        <Arrow className={'arrow-down'} />
+                        <Arrow className={defaultClasses['arrow-down']} />
                     </div>
                     <div className={'options-selected'} style={{ display: 'none' }}>
                         {itemsOption}
@@ -79,13 +79,13 @@ const OrderSummary = (props) => {
     const handleToggleItems = (e) => {
         const parent = $(e.currentTarget);
         parent.next('ul').slideToggle('fast');
-        $(e.currentTarget).find('.expand_icon').toggleClass(defaultClasses['rotate-180'])
+        parent.find('.expand_icon').toggleClass(defaultClasses['rotate-180'])
     }
 
     const handleToggleOption = (e) => {
         const parent = $(e.currentTarget);
         parent.next('.options-selected').slideToggle('fast');
-        parent.children('.arrow-down').toggleClass(defaultClasses['rotate-180']);
+        parent.find('svg').toggleClass(defaultClasses['rotate-0']);
     }
 
     const totalsSummary = (
