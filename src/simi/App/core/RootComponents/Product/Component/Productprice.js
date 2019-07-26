@@ -44,7 +44,7 @@ class ProductPrice extends React.Component {
         const {data, configurableOptionSelection} = this.props
         const {simiExtraField} = data
 
-        if (simiExtraField && configurableOptionSelection) {
+        if (configurableOptionSelection && simiExtraField && simiExtraField.app_options) {
             const {configurable_options} = simiExtraField.app_options
             if (configurable_options && configurable_options.index && configurable_options.optionPrices) {
                 let sub_product_id = null

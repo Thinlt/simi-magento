@@ -77,7 +77,12 @@ const OrderList = props => {
             </tr>
         )
     }
-
+    let listOrder = [];
+    if(data.hasOwnProperty('customerOrders') && data.customerOrders.items instanceof Array && data.customerOrders.items.length > 0){
+        listOrder = data.customerOrders.items.sort((a,b)=>{
+            return  b.id - a.id
+        })
+    }
     return (
         <div className={classes['customer-recent-orders']}>
             {!data || !data.hasOwnProperty('customerOrders') || data.customerOrders.items.length === 0
@@ -88,7 +93,7 @@ const OrderList = props => {
                 ) : (
                     <PaginationTable
                         renderItem={renderOrderItem}
-                        data={showForDashboard ? data.customerOrders.items.slice(0, 3) : data.customerOrders.items}
+                        data={showForDashboard ? listOrder.slice(0, 3) : listOrder}
                         cols={cols}
                         showPageNumber={!showForDashboard}
                         limit={typeof(limit) === 'string' ? parseInt(limit): limit}
