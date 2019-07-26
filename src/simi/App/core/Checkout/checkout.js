@@ -19,12 +19,12 @@ import {
     beginCheckout,
     cancelCheckout,
     editOrder,
-    submitOrder,
+    /* submitOrder, */
     submitShippingMethod,
     submitPaymentMethod
 } from 'src/actions/checkout';
 
-import { submitShippingAddress, submitBillingAddress } from 'src/simi/Redux/actions/simiactions';
+import { submitShippingAddress, submitBillingAddress, submitOrder } from 'src/simi/Redux/actions/simiactions';
 
 import classify from 'src/classify';
 import defaultClasses from './checkout.css';
@@ -103,11 +103,13 @@ class Checkout extends Component {
     };
 
     constructor(...args) {
-        super(...args)
-        const isPhone = window.innerWidth < 1024
+        super(...args);
+        const isPhone = window.innerWidth < 1024;
         this.state = {
             isPhone: isPhone
         };
+        const storeConfig = Identify.getStoreConfig();
+        this.checkoutRedirect(storeConfig);
     }
 
     setIsPhone() {
@@ -146,6 +148,10 @@ class Checkout extends Component {
         return <BreadCrumb breadcrumb={[{ name: 'Home', link: '/' }, { name: 'Basket', link: '/cart.html' }, { name: 'Checkout', link: '/checkout.html' }]} />
     }
 
+    get pageTitle(){
+        return <div className={defaultClasses['checkout-page-title']}>{Identify.__("Checkout")}</div>;
+    }
+
     handleLink(link) {
         this.props.history.push(link)
     }
@@ -166,7 +172,7 @@ class Checkout extends Component {
         );
     }
 
-    get userSignedIn(){
+    get userSignedIn() {
         const { user } = this.props;
         return user && user.isSignedIn;
     }
@@ -231,8 +237,22 @@ class Checkout extends Component {
         </div>
     }
 
+    checkoutRedirect = (merchant) => {
+        const { user, history } = this.props;
+        const { isSignedIn } = user;
+
+        const guest_checkout = merchant && merchant.simiStoreConfig.config.checkout.enable_guest_checkout ? merchant.simiStoreConfig.config.checkout.enable_guest_checkout : 1;
+        if (!isSignedIn && parseInt(guest_checkout, 10) === 0){
+            const location = {
+                pathname: '/login.html',
+                pushTo: '/checkout.html'
+            };
+            history.push(location);
+        }
+    }
+
     get checkoutInner() {
-        const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail, userSignedIn } = this;
+        const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail, userSignedIn, breadcrumb, pageTitle } = this;
         const { isPhone } = this.state;
         const containerSty = isPhone ? { marginTop: 35 } : {};
         const { classes,
@@ -292,7 +312,8 @@ class Checkout extends Component {
             submitting,
             paymentMethods,
             user,
-            simiSignedIn
+            simiSignedIn,
+            toggleMessages
         };
 
         let cpValue = "";
@@ -313,7 +334,7 @@ class Checkout extends Component {
                 state: {
                     isUserSignedIn: userSignedIn
                 }
-              };
+            };
             this.handleLink(locate);
         }
 
@@ -322,8 +343,8 @@ class Checkout extends Component {
         }
 
         return <Fragment>
-            {this.breadcrumb}
-            <div className={defaultClasses['checkout-page-title']}>{Identify.__("Checkout")}</div>
+            {breadcrumb}
+            {pageTitle}
             {!cartDetail ? checkoutEmpty : <div className={defaultClasses['checkout-column']}>
                 <div className={defaultClasses[`checkout-col-1`]}>
                     <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Address')}</div>}
