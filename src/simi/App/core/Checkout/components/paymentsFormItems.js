@@ -1,10 +1,13 @@
 import React, { useCallback, Fragment } from 'react';
 import { useFormState, asField, BasicRadioGroup } from 'informed';
 import { array, bool, func, shape, string } from 'prop-types';
+import { isRequired } from 'src/util/formValidators';
 
+import defaultClasses from './paymentsFormItems.css';
 import Button from 'src/components/Button';
 import Radio from 'src/components/RadioGroup/radio';
-import defaultClasses from './paymentsFormItems.css';
+import TextInput from 'src/components/TextInput';
+import Field from 'src/components/Field';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import Identify from 'src/simi/Helper/Identify';
 import BraintreeDropin from './paymentMethods/braintreeDropin';
@@ -102,6 +105,14 @@ const PaymentsFormItems = props => {
         setIsSubmitting(true);
     }, [setIsSubmitting]);
 
+    const handleSavePO = () => {
+
+        if (formState.values.purchaseorder) {
+            const { values } = formState;
+            handleSuccess(JSON.parse(JSON.stringify(values)));
+        }
+    }
+
     const renderMethod = () => {
         let mt = null;
         if (selectablePaymentMethods.length) {
@@ -110,6 +121,25 @@ const PaymentsFormItems = props => {
                 let frameCard = '';
 
                 if (formState.values['payment_method'] === ite.value) {
+
+                    if (ite.value === 'purchaseorder') {
+                        frameCard = <Fragment>
+                            <Field label={Identify.__("Purchase Order Number")} required>
+                                <TextInput
+                                    id={classes.purchaseorder}
+                                    field="purchaseorder"
+                                    validate={isRequired}
+                                />
+
+                            </Field>
+                            <Button
+                                className={classes.button}
+                                style={{ marginTop: 10, marginBottom: 20 }}
+                                type="submit"
+                                onClick={() => handleSavePO()}
+                            >{Identify.__('Save')}</Button>
+                        </Fragment>
+                    }
 
                     // label with option have card
                     if (ite.value === 'braintree') {

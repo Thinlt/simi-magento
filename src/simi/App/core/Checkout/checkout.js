@@ -131,12 +131,10 @@ class Checkout extends Component {
 
         try {
             // get cart detail
-            const cartDT = await getCartDetails();
-            // The getCartDetails call is now done!
-            if (typeof cartDT === 'undefined') {
-                //beginning checkout
-                await beginCheckout();
-            }
+            await getCartDetails();
+
+            //beginning checkout
+            await beginCheckout();
 
             // Do something
         } catch (err) {

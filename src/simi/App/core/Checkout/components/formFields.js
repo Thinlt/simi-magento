@@ -1,4 +1,4 @@
-import React, { useCallback, Fragment, useState, useEffect } from 'react';
+import React, { useCallback, Fragment, useState } from 'react';
 import { useFormState } from 'informed';
 import { Util } from '@magento/peregrine';
 import {
