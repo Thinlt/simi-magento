@@ -70,7 +70,7 @@ const PaymentsFormItems = props => {
     // callback will be rendered multiple times on first render. See above
     // comments for more info.
     const handleSuccess = useCallback(
-        value => { console.log(value)
+        value => {
             setIsSubmitting(false);
             submit({
                 code: formState.values['payment_method'],

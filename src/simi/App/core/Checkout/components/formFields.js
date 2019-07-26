@@ -5,10 +5,7 @@ import {
     validateEmail,
     isRequired
 } from 'src/util/formValidators';
-
-import {
-    validateTelephone
-} from 'src/simi/Helper/informedValidation';
+import { validateTelephone } from 'src/simi/Helper/informedValidation';
 
 import defaultClasses from './formFields.css';
 import combine from 'src/util/combineValidators';
@@ -21,7 +18,6 @@ import Identify from 'src/simi/Helper/Identify';
 import { checkExistingCustomer, simiSignIn } from 'src/simi/Model/Customer';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import { Link } from 'react-router-dom';
-import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import * as Constants from 'src/simi/Config/Constants'
 import LoadingImg from 'src/simi/BaseComponents/Loading/LoadingImg';
@@ -30,18 +26,19 @@ const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
 
 const listAddress = (addresses) => {
-    let html = null;
+    let html = [];
     if (addresses && addresses.length) {
         html = addresses.map(address => {
             const labelA = address.firstname + ' ' + address.lastname + ', ' + address.city + ', ' + address.region.region;
             return { value: address.id, label: labelA };
         });
-        const ctoSelect = { value: '', label: Identify.__('Please choose') };
-        html.unshift(ctoSelect);
 
-        const new_Address = { value: 'new_address', label: Identify.__('New Address') };
-        html.push(new_Address);
     }
+    const ctoSelect = { value: '', label: Identify.__('Please choose') };
+    html.unshift(ctoSelect);
+
+    const new_Address = { value: 'new_address', label: Identify.__('New Address') };
+    html.push(new_Address);
     return html;
 }
 
@@ -184,6 +181,7 @@ const FormFields = (props) => {
     )
 
     const setDataLogin = (data) => {
+
         hideFogLoading();
         if (data && !data.errors) {
             if (data.customer_access_token) {
@@ -196,15 +194,19 @@ const FormFields = (props) => {
             }
         } else {
             smoothScrollToView($("#id-message"));
-            toggleMessages([{ type: 'error', message: Identify.__('The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.'), auto_dismiss: true }])
+            if (props.toggleMessages){
+                props.toggleMessages([{ type: 'error', message: Identify.__('The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.'), auto_dismiss: true }])
+            }
         }
     }
 
     const handleSignIn = () => {
         const { email, password } = formState.values;
-        if (!email || !password) {
+        if (!email || !password || !email.trim() || !password.trim()) {
             smoothScrollToView($("#id-message"));
-            toggleMessages([{ type: 'error', message: Identify.__('Email and password is required to login!'), auto_dismiss: true }])
+            if (props.toggleMessages){
+                props.toggleMessages([{ type: 'error', message: Identify.__('Email and password is required to login!'), auto_dismiss: true }])
+            }
             return;
         }
         const username = email;

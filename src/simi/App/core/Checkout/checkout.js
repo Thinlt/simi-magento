@@ -19,12 +19,12 @@ import {
     beginCheckout,
     cancelCheckout,
     editOrder,
-    submitOrder,
+    /* submitOrder, */
     submitShippingMethod,
     submitPaymentMethod
 } from 'src/actions/checkout';
 
-import { submitShippingAddress, submitBillingAddress } from 'src/simi/Redux/actions/simiactions';
+import { submitShippingAddress, submitBillingAddress, submitOrder } from 'src/simi/Redux/actions/simiactions';
 
 import classify from 'src/classify';
 import defaultClasses from './checkout.css';
@@ -312,7 +312,8 @@ class Checkout extends Component {
             submitting,
             paymentMethods,
             user,
-            simiSignedIn
+            simiSignedIn,
+            toggleMessages
         };
 
         let cpValue = "";
