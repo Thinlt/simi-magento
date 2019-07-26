@@ -6,9 +6,10 @@ import { simiUseQuery } from 'src/simi/Network/Query';
 import Loading from 'src/simi/BaseComponents/Loading'
 import { getDataFromUrl } from 'src/simi/Helper/Url';
 
-var parsedFromDocumentOnce = false
+var parseFromDoc = true
 const TYPE_PRODUCT = 'PRODUCT'
 const TYPE_CATEGORY = 'CATEGORY'
+const TYPE_CMS_PAGE = 'CMS_PAGE'
 
 const NoMatch = props => {
     const {location} = props
@@ -20,17 +21,19 @@ const NoMatch = props => {
     }
 
     if (
-        !parsedFromDocumentOnce &&
+        parseFromDoc &&
         document.body.getAttribute('data-model-type') &&
-        document.body.getAttribute('data-model-id')
+        document.body.getAttribute('data-model-id') &&
+        (document.body.getAttribute('data-model-type') !== TYPE_CMS_PAGE)
     ) {
+        parseFromDoc = false
         const type = document.body.getAttribute('data-model-type')
         const id = document.body.getAttribute('data-model-id')
-        parsedFromDocumentOnce = true
         const result = renderByTypeAndId(type, id)
         if (result)
             return result
     } else if (location && location.pathname) {
+        parseFromDoc = false
         const pathname = location.pathname
 
         //load from dict
@@ -63,6 +66,7 @@ const NoMatch = props => {
         }
     }
 
+    parseFromDoc = false
     return (
         <Loading />
     )
