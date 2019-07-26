@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom';
+
 class Breadcrumb extends React.Component{
     renderBreadcrumb = data => {
         const {history} = this.props
@@ -8,6 +10,7 @@ class Breadcrumb extends React.Component{
             const size = data.length;
             const breadcrumb = data.map((item,key) => {
                 const action = size === key+1 ? ()=>{} : ()=>history.push(item.link)
+                console.log(action)
                 const arrow = size === key+1 ? null : <span className="breadcrumb-arrow" style={{margin :'0 5px'}}> > </span>
                 return (
                     <React.Fragment key={key}>
@@ -47,4 +50,5 @@ Breadcrumb.propTypes = {
     breadcrumb : PropTypes.array.isRequired,
     history: PropTypes.object
 }
-export default Breadcrumb
+
+export default withRouter(Breadcrumb)

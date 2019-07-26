@@ -52,7 +52,6 @@ const BannerItem = props => {
             img = item.banner_name_tablet
         }
     }
-
     if(!img) return null
 
     return (
