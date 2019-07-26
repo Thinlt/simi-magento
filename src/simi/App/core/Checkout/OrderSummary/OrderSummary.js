@@ -8,7 +8,8 @@ import Arrow from 'src/simi/BaseComponents/Icon/Arrowup';
 import Total from 'src/simi/BaseComponents/Total';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import AddressItem from 'src/simi/BaseComponents/Address';
-import { logoUrl } from 'src/simi/Helper/Url';
+import { resourceUrl, logoUrl } from 'src/simi/Helper/Url';
+import Image from 'src/simi/BaseComponents/Image';
 const $ = window.$;
 
 const OrderSummary = (props) => {
@@ -46,18 +47,21 @@ const OrderSummary = (props) => {
                 </div>
             );
         }
+        const image = (o_item.image && o_item.image.file) ? o_item.image.file : o_item.simi_image
 
         return (
             <li key={Identify.randomString()} className={defaultClasses['order-item']}>
                 <div className={defaultClasses['item-image']} style={{ borderColor: configColor.image_border_color }}>
-                    <img src={
-                        o_item.image.file ?
-                            resourceUrl(o_item.image.file, {
-                                type: 'image-product',
-                                width: 300
-                            }) : logoUrl()
-                    } alt={o_item.name} width={80} height={80}
-                        style={{ objectFit: 'scale-down' }} />
+                    <Image
+                        src={
+                            image ?
+                                resourceUrl(image, {
+                                    type: 'image-product',
+                                    width: 80
+                                }) :
+                                logoUrl()
+                        }
+                        alt={o_item.name} />
                 </div>
                 <div className={defaultClasses['item-info']} style={{ width: '100%' }}>
                     <label className={defaultClasses['item-name']}>{o_item.name}</label>
@@ -123,7 +127,7 @@ const OrderSummary = (props) => {
         </div>
     )
 
-    const containerSty = isPhone ? {marginTop: 35} : {};
+    const containerSty = isPhone ? { marginTop: 35 } : {};
     return <div className={defaultClasses['order-summary']} id="order-summary">
         <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Order Summary')}</div>}
             renderContent={renderView}

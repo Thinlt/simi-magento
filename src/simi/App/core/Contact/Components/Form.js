@@ -14,7 +14,7 @@ import { compose } from 'redux';
 
 const $ = window.$;
 class Form extends Component {
-    proceedData(data){
+    proceedData = (data)=>{
         if(data){
             hideFogLoading()
             if (data.errors.length) {
@@ -25,11 +25,10 @@ class Form extends Component {
                         auto_dismiss: true
                     }
                 });
-                
                 this.props.toggleMessages(errors)
             }
         } else {
-            this.props.toggleMessages([{type: 'success', message: Identify.__('Thank you, we will contact you soon')}])
+            this.props.toggleMessages([{type: 'success', message: Identify.__('Thank you, we will contact you soon'),auto_dismiss: true}])
         }
     }
 
@@ -55,7 +54,7 @@ class Form extends Component {
         });
 
         if(!formCheck){
-            this.props.toggleMessages([{type: 'error', message: Identify.__('Please check some required fields')}])
+            this.props.toggleMessages([{type: 'error', message: Identify.__('Please check some required fields'),auto_dismiss: true}])
         }
 
         return formCheck;
@@ -79,7 +78,7 @@ class Form extends Component {
                 value[field.name] = field.value;
             }
             showFogLoading();
-            sendContact(value,this.proceedData.bind(this))
+            sendContact(value,this.proceedData)
         }
         // console.log(value)
     }
