@@ -90,9 +90,13 @@ class ProductImage extends React.Component {
     mediaGalleryEntries = () => {
         const { props } = this;
         const { optionCodes, optionSelections, product } = props;
-        const { media_gallery_entries, variants } = product;
+        const { variants } = product;
         const isConfigurable = isProductConfigurable(product);
 
+        const media_gallery_entries = product.media_gallery_entries ? 
+                product.media_gallery_entries :  product.small_image ? 
+                    [{file: product.small_image, disabled: false, label: '', position: 1}] : []
+                    
         if (
             !isConfigurable ||
             (isConfigurable && optionSelections.size === 0)

@@ -98,3 +98,6 @@ ul.address-item {
 ul.address-item li {
     display: block;
 }
+.item-image img{
+    max-width: 80px;
+}

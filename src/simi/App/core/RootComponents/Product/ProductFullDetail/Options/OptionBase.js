@@ -5,7 +5,7 @@ import {configColor} from "src/simi/Config";
 class OptionBase extends React.Component {
     constructor(props) {
         super(props);
-        this.data = this.props.app_options;
+        this.data = this.props.app_options?this.props.app_options:{};
         this.parentObj = this.props.parent;
         this.selected = {};
         this.required = [];

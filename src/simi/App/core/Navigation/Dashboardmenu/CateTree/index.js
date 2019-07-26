@@ -17,8 +17,8 @@ class CateTree extends React.Component {
         }
     }
 
-    shouldComponentUpdate(nextProps,nextState){
-        return nextState.loaded !== this.state.loaded
+    shouldComponentUpdate(){
+        return !this.renderedOnce
     }
 
     openLocation = (location)=>{
@@ -118,6 +118,7 @@ class CateTree extends React.Component {
         const storeConfig = Identify.getStoreConfig();
         if (!storeConfig || !storeConfig.simiRootCate)
             return <div></div>
+        this.renderedOnce = true
         const primarytext = (
             <div className={classes["menu-content"]} id="cate-tree">
                 <div className={classes["icon-menu"]}>

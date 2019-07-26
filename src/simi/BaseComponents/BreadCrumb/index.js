@@ -50,4 +50,5 @@ Breadcrumb.propTypes = {
     breadcrumb : PropTypes.array.isRequired,
     history: PropTypes.object
 }
+
 export default withRouter(Breadcrumb)

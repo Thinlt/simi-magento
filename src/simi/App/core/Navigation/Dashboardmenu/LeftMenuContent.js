@@ -129,14 +129,9 @@ class LeftMenuContent extends React.Component{
     
 
     renderSections() {
-        const obj = this
         const {classes, isSignedIn} = this.props
         const items = []
-        const iconProps = {
-            style: styles.iconMenu
-        }
-
-        this.parent.props.leftMenuItems.map((section, index) => {
+        this.parent.props.leftMenuItems.map((section) => {
             if (section.name)
                 items.push(
                     <div className={classes["item-section"]} key={`item-section-${section.entity_id}`}>

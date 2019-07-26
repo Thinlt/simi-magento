@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { bool, shape, string } from 'prop-types';
+import { bool } from 'prop-types';
 
-import classify from 'src/classify';
 import Footer from '../Footer';
 import Header from 'src/simi/BaseComponents/Header'
 import Identify from 'src/simi/Helper/Identify'
+import {saveCategoriesToDict} from 'src/simi/Helper/Url'
 import Connection from 'src/simi/Network/SimiConnection'
 import LoadingComponent  from 'src/simi/BaseComponents/Loading'
 import * as Constants from 'src/simi/Config/Constants';
 import simiStoreConfigDataQuery from 'src/simi/queries/getStoreConfigData.graphql'
 import { Simiquery } from 'src/simi/Network/Query'
-import defaultClasses from './main.css';
+import classes from './main.css';
 
 class Main extends Component {
 
@@ -22,12 +22,6 @@ class Main extends Component {
     }
 
     static propTypes = {
-        classes: shape({
-            page: string,
-            page_masked: string,
-            root: string,
-            root_masked: string
-        }),
         isMasked: bool
     };
 
@@ -41,7 +35,6 @@ class Main extends Component {
     }
 
     mainContent(storeConfig = null) {
-        const { classes } = this
         const { children } = this.props
         return (
             <React.Fragment>
@@ -53,7 +46,6 @@ class Main extends Component {
         )
     }
     render() {
-        const { classes } = this
         return (
             <main className={classes.root}>
                 <div className="app-loading" style={{display:'none'}} id="app-loading">
@@ -65,6 +57,7 @@ class Main extends Component {
                         {({ data }) => {
                             if (data && data.storeConfig) {
                                 Identify.saveStoreConfig(data)
+                                saveCategoriesToDict(data.simiRootCate)
                                 return this.mainContent(data)
                             }
                             return this.mainContent()
@@ -76,4 +69,4 @@ class Main extends Component {
     }
 }
 
-export default classify(defaultClasses)(Main);
+export default Main;
