@@ -1,5 +1,5 @@
 import React, { Component, Suspense } from 'react';
-import { arrayOf, bool, number, shape, string } from 'prop-types';
+import { arrayOf, bool, number, shape, string, object } from 'prop-types';
 import {smoothScrollToView} from 'src/simi/Helper/Behavior'
 import classify from 'src/classify';
 import Loading from 'src/simi/BaseComponents/Loading'
@@ -42,7 +42,7 @@ class ProductFullDetail extends Component {
         const { configurable_options } = props.product;
         const optionCodes = new Map(state.optionCodes);
         // if this is a simple product, do nothing
-        if (!isProductConfigurable(props.product)) {
+        if (!isProductConfigurable(props.product) || !configurable_options) {
             return null;
         }
         // otherwise, cache attribute codes to avoid lookup cost later
@@ -196,8 +196,10 @@ class ProductFullDetail extends Component {
 
     get productOptions() {
         const { fallback, handleConfigurableSelectionChange, props } = this;
-        const { configurable_options, simiExtraField, type_id } = props.product;
+        const { configurable_options, simiExtraField, type_id, is_dummy_data } = props.product;
         const isConfigurable = isProductConfigurable(props.product);
+        if (is_dummy_data)
+            return
         return (
             <Suspense fallback={fallback}>
                 {
@@ -278,7 +280,6 @@ class ProductFullDetail extends Component {
                 </div>
                 <div className={classes.imageCarousel}>
                     <ProductImage 
-                        images={mediaGalleryEntries} 
                         optionCodes={optionCodes} 
                         optionSelections={optionSelections} 
                         product={product}
@@ -353,7 +354,7 @@ ProductFullDetail.propTypes = {
                 file: string.isRequired
             })
         ),
-        description: string
+        description: object
     }).isRequired
 };
 

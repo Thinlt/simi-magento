@@ -20,28 +20,28 @@ query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, 
     simiproducts(pageSize: $pageSize, currentPage: $currentPage, filter: {category_id: {eq: $stringId}}, sort: $sort, simiFilter: $simiFilter) {
         total_count
         filters {
-        name
-        filter_items_count
-        request_var
-        filter_items_count
-        filter_items {
-            label
-            value_string
+            name
+            filter_items_count
+            request_var
+            filter_items_count
+            filter_items {
+                label
+                value_string
+                __typename
+            }
             __typename
-        }
-        __typename
         }
         simi_filters {
-        name
-        filter_items_count
-        request_var
-        filter_items_count
-        filter_items {
-            label
-            value_string
+            name
+            filter_items_count
+            request_var
+            filter_items_count
+            filter_items {
+                label
+                value_string
+                __typename
+            }
             __typename
-        }
-        __typename
         }
         sort_fields {
             default
@@ -77,7 +77,7 @@ query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, 
             price {
                 ... SimiPrice
             }
-        __typename
+            __typename
         }
         page_info {
             total_pages

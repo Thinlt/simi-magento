@@ -2,7 +2,6 @@ import React from 'react'
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent'
 import CreateAccountPage from 'src/components/CreateAccountPage/index';
 import Home from 'src/simi/App/core/RootComponents/CMS/Home'
-import NoMatch from 'src/simi/App/core/NoMatch'
 
 const Checkout = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/core/Checkout')} {...props}/>
@@ -29,7 +28,7 @@ const Contact = (props) => {
 }
 
 const Product = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "SimiProduct"*/'src/simi/App/core/Product')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "SimiProduct"*/'src/simi/App/core/RootComponents/Product')} {...props}/>
 }
 
 const Search = (props) => {
@@ -38,6 +37,10 @@ const Search = (props) => {
 
 const Logout = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Logout"*/'src/simi/App/core/Customer/Logout')} {...props}/>
+}
+
+const NoMatch = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/core/NoMatch')} {...props}/>
 }
 
 

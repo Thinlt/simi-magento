@@ -18,6 +18,9 @@ query productDetail($urlKey: String, $onServer: Boolean!) {
             short_description {
                 html
             }
+            url_key
+            special_price
+            special_from_date
             product_links {
                 link_type
                 linked_product_sku

@@ -70,6 +70,7 @@ class Abstract extends React.Component{
         if(!router) return <div></div>
         return (
             <Switch>
+                <Route exact {...router.home}/>
                 <Route exact {...router.search_page}/>
                 <Route exact {...router.register}/>
                 <Route exact {...router.cart}/>
