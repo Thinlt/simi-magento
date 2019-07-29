@@ -303,7 +303,11 @@ class ProductFullDetail extends Component {
                                 onValueChange={this.setQuantity}
                             />
                         }
-                        <div className={classes["add-to-cart-ctn"]}>
+                        <div 
+                            className={classes["add-to-cart-ctn"]} 
+                            style={{
+                                borderColor:  configColor.button_background, borderWidth: '1px', borderStyle: 'solid'
+                            }}>
                             <Colorbtn 
                                 style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
                                 className={classes["add-to-cart-btn"]} 
