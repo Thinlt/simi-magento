@@ -1,8 +1,8 @@
 var SMCONFIGS = {
-    merchant_url: "https://pwa-commerce.com/",
+    merchant_url: "https://magento.pwa-commerce.com/",
     simicart_url: "https://dashboard.pwa-commerce.com/appdashboard/rest/app_configs/",
     simicart_authorization: "q7wWTxNrRL0F0k86LYp0UA96HkixDn94vG0odOQ",
-    notification_api: "simipwa/index/",
+    notification_api: "rest/V1/simiconnector/",
     base_name: "",
     logo_url: "https://www.simicart.com/skin/frontend/default/simicart2.0/images/simicart/new_logo_small.png",
     //eg. url is https://codymap.com/magento23 and media url must include pub, value should be 'magento23/pub/'
