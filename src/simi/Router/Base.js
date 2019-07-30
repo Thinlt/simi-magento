@@ -2,6 +2,7 @@ import React from 'react'
 import Identify from "src/simi/Helper/Identify"
 import { Switch, Route } from 'react-router-dom';
 import {PbPageHoc} from 'src/simi/BaseComponents/Pbpage';
+import {smoothScrollToView} from "src/simi/Helper/Behavior";
 
 class Abstract extends React.Component{
     render(){
@@ -15,6 +16,7 @@ class Abstract extends React.Component{
             //add rtl
             this.renderRTL(merchantConfig.simiStoreConfig)
         }
+        smoothScrollToView($('#root'))
         return (
             this.renderLayout()
         )
