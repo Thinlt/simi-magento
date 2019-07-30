@@ -7,7 +7,7 @@ import { Adapter } from 'src/drivers';
 import store from 'src/store';
 import app from 'src/actions/app';
 import App from 'src/simi';
-import {initializeUI,subscribeUser} from "src/simi/Helper/Notification";
+import {initializeUI,subscribeUser} from "src/simi/Helper/SimiServiceworker";
 import './index.css';
 
 const { BrowserPersistence } = Util;

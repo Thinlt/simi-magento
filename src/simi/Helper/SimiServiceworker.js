@@ -52,20 +52,12 @@ export function subscribeUser(swRegistration) {
     })
         .then(function(subscription) {
             //console.log('User is subscribed.');
-
-            console.log('a');
             updateSubscriptionOnServer(subscription);
-            console.log('b');
             isSubscribed = true;
-
-            console.log('c');
             updateBtn();
-            console.log('d');
         })
         .catch(function(err) {
-
             console.log('Failed to subscribe the user: ', err);
-
             console.error(err);
             updateBtn();
         });
@@ -81,8 +73,6 @@ function updateSubscriptionOnServer(subscription,type = 1) {
     }
     ConnectionApi(api,method,subscription);
     const subscriptionJson = document.querySelector('.js-subscription-json');
-    // const subscriptionDetails =
-    //     document.querySelector('.js-subscription-details');
 
     if (subscription) {
         subscriptionJson.textContent = JSON.stringify(subscription);
@@ -122,9 +112,6 @@ async function ConnectionApi(api,method = 'GET',params = null){
     var headers = new Headers({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-        // 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
-        // 'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
-        // 'Access-Control-Allow-Credentials': true,
     });
     var init = {cache: 'default', mode: 'cors',headers};
     init['method'] = method;
@@ -194,4 +181,14 @@ async function checkVersionPwa(){
         //alert(error.toString());
         console.error(error);
     });
+}
+
+export function unregister() {
+    if (navigator) {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(registration => {
+            registration.unregister();
+            });
+        }
+    }
 }
