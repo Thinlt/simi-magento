@@ -146,7 +146,7 @@ async function checkVersionPwa(){
     });
     var init = {cache: 'default', mode: 'cors',headers};
     init['method'] = 'GET';
-    var api = window.SMCONFIGS.merchant_url + window.SMCONFIGS.notification_api + "pwadevices/config"
+    var api = window.SMCONFIGS.notification_api + "pwadevices/config"
     var _request = new Request(api, init);
     fetch(_request)
         .then(function (response) {
