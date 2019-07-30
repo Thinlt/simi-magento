@@ -120,7 +120,7 @@ function updateBtn() {
 }
 async function ConnectionApi(api,method = 'GET',params = null){
     var headers = new Headers({
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
         // 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
         // 'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
@@ -157,7 +157,7 @@ async function checkEnablePWA(){
     }
 
     var headers = new Headers({
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
         // 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
         // 'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
