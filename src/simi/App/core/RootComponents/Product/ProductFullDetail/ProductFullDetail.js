@@ -115,12 +115,13 @@ class ProductFullDetail extends Component {
     };
 
     addToCartCallBack = (data) => {
+        const { isSignedIn, updateItemInCart} = this.props
         hideFogLoading()
         if (data.errors) {
             this.showError(data)
         } else {
             this.showSuccess(data)
-            calculateCart(() =>this.props.updateItemInCart()) //need to calculate, updating item is optional
+            calculateCart(() => updateItemInCart(), isSignedIn) //need to calculate, updating item is optional
         }
     }
 
