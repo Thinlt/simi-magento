@@ -19,11 +19,11 @@ function urlB64ToUint8Array(base64String) {
 }
 
 export function initializeUI(swRegistration) {
+    checkVersionPwa()
     pushButton.addEventListener('click', function() {
         pushButton.disabled = true;
         if (isSubscribed) {
             // TODO: Unsubscribe user
-            checkEnablePWA()
             unsubscribeUser(swRegistration);
         } else {
             subscribeUser(swRegistration);
@@ -149,13 +149,7 @@ async function ConnectionApi(api,method = 'GET',params = null){
     }
 }
 
-async function checkEnablePWA(){
-    if (!window.use_pwa) {
-        unregister();
-        window.location.reload();
-        return;
-    }
-
+async function checkVersionPwa(){
     var headers = new Headers({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
