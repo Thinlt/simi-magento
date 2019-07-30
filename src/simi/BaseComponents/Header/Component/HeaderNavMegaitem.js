@@ -8,9 +8,13 @@ const NavMegaitem = props => {
         const rootItem = props.itemAndChild
         if (rootItem.children) {
             const childCats = rootItem.children.map((item, index) => {
+                if (!item.name)
+                    return ''
                 let subChildLevel2 = []
                 if (item.children) {
                     subChildLevel2 = item.children.map((itemlv2, indexlv2)=> {
+                        if (!itemlv2.name)
+                            return ''
                         const path = itemlv2.url_path?('/' + itemlv2.url_path + cateUrlSuffix()):itemlv2.link
                         const location = {
                             pathname: path,

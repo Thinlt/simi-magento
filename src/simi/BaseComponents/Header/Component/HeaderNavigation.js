@@ -95,8 +95,9 @@ class Navigation extends React.Component{
             const storeConfig = Identify.getStoreConfig();
             if (storeConfig && storeConfig.simiRootCate && storeConfig.simiRootCate.children) {
                 const rootCateChildren  = storeConfig.simiRootCate.children
-                console.log(rootCateChildren)
                 menuItems = rootCateChildren.map((item, index) => {
+                    if (!item.name)
+                        return ''
                     if (item.children && item.children.length > 0) {
                         const location = {
                             pathname: '/' + item.url_path + cateUrlSuffix(),

@@ -193,32 +193,28 @@ class Cart extends Component {
     get miniCartInner() {
         const { productList, props, total, checkoutButton, couponView } = this;
         const { cart: { isLoading },classes, isCartEmpty,cart } = props;
-
-        const loading = isLoading?
-            <div
-                className={classes['siminia-cart-page-loading']}
-                style={{borderBottom: `solid 1px #eaeaea`}}
-                >
-                <Loading
-                    loadingStyle={{width:25,height:25}}
-                    divStyle={{marginTop: 0}}
-                />
-            </div>:''
-
+        
         if (isCartEmpty) {
-            return (
-                <div className={classes['cart-page-siminia']}>
-                    {loading}
-                    <div className={classes['empty-cart']}>
-                    {Identify.__('You have no items in your shopping cart')}
+            if (isLoading)
+                return <Loading />
+            else
+                return (
+                    <div className={classes['cart-page-siminia']}>
+                        <div className={classes['empty-cart']}>
+                        {Identify.__('You have no items in your shopping cart')}
+                        </div>
                     </div>
-                </div>
-            );
+                );
         }
+
+        if (isLoading)
+            showFogLoading()
+        else
+            hideFogLoading()
+            
 
         return (
             <Fragment>
-                {loading}
                 {this.state.isPhone && this.breadcrumb}
                 <div className={classes['cart-header']}>
                     <div role="presentation" className={classes['cart-back-btn']} onClick={() => this.handleBack()} onKeyUp={() => this.handleBack()} >

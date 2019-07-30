@@ -67,9 +67,8 @@ const Category = props => {
                     data.category.breadcrumbs.forEach(item => {
                         breadcrumb.push({name: item.category_name, link: '/' + item.category_url_key + cateUrlSuffix()})
                     })
-
-                    breadcrumb.push({name: data.category.name})
-                } 
+                }
+                breadcrumb.push({name: data.category.name})
                 
 
                 return (
