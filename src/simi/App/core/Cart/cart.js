@@ -195,7 +195,7 @@ class Cart extends Component {
         const { productList, props, total, checkoutButton, couponView } = this;
         const { cart: { isLoading },classes, isCartEmpty,cart } = props;
         
-        if (isCartEmpty) {
+        if (isCartEmpty || !cart.details || !parseInt(cart.details.items_count)) {
             if (isLoading)
                 return <Loading />
             else
@@ -222,13 +222,13 @@ class Cart extends Component {
                         <Arrowup style={{width: 25}}/>
                         <span>{Identify.__('Continue shopping')}</span>
                     </div>
-                    {   (cart.details && cart.details.items_count) &&
+                    {   (cart.details && parseInt(cart.details.items_count))?
                         <div className={classes['cart-title']}>
                             <Basket/>
                             <div>
                                 {Identify.__('Your basket contains: %s item(s)').replace('%s', cart.details.items_count)}
                             </div>
-                        </div>
+                        </div>:''
                     }
                 </div>
                 <div className={classes.body}>{productList}</div>
