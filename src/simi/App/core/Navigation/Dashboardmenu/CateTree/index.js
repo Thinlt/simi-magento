@@ -42,7 +42,7 @@ class CateTree extends React.Component {
                     return ''
                 const cate_name = <div className={classes["root-menu"]} >{obj.renderTitleMenu(item.name)}</div>;
                 const hasChild = (item.children && item.children.length > 0)
-                let location = {
+                const location = {
                     pathname: item.url_path !== undefined ? "/" + item.url_path + cateUrlSuffix() :  "/products.html?cat=" + item.id,
                     state: {
                         cate_id: item.id,
@@ -50,7 +50,6 @@ class CateTree extends React.Component {
                         name: item.name
                     }
                 };
-                location = !item.children ? location : null;
                 return !hasChild  ?
                     obj.renderMenuItem(cate_name, location) : <SubCate 
                                                                     key={key}

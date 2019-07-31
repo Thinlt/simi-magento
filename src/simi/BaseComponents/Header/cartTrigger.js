@@ -13,10 +13,17 @@ import Identify from 'src/simi/Helper/Identify'
 import { Link } from 'src/drivers'
 import { resourceUrl } from 'src/simi/Helper/Url'
 
+import { Util } from '@magento/peregrine';
+const { BrowserPersistence } = Util;
+const storage = new BrowserPersistence();
+
+
 export class Trigger extends Component {
     constructor(props) {
         super(props)
-        //props.createCart() //want to init cart at first, uncomment this
+        const cartId = storage.getItem('cartId');
+        if (!cartId)
+            props.createCart() //want to init cart at first, uncomment this
     }
 
     static propTypes = {
