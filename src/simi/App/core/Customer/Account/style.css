@@ -389,7 +389,7 @@
 }
 
 .active{
-    background: #333132; 
+    background: #333132;
     color: #FFFFFF;
 }
 .customer-recent-orders #page-numbers li.icon-page-number{
@@ -578,6 +578,8 @@
     display: block;
     border: 1px solid;
     margin-right: 16px;
+    text-align: center;
+    background: white;
 }
 .order-detail-table .img-order-container img{
     height: inherit;
@@ -1023,7 +1025,7 @@ Order history
 
     .dash-column-box .email {
         word-break: break-all;
-    } 
+    }
 
     .dash-column-box .edit-information {
         margin-top: 10px;
