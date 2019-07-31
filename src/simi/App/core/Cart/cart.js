@@ -1,12 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
-import { bool, func, object, shape, string } from 'prop-types';
+import { bool, object, shape, string } from 'prop-types';
 import classify from 'src/classify';
 import {
     getCartDetails,
-    updateItemInCart,
-    removeItemFromCart
+    updateItemInCart
 } from 'src/actions/cart';
 import defaultClasses from './cart.css';
 import { isEmptyCartVisible } from 'src/selectors/cart';
@@ -24,7 +23,7 @@ import {configColor} from 'src/simi/Config'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
-
+import {removeItemFromCart} from 'src/simi/Model/Cart'
 import Coupon from 'src/simi/BaseComponents/Coupon'
 
 
@@ -74,7 +73,7 @@ class Cart extends Component {
     }
 
     get productList() {
-        const { cart, classes, updateItemInCart } = this.props;
+        const { cart, classes } = this.props;
         if (!cart)
             return
         const { cartCurrencyCode, cartId } = this;
@@ -108,8 +107,8 @@ class Cart extends Component {
                         isPhone={this.state.isPhone}
                         currencyCode={cartCurrencyCode}
                         itemTotal={itemTotal}
-                        removeItemFromCart={this.removeItemFromCart.bind(this)}
-                        updateItemInCart={updateItemInCart}
+                        removeFromCart={this.removeFromCart.bind(this)}
+                        updateCartItem={this.props.updateItemInCart}
                         history={this.props.history}
                         handleLink={this.handleLink.bind(this)}/>;
                     obj.push(element);
@@ -169,9 +168,11 @@ class Cart extends Component {
         this.props.history.push('/checkout.html')
     }
 
-    removeItemFromCart(data) {
-        showFogLoading()
-        this.props.removeItemFromCart(data)
+    removeFromCart(item) {
+        if (confirm(Identify.__("Are you sure?")) === true) {
+            showFogLoading()
+            removeItemFromCart(()=>{this.props.getCartDetails()},item.item_id, this.props.isSignedIn)
+        }
     }
 
     get couponView () {
@@ -221,7 +222,7 @@ class Cart extends Component {
                         <Arrowup style={{width: 25}}/>
                         <span>{Identify.__('Continue shopping')}</span>
                     </div>
-                    {   cart.details && cart.details.items_count &&
+                    {   (cart.details && cart.details.items_count) &&
                         <div className={classes['cart-title']}>
                             <Basket/>
                             <div>
@@ -270,23 +271,23 @@ Cart.propTypes = {
         title: string,
         totals: string
     }),
-    isCartEmpty: bool,
-    updateItemInCart: func,
+    isCartEmpty: bool
 }
 
 const mapStateToProps = state => {
-    const { cart } = state;
+    const { cart, user } = state;
+    const { isSignedIn } = user;
     return {
         cart,
         isCartEmpty: isEmptyCartVisible(state),
+        isSignedIn,
     };
 };
 
 const mapDispatchToProps = {
     getCartDetails,
-    updateItemInCart,
-    removeItemFromCart,
     toggleMessages,
+    updateItemInCart,
 };
 
 export default compose(
