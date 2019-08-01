@@ -15,8 +15,10 @@ export const removeItemFromCart = (callBack, itemId, isSignedIn) => {
         sendRequest('rest/V1/carts/mine/items/' + itemId, callBack, 'DELETE')
     else {
         const cartId = storage.getItem('cartId');
-        if (!cartId)
-            callBack({})
+        if (!cartId) {
+            callBack({});
+            return;
+        }
         sendRequest('rest/V1/guest-carts/'+ cartId + '/items/' + itemId, callBack, 'DELETE')
     }
 }
@@ -29,8 +31,10 @@ export const updateCoupon = (callBack, params) => {
 
 export const calculateCart = (callBack, isSignedIn) => {
     const cartId = storage.getItem('cartId');
-    if (!cartId)
-        callBack({})
+    if (!cartId) {
+        callBack({});
+        return;
+    }
     const params = {cartId: cartId, address: {}}
     if (isSignedIn)
         sendRequest('rest/V1/carts/mine/billing-address', callBack, 'POST', {}, params)
