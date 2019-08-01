@@ -199,7 +199,7 @@ class ProductFullDetail extends Component {
         const { configurable_options, simiExtraField, type_id, is_dummy_data } = props.product;
         const isConfigurable = isProductConfigurable(props.product);
         if (is_dummy_data)
-            return
+            return <Loading />
         return (
             <Suspense fallback={fallback}>
                 {
