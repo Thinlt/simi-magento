@@ -40,7 +40,7 @@ class Main extends Component {
             <React.Fragment>
                 <Header storeConfig={storeConfig}/>
                 <div id="data-breadcrumb"/>
-                {storeConfig && <div className={classes.page} id="siminia-main-page">{children}</div>}
+                {storeConfig ? <div className={classes.page} id="siminia-main-page">{children}</div> : <LoadingComponent />}
                 <Footer />
             </React.Fragment>
         )

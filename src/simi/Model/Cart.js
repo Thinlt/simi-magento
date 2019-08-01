@@ -28,19 +28,3 @@ export const updateCoupon = (callBack, params) => {
     getParams = getParams ? {quote_id: getParams} : {};
     sendRequest('rest/V1/simiconnector/quoteitems', callBack, 'PUT', getParams, params)
 }
-
-export const calculateCart = (callBack, isSignedIn) => {
-    const params = {address: {}}
-    if (isSignedIn)
-        sendRequest('rest/V1/carts/mine/billing-address', callBack, 'POST', {}, params)
-    else {
-        const cartId = storage.getItem('cartId');
-        if (!cartId) {
-            callBack({});
-            return;
-        }
-        params.cartId= cartId
-        sendRequest('rest/V1/guest-carts/'+ cartId + '/billing-address', callBack, 'POST', {}, params)
-    }
-
-}
