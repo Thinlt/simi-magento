@@ -19,13 +19,6 @@ const storage = new BrowserPersistence();
 
 
 export class Trigger extends Component {
-    constructor(props) {
-        super(props)
-        const cartId = storage.getItem('cartId');
-        if (!cartId)
-            props.createCart() //want to init cart at first, uncomment this
-    }
-
     static propTypes = {
         children: PropTypes.node,
         classes: PropTypes.shape({
@@ -63,6 +56,12 @@ export class Trigger extends Component {
     }
 
     render() {
+        //create cart if empty
+        const cartId = storage.getItem('cartId');
+        if (!cartId)
+            this.props.createCart()
+        //end creating cart
+            
         const {
             classes,
             //toggleCart,
