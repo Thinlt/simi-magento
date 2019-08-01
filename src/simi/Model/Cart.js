@@ -30,15 +30,17 @@ export const updateCoupon = (callBack, params) => {
 }
 
 export const calculateCart = (callBack, isSignedIn) => {
-    const cartId = storage.getItem('cartId');
-    if (!cartId) {
-        callBack({});
-        return;
-    }
-    const params = {cartId: cartId, address: {}}
+    const params = {address: {}}
     if (isSignedIn)
         sendRequest('rest/V1/carts/mine/billing-address', callBack, 'POST', {}, params)
-    else
+    else {
+        const cartId = storage.getItem('cartId');
+        if (!cartId) {
+            callBack({});
+            return;
+        }
+        params.cartId= cartId
         sendRequest('rest/V1/guest-carts/'+ cartId + '/billing-address', callBack, 'POST', {}, params)
+    }
 
 }
