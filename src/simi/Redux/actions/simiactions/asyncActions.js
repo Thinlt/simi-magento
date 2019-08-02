@@ -38,6 +38,8 @@ export const simiSignOut = ({ history }) => async dispatch => {
     dispatch(getCartDetails({ forceRefresh: true }));
 
     // remove address
+    storage.removeItem('cartId');
+    storage.removeItem('signin_token');
     sessionStorage.removeItem("shipping_address");
     sessionStorage.removeItem("billing_address");
     await clearBillingAddress();

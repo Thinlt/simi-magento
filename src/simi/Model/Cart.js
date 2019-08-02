@@ -15,8 +15,10 @@ export const removeItemFromCart = (callBack, itemId, isSignedIn) => {
         sendRequest('rest/V1/carts/mine/items/' + itemId, callBack, 'DELETE')
     else {
         const cartId = storage.getItem('cartId');
-        if (!cartId)
-            callBack({})
+        if (!cartId) {
+            callBack({});
+            return;
+        }
         sendRequest('rest/V1/guest-carts/'+ cartId + '/items/' + itemId, callBack, 'DELETE')
     }
 }
@@ -25,16 +27,4 @@ export const updateCoupon = (callBack, params) => {
     let getParams = storage.getItem('cartId');
     getParams = getParams ? {quote_id: getParams} : {};
     sendRequest('rest/V1/simiconnector/quoteitems', callBack, 'PUT', getParams, params)
-}
-
-export const calculateCart = (callBack, isSignedIn) => {
-    const cartId = storage.getItem('cartId');
-    if (!cartId)
-        callBack({})
-    const params = {cartId: cartId, address: {}}
-    if (isSignedIn)
-        sendRequest('rest/V1/carts/mine/billing-address', callBack, 'POST', {}, params)
-    else
-        sendRequest('rest/V1/guest-carts/'+ cartId + '/billing-address', callBack, 'POST', {}, params)
-
 }

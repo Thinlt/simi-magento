@@ -12,7 +12,7 @@ import Identify from 'src/simi/Helper/Identify';
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import {prepareProduct} from 'src/simi/Helper/Product'
 import ProductPrice from '../Component/Productprice';
-import { addToCart as simiAddToCart, calculateCart } from 'src/simi/Model/Cart';
+import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
 import { addToWishlist as simiAddToWishlist } from 'src/simi/Model/Wishlist';
 import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
@@ -115,13 +115,12 @@ class ProductFullDetail extends Component {
     };
 
     addToCartCallBack = (data) => {
-        const { isSignedIn, updateItemInCart} = this.props
         hideFogLoading()
         if (data.errors) {
             this.showError(data)
         } else {
             this.showSuccess(data)
-            calculateCart(() => updateItemInCart(), isSignedIn) //need to calculate, updating item is optional
+            this.props.updateItemInCart()
         }
     }
 
@@ -199,7 +198,7 @@ class ProductFullDetail extends Component {
         const { configurable_options, simiExtraField, type_id, is_dummy_data } = props.product;
         const isConfigurable = isProductConfigurable(props.product);
         if (is_dummy_data)
-            return
+            return <Loading />
         return (
             <Suspense fallback={fallback}>
                 {

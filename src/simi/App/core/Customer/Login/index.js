@@ -143,11 +143,14 @@ class Login extends Component {
         hideFogLoading()
         if (this.props.simiSignedIn) {
             if (data && !data.errors) {
+                storage.removeItem('cartId');
+                storage.removeItem('signin_token');
                 if (data.customer_access_token) {
                     Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, data.customer_identity)
                     setToken(data.customer_access_token)
                     this.props.simiSignedIn(data.customer_access_token)
                 } else {
+                    Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null)
                     setToken(data)
                     this.props.simiSignedIn(data)
                 }
