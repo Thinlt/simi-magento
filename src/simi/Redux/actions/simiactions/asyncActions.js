@@ -253,6 +253,12 @@ export const submitOrder = () =>
                 }
             };
 
+            // for CC payment: Stripe
+            if (paymentMethod.data.hasOwnProperty('cc_token') && paymentMethod.data.cc_token){
+                bodyData.paymentMethod['additional_data'] = paymentMethod.data;
+            }
+
+            // for payment type Purchase Order
             if (paymentMethod.data.hasOwnProperty('purchaseorder') && paymentMethod.data.purchaseorder){
                 bodyData.paymentMethod['po_number'] = paymentMethod.data.purchaseorder;
             }

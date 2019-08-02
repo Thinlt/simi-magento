@@ -154,8 +154,8 @@ const PaymentsFormItems = props => {
                         </Fragment>
                     }
 
-                    if (ite.value === 'cc_type') {
-                        frameCard = <CCType />
+                    if (ite.value === 'pmclain_stripe') {
+                        frameCard = <CCType onSuccess={handleSuccess} />
                     }
                 }
 
