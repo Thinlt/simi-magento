@@ -35,12 +35,11 @@ class Main extends Component {
     }
 
     mainContent(storeConfig = null) {
-        const { children } = this.props
         return (
             <React.Fragment>
                 <Header storeConfig={storeConfig}/>
                 <div id="data-breadcrumb"/>
-                {storeConfig ? <div className={classes.page} id="siminia-main-page">{children}</div> : <LoadingComponent />}
+                {storeConfig ? <div className={classes.page} id="siminia-main-page">{this.props.children}</div> : <LoadingComponent />}
                 <Footer />
             </React.Fragment>
         )
