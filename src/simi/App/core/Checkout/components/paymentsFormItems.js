@@ -29,7 +29,9 @@ const PaymentsFormItems = props => {
         isSubmitting,
         paymentMethods,
         initialValues,
-        paymentCode
+        paymentCode,
+        cart,
+        cartCurrencyCode
     } = props;
 
     // Currently form state toggles dirty from false to true because of how
@@ -57,9 +59,6 @@ const PaymentsFormItems = props => {
     } else {
         selectablePaymentMethods = []
     }
-
-    // const ccPayment = { value: 'cc_type', label: 'Credit card' }
-    // selectablePaymentMethods.push(ccPayment);
 
     let thisInitialValue = null;
     if (initialValues && !isObjectEmpty(initialValues)) {
@@ -92,7 +91,6 @@ const PaymentsFormItems = props => {
             || p_method === 'cashondelivery'
             || p_method === 'banktransfer') {
             // payment type 0
-
             parseData = selectablePaymentMethods.find(
                 ({ value }) => value === p_method
             );
@@ -155,7 +153,7 @@ const PaymentsFormItems = props => {
                     }
 
                     if (ite.value === 'pmclain_stripe') {
-                        frameCard = <CCType onSuccess={handleSuccess} />
+                        frameCard = <CCType onSuccess={handleSuccess} cartCurrencyCode={cartCurrencyCode} cart={cart} payment_method={ite.value} />
                     }
                 }
 

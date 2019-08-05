@@ -3,6 +3,7 @@ import actions from './actions';
 import userActions from 'src/actions/user/actions';
 import checkoutActions from 'src/actions/checkout/actions';
 import checkoutReceiptActions from 'src/actions/checkoutReceipt';
+import cartActions from 'src/actions/cart/actions';
 import { getCartDetails, clearCartId, removeCart } from 'src/actions/cart';
 import { getUserDetails } from 'src/actions/user';
 import isObjectEmpty from 'src/util/isObjectEmpty';
@@ -57,7 +58,7 @@ export const submitShippingAddress = payload =>
     async function thunk(dispatch, getState) {
         dispatch(checkoutActions.shippingAddress.submit(payload));
 
-        const { cart, directory } = getState();
+        const { cart, directory, user } = getState();
 
         const { cartId } = cart;
         if (!cartId) {
@@ -79,6 +80,18 @@ export const submitShippingAddress = payload =>
 
         await saveShippingAddress(address);
         dispatch(checkoutActions.shippingAddress.accept(address));
+
+        const guestEndpoint = `/rest/V1/guest-carts/${cartId}/estimate-shipping-methods`;
+        const authedEndpoint =
+            '/rest/V1/carts/mine/estimate-shipping-methods';
+        const endpoint = user.isSignedIn ? authedEndpoint : guestEndpoint;
+
+        const response = await request(endpoint, {
+            method: 'POST',
+            body: JSON.stringify({address})
+        });
+
+        dispatch(checkoutActions.getShippingMethods.receive(response));
     };
 
 export const submitBillingAddress = payload =>
@@ -184,6 +197,67 @@ export const fullFillAddress = () => {
     }
 }
 
+export const submitShippingMethod = payload =>
+    async function thunk(dispatch, getState) {
+        dispatch(checkoutActions.shippingMethod.submit(payload));
+
+        const { cart, user } = getState();
+        const { cartId } = cart;
+        const { isSignedIn } = user;
+
+        if (!cartId) {
+            throw new Error('Missing required information: cartId');
+        }
+
+        const desiredShippingMethod = payload.formValues.shippingMethod;
+        await saveShippingMethod(desiredShippingMethod);
+        dispatch(checkoutActions.shippingMethod.accept(desiredShippingMethod));
+
+        // try to update shipping totals
+        let billing_address = await retrieveBillingAddress();
+        const shipping_address = await retrieveShippingAddress();
+
+        if (billing_address.sameAsShippingAddress) {
+            billing_address = shipping_address;
+        } else {
+            const { email, firstname, lastname, telephone } = shipping_address;
+
+            billing_address = {
+                email,
+                firstname,
+                lastname,
+                telephone,
+                ...billing_address
+            };
+        }
+
+        try{
+            // POST to shipping-information to submit the shipping address and shipping method.
+            const guestShippingEndpoint = `/rest/V1/guest-carts/${cartId}/shipping-information`;
+            const authedShippingEndpoint =
+                '/rest/V1/carts/mine/shipping-information';
+            const shippingEndpoint = isSignedIn
+                ? authedShippingEndpoint
+                : guestShippingEndpoint;
+
+            const response = await request(shippingEndpoint, {
+                method: 'POST',
+                body: JSON.stringify({
+                    addressInformation: {
+                        billing_address,
+                        shipping_address,
+                        shipping_carrier_code: desiredShippingMethod.carrier_code,
+                        shipping_method_code: desiredShippingMethod.method_code
+                    }
+                })
+            });
+
+            dispatch(cartActions.getDetails.receive({ paymentMethods: response.payment_methods, totals: response.totals }));
+        }catch(error){
+            dispatch(checkoutActions.shippingMethod.reject(error));
+        }
+    };
+
 export const submitOrder = () =>
     async function thunk(dispatch, getState) {
         dispatch(checkoutActions.order.submit());
@@ -197,7 +271,6 @@ export const submitOrder = () =>
         let billing_address = await retrieveBillingAddress();
         const paymentMethod = await retrievePaymentMethod();
         const shipping_address = await retrieveShippingAddress();
-        const shipping_method = await retrieveShippingMethod();
 
         if (billing_address.sameAsShippingAddress) {
             billing_address = shipping_address;
@@ -214,25 +287,6 @@ export const submitOrder = () =>
         }
 
         try {
-            // POST to shipping-information to submit the shipping address and shipping method.
-            const guestShippingEndpoint = `/rest/V1/guest-carts/${cartId}/shipping-information`;
-            const authedShippingEndpoint =
-                '/rest/V1/carts/mine/shipping-information';
-            const shippingEndpoint = user.isSignedIn
-                ? authedShippingEndpoint
-                : guestShippingEndpoint;
-
-            await request(shippingEndpoint, {
-                method: 'POST',
-                body: JSON.stringify({
-                    addressInformation: {
-                        billing_address,
-                        shipping_address,
-                        shipping_carrier_code: shipping_method.carrier_code,
-                        shipping_method_code: shipping_method.method_code
-                    }
-                })
-            });
 
             // POST to payment-information to submit the payment details and billing address,
             // Note: this endpoint also actually submits the order.
@@ -334,6 +388,10 @@ async function clearShippingAddress() {
 
 async function retrieveShippingMethod() {
     return storage.getItem('shippingMethod');
+}
+
+async function saveShippingMethod(method) {
+    return storage.setItem('shippingMethod', method);
 }
 
 async function clearShippingMethod() {

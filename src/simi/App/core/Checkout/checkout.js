@@ -20,11 +20,11 @@ import {
     cancelCheckout,
     editOrder,
     /* submitOrder, */
-    submitShippingMethod,
+    /* submitShippingMethod, */
     submitPaymentMethod
 } from 'src/actions/checkout';
 
-import { submitShippingAddress, submitBillingAddress, submitOrder } from 'src/simi/Redux/actions/simiactions';
+import { submitShippingAddress, submitBillingAddress, submitOrder, submitShippingMethod } from 'src/simi/Redux/actions/simiactions';
 
 import classify from 'src/classify';
 import defaultClasses from './checkout.css';
@@ -124,7 +124,7 @@ class Checkout extends Component {
     }
 
     async componentDidMount() {
-        const { props, setIsPhone } = this;
+        const { props, setIsPhone, check3DSecure } = this;
         setIsPhone();
 
         const { beginCheckout, getCartDetails } = props;
@@ -136,17 +136,40 @@ class Checkout extends Component {
             //beginning checkout
             await beginCheckout();
 
+            await check3DSecure();
             // Do something
         } catch (err) {
             console.log(err)
         }
     }
 
+    check3DSecure = () => {
+        const { convertUrlQuery, props } = this;
+        const { submitPaymentMethod } = props;
+        const query = convertUrlQuery();
+        const cc_3DSecure_stripe = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'cc_3DSecure_stripe');
+        if (query.hasOwnProperty('confirmed_3d_secure') && query.confirmed_3d_secure === 'stripe' && cc_3DSecure_stripe && !isObjectEmpty(cc_3DSecure_stripe)) {
+            cc_3DSecure_stripe.data['three_d_client_secret'] = query.client_secret;
+            cc_3DSecure_stripe.data['three_d_src'] = query.source;
+            submitPaymentMethod(cc_3DSecure_stripe);
+        }
+    }
+
+    convertUrlQuery = () => {
+        const params = new URLSearchParams(window.location.search)
+        let json = {}
+        for (const param of params.entries()) {
+            const [key, value] = param;
+            json[key] = value
+        }
+        return json
+    }
+
     get breadcrumb() {
         return <BreadCrumb breadcrumb={[{ name: 'Home', link: '/' }, { name: 'Basket', link: '/cart.html' }, { name: 'Checkout', link: '/checkout.html' }]} />
     }
 
-    get pageTitle(){
+    get pageTitle() {
         return <div className={defaultClasses['checkout-page-title']}>{Identify.__("Checkout")}</div>;
     }
 
@@ -240,7 +263,7 @@ class Checkout extends Component {
         const { isSignedIn } = user;
 
         const guest_checkout = merchant && merchant.simiStoreConfig.config.checkout.enable_guest_checkout ? merchant.simiStoreConfig.config.checkout.enable_guest_checkout : 1;
-        if (!isSignedIn && parseInt(guest_checkout, 10) === 0){
+        if (!isSignedIn && parseInt(guest_checkout, 10) === 0) {
             const location = {
                 pathname: '/login.html',
                 pushTo: '/checkout.html'
@@ -311,7 +334,8 @@ class Checkout extends Component {
             paymentMethods,
             user,
             simiSignedIn,
-            toggleMessages
+            toggleMessages,
+            cartCurrencyCode
         };
 
         let cpValue = "";

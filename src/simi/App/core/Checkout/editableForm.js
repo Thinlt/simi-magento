@@ -30,7 +30,9 @@ const EditableForm = props => {
         user,
         simiSignedIn,
         paymentCode,
-        toggleMessages
+        toggleMessages,
+        cartCurrencyCode,
+        cart
     } = props;
 
     const handleCancel = useCallback(() => {
@@ -149,6 +151,8 @@ const EditableForm = props => {
                     submit={handleSubmitPaymentsForm}
                     submitting={submitting}
                     paymentMethods={paymentMethods}
+                    cart={cart}
+                    cartCurrencyCode={cartCurrencyCode}
                     key={Identify.randomString()}
                 />
             );

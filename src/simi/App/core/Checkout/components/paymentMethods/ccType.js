@@ -7,7 +7,7 @@ import Button from 'src/components/Button';
 const $ = window.$;
 
 const ccType = (props) => {
-    const { onSuccess } = props;
+    const { onSuccess, cartCurrencyCode, cart, payment_method } = props;
 
     const numberRef = useRef();
     const monthRef = useRef();
@@ -16,6 +16,17 @@ const ccType = (props) => {
 
     const [errorMsg, setErrorMsg] = useState('');
     const [hasError, setHasError] = useState('');
+    const secKey = "pk_test_3DZuRfpyIAzQn1C5lGsgnKkj";
+    const test_3d_secure = 0;
+
+    const cartGrandTotals = () => {
+        return cart && cart.totals && cart.totals.grand_total;
+    }
+
+    const getBaseUrl = () => {
+        const storeConfig = Identify.getStoreConfig();
+        return storeConfig && storeConfig.storeConfig && storeConfig.storeConfig.base_url
+    }
 
     const onCCNUmberInput = e => {
         $(e.currentTarget).val(formatCC(e.currentTarget.value));
@@ -58,18 +69,7 @@ const ccType = (props) => {
         }
     };
 
-
-    const submitCC = async () => {
-        let card = {};
-        setErrorMsg('');
-        setHasError('');
-
-        card["number"] = numberRef.current.value;
-        card["exp_month"] = monthRef.current.value;
-        card["exp_year"] = yearRef.current.value;
-        card["cvc"] = cvcRef.current.value;
-
-        const secKey = "pk_test_3DZuRfpyIAzQn1C5lGsgnKkj";
+    const responseToken = (card) => {
         const url = "https://api.stripe.com/v1/tokens";
 
         if (!numberRef.current.value || !monthRef.current.value || !yearRef.current.value || !cvcRef.current.value) {
@@ -105,9 +105,6 @@ const ccType = (props) => {
             type: "POST",
             data: { card },
             success: function (data) {
-                /* self.newCard = true
-                self.processData(data) */
-                console.log(data);
                 processData(data);
 
             },
@@ -123,8 +120,96 @@ const ccType = (props) => {
         });
     }
 
+    const requestSource3D = (card) => {
+        const url = "https://api.stripe.com/v1/sources";
+        const payload = {
+            'type': 'card',
+            'currency': cartCurrencyCode,
+            card
+        }
+
+        $.ajax({
+            url: url, // Url to which the request is send
+            headers: {
+                Authorization: `Bearer ${secKey}`,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            type: "POST",
+            data: payload,
+            success: function (data) {
+                confirm3DSecure(data);
+            },
+            error: function (xhr, status, error) {
+                const respondText = JSON.parse(xhr.responseText);
+                if (respondText.error.message) {
+                    setErrorMsg(respondText.error.message);
+                }
+                if (respondText.error.param) {
+                    setHasError(respondText.error.param);
+                }
+            }
+        });
+    }
+
+    const confirm3DSecure = (source_response) => {
+        const url = "https://api.stripe.com/v1/sources";
+        const { id } = source_response;
+        const amount = parseFloat(cartGrandTotals(), 2) * 100;
+        const return_url = getBaseUrl(); //window.location.origin.indexOf('localhost') > -1 ? "https://simicart-siminia-hsmrn.local.pwadev:8495/" : getBaseUrl();
+        const payload = {
+            type: 'three_d_secure',
+            'three_d_secure[card]': id,
+            'redirect[return_url]': return_url + 'checkout.html?confirmed_3d_secure=stripe',
+            key: secKey,
+            currency: cartCurrencyCode,
+            amount
+        };
+        $.ajax({
+            url, // Url to which the request is send
+            headers: {
+                Authorization: `Bearer ${secKey}`,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            type: "POST",
+            data: payload,
+            success: function (data) {
+                if (data instanceof Object && data.amount > 0) {
+                    secureData(data);
+                }
+            },
+            error: function (xhr, status, error) {
+                const respondText = JSON.parse(xhr.responseText);
+                if (respondText.error.message) {
+                    setErrorMsg(respondText.error.message);
+                }
+                if (respondText.error.param) {
+                    setHasError(respondText.error.param);
+                }
+            }
+        });
+    }
+
+    const submitCC = async () => {
+        let card = {};
+        setErrorMsg('');
+        setHasError('');
+
+        card["number"] = numberRef.current.value;
+        card["exp_month"] = monthRef.current.value;
+        card["exp_year"] = yearRef.current.value;
+        card["cvc"] = cvcRef.current.value;
+
+        if (test_3d_secure) {
+            requestSource3D(card);
+        } else {
+            responseToken(card);
+        }
+
+    }
+
     const processData = (data) => {
         const { card } = data;
+
         const paymentData = {
             cc_cid: "",
             cc_exp_month: card.exp_month,
@@ -138,6 +223,29 @@ const ccType = (props) => {
             cc_type: card.brand,
         };
         onSuccess(paymentData);
+    }
+
+    const secureData = (response) => {
+        const { three_d_secure, redirect } = response;
+        const paymentData = {
+            cc_cid: "",
+            cc_exp_month: three_d_secure.exp_month,
+            cc_exp_year: three_d_secure.exp_year,
+            cc_last4: three_d_secure.last4,
+            cc_number: "",
+            cc_ss_issue: "",
+            cc_ss_start_month: "",
+            cc_ss_start_year: "",
+            cc_token: response.id,
+            cc_type: three_d_secure.brand,
+        };
+
+        const dataSave = {
+            code: payment_method,
+            data: paymentData
+        }
+        Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'cc_3DSecure_stripe', dataSave);
+        window.location.replace(redirect.url);
     }
 
     return (
