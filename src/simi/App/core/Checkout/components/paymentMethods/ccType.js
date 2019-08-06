@@ -7,17 +7,17 @@ import Button from 'src/components/Button';
 const $ = window.$;
 
 const ccType = (props) => {
-    const { onSuccess, cartCurrencyCode, cart, payment_method } = props;
+    const { onSuccess, cartCurrencyCode, cart, payment_method, paymentContent } = props;
 
     const numberRef = useRef();
     const monthRef = useRef();
     const yearRef = useRef();
     const cvcRef = useRef();
-
+console.log(paymentContent)
     const [errorMsg, setErrorMsg] = useState('');
     const [hasError, setHasError] = useState('');
-    const secKey = "pk_test_3DZuRfpyIAzQn1C5lGsgnKkj";
-    const test_3d_secure = 0;
+    const secKey = paymentContent && paymentContent.public_key ? paymentContent.public_key : "";
+    const test_3d_secure = paymentContent && paymentContent.verify_3dsecure ? paymentContent.verify_3dsecure : 0;
 
     const cartGrandTotals = () => {
         return cart && cart.totals && cart.totals.grand_total;

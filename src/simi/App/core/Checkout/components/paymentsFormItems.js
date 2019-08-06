@@ -113,14 +113,14 @@ const PaymentsFormItems = props => {
 
     const renderMethod = () => {
         let mt = null;
-        if (selectablePaymentMethods.length) {
-            mt = selectablePaymentMethods.map(ite => {
+        if (paymentMethods.length) {
+            mt = paymentMethods.map(ite => {
 
                 let frameCard = '';
 
-                if (formState.values['payment_method'] === ite.value) {
+                if (formState.values['payment_method'] === ite.code) {
 
-                    if (ite.value === 'purchaseorder') {
+                    if (ite.code === 'purchaseorder') {
                         frameCard = <Fragment>
                             <Field label={Identify.__("Purchase Order Number")} required>
                                 <TextInput
@@ -139,8 +139,8 @@ const PaymentsFormItems = props => {
                         </Fragment>
                     }
 
-                    // label with option have card
-                    if (ite.value === 'braintree') {
+                    // brain tree default magento pwa-studio
+                    if (ite.code === 'braintree') {
                         frameCard = <Fragment>
                             <BraintreeDropin shouldRequestPaymentNonce={isSubmitting} onError={handleError} onSuccess={handleSuccess} />
                             <Button
@@ -152,13 +152,20 @@ const PaymentsFormItems = props => {
                         </Fragment>
                     }
 
-                    if (ite.value === 'pmclain_stripe') {
-                        frameCard = <CCType onSuccess={handleSuccess} cartCurrencyCode={cartCurrencyCode} cart={cart} payment_method={ite.value} />
+                    if (ite.hasOwnProperty('simi_payment_data') && !isObjectEmpty(ite.simi_payment_data)) {
+                        if (parseInt(ite.simi_payment_data.show_type, 10) === 1){
+                            // payment type 1
+                            frameCard = <CCType onSuccess={handleSuccess} paymentContent={ite.simi_payment_data} cartCurrencyCode={cartCurrencyCode} cart={cart} payment_method={ite.code} />
+                        }
+                        if (parseInt(ite.simi_payment_data.show_type, 10) === 3){
+                            // payment type 3
+                            frameCard = 'Coming soon!'
+                        }
                     }
                 }
 
-                return <Fragment key={ite.value}>
-                    <Radio label={ite.label} value={ite.value} />
+                return <Fragment key={ite.code}>
+                    <Radio label={ite.title} value={ite.code} />
                     {frameCard}
                 </Fragment>
             });
