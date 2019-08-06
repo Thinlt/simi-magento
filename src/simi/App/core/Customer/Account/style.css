@@ -49,18 +49,8 @@
     margin-right: 40px;
     margin-left: 40px;
     max-width: 970px;
-}
-.dashboard-content.dashboard-without-sidebar{
     max-width: unset;
     margin-right: 0;
-}
-.dashboard-sidebar {
-    min-width: 175px;
-}
-.dashboard-sidebar .sidebar-item {
-    padding: 40px 24px;
-    text-align: center;
-    margin-bottom: 15.5px;
 }
 .sidebar-item .sidebar-title {
     font-size: 28px;

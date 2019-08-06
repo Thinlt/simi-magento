@@ -211,41 +211,9 @@ class CustomerLayout extends React.Component{
         $('body').removeClass(classes['body-customer-dashboard'])
     }
 
-    renderSideBar = () => {
-        const {classes} = this.props
-        return(
-            <div className={`${classes["dashboard-sidebar"]} hidden-xs`}>
-                <div className={classes["list-sidebar-item"]}>
-                    <div className={`${classes["sidebar-item"]} ${classes["trade-sv"]}`} >
-                        <div className={classes["sidebar-title"]}>
-                            {Identify.__('Our trade services')}
-                        </div>
-                        <div className={classes["sidebar-action"]}>
-                            <Link to="#">
-                                {Identify.__('Find out more')}
-                            </Link>
-                        </div>
-                    </div>
-                    <div className={`${classes["sidebar-item"]} ${classes["branch-sv"]}`}>
-                        <div className={classes["sidebar-title"]}>
-                            {Identify.__('Branch Finder')}
-                        </div>
-                        <div className={classes["sidebar-action"]}>
-                            <Link to='#'>
-                                {Identify.__('Search')}
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-
     render() {
         const {page}= this.state;
         const {classes} = this.props
-        const pageClass = (page === classes['order-detail'] || page === classes['wishlist']) ? classes['dashboard-without-sidebar'] : '';
-        const checkSidebar = (page === classes['order-detail'] || page === classes['wishlist']) ? false : true;
         return (
             <React.Fragment>
                 <div className={`${classes['customer-dashboard']} ${page}`} style={{minHeight:window.innerHeight-200}}>
@@ -253,10 +221,9 @@ class CustomerLayout extends React.Component{
                     <div className={`${classes['container']} container`}>
                         <div className={classes["dashboard-layout"]}>
                             {this.renderMenu()}
-                            <div className={`${classes['dashboard-content']} ${pageClass}`}>
+                            <div className={`${classes['dashboard-content']}`}>
                                 {this.renderContent()}
                             </div>
-                            {checkSidebar && this.renderSideBar()}
                         </div>
                     </div>
                 </div>
