@@ -138,14 +138,8 @@ class CateTree extends React.Component {
                     <div style={{color:configColor.menu_text_color}}>
                         {primarytext}
                     </div>
-                    <div className={`${classes["cate-icon"]} hidden`}>
-                        <ExpandLess className={`${classes["cate-icon"]} hidden`} color={configColor.menu_text_color}/>
-                    </div>
-                    <div className={`${classes["cate-icon"]}`}>
-                        <ExpandMore className={classes['cate-icon']} color={configColor.menu_text_color}/>
-                    </div>
                 </div>
-                <div className="sub-cate-root" style={{display:'none'}}>
+                <div className="sub-cate-root">
                     {this.renderTreeMenu(storeConfig.simiRootCate)}
                 </div>
             </div>
