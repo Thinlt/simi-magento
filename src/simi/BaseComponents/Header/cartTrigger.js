@@ -3,7 +3,7 @@ import { connect } from 'src/drivers';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 
-import { toggleCart, createCart } from 'src/actions/cart';
+import { toggleCart } from 'src/actions/cart';
 import CartCounter from './cartCounter';
 
 import Basket from "src/simi/BaseComponents/Icon/Basket";
@@ -13,10 +13,6 @@ import Identify from 'src/simi/Helper/Identify'
 import { Link } from 'src/drivers'
 import { resourceUrl } from 'src/simi/Helper/Url'
 
-import { Util } from '@magento/peregrine';
-const { BrowserPersistence } = Util;
-const storage = new BrowserPersistence();
-
 
 export class Trigger extends Component {
     static propTypes = {
@@ -24,7 +20,6 @@ export class Trigger extends Component {
         classes: PropTypes.shape({
             root: PropTypes.string
         }),
-        createCart: PropTypes.func.isRequired,
         toggleCart: PropTypes.func.isRequired,
         itemsQty: PropTypes.number
     };
@@ -55,13 +50,7 @@ export class Trigger extends Component {
         )
     }
 
-    render() {
-        //create cart if empty
-        const cartId = storage.getItem('cartId');
-        if (!cartId)
-            this.props.createCart()
-        //end creating cart
-            
+    render() {            
         const {
             classes,
             //toggleCart,
@@ -98,7 +87,6 @@ const mapStateToProps = ({ cart }) => ({ cart });
 
 const mapDispatchToProps = {
     toggleCart,
-    createCart
 };
 
 export default compose(
