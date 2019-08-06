@@ -86,16 +86,15 @@ const PaymentsFormItems = props => {
 
         const p_method = formState.values['payment_method'];
         let parseData = {};
-        if (p_method === 'checkmo'
-            || p_method === 'free'
-            || p_method === 'cashondelivery'
-            || p_method === 'banktransfer') {
-            // payment type 0
-            parseData = selectablePaymentMethods.find(
-                ({ value }) => value === p_method
-            );
+        if (paymentMethods && paymentMethods.length) {
+            if (!paymentMethods.hasOwnProperty('simi_payment_data') || (paymentMethods.hasOwnProperty('simi_payment_data') && !isObjectEmpty(paymentMethods.simi_payment_data) && parseInt(paymentMethods.simi_payment_data.show_type, 10) === 0)){
+                 // payment type 0
+                parseData = selectablePaymentMethods.find(
+                    ({ value }) => value === p_method
+                );
 
-            handleSuccess(parseData)
+                handleSuccess(parseData)
+            }
         }
     }
 
@@ -110,7 +109,7 @@ const PaymentsFormItems = props => {
             handleSuccess(JSON.parse(JSON.stringify(values)));
         }
     }
-
+console.log(initialValues);
     const renderMethod = () => {
         let mt = null;
         if (paymentMethods.length) {
