@@ -23,7 +23,7 @@ const Thankyou = props => {
     }, [createAccount, history]);
 
     const hasOrderId = () => {
-        return order && order.id;
+        return (order && order.id) ||  Identify.findGetParameter('order_increment_id');
     }
 
     const userSignedIn = () => {
@@ -39,7 +39,7 @@ const Thankyou = props => {
             history.push('/');
             return;
         }
-        const padOrderId = Identify.PadWithZeroes(order.id, 9);
+        const padOrderId = (order && order.id) ? Identify.PadWithZeroes(order.id, 9) : Identify.findGetParameter('order_increment_id')
         const orderId = '/orderdetails.html/' + padOrderId;
         const orderLocate = {
             pathname: orderId,

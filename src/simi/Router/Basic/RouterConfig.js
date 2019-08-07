@@ -39,6 +39,10 @@ const Logout = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Logout"*/'src/simi/App/core/Customer/Logout')} {...props}/>
 }
 
+const PaypalExpress = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "PaypalExpress"*/'src/simi/App/core/Payment/Paypalexpress')} {...props}/>
+}
+
 const NoMatch = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/core/NoMatch')} {...props}/>
 }
@@ -116,6 +120,10 @@ const router = {
     contact: {
         path: '/contact.html',
         render : location => <Contact {...location} page={`contact`}/>
+    },
+    contact: {
+        path: '/paypal_express.html',
+        render : location => <PaypalExpress {...location} page={`contact`}/>
     },
     noMatch: {
         component : location => <NoMatch {...location} />
