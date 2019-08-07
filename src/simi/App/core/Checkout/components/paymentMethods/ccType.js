@@ -13,11 +13,12 @@ const ccType = (props) => {
     const monthRef = useRef();
     const yearRef = useRef();
     const cvcRef = useRef();
-console.log(paymentContent)
+
     const [errorMsg, setErrorMsg] = useState('');
     const [hasError, setHasError] = useState('');
     const secKey = paymentContent && paymentContent.public_key ? paymentContent.public_key : "";
-    const test_3d_secure = paymentContent && paymentContent.verify_3dsecure ? paymentContent.verify_3dsecure : 0;
+    const test_3d_secure = paymentContent && paymentContent.hasOwnProperty('verify_3dsecure') ? parseInt(paymentContent.verify_3dsecure, 10) : 0;
+    const initialValues = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'cc_card_data') ? Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'cc_card_data') : '';
 
     const cartGrandTotals = () => {
         return cart && cart.totals && cart.totals.grand_total;
@@ -71,30 +72,6 @@ console.log(paymentContent)
 
     const responseToken = (card) => {
         const url = "https://api.stripe.com/v1/tokens";
-
-        if (!numberRef.current.value || !monthRef.current.value || !yearRef.current.value || !cvcRef.current.value) {
-            if (!numberRef.current.value) {
-                setHasError('number');
-                setErrorMsg(Identify.__('Your card\'s expiration number is invalid'));
-                return;
-            }
-            if (!monthRef.current.value) {
-                setHasError('exp_month');
-                setErrorMsg(Identify.__('Your card\'s expiration month is invalid'));
-                return;
-            }
-            if (!yearRef.current.value) {
-                setHasError('exp_year');
-                setErrorMsg(Identify.__('Your card\'s expiration year is invalid'));
-                return;
-            }
-            if (!cvcRef.current.value) {
-                setHasError('cvc');
-                setErrorMsg(Identify.__('Your card\'s security code is invalid.'));
-                return;
-            }
-
-        }
 
         $.ajax({
             url: url, // Url to which the request is send
@@ -199,12 +176,36 @@ console.log(paymentContent)
         card["exp_year"] = yearRef.current.value;
         card["cvc"] = cvcRef.current.value;
 
+        if (!numberRef.current.value || !monthRef.current.value || !yearRef.current.value || !cvcRef.current.value) {
+            if (!numberRef.current.value) {
+                setHasError('number');
+                setErrorMsg(Identify.__('Your card\'s expiration number is invalid'));
+                return;
+            }
+            if (!monthRef.current.value) {
+                setHasError('exp_month');
+                setErrorMsg(Identify.__('Your card\'s expiration month is invalid'));
+                return;
+            }
+            if (!yearRef.current.value) {
+                setHasError('exp_year');
+                setErrorMsg(Identify.__('Your card\'s expiration year is invalid'));
+                return;
+            }
+            if (!cvcRef.current.value) {
+                setHasError('cvc');
+                setErrorMsg(Identify.__('Your card\'s security code is invalid.'));
+                return;
+            }
+        }
+
+        Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'cc_card_data', card);
+
         if (test_3d_secure) {
             requestSource3D(card);
         } else {
             responseToken(card);
         }
-
     }
 
     const processData = (data) => {
@@ -255,28 +256,28 @@ console.log(paymentContent)
                     {Identify.__('Credit Card Number')}
                     <span className="label-required">*</span>
                 </label>
-                <input name="cc_number" id="cc_number" ref={numberRef} className="form-control" type="text" onInput={(e) => onCCNUmberInput(e)} placeholder="xxxx - xxxx - xxxx - xxxx" />
+                <input name="cc_number" id="cc_number" ref={numberRef} defaultValue={initialValues && initialValues.hasOwnProperty('number') ? initialValues.number : ''} className="form-control" type="text" onInput={(e) => onCCNUmberInput(e)} placeholder="xxxx - xxxx - xxxx - xxxx" />
             </div>
             <div className={`cc-field form-group ${hasError === 'exp_month' ? 'has-error' : ''}`}>
                 <label htmlFor="cc_month">
                     {Identify.__('Month')}
                     <span className="label-required">*</span>
                 </label>
-                <input name="cc_month" id="cc_month" ref={monthRef} className="form-control" type="text" />
+                <input name="cc_month" id="cc_month" ref={monthRef} defaultValue={initialValues && initialValues.hasOwnProperty('exp_month') ? initialValues.exp_month : ''} className="form-control" type="text" />
             </div>
             <div className={`cc-field form-group ${hasError === 'exp_year' ? 'has-error' : ''}`}>
                 <label htmlFor="cc_year">
                     {Identify.__('Year')}
                     <span className="label-required">*</span>
                 </label>
-                <input name="cc_year" id="cc_year" ref={yearRef} className="form-control" type="text" />
+                <input name="cc_year" id="cc_year" ref={yearRef} defaultValue={initialValues && initialValues.hasOwnProperty('exp_year') ? initialValues.exp_year : ''} className="form-control" type="text" />
             </div>
             <div className={`cc-field form-group ${hasError === 'cvc' ? 'has-error' : ''}`}>
                 <label htmlFor="cc_cvc">
                     {Identify.__('CVV')}
                     <span className="label-required">*</span>
                 </label>
-                <input name="cc_cvc" id="cc_cvc" ref={cvcRef} className="form-control" type="text" />
+                <input name="cc_cvc" id="cc_cvc" ref={cvcRef} defaultValue={initialValues && initialValues.hasOwnProperty('cvc') ? initialValues.cvc : ''} className="form-control" type="text" />
             </div>
             {errorMsg && <div className={defaultClass["cc-msg-error"]}>{errorMsg}</div>}
             <Button

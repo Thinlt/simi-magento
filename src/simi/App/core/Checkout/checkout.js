@@ -351,6 +351,8 @@ class Checkout extends Component {
         }
 
         if (checkout.step && checkout.step === 'receipt') {
+            sessionStorage.removeItem('cc_card_data');
+            sessionStorage.removeItem('cc_3DSecure_stripe');
             const locate = {
                 pathname: '/thankyou.html',
                 state: {
