@@ -12,6 +12,7 @@ const PaypalExpress = props => {
                 data.errors.map(error => {
                     alert(error.message)
                 });
+                props.history.push('/')
             }
         } else {
             if (data.ppexpressapi &&
@@ -22,12 +23,18 @@ const PaypalExpress = props => {
     }
 
     const placeOrderCallback = data => {
-        console.log(data)
+        if (data && data.order && data.order.invoice_number) {
+            props.history.push('/thankyou.html?order_increment_id='+data.order.invoice_number)
+        } else {
+            props.toggleMessages([{ type: 'error', message: Identify.__('Payment Failed'), auto_dismiss: true }])
+            props.history.push('/')
+        }
     }
 
     if (props.cartId) {
-        if (Identify.findGetParameter('placeOrder')) {
-            paypalPlaceOrder(placeOrderCallback, {quote_id: props.cartId})
+        const token = Identify.findGetParameter('token')
+        if (Identify.findGetParameter('placeOrder') && token) {
+            paypalPlaceOrder(placeOrderCallback, {quote_id: props.cartId, token})
         } else if (Identify.findGetParameter('paymentFaled')) {
             props.toggleMessages([{ type: 'error', message: Identify.__('Payment Failed'), auto_dismiss: true }])
             props.history.push('/')

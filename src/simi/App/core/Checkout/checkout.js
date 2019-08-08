@@ -40,6 +40,7 @@ import EditableForm from './editableForm';
 import Panel from 'src/simi/BaseComponents/Panel';
 import { toggleMessages, simiSignedIn } from 'src/simi/Redux/actions/simiactions';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
+import Loading from 'src/simi/BaseComponents/Loading';
 import { smoothScrollToView } from 'src/simi/Helper/Behavior';
 import Coupon from 'src/simi/BaseComponents/Coupon';
 
@@ -60,7 +61,7 @@ const isCheckoutReady = checkout => {
         return !!data && !isObjectEmpty(data);
     });
 
-    const stringsHaveData = !!shippingMethod && shippingMethod.length > 0;
+    const stringsHaveData = shippingMethod && shippingMethod.length > 0;
 
     return objectsHaveData && stringsHaveData;
 };
@@ -199,7 +200,7 @@ class Checkout extends Component {
     }
 
     placeOrder = () => {
-        const { submitOrder, checkout, toggleMessages, cart } = this.props;
+        const { submitOrder, checkout, toggleMessages, cart, history } = this.props;
         const { paymentData, shippingAddress, shippingMethod, billingAddress } = checkout;
 
         if (toggleMessages) {
@@ -226,8 +227,12 @@ class Checkout extends Component {
         }
 
         if (isCheckoutReady(checkout)) {
-            showFogLoading();
-            submitOrder();
+            if (paymentData && paymentData.value === 'paypal_express')
+                history.push('/paypal_express.html')
+            else {
+                showFogLoading();
+                submitOrder();
+            }
         }
         return;
     }
@@ -301,7 +306,7 @@ class Checkout extends Component {
             isAddressInvalid,
             shippingTitle } = checkout;
 
-        const { paymentMethods, is_virtual } = cart;
+        const { cartId, isLoading, paymentMethods, is_virtual } = cart;
         const { editing } = checkout;
 
         const stepProps = {
@@ -361,64 +366,70 @@ class Checkout extends Component {
             };
             this.handleLink(locate);
         }
-
+        
         if (!isCheckoutReady(checkout)) {
-            hideFogLoading()
+            hideFogLoading();
         }
 
+        const cartLoading = (!cartDetail && cartId && !isLoading && (!cart.details || !cart.details.item))
+        
         return <Fragment>
             {breadcrumb}
             {pageTitle}
-            {!cartDetail ? checkoutEmpty : <div className={defaultClasses['checkout-column']}>
-                <div className={defaultClasses[`checkout-col-1`]}>
-                    <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Address')}</div>}
-                        renderContent={<EditableForm {...stepProps} editing='address' />}
-                        isToggle={true}
-                        expanded={true}
-                        headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-                    />
-                </div>
-                <div className={defaultClasses[`checkout-col-2`]}>
-                    <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Billing Information')}</div>}
-                        renderContent={<EditableForm {...stepProps} editing='billingAddress' />}
-                        isToggle={true}
-                        expanded={true}
-                        containerStyle={containerSty}
-                        headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-                    />
+            {!cartDetail ? cartLoading ? checkoutEmpty : <Loading /> : 
+                (
+                <div className={defaultClasses['checkout-column']}>
+                    <div className={defaultClasses[`checkout-col-1`]}>
+                        <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Address')}</div>}
+                            renderContent={<EditableForm {...stepProps} editing='address' />}
+                            isToggle={true}
+                            expanded={true}
+                            headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                        />
+                    </div>
+                    <div className={defaultClasses[`checkout-col-2`]}>
+                        <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Billing Information')}</div>}
+                            renderContent={<EditableForm {...stepProps} editing='billingAddress' />}
+                            isToggle={true}
+                            expanded={true}
+                            containerStyle={containerSty}
+                            headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                        />
 
-                    {!is_virtual && <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Method')}</div>}
-                        renderContent={<EditableForm {...stepProps} editing='shippingMethod' />}
-                        isToggle={true}
-                        expanded={true}
-                        containerStyle={{ marginTop: 35 }}
-                        headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-                    />}
+                        {!is_virtual && <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Method')}</div>}
+                            renderContent={<EditableForm {...stepProps} editing='shippingMethod' />}
+                            isToggle={true}
+                            expanded={true}
+                            containerStyle={{ marginTop: 35 }}
+                            headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                        />}
 
-                    <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Payment Method')}</div>}
-                        renderContent={<EditableForm {...stepProps} editing='paymentMethod' />}
-                        isToggle={true}
-                        expanded={true}
-                        containerStyle={{ marginTop: 35 }}
-                        headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-                    />
+                        <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Payment Method')}</div>}
+                            renderContent={<EditableForm {...stepProps} editing='paymentMethod' />}
+                            isToggle={true}
+                            expanded={true}
+                            containerStyle={{ marginTop: 35 }}
+                            headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                        />
 
-                    <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Coupon Code')}</div>}
-                        renderContent={<Coupon {...childCPProps} />}
-                        isToggle={true}
-                        expanded={false}
-                        containerStyle={{ marginTop: 35 }}
-                        headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-                    />
+                        <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Coupon Code')}</div>}
+                            renderContent={<Coupon {...childCPProps} />}
+                            isToggle={true}
+                            expanded={false}
+                            containerStyle={{ marginTop: 35 }}
+                            headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                        />
 
-                </div>
-                <div className={defaultClasses[`checkout-col-3`]}>
-                    <div className={defaultClasses['col-3-content']}>
-                        <OrderSummary parent={this} isPhone={isPhone} cart={cart} cartCurrencyCode={cartCurrencyCode} checkout={checkout} />
-                        {btnPlaceOrder}
+                    </div>
+                    <div className={defaultClasses[`checkout-col-3`]}>
+                        <div className={defaultClasses['col-3-content']}>
+                            <OrderSummary parent={this} isPhone={isPhone} cart={cart} cartCurrencyCode={cartCurrencyCode} checkout={checkout} />
+                            {btnPlaceOrder}
+                        </div>
                     </div>
                 </div>
-            </div>}
+                )
+            }
         </Fragment>
     }
 
