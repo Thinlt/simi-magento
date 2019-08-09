@@ -4,7 +4,7 @@ import Loading from 'src/simi/BaseComponents/Loading';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { connect } from 'src/drivers';
 import Identify from 'src/simi/Helper/Identify'
-import {  getCartDetails } from 'src/actions/cart';
+import {  getCartDetails, clearCartId } from 'src/actions/cart';
 
 const PaypalExpress = props => {
     const setData = (data) => {
@@ -25,9 +25,15 @@ const PaypalExpress = props => {
 
     const placeOrderCallback = data => {
         if (data && data.order && data.order.invoice_number) {
+            clearCartId()
             getCartDetails()
             props.history.push('/thankyou.html?order_increment_id='+data.order.invoice_number)
         } else {
+            if (data.errors && data.errors.length) {
+                data.errors.map(error => {
+                    alert(error.message)
+                });
+            }
             props.toggleMessages([{ type: 'error', message: Identify.__('Payment Failed'), auto_dismiss: true }])
             props.history.push('/')
         }
