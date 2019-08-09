@@ -186,7 +186,7 @@ class Login extends Component {
                 const {pushTo} = history.location;
                 history.push(pushTo)
             }else{
-                history.push('/account.html')
+                history.push('/')
             }
 
             const message = firstname?

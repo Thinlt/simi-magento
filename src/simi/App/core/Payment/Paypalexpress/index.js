@@ -4,6 +4,7 @@ import Loading from 'src/simi/BaseComponents/Loading';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { connect } from 'src/drivers';
 import Identify from 'src/simi/Helper/Identify'
+import {  getCartDetails } from 'src/actions/cart';
 
 const PaypalExpress = props => {
     const setData = (data) => {
@@ -24,6 +25,7 @@ const PaypalExpress = props => {
 
     const placeOrderCallback = data => {
         if (data && data.order && data.order.invoice_number) {
+            getCartDetails()
             props.history.push('/thankyou.html?order_increment_id='+data.order.invoice_number)
         } else {
             props.toggleMessages([{ type: 'error', message: Identify.__('Payment Failed'), auto_dismiss: true }])
@@ -34,19 +36,20 @@ const PaypalExpress = props => {
     if (props.cartId) {
         const token = Identify.findGetParameter('token')
         if (Identify.findGetParameter('placeOrder') && token) {
-            paypalPlaceOrder(placeOrderCallback, {quote_id: props.cartId, token})
+            paypalPlaceOrder(placeOrderCallback, {quote_id: props.cartId, token, simiSessId: ''})
         } else if (Identify.findGetParameter('paymentFaled')) {
             props.toggleMessages([{ type: 'error', message: Identify.__('Payment Failed'), auto_dismiss: true }])
             props.history.push('/')
         } else 
-            paypalExpressStart(setData, {quote_id: props.cartId})
+            paypalExpressStart(setData, {quote_id: props.cartId, simiSessId: ''})
     }
     return <Loading />
 }
 
 
 const mapDispatchToProps = {
-    toggleMessages
+    toggleMessages,
+    getCartDetails
 };
 
 const mapStateToProps = ({ cart }) => {

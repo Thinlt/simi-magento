@@ -4,12 +4,25 @@ import classes from './navigation.css'
 import Identify from 'src/simi/Helper/Identify'
 import Dashboardmenu from './Dashboardmenu'
 import { withRouter } from 'react-router-dom';
+import * as Constants from 'src/simi/Config/Constants';
 
 const Navigation = props => {
     const { getUserDetails, currentUser, isSignedIn, cartId } = props
 
-    if (!cartId)
-        props.createCart() //create cart if empty
+    if (!cartId) {
+        if (!isSignedIn)
+            props.createCart() //create cart if empty
+        else
+            props.getCartDetails() //get cart if empty and logged int
+    }
+
+    //if not logged in or out of session, clear the old things
+    const simiSessId = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID)
+    if (!isSignedIn && simiSessId) {
+        console.log('logged out or out of session')
+        console.log(currentUser)
+        Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null)
+    }
 
     if (isSignedIn && (!currentUser || !currentUser.email)) //get user detail when missing (from refreshing)
         getUserDetails();
@@ -107,6 +120,7 @@ Navigation.propTypes = {
     getUserDetails: func.isRequired,
     drawer: string,
     createCart: func.isRequired,
+    getCartDetails: func.isRequired,
 };
 
 export default (withRouter)(Navigation);

@@ -21,9 +21,9 @@ export const changeSampleValue = value => async dispatch => {
 }
 
 export const simiSignedIn = response => async dispatch => {
-    await dispatch(removeCart());
     dispatch(userActions.signIn.receive(response));
     dispatch(getUserDetails()).then(() => dispatch(fullFillAddress()));
+    dispatch(removeCart());
     dispatch(getCartDetails({ forceRefresh: true }));
     // dispatch(fullFillAddress());
 }
@@ -32,11 +32,11 @@ export const simiSignOut = ({ history }) => async dispatch => {
 
     // Sign the user out in local storage and Redux.
     await clearToken();
-    await dispatch(userActions.signIn.reset());
+    dispatch(userActions.signIn.reset());
 
     // Now that we're signed out, forget the old (customer) cart
     // and fetch a new guest cart.
-    await dispatch(removeCart());
+    dispatch(removeCart());
     dispatch(getCartDetails({ forceRefresh: true }));
 
     // remove address

@@ -3,7 +3,7 @@ export { default as Navigation } from './navigation';
 import { connect } from 'src/drivers';
 import { closeDrawer } from 'src/actions/app';
 import { getUserDetails } from 'src/actions/user';
-import { createCart } from 'src/actions/cart';
+import { createCart, getCartDetails } from 'src/actions/cart';
 import Navigation from './navigation';
 
 const mapStateToProps = ({ app, user, cart }) => {
@@ -20,7 +20,8 @@ const mapStateToProps = ({ app, user, cart }) => {
 const mapDispatchToProps = {
     closeDrawer,
     getUserDetails,
-    createCart
+    createCart,
+    getCartDetails
 };
 
 export default connect(
