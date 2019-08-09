@@ -6,6 +6,7 @@ import { mergeClasses } from 'src/classify';
 import defaultClasses from './ShippingForm.css';
 import Identify from 'src/simi/Helper/Identify';
 import FieldShippingMethod from '../components/fieldShippingMethod';
+import Loading from 'src/simi/BaseComponents/Loading/ReactLoading'
 
 const ShippingForm = props => {
     const {
@@ -33,6 +34,7 @@ const ShippingForm = props => {
     } else {
         selectableShippingMethods = [];
         initialValue = '';
+        return <Loading />
     }
 
     selectableShippingMethods.unshift(defaultMethod);

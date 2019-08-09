@@ -109,7 +109,7 @@ const PaymentsFormItems = props => {
             handleSuccess(JSON.parse(JSON.stringify(values)));
         }
     }
-console.log(initialValues);
+    
     const renderMethod = () => {
         let mt = null;
         if (paymentMethods.length) {
