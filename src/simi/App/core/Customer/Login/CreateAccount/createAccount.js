@@ -31,10 +31,16 @@ const CreateAccount = props => {
     }
 
     const handleSubmit = values => {
+        let params = {
+            password : values.password,
+            confirm_password : values.confirm,
+            ...values.customer,
+            news_letter : values.subscribe ? 1 : 0
+        }
         showFogLoading()
         registeringEmail = values.customer.email
         registeringPassword = values.password
-        createAccount(registerDone, values)
+        createAccount(registerDone, params)
     };
 
     const registerDone = (data) => {

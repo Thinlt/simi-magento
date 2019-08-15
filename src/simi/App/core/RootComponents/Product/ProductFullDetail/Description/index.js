@@ -10,7 +10,7 @@ const Description = props => {
             <h2 className={classes.descriptionTitle}>
                 <span>{Identify.__('Description')}</span>
             </h2>
-            <RichText content={product.description} />
+            <RichText content={product.description.html} />
         </React.Fragment>
     )
 }

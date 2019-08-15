@@ -36,10 +36,12 @@ const prepareData = (endPoint, getData, method, header, bodyData) => {
             encodeURIComponent(getData[key]);
     })
     dataGetString = dataGetString.join('&')
-    if(requestEndPoint.includes('?')){
-        requestEndPoint += "&" + dataGetString;
-    } else { 
-        requestEndPoint += "?" + dataGetString;
+    if (dataGetString) {
+        if(requestEndPoint.includes('?')){
+            requestEndPoint += "&" + dataGetString;
+        } else { 
+            requestEndPoint += "?" + dataGetString;
+        }
     }
 
     //header

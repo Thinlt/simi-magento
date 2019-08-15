@@ -212,6 +212,7 @@ class Filter extends React.Component {
         const filterParams = filterData?filterData:{}
         filterParams[attribute] = value
         const queryParams = new URLSearchParams(search);
+        queryParams.set('page', 1);
         queryParams.set('filter', JSON.stringify(filterParams));
         history.push({ search: queryParams.toString() });
     }

@@ -1,13 +1,12 @@
 import React, { Component, Suspense } from 'react';
-import { arrayOf, bool, number, shape, string } from 'prop-types';
+import { arrayOf, bool, number, shape, string, object } from 'prop-types';
 import {smoothScrollToView} from 'src/simi/Helper/Behavior'
-import classify from 'src/classify';
 import Loading from 'src/simi/BaseComponents/Loading'
 import { Colorbtn, Whitebtn } from 'src/simi/BaseComponents/Button'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import ProductImage from './ProductImage';
 import Quantity from './ProductQuantity';
-import defaultClasses from './productFullDetail.css';
+import classes from './productFullDetail.css';
 import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
 import TitleHelper from 'src/simi/Helper/TitleHelper'
@@ -42,7 +41,7 @@ class ProductFullDetail extends Component {
         const { configurable_options } = props.product;
         const optionCodes = new Map(state.optionCodes);
         // if this is a simple product, do nothing
-        if (!isProductConfigurable(props.product)) {
+        if (!isProductConfigurable(props.product) || !configurable_options) {
             return null;
         }
         // otherwise, cache attribute codes to avoid lookup cost later
@@ -121,7 +120,7 @@ class ProductFullDetail extends Component {
             this.showError(data)
         } else {
             this.showSuccess(data)
-            this.props.getCartDetails()
+            this.props.updateItemInCart()
         }
     }
 
@@ -196,8 +195,10 @@ class ProductFullDetail extends Component {
 
     get productOptions() {
         const { fallback, handleConfigurableSelectionChange, props } = this;
-        const { configurable_options, simiExtraField, type_id } = props.product;
+        const { configurable_options, simiExtraField, type_id, is_dummy_data } = props.product;
         const isConfigurable = isProductConfigurable(props.product);
+        if (is_dummy_data)
+            return <Loading />
         return (
             <Suspense fallback={fallback}>
                 {
@@ -257,9 +258,8 @@ class ProductFullDetail extends Component {
     
     render() {
         hideFogLoading()
-        const { addToCart, mediaGalleryEntries, productOptions, props, state, addToWishlist } = this;
+        const { addToCart, productOptions, props, state, addToWishlist } = this;
         const { optionCodes, optionSelections, } = state
-        const { classes } = props;
         const product = prepareProduct(props.product)
         console.log(product)
         const { type_id, name, simiExtraField } = product;
@@ -278,7 +278,6 @@ class ProductFullDetail extends Component {
                 </div>
                 <div className={classes.imageCarousel}>
                     <ProductImage 
-                        images={mediaGalleryEntries} 
                         optionCodes={optionCodes} 
                         optionSelections={optionSelections} 
                         product={product}
@@ -302,7 +301,11 @@ class ProductFullDetail extends Component {
                                 onValueChange={this.setQuantity}
                             />
                         }
-                        <div className={classes["add-to-cart-ctn"]}>
+                        <div 
+                            className={classes["add-to-cart-ctn"]} 
+                            style={{
+                                borderColor:  configColor.button_background, borderWidth: '1px', borderStyle: 'solid'
+                            }}>
                             <Colorbtn 
                                 style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
                                 className={classes["add-to-cart-btn"]} 
@@ -353,8 +356,8 @@ ProductFullDetail.propTypes = {
                 file: string.isRequired
             })
         ),
-        description: string
+        description: object
     }).isRequired
 };
 
-export default classify(defaultClasses)(ProductFullDetail);
+export default ProductFullDetail;

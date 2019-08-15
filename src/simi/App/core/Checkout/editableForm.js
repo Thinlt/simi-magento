@@ -29,7 +29,10 @@ const EditableForm = props => {
         submitPaymentMethod,
         user,
         simiSignedIn,
-        paymentCode
+        paymentCode,
+        toggleMessages,
+        cartCurrencyCode,
+        cart
     } = props;
 
     const handleCancel = useCallback(() => {
@@ -99,6 +102,7 @@ const EditableForm = props => {
                         submitBilling={handleSubmitBillingForm}
                         user={user}
                         simiSignedIn={simiSignedIn}
+                        toggleMessages={toggleMessages}
                     />
                     {shippingAddress && !isObjectEmpty(shippingAddress) ?
                         <AddressItem classes={defaultClass} data={shippingAddress} /> : null}
@@ -147,6 +151,8 @@ const EditableForm = props => {
                     submit={handleSubmitPaymentsForm}
                     submitting={submitting}
                     paymentMethods={paymentMethods}
+                    cart={cart}
+                    cartCurrencyCode={cartCurrencyCode}
                     key={Identify.randomString()}
                 />
             );

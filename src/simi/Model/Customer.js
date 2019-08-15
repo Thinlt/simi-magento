@@ -1,7 +1,7 @@
 import { sendRequest } from 'src/simi/Network/RestMagento';
 
 export const createAccount = (callBack, accountInfo) => {
-    sendRequest('rest/V1/customers', callBack, 'POST', {}, accountInfo)
+    sendRequest('rest/V1/simiconnector/customers', callBack, 'POST', {}, accountInfo)
 }
 
 export const simiSignIn = (callBack, postData) => {

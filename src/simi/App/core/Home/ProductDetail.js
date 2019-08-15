@@ -8,7 +8,7 @@ import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
 
 const ProductItem = props => {
     const {classes, dataProduct, history} = props;
-    const [queryResult, queryApi] = simiUseQuery(getCategory, false);
+    const [queryResult, queryApi] = simiUseQuery(getCategory);
     const {data} = queryResult
     const {runQuery} = queryApi
   
