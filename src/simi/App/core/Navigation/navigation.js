@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { func, string} from 'prop-types';
+import { func, string, oneOfType, number} from 'prop-types';
 import classes from './navigation.css'
 import Identify from 'src/simi/Helper/Identify'
 import Dashboardmenu from './Dashboardmenu'
 import { withRouter } from 'react-router-dom';
 
 const Navigation = props => {
-    const { getUserDetails } = props
-    getUserDetails();
+    const { getUserDetails, currentUser, isSignedIn, cartId } = props
+
+    if (!cartId)
+        props.createCart() //create cart if empty
+
+    if (isSignedIn && (!currentUser || !currentUser.email)) //get user detail when missing (from refreshing)
+        getUserDetails();
 
     const [isPhone, setIsPhone] = useState(window.innerWidth < 1024)
 
@@ -100,7 +105,8 @@ const Navigation = props => {
 Navigation.propTypes = {
     closeDrawer: func.isRequired,
     getUserDetails: func.isRequired,
-    drawer: string
+    drawer: string,
+    createCart: func.isRequired,
 };
 
 export default (withRouter)(Navigation);

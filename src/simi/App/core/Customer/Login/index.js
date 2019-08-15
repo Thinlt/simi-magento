@@ -106,7 +106,6 @@ class Login extends Component {
         const { classes } = this.props;
         const isOpen = isForgotPasswordOpen;
         const className = isOpen ? classes.form_open : classes.form_closed;
-        console.log(isOpen);
         return this.forgotPassword(className);
     }
 
@@ -144,11 +143,14 @@ class Login extends Component {
         hideFogLoading()
         if (this.props.simiSignedIn) {
             if (data && !data.errors) {
+                storage.removeItem('cartId');
+                storage.removeItem('signin_token');
                 if (data.customer_access_token) {
                     Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, data.customer_identity)
                     setToken(data.customer_access_token)
                     this.props.simiSignedIn(data.customer_access_token)
                 } else {
+                    Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null)
                     setToken(data)
                     this.props.simiSignedIn(data)
                 }
@@ -178,9 +180,15 @@ class Login extends Component {
             firstname,
             history
         } = props;
-console.log(history)
+
         if (isSignedIn) {
-            history.push('/account.html')
+            if (history.location.hasOwnProperty('pushTo') && history.location.pushTo){
+                const {pushTo} = history.location;
+                history.push(pushTo)
+            }else{
+                history.push('/account.html')
+            }
+
             const message = firstname?
                 Identify.__("Welcome %s Start shopping now").replace('%s', firstname):
                 Identify.__("You have succesfully logged in, Start shopping now")

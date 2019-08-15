@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'src/drivers';
+import {cateUrlSuffix} from 'src/simi/Helper/Url'
 
 const NavMegaitem = props => {
     if (props.itemAndChild) {
@@ -7,10 +8,14 @@ const NavMegaitem = props => {
         const rootItem = props.itemAndChild
         if (rootItem.children) {
             const childCats = rootItem.children.map((item, index) => {
+                if (!item.name)
+                    return ''
                 let subChildLevel2 = []
                 if (item.children) {
                     subChildLevel2 = item.children.map((itemlv2, indexlv2)=> {
-                        const path = itemlv2.link
+                        if (!itemlv2.name)
+                            return ''
+                        const path = itemlv2.url_path?('/' + itemlv2.url_path + cateUrlSuffix()):itemlv2.link
                         const location = {
                             pathname: path,
                             state: {}
@@ -23,13 +28,13 @@ const NavMegaitem = props => {
                                 className={classes["mega-lv2-name"]}
                                 key={indexlv2} 
                                 to={location}>
-                                {itemlv2.title}
+                                {itemlv2.name}
                             </Link>
                         )
                     })
                 }
                 const location = {
-                    pathname: item.link,
+                    pathname: item.url_path?('/' + item.url_path + cateUrlSuffix()):item.link,
                     state: {}
                 }
                 return (
@@ -37,7 +42,7 @@ const NavMegaitem = props => {
                         <Link
                             className={classes["mega-lv1-name"]}
                             to={location}>
-                            {item.title}
+                            {item.name}
                         </Link>
                         <div className={classes["mega-lv1-sub-cats"]}>
                             {subChildLevel2}

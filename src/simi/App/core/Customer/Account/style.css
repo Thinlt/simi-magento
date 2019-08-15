@@ -49,18 +49,8 @@
     margin-right: 40px;
     margin-left: 40px;
     max-width: 970px;
-}
-.dashboard-content.dashboard-without-sidebar{
     max-width: unset;
     margin-right: 0;
-}
-.dashboard-sidebar {
-    min-width: 175px;
-}
-.dashboard-sidebar .sidebar-item {
-    padding: 40px 24px;
-    text-align: center;
-    margin-bottom: 15.5px;
 }
 .sidebar-item .sidebar-title {
     font-size: 28px;
@@ -389,7 +379,7 @@
 }
 
 .active{
-    background: #333132; 
+    background: #333132;
     color: #FFFFFF;
 }
 .customer-recent-orders #page-numbers li.icon-page-number{
@@ -578,6 +568,8 @@
     display: block;
     border: 1px solid;
     margin-right: 16px;
+    text-align: center;
+    background: white;
 }
 .order-detail-table .img-order-container img{
     height: inherit;
@@ -1023,7 +1015,7 @@ Order history
 
     .dash-column-box .email {
         word-break: break-all;
-    } 
+    }
 
     .dash-column-box .edit-information {
         margin-top: 10px;

@@ -3,19 +3,24 @@ export { default as Navigation } from './navigation';
 import { connect } from 'src/drivers';
 import { closeDrawer } from 'src/actions/app';
 import { getUserDetails } from 'src/actions/user';
+import { createCart } from 'src/actions/cart';
 import Navigation from './navigation';
 
-const mapStateToProps = ({ app, user }) => {
-    const { currentUser } = user;
+const mapStateToProps = ({ app, user, cart }) => {
+    const { currentUser, isSignedIn } = user;
     const { drawer } = app
+    const { cartId } = cart
     return {
         drawer,
-        currentUser
+        currentUser,
+        isSignedIn,
+        cartId
     }
 }
 const mapDispatchToProps = {
     closeDrawer,
-    getUserDetails
+    getUserDetails,
+    createCart
 };
 
 export default connect(

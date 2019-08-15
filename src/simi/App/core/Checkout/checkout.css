@@ -42,6 +42,7 @@
 }
 .checkout-col-2 #cart-coupon-form .coupon-code-area-tablet{
     width: 100%;
+    position: relative;
 }
 .checkout-col-2 #cart-coupon-form .coupon-code-area-tablet input{
     width: 100%;
@@ -52,6 +53,14 @@
 }
 .checkout-col-2 .coupon-code-title{
     display: none;
+}
+.coupon-code-area-tablet .btn-clear-coupon {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    z-index: 9;
+    cursor: pointer;
+    max-height: 15px;
 }
 
 @media (min-width: 1024px) {
@@ -76,5 +85,11 @@
     }
     .checkout-column .checkout-col-3{
         max-width: none;
+    }
+    .checkout-col-2 .coupon-code{
+        max-width: unset;
+    }
+    .checkout-col-2 .coupon-code #submit-coupon{
+        margin-top: 20px;
     }
 }

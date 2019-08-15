@@ -1,4 +1,5 @@
 import makeOptimizedUrl from 'src/util/makeUrl'
+import Identify from './Identify'
 
 export const resourceUrl = (path, { type, width } = {}) => {
     const urlBuffer = window.SMCONFIGS.media_url_prefix?window.SMCONFIGS.media_url_prefix:''
@@ -31,9 +32,73 @@ export const convertToSlug = (Text) => {
 /*
 Logo Url
 */
-
 export const logoUrl = () => {
     return window.SMCONFIGS.logo_url ?
         window.SMCONFIGS.logo_url :
     'https://www.simicart.com/skin/frontend/default/simicart2.1/images/simicart/new_logo_small.png'
+}
+
+/*
+Url suffix
+*/
+export const cateUrlSuffix = () => {
+    const savedSuffix = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'CATEGORY_URL_SUFFIX')
+    if (savedSuffix)
+        return savedSuffix
+    try {
+        const storeConfig = Identify.getStoreConfig()
+        const suffix = storeConfig.simiStoreConfig.config.catalog.seo.category_url_suffix
+        Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'CATEGORY_URL_SUFFIX', suffix);
+        return suffix
+    } catch (err) {
+
+    }
+    return '.html'
+}
+
+export const productUrlSuffix = () => {
+    const savedSuffix = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'PRODUCT_URL_SUFFIX')
+    if (savedSuffix)
+        return savedSuffix
+    try {
+        const storeConfig = Identify.getStoreConfig()
+        const suffix = storeConfig.simiStoreConfig.config.catalog.seo.product_url_suffix
+        Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, 'PRODUCT_URL_SUFFIX', suffix);
+        return suffix
+    } catch (err) {
+
+    }
+    return '.html'
+}
+
+/*
+Local url dictionary
+*/
+
+export const getDataFromUrl = (url) => {
+    let localUrlDict =  Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'LOCAL_URL_DICT');
+    localUrlDict = localUrlDict?localUrlDict:{}
+    return localUrlDict[url]
+}
+
+export const saveDataToUrl = (url, data, is_dummy_data = true) => {
+    let localUrlDict =  Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'LOCAL_URL_DICT');
+    localUrlDict = localUrlDict?localUrlDict:{}
+    if (!localUrlDict[url] || !is_dummy_data) {
+        data.is_dummy_data = is_dummy_data
+        localUrlDict[url] = data
+        Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'LOCAL_URL_DICT', localUrlDict);
+    }
+}
+
+export const saveCategoriesToDict = (category) => {
+    if (category) {
+        if (category.children && Array.isArray(category.children) && category.children.length) {
+            category.children.forEach(childCat => {
+                saveCategoriesToDict(childCat)
+            })
+        }
+        if (category.url_path)
+            saveDataToUrl('/' + category.url_path + cateUrlSuffix(), {id: category.id,name: category.name})
+    }
 }

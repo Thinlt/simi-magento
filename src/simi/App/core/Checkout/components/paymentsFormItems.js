@@ -1,10 +1,13 @@
 import React, { useCallback, Fragment } from 'react';
 import { useFormState, asField, BasicRadioGroup } from 'informed';
 import { array, bool, func, shape, string } from 'prop-types';
+import { isRequired } from 'src/util/formValidators';
 
+import defaultClasses from './paymentsFormItems.css';
 import Button from 'src/components/Button';
 import Radio from 'src/components/RadioGroup/radio';
-import defaultClasses from './paymentsFormItems.css';
+import TextInput from 'src/components/TextInput';
+import Field from 'src/components/Field';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import Identify from 'src/simi/Helper/Identify';
 import BraintreeDropin from './paymentMethods/braintreeDropin';
@@ -26,7 +29,9 @@ const PaymentsFormItems = props => {
         isSubmitting,
         paymentMethods,
         initialValues,
-        paymentCode
+        paymentCode,
+        cart,
+        cartCurrencyCode
     } = props;
 
     // Currently form state toggles dirty from false to true because of how
@@ -55,9 +60,6 @@ const PaymentsFormItems = props => {
         selectablePaymentMethods = []
     }
 
-    // const ccPayment = { value: 'cc_type', label: 'Credit card' }
-    // selectablePaymentMethods.push(ccPayment);
-
     let thisInitialValue = null;
     if (initialValues && !isObjectEmpty(initialValues)) {
         if (initialValues.value) {
@@ -84,17 +86,15 @@ const PaymentsFormItems = props => {
 
         const p_method = formState.values['payment_method'];
         let parseData = {};
-        if (p_method === 'checkmo'
-            || p_method === 'free'
-            || p_method === 'cashondelivery'
-            || p_method === 'banktransfer') {
-            // payment type 0
+        if (paymentMethods && paymentMethods.length) {
+            if (!paymentMethods.hasOwnProperty('simi_payment_data') || (paymentMethods.hasOwnProperty('simi_payment_data') && !isObjectEmpty(paymentMethods.simi_payment_data) && parseInt(paymentMethods.simi_payment_data.show_type, 10) === 0)){
+                 // payment type 0
+                parseData = selectablePaymentMethods.find(
+                    ({ value }) => value === p_method
+                );
 
-            parseData = selectablePaymentMethods.find(
-                ({ value }) => value === p_method
-            );
-
-            handleSuccess(parseData)
+                handleSuccess(parseData)
+            }
         }
     }
 
@@ -102,31 +102,69 @@ const PaymentsFormItems = props => {
         setIsSubmitting(true);
     }, [setIsSubmitting]);
 
+    const handleSavePO = () => {
+
+        if (formState.values.purchaseorder) {
+            const { values } = formState;
+            handleSuccess(JSON.parse(JSON.stringify(values)));
+        }
+    }
+console.log(initialValues);
     const renderMethod = () => {
         let mt = null;
-        if (selectablePaymentMethods.length) {
-            mt = selectablePaymentMethods.map(ite => {
+        if (paymentMethods.length) {
+            mt = paymentMethods.map(ite => {
 
                 let frameCard = '';
-                // label with option have card
-                if (ite.value === 'braintree' && formState.values['payment_method'] === ite.value) {
-                    frameCard = <Fragment>
-                        <BraintreeDropin shouldRequestPaymentNonce={isSubmitting} onError={handleError} onSuccess={handleSuccess} />
-                        <Button
-                            className={classes.button}
-                            style={{ marginTop: 10, marginBottom: 20 }}
-                            type="button"
-                            onClick={() => handleSubmit()}
-                        >{Identify.__('Use Card')}</Button>
-                    </Fragment>
+
+                if (formState.values['payment_method'] === ite.code) {
+
+                    if (ite.code === 'purchaseorder') {
+                        frameCard = <Fragment>
+                            <Field label={Identify.__("Purchase Order Number")} required>
+                                <TextInput
+                                    id={classes.purchaseorder}
+                                    field="purchaseorder"
+                                    validate={isRequired}
+                                />
+
+                            </Field>
+                            <Button
+                                className={classes.button}
+                                style={{ marginTop: 10, marginBottom: 20 }}
+                                type="submit"
+                                onClick={() => handleSavePO()}
+                            >{Identify.__('Save')}</Button>
+                        </Fragment>
+                    }
+
+                    // brain tree default magento pwa-studio
+                    if (ite.code === 'braintree') {
+                        frameCard = <Fragment>
+                            <BraintreeDropin shouldRequestPaymentNonce={isSubmitting} onError={handleError} onSuccess={handleSuccess} />
+                            <Button
+                                className={classes.button}
+                                style={{ marginTop: 10, marginBottom: 20 }}
+                                type="button"
+                                onClick={() => handleSubmit()}
+                            >{Identify.__('Use Card')}</Button>
+                        </Fragment>
+                    }
+
+                    if (ite.hasOwnProperty('simi_payment_data') && !isObjectEmpty(ite.simi_payment_data)) {
+                        if (parseInt(ite.simi_payment_data.show_type, 10) === 1){
+                            // payment type 1
+                            frameCard = <CCType onSuccess={handleSuccess} paymentContent={ite.simi_payment_data} cartCurrencyCode={cartCurrencyCode} cart={cart} payment_method={ite.code} />
+                        }
+                        if (parseInt(ite.simi_payment_data.show_type, 10) === 3){
+                            // payment type 3
+                            frameCard = 'Coming soon!'
+                        }
+                    }
                 }
 
-                if (ite.value === 'cc_type' && formState.values['payment_method'] === ite.value) {
-                    frameCard = <CCType />
-                }
-
-                return <Fragment key={ite.value}>
-                    <Radio label={ite.label} value={ite.value} />
+                return <Fragment key={ite.code}>
+                    <Radio label={ite.title} value={ite.code} />
                     {frameCard}
                 </Fragment>
             });

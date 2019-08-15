@@ -19,12 +19,12 @@ import {
     beginCheckout,
     cancelCheckout,
     editOrder,
-    submitOrder,
-    submitShippingMethod,
+    /* submitOrder, */
+    /* submitShippingMethod, */
     submitPaymentMethod
 } from 'src/actions/checkout';
 
-import { submitShippingAddress, submitBillingAddress } from 'src/simi/Redux/actions/simiactions';
+import { submitShippingAddress, submitBillingAddress, submitOrder, submitShippingMethod } from 'src/simi/Redux/actions/simiactions';
 
 import classify from 'src/classify';
 import defaultClasses from './checkout.css';
@@ -103,11 +103,13 @@ class Checkout extends Component {
     };
 
     constructor(...args) {
-        super(...args)
-        const isPhone = window.innerWidth < 1024
+        super(...args);
+        const isPhone = window.innerWidth < 1024;
         this.state = {
             isPhone: isPhone
         };
+        const storeConfig = Identify.getStoreConfig();
+        this.checkoutRedirect(storeConfig);
     }
 
     setIsPhone() {
@@ -122,28 +124,53 @@ class Checkout extends Component {
     }
 
     async componentDidMount() {
-        const { props, setIsPhone } = this;
+        const { props, setIsPhone, check3DSecure } = this;
         setIsPhone();
 
         const { beginCheckout, getCartDetails } = props;
 
         try {
             // get cart detail
-            const cartDT = await getCartDetails();
-            // The getCartDetails call is now done!
-            if (typeof cartDT === 'undefined') {
-                //beginning checkout
-                await beginCheckout();
-            }
+            await getCartDetails();
 
+            //beginning checkout
+            await beginCheckout();
+
+            await check3DSecure();
             // Do something
         } catch (err) {
             console.log(err)
         }
     }
 
+    check3DSecure = () => {
+        const { convertUrlQuery, props } = this;
+        const { submitPaymentMethod } = props;
+        const query = convertUrlQuery();
+        const cc_3DSecure_stripe = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'cc_3DSecure_stripe');
+        if (query.hasOwnProperty('confirmed_3d_secure') && query.confirmed_3d_secure === 'stripe' && cc_3DSecure_stripe && !isObjectEmpty(cc_3DSecure_stripe)) {
+            cc_3DSecure_stripe.data['three_d_client_secret'] = query.client_secret;
+            cc_3DSecure_stripe.data['three_d_src'] = query.source;
+            submitPaymentMethod(cc_3DSecure_stripe);
+        }
+    }
+
+    convertUrlQuery = () => {
+        const params = new URLSearchParams(window.location.search)
+        let json = {}
+        for (const param of params.entries()) {
+            const [key, value] = param;
+            json[key] = value
+        }
+        return json
+    }
+
     get breadcrumb() {
         return <BreadCrumb breadcrumb={[{ name: 'Home', link: '/' }, { name: 'Basket', link: '/cart.html' }, { name: 'Checkout', link: '/checkout.html' }]} />
+    }
+
+    get pageTitle() {
+        return <div className={defaultClasses['checkout-page-title']}>{Identify.__("Checkout")}</div>;
     }
 
     handleLink(link) {
@@ -166,7 +193,7 @@ class Checkout extends Component {
         );
     }
 
-    get userSignedIn(){
+    get userSignedIn() {
         const { user } = this.props;
         return user && user.isSignedIn;
     }
@@ -231,8 +258,22 @@ class Checkout extends Component {
         </div>
     }
 
+    checkoutRedirect = (merchant) => {
+        const { user, history } = this.props;
+        const { isSignedIn } = user;
+
+        const guest_checkout = merchant && merchant.simiStoreConfig.config.checkout.enable_guest_checkout ? merchant.simiStoreConfig.config.checkout.enable_guest_checkout : 1;
+        if (!isSignedIn && parseInt(guest_checkout, 10) === 0) {
+            const location = {
+                pathname: '/login.html',
+                pushTo: '/checkout.html'
+            };
+            history.push(location);
+        }
+    }
+
     get checkoutInner() {
-        const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail, userSignedIn } = this;
+        const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail, userSignedIn, breadcrumb, pageTitle } = this;
         const { isPhone } = this.state;
         const containerSty = isPhone ? { marginTop: 35 } : {};
         const { classes,
@@ -292,7 +333,9 @@ class Checkout extends Component {
             submitting,
             paymentMethods,
             user,
-            simiSignedIn
+            simiSignedIn,
+            toggleMessages,
+            cartCurrencyCode
         };
 
         let cpValue = "";
@@ -308,12 +351,14 @@ class Checkout extends Component {
         }
 
         if (checkout.step && checkout.step === 'receipt') {
+            sessionStorage.removeItem('cc_card_data');
+            sessionStorage.removeItem('cc_3DSecure_stripe');
             const locate = {
                 pathname: '/thankyou.html',
                 state: {
                     isUserSignedIn: userSignedIn
                 }
-              };
+            };
             this.handleLink(locate);
         }
 
@@ -322,8 +367,8 @@ class Checkout extends Component {
         }
 
         return <Fragment>
-            {this.breadcrumb}
-            <div className={defaultClasses['checkout-page-title']}>{Identify.__("Checkout")}</div>
+            {breadcrumb}
+            {pageTitle}
             {!cartDetail ? checkoutEmpty : <div className={defaultClasses['checkout-column']}>
                 <div className={defaultClasses[`checkout-col-1`]}>
                     <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Address')}</div>}

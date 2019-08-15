@@ -19,4 +19,5 @@ class CacheHelper {
             window.sessionStorage.clear();
     }
 }
+
 export default CacheHelper

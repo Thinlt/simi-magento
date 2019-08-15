@@ -37,16 +37,15 @@ const CartItem = props => {
             );
         }
     }
-
-    const updateItemInCart = (quantity) => {
-        const { updateItemInCart } = props;
+    
+    const updateCartItem = (quantity) => {
         const payload = {
             item: item,
             quantity: quantity
         };
-        updateItemInCart(payload, item.item_id);
+        props.updateCartItem(payload, item.item_id);
     }
-    
+
     const location = `/product.html?sku=${item.simi_sku?item.simi_sku:item.sku}`
     const image = (item.image && item.image.file)?item.image.file:item.simi_image
     return (
@@ -100,13 +99,13 @@ const CartItem = props => {
                     onBlur={(event) =>
                         {
                             if(parseInt(event.target.value, 10) !== parseInt(item.qty, 10))
-                                updateItemInCart(parseInt(event.target.value, 10))
+                                updateCartItem(parseInt(event.target.value, 10))
                         }
                     }
                     onKeyUp={e => {
                         if(e.keyCode === 13){
                             if(parseInt(event.target.value, 10) !== parseInt(item.qty, 10))
-                                updateItemInCart(parseInt(event.target.value, 10))
+                                updateCartItem(parseInt(event.target.value, 10))
                         }
                     }}
                 />
@@ -119,8 +118,8 @@ const CartItem = props => {
                 role="button"
                 tabIndex="0"
                 className={`${defaultClasses['sub-item']} ${defaultClasses['item-delete']}`} 
-                onClick={() => {if (confirm(Identify.__("Are you sure?")) === true) props.removeItemFromCart({item: item})}} 
-                onKeyUp={() => {if (confirm(Identify.__("Are you sure?")) === true) props.removeItemFromCart({item: item})}} 
+                onClick={() => props.removeFromCart(item)}
+                onKeyUp={() => props.removeFromCart(item)}
             >
                 <Deleteicon
                     style={{width: '22px', height: '22px'}} />
