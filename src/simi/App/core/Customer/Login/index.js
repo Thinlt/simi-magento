@@ -28,6 +28,18 @@ class Login extends Component {
         isForgotPasswordOpen: false,
     };
 
+    stateForgot = () => {
+        const {history} = this.props;
+
+        return history.location && history.location.state && history.location.state.forgot;
+    }
+
+    componentDidMount(){
+        if (this.stateForgot()){
+            this.setForgotPasswordForm()
+        }
+    }
+
     get signInForm() {
         const { isSignInOpen } = this.state;
         const { classes } = this.props;
@@ -131,11 +143,14 @@ class Login extends Component {
         hideFogLoading()
         if (this.props.simiSignedIn) {
             if (data && !data.errors) {
+                storage.removeItem('cartId');
+                storage.removeItem('signin_token');
                 if (data.customer_access_token) {
                     Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, data.customer_identity)
                     setToken(data.customer_access_token)
                     this.props.simiSignedIn(data.customer_access_token)
                 } else {
+                    Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null)
                     setToken(data)
                     this.props.simiSignedIn(data)
                 }
@@ -167,7 +182,13 @@ class Login extends Component {
         } = props;
 
         if (isSignedIn) {
-            history.push('/account.html')
+            if (history.location.hasOwnProperty('pushTo') && history.location.pushTo){
+                const {pushTo} = history.location;
+                history.push(pushTo)
+            }else{
+                history.push('/')
+            }
+
             const message = firstname?
                 Identify.__("Welcome %s Start shopping now").replace('%s', firstname):
                 Identify.__("You have succesfully logged in, Start shopping now")
@@ -193,7 +214,7 @@ class Login extends Component {
                         <div className={`${classes['login-header']} ${showBackBtn&&classes['has-back-btn']}`}>
                             {
                                 (showBackBtn) &&
-                                <div role="presentation" 
+                                <div role="presentation"
                                     className={classes['login-header-back']}
                                     onClick={showLoginForm}
                                     >

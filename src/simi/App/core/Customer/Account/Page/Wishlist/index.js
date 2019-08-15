@@ -75,7 +75,7 @@ const Wishlist = props => {
                     data={wishlistitems} 
                     renderItem={renderItem} 
                     classes={classes} 
-                    itemsPerPageOptions={[2, 8, 16, 32]} 
+                    itemsPerPageOptions={[8, 16, 32]} 
                     limit={8}
                     itemCount={total}
                     changedPage={()=>smoothScrollToView($('#root'))}

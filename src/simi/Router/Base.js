@@ -2,10 +2,7 @@ import React from 'react'
 import Identify from "src/simi/Helper/Identify"
 import { Switch, Route } from 'react-router-dom';
 import {PbPageHoc} from 'src/simi/BaseComponents/Pbpage';
-import ErrorView from 'src/simi/BaseComponents/ErrorView/index';
-import { Page } from '@magento/peregrine';
-
-const renderRoutingError = props => <ErrorView {...props} />;
+import {smoothScrollToView} from "src/simi/Helper/Behavior";
 
 class Abstract extends React.Component{
     render(){
@@ -19,6 +16,7 @@ class Abstract extends React.Component{
             //add rtl
             this.renderRTL(merchantConfig.simiStoreConfig)
         }
+        smoothScrollToView($('#root'))
         return (
             this.renderLayout()
         )
@@ -74,6 +72,7 @@ class Abstract extends React.Component{
         if(!router) return <div></div>
         return (
             <Switch>
+                <Route exact {...router.home}/>
                 <Route exact {...router.search_page}/>
                 <Route exact {...router.register}/>
                 <Route exact {...router.cart}/>
@@ -91,7 +90,7 @@ class Abstract extends React.Component{
                 <Route exact {...router.logout}/>
                 <Route exact {...router.contact}/>
                 {this.renderPbRoute()}
-                <Route render={() => <Page>{renderRoutingError}</Page>} />
+                <Route {...router.noMatch}/>
             </Switch>
         )
     }

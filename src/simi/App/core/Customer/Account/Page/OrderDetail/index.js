@@ -33,7 +33,7 @@ const Detail = (props) => {
     const getDataReOrder = (data) => {
         if (data) {
             hideFogLoading();
-            props.toggleMessages([{ type: 'success', message: data.message }])
+            props.toggleMessages([{ type: 'success', message: data.message ,auto_dismiss:true}])
         }
     }
 
@@ -132,9 +132,10 @@ const Detail = (props) => {
     };
 
     const renderItem = items => {
+        console.log(items);
         let html = null;
         const totalPrice = data.total;
-        
+
         if (items.length > 0) {
             html = items.map((item, index) => {
                 let optionText = [];
@@ -151,12 +152,14 @@ const Detail = (props) => {
                     }
                 }
 
+                const location = `/product.html?sku=${item.simi_sku?item.simi_sku:item.sku}`
+
                 return (
                     <div className={classes["order-detail-line"]} key={index}>
                         <div className={`${classes["detail-order__col"]} ${classes["img-item"]}`}>
                             {isPhone && <b>{Identify.__('Item')}</b>}
                             <Link
-                                to={`/product/${item.product_id}`}
+                                to={location}
                                 className={classes["img-name-col"]}
                             >
                                 <div
@@ -206,7 +209,7 @@ const Detail = (props) => {
                             </div>
                         </div>
                         <div className={classes["detail-order__col"]}>
-                            {isPhone && <b>{Identify.__('Total Line Price')}</b>}
+                            {isPhone && <b>{Identify.__('Total Price')}</b>}
                             <div
                                 className={classes["cart-item-value"]}
                                 style={{}}
@@ -248,7 +251,7 @@ const Detail = (props) => {
                             {Identify.__("Unit Price")}
                         </div>
                         <div className={classes["detail-order__col"]}>
-                            {Identify.__("Total line price")}
+                            {Identify.__("Total price")}
                         </div>
                     </div>}
                     <div className={classes["order-body"]}>
@@ -269,7 +272,7 @@ const Detail = (props) => {
             <div className={classes["detail-order-footer"]}>
                 <div className={classes["delivery-restrictions"]}>
                     <b className={classes["title"]} style={{ display: 'block' }}>{Identify.__('Delivery Restrictions')}</b>
-                    <textarea name="delevery_retriction" readOnly defaultValue={data.shipping_restriction} placeholder={Identify.__('e.g. no through route, low bridges etc.')}></textarea>
+                    <textarea name="delevery_retriction" readOnly defaultValue={data.shipping_restriction} placeholder={Identify.__('e.g. no through route, low bridges etc.')}/>
                 </div>
                 <div className={classes["box-total-price"]}>
                     {totalPrice && <div className={classes["total-sub-price-container"]}>

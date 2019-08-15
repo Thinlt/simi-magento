@@ -242,7 +242,7 @@
     vertical-align: middle;
 }
 
-.form-row.state-province .state-option {display: flex;}
+.form-row.state-province .state-option {display: flex;flex-wrap: wrap;}
 .form-row.state-province .state-option > div {
     display: flex;
     flex-direction: column;

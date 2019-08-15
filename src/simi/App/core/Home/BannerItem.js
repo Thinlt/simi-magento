@@ -1,7 +1,6 @@
 import React from 'react'
 import {Colorbtn} from 'src/simi/BaseComponents/Button'
-const prdUrlSuffix = '.html';
-const cateUrlSuffix = '.html';
+import {productUrlSuffix, cateUrlSuffix} from 'src/simi/Helper/Url';
 
 const BannerItem = props => {
     const {classes, history, item, isPhone} = props;
@@ -11,12 +10,12 @@ const BannerItem = props => {
         if (parseInt(item.type, 10) === 1) {
             //product detail
             if (item.url_key) {
-                action = () => history.push(item.url_key + prdUrlSuffix);
+                action = () => history.push(item.url_key + productUrlSuffix());
             }
         } else if(parseInt(item.type, 10) === 2){
             //category
             if (item.url_path) {
-                action = () => history.push(item.url_path + cateUrlSuffix);
+                action = () => history.push(item.url_path + cateUrlSuffix());
             }
         } else {
             action = (e) => {
@@ -53,7 +52,7 @@ const BannerItem = props => {
             img = item.banner_name_tablet
         }
     }
-
+    if(!img) return null
 
     return (
         <div 

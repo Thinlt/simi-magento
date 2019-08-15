@@ -229,7 +229,7 @@ resource:
           template: './templates/generic-shell.mst'
     #custom routes
     - matches: request.url.pathname
-      pattern: '^/(cart.html|product.html|checkout.html|account.html|login.html|logout.html|wishlist.html|orderhistory.html|orderdetails.html|profile.html|addresses.html|newsletter.html)'
+      pattern: '^/(cart.html|product.html|checkout.html|account.html|login.html|logout.html|wishlist.html|orderhistory.html|orderdetails.html|profile.html|addresses.html|newsletter.html|paypal_express.html)'
       use:
         inline:
           model: genericObject

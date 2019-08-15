@@ -1,16 +1,16 @@
 import React from 'react'
 import { connect } from 'src/drivers';
-import { signOut } from 'src/actions/user';
-import Loading from 'src/simi/BaseComponents/Loading'
+import { simiSignOut } from 'src/simi/Redux/actions/simiactions';
+import Loading from 'src/simi/BaseComponents/Loading';
 
 var loggingOut = false
 
 const Logout = props => {
-    const { signOut, history, isSignedIn } = props
+    const { simiSignOut, history, isSignedIn } = props
     if (isSignedIn) {
         if (!loggingOut) {
-            loggingOut = true
-            signOut({ history })
+            loggingOut = true;
+            simiSignOut({ history })
         } else {
             console.log('Already logging out')
         }
@@ -27,4 +27,4 @@ const mapStateToProps = ({ user }) => {
 }
 
 
-export default connect(mapStateToProps, { signOut })(Logout);
+export default connect(mapStateToProps, { simiSignOut })(Logout);

@@ -10,8 +10,7 @@ import {hideFogLoading, showFogLoading} from 'src/simi/BaseComponents/Loading/Gl
 import { resourceUrl } from 'src/simi/Helper/Url'
 import { formatPrice } from 'src/simi/Helper/Pricing';
 import Image from 'src/simi/BaseComponents/Image'
-
-const prdUrlSuffix = '.html'
+import {productUrlSuffix} from 'src/simi/Helper/Url';
 
 class Item extends React.Component {
     processData(data) {
@@ -78,7 +77,7 @@ class Item extends React.Component {
             this.currencyCode = storeConfig?storeConfig.simiStoreConfig?storeConfig.simiStoreConfig.currency:storeConfig.storeConfig.default_display_currency_code:null
         const {item, classes} = this.props;
         this.location = {
-            pathname: item.product_url_key + prdUrlSuffix,
+            pathname: item.product_url_key + productUrlSuffix(),
             state: {
                 product_sku: item.product_sku,
                 product_id: item.product_id,

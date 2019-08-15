@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react';
 import { Form } from 'informed';
 import { array, func, shape, string } from 'prop-types';
-
+import { formatLabelPrice } from 'src/simi/Helper/Pricing';
 import { mergeClasses } from 'src/classify';
 import defaultClasses from './ShippingForm.css';
 import Identify from 'src/simi/Helper/Identify';
 import FieldShippingMethod from '../components/fieldShippingMethod';
+import Loading from 'src/simi/BaseComponents/Loading/ReactLoading'
 
 const ShippingForm = props => {
     const {
@@ -23,16 +24,17 @@ const ShippingForm = props => {
 
     if (availableShippingMethods.length) {
         selectableShippingMethods = availableShippingMethods.map(
-            ({ carrier_code, carrier_title }) => ({
-                label: carrier_title,
-                value: carrier_code
-            })
+            ({ carrier_code, carrier_title, price_excl_tax }) =>{
+                const formatF = formatLabelPrice(price_excl_tax);
+                return {value: carrier_code, label: `${carrier_title} (${formatF})`}
+            }
         );
 
         initialValue = shippingMethod
     } else {
         selectableShippingMethods = [];
         initialValue = '';
+        return <Loading />
     }
 
     selectableShippingMethods.unshift(defaultMethod);

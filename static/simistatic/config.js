@@ -1,8 +1,8 @@
 var SMCONFIGS = {
-    merchant_url: "https://pwa-commerce.com/",
+    merchant_url: "https://magento.pwa-commerce.com/",
     simicart_url: "https://dashboard.pwa-commerce.com/appdashboard/rest/app_configs/",
     simicart_authorization: "q7wWTxNrRL0F0k86LYp0UA96HkixDn94vG0odOQ",
-    notification_api: "simipwa/index/",
+    notification_api: "/rest/V1/simiconnector/",
     base_name: "",
     logo_url: "https://www.simicart.com/skin/frontend/default/simicart2.0/images/simicart/new_logo_small.png",
     //eg. url is https://codymap.com/magento23 and media url must include pub, value should be 'magento23/pub/'
@@ -32,22 +32,18 @@ var DEFAULT_COLORS = {
     status_bar_text: '#000000',
     loading_color: '#000000',
 };
-
+/*
 var DESKTOP_MENU = [
     {
-        menu_item_id: 1,
-        code: 'menu_trigger',
-    },
-    {
         menu_item_id: 2,
-        title: 'Bottom',
+        name: 'Bottom',
         children: [
             {
-                title: 'Bottom',
+                name: 'Bottom',
                 link: '/venia-bottoms/venia-pants.html'
             },
             {
-                title: 'Skirts',
+                name: 'Skirts',
                 link: '/venia-bottoms/venia-skirts.html'
             }
         ],
@@ -56,14 +52,14 @@ var DESKTOP_MENU = [
     },
     {
         menu_item_id: 3,
-        title: 'Top',
+        name: 'Top',
         children: [
             {
-                title: 'Blouses & Shirts',
+                name: 'Blouses & Shirts',
                 link: '/venia-tops/venia-sweaters.html'
             },
             {
-                title: 'Sweaters',
+                name: 'Sweaters',
                 link: '/venia-tops/venia-blouses.html'
             }
         ],
@@ -71,26 +67,27 @@ var DESKTOP_MENU = [
     },
     {
         menu_item_id: 4,
-        title: 'Accessories',
+        name: 'Accessories',
         children: [
             {
-                title: 'Sub of accessories',
+                name: 'Sub of accessories',
                 children: [
                     {
-                        title: 'Jewelry',
+                        name: 'Jewelry',
                         link: '/venia-accessories/venia-jewelry.html'
                     },
                     {
-                        title: 'Scarves',
+                        name: 'Scarves',
                         link: '/venia-accessories/venia-scarves.html'
                     },
                 ]
             },
             {
-                title: 'Belts',
+                name: 'Belts',
                 link: '/venia-accessories/venia-belts.html'
             }
         ],
         link: '/venia-accessories.html'
     }
 ]
+*/

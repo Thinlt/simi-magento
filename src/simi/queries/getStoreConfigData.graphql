@@ -3,6 +3,7 @@ query storeConfigData($storeId: Int, $currency: String) {
         store_id
         currency
         pwa_studio_client_ver_number
+        root_category_id
         config_json
     }
     storeConfig {
@@ -23,5 +24,47 @@ query storeConfigData($storeId: Int, $currency: String) {
         secure_base_link_url
         secure_base_static_url
         secure_base_media_url
+    }
+    simiRootCate {
+        id
+        name
+        product_count
+        path
+        children {
+            id
+            name
+            level
+            url_key
+            url_path
+            path
+            include_in_menu
+            children {
+                id
+                name
+                level
+                url_key
+                url_path
+                path
+                include_in_menu
+                children {
+                    id
+                    name
+                    level
+                    url_key
+                    url_path
+                    path
+                    include_in_menu
+                    children {
+                        id
+                        name
+                        level
+                        url_key
+                        url_path
+                        path
+                        include_in_menu
+                    }
+                }
+            }
+        }
     }
 }

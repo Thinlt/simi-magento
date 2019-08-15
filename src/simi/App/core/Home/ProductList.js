@@ -12,14 +12,16 @@ const ProductList = props => {
         ) {
             
             const productList = homeData.home.homeproductlists.homeproductlists.map((item, index) => {
-                return (
-                    <div className={classes["default-productlist-item"]} key={index}>
-                        <div className={classes["default-productlist-title"]}>
-                            {item.list_title}
+                if (item.category_id)
+                    return (
+                        <div className={classes["default-productlist-item"]} key={index}>
+                            <div className={classes["default-productlist-title"]}>
+                                {item.list_title}
+                            </div>
+                            <ProductDetail dataProduct={item} classes={classes} history={history}/>
                         </div>
-                        <ProductDetail dataProduct={item} classes={classes} history={history}/>
-                    </div>
-                )
+                    )
+                return ''
             });
             return (
                 <div className={classes["productlist-content"]}>

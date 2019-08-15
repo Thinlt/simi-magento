@@ -10,8 +10,7 @@ import LazyLoad from 'react-lazyload';
 import defaultClasses from './suggestedProduct.css';
 import { logoUrl } from 'src/simi/Helper/Url'
 import Image from 'src/simi/BaseComponents/Image'
-
-const productUrlSuffix = '.html';
+import { productUrlSuffix } from 'src/simi/Helper/Url';
 
 const SuggestedProduct = props => {
     const handleClick = () => {
@@ -22,7 +21,7 @@ const SuggestedProduct = props => {
     }
     const logo_url = logoUrl()
     const { classes, url_key, small_image, name, price, type_id } = props;
-    const uri = resourceUrl(`/${url_key}${productUrlSuffix}`);
+    const uri = resourceUrl(`/${url_key}${productUrlSuffix()}`);
     const place_holder_img = <img alt={name} src={logo_url} style={{maxWidth: 60, maxHeight: 60}}/>
 
     return (

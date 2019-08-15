@@ -148,6 +148,9 @@
     justify-content: space-between;
     padding: 8px 15px;
 }
+.cate-icon {
+    
+}
 .cate-child-item {
     cursor: pointer;
     padding: 8px 15px 18px;

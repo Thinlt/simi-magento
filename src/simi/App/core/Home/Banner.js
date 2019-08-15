@@ -25,7 +25,7 @@ const Banner = props => {
 
     const bannerData = [];
     data.homebanners.forEach((item, index) => {
-        if (item.banner_name && item.banner_name_tablet) {
+        if (item.banner_name || item.banner_name_tablet) {
             bannerData.push(
                 <div
                     key={index}

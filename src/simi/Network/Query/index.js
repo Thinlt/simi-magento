@@ -1,5 +1,5 @@
 import React from 'react'
-import { Query } from 'src/drivers';
+import { Query } from 'react-apollo';
 import { Mutation } from 'react-apollo';
 import {addRequestVars} from 'src/simi/Helper/Network'
 import { useApolloContext } from '@magento/peregrine'

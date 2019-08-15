@@ -19,27 +19,28 @@ import {
     beginCheckout,
     cancelCheckout,
     editOrder,
-    submitOrder,
-    submitShippingMethod,
+    /* submitOrder, */
+    /* submitShippingMethod, */
     submitPaymentMethod
 } from 'src/actions/checkout';
 
-import { submitShippingAddress, submitBillingAddress } from 'src/simi/Redux/actions/simiactions';
+import { submitShippingAddress, submitBillingAddress, submitOrder, submitShippingMethod } from 'src/simi/Redux/actions/simiactions';
 
-import classify from 'src/classify'
+import classify from 'src/classify';
 import defaultClasses from './checkout.css';
-import TitleHelper from 'src/simi/Helper/TitleHelper'
-import Identify from 'src/simi/Helper/Identify'
-import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
-import OrderSummary from "./OrderSummary/index"
-import { configColor } from 'src/simi/Config'
-import { Colorbtn } from 'src/simi/BaseComponents/Button'
+import TitleHelper from 'src/simi/Helper/TitleHelper';
+import Identify from 'src/simi/Helper/Identify';
+import BreadCrumb from "src/simi/BaseComponents/BreadCrumb";
+import OrderSummary from "./OrderSummary/index";
+import { configColor } from 'src/simi/Config';
+import { Colorbtn } from 'src/simi/BaseComponents/Button';
 import { Link } from 'react-router-dom';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import EditableForm from './editableForm';
 import Panel from 'src/simi/BaseComponents/Panel';
 import { toggleMessages, simiSignedIn } from 'src/simi/Redux/actions/simiactions';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
+import Loading from 'src/simi/BaseComponents/Loading';
 import { smoothScrollToView } from 'src/simi/Helper/Behavior';
 import Coupon from 'src/simi/BaseComponents/Coupon';
 
@@ -60,7 +61,7 @@ const isCheckoutReady = checkout => {
         return !!data && !isObjectEmpty(data);
     });
 
-    const stringsHaveData = !!shippingMethod && shippingMethod.length > 0;
+    const stringsHaveData = shippingMethod && shippingMethod.length > 0;
 
     return objectsHaveData && stringsHaveData;
 };
@@ -103,13 +104,14 @@ class Checkout extends Component {
     };
 
     constructor(...args) {
-        super(...args)
-        const isPhone = window.innerWidth < 1024
+        super(...args);
+        const isPhone = window.innerWidth < 1024;
         this.state = {
             isPhone: isPhone
         };
+        const storeConfig = Identify.getStoreConfig();
+        this.checkoutRedirect(storeConfig);
     }
-
 
     setIsPhone() {
         const obj = this;
@@ -123,29 +125,53 @@ class Checkout extends Component {
     }
 
     async componentDidMount() {
-        const { props, setIsPhone } = this;
+        const { props, setIsPhone, check3DSecure } = this;
         setIsPhone();
 
         const { beginCheckout, getCartDetails } = props;
 
         try {
             // get cart detail
-            const cartDT = await getCartDetails();
-            // The getCartDetails call is now done!
-            if (typeof cartDT === 'undefined') {
-                //beginning checkout
-                await beginCheckout();
-            }
+            await getCartDetails();
 
+            //beginning checkout
+            await beginCheckout();
+
+            await check3DSecure();
             // Do something
         } catch (err) {
             console.log(err)
         }
     }
 
+    check3DSecure = () => {
+        const { convertUrlQuery, props } = this;
+        const { submitPaymentMethod } = props;
+        const query = convertUrlQuery();
+        const cc_3DSecure_stripe = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'cc_3DSecure_stripe');
+        if (query.hasOwnProperty('confirmed_3d_secure') && query.confirmed_3d_secure === 'stripe' && cc_3DSecure_stripe && !isObjectEmpty(cc_3DSecure_stripe)) {
+            cc_3DSecure_stripe.data['three_d_client_secret'] = query.client_secret;
+            cc_3DSecure_stripe.data['three_d_src'] = query.source;
+            submitPaymentMethod(cc_3DSecure_stripe);
+        }
+    }
+
+    convertUrlQuery = () => {
+        const params = new URLSearchParams(window.location.search)
+        let json = {}
+        for (const param of params.entries()) {
+            const [key, value] = param;
+            json[key] = value
+        }
+        return json
+    }
 
     get breadcrumb() {
         return <BreadCrumb breadcrumb={[{ name: 'Home', link: '/' }, { name: 'Basket', link: '/cart.html' }, { name: 'Checkout', link: '/checkout.html' }]} />
+    }
+
+    get pageTitle() {
+        return <div className={defaultClasses['checkout-page-title']}>{Identify.__("Checkout")}</div>;
     }
 
     handleLink(link) {
@@ -168,8 +194,13 @@ class Checkout extends Component {
         );
     }
 
+    get userSignedIn() {
+        const { user } = this.props;
+        return user && user.isSignedIn;
+    }
+
     placeOrder = () => {
-        const { submitOrder, checkout, toggleMessages, cart } = this.props;
+        const { submitOrder, checkout, toggleMessages, cart, history } = this.props;
         const { paymentData, shippingAddress, shippingMethod, billingAddress } = checkout;
 
         if (toggleMessages) {
@@ -196,8 +227,12 @@ class Checkout extends Component {
         }
 
         if (isCheckoutReady(checkout)) {
-            showFogLoading();
-            submitOrder();
+            if (paymentData && paymentData.value === 'paypal_express')
+                history.push('/paypal_express.html')
+            else {
+                showFogLoading();
+                submitOrder();
+            }
         }
         return;
     }
@@ -228,8 +263,22 @@ class Checkout extends Component {
         </div>
     }
 
+    checkoutRedirect = (merchant) => {
+        const { user, history } = this.props;
+        const { isSignedIn } = user;
+
+        const guest_checkout = merchant && merchant.simiStoreConfig.config.checkout.enable_guest_checkout ? merchant.simiStoreConfig.config.checkout.enable_guest_checkout : 1;
+        if (!isSignedIn && parseInt(guest_checkout, 10) === 0) {
+            const location = {
+                pathname: '/login.html',
+                pushTo: '/checkout.html'
+            };
+            history.push(location);
+        }
+    }
+
     get checkoutInner() {
-        const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail } = this;
+        const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail, userSignedIn, breadcrumb, pageTitle } = this;
         const { isPhone } = this.state;
         const containerSty = isPhone ? { marginTop: 35 } : {};
         const { classes,
@@ -257,7 +306,7 @@ class Checkout extends Component {
             isAddressInvalid,
             shippingTitle } = checkout;
 
-        const { paymentMethods, is_virtual } = cart;
+        const { cartId, isLoading, paymentMethods, is_virtual } = cart;
         const { editing } = checkout;
 
         const stepProps = {
@@ -289,7 +338,9 @@ class Checkout extends Component {
             submitting,
             paymentMethods,
             user,
-            simiSignedIn
+            simiSignedIn,
+            toggleMessages,
+            cartCurrencyCode
         };
 
         let cpValue = "";
@@ -305,66 +356,80 @@ class Checkout extends Component {
         }
 
         if (checkout.step && checkout.step === 'receipt') {
-            this.handleLink('/thankyou.html');
+            sessionStorage.removeItem('cc_card_data');
+            sessionStorage.removeItem('cc_3DSecure_stripe');
+            const locate = {
+                pathname: '/thankyou.html',
+                state: {
+                    isUserSignedIn: userSignedIn
+                }
+            };
+            this.handleLink(locate);
         }
-
+        
         if (!isCheckoutReady(checkout)) {
-            hideFogLoading()
+            hideFogLoading();
         }
 
+        const cartLoading = (!cartDetail && cartId && !isLoading && (!cart.details || !cart.details.item))
+        
         return <Fragment>
-            {this.breadcrumb}
-            <div className={defaultClasses['checkout-page-title']}>{Identify.__("Checkout")}</div>
-            {!cartDetail ? checkoutEmpty : <div className={defaultClasses['checkout-column']}>
-                <div className={defaultClasses[`checkout-col-1`]}>
-                    <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Address')}</div>}
-                        renderContent={<EditableForm {...stepProps} editing='address' />}
-                        isToggle={true}
-                        expanded={true}
-                        headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-                    />
-                </div>
-                <div className={defaultClasses[`checkout-col-2`]}>
-                    <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Billing Information')}</div>}
-                        renderContent={<EditableForm {...stepProps} editing='billingAddress' />}
-                        isToggle={true}
-                        expanded={true}
-                        containerStyle={containerSty}
-                        headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-                    />
+            {breadcrumb}
+            {pageTitle}
+            {!cartDetail ? cartLoading ? checkoutEmpty : <Loading /> : 
+                (
+                <div className={defaultClasses['checkout-column']}>
+                    <div className={defaultClasses[`checkout-col-1`]}>
+                        <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Address')}</div>}
+                            renderContent={<EditableForm {...stepProps} editing='address' />}
+                            isToggle={true}
+                            expanded={true}
+                            headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                        />
+                    </div>
+                    <div className={defaultClasses[`checkout-col-2`]}>
+                        <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Billing Information')}</div>}
+                            renderContent={<EditableForm {...stepProps} editing='billingAddress' />}
+                            isToggle={true}
+                            expanded={true}
+                            containerStyle={containerSty}
+                            headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                        />
 
-                    {!is_virtual && <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Method')}</div>}
-                        renderContent={<EditableForm {...stepProps} editing='shippingMethod' />}
-                        isToggle={true}
-                        expanded={true}
-                        containerStyle={{ marginTop: 35 }}
-                        headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-                    />}
+                        {!is_virtual && <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Method')}</div>}
+                            renderContent={<EditableForm {...stepProps} editing='shippingMethod' />}
+                            isToggle={true}
+                            expanded={true}
+                            containerStyle={{ marginTop: 35 }}
+                            headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                        />}
 
-                    <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Payment Method')}</div>}
-                        renderContent={<EditableForm {...stepProps} editing='paymentMethod' />}
-                        isToggle={true}
-                        expanded={true}
-                        containerStyle={{ marginTop: 35 }}
-                        headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-                    />
+                        <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Payment Method')}</div>}
+                            renderContent={<EditableForm {...stepProps} editing='paymentMethod' />}
+                            isToggle={true}
+                            expanded={true}
+                            containerStyle={{ marginTop: 35 }}
+                            headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                        />
 
-                    <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Coupon Code')}</div>}
-                        renderContent={<Coupon {...childCPProps} />}
-                        isToggle={true}
-                        expanded={false}
-                        containerStyle={{ marginTop: 35 }}
-                        headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-                    />
+                        <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Coupon Code')}</div>}
+                            renderContent={<Coupon {...childCPProps} />}
+                            isToggle={true}
+                            expanded={false}
+                            containerStyle={{ marginTop: 35 }}
+                            headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                        />
 
-                </div>
-                <div className={defaultClasses[`checkout-col-3`]}>
-                    <div className={defaultClasses['col-3-content']}>
-                        <OrderSummary parent={this} isPhone={isPhone} cart={cart} cartCurrencyCode={cartCurrencyCode} checkout={checkout} />
-                        {btnPlaceOrder}
+                    </div>
+                    <div className={defaultClasses[`checkout-col-3`]}>
+                        <div className={defaultClasses['col-3-content']}>
+                            <OrderSummary parent={this} isPhone={isPhone} cart={cart} cartCurrencyCode={cartCurrencyCode} checkout={checkout} />
+                            {btnPlaceOrder}
+                        </div>
                     </div>
                 </div>
-            </div>}
+                )
+            }
         </Fragment>
     }
 

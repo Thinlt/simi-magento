@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom';
+
 class Breadcrumb extends React.Component{
     renderBreadcrumb = data => {
         const {history} = this.props
@@ -47,4 +49,5 @@ Breadcrumb.propTypes = {
     breadcrumb : PropTypes.array.isRequired,
     history: PropTypes.object
 }
-export default Breadcrumb
+
+export default withRouter(Breadcrumb)

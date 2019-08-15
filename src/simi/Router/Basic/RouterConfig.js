@@ -28,7 +28,7 @@ const Contact = (props) => {
 }
 
 const Product = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "SimiProduct"*/'src/simi/App/core/Product')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "SimiProduct"*/'src/simi/App/core/RootComponents/Product')} {...props}/>
 }
 
 const Search = (props) => {
@@ -37,6 +37,14 @@ const Search = (props) => {
 
 const Logout = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Logout"*/'src/simi/App/core/Customer/Logout')} {...props}/>
+}
+
+const PaypalExpress = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "PaypalExpress"*/'src/simi/App/core/Payment/Paypalexpress')} {...props}/>
+}
+
+const NoMatch = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/core/NoMatch')} {...props}/>
 }
 
 
@@ -112,6 +120,13 @@ const router = {
     contact: {
         path: '/contact.html',
         render : location => <Contact {...location} page={`contact`}/>
+    },
+    contact: {
+        path: '/paypal_express.html',
+        render : location => <PaypalExpress {...location} page={`contact`}/>
+    },
+    noMatch: {
+        component : location => <NoMatch {...location} />
     }
 }
 export default router;

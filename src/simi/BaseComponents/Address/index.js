@@ -10,8 +10,13 @@ const AddressItem = (props) => {
         add_ress_1 = data.street[0];
         add_ress_2 = data.street[1];
     }
-    if (data.region && Array.isArray(data.region) && data.region.length > 0) {
-        dt_region = data.region[0] + ' ' + data.region[1];
+    if (data.region && Array.isArray(data.region)) {
+        dt_region = data.region.join(', ')
+    }
+    if (data.region && data.region instanceof Object) {
+        if (data.region.hasOwnProperty('region')) {
+            dt_region = data.region.region;
+        }
     }
 
     return (data ? data.firstname && <ul className={classes["address-item"]}>

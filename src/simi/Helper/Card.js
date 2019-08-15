@@ -8,7 +8,7 @@ class Card {
                 format: defaultFormat,
                 lengthCard: [13, 16, 19],
                 cvcLength: [3],
-                cartdFormatPattern: /\d{4,19}/g,
+                cardFormatPattern: /\d{4,19}/g,
                 luhn: true
             },
             {
@@ -17,7 +17,7 @@ class Card {
                 format: /(\d{1,4})(\d{1,6})?(\d{1,5})?/,
                 lengthCard: [15],
                 cvcLength: [4],
-                cartdFormatPattern: /\d{4,15}/g,
+                cardFormatPattern: /\d{4,15}/g,
                 luhn: true
             },
             {
@@ -25,7 +25,7 @@ class Card {
                 pattern: /^(5[1-5]|677189)|^(222[1-9]|2[3-6]\d{2}|27[0-1]\d|2720)/,
                 format: defaultFormat,
                 lengthCard: [16],
-                cartdFormatPattern: /\d{4,16}/g,
+                cardFormatPattern: /\d{4,16}/g,
                 cvcLength: [3],
                 luhn: true
             },
@@ -35,7 +35,7 @@ class Card {
                 format: defaultFormat,
                 lengthCard: [16],
                 cvcLength: [3],
-                cartdFormatPattern: /\d{4,16}/g,
+                cardFormatPattern: /\d{4,16}/g,
                 luhn: true
             },
             {
@@ -44,7 +44,7 @@ class Card {
                 format: defaultFormat,
                 lengthCard: [12, 13, 14, 15, 16, 17, 18, 19],
                 cvcLength: [3],
-                cartdFormatPattern: /\d{4,19}/g,
+                cardFormatPattern: /\d{4,19}/g,
                 luhn: true
             },
             // {
@@ -56,7 +56,7 @@ class Card {
                 pattern: /^35/,
                 format: defaultFormat,
                 lengthCard: [16],
-                cartdFormatPattern: /\d{4,16}/g,
+                cardFormatPattern: /\d{4,16}/g,
                 cvcLength: [3],
                 luhn: true
             }
@@ -67,9 +67,9 @@ class Card {
 
     static detectCardType(cardNumber) {
         cardNumber = (cardNumber + '').replace(/\D/g, '');
-        let cardTypes = this.getCards();
+        const cardTypes = this.getCards();
         for (let j = 0, len = cardTypes.length; j < len; j++) {
-            let card = cardTypes[j];
+            const card = cardTypes[j];
             if (card.pattern.test(cardNumber)) {
                 return card;
             }
@@ -79,8 +79,8 @@ class Card {
     }
 
     static getCardFormatByType(type) {
-        let cardTypes = this.getCards();
-        let findCard = cardTypes.filter(item => {
+        const cardTypes = this.getCards();
+        const findCard = cardTypes.filter(item => {
             return item.type === type;
         });
         if (findCard.length === 0) {
