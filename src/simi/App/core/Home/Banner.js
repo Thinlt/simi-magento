@@ -40,7 +40,7 @@ const Banner = props => {
 
     return (
         <div className={classes["banner-homepage"]}>
-            <div className="container">
+            <div className={`container ${classes['home-container']}`}>
                 <Carousel {...slideSettings}>
                     {bannerData}
                 </Carousel>
