@@ -1,24 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
-import {
-    array,
-    bool,
-    func,
-    number,
-    object,
-    oneOf,
-    shape,
-    string
-} from 'prop-types';
+import PropTypes from 'prop-types';
 import {
     getCartDetails
 } from 'src/actions/cart';
 
-import {
-    beginCheckout,
-    cancelCheckout,
-    editOrder,
+import { beginCheckout, cancelCheckout, editOrder,
     /* submitOrder, */
     /* submitShippingMethod, */
     submitPaymentMethod
@@ -44,65 +32,7 @@ import Loading from 'src/simi/BaseComponents/Loading';
 import { smoothScrollToView } from 'src/simi/Helper/Behavior';
 import Coupon from 'src/simi/BaseComponents/Coupon';
 
-
-const isCheckoutReady = checkout => {
-    const {
-        billingAddress,
-        paymentData,
-        shippingAddress,
-        shippingMethod
-    } = checkout;
-
-    const objectsHaveData = [
-        billingAddress,
-        paymentData,
-        shippingAddress
-    ].every(data => {
-        return !!data && !isObjectEmpty(data);
-    });
-
-    const stringsHaveData = shippingMethod && shippingMethod.length > 0;
-
-    return objectsHaveData && stringsHaveData;
-};
-
 class Checkout extends Component {
-    static propTypes = {
-        beginCheckout: func,
-        cancelCheckout: func,
-        cart: shape({
-            details: shape({
-                items_count: number
-            })
-        }),
-        checkout: shape({
-            availableShippingMethods: array,
-            billingAddress: object,
-            editing: oneOf(['address', 'billingAddress', 'paymentMethod', 'shippingMethod']),
-            invalidAddressMessage: string,
-            isAddressInvalid: bool,
-            paymentCode: string,
-            paymentData: object,
-            shippingAddress: object,
-            shippingMethod: string,
-            shippingTitle: string,
-            step: oneOf(['cart', 'form', 'receipt']).isRequired,
-            submitting: bool
-        }).isRequired,
-        classes: shape({
-            root: string
-        }),
-        directory: object,
-        editOrder: func,
-        submitOrder: func,
-        submitPaymentMethod: func,
-        submitShippingAddress: func,
-        submitShippingMethod: func,
-        submitBillingAddress: func,
-        user: object,
-        simiSignedIn: func
-    };
-
     constructor(...args) {
         super(...args);
         const isPhone = window.innerWidth < 1024;
@@ -116,29 +46,22 @@ class Checkout extends Component {
     setIsPhone() {
         const obj = this;
         window.onresize = function () {
-            const width = window.innerWidth;
-            const isPhone = width < 1024
-            if (obj.state.isPhone !== isPhone) {
+            const isPhone = window.innerWidth < 1024
+            if (obj.state.isPhone !== isPhone)
                 obj.setState({ isPhone: isPhone })
-            }
         }
     }
 
     async componentDidMount() {
         const { props, setIsPhone, check3DSecure } = this;
         setIsPhone();
-
         const { beginCheckout, getCartDetails } = props;
-
         try {
             // get cart detail
             await getCartDetails();
-
             //beginning checkout
             await beginCheckout();
-
             await check3DSecure();
-            // Do something
         } catch (err) {
             console.log(err)
         }
@@ -158,7 +81,7 @@ class Checkout extends Component {
 
     convertUrlQuery = () => {
         const params = new URLSearchParams(window.location.search)
-        let json = {}
+        const json = {}
         for (const param of params.entries()) {
             const [key, value] = param;
             json[key] = value
@@ -199,12 +122,35 @@ class Checkout extends Component {
         return user && user.isSignedIn;
     }
 
+    get is_virtual() {
+        const { cart} = this.props
+        return cart.is_virtual || (cart.details && cart.details.is_virtual)
+    }
+
+    isCheckoutReady = checkout => {
+        const { billingAddress, paymentData, shippingAddress, shippingMethod } = checkout;
+        const {is_virtual} = this
+        const objectsToCheck = [
+            billingAddress,
+            paymentData,
+        ]
+        if (!is_virtual)
+            objectsToCheck.push(shippingAddress)
+        const objectsHaveData = objectsToCheck.every(data => {
+            return !!data && !isObjectEmpty(data);
+        });
+        const stringsHaveData = shippingMethod && shippingMethod.length > 0
+        return objectsHaveData && (is_virtual || stringsHaveData)
+    };
+
+
     placeOrder = () => {
-        const { submitOrder, checkout, toggleMessages, cart, history } = this.props;
+        const { submitOrder, checkout, toggleMessages, history } = this.props;
         const { paymentData, shippingAddress, shippingMethod, billingAddress } = checkout;
+        const {is_virtual} = this
 
         if (toggleMessages) {
-            if (!shippingAddress || isObjectEmpty(shippingAddress)) {
+            if (!is_virtual &&  (!shippingAddress || isObjectEmpty(shippingAddress))) {
                 smoothScrollToView($("#id-message"));
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a shipping address'), auto_dismiss: true }])
                 return;
@@ -214,7 +160,7 @@ class Checkout extends Component {
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a billing address'), auto_dismiss: true }])
                 return;
             }
-            if (!cart.is_virtual && (!shippingMethod || !shippingMethod.length)) {
+            if (!is_virtual && (!shippingMethod || !shippingMethod.length)) {
                 smoothScrollToView($("#id-message"));
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a shipping method '), auto_dismiss: true }])
                 return;
@@ -225,8 +171,7 @@ class Checkout extends Component {
                 return;
             }
         }
-
-        if (isCheckoutReady(checkout)) {
+        if (this.isCheckoutReady(checkout)) {
             if (paymentData && paymentData.value === 'paypal_express')
                 history.push('/paypal_express.html')
             else {
@@ -278,69 +223,47 @@ class Checkout extends Component {
     }
 
     get checkoutInner() {
-        const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail, userSignedIn, breadcrumb, pageTitle } = this;
+        const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail, userSignedIn, breadcrumb, pageTitle, is_virtual } = this;
         const { isPhone } = this.state;
         const containerSty = isPhone ? { marginTop: 35 } : {};
-        const { classes,
-            cart,
-            checkout,
-            directory,
-            editOrder,
-            submitShippingMethod,
-            submitShippingAddress,
-            submitOrder,
-            submitPaymentMethod,
-            submitBillingAddress,
-            user,
-            simiSignedIn,
-            toggleMessages,
-            getCartDetails } = props;
-        const { shippingAddress,
-            submitting,
-            availableShippingMethods,
-            shippingMethod,
-            billingAddress,
-            paymentData,
-            paymentCode,
-            invalidAddressMessage,
-            isAddressInvalid,
-            shippingTitle } = checkout;
+        const { classes, cart, checkout, directory, editOrder, submitShippingMethod, submitShippingAddress, submitOrder, submitPaymentMethod,
+            submitBillingAddress, user, simiSignedIn, toggleMessages, getCartDetails } = props;
+        const { shippingAddress, submitting, availableShippingMethods, shippingMethod, billingAddress, paymentData, paymentCode,
+            invalidAddressMessage, isAddressInvalid, shippingTitle, editing } = checkout;
 
-        const { cartId, isLoading, paymentMethods, is_virtual } = cart;
-        const { editing } = checkout;
+        const { cartId, isLoading, paymentMethods } = cart;
 
         const stepProps = {
             availableShippingMethods,
             billingAddress,
             cancelCheckout,
             cart,
+            cartCurrencyCode,
             directory,
             editOrder,
             editing,
             hasPaymentMethod: !!paymentData && !isObjectEmpty(paymentData),
-            hasShippingAddress:
-                !!shippingAddress && !isObjectEmpty(shippingAddress),
-            hasShippingMethod:
-                !!shippingMethod && !isObjectEmpty(shippingMethod),
+            hasShippingAddress: !!shippingAddress && !isObjectEmpty(shippingAddress),
+            hasShippingMethod: !!shippingMethod && !isObjectEmpty(shippingMethod),
             invalidAddressMessage,
             isAddressInvalid,
+            is_virtual,
             paymentCode,
             paymentData,
-            ready: isCheckoutReady(checkout),
+            paymentMethods,
+            ready: this.isCheckoutReady(checkout),
             shippingAddress,
             shippingMethod,
             shippingTitle,
+            simiSignedIn,
             submitShippingAddress,
             submitOrder,
             submitPaymentMethod,
             submitBillingAddress,
             submitShippingMethod,
             submitting,
-            paymentMethods,
-            user,
-            simiSignedIn,
             toggleMessages,
-            cartCurrencyCode
+            user,
         };
 
         let cpValue = "";
@@ -367,7 +290,7 @@ class Checkout extends Component {
             this.handleLink(locate);
         }
         
-        if (!isCheckoutReady(checkout)) {
+        if (!this.isCheckoutReady(checkout)) {
             hideFogLoading();
         }
 
@@ -380,14 +303,12 @@ class Checkout extends Component {
                 (
                 <div className={defaultClasses['checkout-column']}>
                     <div className={defaultClasses[`checkout-col-1`]}>
-                        <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Address')}</div>}
+                        {!is_virtual && <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Address')}</div>}
                             renderContent={<EditableForm {...stepProps} editing='address' />}
                             isToggle={true}
                             expanded={true}
                             headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-                        />
-                    </div>
-                    <div className={defaultClasses[`checkout-col-2`]}>
+                        />}
                         <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Billing Information')}</div>}
                             renderContent={<EditableForm {...stepProps} editing='billingAddress' />}
                             isToggle={true}
@@ -395,7 +316,8 @@ class Checkout extends Component {
                             containerStyle={containerSty}
                             headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                         />
-
+                    </div>
+                    <div className={defaultClasses[`checkout-col-2`]}>
                         {!is_virtual && <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Method')}</div>}
                             renderContent={<EditableForm {...stepProps} editing='shippingMethod' />}
                             isToggle={true}
@@ -465,6 +387,44 @@ const mapDispatchToProps = {
     toggleMessages,
     simiSignedIn
 };
+
+
+Checkout.propTypes = {
+    beginCheckout: PropTypes.func,
+    cancelCheckout: PropTypes.func,
+    cart: PropTypes.shape({
+        details: PropTypes.shape({
+            items_count: PropTypes.number
+        })
+    }),
+    checkout: PropTypes.shape({
+        availableShippingMethods: PropTypes.array,
+        billingAddress: PropTypes.object,
+        editing: PropTypes.oneOf(['address', 'billingAddress', 'paymentMethod', 'shippingMethod']),
+        invalidAddressMessage: PropTypes.string,
+        isAddressInvalid: PropTypes.bool,
+        paymentCode: PropTypes.string,
+        paymentData: PropTypes.object,
+        shippingAddress: PropTypes.object,
+        shippingMethod: PropTypes.string,
+        shippingTitle: PropTypes.string,
+        step: PropTypes.oneOf(['cart', 'form', 'receipt']).isRequired,
+        submitting: PropTypes.bool
+    }).isRequired,
+    classes: PropTypes.shape({
+        root: PropTypes.string
+    }),
+    directory: PropTypes.object,
+    editOrder: PropTypes.func,
+    submitOrder: PropTypes.func,
+    submitPaymentMethod: PropTypes.func,
+    submitShippingAddress: PropTypes.func,
+    submitShippingMethod: PropTypes.func,
+    submitBillingAddress: PropTypes.func,
+    user: PropTypes.object,
+    simiSignedIn: PropTypes.func
+};
+
 
 export default compose(
     classify(defaultClasses),

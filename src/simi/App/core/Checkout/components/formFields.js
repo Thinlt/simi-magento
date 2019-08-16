@@ -70,7 +70,9 @@ const FormFields = (props) => {
         simiSignedIn,
         countries,
         configFields,
-        handleFormReset } = props;
+        handleFormReset,
+        is_virtual,
+    } = props;
 
     const { isSignedIn, currentUser } = user;
 
@@ -460,7 +462,7 @@ const FormFields = (props) => {
 
     return <Fragment>
         <div className={classes.body}>
-            {billingForm && <Checkbox field="addresses_same" label={Identify.__("Billing address same as shipping address")} onChange={() => checkSameShippingAddress()} />}
+            {(billingForm && !is_virtual) && <Checkbox field="addresses_same" label={Identify.__("Billing address same as shipping address")} onChange={() => checkSameShippingAddress()} />}
             {viewFields}
         </div>
         {viewSubmit}

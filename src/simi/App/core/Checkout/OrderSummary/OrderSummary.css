@@ -27,8 +27,6 @@ ul.items {
     padding: 0;
     margin-top: 35px;
     border: none;
-    max-height: 300px;
-    overflow-y: auto;
 }
 ul.items li.order-item {
     display: flex;

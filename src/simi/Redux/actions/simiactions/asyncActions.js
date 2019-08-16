@@ -276,15 +276,16 @@ export const submitOrder = () =>
         if (billing_address.sameAsShippingAddress) {
             billing_address = shipping_address;
         } else {
-            const { email, firstname, lastname, telephone } = shipping_address;
-
-            billing_address = {
-                email,
-                firstname,
-                lastname,
-                telephone,
-                ...billing_address
-            };
+            if (shipping_address && shipping_address.email) {
+                const { email, firstname, lastname, telephone } = shipping_address;
+                billing_address = {
+                    email,
+                    firstname,
+                    lastname,
+                    telephone,
+                    ...billing_address
+                };
+            }
         }
 
         try {
@@ -301,7 +302,7 @@ export const submitOrder = () =>
             const bodyData = {
                 billingAddress: billing_address,
                 cartId: cartId,
-                email: shipping_address.email,
+                email: billing_address.email,
                 paymentMethod: {
                     additional_data: {
                         payment_method_nonce: paymentMethod.data.nonce

@@ -32,7 +32,8 @@ const EditableForm = props => {
         paymentCode,
         toggleMessages,
         cartCurrencyCode,
-        cart
+        cart,
+        is_virtual,
     } = props;
 
     const handleCancel = useCallback(() => {
@@ -128,6 +129,7 @@ const EditableForm = props => {
                         submitting={submitting}
                         billingForm={true}
                         user={user}
+                        is_virtual={is_virtual}
                     />
                     {billingAddress && !isObjectEmpty(billingAddress) && !billingAddress.hasOwnProperty('sameAsShippingAddress') ?
                         <AddressItem classes={defaultClass} data={billingAddress} /> : null}
