@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { compose } from 'redux';
 import { connect } from 'src/drivers';
 import PropTypes from 'prop-types';
 import {
@@ -14,7 +13,6 @@ import { beginCheckout, cancelCheckout, editOrder,
 
 import { submitShippingAddress, submitBillingAddress, submitOrder, submitShippingMethod } from 'src/simi/Redux/actions/simiactions';
 
-import classify from 'src/classify';
 import defaultClasses from './checkout.css';
 import TitleHelper from 'src/simi/Helper/TitleHelper';
 import Identify from 'src/simi/Helper/Identify';
@@ -35,26 +33,12 @@ import Coupon from 'src/simi/BaseComponents/Coupon';
 class Checkout extends Component {
     constructor(...args) {
         super(...args);
-        const isPhone = window.innerWidth < 1024;
-        this.state = {
-            isPhone: isPhone
-        };
         const storeConfig = Identify.getStoreConfig();
         this.checkoutRedirect(storeConfig);
     }
 
-    setIsPhone() {
-        const obj = this;
-        window.onresize = function () {
-            const isPhone = window.innerWidth < 1024
-            if (obj.state.isPhone !== isPhone)
-                obj.setState({ isPhone: isPhone })
-        }
-    }
-
     async componentDidMount() {
-        const { props, setIsPhone, check3DSecure } = this;
-        setIsPhone();
+        const { props, check3DSecure } = this;
         const { beginCheckout, getCartDetails } = props;
         try {
             // get cart detail
@@ -127,6 +111,20 @@ class Checkout extends Component {
         return cart.is_virtual || (cart.details && cart.details.is_virtual)
     }
 
+    get showAPIloading() {
+        const {props} = this
+
+        console.log(props)
+        if (props.checkout) {
+            if (props.checkout.submitting)
+                return true
+                console.log(props.checkout.shippingAddress)
+            if (props.checkout.shippingAddress && props.checkout.shippingAddress.submitting)
+                return true
+        }
+        return false
+    }
+
     isCheckoutReady = checkout => {
         const { billingAddress, paymentData, shippingAddress, shippingMethod } = checkout;
         const {is_virtual} = this
@@ -175,7 +173,6 @@ class Checkout extends Component {
             if (paymentData && paymentData.value === 'paypal_express')
                 history.push('/paypal_express.html')
             else {
-                showFogLoading();
                 submitOrder();
             }
         }
@@ -183,21 +180,18 @@ class Checkout extends Component {
     }
 
     get btnPlaceOrder() {
-        const { classes } = this.props;
         return (
             <div className={defaultClasses['btn-place-order']}>
                 <Colorbtn
                     style={{ backgroundColor: configColor.button_background, color: configColor.button_text_color, width: '100%' }}
-                    className={classes["go-place_order"]}
+                    className={defaultClasses["go-place_order"]}
                     onClick={() => this.placeOrder()} text={Identify.__('PLACE ORDER')} />
             </div>
         )
     }
 
     get checkoutEmpty() {
-        const { classes } = this.props;
-
-        return <div className={classes['empty-cart-checkout']}>
+        return <div className={defaultClasses['empty-cart-checkout']}>
             <span>{Identify.__("You have no items in your shopping cart.")}</span>
             <br />
             <span>
@@ -224,9 +218,7 @@ class Checkout extends Component {
 
     get checkoutInner() {
         const { props, cartCurrencyCode, checkoutEmpty, btnPlaceOrder, cartDetail, userSignedIn, breadcrumb, pageTitle, is_virtual } = this;
-        const { isPhone } = this.state;
-        const containerSty = isPhone ? { marginTop: 35 } : {};
-        const { classes, cart, checkout, directory, editOrder, submitShippingMethod, submitShippingAddress, submitOrder, submitPaymentMethod,
+        const { cart, checkout, directory, editOrder, submitShippingMethod, submitShippingAddress, submitOrder, submitPaymentMethod,
             submitBillingAddress, user, simiSignedIn, toggleMessages, getCartDetails } = props;
         const { shippingAddress, submitting, availableShippingMethods, shippingMethod, billingAddress, paymentData, paymentCode,
             invalidAddressMessage, isAddressInvalid, shippingTitle, editing } = checkout;
@@ -234,36 +226,14 @@ class Checkout extends Component {
         const { cartId, isLoading, paymentMethods } = cart;
 
         const stepProps = {
-            availableShippingMethods,
-            billingAddress,
-            cancelCheckout,
-            cart,
-            cartCurrencyCode,
-            directory,
-            editOrder,
-            editing,
+            availableShippingMethods, billingAddress, cancelCheckout, cart, cartCurrencyCode, directory, editOrder, editing,
             hasPaymentMethod: !!paymentData && !isObjectEmpty(paymentData),
             hasShippingAddress: !!shippingAddress && !isObjectEmpty(shippingAddress),
             hasShippingMethod: !!shippingMethod && !isObjectEmpty(shippingMethod),
-            invalidAddressMessage,
-            isAddressInvalid,
-            is_virtual,
-            paymentCode,
-            paymentData,
-            paymentMethods,
+            invalidAddressMessage, isAddressInvalid, is_virtual, paymentCode, paymentData, paymentMethods,
             ready: this.isCheckoutReady(checkout),
-            shippingAddress,
-            shippingMethod,
-            shippingTitle,
-            simiSignedIn,
-            submitShippingAddress,
-            submitOrder,
-            submitPaymentMethod,
-            submitBillingAddress,
-            submitShippingMethod,
-            submitting,
-            toggleMessages,
-            user,
+            shippingAddress, shippingMethod, shippingTitle, simiSignedIn, submitShippingAddress, submitOrder, submitPaymentMethod,
+            submitBillingAddress, submitShippingMethod, submitting, toggleMessages, user,
         };
 
         let cpValue = "";
@@ -272,7 +242,7 @@ class Checkout extends Component {
         }
 
         const childCPProps = {
-            classes,
+            classes: defaultClasses,
             value: cpValue,
             toggleMessages,
             getCartDetails
@@ -289,10 +259,6 @@ class Checkout extends Component {
             };
             this.handleLink(locate);
         }
-        
-        if (!this.isCheckoutReady(checkout)) {
-            hideFogLoading();
-        }
 
         const cartLoading = (!cartDetail && cartId && !isLoading && (!cart.details || !cart.details.item))
         
@@ -304,48 +270,50 @@ class Checkout extends Component {
                 <div className={defaultClasses['checkout-column']}>
                     <div className={defaultClasses[`checkout-col-1`]}>
                         {!is_virtual && <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Address')}</div>}
+                            className={defaultClasses['checkout-panel']}
                             renderContent={<EditableForm {...stepProps} editing='address' />}
                             isToggle={true}
                             expanded={true}
                             headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                         />}
                         <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Billing Information')}</div>}
+                            className={defaultClasses['checkout-panel']}
                             renderContent={<EditableForm {...stepProps} editing='billingAddress' />}
                             isToggle={true}
                             expanded={true}
-                            containerStyle={containerSty}
                             headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                         />
                     </div>
                     <div className={defaultClasses[`checkout-col-2`]}>
                         {!is_virtual && <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Method')}</div>}
+                            className={defaultClasses['checkout-panel']}
                             renderContent={<EditableForm {...stepProps} editing='shippingMethod' />}
                             isToggle={true}
                             expanded={true}
-                            containerStyle={{ marginTop: 35 }}
                             headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                         />}
 
                         <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Payment Method')}</div>}
+                            className={defaultClasses['checkout-panel']}
                             renderContent={<EditableForm {...stepProps} editing='paymentMethod' />}
                             isToggle={true}
                             expanded={true}
-                            containerStyle={{ marginTop: 35 }}
                             headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                         />
 
                         <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Coupon Code')}</div>}
+                            className={defaultClasses['checkout-panel']}
                             renderContent={<Coupon {...childCPProps} />}
                             isToggle={true}
                             expanded={false}
-                            containerStyle={{ marginTop: 35 }}
                             headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                         />
 
                     </div>
                     <div className={defaultClasses[`checkout-col-3`]}>
                         <div className={defaultClasses['col-3-content']}>
-                            <OrderSummary parent={this} isPhone={isPhone} cart={cart} cartCurrencyCode={cartCurrencyCode} checkout={checkout} />
+                            <OrderSummary parent={this} cart={cart} cartCurrencyCode={cartCurrencyCode} 
+                                checkout={checkout} panelClassName={defaultClasses['checkout-panel']}/>
                             {btnPlaceOrder}
                         </div>
                     </div>
@@ -356,12 +324,18 @@ class Checkout extends Component {
     }
 
     render() {
+        if (this.showAPIloading)
+            showFogLoading()
+        else
+            hideFogLoading()
         return (
-            <div className="container">
-                {TitleHelper.renderMetaHeader({
-                    title: Identify.__('Checkout')
-                })}
-                {this.checkoutInner}
+            <div className={defaultClasses['checkout-bg']}>
+                <div className="container">
+                    {TitleHelper.renderMetaHeader({
+                        title: Identify.__('Checkout')
+                    })}
+                    {this.checkoutInner}
+                </div>
             </div>
         );
     }
@@ -411,9 +385,6 @@ Checkout.propTypes = {
         step: PropTypes.oneOf(['cart', 'form', 'receipt']).isRequired,
         submitting: PropTypes.bool
     }).isRequired,
-    classes: PropTypes.shape({
-        root: PropTypes.string
-    }),
     directory: PropTypes.object,
     editOrder: PropTypes.func,
     submitOrder: PropTypes.func,
@@ -425,11 +396,4 @@ Checkout.propTypes = {
     simiSignedIn: PropTypes.func
 };
 
-
-export default compose(
-    classify(defaultClasses),
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )
-)(Checkout);
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

@@ -11,7 +11,7 @@ import defaultClasses from './formFields.css';
 import combine from 'src/util/combineValidators';
 import TextInput from 'src/components/TextInput';
 import Field from 'src/components/Field';
-import Select from 'src/components/Select';
+import Select from 'src/simi/BaseComponents/Select';
 import Checkbox from 'src/components/Checkbox';
 import Button from 'src/components/Button';
 import Identify from 'src/simi/Helper/Identify';
@@ -218,7 +218,7 @@ const FormFields = (props) => {
 
     const onHandleSelectCountry = () => {
         const { country_id } = formState.values;
-        if (!country_id) {
+        if (!country_id || !countries) {
             showState = null;
             return;
         }
@@ -234,6 +234,7 @@ const FormFields = (props) => {
             showState = null;
         }
     }
+    onHandleSelectCountry()
 
     const forgotPasswordLocation = {
         pathname: '/login.html',
@@ -426,7 +427,6 @@ const FormFields = (props) => {
                 </Fragment> : null}
         </Fragment>
     ) : null;
-
     const viewSubmit = !formState.values.addresses_same && (!isSignedIn || shippingNewForm || ((billingForm && storageBilling === 'new_address') || (!billingForm && storageShipping === 'new_address'))) ? (
         <div className={classes.footer}>
             <Button

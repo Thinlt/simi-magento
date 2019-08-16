@@ -1,11 +1,16 @@
+.checkout-bg {
+    background-color: #f6f6f6;
+    padding-top: 35px;
+    min-height: 100vh;
+}
 .checkout-page-title {
     font-size: 25px;
     line-height: 17px;
     font-weight: bold;
     margin: 0;
     text-transform: uppercase;
-    margin-bottom: 40px;
     text-align: center;
+    margin-bottom: 35px;
 }
 .checkout-column {
     display: flex;
@@ -31,8 +36,14 @@
 .empty-cart-checkout span a {
     margin: 0 4px;
 }
+.checkout-panel {
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid #eaeaea;
+    margin-bottom: 35px;
+}
 .checkout-section-title {
-    font-size: 20px;
+    font-size: 18px;
     line-height: 24px;
     font-weight: bold;
     text-transform: uppercase;
@@ -91,5 +102,8 @@
     }
     .checkout-col-2 .coupon-code #submit-coupon{
         margin-top: 20px;
+    }
+    .checkout-panel {
+        margin-top: 35px;
     }
 }
