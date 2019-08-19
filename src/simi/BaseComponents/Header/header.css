@@ -344,6 +344,9 @@ body.fixed-scroll {
         min-height: 80px;
         height: 80px;
     }
+    .right-bar-item {
+        margin-left: 5px;
+    }
     .header-search {
         margin: 0;
         max-width: unset;
