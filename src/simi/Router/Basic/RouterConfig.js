@@ -1,6 +1,5 @@
 import React from 'react'
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent'
-import CreateAccountPage from 'src/components/CreateAccountPage/index';
 import Home from 'src/simi/App/core/RootComponents/CMS/Home'
 
 const Checkout = (props) => {
@@ -56,10 +55,6 @@ const router = {
     search_page: {
         path: '/search.html',
         render : (props) => <Search {...props}/>
-    },
-    register: {
-        path: '/create-account',
-        render : (props) => <CreateAccountPage {...props}/>
     },
     cart : {
         path : '/cart.html',
