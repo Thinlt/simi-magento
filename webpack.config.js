@@ -124,7 +124,7 @@ module.exports = async function(env) {
             paths: {
                 root: __dirname
             },
-            extensions : ['.js','.jxs']
+            extensions : ['.js','.jxs','.scss']
         }),
         plugins: [
             // // This is necessary to emit hot updates (currently CSS only):
