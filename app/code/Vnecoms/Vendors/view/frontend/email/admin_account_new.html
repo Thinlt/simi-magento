@@ -1,0 +1,28 @@
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<!--@subject {{trans "Welcome to %store_name" store_name=$store.getFrontendName()}} @-->
+<!--@vars {
+"var $customer.name":"Vendor Name",
+"var $customer.email":"Customer Email"
+} @-->
+
+
+{{template config_path="design/email/header_template"}}
+
+<h1>{{trans "Dear Administrator"}},</h1>
+<p>
+    {{trans "A new vendor account registration request has been sent."}}
+</p>
+<ul>
+    <li><strong>{{trans "Email:"}}</strong> {{var customer.email}}</li>
+</ul>
+
+<p>{{trans "Please log-in your Magento Admin panel for reviewing and approval."}}</p>
+
+
+{{template config_path="design/email/footer_template"}}

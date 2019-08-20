@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Vnecoms_Vendors::vendor">            	
+                <resource id="Vnecoms_Vendors::notifications" title="Notifications"  translate="title" sortOrder="40" />
+            </resource>
+        </resources>
+    </acl>
+</config>

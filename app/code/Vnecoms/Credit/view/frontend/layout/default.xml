@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+        <css src="Vnecoms_Credit::css/default.css"/>
+    </head>
+    <body>
+        <referenceBlock name="top.links">
+            <block class="Vnecoms\Credit\Block\Account\Link" name="my-credit-link" after="my-account-link">
+            	<arguments>
+                    <argument name="label" xsi:type="string" translate="true">My Credit</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

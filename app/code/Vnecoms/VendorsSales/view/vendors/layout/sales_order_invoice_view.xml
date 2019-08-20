@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="sales_invoice_item_price"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Vnecoms\VendorsSales\Block\Vendors\Order\Invoice\View" name="sales_invoice_view">
+                <block class="Vnecoms\VendorsSales\Block\Vendors\Order\Invoice\View\Form" name="form" template="Vnecoms_VendorsSales::order/invoice/view/form.phtml">
+                    <block class="Vnecoms\VendorsSales\Block\Vendors\Order\View\Info" name="order_info" template="Vnecoms_VendorsSales::order/view/info.phtml"/>
+                    <block class="Magento\Sales\Block\Adminhtml\Order\Payment" name="order_payment"/>
+                    <block class="Vnecoms\VendorsSales\Block\Vendors\Order\Invoice\View\Items" name="invoice_items" template="Vnecoms_VendorsSales::order/invoice/view/items.phtml">
+                        <block class="Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRenderer" as="default" template="Magento_Sales::order/invoice/view/items/renderer/default.phtml"/>
+                        <block class="Vnecoms\VendorsSales\Block\Vendors\Items\Column\Qty" name="column_qty" template="Vnecoms_VendorsSales::items/column/qty.phtml" group="column"/>
+                        <block class="Vnecoms\VendorsSales\Block\Vendors\Items\Column\Name" name="column_name" template="Vnecoms_VendorsSales::items/column/name.phtml" group="column"/>
+                        <block class="Magento\Framework\View\Element\Text\ListText" name="order_item_extra_info"/>
+                    </block>
+                    <!-- <block class="Magento\Sales\Block\Adminhtml\Order\Comments\View" name="order_comments" template="order/comments/view.phtml">
+                        <action method="setParentType">
+                            <argument name="type" xsi:type="string">invoice</argument>
+                        </action>
+                    </block> -->
+                    <block class="Vnecoms\VendorsSales\Block\Vendors\Order\Invoice\Totals" name="invoice_totals" template="Vnecoms_VendorsSales::order/totals.phtml">
+                        <block class="Vnecoms\VendorsSales\Block\Vendors\Order\Totals\Tax" name="tax" template="Vnecoms_VendorsSales::order/totals/tax.phtml"/>
+                    </block>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

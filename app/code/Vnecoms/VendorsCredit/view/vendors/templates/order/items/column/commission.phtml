@@ -1,0 +1,37 @@
+<?php
+// @codingStandardsIgnoreFile
+
+?>
+<?php if ($_item = $block->getItem()): ?>
+    <?php if($_item->getQtyInvoiced() > 0):?>
+        <?php $commission = $block->getCommissionAmount();?>
+        <?php if($block->showTwoPrice()):?>
+            <span class="price"><?php echo $block->formatCommission($commission)?></span><br />
+            <span class="price">[<?php echo $block->formatBaseCommission($commission)?>]</span>
+        <?php else:?>
+            <span class="price"><?php echo $block->formatCommission($commission)?></span>
+        <?php endif;?>
+        
+        <?php echo $block->getCommission()?>
+    <?php else:?>
+        <span class="commission-pending" style="border-bottom: 1px dashed #b84002; cursor: pointer;" title="<?php echo __('The commission is calculated after the invoice is created for this item.');?>"><?php echo __("Pending")?></span>
+        <script>
+        require([
+                 "jquery",
+                 "jquery/ui"
+             ], function($){
+            $('.commission-pending').tooltip();
+        });
+        </script>
+        <style>
+            .ui-tooltip {
+            	padding: 8px;
+            	position: absolute;
+            	z-index: 9999;
+            	max-width: 300px;
+            	border: 1px solid #d3d3d3;
+            	background: #FFF;
+            }
+        </style>
+    <?php endif;?>
+<?php endif;?>

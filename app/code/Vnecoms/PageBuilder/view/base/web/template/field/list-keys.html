@@ -1,0 +1,15 @@
+<div class="vpb-component-container vpb-component-list" data-bind="
+	visible: isActive,
+	css:{[frontend_class]:true,'vpb-component-editable':editable},
+	attr: {id: getPreviewFieldId()}
+">
+	<div class="pb-list-keys">
+	<!-- ko foreach: getRegion('children') -->		
+		<!-- ko template: getTemplate() --><!-- /ko -->
+	<!-- /ko -->
+	</div>
+</div>
+
+<!-- ko if: color() -->
+<style data-bind="text: getCustomStyle()"></style>
+<!-- /ko -->

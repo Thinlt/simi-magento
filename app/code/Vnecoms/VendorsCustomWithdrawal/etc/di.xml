@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="vendor_credit_method_listing_data_source" xsi:type="string">Vnecoms\VendorsCustomWithdrawal\Model\ResourceModel\Method\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <virtualType name="Vnecoms\VendorsCustomWithdrawal\Model\ResourceModel\Method\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">ves_vendor_withdrawal_method</argument>
+            <argument name="resourceModel" xsi:type="string">Vnecoms\VendorsCustomWithdrawal\Model\ResourceModel\Method</argument>
+        </arguments>
+    </virtualType>
+    
+    <type name="Vnecoms\VendorsCredit\Helper\Data">
+    	<plugin name="vendors_custom_withdrawal" type="Vnecoms\VendorsCustomWithdrawal\Plugin\Helper" sortOrder="100" disabled="false" />
+    </type>
+</config>

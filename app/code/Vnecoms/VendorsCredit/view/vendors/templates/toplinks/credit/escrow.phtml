@@ -1,0 +1,3 @@
+<?php if($block->isEnabledEscrowTransaction()):?>
+    <li><a href="<?php echo $block->getPendingCreditUrl()?>"><i class="fa fa-credit-card"></i><strong><?php echo $block->formatCredit($block->getTotalPendingCredit());?></strong> <span class="label label-warning" style="font-size: 9px; margin-left: 4px;position: absolute;margin-top: 2px;"><?php echo __("Pending")?></span></a></li>
+<?php endif;?>

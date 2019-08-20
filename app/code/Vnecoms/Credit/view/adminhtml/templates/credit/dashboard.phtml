@@ -1,0 +1,227 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<div class="row credit-dashboard-top" data-mage-init='{"loader": {}}'>
+    <div class="col-xs-3">
+        <!-- small box -->
+        <div class="small-box bg-red total-credit">
+            <div class="inner">
+                <h3><?php echo $block->formatPrice($block->getTotalCreditInSystem())?></h3>
+                <p><?php echo __("Total Credit in System")?></p>
+            </div>
+            <div class="credit-icon">
+                <i class="credit-ion credit-ion-card"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xs-3">
+        <!-- small box -->
+        <div class="small-box bg-yellow total-spent-credit">
+            <div class="inner">
+              <h3><?php echo $block->formatPrice($block->getTotalSpentCredit())?></h3>
+              <p><?php echo __("Total Spent Credit")?></p>
+            </div>
+            <div class="credit-icon">
+                <i class="credit-ion credit-ion-bag"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xs-3">
+        <!-- small box -->
+        <div class="small-box bg-olive total-sold-credit">
+            <div class="inner">
+              <h3><?php echo $block->formatPrice($block->getTotalSoldCredit())?></h3>
+              <p><?php echo __("Total Sold Credit")?></p>
+            </div>
+            <div class="credit-icon">
+                <i class="credit-ion credit-ion-shoppingcart"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xs-3">
+        <!-- small box -->
+        <div class="small-box bg-purple no-of-credit-account">
+            <div class="inner">
+              <h3><?php echo $block->getNumberCustomerWithCredit()?></h3>
+              <p><?php echo __("No. of customer with credit")?></p>
+            </div>
+            <div class="credit-icon">
+                <i class="credit-ion credit-ion-person"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<?php $block->getCustomerCreditBalanceData()?>
+<div class="row">
+    <div class="col-xs-4 top-customer">
+        <div class="credit-box">
+            <div class="credit-box-header with-border">
+                <h3 class="box-title"><?php echo __("Top Customer Credit Balance")?></h3>
+            </div>
+            <div class="credit-box-body">
+                <canvas id="pieChart" height="370"></canvas>
+            </div>
+            <div class="credit-box-footer no-padding">
+                <ul class="credit-customer-list">
+                    <?php foreach($block->getCustomerCreditBalanceData() as $creditData):?>
+                    <li style="color: <?php echo $creditData['color']?>">
+                        <i class="credit-ion credit-ion-circle"></i> 
+                        <a href="<?php echo isset($creditData['customer_id'])?$block->getUrl('customer/index/edit',array('id'=>$creditData['customer_id'])):'javascript:void(0);'?>">
+                            <?php if(isset($creditData['email'])):?>
+                            <strong><?php echo $creditData['name']?></strong>
+                            <?php else:?>
+                                <strong><?php echo $creditData['label']?></strong>
+                            <?php endif;?>
+                            <span class="pull-right"><?php echo $creditData['percent']?>%</span>
+                        </a>
+                    </li>
+                    <?php endforeach;?>
+                </ul>
+                <a href="<?php echo $this->getCreditAccountUrl()?>" class="view-all-link"><?php echo __("View All")?></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-8">
+        <div class="credit-box credit-graph">
+            <div class="credit-box-header with-border">
+                <h3 class="box-title"><?php echo __("Credit Receive - Spend")?></h3>
+                <select class="admin__control-select credit-transaction-period" onchange="changeDiagramsPeriod(this.value);" id="transaction_period" name="period">
+                    <option value="24h"><?php echo __("Last 24 Hours")?></option>
+                    <option value="7d"><?php echo __("Last 7 Days")?></option>
+                    <option value="1m"><?php echo __("Current Month")?></option>
+                    <option value="1y"><?php echo __("YTD")?></option>
+                    <option value="2y"><?php echo __("2YTD")?></option>
+                </select>
+                <div style="clear: both;"></div>
+            </div>
+            <div class="credit-box-body">
+                <div class="chart tab-pane active" id="revenue-chart"></div>
+            </div>
+        </div>
+        <div class="credit-box credit-transactions">
+            <div class="credit-box-header with-border">
+                <h3 class="box-title"><?php echo __("Last Transactions")?></h3>
+            </div>
+            <div class="credit-box-body">
+                <?php echo $this->getChildHtml('transaction_grid');?>
+                <a href="<?php echo $this->getAllTransactionUrl()?>" class="view-all-link"><?php echo __("View All")?></a>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+var URL_GRAPH = '<?php echo $this->getUrl('storecredit/dashboard/graph')?>';
+require([
+     "jquery",
+     "loader",
+     "jquery/ui",
+     'jquery/chartjs',
+     'jquery/raphael',
+     'jquery/morris',
+     'domReady'
+ ], function($,loader){
+    var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+    var pieChart = new Chart(pieChartCanvas);
+    var PieData = <?php echo json_encode($block->getCustomerCreditBalanceData())?>;
+    var pieOptions = {
+      //Boolean - Whether we should show a stroke on each segment
+      segmentShowStroke: true,
+      //String - The colour of each segment stroke
+      segmentStrokeColor: "#fff",
+      //Number - The width of each segment stroke
+      segmentStrokeWidth: 1,
+      //Number - The percentage of the chart that we cut out of the middle
+      percentageInnerCutout: 50, // This is 0 for Pie charts
+      //Number - Amount of animation steps
+      animationSteps: 100,
+      //String - Animation easing effect
+      animationEasing: "easeOutBounce",
+      //Boolean - Whether we animate the rotation of the Doughnut
+      animateRotate: true,
+      //Boolean - Whether we animate scaling the Doughnut from the centre
+      animateScale: false,
+      //Boolean - whether to make the chart responsive to window resizing
+      responsive: true,
+      // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+      maintainAspectRatio: false,
+      //String - A legend template
+      legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>",
+      //String - A tooltip template
+      tooltipTemplate: "<%=label%>"
+    };
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    pieChart.Doughnut(PieData, pieOptions);
+
+
+
+    /* Morris.js Charts */
+    // Sales chart
+    var areaData = <?php echo $block->getTransactionsDataLast24Hours();?>;
+    
+    
+    function changeDiagramsPeriod(value){
+    	var graphContainer = $('#revenue-chart');
+    	graphContainer.trigger('processStart');
+        var xLabels = '';
+        switch(value){
+        case '24h':
+            xLabels = 'hour';
+            break;
+        case '7d':
+        case '1m':
+            xLabels = 'day';
+            break;
+        case '1y':
+        case '2y':
+            xLabels = 'month';
+            break;
+        }
+        
+    	$.ajax({
+      		  url: URL_GRAPH,
+      		  method: "POST",
+      		  data: { period : value },
+      		  dataType: "json"
+  		}).done(function( response ){
+  	  	  	graphContainer.trigger('processStop');
+  	  	  	if(typeof(response.ajaxExpired) != "undefined" && response.ajaxExpired){
+  	  	  	  	window.location = response.ajaxRedirect;
+  	  	  	  	return;
+  	  	  	}
+  	  	  	if(response.size()){
+      			graphContainer.html('');
+      			Morris.Line({
+                    element: 'revenue-chart',
+                    resize: true,
+                    parseTime: true,
+                    xLabels: xLabels,
+                    data: response,
+                    xkey: 'y',
+                    ykeys: ['received', 'spent'],
+                    labels: ['Credits Received', 'Credits Spent'],
+                    lineColors: ['#3C8DBC', '#F56954'],
+                    hideHover: 'auto'
+    		    });
+  	  	  	}else{
+  	  	  	  	graphContainer.html('<div class="dashboard-diagram-nodata"><span>No Data Found</span></div>');
+  	  	  	}
+  		});
+    }
+    setTimeout(function(){
+    	changeDiagramsPeriod($("#transaction_period").val());
+    },1000);
+    window.changeDiagramsPeriod = changeDiagramsPeriod;
+});
+</script>

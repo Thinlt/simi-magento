@@ -1,0 +1,16 @@
+<?php $tracking = $block->getTracking(); ?>
+<?php if (!empty($tracking)) : ?>
+<table width="100%" cellpadding="0" cellspacing="0" class="tracking-info items" style="margin-top: 10px;">
+	<thead>
+		<tr><th class="header first"><?php echo __('Title')?></th><th class="header"><?php echo __('Number')?></th></tr>
+	</thead>
+	<tbody>
+		<?php foreach($tracking as $_track):?>
+		<tr>
+			<td><?php echo $block->escapeHtml($_track->getTitle()) ?>:</td>
+            <td><?php echo $block->escapeHtml($_track->getNumber()) ?></td>
+		</tr>
+		<?php endforeach;?>
+	</tbody>
+</table>
+<?php endif; ?>

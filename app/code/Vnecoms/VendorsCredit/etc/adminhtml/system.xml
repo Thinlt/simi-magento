@@ -1,0 +1,215 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="vendors">
+        	<group id="credit" translate="label tooltip" type="text" sortOrder="105" showInDefault="1" showInWebsite="1" showInStore="1">
+        		<label>Seller's Credit</label>
+        		<field id="enable_escrow" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable Escrow feature</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <tooltip>If you enable this feature, after customer pay for his order the payment will be held in x day before it is added to seller's credit account</tooltip>
+                </field>
+                
+                <field id="hold_time" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Hold Time (days)</label>
+                    <frontend_class>validate-number</frontend_class>
+                    <comment>30 -> 30 days</comment>
+                    <depends>
+                        <field id="enable_escrow">1</field>
+                    </depends>
+                    <tooltip>The number of days that the funcs is held before it is added to vendor's credit account.</tooltip>
+                </field>
+                
+                <field id="new_escrow" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>New Escrow Notification Email</label>
+                    <tooltip>This notification email will be sent to vendor when new escrow transaction is created for vendor.</tooltip>
+                    <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="enable_escrow">1</field>
+                    </depends>
+                </field>
+                <field id="escrow_released" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Escrow Released Notification Email</label>
+                    <tooltip>This notification email will be sent to vendor when escrow transaction is released.</tooltip>
+                    <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="enable_escrow">1</field>
+                    </depends>
+                </field>
+                <field id="escrow_canceled" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Escrow Cancel Transaction Email</label>
+                    <tooltip>This notification email will be sent to vendor when the escrow transaction is canceled.</tooltip>
+                    <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="enable_escrow">1</field>
+                    </depends>
+                </field>
+                <field id="sender_email_identity" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                    <depends>
+                        <field id="enable_escrow">1</field>
+                    </depends>
+                </field>
+        	</group>
+            <group id="withdrawal" translate="label tooltip" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+            	<label>Withdrawal</label>
+            	<field id="new_withdrawal_email_template_admin" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>New Withdrawal Notification Template (Send to Admin)</label>
+                    <tooltip>This email is sent to admin when new withdrawal request is submited.</tooltip>
+                    <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="admin_emails" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Admin Emails</label>
+                    <comment>Comma-separated</comment>
+                </field>
+                <field id="new_withdrawal_email_template_vendor" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>New Withdrawal Notification Template (Send to Vendor)</label>
+                    <tooltip>This email is sent to vendor when he submit new withdrawal request.</tooltip>
+                    <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="withdrawal_canceled_email_template" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Withdrawal Canceled Notification Template</label>
+                    <tooltip>This email is sent to vendor when he withdrawal request is canceled.</tooltip>
+                    <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="withdrawal_completed_email_template" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Withdrawal Completed Notification Template</label>
+                    <tooltip>This email is sent to vendor when he withdrawal request is completed.</tooltip>
+                    <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="sender_email_identity" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                
+                <!-- Withdrawal Methods -->
+				<group id="paypal" translate="label" showInDefault="1" showInWebsite="1" sortOrder="100">
+		            <label>Paypal</label>
+		            <frontend_model>Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\Expanded</frontend_model>
+		            
+		            <field id="enable" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1">
+		                <label>Enable this Solution</label>
+		                <config_path>withdrawal_methods/paypal/active</config_path>
+		                <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+		            </field>
+		            <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1">
+	                    <label>Title</label>
+	                    <config_path>withdrawal_methods/paypal/title</config_path>
+	                    <depends>
+		                    <field id="enable">1</field>
+		                </depends>
+	                </field>
+	                <field id="description" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1">
+	                    <label>Description</label>
+	                    <config_path>withdrawal_methods/paypal/description</config_path>
+	                    <depends>
+		                    <field id="enable">1</field>
+		                </depends>
+	                </field>
+	                <field id="fee_type" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
+	                    <label>Fee Type</label>
+	                    <config_path>withdrawal_methods/paypal/fee_type</config_path>
+	                    <source_model>Vnecoms\VendorsCredit\Model\Source\FeeType</source_model>
+	                    <depends>
+		                    <field id="enable">1</field>
+		                </depends>
+	                </field>
+		            <field id="fee" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1">
+	                    <label>Fee</label>
+	                    <config_path>withdrawal_methods/paypal/fee</config_path>
+	                    <frontend_class>validate-number</frontend_class>
+	                    <depends>
+		                    <field id="enable">1</field>
+		                </depends>
+		                <tooltip>Vendor will have to pay for this fee for each withdrawal request</tooltip>
+	                </field>
+	                <field id="min" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1">
+	                    <label>Min Value</label>
+	                    <config_path>withdrawal_methods/paypal/min_value</config_path>
+	                    <frontend_class>validate-number</frontend_class>
+	                    <depends>
+		                    <field id="enable">1</field>
+		                </depends>
+		                <tooltip>Minimum credit amount allowed to withdraw.</tooltip>
+	                </field>
+	                <field id="max" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1">
+	                    <label>Max Value</label>
+	                    <config_path>withdrawal_methods/paypal/max_value</config_path>
+	                    <frontend_class>validate-number</frontend_class>
+	                    <depends>
+		                    <field id="enable">1</field>
+		                </depends>
+		                <tooltip>Maximum credit amount allowed to withdraw.</tooltip>
+	                </field>
+	            </group>
+	            
+	            <group id="wire_transfer" translate="label" showInDefault="1" showInWebsite="1" sortOrder="110">
+		            <label>Wire Transfer</label>
+		            <frontend_model>Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\Expanded</frontend_model>
+		            
+		            <field id="enable" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1">
+		                <label>Enable this Solution</label>
+		                <config_path>withdrawal_methods/wire_transfer/active</config_path>
+		                <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+		            </field>
+		            <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1">
+	                    <label>Title</label>
+	                    <config_path>withdrawal_methods/wire_transfer/title</config_path>
+	                    <depends>
+		                    <field id="enable">1</field>
+		                </depends>
+	                </field>
+	                <field id="description" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1">
+	                    <label>Description</label>
+	                    <config_path>withdrawal_methods/wire_transfer/description</config_path>
+	                    <depends>
+		                    <field id="enable">1</field>
+		                </depends>
+	                </field>
+	                <field id="fee_type" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
+	                    <label>Fee Type</label>
+	                    <config_path>withdrawal_methods/wire_transfer/fee_type</config_path>
+	                    <source_model>Vnecoms\VendorsCredit\Model\Source\FeeType</source_model>
+	                    <depends>
+		                    <field id="enable">1</field>
+		                </depends>
+	                </field>
+		            <field id="fee" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1">
+	                    <label>Fee</label>
+	                    <config_path>withdrawal_methods/wire_transfer/fee</config_path>
+	                    <frontend_class>validate-number</frontend_class>
+	                    <depends>
+		                    <field id="enable">1</field>
+		                </depends>
+		                <tooltip>Vendor will have to pay for this fee for each withdrawal request</tooltip>
+	                </field>
+	                <field id="min" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1">
+	                    <label>Min Value</label>
+	                    <config_path>withdrawal_methods/wire_transfer/min_value</config_path>
+	                    <frontend_class>validate-number</frontend_class>
+	                    <depends>
+		                    <field id="enable">1</field>
+		                </depends>
+		                <tooltip>Minimum credit amount allowed to withdraw.</tooltip>
+	                </field>
+	                <field id="max" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1">
+	                    <label>Max Value</label>
+	                    <config_path>withdrawal_methods/wire_transfer/max_value</config_path>
+	                    <frontend_class>validate-number</frontend_class>
+	                    <depends>
+		                    <field id="enable">1</field>
+		                </depends>
+		                <tooltip>Maximum credit amount allowed to withdraw.</tooltip>
+	                </field>
+	            </group>
+            </group>
+        </section>
+    </system>
+</config>

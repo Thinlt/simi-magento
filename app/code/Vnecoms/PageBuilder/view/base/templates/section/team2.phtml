@@ -1,0 +1,14 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/** @var \Vnecoms\PageBuilder\Block\Section\DefaultSection $block */
+?>
+
+<section class="pb-section pb-section-team2">
+	<div class="pb-section-title">
+		<?php echo $block->getChildHtml('title');?>
+		<?php echo $block->getChildHtml('subtitle');?>
+	</div>
+    <?php echo $block->getChildHtml('description');?>
+	<?php echo $block->getChildHtml('team_list');?>
+</section>

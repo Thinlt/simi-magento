@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="left">
+            <block class="Vnecoms\Vendors\Block\Adminhtml\Vendor\Create\Tabs" name="vendor_create_tabs">
+                <block class="Vnecoms\Vendors\Block\Adminhtml\Vendor\Create\Tab\Main" name="vendors_edit_tab_main" />
+                <block class="Vnecoms\Vendors\Block\Adminhtml\Vendor\Edit\Tab\Info" name="vendors_edit_tab_info" />
+
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="string">vendors_edit_tab_main</argument>
+                </action>
+
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">info_section</argument>
+                    <argument name="block" xsi:type="string">vendors_edit_tab_info</argument>
+                </action>
+
+            </block>
+        </referenceContainer>
+
+        <referenceContainer name="content">
+            <block class="Vnecoms\Vendors\Block\Adminhtml\Vendor\Create" name="vendor_create"/>
+        </referenceContainer>
+
+
+        <referenceContainer name="js">
+            <block class="Magento\Backend\Block\Template"
+                   name="vendor_create_js" template="Vnecoms_Vendors::vendor/create/js.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

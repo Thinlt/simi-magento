@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="left">
+            <block class="Vnecoms\Vendors\Block\Adminhtml\Attribute\Edit\Tabs" name="vendor_attribute_tabs">
+                <container label="Main" name="main">
+                    <block class="Vnecoms\Vendors\Block\Adminhtml\Attribute\Edit\Tab\Main" as="base"/>
+                    <block class="Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Options" as="advanced"/>
+                    <!-- <block class="Vnecoms\Vendors\Block\Adminhtml\Attribute\Edit\Tab\Advanced" as="options"/> -->
+                </container>
+                <block class="Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Labels" as="labels"/>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Vnecoms\Vendors\Block\Adminhtml\Attribute\Edit" name="attribute_edit_content"/>
+        </referenceContainer>
+        <referenceContainer name="js">
+            <block class="Magento\Backend\Block\Template" name="attribute_edit_js" template="Vnecoms_Vendors::attribute/js.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

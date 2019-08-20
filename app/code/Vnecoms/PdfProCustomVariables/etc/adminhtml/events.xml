@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="ves_pdfpro_init_item_attribute_after">
+        <observer name="customvariable_set_item_attribute_after" instance="Vnecoms\PdfProCustomVariables\Observer\Adminhtml\SetItemAttributeAfter" />
+    </event>
+</config>

@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="vendor-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <link src="requirejs/require.js"/>
+        
+    </head>
+    
+    <body>
+    	<block name="require.js" class="Magento\Backend\Block\Page\RequireJs" template="Vnecoms_Vendors::page/js/require_js.phtml" />
+    	<referenceContainer name="after.body.start">
+            <block class="Magento\RequireJs\Block\Html\Head\Config" name="requirejs-config"/>
+            <block class="Magento\Translation\Block\Html\Head\Config" name="translate-config"/>
+            <block class="Magento\Translation\Block\Js" name="translate" template="Magento_Translation::translate.phtml"/>
+            <block class="Magento\Framework\View\Element\Js\Components" name="head.components" as="components" template="Vnecoms_Vendors::page/js/components.phtml"/>
+            <block class="Magento\Framework\View\Element\Html\Calendar" name="head.calendar" as="calendar" template="Vnecoms_Vendors::page/js/calendar.phtml"/>
+        </referenceContainer>
+        
+    	<referenceContainer name="header">
+    		<block class="Vnecoms\Vendors\Block\Vendors\Page\Header" name="logo" before="-" template="Vnecoms_Vendors::page/header.phtml">
+                <arguments>
+                    <argument name="show_part" xsi:type="string">logo</argument>
+                    <argument name="edition" translate="true" xsi:type="string">Community Edition</argument>
+                    <argument name="logo_image_src" xsi:type="string">images/magento-icon.svg</argument>
+                </arguments>
+            </block>
+    		<block class="Vnecoms\Vendors\Block\Vendors\Page\Toplinks" name="vendor.toplinks" template="Vnecoms_Vendors::page/toplinks.phtml">
+                <!--
+                <block class="Vnecoms\Vendors\Block\Vendors\Page\Toplinks\Notifications" name="vendor.toplinks.notifications" template="Vnecoms_Vendors::page/toplinks/notifications.phtml" />
+                <block class="Vnecoms\Vendors\Block\Vendors\Page\Toplinks\Tasks" name="vendor.toplinks.tasks" template="Vnecoms_Vendors::page/toplinks/tasks.phtml" />
+    			
+    			<block class="Vnecoms\Vendors\Block\Vendors\Page\Toplinks\Messages" name="vendor.toplinks.messages" template="Vnecoms_Vendors::page/toplinks/messages.phtml" />
+    			-->
+    			<block class="Vnecoms\Vendors\Block\Vendors\Page\Toplinks\Users" name="vendor.toplinks.users" template="Vnecoms_Vendors::page/toplinks/users.phtml" after="-">
+    				<action method="addLink">
+    					<argument name="label" translate="true" xsi:type="string">Vendor Information</argument>
+    					<argument name="title" translate="true" xsi:type="string">Vendor Information</argument>
+    					<argument name="url" xsi:type="string">account</argument>
+    					<argument name="sort_order" xsi:type="string">10</argument>
+    					<argument name="icon_class" xsi:type="string">fa fa-user fa-fw</argument>
+    					<argument name="resource" xsi:type="string">Vnecoms_Vendors::account</argument>
+    				</action>
+    			</block>
+    		</block>
+    	</referenceContainer>
+    	
+    	<referenceContainer name="page.menu">
+            <block class="Vnecoms\Vendors\Block\Vendors\Menu" name="menu" as="menu" template="Vnecoms_Vendors::menu.phtml">
+            	<container name="page.menu.before" as="menu_before">
+            		<block class="Vnecoms\Vendors\Block\Vendors\Menu\User" name="user.info.panel" template="Vnecoms_Vendors::menu/user.phtml" />
+            	</container>
+            	<container name="page.menu.after" as="menu_after" />
+            </block>
+        </referenceContainer>
+        <referenceContainer name="page.main.actions">
+            <block class="Magento\Framework\View\Element\Template" name="page.actions.toolbar" template="Vnecoms_Vendors::pageactions.phtml" after="-"/>
+        </referenceContainer>
+        <referenceContainer name="main.top">
+			<container name="page.main.content.top" as="main_cotnent_top" htmlTag="section" htmlClass="content-header">
+				<block class="Vnecoms\Vendors\Block\Vendors\Page\Title" name="vendor.page.title"  template="Vnecoms_Vendors::page/title.phtml"/>
+				<block class="Vnecoms\Vendors\Block\Vendors\Page\Breadcrumbs" name="breadcrumbs"  template="Vnecoms_Vendors::page/breadcrumbs.phtml"/>
+			</container>
+		</referenceContainer>
+		<referenceContainer name="page.messages">
+            <block class="Vnecoms\Vendors\Block\Vendors\Messages" name="messages" as="messages"/>
+        </referenceContainer>
+
+        <referenceContainer name="footer">
+        	<block class="Vnecoms\Vendors\Block\Vendors\Page\Footer" name="vendor.page.footer"  template="Vnecoms_Vendors::page/footer.phtml"/>
+        </referenceContainer>
+        <block class="Magento\Framework\View\Element\Template" name="head.additional" as="head.additional" template="Vnecoms_Vendors::html/container.phtml"/>
+    </body>
+</page>

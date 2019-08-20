@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <route url="/V1/pdfpro/printOrder/:orderId" method="GET">
+        <service class="Vnecoms\PdfPro\Api\PrintInterface" method="printOrder"/>
+        <resources>
+            <resource ref="Vnecoms_PdfPro::print_order_api"/>
+        </resources>
+    </route>
+
+    <route url="/V1/pdfpro/printInvoice/:invoiceId" method="GET">
+        <service class="Vnecoms\PdfPro\Api\PrintInterface" method="printInvoice"/>
+        <resources>
+            <resource ref="Vnecoms_PdfPro::print_invoice_api"/>
+        </resources>
+    </route>
+
+    <route url="/V1/pdfpro/printShipment/:shipmentId" method="GET">
+        <service class="Vnecoms\PdfPro\Api\PrintInterface" method="printShipment"/>
+        <resources>
+            <resource ref="Vnecoms_PdfPro::print_shipment_api"/>
+        </resources>
+    </route>
+
+    <route url="/V1/pdfpro/printCreditmemo/:creditmemoId" method="GET">
+        <service class="Vnecoms\PdfPro\Api\PrintInterface" method="printCreditmemo"/>
+        <resources>
+            <resource ref="Vnecoms_PdfPro::print_creditmemo_api"/>
+        </resources>
+    </route>
+
+    <!-- for customer -->
+
+    <route url="/V1/pdfpro/printOrder/me/:orderId" method="GET">
+        <service class="Vnecoms\PdfPro\Api\PrintInterface" method="printOrder"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/pdfpro/printInvoice/me/:invoiceId" method="GET">
+        <service class="Vnecoms\PdfPro\Api\PrintInterface" method="printInvoice"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/pdfpro/printShipment/me/:shipmentId" method="GET">
+        <service class="Vnecoms\PdfPro\Api\PrintInterface" method="printShipment"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/pdfpro/printCreditmemo/me/:creditmemoId" method="GET">
+        <service class="Vnecoms\PdfPro\Api\PrintInterface" method="printCreditmemo"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <!--<route url="/V1/couple/:orderId" method="POST">-->
+        <!--<service class="Chot\Azure\Api\StockRegistryInterface" method="process"/>-->
+        <!--<resources>-->
+            <!--<resource ref="anonymous"/>-->
+        <!--</resources>-->
+    <!--</route>-->
+
+    <!--<route url="/V1/products/id/:productId" method="GET">-->
+        <!--<service class="Chot\Azure\Api\StockRegistryInterface" method="getById"/>-->
+        <!--<resources>-->
+            <!--<resource ref="anonymous"/>-->
+        <!--</resources>-->
+    <!--</route>-->
+    <!--<route url="/V1/products2/id/:productId" method="GET">-->
+        <!--<service class="Chot\Azure\Api\StockRegistryInterface" method="getById"/>-->
+        <!--<resources>-->
+            <!--<resource ref="anonymous"/>-->
+        <!--</resources>-->
+    <!--</route>-->
+
+</routes>

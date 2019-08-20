@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="vendor-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <css src="css/bootstrap.min.css" />
+        <css src="css/font-awesome.min.css" />
+        <css src="css/ionicons.min.css" />
+        <css src="css/AdminLTE.css" />
+        <css src="css/skins/_all-skins.min.css" />
+        <css src="css/custom.css" />
+        
+		<!-- <link src="requirejs/require.js"/> -->
+    </head>
+    
+    <body>
+    	<attribute name="class" value="hold-transition"/>
+    	<attribute name="class" value="sidebar-mini"/>
+    	<referenceContainer name="page.wrapper" htmlClass="wrapper"/>
+    	<referenceContainer name="header" htmlClass="main-header">
+    	</referenceContainer>
+		<referenceContainer name="page.content" htmlClass="page-content content-wrapper" />
+		<referenceContainer name="page.main.container" htmlClass="content" htmlTag="section" />
+		<referenceContainer name="footer" htmlClass="main-footer" />
+		<move element="messages.wrapper" before="-" destination="page.main.container" />
+
+    </body>
+</page>

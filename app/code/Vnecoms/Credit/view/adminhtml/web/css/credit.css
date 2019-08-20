@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'credit';
+    src:    url('../fonts/credit.eot?uqpbf5');
+    src:    url('../fonts/credit.eot?uqpbf5#iefix') format('embedded-opentype'),
+        url('../fonts/credit.ttf?uqpbf5') format('truetype'),
+        url('../fonts/credit.woff?uqpbf5') format('woff'),
+        url('../fonts/credit.svg?uqpbf5#credit') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body .admin__menu .item-credit > a::before{
+	font-family: 'credit' !important;
+	content: "\e900";
+}
+.amount-add, .amount-subtract, .credit-balance{
+	font-weight: bold;
+}
+.amount-add{
+	color: #008D4D;
+}
+.amount-subtract{
+	color: #BC4031;
+}
+.credit-balance {
+    color: #cf850f;
+}

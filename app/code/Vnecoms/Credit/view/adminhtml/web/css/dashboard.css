@@ -1,0 +1,176 @@
+.col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+    min-height: 1px;
+    padding-left: 0;
+    padding-right: 0;
+    position: relative;
+}
+
+.bg-red{background-color: #f56954 !important;}
+.bg-yellow{background-color: #f39c12 !important;}
+.bg-green{background-color: #00a65a !important;}
+.bg-teal {background-color: #39cccc !important;}
+.bg-olive {background-color: #3d9970 !important;}
+.bg-purple {background-color: #605ca8 !important;}
+.pull-right{float: right;}
+
+.credit-dashboard-top{margin-bottom: 30px;}
+.small-box {
+	border-radius: 2px;
+	position: relative;
+	display: block;
+	margin-bottom: 20px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+	margin-left: 15px;
+	margin-right: 15px;
+}
+.small-box > .inner {
+  padding: 10px;
+}
+.small-box > .small-box-footer {
+  position: relative;
+  text-align: center;
+  padding: 3px 0;
+  color: #fff;
+  color: rgba(255, 255, 255, 0.8);
+  display: block;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+.small-box > .small-box-footer:hover {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.15);
+}
+.small-box h3 {
+  font-size: 38px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  white-space: nowrap;
+  padding: 0;
+  color: #FFF;
+}
+.small-box p {
+  font-size: 15px;
+  color: #FFF;
+}
+.small-box p > small {
+  display: block;
+  color: #f9f9f9;
+  font-size: 13px;
+  margin-top: 5px;
+}
+.small-box h3,
+.small-box p {
+  z-index: 5px;
+}
+.small-box .credit-icon {
+  -webkit-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  z-index: 0;
+  font-size: 90px;
+  color: rgba(0, 0, 0, 0.15);
+}
+.small-box:hover {
+  text-decoration: none;
+  color: #f9f9f9;
+}
+.small-box:hover .credit-icon {
+  font-size: 95px;
+}
+
+.credit-ion:before{
+	font-family: 'credit' !important;
+	display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    text-rendering: auto;
+    text-transform: none;
+}
+
+.credit-ion-card:before{content: "\e900";}
+.credit-ion-bag:before{content: "\f110";}
+.credit-ion-person:before{content: "\f213";}
+.credit-ion-shoppingcart:before{content: "\f3f8";}
+.credit-ion-circle:before{content: "\f3a6";line-height: 38px;position: absolute;z-index: 1;font-weight: bold;}
+
+.top-customer{border-right: 1px solid #efefef;}
+
+.credit-box {
+    background: #ffffff;
+    margin-bottom: 20px;
+    position: relative;
+    width: 100%;
+}
+.credit-box-body {
+    border-radius: 0 0 3px 3px;
+    padding: 10px;
+}
+.credit-box-header {
+    color: #444;
+    display: block;
+    padding: 10px;
+    position: relative;
+}
+.credit-box-header.with-border {
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.credit-box-header .box-title {
+    display: inline-block;
+    font-size: 18px;
+    line-height: 1;
+    margin: 0;
+}
+.credit-box-footer {
+    border-radius: 0 0 3px 3px;
+    padding: 10px;
+}
+
+.credit-customer-list > li {
+    border-bottom: 1px solid #f4f4f4;
+    margin: 0;
+	display: block;
+    position: relative;
+}
+.credit-customer-list > li:first-child{border-top: 1px solid #f4f4f4;}
+
+.credit-customer-list > li > a {
+    display: block;
+    padding: 10px 15px 10px 25px;
+    position: relative;
+	color: #444;
+	text-decoration: none;
+}
+
+.credit-customer-list > li > a:hover{
+    background: #f7f7f7;
+    color: #444;
+}
+
+.view-all-link{
+	float: right;
+}
+.credit-transaction-period{float: right;}
+
+@media (max-width: 767px) {
+	.small-box {
+	  text-align: center;
+	}
+	.small-box .credit-icon {
+	  display: none;
+	}
+	.small-box p {
+	  font-size: 12px;
+	}
+}
+
+
+
+.morris-hover{position:absolute;z-index:1090;}.morris-hover.morris-default-style{border-radius:10px;padding:6px;color:#f9f9f9;background:rgba(0, 0, 0, 0.8);border:solid 2px rgba(0, 0, 0, 0.9);font-weight: 600;font-size:14px;text-align:center;}.morris-hover.morris-default-style .morris-hover-row-label{font-weight:bold;margin:0.25em 0;}
+.morris-hover.morris-default-style .morris-hover-point{white-space:nowrap;margin:0.1em 0;}

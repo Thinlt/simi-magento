@@ -1,0 +1,18 @@
+{
+	"name" : "vnecoms/module-vendors-api",
+	"description" : "Vendors Api is made for providing the third-party extension developer company a method to programe their extension based on the Marketplace extension by Vnecoms",
+	"require" : {
+		"vnecoms/module-vendors" : ">100.1.0",
+		"vnecoms/module-core" : "2.*"
+	},
+	"type" : "magento2-module",
+	"version" : "2.0.16",
+	"autoload" : {
+		"files" : [
+			"registration.php"
+		],
+		"psr-4" : {
+			"Vnecoms\\VendorsApi\\" : ""
+		}
+	}
+}

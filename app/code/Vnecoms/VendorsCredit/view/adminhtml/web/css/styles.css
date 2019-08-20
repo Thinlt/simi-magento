@@ -1,0 +1,12 @@
+.withdrawal-status{
+  display: inline-block;
+  width: 150px;
+}
+.withdrawal-form.admin__fieldset > .admin__field{
+  margin-bottom: 0;
+}
+
+.withdrawal-price {
+  color: #cf850f;
+  font-weight: bold;
+}

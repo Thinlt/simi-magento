@@ -1,0 +1,9 @@
+<div class="field field-<?php echo $block->getFieldId()?><?php if($block->isAttributeRequired()):?> required<?php endif;?>">
+    <label for="<?php echo $block->getFieldId()?>" class="label">
+        <span><?php echo $block->getStoreLabel()?></span>
+    </label>
+
+    <div class="control">
+        <input type="file" class="<?php echo $block->getFrontendClass()?>" title="<?php echo $block->getStoreLabel()?>" value="" name="<?php echo $block->getFieldName();?>" id="<?php echo $block->getFieldId()?>">
+    </div>
+</div>

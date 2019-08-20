@@ -1,0 +1,18 @@
+<table class="pdf-totals-tbl">
+	<tbody>
+		{{foreach order.totals.body as total}}
+		<tr>
+			<td class="pdf-totals-label">{{var total.label}}</td>
+			<td class="pdf-totals-value">{{var total.value}}</td>
+		</tr>
+		{{/foreach}}
+	</tbody>
+	<tfoot>
+		{{foreach order.totals.footer as total}}
+		<tr>
+			<td class="pdf-totals-label">{{var total.label}}</td>
+			<td class="pdf-totals-value">{{var total.value}}</td>
+		</tr>
+		{{/foreach}}
+	</tfoot>
+</table>

@@ -1,0 +1,120 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="include" type="includeDeclaration"/>
+
+    <xs:complexType name="includeDeclaration">
+        <xs:sequence>
+        	<xs:choice minOccurs="1" maxOccurs="1">
+        		<xs:element ref="section" />
+        	</xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:attributeGroup name="sectionAttributeGroup">
+        <xs:attribute name="name" type="componentName" use="required" />
+    </xs:attributeGroup>
+
+	<xs:attributeGroup name="elementAttributeGroup">
+        <xs:attribute name="name" type="componentName" use="required" />
+        <xs:attribute name="sortOrder" type="xs:float" use="optional" />
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="fieldAttributeGroup">
+        <xs:attribute name="name" type="componentName" use="required" />
+    </xs:attributeGroup>
+   
+    
+    <xs:element name="section">
+        <xs:annotation>
+            <xs:documentation>
+                Section Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                	<xs:element name="type" type="xs:string" />
+                    <xs:element name="template" type="xs:string" />
+                    <xs:element name="component" type="xs:string" />
+                    <xs:element name="preview_height" type="xs:string" />
+                    <xs:element name="class" type="xs:string" />
+                    <xs:element name="block_template" type="xs:string"/>
+                    <xs:element ref="fields" />
+                </xs:choice>
+            </xs:sequence>
+
+            <xs:attributeGroup ref="sectionAttributeGroup"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="fields">
+        <xs:annotation>
+            <xs:documentation>
+                Fields Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                	<xs:element ref="element" />
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="element">
+        <xs:annotation>
+            <xs:documentation>
+                Element Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                	<xs:element name="label" type="xs:string" />
+                	<xs:element name="type" type="xs:string" />
+                	<xs:element name="is_active" type="xs:boolean" />
+        			<xs:element ref="data" />
+        			<xs:element ref="fields" />
+                </xs:choice>
+            </xs:sequence>
+            <xs:attributeGroup ref="elementAttributeGroup"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="data">
+        <xs:annotation>
+            <xs:documentation>
+                Element Data Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+            	<xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+    
+    
+    <xs:complexType name="mixedDataType">
+        <xs:choice>
+            <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:simpleType name="componentName">
+        <xs:annotation>
+            <xs:documentation>
+                Item id attribute for elements section, widget, field can has only [a-zA-Z0-9/_]. Minimal length 2 symbol. Case sensitive.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z0-9_]{1,}" />
+            <xs:minLength value="1" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

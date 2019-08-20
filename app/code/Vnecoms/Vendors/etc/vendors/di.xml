@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Magento\Framework\App\Action\Context" type="Vnecoms\Vendors\App\Action\Context" />
+	<preference for="Magento\Framework\UrlInterface" type="Vnecoms\Vendors\Model\UrlInterface" />
+	<preference for="Magento\Framework\App\DefaultPathInterface" type="Vnecoms\Vendors\App\DefaultPath" />
+	<preference for="Vnecoms\Vendors\App\ConfigInterface" type="Vnecoms\Vendors\App\Config" />
+	<preference for="Magento\Framework\App\Response\Http\FileFactory" type="Vnecoms\Vendors\App\Response\Http\FileFactory" />
+	<preference for="Magento\Framework\App\Router\PathConfigInterface" type="Vnecoms\Vendors\Model\VendorPathConfig" />
+	<preference for="Magento\Framework\Model\ActionValidator\RemoveAction" type="Magento\Framework\Model\ActionValidator\RemoveAction\Allowed" />
+	<preference for="Magento\Backend\Model\Menu\Item" type="Vnecoms\Vendors\Model\Menu\Item" />
+	<preference for="Magento\Backend\Model\Menu\Config\Converter" type="Vnecoms\Vendors\Model\Menu\Config\Converter" />
+	<preference for="Magento\Backend\Model\Menu\Config\SchemaLocator" type="Vnecoms\Vendors\Model\Menu\Config\SchemaLocator" />
+	<preference for="\Magento\Backend\Block\Widget\Button" type="Vnecoms\Vendors\Block\Vendors\Widget\Button" />
+	<preference for="Magento\Framework\View\Page\FaviconInterface" type="Vnecoms\Vendors\Model\Favicon" />
+	
+	<preference for="Magento\Ui\Model\Manager" type="Vnecoms\Vendors\Model\Config\Manager" />
+	<preference for="Magento\Ui\Config\Data" type="Vnecoms\Vendors\Ui\Config\Data" />
+
+    <type name="Magento\Ui\Component\Form\Element\DataType\Date">
+        <plugin name="vendors_plugin_date_prepare" type="Vnecoms\Vendors\Ui\Plugin\Component\Form\Element\DataType\DatePlugin" sortOrder="100" disabled="false" />
+    </type>
+	
+	<type name="Vnecoms\Vendors\App\Action\Context">
+        <arguments>
+            <argument name="helper" xsi:type="object">Vnecoms\Vendors\Helper\Data</argument>
+        </arguments>
+    </type>
+    
+    <type name="Magento\Framework\App\RouterList">
+        <arguments>
+            <argument name="routerList" xsi:type="array">
+                <item name="vendors" xsi:type="array">
+                    <item name="class" xsi:type="string">Vnecoms\Vendors\App\Router</item>
+                    <item name="disable" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="string">22</item>
+                </item>
+                <item name="default" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Framework\App\Router\DefaultRouter</item>
+                    <item name="disable" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="string">100</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+ <!--    <type name="Vnecoms\Vendors\App\AbstractAction">
+        <plugin name="adminAuthentication" type="Vnecoms\Vendors\App\Action\Plugin\Authentication" sortOrder="100" />
+    </type> -->
+
+    <type name="Magento\Backend\Block\Widget\Button\Toolbar">
+        <plugin name="vendor_plugin_toolbar" type="Vnecoms\Vendors\Plugin\Widget\Button\Toolbar" sortOrder="100" />
+    </type>
+    
+    <type name="Magento\Store\App\Response\Redirect">
+        <arguments>
+            <argument name="canUseSessionIdInParam" xsi:type="boolean">false</argument>
+        </arguments>
+    </type>
+    
+    <type name="Magento\Framework\App\Action\Action">
+        <plugin name="storeCheck" disabled="true" />
+    </type>
+    
+    <type name="Magento\Framework\View\Layout">
+        <arguments>
+            <argument name="area" xsi:type="string">vendors</argument>
+        </arguments>
+    </type>
+
+	<!-- These attributes will not be saved from vendor cpanel. -->
+	<type name="Vnecoms\Vendors\Helper\Data">
+        <arguments>
+            <argument name="notSaveVendorAttribute" xsi:type="array">
+                <item name="vendor_id" xsi:type="string">vendor_id</item>
+                <item name="status" xsi:type="string">status</item>
+                <item name="group_id" xsi:type="string">group_id</item>
+            </argument>
+            <argument name="openModules" xsi:type="array">
+            	<item name="dashboard" xsi:type="string">dashboard</item>
+            	<item name="config" xsi:type="string">config</item>
+            	<item name="account" xsi:type="string">account</item>
+            	<item name="credit" xsi:type="string">credit</item>
+            	<item name="mui" xsi:type="string">mui</item>
+            	<item name="index" xsi:type="string">index</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <!-- With these modules the extension will use the template files from adminhtml instead of vendors area. -->
+	<!-- This is an example
+	<type name="Vnecoms\Vendors\Helper\Data">
+        <arguments>
+            <argument name="modulesUseTemplateFromAdminhtml" xsi:type="array">
+                <item name="Vnecoms_Credit" xsi:type="string">Vnecoms_Credit</item>
+            </argument>
+        </arguments>
+    </type> 
+    -->
+    
+    <!-- With these block classes, the extension will use the template file from adminhtml instead of vendors area -->
+	
+	<!-- This is an example 
+	<type name="Vnecoms\Vendors\Helper\Data">
+        <arguments>
+            <argument name="blocksUseTemplateFromAdminhtml" xsi:type="array">
+                <item name="Magento\Sales\Block\Adminhtml\Order\Totals" xsi:type="string">Magento\Sales\Block\Adminhtml\Order\Totals</item>
+            </argument>
+        </arguments>
+    </type> 
+    -->
+    
+   
+
+</config>

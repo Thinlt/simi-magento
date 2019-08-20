@@ -1,0 +1,7 @@
+<div class="vpb-component-container" data-bind="
+	visible: isActive,
+	css:{[frontend_class]:true,'vpb-component-editable':editable, 'hover': isMouseOver()}
+">
+	<img data-bind="attr: {src: getImageUrl()}" />
+	<div class="vpb-component-info" data-bind="text: id+':'+label"></div>
+</div>

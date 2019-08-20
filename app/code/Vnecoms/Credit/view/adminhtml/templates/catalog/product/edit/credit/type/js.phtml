@@ -1,0 +1,88 @@
+<script type="text/javascript">
+require([
+    "prototype",
+], function () {
+	var checkCreditType = function(creditType){
+	    if(creditType == '<?php echo \Vnecoms\Credit\Model\Source\Type::TYPE_FIXED?>'){
+	    	$('attribute-credit_value_fixed-container').show();
+			$('attribute-credit_price-container').show();
+			$('attribute-credit_value_dropdown-container').hide();
+			$('attribute-credit_value_custom-container').hide();
+			$('attribute-credit_rate-container').hide();
+
+			/*Add required entries.*/
+			$('attribute-credit_value_fixed-container').addClassName('required');
+			$('attribute-credit_price-container').addClassName('required');
+			$('credit_value_fixed').addClassName('required-entry');
+			$('credit_price').addClassName('required-entry');
+			
+			/*Remove required entries*/
+			$('attribute-credit_value_custom-container').removeClassName('required');
+			$('attribute-credit_rate-container').removeClassName('required');
+			$('credit_value_custom_from').removeClassName('required-entry');
+			$('credit_value_custom_to').removeClassName('required-entry');
+			$('credit_rate').removeClassName('required-entry');
+
+			$('attribute-credit_value_dropdown-container').removeClassName('required');
+			$('attribute-credit_value_dropdown-container').select('.input-text').each(function(el){
+				el.removeClassName('required-entry');
+			});
+		}else if(creditType == '<?php echo \Vnecoms\Credit\Model\Source\Type::TYPE_OPTION?>'){
+			$('attribute-credit_value_dropdown-container').show();
+			$('attribute-credit_value_custom-container').hide();
+			$('attribute-credit_rate-container').hide();
+			$('attribute-credit_value_fixed-container').hide();
+			$('attribute-credit_price-container').hide();
+
+			/*Add required entries*/
+			$('attribute-credit_value_dropdown-container').addClassName('required');
+			$('attribute-credit_value_dropdown-container').select('.input-text').each(function(el){
+				if(!el.hasClassName('required-entry')) el.addClassName('required-entry');
+			});
+			
+			/*Remove required entries*/
+			$('attribute-credit_value_fixed-container').removeClassName('required');
+			$('attribute-credit_price-container').removeClassName('required');
+			$('credit_value_fixed').removeClassName('required-entry');
+			$('credit_price').removeClassName('required-entry');
+			
+			$('attribute-credit_value_custom-container').removeClassName('required');
+			$('attribute-credit_rate-container').removeClassName('required');
+			$('credit_value_custom_from').removeClassName('required-entry');
+			$('credit_value_custom_to').removeClassName('required-entry');
+			$('credit_rate').removeClassName('required-entry');
+		}else if(creditType == '<?php echo \Vnecoms\Credit\Model\Source\Type::TYPE_RANGE?>'){
+			$('attribute-credit_value_custom-container').show();
+			$('attribute-credit_rate-container').show();
+			$('attribute-credit_value_dropdown-container').hide();
+			$('attribute-credit_value_fixed-container').hide();
+			$('attribute-credit_price-container').hide();
+
+			/*Add required entries.*/
+			$('attribute-credit_value_custom-container').addClassName('required');
+			$('attribute-credit_rate-container').addClassName('required');
+			$('credit_value_custom_from').addClassName('required-entry');
+			$('credit_value_custom_to').addClassName('required-entry');
+			$('credit_rate').addClassName('required-entry');
+
+			/*Remove required entries*/
+			$('attribute-credit_value_fixed-container').removeClassName('required');
+			$('attribute-credit_price-container').removeClassName('required');
+			$('credit_value_fixed').removeClassName('required-entry');
+			$('credit_price').removeClassName('required-entry');
+
+			$('attribute-credit_value_dropdown-container').removeClassName('required');
+			$('attribute-credit_value_dropdown-container').select('.input-text').each(function(el){
+				el.removeClassName('required-entry');
+			});
+		}
+	}
+	
+	$('credit_type').observe('change',function(){
+		var creditType = this.value;
+		checkCreditType(creditType);
+	});
+	checkCreditType($('credit_type').value);
+	window.checkCreditType = checkCreditType;
+});
+</script>

@@ -1,0 +1,26 @@
+<div class="vpb-component-container vpb-component-list" data-bind="
+	visible: isActive,
+	css:{[frontend_class]:true,'vpb-component-editable':editable},
+	attr: {id: getPreviewFieldId()}
+">
+	<table class="pdf-items-tbl">
+		<thead> 
+			<tr>
+				<!-- ko foreach: getItems() -->
+					<!-- ko if: $data.isActive() -->
+					<th data-bind="html: $data.getLabel()"></th>
+					<!-- /ko -->
+				<!-- /ko -->
+			</tr> 
+		</thead>
+		<tbody>
+			<tr>
+				<!-- ko foreach: getItems() -->
+					<!-- ko if: $data.isActive() -->
+					<td><!-- ko template: getTemplate() --><!-- /ko --></td>
+					<!-- /ko -->
+				<!-- /ko -->
+			</tr> 
+		</tbody>
+	</table>
+</div>

@@ -1,0 +1,14 @@
+"Save Config","Save Config"
+"Use Default","Use Default"
+"Use Website","Use Website"
+"Page not found.","Page not found."
+Configuration,Configuration
+"You saved the configuration.","You saved the configuration."
+"Something went wrong while saving this configuration:","Something went wrong while saving this configuration:"
+"The file you're uploading exceeds the server size limit of %1 kilobytes.","The file you're uploading exceeds the server size limit of %1 kilobytes."
+"The base directory to upload file is not specified.","The base directory to upload file is not specified."
+Add,Add
+"Add after","Add after"
+Delete,Delete
+"Current Configuration Scope:","Current Configuration Scope:"
+Stores,Stores

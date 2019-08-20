@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="vendor_panel"/>
+    <head>
+        <css src="Vnecoms_VendorsDashboard::plugins/morris/morris.css" />
+        <css src="Vnecoms_VendorsDashboard::css/dashboard.css" />
+    </head>
+    <body>
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">Seller Dashboard</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Vnecoms\VendorsDashboard\Block\Dashboard" name="seller.dashboard" template="dashboard.phtml">
+            	<block class="Vnecoms\VendorsDashboard\Block\Vendors\Dashboard\Graph\Tabs" name="graph_tabs" as="graph_tabs" template="Vnecoms_VendorsDashboard::dashboard/graph/tabs.phtml">
+                    <block class="Vnecoms\VendorsDashboard\Block\Vendors\Dashboard\Graph\Tab\Orders" name="dashboard_graph_orders" />
+                    <action method="addTab">
+                        <argument name="name" xsi:type="string">dashboard_graph_orders</argument>
+                        <argument name="block" xsi:type="string">dashboard_graph_orders</argument>
+                    </action>
+                    
+                    <block class="Vnecoms\VendorsDashboard\Block\Vendors\Dashboard\Graph\Tab\Amounts" name="dashboard_graph_amounts"/>
+                    <action method="addTab">
+                        <argument name="name" xsi:type="string">dashboard_graph_amounts</argument>
+                        <argument name="block" xsi:type="string">dashboard_graph_amounts</argument>
+                    </action>
+                    
+                    <block class="Vnecoms\VendorsDashboard\Block\Vendors\Dashboard\Graph\Tab\CreditTransactions" name="dashboard_graph_credit_trans"/>
+                    <action method="addTab">
+                        <argument name="name" xsi:type="string">dashboard_graph_credit_trans</argument>
+                        <argument name="block" xsi:type="string">dashboard_graph_credit_trans</argument>
+                    </action>
+           		</block>
+           		
+           		<block class="Vnecoms\VendorsDashboard\Block\Dashboard\Product\NewProducts" name="new_products" as="new_products" template="dashboard/product/new.phtml" />
+           		
+           		<block class="Vnecoms\VendorsDashboard\Block\Dashboard\SellerState\Tabs" name="seller_state_tabs" as="seller_state_tabs">
+       	   		</block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

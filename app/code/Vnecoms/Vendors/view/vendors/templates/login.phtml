@@ -1,0 +1,35 @@
+<div class="login-box">
+  <div class="login-logo">
+    <?php $edition = $block->hasEdition() ? 'data-edition="' . $block->escapeHtml($block->getEdition()) . '"' : ''; ?>
+    <?php $logoSrc = ($block->hasLogoImageSrc()) ? $block->escapeHtml($block->getLogoImageSrc()) : 'images/logo-icon.png' ?>
+    <a href="javascript: void(0)" <?php /* @escapeNotVerified */ echo $edition; ?> class="logo">
+        <span class="logo-lg">
+            <img class="logo-img" src="<?php /* @escapeNotVerified */ echo $block->getLogoSrc() ?>" alt="<?php echo $block->escapeHtml(__('Magento Admin Panel')) ?>" />
+        </span>
+    </a>
+  </div>
+  <div class="login-box-body">
+    <p class="login-box-msg"><?php echo __("Login to seller panel")?></p>
+
+    <form action="<?php echo $block->getUrl('*/*/loginPost')?>" method="post" data-mage-init='{"validation":{}}'>
+        <div class="row">
+            <div class="col-xs-12"><?php echo $block->getChildHtml('messages')?></div>
+        </div>
+        <div class="form-group has-feedback">
+            <input class="form-control" placeholder="<?php echo __("Email")?>" type="email" name="login[username]" data-validate="{required:true, 'validate-email':true}">
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+            <input class="form-control" placeholder="<?php echo __("Password")?>" type="password" name="login[password]" data-validate="{required:true}">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+      <?php echo $block->getChildHtml('form_additional_info'); ?>
+        <div class="row">
+            <div class="col-xs-8">&nbsp;</div>
+            <div class="col-xs-4">
+                <button type="submit" class="btn btn-primary btn-block btn-flat"><?php echo __('Sign In')?></button>
+            </div>
+        </div>
+    </form>
+  </div>
+</div>

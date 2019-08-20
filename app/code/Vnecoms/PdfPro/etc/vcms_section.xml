@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Vnecoms_PageBulder:etc/pdf_section.xsd">
+	<types>
+		<type name="pdf_header" sortOrder="10">
+			<label>Pdf Header</label>
+			<resource>pdf_pro</resource>
+		</type>
+		<!-- Order -->
+		<type name="pdf_order_info" sortOrder="20">
+			<label>Order Info</label>
+			<resource>pdf_pro_order</resource>
+		</type>
+		<type name="pdf_order_items" sortOrder="30">
+			<label>Order Items</label>
+			<resource>pdf_pro_order</resource>
+		</type>
+		<type name="pdf_order_totals" sortOrder="35">
+			<label>Order Totals</label>
+			<resource>pdf_pro_order</resource>
+		</type>
+		
+		<!-- Invoice -->
+		<type name="pdf_invoice_info" sortOrder="30">
+			<label>Invoice Info</label>
+			<resource>pdf_pro_invoice</resource>
+		</type>
+		<type name="pdf_invoice_items" sortOrder="32">
+			<label>Invoice Items</label>
+			<resource>pdf_pro_invoice</resource>
+		</type>
+		<type name="pdf_invoice_totals" sortOrder="35">
+			<label>Invoice Totals</label>
+			<resource>pdf_pro_invoice</resource>
+		</type>
+		
+		<!-- Shipment -->
+		<type name="pdf_shipment_info" sortOrder="40">
+			<label>Shipment Info</label>
+			<resource>pdf_pro_shipment</resource>
+		</type>
+		<type name="pdf_shipment_items" sortOrder="45">
+			<label>Shipment Items</label>
+			<resource>pdf_pro_shipment</resource>
+		</type>
+		
+		<!-- Credit Memo -->
+		<type name="pdf_creditmemo_info" sortOrder="50">
+			<label>Creditmemo Info</label>
+			<resource>pdf_pro_creditmemo</resource>
+		</type>
+		<type name="pdf_creditmemo_items" sortOrder="53">
+			<label>Creditmemo Items</label>
+			<resource>pdf_pro_creditmemo</resource>
+		</type>
+		<type name="pdf_creditmemo_totals" sortOrder="55">
+			<label>Creditmemo Totals</label>
+			<resource>pdf_pro_creditmemo</resource>
+		</type>
+		
+		<type name="pdf_other" sortOrder="1000">
+			<label>Others</label>
+			<resource>pdf_pro</resource>
+		</type>
+	</types>
+	
+    <sections>
+    	<!-- Global PDF -->
+    	<include path="Vnecoms_PdfPro::pdf_section/pdf_header1.xml" />
+        <include path="Vnecoms_PdfPro::pdf_section/pdf_header2.xml" />
+        <include path="Vnecoms_PdfPro::pdf_section/pdf_other-1col.xml" />
+        <include path="Vnecoms_PdfPro::pdf_section/pdf_other-2cols.xml" />
+        <include path="Vnecoms_PdfPro::pdf_section/pdf_other-3cols.xml" />
+        <include path="Vnecoms_PdfPro::pdf_section/pdf_other-4cols.xml" />
+        
+        <!-- Order -->
+        <include path="Vnecoms_PdfPro::pdf_section/order/pdf_number1.xml" />
+        <include path="Vnecoms_PdfPro::pdf_section/order/pdf_info1.xml" />
+        <include path="Vnecoms_PdfPro::pdf_section/order/pdf_items1.xml" />
+        <include path="Vnecoms_PdfPro::pdf_section/order/pdf_totals1.xml" />
+        
+        <!-- Invoice -->
+        <include path="Vnecoms_PdfPro::pdf_section/invoice/pdf_number1.xml" />
+        <include path="Vnecoms_PdfPro::pdf_section/invoice/pdf_info1.xml" />
+        <include path="Vnecoms_PdfPro::pdf_section/invoice/pdf_items1.xml" />
+        <include path="Vnecoms_PdfPro::pdf_section/invoice/pdf_totals1.xml" />
+        
+        <!-- Shipment -->
+        <include path="Vnecoms_PdfPro::pdf_section/shipment/pdf_number1.xml" />
+        <include path="Vnecoms_PdfPro::pdf_section/shipment/pdf_info1.xml" />
+        <include path="Vnecoms_PdfPro::pdf_section/shipment/pdf_items1.xml" />
+        
+        <!-- Credit Memo -->
+        <include path="Vnecoms_PdfPro::pdf_section/creditmemo/pdf_number1.xml" />
+        <include path="Vnecoms_PdfPro::pdf_section/creditmemo/pdf_info1.xml" />
+        <include path="Vnecoms_PdfPro::pdf_section/creditmemo/pdf_items1.xml" />
+        <include path="Vnecoms_PdfPro::pdf_section/creditmemo/pdf_totals1.xml" />
+	</sections>
+</config>

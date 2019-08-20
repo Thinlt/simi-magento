@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="maintab-header">
+            <block class="Vnecoms\VendorsCredit\Block\Adminhtml\Vendor\Edit\AddCredit" name="vendors_credit_add" template="credit.phtml" />
+        </referenceContainer>
+        
+        <referenceBlock name="vendors_edit_tabs">
+        	<block class="Vnecoms\VendorsCredit\Block\Adminhtml\Vendor\Edit\Tab\CreditTransactions" name="vendors_edit_tab_credit_transactions" />
+        	<action method="addTab">
+                <argument name="name" xsi:type="string">credit_transactions</argument>
+                <argument name="block" xsi:type="string">vendors_edit_tab_credit_transactions</argument>
+            </action>
+            
+            <block class="Vnecoms\VendorsCredit\Block\Adminhtml\Vendor\Edit\Tab\WithdrawalRequests" name="vendors_edit_tab_withdrawal_requests" />
+        	<action method="addTab">
+                <argument name="name" xsi:type="string">withdrawal_requests</argument>
+                <argument name="block" xsi:type="string">vendors_edit_tab_withdrawal_requests</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>

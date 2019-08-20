@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Vnecoms\Credit\Api\CreditManagementInterface" type="Vnecoms\Credit\Model\CreditManagement" />
+	
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="credit_transaction_data_source" xsi:type="string">Vnecoms\Credit\Model\ResourceModel\Credit\Transaction\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <type name="Magento\Catalog\Helper\Product\ConfigurationPool">
+        <arguments>
+            <argument name="instancesByType" xsi:type="array">
+                <item name="store_credit" xsi:type="object">Vnecoms\Credit\Helper\Product\Configuration</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <!-- Add new type of credit processor -->
+	<type name="Vnecoms\Credit\Model\Processor">
+        <arguments>
+            <argument name="creditProcessors" xsi:type="array">
+                <item name="buy_credit" xsi:type="object">Vnecoms\Credit\Model\Processor\BuyCredit</item>
+                <item name="refund_by_credit" xsi:type="object">Vnecoms\Credit\Model\Processor\RefundByCredit</item>
+                <item name="spend_credit" xsi:type="object">Vnecoms\Credit\Model\Processor\SpendCredit</item>
+                <item name="admin_add_credit" xsi:type="object">Vnecoms\Credit\Model\Processor\AdminAddCredit</item>
+                <item name="admin_subtract_credit" xsi:type="object">Vnecoms\Credit\Model\Processor\AdminSubtractCredit</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <type name="Magento\Sales\Model\Order\Invoice\Item">
+		<plugin name="addCreditInvoicedToOrderItem" type="Vnecoms\Credit\Model\Plugin\Order\Invoice\Item"/>
+	</type>
+	
+	<type name="Magento\Sales\Model\Order\CreditMemo\Item">
+		<plugin name="addCreditRefundedToOrderItem" type="Vnecoms\Credit\Model\Plugin\Order\CreditMemo\Item"/>
+	</type>
+    
+</config>

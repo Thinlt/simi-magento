@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="ves_vendors_admin_notifications">
+        <observer name="vnecoms_vendorscredit_admin_notifications" instance="Vnecoms\VendorsCredit\Observer\PendingWithdrawalObserver" />
+    </event>
+    <event name="vnecoms_vendors_ui_accountdataprovider_collection_prepare">
+        <observer name="vnecoms_vendorscredit_vendors_ui_accountdataprovider" instance="Vnecoms\VendorsCredit\Observer\AccountDataProviderObserver" />
+    </event>
+    
+</config>

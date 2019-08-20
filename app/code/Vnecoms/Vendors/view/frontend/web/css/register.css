@@ -1,0 +1,12 @@
+.vendor-2columns-form{width: 100%;}
+.vendor-2columns-form::after {clear: both;content: "";display: block;margin-bottom: 40px;}
+.vendor-2columns-form .vendor-register{width: 50%; display: block; float: left;}
+.vendor-2columns-form .vendor-register-col1 .fieldset{margin-right: 10px;}
+.vendor-2columns-form .vendor-register-col2 .fieldset{margin-left: 10px;}
+.float-clearer{clear: both; margin-top: 40px;}
+.vendor-static-container{margin-bottom: 40px}
+.vendor-agreement{display: block; float: left;}
+
+.validate-vendor-id.verifying{display: block; background: url(../images/loader.gif) no-repeat 98% center;}
+.validate-vendor-id.valid-vendor{background: #E5EFE5; border-color: #006400;}
+.validate-vendor-id.notvalid-vendor{border-color: #ed8380;}

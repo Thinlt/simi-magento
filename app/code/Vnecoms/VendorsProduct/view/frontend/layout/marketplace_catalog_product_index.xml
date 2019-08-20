@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="vendor_panel"/>
+    <body>
+    	<referenceBlock name="breadcrumbs">
+    		<action method="addCrumb">
+    			<argument name="crumbName" xsi:type="string">seller_dashboard</argument>
+    			<argument name="crumbInfo" xsi:type="array">
+    				<item name="label" xsi:type="string" translate="true">Home</item>
+    				<item name="title" xsi:type="string" translate="true">Seller Dashboard</item>
+    				<item name="link" xsi:type="url" path="marketplace/dashboard" />
+    			</argument>
+    		</action>
+    		<action method="addCrumb">
+    			<argument name="crumbName" xsi:type="string">catalog</argument>
+    			<argument name="crumbInfo" xsi:type="array">
+    				<item name="label" xsi:type="string" translate="true">Catalog</item>
+    				<item name="title" xsi:type="string" translate="true">Catalog</item>
+    			</argument>
+    		</action>
+    		<action method="addCrumb">
+    			<argument name="crumbName" xsi:type="string">product</argument>
+    			<argument name="crumbInfo" xsi:type="array">
+    				<item name="label" xsi:type="string" translate="true">Products</item>
+    				<item name="title" xsi:type="string" translate="true">Products</item>
+    			</argument>
+    		</action>
+    	</referenceBlock>
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">Products</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+        	<uiComponent name="product_listing"/>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.composite.fieldset">
+            <block class="Vnecoms\VendorsProductBundle\Block\Vendors\Catalog\Product\Composite\Fieldset\Bundle" name="product.composite.fieldset.bundle" before="product.composite.fieldset.options" template="Vnecoms_VendorsProductBundle::product/composite/fieldset/options/bundle.phtml">
+                <!--<block class="Vnecoms\VendorsProductBundle\Block\Vendors\Catalog\Product\Composite\Fieldset\Options\Type\Select" name="product.info.bundle.options.select" as="select"/>-->
+                <!--<block class="Vnecoms\VendorsProductBundle\Block\Vendors\Catalog\Product\Composite\Fieldset\Options\Type\Multi" name="product.info.bundle.options.multi" as="multi"/>-->
+                <!--<block class="Vnecoms\VendorsProductBundle\Block\Vendors\Catalog\Product\Composite\Fieldset\Options\Type\Radio" name="product.info.bundle.options.radio" as="radio"/>-->
+                <!--<block class="Vnecoms\VendorsProductBundle\Block\Vendors\Catalog\Product\Composite\Fieldset\Options\Type\Checkbox" name="product.info.bundle.options.checkbox" as="checkbox"/>-->
+            </block>
+        </referenceBlock>
+    </body>
+</page>

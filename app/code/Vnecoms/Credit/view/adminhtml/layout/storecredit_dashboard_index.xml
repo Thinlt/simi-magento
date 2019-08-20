@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+        <css src="Vnecoms_Credit::css/dashboard.css"/>
+    </head>
+    <body>
+        <referenceBlock name="page.title">
+            <action method="setTitleClass">
+                <argument name="class" xsi:type="string">complex</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Vnecoms\Credit\Block\Adminhtml\Credit\Dashboard" name="credit.dashboard" template="credit/dashboard.phtml">
+            	<!-- <block class="Vnecoms\Credit\Block\Adminhtml\Credit\Dashboard\Transaction\Grid" name="credit.dashboard.grid" as="transaction_grid" /> -->
+            </block>
+        </referenceContainer>
+    </body>
+</page>

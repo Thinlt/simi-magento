@@ -1,0 +1,11 @@
+<section class="pdf-section pdf-section-totals1" data-bind="attr: {id: sectionId}">
+	<div class="pdf-totals-left">
+    &nbsp;
+    </div>
+	<div class="pdf-totals-container">
+		<!-- ko foreach: getRegion('totals_block') -->
+			<!-- ko template: getTemplate() --><!-- /ko -->
+		<!--/ko-->
+	</div>
+	<div class="pdf-clearer"></div>
+</section>

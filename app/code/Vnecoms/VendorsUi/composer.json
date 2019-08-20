@@ -1,0 +1,25 @@
+{
+    "name": "vnecoms/module-vendors-ui",
+    "description": "N/A",
+		"authors": [
+			{
+					"name": "VNECOMS",
+					"email": "support@vnecoms.com"
+			}
+		],
+		"require": {
+				"magento/framework": "*",
+				"magento/module-ui": ">=100.0.0 <102",
+        "vnecoms/module-core": "2.0.*"
+    },
+    "type": "magento2-module",
+    "version": "2.0.1",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Vnecoms\\VendorsUi\\": ""
+        }
+    }
+}

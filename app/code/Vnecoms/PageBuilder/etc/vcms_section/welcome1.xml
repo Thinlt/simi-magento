@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Vnecoms_PageBulder:etc/vcms_section_include.xsd">
+   	<section name="welcome">
+		<type>welcome</type>
+		<template>Vnecoms_PageBuilder/section/welcome1</template>
+		<component>Vnecoms_PageBuilder/js/section/default</component>
+		<block_template>Vnecoms_PageBuilder::section/welcome1.phtml</block_template>
+		<preview_height>85px</preview_height>
+		<fields>
+			<element name="title_welcome">
+				<label>Welcome Title</label>
+				<type>h2</type>
+				<is_active>1</is_active>
+				<data>
+					<text>Welcome To Shop</text>
+					<frontend_class>pb-title</frontend_class>
+				</data>
+			</element>
+			<element name="title_chooseus">
+				<label>Welcome Title 1</label>
+				<type>h2</type>
+				<is_active>1</is_active>
+				<data>
+					<text>Why Choose Us</text>
+					<frontend_class>pb-title</frontend_class>
+				</data>
+			</element>
+			<element name="description">
+				<label>Description</label>
+				<type>editor</type>
+				<is_active>1</is_active>
+				<data>
+					<frontend_class>pb-description</frontend_class>
+					<code><![CDATA[Nulla auctor mauris ut dui luctus semper. In hac habitasse platea dictumst. Duis pellentesque ligula a risus suscipit dignissim. Nunc non nisl lacus. Integer pharetra lacinia dapibus. Donec eu dolor dui, vel posuere mauris. <br /><br />Pellentesque semper congue sodales. In consequat, metus eget con sequat ornare, augue dolor blandit purus, vitae lacinia nisi tellus in erat. Nulla ac justo eget massa aliquet sodales. Maecenas mattis male suada sem, in fringilla massa dapibus quis. Suspendisse aliquam leo id neque auctor molestie. Etiam at nulla tellus.<br /><br />Nulla auctor mauris ut dui luctus semper. In hac habitasse platea dictumst. Duis pellentesque ligula a risus suscipit dignissim.]]></code>
+				</data>
+			</element>
+			<element name="image">
+           		<label>Image</label>
+           		<type>img</type>
+           		<data>
+           			<imgType>static</imgType> <!-- static, media, url -->
+           			<imgFile>Vnecoms_PageBuilder/images/270-187.png</imgFile>
+           		</data>
+           		<is_active>1</is_active>
+           	</element>
+           	<element name="why_choose_us">
+           		<label>Text List</label>
+           		<type>list</type>
+           		<is_active>1</is_active>
+           		<data>
+           			<template>Vnecoms_PageBuilder/field/list-keys</template>
+           			<block_template>Vnecoms_PageBuilder::field/list-keys.phtml</block_template>
+       				<component>Vnecoms_PageBuilder/js/field/list-keys</component>
+           			<templateItem>item_1</templateItem>
+           			<canAddNewItem>1</canAddNewItem>
+           		</data>
+           		<fields>
+           			<element name="item_1">
+	            		<label>Item 1</label>
+	            		<type>group</type>
+	            		<is_active>1</is_active>
+	            		<data>
+	            			<template>Vnecoms_PageBuilder/field/group-key</template>
+	            			<block_template>Vnecoms_PageBuilder::field/group-key.phtml</block_template>
+	            			<label_element>text</label_element>
+	            		</data>
+	            		<fields>
+	           				<element name="icon">
+			            		<label>Icon</label>
+			            		<type>icon</type>
+			            		<is_active>1</is_active>
+			            		<data>
+			            			<icon>fa-check</icon>
+			            			<currentFont>fa</currentFont>
+			            			<fontSize>14</fontSize>
+			            			<minFontSize>12</minFontSize>
+			            			<maxFontSize>30</maxFontSize>
+			            			<fontSizeStep>1</fontSizeStep>
+			            		</data>
+			            	</element>
+			            	<element name="text">
+			            		<label>Link</label>
+			            		<type>link</type>
+			            		<is_active>1</is_active>
+			            		<data>
+			            			<href>#</href>
+			            			<text>Shipping &amp; Returns</text>
+			            			<frontend_class>pb-feature-item</frontend_class>
+			            		</data>
+			            	</element>
+	           			</fields>
+	            	</element>
+	            	
+	            	<element name="item_2">
+	            		<label>Item 2</label>
+	            		<type>group</type>
+	            		<is_active>1</is_active>
+	            		<data>
+	            			<template>Vnecoms_PageBuilder/field/group-key</template>
+	            			<block_template>Vnecoms_PageBuilder::field/group-key.phtml</block_template>
+	            			<label_element>text</label_element>
+	            		</data>
+	            		<fields>
+	           				<element name="icon">
+			            		<label>Icon</label>
+			            		<type>icon</type>
+			            		<is_active>1</is_active>
+			            		<data>
+			            			<icon>fa-check</icon>
+			            			<currentFont>fa</currentFont>
+			            			<fontSize>14</fontSize>
+			            			<minFontSize>12</minFontSize>
+			            			<maxFontSize>30</maxFontSize>
+			            			<fontSizeStep>1</fontSizeStep>
+			            		</data>
+			            	</element>
+			            	<element name="text">
+			            		<label>Link</label>
+			            		<type>link</type>
+			            		<is_active>1</is_active>
+			            		<data>
+			            			<href>#</href>
+			            			<text>Secure Shopping</text>
+			            			<frontend_class>pb-feature-item</frontend_class>
+			            		</data>
+			            	</element>
+	           			</fields>
+	            	</element>
+	            	
+	            	<element name="item_3">
+	            		<label>Item 3</label>
+	            		<type>group</type>
+	            		<is_active>1</is_active>
+	            		<data>
+	            			<template>Vnecoms_PageBuilder/field/group-key</template>
+	            			<block_template>Vnecoms_PageBuilder::field/group-key.phtml</block_template>
+	            			<label_element>text</label_element>
+	            		</data>
+	            		<fields>
+	           				<element name="icon">
+			            		<label>Icon</label>
+			            		<type>icon</type>
+			            		<is_active>1</is_active>
+			            		<data>
+			            			<icon>fa-check</icon>
+			            			<currentFont>fa</currentFont>
+			            			<fontSize>14</fontSize>
+			            			<minFontSize>12</minFontSize>
+			            			<maxFontSize>30</maxFontSize>
+			            			<fontSizeStep>1</fontSizeStep>
+			            		</data>
+			            	</element>
+			            	<element name="text">
+			            		<label>Link</label>
+			            		<type>link</type>
+			            		<is_active>1</is_active>
+			            		<data>
+			            			<href>#</href>
+			            			<text>International Shipping</text>
+			            			<frontend_class>pb-feature-item</frontend_class>
+			            		</data>
+			            	</element>
+	           			</fields>
+	            	</element>
+	            	
+	            	<element name="item_4">
+	            		<label>Item 4</label>
+	            		<type>group</type>
+	            		<is_active>1</is_active>
+	            		<data>
+	            			<template>Vnecoms_PageBuilder/field/group-key</template>
+	            			<block_template>Vnecoms_PageBuilder::field/group-key.phtml</block_template>
+	            			<label_element>text</label_element>
+	            		</data>
+	            		<fields>
+	           				<element name="icon">
+			            		<label>Icon</label>
+			            		<type>icon</type>
+			            		<is_active>1</is_active>
+			            		<data>
+			            			<icon>fa-check</icon>
+			            			<currentFont>fa</currentFont>
+			            			<fontSize>14</fontSize>
+			            			<minFontSize>12</minFontSize>
+			            			<maxFontSize>30</maxFontSize>
+			            			<fontSizeStep>1</fontSizeStep>
+			            		</data>
+			            	</element>
+			            	<element name="text">
+			            		<label>Link</label>
+			            		<type>link</type>
+			            		<is_active>1</is_active>
+			            		<data>
+			            			<href>#</href>
+			            			<text>Affiliates</text>
+			            			<frontend_class>pb-feature-item</frontend_class>
+			            		</data>
+			            	</element>
+	           			</fields>
+	            	</element>
+	            	
+	            	<element name="item_5">
+	            		<label>Item 5</label>
+	            		<type>group</type>
+	            		<is_active>1</is_active>
+	            		<data>
+	            			<template>Vnecoms_PageBuilder/field/group-key</template>
+	            			<block_template>Vnecoms_PageBuilder::field/group-key.phtml</block_template>
+	            			<label_element>text</label_element>
+	            		</data>
+	            		<fields>
+	           				<element name="icon">
+			            		<label>Icon</label>
+			            		<type>icon</type>
+			            		<is_active>1</is_active>
+			            		<data>
+			            			<icon>fa-check</icon>
+			            			<currentFont>fa</currentFont>
+			            			<fontSize>14</fontSize>
+			            			<minFontSize>12</minFontSize>
+			            			<maxFontSize>30</maxFontSize>
+			            			<fontSizeStep>1</fontSizeStep>
+			            		</data>
+			            	</element>
+			            	<element name="text">
+			            		<label>Link</label>
+			            		<type>link</type>
+			            		<is_active>1</is_active>
+			            		<data>
+			            			<href>#</href>
+			            			<text>Group Sales</text>
+			            			<frontend_class>pb-feature-item</frontend_class>
+			            		</data>
+			            	</element>
+	           			</fields>
+	            	</element>
+            	</fields>
+           	</element>
+		</fields>
+	</section>
+</include>

@@ -1,0 +1,14 @@
+<?php
+/**
+ * Category view template
+ *
+ * @var $block \Vnecoms\VendorsPage\Block\Profile\Content
+ */
+?>
+<h3 class="vendor-title">
+    <?php if($block->getVendorUrl()):?>
+        <a href="<?php echo $block->getVendorUrl();?>" title="<?php echo $block->escapeHtml($block->getStoreName())?>"><?php echo $block->escapeHtml($block->getStoreName())?></a>
+    <?php else:?>
+        <?php echo $block->escapeHtml($block->getStoreName())?>
+    <?php endif;?>
+</h3>

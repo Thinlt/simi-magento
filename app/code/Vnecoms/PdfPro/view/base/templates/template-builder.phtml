@@ -1,0 +1,110 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/**
+ * @var $block \Vnecoms\PdfPro\Block\PdfBuilder
+ */
+?>
+<?php
+$mpdf = $block->getPdf();
+?>
+<?php $config = $block->getConfig(); ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+   
+    <style>
+        <?php echo $block->getDefaultCss(); ?>
+    </style>
+    <?php if ($block->getCss()): ?>
+        <style>
+            <?php echo $block->getCss();?>
+        </style>
+    <?php endif; ?>
+    <style>
+        /* Conditional Css*/
+        .totals .shipping_excl_tax,
+        .totals .shipping_incl_tax,
+        .totals .shipping_both {display: none !important;}
+
+        <?php if(isset($config['display_subtotal_incl_tax']) and $config['display_subtotal_incl_tax'] != null): ?>
+        .totals .subtotal_incl_tax {display: <?php echo ($config['display_subtotal_incl_tax']) ? 'table-row' : 'none'?>;}
+        <?php endif; ?>
+        <?php if(isset($config['display_shipping_excl_tax']) and $config['display_shipping_excl_tax'] != null): ?>
+        .totals .subtotal_excl_tax {display: <?php echo ($config['display_shipping_excl_tax']) ? 'table-row' : 'none'?>;}
+        <?php endif; ?>
+        <?php if(isset($config['display_subtotal_both']) and $config['display_subtotal_both'] != null): ?>
+        .totals .subtotal_both {display: <?php echo ($config['display_subtotal_both']) ? 'table-row' : 'none'?>;}
+        <?php endif; ?>
+
+        <?php if(isset($config['display_tax_in_grandtotal']) and $config['display_tax_in_grandtotal'] != null):?>
+        .totals .tax_with_grand_total {display: table-row;}
+        .totals .grand_total {display: none;}
+        <?php else:?>
+        .totals .tax_with_grand_total {display: none;}
+        .totals .grand_total {display: table-row;}
+        <?php endif; ?>
+        <?php foreach($this->getSource() as $_invoice):?>
+        <?php $data = $_invoice->getData('data')?>
+        <?php if($data->getShippingAmount()):?>
+        <?php echo (isset($config['display_shipping_excl_tax']) and $config['display_shipping_excl_tax'] != null) ? '.totals .shipping_excl_tax {display: table-row;}' : '';?>
+        <?php echo (isset($config['display_shipping_incl_tax']) and $config['display_shipping_incl_tax'] != null) ? '.totals .shipping_incl_tax {display: table-row;}' : '';?>
+        <?php echo (isset($config['display_shipping_both']) and $config['display_shipping_both'] != null) ? '.totals .shipping_both {display: table-row;}' : '';?>
+        <?php endif?>
+        <?php endforeach;?>
+    </style>
+    <title><?php echo ($block->getTitleConfig()) ? $block->getTitleConfig() : __('Easy PDF') ?></title>
+</head>
+<?php $_sources = $block->getSource(); ?>
+<?php $type = $block->getType(); ?>
+<?php $_i = 0; ?>
+<body>
+
+<?php foreach ($_sources as $_invoice): ?>
+    <?php $apiKey = $_invoice['key']; ?>
+    <?php $sku = $block->getInvoiceSku($apiKey); ?>
+    <?php $additionData = $block->getAdditionData($apiKey); ?>
+
+    <?php
+    $information = $block->getApiKeyInformation($apiKey);
+
+    //set rtl
+    /* if($information['rtl'] == 1) {
+        $mpdf->SetDirectionality('rtl');
+    } */
+
+    ?>
+    <div
+        class="page page-<?php echo $block->getType()?> <?php echo $sku . ' ves_' . $apiKey; ?><?php if (++$_i == sizeof($_sources)): ?> end-page<?php endif; ?><?php if($information['rtl']):?> rtl-page<?php endif;?>"
+        <?php if($information['rtl']):?> style="direction: rtl;"<?php endif;?>
+    >
+        <?php $html = $block->processTemplate($_invoice); ?>
+        <?php $header = $block->getHeader($html); ?>
+        <?php 
+            $footer = $block->getFooter($html);
+            if(!$footer){
+                $footer = '<div class="footer-pdf">
+                            <div style="display: block;">Page {PAGENO} of {nbpg}</div>
+                        </div>';
+            }
+        ?>
+
+        <!--mpdf
+            <htmlpageheader name="header_<?php echo $_i?>">
+                <div class="header-pdf"><?php echo $header ?></div>
+            </htmlpageheader>
+
+            <htmlpagefooter name="footer_<?php echo $_i?>">
+                <div class="footer-pdf"><?php echo $footer?></div>
+            </htmlpagefooter>
+
+			<sethtmlpageheader name="header_<?php echo $_i?>" page="all" value="on" show-this-page="1" />
+			<sethtmlpagefooter name="footer_<?php echo $_i?>" page="all" value="on" show-this-page="1" />
+        mpdf-->
+        <?php echo $block->getBody($html); ?>
+    </div>
+<?php endforeach; ?>
+</body>
+</html>

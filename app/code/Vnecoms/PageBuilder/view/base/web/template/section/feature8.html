@@ -1,0 +1,23 @@
+<section class="pb-section pb-section-feature8 row" data-bind="attr: {id: sectionId}">
+	<div class="col-md-6">
+		<div class="pb-section-title">
+			<!-- ko foreach: getRegion('title') -->
+				<!-- ko template: getTemplate() --><!-- /ko -->
+			<!--/ko-->
+			<!-- ko foreach: getRegion('subtitle') -->
+				<!-- ko template: getTemplate() --><!-- /ko -->
+			<!--/ko-->
+		</div>
+		<!-- ko foreach: getRegion('description') -->
+			<!-- ko template: getTemplate() --><!-- /ko -->
+		<!--/ko-->
+		<!-- ko foreach: getRegion('view_more') -->
+			<!-- ko template: getTemplate() --><!-- /ko -->
+		<!--/ko-->
+	</div>
+	<div class="col-md-6 pb-image-container">
+		<!-- ko foreach: getRegion('image') -->
+			<!-- ko template: getTemplate() --><!-- /ko -->
+		<!--/ko-->	
+	</div>
+</section>

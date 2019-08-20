@@ -1,0 +1,104 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * Template for block \Vnecoms\Credit\Block\Adminhtml\Customer\Edit\Tab\Credit
+ */
+
+/** @var $block \Vnecoms\Credit\Block\Adminhtml\Customer\Edit\Tab\Credit */
+?>
+<div class="fieldset-wrapper credit-information">
+    <div class="fieldset-wrapper-title">
+        <span class="title"><?php echo __("Seller Dashboard")?></span>
+        <div class="actions">
+            <button title="<?php echo __("Add / Subtract Credit")?>" type="button" class="action-default action-secondary" onclick="jQuery('#credit-popup-mpdal').modal('openModal');"><span><?php echo __("Add / Subtract Credit")?></span></button>
+        </div>
+    </div>
+</div>
+
+<div id="credit-popup-mpdal" class="admin__scope-old">
+    <div class="fieldset-wrapper add-credit-form">
+        <div class="admin__fieldset-wrapper-content">
+            <form enctype="multipart/form-data" id="credit-transaction-form">
+                <fieldset class="fieldset admin__fieldset">
+                    <div class="field admin__field required">
+                        <label class="label admin__field-label" for="credit-transaction-amount">
+                            <span><?php echo __("Amount")?></span>
+                        </label>
+                    
+                        <div class="admin__field-control">
+                            <input type="text" class="admin__control-text required-entry validate-number" name="credit_transaction[amount]" placeholder="" id="credit-transaction-amount">
+                            <div class="note"><?php echo __("Add or subtract credit by entering a positive or negative value. For example: enter 10 to add $10 and -10 to subtract $10")?></div>
+                        </div>
+                    </div>
+        
+                    <div class="field admin__field">
+                        <label class="label admin__field-label" for="credit-transaction-description">
+                            <span><?php echo __("Description")?></span>
+                        </label>
+                        <div class="admin__field-control">
+                            <textarea cols="15" rows="2" class="textarea admin__control-text _required" id="credit-transaction-description" title="" name="credit_transaction[description]"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+var URL_ADD_CREDIT = '<?php echo $block->getAddCreditUrl();?>';
+require([
+        'jquery',
+        'Magento_Ui/js/modal/modal',
+        'Magento_Ui/js/modal/alert',
+        'mage/mage'
+    ],
+    function($,modal,alert){
+        var creditForm = $("#edit_form");
+        
+        var options = {
+            type: 'slide',
+            responsive: true,
+            innerScroll: true,
+            title: '<?php echo __("Add / Subtract Credit")?>',
+            buttons: [{
+                text: $.mage.__('Submit'),
+                class: 'action primary',
+                click: function () {
+                    if(creditForm.valid()){
+                    	creditForm.trigger('processStart');
+                    	$.ajax({
+                      		  url: URL_ADD_CREDIT,
+                      		  method: "POST",
+                      		  data: { 
+                          		  credit : $("#credit-transaction-amount").val(),
+                          		  description: $("#credit-transaction-description").val(),
+                          		  customer_id: '<?php echo $block->getCustomerId()?>'
+                 			  },
+                      		  dataType: "json"
+                  		}).done(function( response ){
+                      		if(response.error){
+                      			creditForm.trigger('processStop');
+                      			alert({
+                    				modalClass: 'confirm ves-error',
+                                    title: "<?php echo __("Add / Edit Credit");?>",
+                                    content: response.msg,
+                                });
+                      		}else{
+                      			creditForm.trigger('processStop');
+                      			changeDiagramsPeriod($('#transaction_period').val());
+                      			$('#credit-popup-mpdal').trigger('closeModal');
+                      		}
+                  		});
+                    }
+                }
+            }]
+        };
+        var popup = modal(options, $('#credit-popup-mpdal'));
+    }
+);
+</script>

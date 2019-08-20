@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Vnecoms_PageBulder:etc/vcms_section_include.xsd">
+    <section name="test">
+       	<type>welcome</type>
+           <template>Vnecoms_PageBuilder/section/default</template>
+           <component>Vnecoms_PageBuilder/js/section/default</component>
+           <block_template>Vnecoms_PageBuilder::section/default.phtml</block_template>
+           <preview_height>85px</preview_height>
+           <fields>
+           	<element name="sample_image">
+           		<label>Sample Image</label>
+           		<type>img</type>
+           		<data>
+           			<imgType>static</imgType> <!-- static, media, url -->
+           			<imgFile>Vnecoms_PageBuilder/images/11_9.jpg</imgFile>
+           		</data>
+           		<is_active>1</is_active>
+           	</element>
+		</fields>
+	</section>
+</include>

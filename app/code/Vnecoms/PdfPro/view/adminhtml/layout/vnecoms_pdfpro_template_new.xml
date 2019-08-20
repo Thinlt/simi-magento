@@ -1,0 +1,4 @@
+<page layout="admin-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="pdfpro_template_form"/>
+    <body/>
+</page>

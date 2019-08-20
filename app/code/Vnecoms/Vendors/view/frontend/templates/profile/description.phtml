@@ -1,0 +1,10 @@
+<?php
+/**
+ * Category view template
+ *
+ * @var $block \Vnecoms\VendorsPage\Block\Profile\Description
+ */
+?>
+<?php if($block->canShowVendorShortDescription()):?>
+    <span class="vendor-headline"><?php echo $block->escapeHtml($block->getStoreDescription())?></span>
+<?php endif;?>

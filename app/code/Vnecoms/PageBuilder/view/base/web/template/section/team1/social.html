@@ -1,0 +1,11 @@
+<li class="vpb-component-container" data-bind="
+	visible: isActive,
+	css:{'vpb-component-editable':editable, 'hover': isMouseOver()}
+">
+	<a data-bind="title: text, css: frontend_class, attr: {href: getHref()}, click: linkClick">
+		<span class="fa-stack fa-lg">
+	    	<i class="fa fa-circle fa-stack-2x"></i>
+	    	<i data-bind="css: icon_class"></i>
+	    </span>
+	</a>
+</li>

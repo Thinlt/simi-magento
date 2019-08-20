@@ -1,0 +1,21 @@
+<div class="vpb-file-uploader-summary" data-bind="css: {deleting: isDeleting(), selected: isSelected()}">
+    <div class="vpb-file-uploader-preview" data-bind="css: isLoading()?'loading':''">
+        <a attr="href: $parent.getFilePreview($file)" click="$parent.selectedPreviewImageClick.bind($parent, $file);">
+            <img
+                class="vpb-preview-image"
+                tabindex="0"
+                event="load: $parent.onPreviewLoad.bind($parent)"
+                attr="
+                	src: isLoading()?'data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=':$parent.getFilePreview($file),
+                    'data-src': $parent.getFilePreview($file),
+                    alt: $file.name">
+        </a>
+
+        <div class="vpb-file-uploader-meta">
+	        <text args="$file.previewWidth"/>x<text args="$file.previewHeight"/> 
+	    </div>
+    </div>
+
+    <div class="vpb-file-uploader-filename" text="$file.name" afterRender="$parent.loadImage.bind($parent, $file)"/>
+    
+</div>

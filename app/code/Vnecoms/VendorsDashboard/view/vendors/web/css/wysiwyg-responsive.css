@@ -1,0 +1,37 @@
+/** Fix responsive to wysiwyg editor **/
+
+body table.mceLayout, body textarea.tinyMCE {
+    width: 100% !important;
+}
+
+
+@media (max-width: 768px) {
+    table.mceLayout, textarea.richEditor {
+       max-width: 600px !important;
+    }
+    
+	body .mceToolbar td {
+		display: table-row;
+		float: left;
+    }
+	
+    body .mceToolbar td:nth-of-type(11){
+        clear: none;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1599px) {
+	body .mceToolbar td {
+		display: table-row;
+		float: left;
+    }
+
+}
+
+@media (min-width: 1600px) { 
+	body .mceToolbar td {
+		display: table-cell;
+		float: none;
+    }
+
+}

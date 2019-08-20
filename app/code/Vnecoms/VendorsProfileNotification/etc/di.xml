@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="vendor_profile_process_listing_data_source" xsi:type="string">Vnecoms\VendorsProfileNotification\Model\ResourceModel\Process\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <!-- These attributes will not be displayed/saved from vendor cpanel. -->
+	<type name="Vnecoms\VendorsProfileNotification\Helper\Data">
+        <arguments>
+            <argument name="processTypes" xsi:type="array">
+                <item name="type_attribute" xsi:type="object">Vnecoms\VendorsProfileNotification\Model\Type\Attribute</item>
+                <item name="type_config" xsi:type="object">Vnecoms\VendorsProfileNotification\Model\Type\Config</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

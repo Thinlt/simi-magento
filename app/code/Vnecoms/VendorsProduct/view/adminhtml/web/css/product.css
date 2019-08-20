@@ -1,0 +1,4 @@
+.data-table .col-attribute{width: 200px;}
+.data-table td.col-current-value{color: #888;}
+.data-table td, .data-table th{border-right: 1px solid #d3d3d3;}
+

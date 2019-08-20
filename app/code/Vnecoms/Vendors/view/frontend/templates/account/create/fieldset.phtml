@@ -1,0 +1,6 @@
+<fieldset class="fieldset create info">
+    <legend class="legend"><span><?php echo __($block->getTitle()) ?></span></legend><br>
+    <?php foreach($this->getFields() as $field):?>
+        <?php echo $field->toHtml();?>
+    <?php endforeach;?>
+</fieldset>

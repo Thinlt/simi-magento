@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<add id="Vnecoms_Vendors::marketplace" title="Marketplace" translate="title" module="Vnecoms_Vendors" sortOrder="10" resource="Vnecoms_Vendors::marketplace" dependsOnModule="Vnecoms_Vendors"/>
+    	<add id="Vnecoms_Vendors::vendors" title="Sellers" translate="title" sortOrder="10" module="Vnecoms_Vendors" parent="Vnecoms_Vendors::marketplace" dependsOnModule="Vnecoms_Vendors" resource="Vnecoms_Vendors::vendors"/>
+        <add id="Vnecoms_Vendors::vendors_groups" title="Manage Groups" translate="title" sortOrder="10" module="Vnecoms_Vendors" parent="Vnecoms_Vendors::vendors" action="vendors/group" dependsOnModule="Vnecoms_Vendors" resource="Vnecoms_Vendors::vendors_groups"/>
+        <add id="Vnecoms_Vendors::vendors_sellers" title="Manage Sellers" translate="title" sortOrder="20" module="Vnecoms_Vendors" parent="Vnecoms_Vendors::vendors" action="vendors/index" dependsOnModule="Vnecoms_Vendors" resource="Vnecoms_Vendors::vendors_sellers"/>
+        <add id="Vnecoms_Vendors::vendors_attributes" title="Manage Attributes" translate="title" sortOrder="30" module="Vnecoms_Vendors" parent="Vnecoms_Vendors::vendors" action="vendors/attribute" dependsOnModule="Vnecoms_Vendors" resource="Vnecoms_Vendors::vendors_attributes"/>
+        <add id="Vnecoms_Vendors::vendors_profile_form" title="Manage Profile Form" translate="title" sortOrder="40" module="Vnecoms_Vendors" parent="Vnecoms_Vendors::vendors" action="vendors/form_profile" dependsOnModule="Vnecoms_Vendors" resource="Vnecoms_Vendors::vendors_form_profile"/>
+        <add id="Vnecoms_Vendors::vendors_registration_form" title="Manage Registration Form" translate="title" sortOrder="50" module="Vnecoms_Vendors" parent="Vnecoms_Vendors::vendors" action="vendors/form_registration" dependsOnModule="Vnecoms_Vendors" resource="Vnecoms_Vendors::vendors_registration_form"/>
+        <add id="Vnecoms_Vendors::vendors_configuration" title="Configuration" translate="title" sortOrder="1000" module="Vnecoms_Vendors" parent="Vnecoms_Vendors::marketplace" action="adminhtml/system_config/edit/section/vendors"  dependsOnModule="Vnecoms_Vendors" resource="Vnecoms_Vendors::configuration"/>
+    </menu>
+</config>

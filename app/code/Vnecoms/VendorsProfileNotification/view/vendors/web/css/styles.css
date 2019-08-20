@@ -1,0 +1,8 @@
+.main-header .navbar-nav > .profile-notification-menu > .dropdown-menu > li .menu > li > a{position: relative;}
+.main-header .navbar-nav > .profile-notification-menu > .dropdown-menu > li .menu > li > a > h3{margin: 0; white-space: normal; padding-left: 20px; line-height: 135%;}
+.profile-notification-progress{padding: 0 10px;}
+.profile-notification-progress .progress-status{margin-bottom: 5px;}
+.profile-notification-menu .footer{padding-top: 10px; border-top: 1px solid #ccc;}
+.profile-notification-menu .menu .fa{font-size: 10px; margin-right: 10px; position: absolute; left: 10px; top: 50%; margin-top: -5px;}
+.main-header .navbar-nav > .profile-notification-menu > .dropdown-menu > li.header{border-bottom: 1px solid #ccc;}
+.profile-notification-menu .dropdown-menu {box-shadow: 0 3px 8px rgba(0,0,0,.25);}

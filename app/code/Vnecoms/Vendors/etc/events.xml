@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="adminhtml_vendor_save_after">
+        <observer name="adminhtml_vendor_save_after" instance="Vnecoms\Vendors\Observer\AfterSaveVendor" />
+    </event>
+    <event name="vendor_delete_before">
+        <observer name="disable_all_vendor_products" instance="Vnecoms\Vendors\Observer\BeforeDeleteVendor" />
+    </event>
+</config>

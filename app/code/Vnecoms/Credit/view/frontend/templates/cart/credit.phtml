@@ -1,0 +1,59 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<div class="block discount" id="block-credit" data-mage-init='{"collapsible":{"openedState": "active", "saveState": false}}'>
+    <div class="title" data-role="title">
+        <strong id="block-discount-heading" role="heading" aria-level="2"><?php /* @escapeNotVerified */ echo __('Store Credit') ?></strong>
+    </div>
+    <div class="content" data-role="content" aria-labelledby="block-discount-heading">
+        <?php if($block->isLoggedInCustomer()):?>
+            <?php if($block->hasCreditProduct()):?>
+                <p><?php echo __("You can't use credit to buy a credit product.")?></p>
+            <?php else:?>
+            <form id="discount-coupon-form"
+                  action="<?php /* @escapeNotVerified */ echo $block->getUrl('storecredit/cart/creditPost') ?>"
+                  method="post"
+                  data-mage-init='{"vnecomsCartCredit":{"creditAmountSelector": "#credit_amount",
+                                                   "removeCreditSelector": "#remove-credit",
+                                                   "applyButton": ".cart-credit button.action.credit-apply",
+                                                   "cancelButton": ".cart-credit button.action.credit-cancel"}}'>
+                <?php if($this->isBaseCurrency()):?>
+                    <p><?php echo __("Your current credit balance is %1",'<strong class="credit-balance">'.$block->getFormatedCredit().'</strong>')?></p>
+                <?php else:?>
+                    <p><?php echo __("Your current credit balance is %1 (%2)",'<strong class="credit-balance">'.$block->getFormatedBaseCredit().'</strong>','<strong>'.$block->getFormatedCredit().'</strong>')?></p>
+                    <p><?php echo __("Exchange rate: %1 = %2",$block->formatBasePrice(1),$block->formatPrice($block->convertPrice(1)))?></p>
+                <?php endif;?>
+                
+                <div class="cart-credit<?php strlen($block->getCouponCode()) ? ' applied' : ''?>">
+                    <input type="hidden" name="remove" id="remove-credit" value="0" />
+                    <div class="credit-field">
+                        <label for="credit_amount" class="label"><span><?php /* @escapeNotVerified */ echo __('Enter a credit amount if you want to pay by Store Credit ') ?></span></label>
+                        <div class="control">
+                            <label for="credit_amount" class="cart-credit-currency"><?php echo $this->getBaseCurrencySymbol()?></label>
+                            <input type="text" class="input-text required-entry validate-number validate-zero-or-greater cart-credit-amount" id="credit_amount" name="credit_amount" value="<?php echo $block->getBaseUsedCredit() ?>" />
+                        </div>
+                    </div>
+                    <div class="credit-actions-toolbar">
+                        <button class="action credit-apply primary" type="button" value="<?php /* @escapeNotVerified */ echo __('Apply') ?>">
+                            <span><?php /* @escapeNotVerified */ echo __('Apply') ?></span>
+                        </button>
+                        <?php if($block->getUsedCredit()):?>
+                        <button class="action credit-cancel" type="button" value="<?php /* @escapeNotVerified */ echo __('Cancel') ?>">
+                            <span><?php /* @escapeNotVerified */ echo __('Cancel') ?></span>
+                        </button>
+                        <?php endif;?>
+                    </div>
+                </div>
+            </form>
+            <?php endif;?>
+        <?php else:?>
+            <p><?php echo __("You need to %1 to use credit.","<a href=\"".$block->getLoginUrl()."\">login</a>")?></p>
+        <?php endif;?>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+.amount-add, .amount-subtract, .credit-balance{
+	font-weight: bold;
+}
+.amount-add{
+	color: #008D4D;
+}
+.amount-subtract{
+	color: #BC4031;
+}
+.credit-balance {
+    color: #cf850f;
+}
+.used-credit{font-weight: bold;}
+.block-credit-balance .actions{display: block;float: right;}
+.block-credit-balance .actions:after{display: block; clear: both; content: "."; font-size: 0;}

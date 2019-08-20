@@ -1,0 +1,52 @@
+@font-face {
+    font-family: 'credit-frontend';
+    src:    url('../fonts/credit-frontend.eot?mf61yd');
+    src:    url('../fonts/credit-frontend.eot?mf61yd#iefix') format('embedded-opentype'),
+        url('../fonts/credit-frontend.ttf?mf61yd') format('truetype'),
+        url('../fonts/credit-frontend.woff?mf61yd') format('woff'),
+        url('../fonts/credit-frontend.svg?mf61yd#credit-frontend') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.payment-credit-container .credit-option-content{display: none;}
+.payment-credit-container .credit-option-content._show{display: block;}
+.payment-credit-container .credit-amount-cotainer{display: none;width: auto;}
+.payment-credit-container .credit-amount-cotainer._show{display: inline-block;}
+.payment-credit-container .credit-amount-cotainer input{width: auto;}
+.payment-credit-container .used-credit-container, .payment-credit-container .credit-label{display: inline;}
+.payment-credit-container .used-credit-container._hide{display: none;}
+
+.credit-icon{
+	font-family: 'credit-frontend' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+	font-size: 20px;
+	margin-left: 7px;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+a.credit-icon:hover{text-decoration: none;}
+.credit-icon span{display: none;}
+
+.credit-apply{color: #007F3F;}
+.credit-apply:hover{color: #00723D;}
+.credit-apply:before {content: "\f120";}
+
+.credit-delete{color: #F56954;}
+.credit-delete:hover{color: #DB4F3D;}
+.credit-delete:before{content: "\f37f";}
+
+
+.credit-close{color: #dd4b39;}
+.credit-close:hover{color: #BC4031;}
+.credit-close:before {content: "\f128";}
+
+.credit-edit{color: #1979c3;margin-left: 20px;}
+.credit-edit:hover{color: #0066AA}
+.credit-edit:before {content: "\f12c";}

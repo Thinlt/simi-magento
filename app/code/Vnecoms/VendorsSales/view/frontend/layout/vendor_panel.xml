@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="seller.menu">
+            <block class="Vnecoms\Vendors\Block\Seller\Menu\Item" name="seller.menu.sales">
+				<arguments>
+                    <argument name="label" xsi:type="string" translate="true">Sales</argument>
+                    <argument name="path" xsi:type="string">#</argument>
+                    <argument name="html_class" xsi:type="string">sales</argument>
+                    <argument name="icon_class" xsi:type="string">fa-cart-plus</argument>
+                </arguments>
+                
+                <block class="Vnecoms\Vendors\Block\Seller\Menu\Item" name="seller.menu.sales.order">
+					<arguments>
+	                    <argument name="label" xsi:type="string" translate="true">Orders</argument>
+	                    <argument name="path" xsi:type="string">marketplace/sales_order</argument>
+	                </arguments>
+	            </block>
+	            <!-- 
+	            <block class="Vnecoms\Vendors\Block\Seller\Menu\Item" name="seller.menu.sales.invoice">
+					<arguments>
+	                    <argument name="label" xsi:type="string" translate="true">Invoices</argument>
+	                    <argument name="path" xsi:type="string">customer/account</argument>
+	                </arguments>
+	            </block>
+	            <block class="Vnecoms\Vendors\Block\Seller\Menu\Item" name="seller.menu.sales.shipment">
+					<arguments>
+	                    <argument name="label" xsi:type="string" translate="true">Shipments</argument>
+	                    <argument name="path" xsi:type="string">customer/account</argument>
+	                </arguments>
+	            </block>
+	            <block class="Vnecoms\Vendors\Block\Seller\Menu\Item" name="seller.menu.sales.creditmemo">
+					<arguments>
+	                    <argument name="label" xsi:type="string" translate="true">Credit Memos</argument>
+	                    <argument name="path" xsi:type="string">customer/account</argument>
+	                </arguments>
+	            </block>
+	             -->
+            </block>
+        </referenceBlock>
+    </body>
+</page>

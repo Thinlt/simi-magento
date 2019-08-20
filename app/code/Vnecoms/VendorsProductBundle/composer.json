@@ -1,0 +1,20 @@
+{
+    "name": "vnecoms/module-vendors-product-bundle",
+    "description": "Integrate bundle product to Vnecoms Magento2 Marketplace Extension",
+		"authors": [
+			{
+					"name": "VNECOMS",
+					"email": "support@vnecoms.com"
+			}
+		],
+    "type": "magento2-module",
+    "version": "2.1.0",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Vnecoms\\VendorsProductBundle\\": ""
+        }
+    }
+}

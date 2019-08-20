@@ -1,0 +1,149 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+/* @var $block \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element */
+
+?>
+<?php
+$helper = $block->getHelper();
+$element = $block->getElement();
+$note = $element->getNote() ? '<div class="note" id="' . $element->getId() . '-note">' . $element->getNote() . '</div>' : '';
+$elementBeforeLabel = $element->getExtType() == 'checkbox admin__control-checkbox' || $element->getExtType() == 'radio admin__control-radio';
+$addOn = ($element->getBeforeElementHtml() || $element->getAfterElementHtml()) && !$element->getNoWrapAsAddon();
+$fieldId = ($element->getHtmlContainerId()) ? ' id="' . $element->getHtmlContainerId() . '"' : '';
+$fieldClass = "admin__field field field-{$element->getId()} {$element->getCssClass()}";
+$fieldClass .= ($elementBeforeLabel) ? ' choice' : '';
+$fieldClass .= ($addOn) ? ' with-addon' : '';
+$fieldClass .= ($element->getRequired()) ? ' required _required' : '';
+$fieldClass .= ($note) ? ' with-note' : '';
+$fieldClass .= (!$element->getLabelHtml()) ? ' no-label' : '';
+
+$fieldAttributes = $fieldId . ' class="' . $fieldClass . '" '
+    . $block->getUiId('form-field', $element->getId())
+    . ($element->getFieldExtraAttributes() ? ' ' . $element->getFieldExtraAttributes() : '');
+?>
+
+<?php
+$currentTemplate = '';
+$currentTemplateId = '';
+if ($template = $block->getCurrentTemplate()) {
+    $currentTemplate = $template->getSku();
+    $currentTemplateId = $template->getId();
+    $currentTemplateImageUrl = $helper->getBaseUrlMedia($template->getPreviewImage());
+}
+
+$templateArray  = $block->getTemplateJson(false);
+$index = array_search($currentTemplateId, array_keys($templateArray));
+
+?>
+
+<?php if (!$element->getNoDisplay()): ?>
+    <?php if ($element->getType() == 'hidden'): ?>
+        <?php echo $element->getElementHtml() ?>
+    <?php else: ?>
+        <div<?php /* @escapeNotVerified */ echo $fieldAttributes ?>>
+            <?php if ($elementBeforeLabel): ?>
+                <?php echo $element->getElementHtml() ?>
+                <?php echo $element->getLabelHtml() ?>
+                <?php /* @escapeNotVerified */ echo $note ?>
+            <?php else: ?>
+                <div style="">
+                    <!--slider-->
+                    <div class="pdf-preview">
+                        <div style="display: none;" class="pdf-preview-content">
+                            <?php if($currentTemplateId):?>
+                                <img id="img-preview-image" src="<?php echo $currentTemplateImageUrl?>" width="200px;"/>
+                                <h2 class="preview-image-label"><?php echo $template->getName()?></h2>
+                            <?php else:?>
+                                <img id="img-preview-image" class="hidden" src="" width="200px;" />
+                                <h2 class="hidden preview-image-label">&nbsp;</h2>
+                                <div class="no-image"><p><?php echo __('Choose a theme')?></p></div>
+                            <?php endif;?>
+                        </div>
+                    </div>
+                    <div id="base_template_wrapper" style="" class="owl-carousel-wrapper">
+                        <div id="checkout-loader" data-role="checkout-loader" class="loading-mask">
+                            <div class="loader">
+                                <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('images/loader-1.gif'); ?>"
+                                     alt="<?php /* @escapeNotVerified */ echo __('Loading...'); ?>"
+                                     style="position: absolute;width:200px;">
+                            </div>
+                        </div>
+                        <input type="hidden" name="pdf[template_id]" id="template_id" value="<?php echo $currentTemplateId?>"/>
+
+                        <div id="owl_carousel" class="owl-carousel">
+                                <?php foreach($block->getTemplateJson(false) as $template):?>
+                                <div template-id="<?php echo $template['id']?>" class="owl-carousel-li<?php if($currentTemplateId == $template['id']) echo ' active' ?>">
+                                    <img class="lazyOwl" data-src="<?php echo $template['preview_url'] ?>" alt="<?php echo $template['sku'] ?>" />
+                                </div>
+                                <?php endforeach;?>
+                        </div>
+                    </div>
+                    <div class="clear">&nbsp;</div>
+
+                    <script type="text/x-magento-init">
+                        <?php
+                            /* @escapeNotVerified */ echo $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode([
+                                '#base_template_wrapper' => ['VnEcoms_AdvancedPdfProcessor/js/easypdf' => [
+                                    'editorIds' => ['order_template','invoice_template','shipment_template','creditmemo_template'],
+                                    'currentTemplateId' => $currentTemplateId,
+                                    'valueFieldSelector' => '#base_template_wrapper',
+                                    'hiddenTemplateElement' => '#template_id',
+                                    'templateItems' => '.owl-carousel-li',
+                                    'activeItem'    => '.active',
+                                    'ajaxUrl'       => $block->getAjaxUrl(),
+                                    'previewImageId'=> '#img-preview-image',
+                                    'previewImagesJson' => $block->getPreviewImagesJson(),
+                                ]],
+                            ]);
+                        ?>
+                    </script>
+
+                    <script>
+                        require([
+                            "jquery",
+                            "owlCarousel"
+                        ], function ($) {
+                            $("#owl_carousel").owlCarousel({
+                                items:5,
+                                lazyLoad : true,
+                                lazyEffect : "fade",
+                                lazyFollow : true,
+                                navigation : true,
+                                responsiveClass:true,
+                                responsive:{
+                                    0:{
+                                        items:1,
+                                        nav:true
+                                    },
+                                    600:{
+                                        items:3,
+                                        nav:false
+                                    },
+                                    1000:{
+                                        items:5,
+                                        nav:true,
+                                        loop:false
+                                    }
+                                }
+
+                            });
+                            //get carousel instance data and store it in variable owl
+                            var owl = $("#owl_carousel").data('owlCarousel');
+                            <?php if($currentTemplateId):?>
+                                var index = <?php echo $index ?>;
+                                owl.goTo(index);
+                            <?php endif; ?>
+                        });
+                    </script>
+                    <!--slider-->
+
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>

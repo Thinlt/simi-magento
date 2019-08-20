@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+{{License}}
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add dependsOnConfig="pdfpro/general/enabled" id="Vnecoms_PdfPro::pdfpro" title="PDF Pro" module="Vnecoms_PdfPro" sortOrder="20" resource="Vnecoms_PdfPro::pdfpro" />
+        <add dependsOnConfig="pdfpro/general/enabled" id="Vnecoms_PdfPro::pdfpro_apikey" title="Manage PDF Templates" module="Vnecoms_PdfPro" sortOrder="10" resource="Vnecoms_PdfPro::pdfpro_apikey" parent="Vnecoms_PdfPro::pdfpro" action="vnecoms_pdfpro/key/index" />
+        <!-- <add dependsOnConfig="pdfpro/general/enabled" id="Vnecoms_PdfPro::theme" title="Manage Themes" module="Vnecoms_PdfPro" sortOrder="20" resource="Vnecoms_PdfPro::theme" parent="Vnecoms_PdfPro::pdfpro" action="vnecoms_pdfpro/template/index" /> -->
+        <add dependsOnConfig="pdfpro/general/enabled" id="Vnecoms_PdfPro::pdfpro_config" title="Configuration" module="Vnecoms_PdfPro" sortOrder="100" resource="Vnecoms_PdfPro::pdfpro_config" parent="Vnecoms_PdfPro::pdfpro" action="adminhtml/system_config/edit/section/pdfpro" />
+    </menu>
+</config>

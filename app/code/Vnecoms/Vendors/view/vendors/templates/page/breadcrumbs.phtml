@@ -1,0 +1,30 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Vnecoms\Vendors\Block\Page\Breadcrumbs */
+?>
+
+<?php if (!empty($links)): ?>
+<ol class="breadcrumb">
+    <li><a href="<?php echo $this->getHomeLink()?>"><i class="fa fa-dashboard"></i> <?php echo __("Home")?></a></li>
+    <?php $_size = count($links); ?>
+    <?php foreach ($links as $_index => $_link): ?>
+    <li<?php if ($_index == $_size-1): ?> class="active"<?php endif;?>>
+        <?php if (empty($_link['url'])): ?>
+            <?php if ($_index != $_size-1): ?>
+                <span><?php echo $block->escapeHtml($_link['label']) ?></span>
+            <?php else: ?>
+                <strong><?php echo $block->escapeHtml($_link['label']) ?></strong>
+            <?php endif; ?>
+        <?php else: ?>
+            <a href="<?php /* @escapeNotVerified */ echo $_link['url'] ?>" title="<?php echo $block->escapeHtml($_link['title']) ?>"><?php echo $block->escapeHtml($_link['label']) ?></a>
+        <?php endif; ?>
+    </li>
+    <?php endforeach; ?>
+</ol>
+<?php endif; ?>

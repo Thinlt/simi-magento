@@ -1,0 +1,44 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+
+<?php if (!empty($tabs)): ?>
+
+<div id="<?php /* @escapeNotVerified */ echo $block->getId() ?>" class="ves-tabs" data-mage-init='{"tabs":{"openedState":"active"}}'>
+    <?php $i = 0;?>
+    <ul class="ves-tabs-title">
+    <?php foreach ($tabs as $_tab): ?>
+        <?php $_tabClass = 'tab-item-link ' . $block->getTabClass($_tab) . ' ' . (preg_match('/\s?ajax\s?/', $_tab->getClass()) ? 'notloaded' : '') ?>
+        <?php $_tabType = (!preg_match('/\s?ajax\s?/', $_tabClass) && $block->getTabUrl($_tab) != '#') ? 'link' : '' ?>
+        <?php $_tabHref = $block->getTabUrl($_tab) == '#' ? '#' . $block->getTabId($_tab) . '_content' : $block->getTabUrl($_tab) ?>
+        
+        <li class="ves-tab-title" data-role="collapsible">
+            <a class="<?php $_tabClass ?>" data-tab-type="<?php $_tabType ?>" title="<?php /* @escapeNotVerified */ echo $block->getTabTitle($_tab) ?>" data-toggle="switch" href="<?php /* @escapeNotVerified */ echo $_tabHref?>"><?php /* @escapeNotVerified */ echo $block->getTabLabel($_tab) ?></a>
+        </li>
+    <?php endforeach;?>
+        <li style="float: right;">
+            <select class="credit-transaction-period" onchange="changeDiagramsPeriod(this.value);" id="transaction_period" name="period">
+                <option value="24h"><?php echo __("Last 24 Hours")?></option>
+                <option value="7d"><?php echo __("Last 7 Days")?></option>
+                <option value="1m"><?php echo __("Current Month")?></option>
+                <option value="1y"><?php echo __("YTD")?></option>
+                <option value="2y"><?php echo __("2YTD")?></option>
+            </select>
+        </li>
+    </ul>
+    <div class="ves-tabs-content-container">
+        <?php foreach ($tabs as $_tab): ?>
+        <div class="ves-tab-content" id="<?php /* @escapeNotVerified */ echo $block->getTabId($_tab) ?>_content" data-role="content">
+            <?php /* @escapeNotVerified */ echo $block->getTabContent($_tab) ?>
+        </div>
+        <?php endforeach;?>
+    </div>
+</div>
+<?php endif;?>
+

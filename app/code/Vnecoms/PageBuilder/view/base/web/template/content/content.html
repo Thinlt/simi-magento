@@ -1,0 +1,15 @@
+<div css="$data.additionalClasses" visible="visible" data-bind="afterRender: parseContent">
+	<div class="vpb-btn-ctrl-container">
+		<button type="button" class="vpb-btn-ctrl primary" data-bind="click: togglePageBuilder;"><span><span data-bind="text: enablePageBuilder()?$t('Disable Page Builder'):$t('Active Page Builder');"></span></span></button>
+	</div>
+	
+	<div html="content" class="vpb-editor-container" visible="!enablePageBuilder()"></div>
+</div>
+<div data-role="spinner"
+     class="admin__data-grid-loading-mask"
+     visible="loading"
+     if="showSpinner">
+    <div class="spinner">
+        <span repeat="8"/>
+    </div>
+</div>

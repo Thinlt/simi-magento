@@ -1,0 +1,17 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+$withdrawal = $block->getData("withdrawal");
+?>
+<?php if (!empty($withdrawal) && !empty($withdrawal->getAdditionalInfo())): ?>
+    <hr />
+    <h3><?php echo __("Additional Information")?></h3>
+    <?php $additionalInfo = json_decode($withdrawal->getAdditionalInfo(), true);?>
+    <?php foreach($additionalInfo as $info):?>
+        <strong><?php echo $info['label']?>:</strong> <?php echo $info['value']?> <br />
+    <?php endforeach;?>
+<?php endif; ?>

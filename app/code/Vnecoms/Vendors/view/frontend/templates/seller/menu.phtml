@@ -1,0 +1,43 @@
+<?php
+/**
+ * Category view template
+ *
+ * @var $block \Vnecoms\Vendors\Block\Seller\Menu
+ */
+?>
+<div class="block block-collapsible-nav block-seller-menu">
+    <div class="content block-collapsible-nav-content seller-menu-container">
+        <div class="user-panel">
+            <div class="image">
+                <img alt="User Image" class="img-circle" src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Vnecoms_Vendors/images/user.png')?>">
+            </div>
+            <div class="info">
+                <p><?php echo $this->getVendorName()?></p>
+                <a href="#"><i class="fa fa-circle text-success"> </i><?php echo __("Online")?></a>
+            </div>
+        </div>
+        <ul class="nav items seller-menu" id="seller-menu">
+            <?php foreach($block->getItems() as $menuItem):?>
+                <?php echo $menuItem->toHtml()?>
+            <?php endforeach;?>
+        </ul>
+    </div>
+    
+    <script type="text/javascript">
+    require([
+             "jquery",
+             "jquery/ui"
+         ], function($){
+    	$("#seller-menu").find('li a').each(function(index, elm){
+        	$(elm).click(function(event){
+            	var href = $(this).attr('href');
+            	if(href == '' || href == '#') event.preventDefault();
+            	
+            	$(this).siblings('ul').toggle('blind');
+            	
+            	$(this).parent().siblings().find('ul').hide('blind');
+        	});
+    	});
+    });
+    </script>
+</div>

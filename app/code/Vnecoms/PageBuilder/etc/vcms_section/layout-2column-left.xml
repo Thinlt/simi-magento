@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Vnecoms_PageBulder:etc/vcms_section_include.xsd">
+   	<section name="layout_2columns_left">
+		<type>layout</type>
+		<template>Vnecoms_PageBuilder/section/layout-2columns-left</template>
+		<component>Vnecoms_PageBuilder/js/section/layout</component>
+		<block_template>Vnecoms_PageBuilder::section/default.phtml</block_template>
+		<preview_height>85px</preview_height>
+		<fields>
+			<element name="left_column">
+                <label>Left Column</label>
+                <type>container</type>
+                <is_active>1</is_active>
+                <data>
+                    <frontend_class>pb-container-left</frontend_class>
+                </data>
+                <fields>
+                	<element name="image">
+		           		<label>Image</label>
+		           		<type>img</type>
+		           		<data>
+		           			<imgType>static</imgType> <!-- static, media, url -->
+		           			<imgFile>Vnecoms_PageBuilder/images/500-500.jpg</imgFile>
+		           		</data>
+		           		<is_active>1</is_active>
+		           	</element>
+                </fields>
+            </element>
+			<element name="right_column">
+                <label>Right Column</label>
+                <type>container</type>
+                <is_active>1</is_active>
+                <data>
+                    <frontend_class>pb-container-right</frontend_class>
+                </data>
+                <fields>
+                	<element name="first_element">
+						<label>First Element</label>
+						<type>section</type>
+						<is_active>1</is_active>
+						<data>
+							<section_name>feature7</section_name>
+						</data>
+					</element>
+                </fields>
+            </element>
+		</fields>
+	</section>
+</include>

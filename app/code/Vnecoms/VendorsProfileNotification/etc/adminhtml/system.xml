@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="vendors">
+            <group id="design">
+				<field id="vendor_profile_message" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Show Vendor Profile Notice Message</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <tooltip>Show notice message on vendor panel when vendor profile is not completed.</tooltip>
+                </field>
+                <field id="vendor_profile_message_setting" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Vendor Profile Notice Message Setting</label>
+                    <source_model>Vnecoms\VendorsProfileNotification\Model\Source\NoticeMessageSetting</source_model>
+                    <depends>
+                        <field id="vendor_profile_message">1</field>
+                    </depends>
+                </field>
+			</group>
+        </section>
+    </system>
+</config>

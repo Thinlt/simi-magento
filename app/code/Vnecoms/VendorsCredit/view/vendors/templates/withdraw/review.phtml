@@ -1,0 +1,93 @@
+<?php 
+/**
+ * See \Vnecoms\VendorsCredit\Block\Vendors\Withdraw\Form
+ */
+?>
+<?php $method = $block->getPaymentMethod();?>
+<?php $maxValue = $method->getMaxValue();?>
+<?php $minValue = $method->getMinValue();?>
+<form id="withdrawal-form" action="<?php echo $block->getActionUrl()?>" method="post" enctype="multipart/form-data">
+<div class="box">
+    <div class="box-body">
+        <div class="active">
+            <div class="entry-edit-head admin__collapsible-block box-header with-border">
+                <span id=withdrawal-request class="entry-edit-head-link"></span>
+                <i class="fa fa-bars"></i>
+                <a class="box-title open" href="#withdrawal-request"><?php echo __('Withdrawal Request')?></a>
+            </div>
+            <fieldset class="config admin__collapsible-block" id="general_store_information">
+                <legend><?php echo __('Withdrawal Request')?></legend>
+                <div class="box-body form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><?php echo __("Payment Method")?></label>
+                        <div class="col-sm-6 control value">
+                            <span class="control-text"><?php echo $method->getTitle();?></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><?php echo __("Your balance")?></label>
+                        <div class="col-sm-6 control value">
+                            <span class="control-text"><?php echo $block->getCredit();?></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><?php echo __("Withdrawal Amount")?></label>
+                        <div class="col-sm-6 control value">
+                            <div class="control-text"><?php echo $block->formatBaseCurrency($block->getAmount())?></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><?php echo __("Fee")?></label>
+                        <div class="col-sm-6 control value">
+                            <div class="control-text"><?php echo __("%1 fee is taken", $block->formatBaseCurrency($block->getFeeAmount()))?></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><?php echo __("Net Amount")?></label>
+                        <div class="col-sm-6 control value">
+                            <div class="control-text"><?php echo $block->formatBaseCurrency($block->getAmount() - $block->getFeeAmount())?></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?php echo $block->getMethodBlockHtml();?>
+                    </div>
+                    
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="box-footer">
+        <button id="back-btn" title="Save Config" type="button" class="btn btn-default back" onclick="setLocation('<?php echo $block->getBackUrl();?>')">
+            <span class="ui-button-text"><span><?php echo __("Back")?></span></span>
+        </button>
+        <button id="save" title="Save Config" type="submit" class="btn btn-default save primary btn-success pull-right">
+            <span class="ui-button-text"><span><?php echo __("Submit")?></span></span>
+        </button>
+    </div>
+</div>
+</form>
+<script>
+    require([
+        "jquery",
+        "mage/mage",
+        "jquery/validate"
+    ], function($){
+        var dataForm = $('#withdrawal-form');
+        var ignore = null;
+
+        
+        dataForm.mage('validation', {
+            ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+        });
+        $.validator.addMethod(
+    	    'validate-withdrawal-amount', 
+            function (value) {
+                var min = <?php echo $minValue?$minValue:'0'?>;
+                var max = <?php echo $maxValue?$maxValue:'0'?>;
+                return (min == 0 || value >= min) && (max == 0 || value <= max);
+     	    },
+     	    '<?php echo $maxValue?__("Your withdrawal amount must be between %1 - %2",$block->formatBaseCurrency($minValue), $block->formatBaseCurrency($maxValue)):__("Your withdrawal amount must be greater than or equal %1",$block->formatBaseCurrency($minValue));?>'
+ 	    );
+
+    });
+</script>

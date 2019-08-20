@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Vnecoms_VendorsConfig:etc/vendor_config.xsd">
+    <default>
+        <sales_email>
+        	<order>
+        		<enabled>1</enabled>
+        		<copy_method>bcc</copy_method>
+        	</order>
+        	<invoice>
+        		<enabled>1</enabled>
+        		<copy_method>bcc</copy_method>
+        	</invoice>
+        	<shipment>
+        		<enabled>1</enabled>
+        		<copy_method>bcc</copy_method>
+        	</shipment>
+        	<creditmemo>
+        		<enabled>1</enabled>
+        		<copy_method>bcc</copy_method>
+        	</creditmemo>
+        </sales_email>
+    </default>
+</config>

@@ -1,0 +1,12 @@
+<?php
+/**
+ * Category view template
+ *
+ * @var $block \Vnecoms\VendorsPage\Block\Profile\Logo
+ */
+?>
+<?php if($block->getVendorUrl()):?>
+    <a href="<?php echo $block->getVendorUrl();?>" title="<?php echo $block->escapeHtml($block->getStoreName())?>"><img title="<?php echo $block->escapeHtml($block->getStoreName())?>" alt="<?php echo $block->escapeHtml($block->getStoreName())?>" src="<?php echo $block->getLogoUrl()?>" /></a>
+<?php else:?>
+    <img title="<?php echo $block->escapeHtml($block->getStoreName())?>" alt="<?php echo $block->escapeHtml($block->getStoreName())?>" src="<?php echo $block->getLogoUrl()?>" />
+<?php endif;?>

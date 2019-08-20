@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+
+        <section id="vendors">
+            <group id="sales" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Sales</label>
+
+                <field id="split_cart" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Split Cart By Vendor</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="sender_email_identity" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+
+
+                <field id="order_new_template" translate="label comment" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>New Order Notification Template (Send to vendor)</label>
+                    <tooltip>This email is sent to vendor when place order.</tooltip>
+                    <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                </field>
+
+                <field id="shipment_new_template" translate="label comment" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>New Shipment Notification Template (Send to vendor)</label>
+                    <tooltip>This email is sent to vendor when create new shipment.</tooltip>
+                    <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                </field>
+
+                <field id="invoice_new_template" translate="label comment" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>New Invoice Notification Template (Send to vendor)</label>
+                    <tooltip>This email is sent to vendor when create new invoice.</tooltip>
+                    <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                </field>
+
+
+                 <field id="creditmemo_new_template" translate="label comment" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                     <label>New Creditmemo Notification Template (Send to vendor)</label>
+                     <tooltip>This email is sent to vendor when create new creditmemo.</tooltip>
+                     <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                 </field>
+
+            </group>
+
+
+        </section>
+    </system>
+</config>

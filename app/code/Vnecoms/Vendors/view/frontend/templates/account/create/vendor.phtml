@@ -1,0 +1,41 @@
+<div class="field choice create-vendor">
+    <input type="checkbox" name="is_seller" title="<?php /* @escapeNotVerified */ echo __('Open seller account') ?>" value="1" id="is_seller" <?php if($block->isOpenSellerAccount()):?> checked="checked"<?php endif;?>class="checkbox">
+    <label for="is_seller" class="label"><span><?php /* @escapeNotVerified */ echo __('Open seller account') ?></span></label>
+</div>
+
+<div class="vendor-register info detailed" id="vnecoms-vendor-register" style="display: none;">
+    <?php echo $block->getChildHtml('vendor_register_form_before')?>
+    <?php foreach($block->getFieldsetBlocks() as $fieldset):?>
+        <?php echo $fieldset->toHtml();?>
+    <?php endforeach;?>
+    <?php echo $block->getChildHtml('vendor_register_form_after')?>
+    
+    <?php if($block->isEnableAgreement()):?>
+    <fieldset class="fieldset create info">
+        <div class="field field-vendor-registration">
+            <input type="checkbox" id="vendor-registration-agreement" name="vendor_data[vendor_registration_agreement]" value="1" class="input-text vendor-agreement" data-validate="{'validate-one-required-by-name':true}"/><label for="vendor-registration-agreement"><?php echo $block->getAgreementLabel()?></label>
+        </div>
+    </fieldset>
+    <?php endif;?>
+</div>
+<script>
+require([
+         'jquery'
+     ],
+     function($){
+         $('#is_seller').click(function(){
+        	 showHideVendorRegisterForm();
+         });
+         
+         function showHideVendorRegisterForm(){
+        	 if($("#is_seller").attr('checked')){
+                 $("#vnecoms-vendor-register").show({duration: 500});
+             }else{
+            	 $("#vnecoms-vendor-register").hide({duration: 500});
+             }
+         }
+
+         showHideVendorRegisterForm();
+     }
+);
+</script>

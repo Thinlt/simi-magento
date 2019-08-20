@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="ves_vendors_admin_notifications">
+        <observer name="vnecoms_vendors_config_approval_admin_notifications" instance="Vnecoms\VendorsConfigApproval\Observer\PendingConfigApprovalObserver" />
+    </event>
+</config>

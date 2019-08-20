@@ -1,0 +1,44 @@
+<ul class="vpb-list-items">
+	<!-- ko foreach: {data: getItems(), as: 'field'} -->
+	<li class="vpb-list-item" data-bind="event: { mouseover: mouseOverElement, mouseout: mouseOutElement }, css: isActive()?'':'vpb-list-item-inactive'" >
+		<i class="vpb-list-item-move move-up fa fa-angle-up" data-bind="click: $parent.moveItemUp.bind($parent, field)"></i>
+		<i class="vpb-list-item-move move-down fa fa-angle-down" data-bind="click: $parent.moveItemDown.bind($parent, field)"></i>
+		<i class="fa fa-bars"></i>
+		<span data-bind="text: field.getLabel()"></span>
+		<div class="vpb-list-item-ctrl">
+			<i class="fa fa-pencil" data-bind="click: $parent.editItem.bind($parent, field)"></i>
+			<i class="fa" data-bind="css: isActive()?'fa-eye':'fa-eye-slash', click: toggleActive"></i>
+			<i class="fa fa-trash-o" data-bind="click: $parent.deleteElement.bind($parent, field)"></i>
+		</div>
+	</li>
+	<!-- /ko -->
+	<!-- ko if: canAddNew() -->
+	<li class="vpb-list-item vpb-list-item-new">
+		<a href="#" data-bind="click: addNewElement;"><i class="fa fa-plus"></i> <span data-bind="text: $t('Add Item')"></span></a>
+	</li>
+	<!-- /ko -->
+</ul>
+
+<div class="vpb-section-edit animated" data-bind="css: itemEditVisible()==='0'?'vpb-hide':(itemEditVisible()?'slideInRight':'slideOutRight')">
+	<a class="vpb-section-edit-close" href="#" data-bind="click: closeItemEdit"><i class="fa fa-close"></i></a>
+	<h3 class="vpb-section-edit-title" data-bind="text: $t('Edit Element')"></h3>
+	
+	<!-- Start Edit Section Form -->
+		<!-- ko if: editingItem() -->
+		<div class="vpb-section-element-list" data-bind="foreach: {data: getListItem(editingItem().index).elems(), as: 'element'}">
+			<div class="vpb-edit-element" data-bind="event: { mouseover: mouseOverElement, mouseout: mouseOutElement }">
+				<h4 data-bind="text: element.label"></h4>
+				<div class="vpb-edit-element-active">
+				    <input class="admin__actions-switch-checkbox" data-bind="attr: {id: element.getFieldId()+'_checkbox'}, checked: isActive" type="checkbox" />
+				    <label class="admin__actions-switch-label" data-bind="attr: {for: element.getFieldId()+'_checkbox'}">
+				        <span class="admin__actions-switch-text" data-bind="attr: {'data-text-on': $t('Show'), 'data-text-off': $t('Hide')}"></span>
+				    </label>
+			    </div>
+			    <div class="vpb-edit-element-content" data-bind="visible: isActive">
+					<!-- ko template: getEditTemplate() --><!-- /ko -->
+				</div>
+			</div>
+		</div>
+		<!-- /ko -->
+	<!-- End Edit Section Form -->
+</div>

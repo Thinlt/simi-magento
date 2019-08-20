@@ -1,0 +1,16 @@
+<div class="vpb-component-container vpb-component-list" data-bind="
+	visible: isActive,
+	css:{[frontend_class]:true,'vpb-component-editable':editable},
+	attr: {id: getPreviewFieldId()}
+">
+	<ul class="vpb-edit-attributes">
+		<li>
+			<label data-bind="text:$t('Tracking Title Label')"></label>
+			<input type="text" class="admin__control-text" data-bind="value: colTitle, attr:{id: getFieldId()+'_coltitle'}" />
+		</li>
+		<li>
+			<label data-bind="text:$t('Tracking Code Label')"></label>
+			<input type="text" class="admin__control-text" data-bind="value: colCode, attr:{id: getFieldId()+'_colcode'}" />
+		</li>
+	</ul>
+</div>

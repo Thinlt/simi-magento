@@ -1,0 +1,14 @@
+<?php 
+/**
+ * See \Vnecoms\VendorsCredit\Block\Vendors\Withdraw\Method\Paypal
+ */
+?>
+<?php $method = $block->getPaymentMethod();?>
+
+<label class="col-sm-5 control-label" for="general_store_information_name"><?php echo __("Paypal Email Account")?></label>
+<div class="col-sm-6 control value">
+    <div class="control-text">
+        <?php echo __("%1",$method->getPaypalEmailAccount($block->getVendor()->getId()))?>
+        <?php if($block->canShowEditLink()):?> <a href="<?php echo $block->getEditUrl()?>"><?php echo __("Edit")?></a><?php endif;?>
+    </div>
+</div>

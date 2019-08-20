@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <type name="Magento\Sales\Block\Order\Info\Buttons">
+        <plugin name="pdf_order_buttons" type="Vnecoms\PdfPro\Plugin\Block\Sales\Order\Info\ButtonsPlugin" sortOrder="100"/>
+    </type>
+
+    <type name="Magento\Sales\Block\Order\Invoice\Items">
+        <plugin name="pdf_invoice_items" type="Vnecoms\PdfPro\Plugin\Block\Sales\Order\Invoice\ItemsPlugin" sortOrder="100"/>
+    </type>
+
+    <type name="Magento\Shipping\Block\Items">
+        <plugin name="pdf_shipping_items" type="Vnecoms\PdfPro\Plugin\Block\Shipping\ItemsPlugin" sortOrder="100"/>
+    </type>
+
+    <type name="Magento\Sales\Block\Order\Creditmemo\Items">
+        <plugin name="pdf_creditmemo_items" type="Vnecoms\PdfPro\Plugin\Block\Sales\Order\Creditmemo\ItemsPlugin" sortOrder="100"/>
+    </type>
+
+    <preference for="\Magento\Checkout\Block\Onepage\Success"
+                type="\Vnecoms\PdfPro\Block\Checkout\Onepage\Success"/>
+</config>

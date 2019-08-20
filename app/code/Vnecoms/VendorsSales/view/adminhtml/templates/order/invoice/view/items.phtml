@@ -1,0 +1,79 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+$om = \Magento\Framework\App\ObjectManager::getInstance();
+$vendorInvoiceCollection = $om->create('Vnecoms\VendorsSales\Model\ResourceModel\Order\Invoice\Collection');
+$vendorInvoiceCollection->addFieldToFilter('invoice_id',$block->getInvoice()->getId());
+$vendorInvoiceItemIds = [];
+
+?>
+<div class="invoice-items">
+    <?php foreach($vendorInvoiceCollection as $vendorInvoice):?>
+    <?php $_vendor = $vendorInvoice->getVendor();?>
+    <h3><?php echo __("Seller: %1",sprintf('<a href="%s" target="_blank">%s</a>',$block->getUrl('vendors/index/edit',['id' => $_vendor->getId()]),$vendorInvoice->getVendor()->getVendorId()))?></h3>
+    <div class="admin__table-wrapper">
+        <table class="data-table admin__table-primary order-invoice-tables">
+            <thead>
+                <tr class="headings">
+                    <th class="col-product"><span><?php /* @escapeNotVerified */ echo __('Product') ?></span></th>
+                    <th class="col-price"><span><?php /* @escapeNotVerified */ echo __('Price') ?></span></th>
+                    <th class="col-qty"><span><?php /* @escapeNotVerified */ echo __('Qty') ?></span></th>
+                    <th class="col-subtotal"><span><?php /* @escapeNotVerified */ echo __('Subtotal') ?></span></th>
+                    <th class="col-tax"><span><?php /* @escapeNotVerified */ echo __('Tax Amount') ?></span></th>
+                    <th class="col-discount"><span><?php /* @escapeNotVerified */ echo __('Discount Amount') ?></span></th>
+                    <th class="col-total last"><span><?php /* @escapeNotVerified */ echo __('Row Total') ?></span></th>
+                </tr>
+            </thead>
+            <?php $_items = $vendorInvoice->getAllItems() ?>
+            <?php $i = 0; foreach ($_items as $_item): ?>
+                <?php $vendorInvoiceItemIds[] = $_item->getId();?>
+                <?php if ($_item->getOrderItem()->getParentItem()) {
+                continue;
+            } else {
+                $i++;
+            } ?>
+                <tbody class="<?php /* @escapeNotVerified */ echo $i%2 ? 'even' : 'odd' ?>">
+                    <?php echo $block->getItemHtml($_item) ?>
+                    <?php echo $block->getItemExtraInfoHtml($_item->getOrderItem()) ?>
+                </tbody>
+            <?php endforeach; ?>
+        </table>
+    </div>
+    <?php endforeach;?>
+
+    <?php if(sizeof($block->getInvoice()->getAllItems()) > sizeof($vendorInvoiceItemIds)):?>
+    <h3><?php echo __("No Seller")?></h3>
+    <div class="admin__table-wrapper">
+        <table class="data-table admin__table-primary order-invoice-tables">
+            <thead>
+                <tr class="headings">
+                    <th class="col-product"><span><?php /* @escapeNotVerified */ echo __('Product') ?></span></th>
+                    <th class="col-price"><span><?php /* @escapeNotVerified */ echo __('Price') ?></span></th>
+                    <th class="col-qty"><span><?php /* @escapeNotVerified */ echo __('Qty') ?></span></th>
+                    <th class="col-subtotal"><span><?php /* @escapeNotVerified */ echo __('Subtotal') ?></span></th>
+                    <th class="col-tax"><span><?php /* @escapeNotVerified */ echo __('Tax Amount') ?></span></th>
+                    <th class="col-discount"><span><?php /* @escapeNotVerified */ echo __('Discount Amount') ?></span></th>
+                    <th class="col-total last"><span><?php /* @escapeNotVerified */ echo __('Row Total') ?></span></th>
+                </tr>
+            </thead>
+            <?php $_items = $block->getInvoice()->getAllItems() ?>
+            <?php $i = 0; foreach ($_items as $_item): ?>
+                <?php if(in_array($_item->getId(),$vendorInvoiceItemIds)) continue;?>
+                <?php if ($_item->getOrderItem()->getParentItem()) {
+                continue;
+            } else {
+                $i++;
+            } ?>
+                <tbody class="<?php /* @escapeNotVerified */ echo $i%2 ? 'even' : 'odd' ?>">
+                    <?php echo $block->getItemHtml($_item) ?>
+                    <?php echo $block->getItemExtraInfoHtml($_item->getOrderItem()) ?>
+                </tbody>
+            <?php endforeach; ?>
+        </table>
+    </div>
+    <?php endif;?>
+</div>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="vendors_withdrawal_new_withdrawal_email_template_admin" label="New Withdrawal Notification - Admin" file="new_withdrawal_admin.html" type="html" module="Vnecoms_VendorsCredit" area="frontend"/>
+    <template id="vendors_withdrawal_new_withdrawal_email_template_vendor" label="New Withdrawal Notification - Vendor" file="new_withdrawal_vendor.html" type="html" module="Vnecoms_VendorsCredit" area="frontend"/>
+    <template id="vendors_withdrawal_withdrawal_canceled_email_template" label="Withdrawal Canceled Notification" file="withdrawal_canceled.html" type="html" module="Vnecoms_VendorsCredit" area="frontend"/>
+    <template id="vendors_withdrawal_withdrawal_completed_email_template" label="Withdrawal Completed Notification" file="withdrawal_completed.html" type="html" module="Vnecoms_VendorsCredit" area="frontend"/>
+    
+    <template id="vendors_credit_new_escrow" label="New Escrow Transaction" file="new_escrow.html" type="html" module="Vnecoms_VendorsCredit" area="frontend"/>
+    <template id="vendors_credit_escrow_released" label="Escrow Released" file="escrow_released.html" type="html" module="Vnecoms_VendorsCredit" area="frontend"/>
+    <template id="vendors_credit_escrow_canceled" label="Escrow Canceled" file="escrow_canceled.html" type="html" module="Vnecoms_VendorsCredit" area="frontend"/>
+</config>

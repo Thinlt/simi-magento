@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+
+    <event name="ves_pdfpro_data_prepare_after">
+        <observer name="preparePdfProData"
+                  instance="Vnecoms\PdfPro\Observer\PdfProDataPrepareAfter"/>
+    </event>
+
+    <!--Order Emails-->
+    <event name="pdfpro_before_send_order">
+        <observer name="pdfproBeforeSendOrder"
+                  instance="Vnecoms\PdfPro\Observer\BeforeSendOrderObserver"/>
+    </event>
+
+    <!--Invoice Emails-->
+    <event name="pdfpro_before_send_invoice">
+        <observer name="pdfproBeforeSendInvoice"
+                  instance="Vnecoms\PdfPro\Observer\BeforeSendInvoiceObserver"/>
+    </event>
+
+    <!--Shipment Emails-->
+    <event name="pdfpro_before_send_shipment">
+        <observer name="pdfproBeforeSendShipment"
+                  instance="Vnecoms\PdfPro\Observer\BeforeSendShipmentObserver"/>
+    </event>
+
+    <!--Credit Memo Emails-->
+    <event name="pdfpro_before_send_creditmemo">
+        <observer name="pdfproBeforeSendCreditmemo"
+                  instance="Vnecoms\PdfPro\Observer\BeforeSendCreditmemoObserver"/>
+    </event>
+
+    <!--<event name="controller_action_predispatch_vnecoms_pdfpro">
+        <observer name="predispatchPdfPro"
+                  instance="Vnecoms\PdfPro\Observer\PredispatchPdfPro"/>
+    </event>-->
+</config>

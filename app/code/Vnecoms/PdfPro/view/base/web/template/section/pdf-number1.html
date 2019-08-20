@@ -1,0 +1,12 @@
+<section class="pdf-section pdf-section-number1" data-bind="attr: {id: sectionId}">
+	<!-- ko foreach: getRegion('primary_number') -->
+		<!-- ko template: getTemplate() --><!-- /ko -->
+	<!--/ko-->
+	<!-- ko foreach: getRegion('order_number') -->
+		<!-- ko template: getTemplate() --><!-- /ko -->
+	<!--/ko-->
+	<!-- ko foreach: getRegion('order_date') -->
+		<!-- ko template: getTemplate() --><!-- /ko -->
+	<!--/ko-->
+	<div class="pdf-clearer"></div>
+</section>

@@ -1,0 +1,102 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+/**
+ * @var \Magento\Sales\Block\Adminhtml\Order\View\Items $block
+ */
+$_order = $block->getOrder();
+$om = \Magento\Framework\App\ObjectManager::getInstance();
+$vendorOrderCollection = $om->create('Vnecoms\VendorsSales\Model\ResourceModel\Order\Collection');
+$vendorOrderCollection->addFieldToFilter('order_id',$_order->getId());
+$vendorOrderItemIds = [];
+
+$message = __(
+    'This will create an offline refund. ' .
+    'To create an online refund, open an invoice and create credit memo for it. Do you want to continue?'
+);
+
+?>
+<div class="order-items">
+    <?php foreach($vendorOrderCollection as $vendorOrder):?>
+    <?php $_vendor = $vendorOrder->getVendor();?>
+    <div class="admin__table-header">
+        <h3><?php echo __("Seller: %1",sprintf('<a href="%s" target="_blank">%s</a>',$block->getUrl('vendors/index/edit',['id' => $_vendor->getId()]),$vendorOrder->getVendor()->getVendorId()))?></h3>
+        <?php if($vendorOrder->canShip()): ?>
+            <button onclick="setLocation('<?php echo $block->getUrl('vendors/sales_shipment/start',['order_id'=>$vendorOrder->getId()]) ?>')" class="action-default scalable action-primary"><?php echo __("Ship") ?></button>
+        <?php endif ?>
+
+        <?php if($vendorOrder->canCreditmemo()): ?>
+            <?php if ($_order->getPayment()->getMethodInstance()->isGateway()): ?>
+                <button onclick="confirmSetLocation('<?php echo $message ?>','<?php echo $block->getUrl('vendors/sales_shipment/start',['order_id'=>$vendorOrder->getId()]) ?>')" class="action-default scalable action-primary"><?php echo __("Credit Memo") ?></button>
+            <?php else: ?>
+                <button onclick="setLocation('<?php echo $block->getUrl('vendors/sales_creditmemo/start',['vorder_id'=>$vendorOrder->getId()]) ?>')" class="action-default scalable action-primary"><?php echo __("Credit Memo") ?></button>
+            <?php endif ?>
+        <?php endif ?>
+    </div>
+
+    <div class="admin__table-wrapper">
+        <table class="data-table admin__table-primary edit-order-table">
+            <thead>
+                <tr class="headings">
+                    <?php $i = 0;
+                    $columns = $block->getColumns();
+                    $lastItemNumber = count($columns) ?>
+                    <?php foreach ($columns as $columnName => $columnTitle):?>
+                        <?php $i++; ?>
+                        <th class="col-<?php /* @noEscape */ echo $columnName ?><?php /* @noEscape */ echo ($i === $lastItemNumber ? ' last' : '')?>"><span><?php /* @noEscape */ echo $columnTitle ?></span></th>
+                    <?php endforeach; ?>
+                </tr>
+            </thead>
+            <?php $_items = $vendorOrder->getAllItems();?>
+            <?php $i = 0; foreach ($_items as $_item):?>
+                <?php $vendorOrderItemIds[] = $_item->getId();?>
+                <?php if ($_item->getParentItem()) {
+                    continue;
+                } else {
+                    $i++;
+                }?>
+                <tbody class="<?php /* @noEscape */ echo $i%2 ? 'even' : 'odd' ?>">
+                    <?php echo $block->getItemHtml($_item) ?>
+                    <?php echo $block->getItemExtraInfoHtml($_item) ?>
+                </tbody>
+            <?php endforeach; ?>
+        </table>
+    </div>
+    <?php endforeach;?>
+    <?php if($block->getItemsCollection()->count() > sizeof($vendorOrderItemIds)):?>
+    <div class="admin__table-wrapper">
+        <table class="data-table admin__table-primary edit-order-table">
+            <thead>
+                <tr class="headings">
+                    <?php $i = 0;
+                    $columns = $block->getColumns();
+                    $lastItemNumber = count($columns) ?>
+                    <?php foreach ($columns as $columnName => $columnTitle):?>
+                        <?php $i++; ?>
+                        <th class="col-<?php /* @noEscape */ echo $columnName ?><?php /* @noEscape */ echo ($i === $lastItemNumber ? ' last' : '')?>"><span><?php /* @noEscape */ echo $columnTitle ?></span></th>
+                    <?php endforeach; ?>
+                </tr>
+            </thead>
+            <?php $_items = $block->getItemsCollection();?>
+            <?php $i = 0; foreach ($_items as $_item):?>
+                <?php if(in_array($_item->getId(),$vendorOrderItemIds)) continue;?>
+                <?php if ($_item->getParentItem()) {
+                    continue;
+                } else {
+                    $i++;
+                }?>
+                <tbody class="<?php /* @noEscape */ echo $i%2 ? 'even' : 'odd' ?>">
+                    <?php echo $block->getItemHtml($_item) ?>
+                    <?php echo $block->getItemExtraInfoHtml($_item) ?>
+                </tbody>
+            <?php endforeach; ?>
+        </table>
+    </div>
+    <?php endif;?>
+</div>

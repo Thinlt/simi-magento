@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<!-- Disable guest checkout if they add the credit product to cart. -->
+    <event name="checkout_allow_guest">
+        <observer name="vnecoms_credit_checkout_allow_guest" instance="Vnecoms\Credit\Observer\IsAllowedGuestCheckoutObserver" />
+    </event>
+</config>

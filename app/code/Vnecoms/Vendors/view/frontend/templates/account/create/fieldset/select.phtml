@@ -1,0 +1,13 @@
+<div class="field field-<?php echo $block->getFieldId()?><?php if($block->isAttributeRequired()):?> required<?php endif;?>">
+    <label for="<?php echo $block->getFieldId()?>" class="label">
+        <span><?php echo $block->getStoreLabel()?></span>
+    </label>
+
+    <div class="control">
+        <select title="<?php echo $block->getStoreLabel();?>" class="<?php echo $block->getFrontendClass()?>" id="<?php echo $block->getFieldId()?>" name="<?php echo $block->getFieldName()?>">
+            <?php foreach($block->getOptions() as $option):?>
+                <option value="<?php echo $option['value']?>"<?php if($option['value'] == $block->getFieldValue()):?> selected="selected"<?php endif;?>><?php echo $option['label']?></option>
+            <?php endforeach;?>
+        </select>
+    </div>
+</div>

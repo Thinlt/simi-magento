@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="vendor-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+   		<referenceBlock name="vendor.toplinks">
+            <block class="Vnecoms\VendorsCredit\Block\Vendors\Toplinks\Credit" before="vendor.toplinks.users" name="vendor.toplinks.credit" template="toplinks/credit.phtml">
+            	<container name="toplinks.dropdown.container" as="credit_dropdown_item">
+            		<block class="Vnecoms\VendorsCredit\Block\Vendors\Toplinks\Credit" name="vendor.toplinks.credit.escrow" template="toplinks/credit/escrow.phtml" before="-"/>
+            		<block class="Vnecoms\VendorsCredit\Block\Vendors\Toplinks\Credit" name="vendor.toplinks.credit.withdraw" template="toplinks/credit/withdraw.phtml" />
+            		<block class="Vnecoms\VendorsCredit\Block\Vendors\Toplinks\Credit" name="vendor.toplinks.credit.divider" template="toplinks/credit/divider.phtml" />
+            		<block class="Vnecoms\VendorsCredit\Block\Vendors\Toplinks\Credit" name="vendor.toplinks.credit.withdrawal.history" template="toplinks/credit/withdrawal_history.phtml" />
+            		<block class="Vnecoms\VendorsCredit\Block\Vendors\Toplinks\Credit" name="vendor.toplinks.credit.transaction" template="toplinks/credit/transaction.phtml" />
+            	</container>
+            </block>
+   		</referenceBlock>
+    </body>
+</page>

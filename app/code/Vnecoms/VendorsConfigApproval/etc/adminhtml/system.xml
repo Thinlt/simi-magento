@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="vendors">
+            <group id="vendor_config" translate="label tooltip" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
+            	<label>Vendor Config</label>
+				<field id="restriction" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Approval Fields</label>
+                    <source_model>Vnecoms\VendorsConfigApproval\Model\Source\Config</source_model>
+                    <comment>The values of these selected fields will need to be approved before they are applied.</comment>
+                </field>
+            </group>
+		</section>
+    </system>
+</config>

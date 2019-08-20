@@ -1,0 +1,19 @@
+<?php $step = $block->getStep();?>
+<div class="cr-step cr-step-<?php echo $step?>" data-step="<?php echo $step?>">
+    <div class="cr-step-title"><?php echo __($block->getTitle()) ?></div>
+    <div class="cr-step-content">
+        <div class="cr-step-content-col1">
+            <fieldset class="fieldset create info">
+                <?php foreach($this->getFields() as $field):?>
+                    <?php echo $field->toHtml();?>
+                <?php endforeach;?>
+            </fieldset>
+        </div>
+        <div class="cr-step-content-col2">
+            <?php 
+            $html = $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('cr_step_content_'.$step)->toHtml();
+            echo $html?$html:__("You can add the content here by adding a Static block with id %1", '<strong>cr_step_content_'.$step.'</strong>');
+            ?>
+        </div>
+    </div>
+</div>

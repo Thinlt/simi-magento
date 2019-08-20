@@ -1,0 +1,31 @@
+<li class="dropdown tasks-menu profile-notification-menu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+      <i class="fa fa-tasks"></i>
+      <?php $pendingNotificationCount = $block->getPendingNotificationCount()?>
+      <span class="label label-danger"><?php echo $pendingNotificationCount;?></span>
+    </a>
+    <ul class="dropdown-menu">
+        <li class="header"><?php echo __("You have %1 pending tasks", '<strong class="text-red">'.$pendingNotificationCount.'</strong>')?></li>
+        <li>
+            <ul class="menu">
+                <?php foreach($block->getNotCompletedProcesses() as $notifiation):?>
+                  <li>
+                    <a href="<?php echo $notifiation->getUrl()?>">
+                      <h3><i class="icon fa fa-circle-o text-red"></i> <?php echo $notifiation->getTitle();?></h3>
+                    </a>
+                  </li>
+                <?php endforeach;?>
+            </ul>
+        </li>
+        <li class="footer">
+            <div class="profile-notification-progress">
+                <?php $completedPercent = $block->getPercentOfCompletedProfile();?>
+                <div class="progress-status"><?php echo __("Your profile is %1 completed", '<strong class="text-red">'.$completedPercent.'%</strong>')?></div>
+                <div class="progress active">
+                    <div class="progress-bar progress-bar-primary  progress-bar-striped" style="width: <?php echo $completedPercent;?>%" role="progressbar" aria-valuenow="<?php echo $completedPercent;?>" aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</li>

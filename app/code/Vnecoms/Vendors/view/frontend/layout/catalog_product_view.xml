@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Vnecoms_Vendors::css/vendor.css"/>
+    </head>
+    <body>
+		<referenceContainer name="product.info.main">
+			<container name="vendor.profile.container" htmlTag="div" htmlClass="vendor-profile-container">
+				<container name="vendor.profile.logo.container" htmlTag="div" htmlClass="col-xs-3 vendor-profile-logo">
+					<block class="Vnecoms\Vendors\Block\Profile\Logo" name="vendor.profile.logo" template="Vnecoms_Vendors::profile/logo.phtml" />
+				</container>
+				<container name="vendor.profile.description.container" htmlTag="div" htmlClass="col-xs-8 vendor-profile-description">
+					<block class="Vnecoms\Vendors\Block\Profile\Title" name="vendor.profile.title" template="Vnecoms_Vendors::profile/title.phtml" />
+					<block class="Vnecoms\Vendors\Block\Profile\Description" name="vendor.profile.description" template="Vnecoms_Vendors::profile/description.phtml" />
+					<container name="vendor.profile.address.container" htmlTag="p" htmlClass="vendor-info">
+			    		<block class="Vnecoms\Vendors\Block\Profile\Address" name="vendor.profile.address" template="Vnecoms_Vendors::profile/address.phtml" />
+			    	</container>
+			    	<container name="vendor.profile.sales_joindate.container" htmlTag="p" htmlClass="vendor-info">
+			    		<block class="Vnecoms\Vendors\Block\Profile\Sales" name="vendor.profile.sales" template="Vnecoms_Vendors::profile/sales.phtml" />
+			    		<block class="Vnecoms\Vendors\Block\Profile\JoinedDate" name="vendor.profile.join_date" template="Vnecoms_Vendors::profile/joined_date.phtml" />
+			    	</container>
+			    	<container name="vendor.profile.phone_opentime.container" htmlTag="p" htmlClass="vendor-info">
+			    		<block class="Vnecoms\Vendors\Block\Profile\Phone" name="vendor.profile.phone" template="Vnecoms_Vendors::profile/phone.phtml" />
+			    		<block class="Vnecoms\Vendors\Block\Profile\OpenTime" name="vendor.profile.opentime" template="Vnecoms_Vendors::profile/open_time.phtml" />
+			    	</container>
+				</container>
+		    </container>
+		</referenceContainer>
+    </body>
+</page>

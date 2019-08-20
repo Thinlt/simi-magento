@@ -1,0 +1,10 @@
+<?php
+/**
+ * phone template
+ *
+ * @var $block \Vnecoms\Vendors\Block\Vendors\Account\Profile
+ */
+?>
+<?php if ($block->getVendor()->getTelephone()): ?>
+    <i class="fa fa-phone margin-r-5"></i> <?php echo $block->getVendor()->getTelephone();?><br />
+<?php endif; ?>

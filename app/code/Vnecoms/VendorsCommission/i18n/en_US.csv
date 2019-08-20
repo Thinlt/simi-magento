@@ -1,0 +1,43 @@
+"Rule Information","Rule Information"
+Actions,Actions
+"Calculate Commission Using The Following Information","Calculate Commission Using The Following Information"
+"Commission By","Commission By"
+"Fixed Amount","Fixed Amount"
+"Percent Of Product Price","Percent Of Product Price"
+"Calculate Commission Based On","Calculate Commission Based On"
+"Product Price (Incl. Tax)","Product Price (Incl. Tax)"
+"Product Price (Excl. Tax)","Product Price (Excl. Tax)"
+"Product Price After Discount (Incl. Tax)","Product Price After Discount (Incl. Tax)"
+"Product Price After Discount (Excl. Tax)","Product Price After Discount (Excl. Tax)"
+Commission,Commission
+"Discard subsequent rules","Discard subsequent rules"
+Yes,Yes
+No,No
+Conditions,Conditions
+"Conditions (don't add conditions if rule is applied to all products)","Conditions (don't add conditions if rule is applied to all products)"
+"General Information","General Information"
+"Rule Name","Rule Name"
+Description,Description
+Status,Status
+Active,Active
+Inactive,Inactive
+Websites,Websites
+"Seller Groups","Seller Groups"
+From,From
+To,To
+Priority,Priority
+"Commission Rule","Commission Rule"
+"Save and Continue Edit","Save and Continue Edit"
+"New Rule","New Rule"
+"Edit Rule '%1'","Edit Rule '%1'"
+"Manage Commission Rules","Manage Commission Rules"
+"Add new Rule","Add new Rule"
+"You deleted the commission rule.","You deleted the commission rule."
+"This rule no longer exists.","This rule no longer exists."
+"New Commission Rule","New Commission Rule"
+"Edit Commission Rule","Edit Commission Rule"
+Sellers,Sellers
+"Manage  Commission Rules","Manage  Commission Rules"
+"Wrong rule specified.","Wrong rule specified."
+"You saved the commission rule.","You saved the commission rule."
+"Page not found.","Page not found."

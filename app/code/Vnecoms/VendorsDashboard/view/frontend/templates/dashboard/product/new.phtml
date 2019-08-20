@@ -1,0 +1,30 @@
+<!-- PRODUCT LIST -->
+<div class="block block-new-products">
+    <div class="block-title">
+        <h3 class="box-title"><?php echo $block->getBlockTitle()?></h3>
+    </div><!-- /.box-header -->
+    <div class="block-content">
+        <ul class="products-list product-list-in-box">
+        <?php if($block->getProductCollection()->count()):?>
+            <?php foreach($block->getProductCollection() as $_product):?>
+            <li class="item">
+                <div class="product-img">
+                    <?php echo $block->getImage($_product)->toHtml(); ?>
+                </div>
+                <div class="product-info">
+                    <a href="<?php echo $block->getEditUrl($_product);?>" class="product-title"><?php echo $_product->getName();?><span class="label price-label <?php echo $block->getStatusClass($_product->getApproval())?> pull-right"><?php echo $this->formatPrice($_product->getFinalPrice());?></span></a>
+                    <span class="product-description">
+                    <?php echo $this->formatDescription($_product->getDescription())?>
+                    </span>
+                </div>
+            </li><!-- /.item -->
+            <?php endforeach;?>
+        <?php else:?>
+             <li class="item"><?php echo __("We couldn't find any records.")?></li>
+        <?php endif;?>
+        </ul>
+    </div><!-- /.box-body -->
+    <div class="block-footer">
+        <a href="<?php echo $block->getProductListUrl();?>" class="uppercase"><?php echo __("View All Products")?></a>
+    </div><!-- /.box-footer -->
+</div><!-- /.box -->

@@ -1,0 +1,39 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<div class="field choice admin__field admin__field-option field-refund-credit">
+    <input type="checkbox" value="1" name="creditmemo[refund_creditvnecoms_refund_credit]" class="admin__control-checkbox" id="vnecoms_refund_credit">
+    <label class="admin__field-label" for="vnecoms_refund_credit">
+        <span><?php echo __("Refund Store Credit")?></span>
+    </label>
+    <input type="text" id="vnecoms_credit_refund_input" class="input-text admin__control-text not-negative-amount" value="<?php echo $this->getCreditValue()?>" name="creditmemo[credit_refunded]">
+</div>
+<script type="text/javascript">
+require([
+    "jquery",
+    "domReady!"
+], function($){
+	
+	function checkBoxChange(checkbox){
+		if($(checkbox).attr("checked")){
+    		$('#vnecoms_credit_refund_input').removeAttr("disabled");
+        }else{
+        	$('#vnecoms_credit_refund_input').attr("disabled","disabled");
+        	
+        }
+	}
+	
+    $("#vnecoms_refund_credit").change(function(){
+    	checkBoxChange(this);
+    });
+
+    checkBoxChange($("#vnecoms_refund_credit"));
+    
+});
+</script>

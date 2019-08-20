@@ -1,0 +1,14 @@
+/*Product Page*/
+.page-product-credit .product-add-form .product-options-wrapper .field > .control{position: relative;}
+.vnecoms_credit_slider{margin-bottom: 40px;margin-top: 10px;}
+.vnecoms_credit_slider .ui-slider-range-min{display: block; height: 100%;background-color: #99a4ac;-webkit-border-radius: 10px;border-radius: 10px;}
+.vnecoms_credit_slider .ui-slider-handle{background: url(../images/sprite-skin-nice.png) no-repeat 0 -90px;height: 22px;width: 22px;margin-top: -16px;}
+.vnecoms_credit_slider .ui-slider-handle:hover{background-position: 0 -120px;}
+.vnecoms_credit_slider:before,.vnecoms_credit_slider:after{display: block; position: absolute;margin-top: 12px;font-size: 12px;}
+.vnecoms_credit_slider:before{content: attr(data-content-min);left: 0;}
+.vnecoms_credit_slider:after{content: attr(data-content-max);right: 0;}
+
+/*Shopping Cart*/
+.credit-actions-toolbar{margin-top: 10px;}
+.cart-credit .cart-credit-currency{position: absolute; margin: 6px 8px;z-index: 1;}
+.cart-credit input.cart-credit-amount{padding-left: 20px;}

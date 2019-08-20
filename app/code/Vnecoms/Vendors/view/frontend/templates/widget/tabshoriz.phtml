@@ -1,0 +1,35 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+
+<?php if (!empty($tabs)): ?>
+
+<div id="<?php /* @escapeNotVerified */ echo $block->getId() ?>" class="ves-tabs" data-mage-init='{"tabs":{"openedState":"active","ajaxContent":true,"loadingClass":"loading"}}'>
+    <?php $i = 0;?>
+    <ul class="ves-tabs-title">
+    <?php foreach ($tabs as $_tab): ?>
+        <?php $_tabClass = 'tab-item-link ' . $block->getTabClass($_tab) . ' ' . (preg_match('/\s?ajax\s?/', $_tab->getClass()) ? 'notloaded' : '') ?>
+        <?php $_isAjaxTab = (preg_match('/\s?ajax\s?/', $_tabClass) && $block->getTabUrl($_tab) != '#') ?>
+        <?php $_tabHref = $block->getTabUrl($_tab) == '#' ? '#' . $block->getTabId($_tab) . '_content' : $block->getTabUrl($_tab) ?>
+        
+        <li class="ves-tab-title" data-role="collapsible" aria-controls="<?php echo '#' . $block->getTabId($_tab) . '_content';?>">
+            <a class="<?php echo $_tabClass ?>" <?php if($_isAjaxTab):?>data-ajax="true" <?php endif;?>title="<?php /* @escapeNotVerified */ echo $block->getTabTitle($_tab) ?>" data-toggle="switch" href="<?php /* @escapeNotVerified */ echo $_tabHref?>"><?php /* @escapeNotVerified */ echo $block->getTabLabel($_tab) ?></a>
+        </li>
+    <?php endforeach;?>
+    </ul>
+    <div class="ves-tabs-content-container">
+        <?php foreach ($tabs as $_tab): ?>
+        <div class="ves-tab-content" id="<?php /* @escapeNotVerified */ echo $block->getTabId($_tab) ?>_content" data-role="content">
+            <?php /* @escapeNotVerified */ echo $block->getTabContent($_tab) ?>
+        </div>
+        <?php endforeach;?>
+    </div>
+</div>
+<?php endif;?>
+

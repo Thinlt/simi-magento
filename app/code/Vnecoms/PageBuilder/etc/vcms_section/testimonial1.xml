@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Vnecoms_PageBulder:etc/vcms_section_include.xsd">
+    <!-- Section Feature 1 -->
+    <section name="testimonial1">
+        <type>testimonial</type>
+        <template>Vnecoms_PageBuilder/section/testimonial1</template>
+        <component>Vnecoms_PageBuilder/js/section/default</component>
+        <block_template>Vnecoms_PageBuilder::section/testimonial1.phtml</block_template>
+        <preview_height>150px</preview_height>
+        <fields>
+            <element name="title">
+                <label>Title</label>
+                <type>h2</type>
+                <is_active>1</is_active>
+                <data>
+                    <text>Testimonials</text>
+                    <frontend_class>pb-title</frontend_class>
+                </data>
+            </element>
+            <element name="subtitle">
+                <label>Subtitle</label>
+                <type>h3</type>
+                <is_active>1</is_active>
+                <data>
+                    <text>Lorem ipsum dolor sit amet dabipus</text>
+                    <frontend_class>pb-subtitle</frontend_class>
+                </data>
+            </element>
+            <element name="description">
+                <label>Description</label>
+                <type>div</type>
+                <is_active>0</is_active>
+                <data>
+                    <frontend_class>pb-description</frontend_class>
+                    <code><![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet purus quis metus imperdiet fermentum. Suspendisse hendrerit id lacus id lobortis. Vestibulum quam elit, dapibus ac augue ut, porttitor viverra dui.</p>
+				<p>Pellentesque imperdiet purus quis metus imperdiet fermentum. Suspendisse hendrerit id lacus id lobortis. Vestibulum quam elit, apibus ac augue ut, porttitor viverra dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>]]></code>
+                </data>
+            </element>
+            <element name="testimonial_list">
+                <label>Testimonial List</label>
+                <type>list</type>
+                <is_active>1</is_active>
+                <data>
+                    <template>Vnecoms_PageBuilder/section/testimonial1/list</template>
+                    <block_template>Vnecoms_PageBuilder::section/testimonial1/list.phtml</block_template>
+                    <component>Vnecoms_PageBuilder/js/field/testimonial</component>
+                    <templateItem>item_1</templateItem>
+                    <canAddNewItem>1</canAddNewItem>
+                </data>
+                <fields>
+                    <element name="item_1">
+                        <label>Testimonial</label>
+                        <type>group</type>
+                        <is_active>1</is_active>
+                        <data>
+                            <template>Vnecoms_PageBuilder/section/testimonial1/group</template>
+                            <block_template>Vnecoms_PageBuilder::section/testimonial1/group.phtml</block_template>
+                            <label_element>name</label_element>
+                            <!-- The label of this element will be getting from this child field -->
+                        </data>
+                        <fields>
+                            <element name="avatar">
+				           		<label>Avatar</label>
+				           		<type>img</type>
+				           		<data>
+				           			<imgType>static</imgType> <!-- static, media, url -->
+				           			<imgFile>Vnecoms_PageBuilder/images/155-155.jpg</imgFile>
+				           		</data>
+				           		<is_active>1</is_active>
+				           	</element>
+                            <element name="name">
+                                <label>Name</label>
+                                <type>h3</type>
+                                <is_active>1</is_active>
+                                <data>
+                                    <text>Dolor at tincidunt mollis</text>
+                                    <frontend_class>pb-client-name</frontend_class>
+                                </data>
+                            </element>
+                            <element name="description">
+                                <label>Description</label>
+                                <type>div</type>
+                                <is_active>1</is_active>
+                                <data>
+                                    <code><![CDATA[Just wanted to say how happy I am with the website I have subscribed from soomzone.com. Not only do they look great, but when I had some issues at my end in configuring them, the support you gave was prompt]]></code>
+                                    <frontend_class>pb-client-comment</frontend_class>
+                                </data>
+                            </element>
+                        </fields>
+                    </element>
+                    
+                    <element name="item_2">
+                        <label>Testimonial</label>
+                        <type>group</type>
+                        <is_active>1</is_active>
+                        <data>
+                            <template>Vnecoms_PageBuilder/section/testimonial1/group</template>
+                            <block_template>Vnecoms_PageBuilder::section/testimonial1/group.phtml</block_template>
+                            <label_element>name</label_element>
+                            <!-- The label of this element will be getting from this child field -->
+                        </data>
+                        <fields>
+                            <element name="avatar">
+				           		<label>Avatar</label>
+				           		<type>img</type>
+				           		<data>
+				           			<imgType>static</imgType> <!-- static, media, url -->
+				           			<imgFile>Vnecoms_PageBuilder/images/155-155.jpg</imgFile>
+				           		</data>
+				           		<is_active>1</is_active>
+				           	</element>
+                            <element name="name">
+                                <label>Name</label>
+                                <type>h3</type>
+                                <is_active>1</is_active>
+                                <data>
+                                    <text>Dolor at tincidunt mollis</text>
+                                    <frontend_class>pb-client-name</frontend_class>
+                                </data>
+                            </element>
+                            <element name="description">
+                                <label>Description</label>
+                                <type>div</type>
+                                <is_active>1</is_active>
+                                <data>
+                                    <code><![CDATA[Just wanted to say how happy I am with the website I have subscribed from soomzone.com. Not only do they look great, but when I had some issues at my end in configuring them, the support you gave was prompt]]></code>
+                                    <frontend_class>pb-client-comment</frontend_class>
+                                </data>
+                            </element>
+                        </fields>
+                    </element>
+                    
+                    <element name="item_3">
+                        <label>Testimonial</label>
+                        <type>group</type>
+                        <is_active>1</is_active>
+                        <data>
+                            <template>Vnecoms_PageBuilder/section/testimonial1/group</template>
+                            <block_template>Vnecoms_PageBuilder::section/testimonial1/group.phtml</block_template>
+                            <label_element>name</label_element>
+                            <!-- The label of this element will be getting from this child field -->
+                        </data>
+                        <fields>
+                            <element name="avatar">
+				           		<label>Avatar</label>
+				           		<type>img</type>
+				           		<data>
+				           			<imgType>static</imgType> <!-- static, media, url -->
+				           			<imgFile>Vnecoms_PageBuilder/images/155-155.jpg</imgFile>
+				           		</data>
+				           		<is_active>1</is_active>
+				           	</element>
+                            <element name="name">
+                                <label>Name</label>
+                                <type>h3</type>
+                                <is_active>1</is_active>
+                                <data>
+                                    <text>Dolor at tincidunt mollis</text>
+                                    <frontend_class>pb-client-name</frontend_class>
+                                </data>
+                            </element>
+                            <element name="description">
+                                <label>Description</label>
+                                <type>div</type>
+                                <is_active>1</is_active>
+                                <data>
+                                    <code><![CDATA[Just wanted to say how happy I am with the website I have subscribed from soomzone.com. Not only do they look great, but when I had some issues at my end in configuring them, the support you gave was prompt]]></code>
+                                    <frontend_class>pb-client-comment</frontend_class>
+                                </data>
+                            </element>
+                        </fields>
+                    </element>
+                    
+                    <element name="item_4">
+                        <label>Testimonial</label>
+                        <type>group</type>
+                        <is_active>1</is_active>
+                        <data>
+                            <template>Vnecoms_PageBuilder/section/testimonial1/group</template>
+                            <block_template>Vnecoms_PageBuilder::section/testimonial1/group.phtml</block_template>
+                            <label_element>name</label_element>
+                            <!-- The label of this element will be getting from this child field -->
+                        </data>
+                        <fields>
+                            <element name="avatar">
+				           		<label>Avatar</label>
+				           		<type>img</type>
+				           		<data>
+				           			<imgType>static</imgType> <!-- static, media, url -->
+				           			<imgFile>Vnecoms_PageBuilder/images/155-155.jpg</imgFile>
+				           		</data>
+				           		<is_active>1</is_active>
+				           	</element>
+                            <element name="name">
+                                <label>Name</label>
+                                <type>h3</type>
+                                <is_active>1</is_active>
+                                <data>
+                                    <text>Dolor at tincidunt mollis</text>
+                                    <frontend_class>pb-client-name</frontend_class>
+                                </data>
+                            </element>
+                            <element name="description">
+                                <label>Description</label>
+                                <type>div</type>
+                                <is_active>1</is_active>
+                                <data>
+                                    <code><![CDATA[Just wanted to say how happy I am with the website I have subscribed from soomzone.com. Not only do they look great, but when I had some issues at my end in configuring them, the support you gave was prompt]]></code>
+                                    <frontend_class>pb-client-comment</frontend_class>
+                                </data>
+                            </element>
+                        </fields>
+                    </element>
+                </fields>
+            </element>
+        </fields>
+    </section>
+</include>

@@ -1,0 +1,29 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/* @var $block \Vnecoms\Credit\Block\Customer\Credit */
+?>
+<div class="block block-credit-balance">
+    <div class="block-title">
+        <strong><?php echo __("Credit Balance")?></strong>
+        <div class="actions">
+            <a class="action create primary" href="<?php echo $block->getBuyCreditUrl();?>"><span><?php echo __("Buy Credit")?></span></a>
+        </div>
+    </div>
+    <div class="block-content">
+        <?php if($this->isBaseCurrency()):?>
+            <?php echo __("Your credit balance is: %1","<strong class=\"credit-balance\">".$block->formatPrice($block->getCreditAccount()->getCredit())."</strong>")?>
+        <?php else:?>
+            <?php echo __(
+                "Your credit balance is: %1 (%2)",
+                "<span class=\"credit-balance\">".$block->formatBasePrice($block->getCreditAccount()->getCredit())."</span>",
+                "<strong>".$block->formatPrice($block->getCreditAccount()->getCredit())."</strong>"
+            )?>
+        <?php endif;?>
+    </div>
+</div>

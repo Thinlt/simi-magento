@@ -1,0 +1,26 @@
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<!--@subject Your changes to "{{var product.name}}" has been denied @-->
+<!--@vars {
+"var product_name":"Product name",
+"var email":"Recipient Email address",
+"var name":"Recipient name",
+"var message|raw":"Sender custom message",
+"var sender_email":"Sender email",
+"var sender_name":"Sender name",
+"var product_url":"URL for Product",
+"var product_image":"URL for product small image (75 px)"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+<p>{{trans "Hi %sender_name," sender_name=$vendor.getName()}}
+</p>
+<p>{{trans "Your changes to the product \"%product_name\" has been denied." product_name=$product.name}}.</p>
+
+
+{{template config_path="design/email/footer_template"}}
