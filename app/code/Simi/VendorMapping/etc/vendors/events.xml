@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2019 SimiCart. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<!-- Set some block to use template file from adminhtml area -->
+    <event name="ves_vendor_check_acl">
+        <observer name="simi_vendor_ves_vendor_check_acl" instance="Simi\VendorMapping\Observer\System\CheckAcl" />
+    </event>
+</config>

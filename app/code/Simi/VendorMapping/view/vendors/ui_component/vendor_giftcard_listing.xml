@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Ui/etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">vendor_giftcard_listing.vendor_giftcard_listing_data_source</item>
+            <item name="deps" xsi:type="string">vendor_giftcard_listing.vendor_giftcard_listing_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">simi_giftcard_giftcard_columns</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="add">
+                <url path="*/*/new"/>
+                <class>primary</class>
+                <label translate="true">Add Gift Card Code</label>
+            </button>
+        </buttons>
+    </settings>
+
+    <dataSource name="vendor_giftcard_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <!-- <argument name="class" xsi:type="string">SimiVendorMappingGiftcodeDataProvider</argument> -->
+            <argument name="name" xsi:type="string">vendor_giftcard_listing_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">id</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+
+    <container name="listing_top">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="template" xsi:type="string">ui/grid/toolbar</item>
+            </item>
+        </argument>
+        
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="columnsProvider" xsi:type="string">vendor_giftcard_listing.vendor_giftcard_listing.simi_giftcard_giftcard_columns</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">vendor_giftcard_listing.vendor_giftcard_listing.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.filters</item>
+                    </item>
+                </item>
+            </argument>
+        </filters>
+
+        <filterSearch name="fulltext"/>
+        
+        <paging name="listing_paging">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">vendor_giftcard_listing.vendor_giftcard_listing.simi_giftcard_giftcard_columns.ids</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">vendor_giftcard_listing.vendor_giftcard_listing.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.paging</item>
+                    </item>
+                </item>
+            </argument>
+        </paging>
+
+        <massaction name="listing_massaction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">vendor_giftcard_listing.vendor_giftcard_listing.simi_giftcard_giftcard_columns.ids</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/tree-massactions</item>
+                    <item name="indexField" xsi:type="string">id</item>
+                </item>
+            </argument>
+            <action name="activate">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">activate</item>
+                        <item name="label" xsi:type="string" translate="true">Activate</item>
+                        <item name="url" xsi:type="url" path="simivendor/giftcardcodes/massActivate"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Activate gift cards</item>
+                            <item name="message" xsi:type="string" translate="true">Activate selected gift cards?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+            <action name="deactivate">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">deactivate</item>
+                        <item name="label" xsi:type="string" translate="true">Deactivate</item>
+                        <item name="url" xsi:type="url" path="simivendor/giftcardcodes/massDeactivate"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Deactivate gift cards</item>
+                            <item name="message" xsi:type="string" translate="true">Deactivate selected gift cards?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Delete items</item>
+                            <item name="message" xsi:type="string" translate="true">Delete selected items?</item>
+                        </item>
+                        <item name="type" xsi:type="string">delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="simivendor/giftcardcodes/massDelete"/>
+                    </item>
+                </argument>
+            </action>
+            <!-- <action name="status">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">status</item>
+                        <item name="label" xsi:type="string" translate="true">Change status</item>
+                    </item>
+                </argument>
+                <argument name="actions" xsi:type="array">
+                    <item name="0" xsi:type="array">
+                        <item name="type" xsi:type="string">enable</item>
+                        <item name="label" xsi:type="string" translate="true">Enable</item>
+                        <item name="url" xsi:type="url" path="giftcard/codes/massStatus">
+                            <param name="status">1</param>
+                        </item>
+                    </item>
+                    <item name="1" xsi:type="array">
+                        <item name="type" xsi:type="string">disable</item>
+                        <item name="label" xsi:type="string" translate="true">Disable</item>
+                        <item name="url" xsi:type="url" path="giftcard/codes/massStatus">
+                            <param name="status">2</param>
+                        </item>
+                    </item>
+                </argument>
+            </action> -->
+        </massaction>
+    </container>
+
+    <columns name="simi_giftcard_giftcard_columns">
+        <selectionsColumn name="ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">id</item>
+                    <item name="controlVisibility" xsi:type="boolean">false</item>
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">55</item>
+                    <item name="draggable" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </selectionsColumn>
+        <column name="id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">ID</item>
+                </item>
+            </argument>
+        </column>
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">dateRange</item>
+                    <item name="dataType" xsi:type="string">date</item>
+                    <item name="sorting" xsi:type="string">desc</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                    <item name="label" xsi:type="string" translate="true">Created At</item>
+                </item>
+            </argument>
+        </column>
+        <column name="order_increment_id" class="Aheadworks\Giftcard\Ui\Component\Listing\Column\Giftcard\Order">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Simi_VendorMapping/js/ui/giftcard/grid/columns/url</item>
+                    <item name="fieldAction" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Order #</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="product_name" class="Aheadworks\Giftcard\Ui\Component\Listing\Column\ProductName">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Simi_VendorMapping/js/ui/giftcard/grid/columns/url</item>
+                    <item name="fieldAction" xsi:type="boolean">false</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Product</item>
+                    <item name="fieldName" xsi:type="string">product_id</item>
+                    <item name="awgcBackUrlParam" xsi:type="string">code</item>
+                    <item name="filter" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </column>
+        <column name="type">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Aheadworks\Giftcard\Model\Source\Entity\Attribute\GiftcardType</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                    <item name="label" xsi:type="string" translate="true">Type</item>
+                </item>
+            </argument>
+        </column>
+        <column name="code" class="Simi\VendorMapping\Ui\Component\Listing\Column\Giftcard\Code">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="component" xsi:type="string">Simi_VendorMapping/js/ui/giftcard/grid/columns/url</item>
+                    <item name="fieldAction" xsi:type="boolean">false</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Code</item>
+                </item>
+            </argument>
+        </column>
+        <column name="initial_balance" class="Aheadworks\Giftcard\Ui\Component\Listing\Column\Price">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Initial Amount</item>
+                </item>
+            </argument>
+        </column>
+        <column name="state">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Aheadworks\Giftcard\Model\Source\Giftcard\Status</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                    <item name="label" xsi:type="string" translate="true">Availability</item>
+                </item>
+            </argument>
+        </column>
+        <column name="balance" class="Aheadworks\Giftcard\Ui\Component\Listing\Column\Price">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Balance</item>
+                </item>
+            </argument>
+        </column>
+        <column name="expire_at" class="Aheadworks\Giftcard\Ui\Component\Listing\Column\Giftcard\ExpireAt">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">dateRange</item>
+                    <item name="dataType" xsi:type="string">date</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                    <item name="label" xsi:type="string" translate="true">Expiration Date</item>
+                    <item name="dateFormat" xsi:type="string">MMM d, y</item>
+                    <item name="timezone" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="sender_name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Sender Name</item>
+                    <item name="filter" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </column>
+        <column name="sender_email">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Sender Email</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="filter" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </column>
+        <column name="recipient_name" class="Aheadworks\Giftcard\Ui\Component\Listing\Column\Giftcard\Recipient">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Simi_VendorMapping/js/ui/giftcard/grid/columns/url</item>
+                    <item name="fieldAction" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Recipient Name</item>
+                    <item name="filter" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </column>
+        <column name="recipient_email">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Recipient Email</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="filter" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </column>
+        <column name="delivery_date" class="Magento\Ui\Component\Listing\Columns\Date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">dateRange</item>
+                    <item name="dataType" xsi:type="string">date</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                    <item name="label" xsi:type="string" translate="true">Delivery Date</item>
+                    <item name="dateFormat" xsi:type="string">MMM d, y h:mm a</item>
+                </item>
+            </argument>
+        </column>
+        <column name="delivery_date_timezone">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magento\Config\Model\Config\Source\Locale\Timezone</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                    <item name="label" xsi:type="string" translate="true">Delivery Date Timezone</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="email_sent">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Aheadworks\Giftcard\Model\Source\EmailStatus</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                    <item name="label" xsi:type="string" translate="true">Email Sent</item>
+                </item>
+            </argument>
+        </column>
+        <column name="email_template">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Aheadworks\Giftcard\Model\Source\Giftcard\EmailTemplate</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                    <item name="label" xsi:type="string" translate="true">Email Template</item>
+                </item>
+            </argument>
+        </column>
+        <column name="website_id">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Aheadworks\Giftcard\Model\Source\Website</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                    <item name="label" xsi:type="string" translate="true">Website</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+    </columns>
+</listing>
