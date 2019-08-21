@@ -17,4 +17,16 @@ class Vendors extends \Simi\Simiconnector\Model\Api\Apiabstract
             ;
         }
     }
+
+    public function index() {
+        $result = parent::index();
+        $vendorHelper = $this->simiObjectManager->get('\Simi\Simicustomize\Helper\Vendor');
+        if (isset($result['vendors'])) {
+            foreach ($result['vendors'] as $index=>$vendor) {
+                $vendor['profile'] = $vendorHelper->getProfile($vendor['entity_id']);
+                $result['vendors'][$index] = $vendor;
+            }
+        }
+        return $result;
+    }
 }
