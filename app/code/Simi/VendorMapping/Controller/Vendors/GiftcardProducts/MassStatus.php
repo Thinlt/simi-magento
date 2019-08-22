@@ -13,7 +13,7 @@ use Magento\Framework\Controller\Result\ForwardFactory;
  *
  * @package Aheadworks\Giftcard\Controller\Adminhtml\Product
  */
-class MassStatus extends \Magento\Backend\App\Action
+class MassStatus extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
     /**
      * Authorization level of a basic admin session

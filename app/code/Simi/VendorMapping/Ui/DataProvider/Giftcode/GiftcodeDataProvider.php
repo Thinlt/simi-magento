@@ -29,12 +29,12 @@ class GiftcodeDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         $name,
         $primaryFieldName,
         $requestFieldName,
-        CollectionFactory $collectionFactory,
-        array $addFieldStrategies = [],
-        array $addFilterStrategies = [],
+        // CollectionFactory $collectionFactory,
+        // array $addFieldStrategies = [],
+        // array $addFilterStrategies = [],
         array $meta = [],
         array $data = []
     ) {
-        parent::__construct($name, $primaryFieldName, $requestFieldName, $collectionFactory, $addFieldStrategies, $addFilterStrategies, $meta, $data);
+        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
     }
 }
