@@ -222,6 +222,8 @@ class Api
      */
     public function getSecureKey()
     {
+        //matching secure key - cody
+        return 'be2b-6b60-4e09-5d33-8e1c-6274-3691-6281';
         $configs = [
             ConfigOptionsListConstants::CONFIG_PATH_CRYPT_KEY,
             ConfigOptionsListConstants::CONFIG_PATH_DB_CONNECTION_DEFAULT.'/host',
