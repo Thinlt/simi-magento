@@ -1,0 +1,2 @@
+# module-vendors-shipping-flatrate
+

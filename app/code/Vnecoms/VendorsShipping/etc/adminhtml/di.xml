@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Vnecoms\VendorsSales\Controller\Adminhtml\Sales\Shipment\Save"
+                type="Vnecoms\VendorsShipping\Controller\Adminhtml\Sales\Shipment\Save" />
+
+    <preference for="Vnecoms\VendorsSales\Controller\Adminhtml\Sales\Shipment\CreateLabel"
+                type="Vnecoms\VendorsShipping\Controller\Adminhtml\Sales\Shipment\CreateLabel" />
+
+    <preference for="Magento\Shipping\Controller\Adminhtml\Order\Shipment\View"
+                type="Vnecoms\VendorsShipping\Controller\Adminhtml\Sales\Shipment\View" />
+
+    <preference for="Magento\Shipping\Controller\Adminhtml\Order\Shipment\PrintLabel"
+                type="Vnecoms\VendorsShipping\Controller\Adminhtml\Sales\Shipment\PrintLabel" />
+
+    <preference for="Magento\Shipping\Controller\Adminhtml\Order\Shipment\MassPrintShippingLabel"
+                type="Vnecoms\VendorsShipping\Controller\Adminhtml\Sales\Shipment\MassPrintShippingLabel" />
+    
+    <preference for="Vnecoms\VendorsSales\Block\Adminhtml\Shipment\Packaging"
+                type="Vnecoms\VendorsShipping\Block\Adminhtml\Shipment\Packaging" />
+
+    <preference for="Magento\Shipping\Controller\Adminhtml\Order\Shipment\PrintAction"
+                type="Vnecoms\VendorsShipping\Controller\Adminhtml\Sales\Shipment\PrintAction" />
+
+    <preference for="Magento\Shipping\Controller\Adminhtml\Order\Shipment\Pdfshipments"
+                type="Vnecoms\VendorsShipping\Controller\Adminhtml\Sales\Shipment\Pdfshipments" />
+
+    <preference for="Magento\Sales\Controller\Adminhtml\Shipment\PrintAction"
+                type="Vnecoms\VendorsShipping\Controller\Adminhtml\Sales\Shipment\PrintAction" />
+
+    <preference for="Magento\Sales\Controller\Adminhtml\Shipment\Pdfshipments"
+                type="Vnecoms\VendorsShipping\Controller\Adminhtml\Sales\Shipment\Pdfshipments" />
+
+    <preference for="Magento\Sales\Controller\Adminhtml\Order\Pdfshipments"
+                type="Vnecoms\VendorsShipping\Controller\Adminhtml\Sales\Order\Pdfshipments" />
+
+    <preference for="Magento\Sales\Controller\Adminhtml\Order\Creditmemo\View"
+                type="Vnecoms\VendorsShipping\Controller\Adminhtml\Sales\Creditmemo\View" />
+
+    <preference for="Magento\Sales\Controller\Adminhtml\Creditmemo\PrintAction"
+                type="Vnecoms\VendorsShipping\Controller\Adminhtml\Sales\Creditmemo\PrintAction" />
+
+    <preference for="Magento\Sales\Controller\Adminhtml\Order\Creditmemo\PrintAction"
+                type="Vnecoms\VendorsShipping\Controller\Adminhtml\Sales\Creditmemo\PrintAction" />
+
+    <preference for="Magento\Sales\Controller\Adminhtml\Order\Creditmemo\Pdfcreditmemos"
+                type="Vnecoms\VendorsShipping\Controller\Adminhtml\Sales\Creditmemo\Pdfcreditmemos" />
+
+    <preference for="Magento\Sales\Controller\Adminhtml\Creditmemo\Pdfcreditmemos"
+                type="Vnecoms\VendorsShipping\Controller\Adminhtml\Sales\Creditmemo\Pdfcreditmemos" />
+
+</config>
