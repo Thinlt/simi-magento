@@ -19,7 +19,11 @@ class CheckAcl implements ObserverInterface
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         $resource = $observer->getResource();
-        var_dump($resource);
-        die('acl');
+        $permission = $observer->getPermission();
+        // not allow vendor to config shipping method
+        if ($resource == 'Vnecoms_VendorsShipping::shipping_methods') {
+            $permission->setAllowedFlag(false);
+            $permission->push(false);
+        }
     }
 }

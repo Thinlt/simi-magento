@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+    	<section id="vendors">
+    		<group id="shipping">
+            	<group id="vendors_flatrate">
+					<field id="shipping_method_flatrate_rates" translate="label" sortOrder="110" showInDefault="1" showInWebsite="0" showInStore="0">
+						<label>Shipping Rates</label>
+						<frontend_class>required-entry</frontend_class>
+						<config_path>shipping_method/flatrate/rates</config_path>
+						<frontend_model>Simi\VendorMapping\Block\Adminhtml\Form\Field\ShippingMethod\Flatrate\Rates</frontend_model>
+						<backend_model>Simi\VendorMapping\Model\Config\Backend\ShippingMethod\Flatrate\Rates</backend_model>
+						<comment>Free Shipping: Minimum order amount for free shipping</comment>
+					</field>
+	            </group>
+           	</group>
+    	</section>
+    </system>
+</config>

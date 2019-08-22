@@ -15,4 +15,7 @@
 			</argument>
 		</arguments>
 	</type>
+	<type name="Vnecoms\VendorsShippingFlatRate\Model\Carrier\Flatrate">
+      	<plugin name="simiVendorMappingPluginCarrierFlatrate" type="Simi\VendorMapping\Plugin\Carrier\Flatrate"/>
+	</type>
 </config>
