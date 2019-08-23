@@ -56,6 +56,29 @@ class Flatrate
 
 
     /**
+     * Set vendor_id default to items
+     */
+    public function beforeCollectRates(
+        VnecomsFlatrate $subject,
+        RateRequest $request
+    ){
+        //update vendor id for item in quote
+        $allItems = [];
+        foreach ($request->getAllItems() as $item) {
+            if (!$item->getVendorId()) {
+                $item->setVendorId('default'); //set vendor_id for items that are does not belong to a vendor
+                $product = $item->getProduct()->load($item->getProductId());
+                $product->setVendorId('default');
+                $item->setProduct($product);
+            }
+            $allItems[] = $item;
+        }
+        $request->setAllItems($allItems);
+
+        return [$request];
+    }
+
+    /**
      * @param RateRequest $request
      * @return Result|bool
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)

@@ -1,0 +1,16 @@
+<?php
+
+namespace Simi\VendorMapping\Observer\Sales\Quote;
+
+class AddItem implements \Magento\Framework\Event\ObserverInterface
+{
+    public function execute(\Magento\Framework\Event\Observer $observer)
+    {
+        $item = $observer->getQuoteItem();
+        // add default vendor id if product/item does not exists
+        // if (!$item->getProduct()->getVendorId()) {
+        //     $item->getProduct()->setVendorId("default");
+        //     $item->setVendorId("default");
+        // }
+    }
+}

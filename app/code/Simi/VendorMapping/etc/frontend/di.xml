@@ -10,4 +10,12 @@
 	<!-- <type name="Vnecoms\VendorsShippingFlatRate\Model\Carrier\Flatrate">
       	<plugin name="simiVendorMappingPluginCarrierFlatrate" type="Simi\VendorMapping\Plugin\Carrier\Flatrate"/>
 	</type> -->
+
+	<type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="simi_vendors_shipping" xsi:type="object">Simi\VendorMapping\Model\ShippingConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
