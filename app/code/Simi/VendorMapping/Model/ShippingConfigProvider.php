@@ -64,21 +64,25 @@ class ShippingConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     public function getConfig()
     {
         $output = [];
-        // $vendor = $this->_vendorFactory->create();//->load(0); // load default vendor
-        // if (!$vendor->getId()) {
-        //     $vendor->setEntityId(0);
-        //     $vendor->setVendorId('Default');
-        //     $vendor->save();
-        // }
-        // $vendor->setEntityId(0);
-        // $vendor->setVendorId('Default');
-
-        $output['vendors_list']['vendor_default'] = [
-            'entity_id' => '0',
-            'vendor_id' => 'default',
-            'shipping_title' => __('Default'),
-            // 'shipping_title' => $vendor->getVendorId()
-        ];
+        $quoteId = $this->checkoutSession->getQuote()->getId();
+        $quoteItems = $this->quoteItemRepository->getList($quoteId);
+        $isAdminProductExisted = false;
+        foreach ($quoteItems as $index => $quoteItem) {
+            if($quoteItem->getIsVirtual()) continue;
+            $vendorId = $quoteItem->getVendorId();
+            if (!$vendorId || $vendorId == 'default') {
+                $isAdminProductExisted = true;
+            }
+        }
+        // check if admin's product existed in any quote items
+        if ($isAdminProductExisted) {
+            $output['vendors_list']['vendor_default'] = [
+                'entity_id' => '0',
+                'vendor_id' => 'default',
+                'shipping_title' => __('Default'),
+                // 'shipping_title' => $vendor->getVendorId()
+            ];
+        }
         
         return $output;
     }
