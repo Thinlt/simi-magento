@@ -58,6 +58,7 @@ class ShippingConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     }
 
     /**
+     * Modify shipping config add vendor default
      * {@inheritdoc}
      */
     public function getConfig()

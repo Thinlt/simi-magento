@@ -11,6 +11,7 @@
             <module name="Vnecoms_Vendors"/>
             <module name="Vnecoms_VendorsShipping"/>
             <module name="Vnecoms_VendorsShippingFlatRate"/>
+            <module name="Aramex_Shipping"/>
             <module name="Aheadworks_Giftcard"/>
         </sequence>
     </module>

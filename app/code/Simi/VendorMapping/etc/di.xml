@@ -7,6 +7,8 @@
 -->
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<!-- <preference for="Aramex\Shipping\Model\Aramex" type="Simi\VendorMapping\Override\Aramex" /> -->
+
 	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
 		<arguments>
 			<argument name="collections" xsi:type="array">
@@ -18,4 +20,7 @@
 	<type name="Vnecoms\VendorsShippingFlatRate\Model\Carrier\Flatrate">
       	<plugin name="simiVendorMappingPluginCarrierFlatrate" type="Simi\VendorMapping\Plugin\Carrier\Flatrate"/>
 	</type>
+	<!-- <type name="Aramex\Shipping\Model\Aramex">
+      	<plugin name="simiVendorMappingPluginCarrierAramex" type="Simi\VendorMapping\Plugin\Carrier\Aramex"/>
+	</type> -->
 </config>
