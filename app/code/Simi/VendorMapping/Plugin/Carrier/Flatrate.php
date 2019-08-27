@@ -5,20 +5,25 @@ namespace Simi\VendorMapping\Plugin\Carrier;
 use Magento\Shipping\Model\Rate\Result;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Vnecoms\VendorsShippingFlatRate\Model\Carrier\Flatrate as VnecomsFlatrate;
-
+/**
+ * Plugin of Vnecoms\VendorsShippingFlatRate\Model\Carrier\Flatrate
+ */
 class Flatrate
 {
     /** \Magento\Framework\App\Config */
     protected $_configFactory;
 
     public function __construct(
-        \Magento\Framework\App\ConfigFactory $config
+        \Magento\Framework\App\ConfigFactory $config,
+        \Vnecoms\Vendors\Model\VendorFactory $vendorFactory
     )
     {
         $this->_configFactory = $config;
+        $this->_vendorFactory = $vendorFactory;
     }
 
     /**
+     * Custom get flatrate from system configuration table instead of vnecoms vendor flatrate table
      * Retrieve information from carrier configuration
      *
      * @param   string $field
@@ -89,18 +94,26 @@ class Flatrate
         Result $result,
         RateRequest $request
     ){
-        // $rateMethods = $result->getAllRates();
-        // $result->reset();
-        // $methodAdded = [];
-        // foreach($rateMethods as $method){
-        //     $code = $method->getCarrier().'_'.rtrim($method->getMethod(), $method->getVendorId());
-        //     if (!in_array($code, $methodAdded)) {
-        //         $methodAdded[] = $code;
-        //         $method->setVendorId('');
-        //         $method->setMethod($code.'0'); //remove vendor id => 0
-        //         $result->append($method);
-        //     }
-        // }
+        //check vendor allowed by country, related to checkAvailableShipCountries()
+        $speCountriesAllow = $subject->getConfigData('sallowspecific');
+        if ($speCountriesAllow && $speCountriesAllow == 1) {
+            $availableCountries = [];
+            if ($subject->getConfigData('specificcountry')) {
+                $availableCountries = explode(',', $subject->getConfigData('specificcountry'));
+            }
+            if (!empty($availableCountries)) {
+                $rateMethods = $result->getAllRates();
+                $result->reset();
+                foreach($rateMethods as $method){
+                    if ($method->getVendorId() && $method->getVendorId() != 'default') {
+                        $vendor = $this->_vendorFactory->create()->load($method->getVendorId()); //Vnecoms\Vendors\Model\Vendor
+                        if ($vendor && in_array($vendor->getCountry(), $availableCountries)) {
+                            $result->append($method);
+                        }
+                    }
+                }
+            }
+        }
         return $result;
     }
 }
