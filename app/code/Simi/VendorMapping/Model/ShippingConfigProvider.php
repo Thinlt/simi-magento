@@ -75,8 +75,9 @@ class ShippingConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
 
         $output['vendors_list']['vendor_default'] = [
             'entity_id' => '0',
+            'vendor_id' => 'default',
+            'shipping_title' => __('Default'),
             // 'shipping_title' => $vendor->getVendorId()
-            'shipping_title' => __('Non Vendor')
         ];
         
         return $output;
