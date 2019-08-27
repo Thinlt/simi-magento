@@ -3,6 +3,15 @@
     margin-left: 0;
     width: 100%;
     justify-content: flex-start;
+    cursor: pointer;
+    margin-bottom: 18px;
+    margin-top: 0px;
+}
+.payment-method-item label:hover {
+    color: rgb(255, 152, 0);
+}
+.payment-method-item label span {
+    padding-top: 3px;
 }
 .payment-method-item label input[type="radio"]:checked{
     background-color: rgb(255, 152, 0);

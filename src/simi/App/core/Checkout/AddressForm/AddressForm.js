@@ -54,7 +54,8 @@ const AddressForm = props => {
         submitting,
         billingForm,
         billingAddressSaved,
-        submitBilling
+        submitBilling,
+        is_virtual,
     } = props;
 
     const classes = mergeClasses(defaultClasses, props.classes);
@@ -67,7 +68,7 @@ const AddressForm = props => {
         if (isObjectEmpty(initialValues)) {
             initialFormValues = DEFAULT_FORM_VALUES;
         } else {
-            if (initialValues.sameAsShippingAddress) {
+            if (initialValues.sameAsShippingAddress && !is_virtual) {
                 initialFormValues = {
                     addresses_same: true
                 };

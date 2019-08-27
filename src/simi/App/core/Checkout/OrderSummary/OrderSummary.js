@@ -14,7 +14,7 @@ const $ = window.$;
 
 const OrderSummary = (props) => {
 
-    const { cart, cartCurrencyCode, checkout, isPhone } = props;
+    const { cart, cartCurrencyCode, checkout, panelClassName } = props;
     const { details } = cart;
     const { shippingAddress } = checkout;
 
@@ -127,13 +127,12 @@ const OrderSummary = (props) => {
         </div>
     )
 
-    const containerSty = isPhone ? { marginTop: 35 } : {};
     return <div className={defaultClasses['order-summary']} id="order-summary">
         <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Order Summary')}</div>}
+            className={panelClassName}
             renderContent={renderView}
             isToggle={false}
             expanded={true}
-            containerStyle={containerSty}
         />
     </div>
 }

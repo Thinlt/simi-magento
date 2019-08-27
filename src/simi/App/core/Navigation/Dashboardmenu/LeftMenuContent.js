@@ -129,9 +129,14 @@ class LeftMenuContent extends React.Component{
     
 
     renderSections() {
-        const {classes, isSignedIn} = this.props
+        const {classes, isSignedIn, leftMenuItems} = this.props
+        if (!leftMenuItems)
+            return (
+                <CateTree classes={classes} handleMenuItem={this.handleMenuItem.bind(this)}/>
+            )
+            
         const items = []
-        this.parent.props.leftMenuItems.map((section) => {
+        leftMenuItems.map((section) => {
             if (section.name)
                 items.push(
                     <div className={classes["item-section"]} key={`item-section-${section.entity_id}`}>
