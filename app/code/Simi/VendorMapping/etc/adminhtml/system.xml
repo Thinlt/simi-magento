@@ -21,5 +21,8 @@
 	            </group>
            	</group>
     	</section>
+		<section id="carriers">
+			<group id="flatrate" showInDefault="0" showInWebsite="0" showInStore="0" />
+		</section>
     </system>
 </config>

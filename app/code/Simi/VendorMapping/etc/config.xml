@@ -12,6 +12,9 @@
                 <type>I</type>
                 <specificerrmsg>This shipping method is currently unavailable.If you would like to ship using this shipping method, please contact us.</specificerrmsg>
             </aramex>
+            <flatrate>
+                <active>0</active><!-- disable magento flatrate shipping method -->
+            </flatrate>
         </carriers>
     </default>
 </config>
