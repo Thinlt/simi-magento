@@ -219,7 +219,7 @@ export const submitShippingMethod = payload =>
         let billing_address = await retrieveBillingAddress();
         const shipping_address = await retrieveShippingAddress();
 
-        if (billing_address.sameAsShippingAddress) {
+        if (!billing_address || billing_address.sameAsShippingAddress) {
             billing_address = shipping_address;
         } else {
             const { email, firstname, lastname, telephone } = shipping_address;
@@ -275,7 +275,7 @@ export const submitOrder = () =>
         const paymentMethod = await retrievePaymentMethod();
         const shipping_address = await retrieveShippingAddress();
 
-        if (billing_address.sameAsShippingAddress) {
+        if (!billing_address || billing_address.sameAsShippingAddress) {
             billing_address = shipping_address;
         } else {
             if (shipping_address && shipping_address.email) {

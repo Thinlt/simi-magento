@@ -172,23 +172,21 @@ class Checkout extends Component {
                 return;
             }
         }
-        if (this.isCheckoutReady(checkout)) {
-            if (paymentData && paymentData.value === 'paypal_express')
-                history.push('/paypal_express.html')
-            else {
-                submitOrder();
-            }
+        if (paymentData && paymentData.value === 'paypal_express')
+            history.push('/paypal_express.html')
+        else {
+            submitOrder();
         }
-        return;
     }
 
     get btnPlaceOrder() {
+        const isCheckoutReady = this.isCheckoutReady(this.props.checkout)
         return (
             <div className={defaultClasses['btn-place-order']}>
                 <Colorbtn
-                    style={{ backgroundColor: configColor.button_background, color: configColor.button_text_color, width: '100%' }}
+                    style={{ backgroundColor: isCheckoutReady?configColor.button_background:'#aeaeae', opacity: isCheckoutReady?1:0.8, color: configColor.button_text_color, width: '100%' }}
                     className={defaultClasses["go-place_order"]}
-                    onClick={() => this.placeOrder()} text={Identify.__('PLACE ORDER')} />
+                    onClick={() => {if (isCheckoutReady) this.placeOrder()}} text={Identify.__('PLACE ORDER')} />
             </div>
         )
     }
@@ -271,7 +269,7 @@ class Checkout extends Component {
                     />
                 </div>
                 <div className={defaultClasses[`checkout-col-2`]}>
-                    {!is_virtual && <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Method')}</div>}
+                    {(!is_virtual && shippingAddress) && <Panel title={<div className={defaultClasses['checkout-section-title']}>{Identify.__('Shipping Method')}</div>}
                         className={defaultClasses['checkout-panel']}
                         renderContent={<EditableForm {...stepProps} editing='shippingMethod' />}
                         isToggle={true}
