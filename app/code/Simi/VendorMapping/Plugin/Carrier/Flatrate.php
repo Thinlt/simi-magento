@@ -105,6 +105,10 @@ class Flatrate
                 $rateMethods = $result->getAllRates();
                 $result->reset();
                 foreach($rateMethods as $method){
+                    if ($method->getVendorId() == 'default') {
+                        $result->append($method);
+                        continue; // allowed flatrate for admin
+                    }
                     if ($method->getVendorId() && $method->getVendorId() != 'default') {
                         $vendor = $this->_vendorFactory->create()->load($method->getVendorId()); //Vnecoms\Vendors\Model\Vendor
                         if ($vendor && in_array($vendor->getCountry(), $availableCountries)) {

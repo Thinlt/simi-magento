@@ -109,6 +109,9 @@ class Aramex extends AbstractCarrierOnline implements CarrierInterface
     /** \Vnecoms\Vendors\Model\VendorFactory */
     protected $_vendorFactory;
 
+    protected $_fromspecificcountry; //scope config carriers/aramex/fromspecificcountry
+    protected $_sallowfromspecific; //scope config carriers/aramex/sallowfromspecific
+
      /**
       * Constructor
       *
@@ -426,8 +429,8 @@ class Aramex extends AbstractCarrierOnline implements CarrierInterface
         foreach ($this->request->getAllItems() as $item) {
             $vendor_id = $item->getVendorId();
             if ($vendor_id && $vendor_id != 'default' && !isset($allVendorIds[$vendor_id])) {
-                $vendorLoaded = $this->_vendorFactory->create()->loadByVendorId($vendor_id); //Vnecoms\Vendors\Model\Vendor
-                $allVendors[] = $vendorLoaded;
+                $allVendors[] = $this->_vendorFactory->create()->load($vendor_id); //Vnecoms\Vendors\Model\Vendor
+                $allVendorIds[$vendor_id] = $vendor_id;
             }
         }
         
@@ -442,10 +445,15 @@ class Aramex extends AbstractCarrierOnline implements CarrierInterface
             }
             // request by vendor
             foreach($allVendors as $vendor){
+                // check for allowed vendor by country, but allow from admin
+                if ($vendor->getVendorId() != 'default' && !$this->isAllowVendor($vendor)) {
+                    continue;
+                }
                 $vendor_id = 'default';
                 if (
-                    $vendor->getVendorId() && $vendor->getCountryId() && $vendor->getRegionId() && $vendor->getCity()
-                    && $vendor->getPostcode() && $vendor->getVendorId() != 'default') 
+                    $vendor->getVendorId() && $vendor->getVendorId() != 'default' 
+                    && $vendor->getCountryId() && $vendor->getRegionId() && $vendor->getCity()
+                    && $vendor->getPostcode())
                 {
                     $params['OriginAddress'] = [
                         'StateOrProvinceCode' => $vendor->getRegionId(),
@@ -715,5 +723,29 @@ class Aramex extends AbstractCarrierOnline implements CarrierInterface
                 'Version' => 'v1.0'
             ]
         ];
+    }
+
+    /**
+     * Check allow vendor in method
+     * return boolean
+     */
+    protected function isAllowVendor($vendor){
+        if (!$this->_sallowfromspecific) {
+            $this->_sallowfromspecific = $this->_scopeConfig->getValue('carriers/aramex/sallowfromspecific', self::SCOPE_STORE);
+        }
+        if (!$this->_fromspecificcountry) {
+            $this->_fromspecificcountry = $this->_scopeConfig->getValue('carriers/aramex/fromspecificcountry', self::SCOPE_STORE);
+        }
+        if ($this->_sallowfromspecific) {
+            $availableCountries = [];
+            if ($this->_fromspecificcountry) {
+                $availableCountries = explode(',', $this->_fromspecificcountry);
+            }
+            if (!empty($availableCountries) && $vendor && in_array($vendor->getCountry(), $availableCountries)) {
+                return true;
+            }
+            return false;
+        }
+        return true;
     }
 }
