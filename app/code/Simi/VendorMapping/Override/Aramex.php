@@ -425,6 +425,7 @@ class Aramex extends AbstractCarrierOnline implements CarrierInterface
         $allVendorIds = []; //make default vendor for product has no vendor
         $vendor = $this->_vendorFactory->create(); //Vnecoms\Vendors\Model\Vendor
         $vendor->setVendorId('default');
+        $vendor->setEntityId(0);
         $allVendors[] = $vendor;
         foreach ($this->request->getAllItems() as $item) {
             $vendor_id = $item->getVendorId();
@@ -433,9 +434,12 @@ class Aramex extends AbstractCarrierOnline implements CarrierInterface
                 $allVendorIds[$vendor_id] = $vendor_id;
             }
         }
-        
+        // set vendor item weight
+        foreach ($allVendors as &$vendor) {
+            $this->getAddShipmentDetailsByVendor($vendor, $this->request->getAllItems());
+        }
         $priceArr = [];
-		$requestFromAramex = [];
+        $requestFromAramex = [];
         foreach ($allowed_methods as $m_value => $m_title) {
             $params['ShipmentDetails']['ProductType'] = $m_value;
             if ($m_value == "CDA") {
@@ -444,29 +448,42 @@ class Aramex extends AbstractCarrierOnline implements CarrierInterface
                 $params['ShipmentDetails']['Services'] = "";
             }
             // request by vendor
-            foreach($allVendors as $vendor){
+            foreach($allVendors as &$vendor){
                 // check for allowed vendor by country, but allow from admin
                 if ($vendor->getVendorId() != 'default' && !$this->isAllowVendor($vendor)) {
                     continue;
                 }
-                $vendor_id = 'default';
-                if (
-                    $vendor->getVendorId() && $vendor->getVendorId() != 'default' 
-                    && $vendor->getCountryId() && $vendor->getRegionId() && $vendor->getCity()
-                    && $vendor->getPostcode())
-                {
-                    $params['OriginAddress'] = [
-                        'StateOrProvinceCode' => $vendor->getRegionId(),
-                        'City' => $vendor->getCity(),
-                        'PostCode' => $vendor->getPostcode(),
-                        'CountryCode' => $vendor->getCountryId(),
-                    ];
-                    $m_value = $m_value.'_'.$vendor->getVendorId().self::SEPARATOR.$vendor->getId(); // format method_code_vendor||id
-                    $vendor_id = $vendor->getVendorId();
+                $vendor_id = $vendor->getVendorId();
+                if ($vendor_id != 'default') {
+                    if ($vendor->getCountryId() && $vendor->getRegion() && $vendor->getCity() && $vendor->getPostcode()) {
+                        $params['OriginAddress'] = [
+                            'StateOrProvinceCode' => $vendor->getRegion(),
+                            'City' => $vendor->getCity(),
+                            'PostCode' => $vendor->getPostcode(),
+                            'CountryCode' => $vendor->getCountryId(),
+                        ];
+                    } else {
+                        continue;
+                    }
+                    $m_code = $m_value.'_'.$vendor->getVendorId().self::SEPARATOR.$vendor->getEntityId();
                 } else {
-                    $m_value = $m_value.'_'.$vendor->getVendorId().self::SEPARATOR.'default';
+                    $m_code = $m_value.'_'.$vendor->getVendorId().self::SEPARATOR.$vendor->getVendorId();
                 }
-                $requestFromAramex = $this->makeRequestToAramex($params, $m_value, $m_title);
+
+                // set ShipmentDetails by vendor
+                $params['ShipmentDetails'] = array_merge($params['ShipmentDetails'], [
+                    // 'ProductGroup' => $product_group,
+                    // 'ProductType' => '',
+                    'ActualWeight' => ['Value' => $vendor->getWeightPounds(), 'Unit' => 'KG'],
+                    'ChargeableWeight' => ['Value' => $vendor->getWeightPounds(), 'Unit' => 'KG'],
+                    'NumberOfPieces' => $vendor->getPkgQty()
+                ]);
+
+                // check not allowed the sample country
+                if ($params['OriginAddress']['CountryCode'] == $params['DestinationAddress']['CountryCode']) {
+                    continue;
+                }
+                $requestFromAramex = $this->makeRequestToAramex($params, $m_code, $m_title);
                 if (isset($requestFromAramex['response']['error'])) {
                     continue;
                 }
@@ -747,5 +764,25 @@ class Aramex extends AbstractCarrierOnline implements CarrierInterface
             return false;
         }
         return true;
+    }
+
+    /**
+     * return $vendor
+     */
+    protected function getAddShipmentDetailsByVendor(&$vendor, $items){
+        $totalWeight = 0;
+        $pkgQty = 0;
+        foreach($items as $item){
+            if ($item->getVendorId() == $vendor->getEntityId()) {
+                $weight = $item->getRowWeight();
+                if ((float) $weight) {
+                    $totalWeight += $weight;
+                }
+                $pkgQty++;
+            }
+        }
+        $vendor->setWeightPounds($totalWeight);
+        $vendor->setPkgQty($pkgQty);
+        return $this;
     }
 }
