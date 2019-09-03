@@ -41,7 +41,8 @@ class Currency extends StoreView {
     getSelectedCurrency() {
         if (!this.selectedCurrency) {
             const merchantConfigs = Identify.getStoreConfig();
-            this.selectedCurrency = merchantConfigs.simiStoreConfig.currency
+            if (merchantConfigs && merchantConfigs.simiStoreConfig)
+                this.selectedCurrency = merchantConfigs.simiStoreConfig.currency
         }
         return this.selectedCurrency
     }
@@ -55,7 +56,9 @@ class Currency extends StoreView {
             if(currencies.length > 1) {
                 this.checkCurrency = true;
                 return(
-                    <div style={{marginLeft: 15}}>
+                    <div
+                        className={this.props.className}
+                    >
                         <ListItemNested
                             primarytext={<div className={`${classes["menu-title"]} menu-title`} style={{color:configColor.menu_text_color}}>{Identify.__('Currency')}</div>}
                             className={this.props.className}

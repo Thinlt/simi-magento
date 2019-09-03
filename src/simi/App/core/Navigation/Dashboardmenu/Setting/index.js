@@ -4,7 +4,7 @@ import {configColor} from "src/simi/Config";
 import ListItemNested from "src/simi/BaseComponents/MuiListItem/Nested";
 import Storeview from "src/simi/BaseComponents/Settings/Storeview";
 import Currency from "src/simi/BaseComponents/Settings//Currency";
-import SettingIcon from '@material-ui/icons/Settings'
+import SettingIcon from 'src/simi/BaseComponents/Icon/Settings'
 const Setting  = (props) => {
     const merchantConfigs = Identify.getStoreConfig()
     const {classes, style} = props

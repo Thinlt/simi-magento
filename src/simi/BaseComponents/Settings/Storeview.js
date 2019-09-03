@@ -39,7 +39,8 @@ class Storeview extends React.Component {
     getSelectedStoreId() {
         if (!this.selectedStoreId) {
             const merchantConfigs = Identify.getStoreConfig();
-            this.selectedStoreId = parseInt(merchantConfigs.storeConfig.id, 10)
+            if (merchantConfigs && merchantConfigs.storeConfig)
+                this.selectedStoreId = parseInt(merchantConfigs.storeConfig.id, 10)
         }
         return this.selectedStoreId
     }
@@ -47,7 +48,8 @@ class Storeview extends React.Component {
     getSelectedGroupId() {
         if (!this.selectedGroupId) {
             const merchantConfigs = Identify.getStoreConfig();
-            this.selectedGroupId = merchantConfigs.simiStoreConfig.config.base.group_id
+            if (merchantConfigs && merchantConfigs.simiStoreConfig)
+                this.selectedGroupId = merchantConfigs.simiStoreConfig.config.base.group_id
         }
         return this.selectedGroupId
     }
@@ -64,7 +66,9 @@ class Storeview extends React.Component {
             if (storeViews.length > 1) {
                 this.checkStore = true;
                 return(
-                    <div style={{marginLeft: 15}}>
+                    <div
+                        className={this.props.className}
+                    >
                         <ListItemNested
                             primarytext={<div className={`${classes["menu-title"]} menu-title`} style={{color:configColor.menu_text_color}}>{Identify.__('Language')}</div>}
                             className={this.props.className}
