@@ -23,4 +23,25 @@
 	<!-- <type name="Aramex\Shipping\Model\Aramex">
       	<plugin name="simiVendorMappingPluginCarrierAramex" type="Simi\VendorMapping\Plugin\Carrier\Aramex"/>
 	</type> -->
+
+	<type name="Magento\Framework\EntityManager\Operation\ExtensionPool">
+        <arguments>
+            <argument name="extensionActions" xsi:type="array">
+                <item name="Magento\Catalog\Api\Data\ProductInterface" xsi:type="array">
+                    <item name="create" xsi:type="array">
+                        <item name="aw_giftcard_amounts_creator" xsi:type="string">Simi\VendorMapping\Model\ResourceModel\Product\Relation\Amounts\SaveHandler</item>
+                        <item name="aw_giftcard_templates_creator" xsi:type="string">Simi\VendorMapping\Model\ResourceModel\Product\Relation\Templates\SaveHandler</item>
+                    </item>
+                    <item name="read" xsi:type="array">
+                        <item name="aw_giftcard_amounts_reader" xsi:type="string">Aheadworks\Giftcard\Model\ResourceModel\Product\Relation\Amounts\ReadHandler</item>
+                        <item name="aw_giftcard_templates_reader" xsi:type="string">Aheadworks\Giftcard\Model\ResourceModel\Product\Relation\Templates\ReadHandler</item>
+                    </item>
+                    <item name="update" xsi:type="array">
+                        <item name="aw_giftcard_amounts_updater" xsi:type="string">Simi\VendorMapping\Model\ResourceModel\Product\Relation\Amounts\SaveHandler</item>
+                        <item name="aw_giftcard_templates_updater" xsi:type="string">Simi\VendorMapping\Model\ResourceModel\Product\Relation\Templates\SaveHandler</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
 </config>
