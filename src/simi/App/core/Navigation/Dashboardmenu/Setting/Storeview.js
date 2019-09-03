@@ -6,6 +6,11 @@ import {configColor} from 'src/simi/Config';
 import ListItemNested from 'src/simi/BaseComponents/MuiListItem/Nested';
 import MenuItem from 'src/simi/BaseComponents/MenuItem'
 import {showFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
+
+import { Util } from '@magento/peregrine';
+const { BrowserPersistence } = Util;
+const storage = new BrowserPersistence();
+
 class Storeview extends React.Component {
 
     constructor(props) {
@@ -18,9 +23,15 @@ class Storeview extends React.Component {
     selectedStore(store) {
         showFogLoading()
         let appSettings = Identify.getAppSettings()
+        const cartId = storage.getItem('cartId')
+        const signin_token = storage.getItem('signin_token')
         appSettings = appSettings?appSettings:{}
         CacheHelper.clearCaches()
         appSettings.store_id = parseInt(store.store_id, 10);
+        if (cartId)
+            storage.setItem('cartId', cartId)
+        if (signin_token)
+            storage.setItem('signin_token', signin_token)
         Identify.storeAppSettings(appSettings);
         window.location.reload()
     }

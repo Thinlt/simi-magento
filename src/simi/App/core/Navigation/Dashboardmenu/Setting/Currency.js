@@ -8,6 +8,10 @@ import {configColor} from 'src/simi/Config';
 import MenuItem from "src/simi/BaseComponents/MenuItem";
 import {showFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 
+import { Util } from '@magento/peregrine';
+const { BrowserPersistence } = Util;
+const storage = new BrowserPersistence();
+
 class Currency extends StoreView {
 
     constructor(props){
@@ -18,9 +22,18 @@ class Currency extends StoreView {
     chosedCurrency(currency) {
         showFogLoading()
         let appSettings = Identify.getAppSettings()
+        const cartId = storage.getItem('cartId')
+        const signin_token = storage.getItem('signin_token')
         appSettings = appSettings?appSettings:{}
+        const currentStoreId = parseInt(appSettings.store_id, 10);
         CacheHelper.clearCaches()
         appSettings.currency = currency;
+        if (currentStoreId)
+            appSettings.store_id = currentStoreId
+        if (cartId)
+            storage.setItem('cartId', cartId)
+        if (signin_token)
+            storage.setItem('signin_token', signin_token)
         Identify.storeAppSettings(appSettings);
         window.location.reload()
     }
@@ -28,7 +41,7 @@ class Currency extends StoreView {
     getSelectedCurrency() {
         if (!this.selectedCurrency) {
             const merchantConfigs = Identify.getStoreConfig();
-            this.selectedCurrency = merchantConfigs.storeConfig.default_display_currency_code
+            this.selectedCurrency = merchantConfigs.simiStoreConfig.currency
         }
         return this.selectedCurrency
     }
