@@ -57,7 +57,7 @@ class Currency extends StoreView {
                 return(
                     <div style={{marginLeft: 15}}>
                         <ListItemNested
-                            primarytext={<div className={classes["menu-title"]} style={{color:configColor.menu_text_color}}>{Identify.__('Currency')}</div>}
+                            primarytext={<div className={`${classes["menu-title"]} menu-title`} style={{color:configColor.menu_text_color}}>{Identify.__('Currency')}</div>}
                             className={this.props.className}
                         >
                             {this.renderSubItem()}
@@ -81,12 +81,12 @@ class Currency extends StoreView {
             storesRender = currencyList.map((currency) => {
                 const isSelected = currency.value === this.getSelectedCurrency() ? 
                     <Check color={configColor.button_background} style={{width: 18, height: 18}} /> : 
-                    <span className={classes["not-selected"]} style={{borderColor : configColor.menu_text_color, width: 18, height: 18}}></span>;
-                    const currencyItem =<span className={classes["store-item"]} style={{display: 'flex'}}>
-                                    <div className={classes["selected"]}>
+                    <span className={`${classes["not-selected"]} not-selected`} style={{borderColor : configColor.menu_text_color, width: 18, height: 18}}></span>;
+                    const currencyItem =<span className={`${classes["currency-item"]} currency-item`} style={{display: 'flex'}}>
+                                    <div className={`${classes["selected"]} selected`}>
                                         {isSelected}
                                     </div>
-                                    <div className={classes["store-name"]}>
+                                    <div className={`${classes["currency-name"]} currency-name`}>
                                         {currency.title}
                                     </div>
                                 </span>
