@@ -2,7 +2,7 @@
 
 namespace Simi\VendorMapping\Observer\Catalog\Product;
 
-class LoadAfter implements \Magento\Framework\Event\ObserverInterface
+class LoadAfterAdminhtml implements \Magento\Framework\Event\ObserverInterface
 {
     public function execute(\Magento\Framework\Event\Observer $observer)
     {

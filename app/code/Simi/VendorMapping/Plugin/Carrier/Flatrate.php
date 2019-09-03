@@ -41,9 +41,12 @@ class Flatrate
         if ($field == 'rates') {
             $config = $this->_configFactory->create();
             $configData = $config->getValue('shipping_method/flatrate/rates');
-            $configData = json_decode($configData, true);
+            $configFlatrate = [];
+            if ($configData) {
+                $configFlatrate = json_decode($configData, true);
+            }
             $rates = [];
-            foreach($configData as $row){
+            foreach($configFlatrate as $row){
                 $rates[$row['sort_order']] = [
                     'identifier' => $row['identifier'],
                     'title' => isset($row['title'])?$row['title']:'',
@@ -70,7 +73,7 @@ class Flatrate
         //update vendor id for item in quote
         $allItems = [];
         foreach ($request->getAllItems() as $item) {
-            if (!$item->getVendorId()) {
+            if (!$item->getVendorId() || $item->getIsAdminSell()) {
                 $item->setVendorId('default'); //set vendor_id for items that are does not belong to a vendor
                 $product = $item->getProduct()->load($item->getProductId());
                 $product->setVendorId('default');
