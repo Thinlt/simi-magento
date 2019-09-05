@@ -1,0 +1,2 @@
+type AwGiftcardProduct implements ProductInterface, PhysicalProductInterface, CustomizableProductInterface @doc(description: "AwGiftcardProduct defines basic features of a giftcard product and its simple product variants") {
+}
