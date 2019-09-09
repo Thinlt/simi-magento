@@ -124,14 +124,14 @@
 }
 
 
-#cart-coupon-form {
+.cart-coupon-form {
     font-size: 16px;
 }
  
-#cart-coupon-form .coupon-code-title {
+.cart-coupon-form .coupon-code-title {
     font-weight: 600;
 }
-#cart-coupon-form .coupon-code-area-tablet {
+.cart-coupon-form .coupon-code-area-tablet {
     margin-top: 8px;
     display: inline-block;
     position: relative;
@@ -152,12 +152,12 @@
 }
 
 @media (max-width: 1023px) { 
-    #cart-coupon-form .coupon-code-area-tablet {
+    .cart-coupon-form .coupon-code-area-tablet {
         width: 100%;
     }
 }
 
-#cart-coupon-form .coupon-code-area-tablet input {
+.cart-coupon-form .coupon-code-area-tablet input {
     height: 45px;
     width: 330px;
     border-radius: 4px;
@@ -166,14 +166,14 @@
 }
 
 @media (max-width: 1023px) {
-    #cart-coupon-form .coupon-code-area-tablet input { 
+    .cart-coupon-form .coupon-code-area-tablet input { 
         width: 100%;
     }
 }
 
 
 @media (min-width: 1024px) {
-    #submit-coupon {
+    .submit-coupon {
         display: inline-block;
         margin-left: 8px;
         width: 100px;
@@ -181,7 +181,7 @@
 }
 
 @media (max-width: 1023px) {
-    #submit-coupon {
+    .submit-coupon {
         width: 100%;
         margin-top: 8px;
     }
