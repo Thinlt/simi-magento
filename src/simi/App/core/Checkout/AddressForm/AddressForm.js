@@ -2,11 +2,11 @@ import React, { useCallback, useMemo } from 'react';
 import { Form } from 'informed';
 import { array, bool, func, object, shape, string } from 'prop-types';
 
-import { mergeClasses } from 'src/classify';
-import defaultClasses from './AddressForm.css';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import FormFields from '../components/formFields';
 import Identify from 'src/simi/Helper/Identify';
+
+require('./AddressForm.scss')
 
 const fields = [
     'city',
@@ -58,7 +58,6 @@ const AddressForm = props => {
         is_virtual,
     } = props;
 
-    const classes = mergeClasses(defaultClasses, props.classes);
     const validationMessage = isAddressInvalid ? invalidAddressMessage : null;
 
     let initialFormValues = initialValues;
@@ -164,7 +163,6 @@ const AddressForm = props => {
 
     const formChildrenProps = {
         ...props,
-        classes,
         submitting,
         submit,
         validationMessage,
@@ -176,7 +174,7 @@ const AddressForm = props => {
 
     return (
         <Form
-            className={classes.root}
+            className='root'
             initialValues={values}
             onSubmit={handleSubmit}
             key={Identify.randomString()}
@@ -188,22 +186,6 @@ const AddressForm = props => {
 };
 
 AddressForm.propTypes = {
-    classes: shape({
-        body: string,
-        button: string,
-        city: string,
-        email: string,
-        firstname: string,
-        footer: string,
-        heading: string,
-        lastname: string,
-        postcode: string,
-        root: string,
-        region_code: string,
-        street0: string,
-        telephone: string,
-        validation: string
-    }),
     countries: array,
     invalidAddressMessage: string,
     initialValues: object,

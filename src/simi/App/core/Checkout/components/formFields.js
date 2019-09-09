@@ -7,7 +7,6 @@ import {
 } from 'src/util/formValidators';
 import { validateTelephone } from 'src/simi/Helper/informedValidation';
 
-import defaultClasses from './formFields.css';
 import combine from 'src/util/combineValidators';
 import TextInput from 'src/components/TextInput';
 import Field from 'src/components/Field';
@@ -24,6 +23,7 @@ import LoadingImg from 'src/simi/BaseComponents/Loading/LoadingImg';
 import { smoothScrollToView } from 'src/simi/Helper/Behavior';
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
+require('./formFields.scss')
 
 const listAddress = (addresses) => {
     let html = [];
@@ -57,7 +57,7 @@ const listState = (states) => {
 let showState = null;
 
 const FormFields = (props) => {
-    const { classes,
+    const {
         billingForm,
         validationMessage,
         initialCountry,
@@ -225,7 +225,7 @@ const FormFields = (props) => {
         const country = countries.find(({ id }) => id === country_id);
         const { available_regions: regions } = country;
         if (country.available_regions && Array.isArray(regions) && regions.length && (!configFields || (configFields && configFields.hasOwnProperty('region_id_show') && configFields.region_id_show))) {
-            showState = <div className={classes.region_code}>
+            showState = <div className='region_code'>
                 <Field label={Identify.__("State")}>
                     <Select field="region_code" items={listState(regions)} validate={(!configFields || (configFields && configFields.hasOwnProperty('street_show') && configFields.street_show === 'req')) ? isRequired : ''} />
                 </Field>
@@ -245,7 +245,7 @@ const FormFields = (props) => {
 
     const viewFields = !formState.values.addresses_same ? (
         <Fragment>
-            {isSignedIn && <div className={classes.shipping_address}>
+            {isSignedIn && <div className='shipping_address'>
                 <Field label={billingForm ? Identify.__("Select Billing") : Identify.__("Select Shipping")}>
                     <Select
                         field="selected_address_field"
@@ -257,10 +257,10 @@ const FormFields = (props) => {
             </div>}
             {!isSignedIn || shippingNewForm || ((billingForm && storageBilling === 'new_address') || (!billingForm && storageShipping === 'new_address')) ?
                 <Fragment>
-                    {!isSignedIn && <div className={classes.email}>
+                    {!isSignedIn && <div className='email'>
                         <Field label={Identify.__("Email")} required>
                             <TextInput
-                                id={classes.email}
+                                id='email'
                                 field="email"
                                 validate={combine([isRequired, validateEmail])}
                                 onBlur={() => !billingForm && !user.isSignedIn && checkMailExist()}
@@ -269,19 +269,19 @@ const FormFields = (props) => {
                         </Field>
                     </div>}
                     {existCustomer && <Fragment>
-                        <div className={classes.password}>
+                        <div className='password'>
                             <Field label="Password" required>
                                 <TextInput
-                                    id={classes.password}
+                                    id='password'
                                     field="password"
                                     type="password"
                                 />
                             </Field>
                             <span style={{ marginTop: 6, display: 'block' }}>{Identify.__('You already have an account with us. Sign in or continue as guest')}</span>
                         </div>
-                        <div className={defaultClasses['btn_login_exist']}>
+                        <div className='btn_login_exist'>
                             <Button
-                                className={classes.button}
+                                className='button'
                                 style={{ marginTop: 10 }}
                                 type="button"
                                 onClick={() => handleSignIn()}
@@ -290,29 +290,29 @@ const FormFields = (props) => {
                         </div>
                     </Fragment>
                     }
-                    <div className={classes.firstname}>
+                    <div className='firstname'>
                         <Field label={Identify.__("First Name")} required>
                             <TextInput
-                                id={classes.firstname}
+                                id='firstname'
                                 field="firstname"
                                 validate={isRequired}
                             />
                         </Field>
                     </div>
-                    <div className={classes.lastname}>
+                    <div className='lastname'>
                         <Field label={Identify.__("Last Name")} required>
                             <TextInput
-                                id={classes.lastname}
+                                id='lastname'
                                 field="lastname"
                                 validate={isRequired}
                             />
                         </Field>
                     </div>
                     {configFields && configFields.hasOwnProperty('company_show') && configFields.company_show ?
-                        <div className={classes.company}>
+                        <div className='company'>
                             <Field label={Identify.__("Company")} required={configFields.company_show === 'req' ? true : false}>
                                 <TextInput
-                                    id={classes.company}
+                                    id='company'
                                     field="company"
                                     validate={configFields && configFields.company_show === 'req' ? isRequired : ''}
                                 />
@@ -320,10 +320,10 @@ const FormFields = (props) => {
                         </div>
                         : null}
                     {!configFields || (configFields && configFields.hasOwnProperty('street_show') && configFields.street_show) ?
-                        <div className={classes.street0}>
+                        <div className='street0'>
                             <Field label={Identify.__("Street")} required={(!configFields || configFields.street_show === 'req') ? true : false} >
                                 <TextInput
-                                    id={classes.street0}
+                                    id='street0'
                                     field="street[0]"
                                     validate={(!configFields || (configFields && configFields.hasOwnProperty('street_show') && configFields.street_show === 'req')) ? isRequired : ''}
                                 />
@@ -334,27 +334,27 @@ const FormFields = (props) => {
                         </div>
                         : null}
                     {!configFields || (configFields && configFields.hasOwnProperty('city_show') && configFields.city_show) ?
-                        <div className={classes.city}>
+                        <div className='city'>
                             <Field label={Identify.__("City")} required={(!configFields || configFields.city_show === 'req') ? true : false} >
                                 <TextInput
-                                    id={classes.city}
+                                    id='city'
                                     field="city"
                                     validate={(!configFields || (configFields && configFields.hasOwnProperty('city_show') && configFields.city_show === 'req')) ? isRequired : ''}
                                 />
                             </Field>
                         </div> : null}
                     {!configFields || (configFields && configFields.hasOwnProperty('zipcode_show') && configFields.zipcode_show) ?
-                        <div className={classes.postcode}>
+                        <div className='postcode'>
                             <Field label={Identify.__("ZIP")} required={(!configFields || configFields.zipcode_show === 'req') ? true : false}>
                                 <TextInput
-                                    id={classes.postcode}
+                                    id='postcode'
                                     field="postcode"
                                     validate={(!configFields || (configFields && configFields.hasOwnProperty('zipcode_show') && configFields.zipcode_show === 'req')) ? isRequired : ''}
                                 />
                             </Field>
                         </div> : null}
                     {!configFields || (configFields && configFields.hasOwnProperty('country_id_show') && configFields.country_id_show) ?
-                        <div className={classes.country}>
+                        <div className='country'>
                             <Field label={Identify.__("Country")} required={(!configFields || configFields.country_id_show === 'req') ? true : false}>
                                 <Select
                                     field="country_id"
@@ -367,20 +367,20 @@ const FormFields = (props) => {
                         </div> : null}
                     {showState}
                     {!configFields || (configFields && configFields.hasOwnProperty('telephone_show') && configFields.telephone_show) ?
-                        <div className={classes.telephone}>
+                        <div className='telephone'>
                             <Field label={Identify.__("Phone")} required={(!configFields || configFields.telephone_show === 'req') ? true : false}>
                                 <TextInput
-                                    id={classes.telephone}
+                                    id='telephone'
                                     field="telephone"
                                     validate={(!configFields || (configFields && configFields.hasOwnProperty('telephone_show') && configFields.telephone_show === 'req')) ? combine([isRequired, validateTelephone]) : ''}
                                 />
                             </Field>
                         </div> : null}
                     {configFields && configFields.hasOwnProperty('fax_show') && configFields.fax_show ?
-                        <div className={classes.fax}>
+                        <div className='fax'>
                             <Field label={Identify.__("Fax")} required={configFields.fax_show === 'req' ? true : false}>
                                 <TextInput
-                                    id={classes.fax}
+                                    id='fax'
                                     field="fax"
                                     validate={configFields && configFields.fax_show === 'req' ? isRequired : ''}
                                 />
@@ -388,10 +388,10 @@ const FormFields = (props) => {
                         </div>
                         : null}
                     {configFields && configFields.hasOwnProperty('prefix_show') && configFields.prefix_show ?
-                        <div className={classes.prefix}>
+                        <div className='prefix'>
                             <Field label={Identify.__("Prefix")} required={configFields.prefix_show === 'req' ? true : false}>
                                 <TextInput
-                                    id={classes.prefix}
+                                    id='prefix'
                                     field="prefix"
                                     validate={configFields && configFields.prefix_show === 'req' ? isRequired : ''}
                                 />
@@ -399,10 +399,10 @@ const FormFields = (props) => {
                         </div>
                         : null}
                     {configFields && configFields.hasOwnProperty('suffix_show') && configFields.suffix_show ?
-                        <div className={classes.suffix}>
+                        <div className='suffix'>
                             <Field label={Identify.__("Suffix")} required={configFields.suffix_show === 'req' ? true : false}>
                                 <TextInput
-                                    id={classes.suffix}
+                                    id='suffix'
                                     field="suffix"
                                     validate={configFields && configFields.suffix_show === 'req' ? isRequired : ''}
                                 />
@@ -410,27 +410,27 @@ const FormFields = (props) => {
                         </div>
                         : null}
                     {configFields && configFields.hasOwnProperty('taxvat_show') && configFields.taxvat_show ?
-                        <div className={classes.vat_id}>
+                        <div className='vat_id'>
                             <Field label={Identify.__("VAT")} required={configFields.taxvat_show === 'req' ? true : false}>
                                 <TextInput
-                                    id={classes.vat_id}
+                                    id='vat_id'
                                     field="vat_id"
                                     validate={configFields && configFields.taxvat_show === 'req' ? isRequired : ''}
                                 />
                             </Field>
                         </div>
                         : null}
-                    <div className={classes.save_in_address_book}>
+                    <div className='save_in_address_book'>
                         <Checkbox field="save_in_address_book" label={Identify.__('Save in address book.')} />
                     </div>
-                    <div className={classes.validation}>{validationMessage}</div>
+                    <div className='validation'>{validationMessage}</div>
                 </Fragment> : null}
         </Fragment>
     ) : null;
     const viewSubmit = !formState.values.addresses_same && (!isSignedIn || shippingNewForm || ((billingForm && storageBilling === 'new_address') || (!billingForm && storageShipping === 'new_address'))) ? (
-        <div className={classes.footer}>
+        <div className='footer'>
             <Button
-                className={classes.button}
+                className='button'
                 style={{ marginTop: 10, float: 'right' }}
                 type="submit"
                 priority="high"
@@ -461,7 +461,7 @@ const FormFields = (props) => {
     }
 
     return <Fragment>
-        <div className={classes.body}>
+        <div className='body'>
             {(billingForm && !is_virtual) && <Checkbox field="addresses_same" label={Identify.__("Billing address same as shipping address")} onChange={() => checkSameShippingAddress()} />}
             {viewFields}
         </div>
