@@ -76,8 +76,6 @@ const FormFields = (props) => {
     const [showRegion, setShowRegion] = useState(null);
     const [usingSameAddress, setUsingSameAddress] = useState(billingForm === true);
 
-    // existCustomer = isSignedIn ? false : existCustomer;
-
     const storageShipping = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'shipping_address');
     const storageBilling = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'billing_address');
 
@@ -101,14 +99,13 @@ const FormFields = (props) => {
         [submitBilling]
     )
 
-    const handleChooseShipping = () => {
-        if (formState.values.selected_address_field !== 'new_address') {
-            const { selected_address_field } = formState.values;
+    const handleChooseAddedAddress = () => {
+        const selected_address_field = $(`#${formId} select[name=selected_address_field]`).val()
+        if (selected_address_field !== 'new_address') {
             setShippingNewForm(false);
             const shippingFilter = addresses.find(
                 ({ id }) => id === parseInt(selected_address_field, 10)
             );
-
             if (shippingFilter) {
                 if (!shippingFilter.email) shippingFilter.email = currentUser.email;
 
@@ -139,6 +136,8 @@ const FormFields = (props) => {
         values => {
             if (values.hasOwnProperty('selected_address_field')) delete values.selected_address_field
             if (values.hasOwnProperty('password')) delete values.password
+            if (values.hasOwnProperty('default_billing')) delete values.default_billing
+            if (values.hasOwnProperty('default_shipping')) delete values.default_shipping
             if (values.save_in_address_book) {
                 values.save_in_address_book = 1;
             } else {
@@ -241,9 +240,10 @@ const FormFields = (props) => {
                 <div className={`address-field-label ${(!configFields || configFields.country_id_show === 'req') ? 'req' : ''}`}>{billingForm ? Identify.__("Select Billing") : Identify.__("Select Shipping")}</div> 
                 <Select
                     field="selected_address_field"
+                    key={Identify.randomString()}
                     initialValue={billingForm ? initialBilling : initialShipping}
                     items={listAddress(addresses)}
-                    onChange={() => handleChooseShipping()}
+                    onChange={() => handleChooseAddedAddress()}
                 />
             </div>}
             {!isSignedIn || shippingNewForm || ((billingForm && storageBilling === 'new_address') || (!billingForm && storageShipping === 'new_address')) ?
@@ -401,19 +401,3 @@ async function setToken(token) {
     // TODO: Get correct token expire time from API
     return storage.setItem('signin_token', token, 3600);
 }
-
-/*
-const mockAddress = {
-    country_id: 'US',
-    firstname: 'Veronica',
-    lastname: 'Costello',
-    street: ['6146 Honey Bluff Parkway'],
-    city: 'Calder',
-    postcode: '49628-7978',
-    region_id: 33,
-    region_code: 'MI',
-    region: 'Michigan',
-    telephone: '(555) 229-3326',
-    email: 'veronica@example.com'
-};
-*/

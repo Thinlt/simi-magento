@@ -58,7 +58,6 @@ const AddressForm = props => {
         is_virtual,
     } = props;
 
-    console.log(initialValues)
     const formId = props.id?props.id:Identify.randomString()
     const validationMessage = isAddressInvalid ? invalidAddressMessage : null;
 
