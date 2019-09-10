@@ -57,7 +57,6 @@ export const toggleMessages = value => async dispatch => {
 
 export const submitShippingAddress = payload =>
     async function thunk(dispatch, getState) {
-        dispatch(actions.changeCheckoutUpdating(true));
         dispatch(checkoutActions.shippingAddress.submit(payload));
         const { cart, directory, user } = getState();
 
@@ -86,7 +85,7 @@ export const submitShippingAddress = payload =>
         const authedEndpoint =
             '/rest/V1/carts/mine/estimate-shipping-methods';
         const endpoint = user.isSignedIn ? authedEndpoint : guestEndpoint;
-
+        dispatch(actions.changeCheckoutUpdating(true));
         const response = await request(endpoint, {
             method: 'POST',
             body: JSON.stringify({address})

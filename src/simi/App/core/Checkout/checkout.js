@@ -213,7 +213,6 @@ class Checkout extends Component {
         const { shippingAddress, submitting, availableShippingMethods, shippingMethod, billingAddress, paymentData, paymentCode,
             invalidAddressMessage, isAddressInvalid, shippingTitle, editing } = checkout;
         const { paymentMethods } = cart;
-
         const stepProps = {
             availableShippingMethods, billingAddress, cancelCheckout, cart, cartCurrencyCode, directory, editOrder, editing,
             hasPaymentMethod: !!paymentData && !isObjectEmpty(paymentData),

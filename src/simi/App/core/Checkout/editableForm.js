@@ -93,6 +93,7 @@ const EditableForm = props => {
             return (
                 <Fragment>
                     <AddressForm
+                        id="shippingAddressForm"
                         cancel={handleCancel}
                         countries={countries}
                         isAddressInvalid={isAddressInvalid}
@@ -121,6 +122,7 @@ const EditableForm = props => {
             return (
                 <Fragment>
                     <AddressForm
+                        id="billingAddressForm"
                         cancel={handleCancel}
                         countries={countries}
                         isAddressInvalid={isAddressInvalid}
