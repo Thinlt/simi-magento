@@ -451,7 +451,7 @@ class Giftcard extends AbstractType
                         $emailTemplateId = Sender::DEFAULT_EMAIL_TEMPLATE_ID;
                     }
                 } else {
-                    $emailTemplate->loadDefault($emailTemplateId);
+                    $emailTemplate->setForcedArea($emailTemplateId)->loadDefault($emailTemplateId);
                 }
                 $emailTemplateName = is_numeric($emailTemplateId)
                     ? $emailTemplate->getTemplateCode()
