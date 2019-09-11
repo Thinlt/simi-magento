@@ -1,0 +1,26 @@
+.form-fields-body {
+
+}
+.btn_login_exist{
+    margin: 6px 0 10px;
+}
+.form-fields-body .address-field-label {
+    margin-top: 5px;
+    font-size: 1rem;
+    margin-bottom: 3px;
+}
+.form-fields-body .address-field-label.req::after {
+    color: #ee0000;
+    content: " *";
+}
+.form-fields-body input[type=text], .form-fields-body input[type=email], .form-fields-body input[type=tel] {
+    font-size: 1rem;
+    padding: 3px 15px;
+    width: 100%;
+    margin-bottom: 5px;
+    border: 1px solid #999;
+}
+
+.form-fields-body input.warning, .form-fields-body select.warning {
+   box-shadow: 0 0 5px -2px #ee0000;
+}

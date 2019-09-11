@@ -1,13 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import { compose } from 'redux';
 import { connect } from 'src/drivers';
 import { bool, object, shape, string } from 'prop-types';
-import classify from 'src/classify';
 import {
     getCartDetails,
     updateItemInCart
 } from 'src/actions/cart';
-import defaultClasses from './cart.css';
 import { isEmptyCartVisible } from 'src/selectors/cart';
 
 import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
@@ -25,6 +22,7 @@ import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/Gl
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import {removeItemFromCart} from 'src/simi/Model/Cart'
 import Coupon from 'src/simi/BaseComponents/Coupon'
+require('./cart.scss')
 
 
 
@@ -73,14 +71,14 @@ class Cart extends Component {
     }
 
     get productList() {
-        const { cart, classes } = this.props;
+        const { cart } = this.props;
         if (!cart)
             return
         const { cartCurrencyCode, cartId } = this;
         if (cartId) {
             const obj = [];
             obj.push(
-                <div key={Identify.randomString(5)} className={classes['cart-item-header']}>
+                <div key={Identify.randomString(5)} className='cart-item-header'>
                     <div style={{width: '60%', borderRight: 'solid #DCDCDC 1px'}}>{Identify.__('Items')}</div>
                     <div style={{width: '11%', borderRight: 'solid #DCDCDC 1px', textAlign: 'center'}}>{Identify.__('Unit Price')}</div>
                     <div style={{width: '11%', borderRight: 'solid #DCDCDC 1px', textAlign: 'center'}}>{Identify.__('Qty')}</div>
@@ -114,39 +112,37 @@ class Cart extends Component {
                     obj.push(element);
                 }
             }
-            return <div className={classes['cart-list']}>{obj}</div>;
+            return <div className='cart-list'>{obj}</div>;
         }
     }
 
     get totalsSummary() {
-        const { cart, classes } = this.props;
+        const { cart } = this.props;
         const { cartCurrencyCode } = this;
         if (!cart.totals)
             return
-        return (<Total classes={classes} data={cart.totals} currencyCode={cartCurrencyCode} />)
+        return (<Total data={cart.totals} currencyCode={cartCurrencyCode} />)
     }
 
 
     get total() {
-        const { props, totalsSummary } = this;
-        const { classes } = props;
+        const { totalsSummary } = this;
 
         return (
             <div>
-                <div className={classes.summary}>{totalsSummary}</div>
+                <div className="summary">{totalsSummary}</div>
             </div>
         );
     }
 
     get checkoutButton() {
-        const { classes } = this.props;
         return (
-            <div className={classes['cart-btn-section']}>
-                <Whitebtn className={classes['continue-shopping']} onClick={() => this.handleBack()} text={Identify.__('Continue shopping')}/>
+            <div className='cart-btn-section'>
+                <Whitebtn className='continue-shopping' onClick={() => this.handleBack()} text={Identify.__('Continue shopping')}/>
                 <Colorbtn
                     id="go-checkout"
                     style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
-                    className={classes["go-checkout"]}
+                    className="go-checkout"
                     onClick={() => this.handleGoCheckout()} text={Identify.__('Pay Securely')}/>
             </div>
         )
@@ -176,32 +172,31 @@ class Cart extends Component {
     }
 
     get couponView () {
-        const { cart, classes, toggleMessages, getCartDetails } = this.props;
+        const { cart, toggleMessages, getCartDetails } = this.props;
         let value = "";
         if (cart.totals.coupon_code) {
             value = cart.totals.coupon_code;
         }
 
         const childCPProps = {
-            classes,
             value,
             toggleMessages,
             getCartDetails
         }
-        return <Coupon {...childCPProps} />
+        return <div className={`cart-coupon-form`}><Coupon {...childCPProps} /></div>
     }
 
     get miniCartInner() {
         const { productList, props, total, checkoutButton, couponView } = this;
-        const { cart: { isLoading },classes, isCartEmpty,cart } = props;
+        const { cart: { isLoading }, isCartEmpty,cart } = props;
         
         if (isCartEmpty || !cart.details || !parseInt(cart.details.items_count)) {
             if (isLoading)
                 return <Loading />
             else
                 return (
-                    <div className={classes['cart-page-siminia']}>
-                        <div className={classes['empty-cart']}>
+                    <div className='cart-page-siminia'>
+                        <div className='empty-cart'>
                         {Identify.__('You have no items in your shopping cart')}
                         </div>
                     </div>
@@ -217,13 +212,13 @@ class Cart extends Component {
         return (
             <Fragment>
                 {this.state.isPhone && this.breadcrumb}
-                <div className={classes['cart-header']}>
-                    <div role="presentation" className={classes['cart-back-btn']} onClick={() => this.handleBack()} onKeyUp={() => this.handleBack()} >
+                <div className='cart-header'>
+                    <div role="presentation" className='cart-back-btn' onClick={() => this.handleBack()} onKeyUp={() => this.handleBack()} >
                         <Arrowup style={{width: 25}}/>
                         <span>{Identify.__('Continue shopping')}</span>
                     </div>
                     {   (cart.details && parseInt(cart.details.items_count))?
-                        <div className={classes['cart-title']}>
+                        <div className='cart-title'>
                             <Basket/>
                             <div>
                                 {Identify.__('Your basket contains: %s item(s)').replace('%s', cart.details.items_count)}
@@ -231,7 +226,7 @@ class Cart extends Component {
                         </div>:''
                     }
                 </div>
-                <div className={classes.body}>{productList}</div>
+                <div className="body">{productList}</div>
                 {couponView}
                 {total}
                 {checkoutButton}
@@ -260,17 +255,6 @@ Cart.propTypes = {
         isLoading: bool,
         isUpdatingItem: bool
     }),
-    classes: shape({
-        body: string,
-        header: string,
-        root_open: string,
-        root: string,
-        subtotalLabel: string,
-        subtotalValue: string,
-        summary: string,
-        title: string,
-        totals: string
-    }),
     isCartEmpty: bool
 }
 
@@ -290,10 +274,7 @@ const mapDispatchToProps = {
     updateItemInCart,
 };
 
-export default compose(
-    classify(defaultClasses),
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
 )(Cart);
