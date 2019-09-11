@@ -6,9 +6,9 @@ import SelectField from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
-import classify from 'src/classify';
+// import classify from 'src/classify';
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent/';
-import defaultClasses from './giftcardoptions.css';
+require('./giftcardoptions.scss');
 
 const DatePicker = (props)=>{
     return <LazyComponent component={()=>import('./DateType')} {...props}/>
@@ -26,7 +26,7 @@ class GiftcardOptions extends OptionBase {
 
     constructor(props){
         super(props);
-        this.classes = defaultClasses
+        this.classes = {}
         this.extraField = props.extraField
         this.timezoneOption = [];
         this.deliveryDateRef = React.createRef();
@@ -181,10 +181,10 @@ class GiftcardOptions extends OptionBase {
             const mediaUrlPath = this.extraField.aw_gc_template_image_url_path || null;
             if(!options) return <div></div>;
             return (
-                <div className={classes["product-options"]}>
-                    <div id="giftcard-option" className={classes["giftcard-option"]}>
+                <div className="product-options">
+                    <div id="giftcard-option" className="giftcard-option">
                         <form id="giftcard-form" onChange={this.formChange}>
-                            <div className={classes["option-row"]}>
+                            <div className="option-row">
                                 <label htmlFor="aw_gc_amount">{Identify.__('CARD VALUE *')}</label>
                                 <div data-input-bounded-for={"aw_gc_amount"}>
                                     <SelectField value={this.state.aw_gc_amount} onChange={this.gcAmountChange} displayEmpty={true} inputProps={{
@@ -207,16 +207,16 @@ class GiftcardOptions extends OptionBase {
                                     </SelectField>
                                 </div>
                             </div>
-                            <div className={classes["option-row"]}>
+                            <div className="option-row">
                                 <input id="aw_gc_is_send_to_friend" onClick={(e) => this.toggleSendToFriend(e)} type="checkbox" />
                                 <label htmlFor="aw_gc_is_send_to_friend">{Identify.__('Send the gift voucher to a friend')}</label>
                             </div>
                             {
                                 isSendToFriend && 
                                 <React.Fragment>
-                                    <div className={classes["option-row"]+' '+classes["option-templates"]}>
-                                        <label>{Identify.__('Select a template')}</label>
-                                        <input type="hidden" name="aw_gc_template" ref={this.awGcTemplateRef} />
+                                    <div className="option-row option-templates">
+                                        <label>{Identify.__('Select a template *')}</label>
+                                        <input type="hidden" name="aw_gc_template" value={this.state.aw_gc_template} ref={this.awGcTemplateRef} />
                                         <ul>
                                             {
                                                 mediaUrlPath && aw_gc_email_templates && 
@@ -233,15 +233,15 @@ class GiftcardOptions extends OptionBase {
                                             }
                                         </ul>
                                     </div>
-                                    <div className={classes["option-row"]+' '+classes["option-sender-name"]}>
+                                    <div className="option-row option-sender-name">
                                         <label>{Identify.__('Sender name *')}</label>
                                         <input type="text" name="aw_gc_sender_name" ref={this.awGcSenderNameRef} placeholder={Identify.__("Sender name")} />
                                     </div>
-                                    <div className={classes["option-row"]+' '+classes["option-recipient-name"]}>
+                                    <div className="option-row option-recipient-name">
                                         <label>{Identify.__('Recipient name *')}</label>
                                         <input type="text" name="aw_gc_recipient_name" ref={this.awGcRecipientNameRef} placeholder={Identify.__("Recipient name")} />
                                     </div>
-                                    <div className={classes["option-row"]+' '+classes["option-delivery-method"]}>
+                                    <div className="option-row option-delivery-method">
                                         <label>{Identify.__('Delivery method *')}</label>
                                         <select name="aw_gc_delivery_method" defaultValue={deliveryMethod} onChange={(e) => this.chooseDeliveryMethod(e)}>
                                             <option value="email">{Identify.__('Email')}</option>
@@ -251,31 +251,31 @@ class GiftcardOptions extends OptionBase {
                                     </div>
                                     {
                                         deliveryMethod === "email" && 
-                                        <div className={classes["option-row"]+' '+classes["option-recipient-email"]}>
+                                        <div className="option-row option-recipient-email">
                                             <label>{Identify.__('Recipient email *')}</label>
                                             <input type="text" name="aw_gc_recipient_email" ref={this.awGcRecipientEmailRef} placeholder={Identify.__("Recipient email")} />
                                         </div>
                                     }
                                     {
                                         (deliveryMethod === "sms" || deliveryMethod === "whatsapp") && 
-                                        <div className={classes["option-row"]+' '+classes["option-recipient-phone"]}>
+                                        <div className="option-row option-recipient-phone">
                                             <label>{Identify.__('Recipient phone *')}</label>
                                             <input type="text" name="aw_gc_recipient_phone" ref={this.awGcRecipientPhoneRef} placeholder={Identify.__("Recipient phone number")} />
                                         </div>
                                     }
-                                    <div className={classes["option-row"]+' '+classes["option-delivery-date"]}>
+                                    <div className="option-row option-delivery-date">
                                         <label>{Identify.__('Send date *')}</label>
                                         <input type="hidden" ref={this.deliveryDateRef} name="aw_gc_delivery_date" placeholder={Identify.__('Select date')}/>
-                                        <DatePicker datetime={false} id='aw_gc_delivery_date' inputRef={this.deliveryDateRef} onChange={this.deliveryDateChange} parent={this} classes={classes}/>
+                                        <DatePicker className="date-picker" datetime={false} id='aw_gc_delivery_date' inputRef={this.deliveryDateRef} onChange={this.deliveryDateChange} parent={this} classes={classes}/>
                                     </div>
-                                    <div className={classes["option-row"]+' '+classes["option-delivery-timezone"]}>
+                                    <div className="option-row option-delivery-timezone">
                                         <label>{Identify.__('Timezone *')}</label>
                                         <select name="aw_gc_delivery_date_timezone" defaultValue="">
                                             <option value="" disabled>{Identify.__('Select timezone')}</option>
                                             { this.timezoneOption }
                                         </select>
                                     </div>
-                                    <div className={classes["option-row"]+' '+classes["option-message"]}>
+                                    <div className="option-row option-message">
                                         <label>{Identify.__('Message')}</label>
                                         <input type="text" name="aw_gc_message" placeholder={Identify.__('Custom message')}/>
                                     </div>
@@ -317,7 +317,6 @@ const mapStateToProps = ({ user }) => {
 }
 // export default GiftcardOptions;
 export default compose(
-    classify(defaultClasses),
     connect(
         mapStateToProps
     )
