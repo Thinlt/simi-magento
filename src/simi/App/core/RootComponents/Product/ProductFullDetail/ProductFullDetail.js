@@ -29,6 +29,7 @@ const CustomOptions = React.lazy(() => import('./Options/CustomOptions'));
 const BundleOptions = React.lazy(() => import('./Options/Bundle'));
 const GroupedOptions = React.lazy(() => import('./Options/GroupedOptions'));
 const DownloadableOptions = React.lazy(() => import('./Options/DownloadableOptions'));
+const GiftcardOptions = React.lazy(() => import('./Options/GiftcardOptions'));
 
 class ProductFullDetail extends Component {  
     state = {
@@ -85,6 +86,16 @@ class ProductFullDetail extends Component {
                 params['links'] = downloadableOption.links
             } else
                 this.missingOption = true
+        }
+        if (this.giftcardOption) {
+            const giftcardOptParams = this.giftcardOption.getParams()
+            for (const attr in giftcardOptParams) {
+                if (attr === 'product' || attr === 'qty') continue;
+                params[attr] = giftcardOptParams[attr];
+            }
+            if (!giftcardOptParams) {
+                this.missingOption = true
+            }
         }
         if (optionSelections && optionSelections.size) { //configurable option
             if (this.isMissingConfigurableOptions) {
@@ -235,6 +246,18 @@ class ProductFullDetail extends Component {
                         app_options={simiExtraField.app_options}
                         product_id={this.props.product.entity_id}
                         ref={e => this.downloadableOption = e}
+                        parent={this}
+                    />
+                }
+                {
+                    type_id === 'aw_giftcard' &&
+                    <GiftcardOptions 
+                        key={Identify.randomString(5)}
+                        extraField={simiExtraField}
+                        app_options={simiExtraField.app_options}
+                        product_id={this.props.product.entity_id}
+                        // ref={e => this.giftcardOption = e}
+                        myRef={e => this.giftcardOption = e}
                         parent={this}
                     />
                 }
