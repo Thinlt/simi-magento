@@ -6,6 +6,7 @@ import ObjectHelper from 'src/simi/Helper/ObjectHelper';
 import PropTypes from 'prop-types';
 
 const initState = {
+    customPrice: {},
     customOptionPrice: {exclT:0, inclT:0},
     downloadableOptionPrice: {exclT:0, inclT:0},
 }
@@ -19,6 +20,12 @@ class ProductPrice extends React.Component {
         this.classes = defaultClasses
     }
     
+    setCustomPrice(exclT, inclT) {
+        this.setState({
+            customPrice: {exclT, inclT}
+        })
+    }
+
     setCustomOptionPrice(exclT, inclT) {
         this.setState({
             customOptionPrice: {exclT, inclT}
@@ -94,6 +101,16 @@ class ProductPrice extends React.Component {
         // downloadable option
         if (data.type_id === 'downloadable')
             this.addOptionPrice(calculatedPrices, downloadableOptionPrice)
+
+        // if set custom price
+        if (this.state.customPrice.exclT) {
+            calculatedPrices.minimalPrice.excl_tax_amount.value = this.state.customPrice.exclT
+            calculatedPrices.regularPrice.excl_tax_amount.value = this.state.customPrice.exclT
+        }
+        if (this.state.customPrice.inclT) {
+            calculatedPrices.minimalPrice.amount.value = this.state.customPrice.inclT
+            calculatedPrices.regularPrice.amount.value = this.state.customPrice.inclT
+        }
         
         return calculatedPrices
     }
