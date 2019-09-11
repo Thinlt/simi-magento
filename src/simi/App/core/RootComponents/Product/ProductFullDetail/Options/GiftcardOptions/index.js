@@ -109,29 +109,31 @@ class GiftcardOptions extends OptionBase {
         this.required.map((name, key) => {
             let el = jQuery('form [name="'+name+'"]');
             const inputVal = el.val();
+            const errorCss = {border: "1px solid #b91c1c"}
+            const errorClass = 'invalid'
             if (inputVal === '' || inputVal === null) {
                 if (el.attr('type') === 'hidden') {
                     if (jQuery('form [data-input-bounded-for="'+name+'"]').length) {
-                        jQuery('form [data-input-bounded-for="'+name+'"]').addClass('invalid').css({border: "1px solid red"});
+                        jQuery('form [data-input-bounded-for="'+name+'"]').addClass(errorClass).css(errorCss);
                     } else {
-                        el.next().addClass('invalid');
-                        el.next().css({border: "1px solid red"});
+                        el.next().addClass(errorClass);
+                        el.next().css(errorCss);
                     }
                 } else {
-                    el.addClass('invalid')
-                    el.css({border: "1px solid red"});
+                    el.addClass(errorClass)
+                    el.css(errorCss);
                 }
                 isValidForm = false;
             } else {
                 if (el.attr('type') === 'hidden') {
                     if (jQuery('form [data-input-bounded-for="'+name+'"]').length) {
-                        jQuery('form [data-input-bounded-for="'+name+'"]').removeClass('invalid').css({border: ""});
+                        jQuery('form [data-input-bounded-for="'+name+'"]').removeClass(errorClass).css({border: ""});
                     } else {
-                        el.next().removeClass('invalid');
+                        el.next().removeClass(errorClass);
                         el.next().css({border: ""});
                     }
                 } else {
-                    el.removeClass('invalid')
+                    el.removeClass(errorClass)
                     el.css({border: ""});
                 }
             }
