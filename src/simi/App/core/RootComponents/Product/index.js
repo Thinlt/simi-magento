@@ -9,6 +9,11 @@ import { Simiquery } from 'src/simi/Network/Query'
 import {smoothScrollToView} from 'src/simi/Helper/Behavior'
 import { saveDataToUrl, productUrlSuffix } from 'src/simi/Helper/Url';
 
+import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent'
+const Page404 = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/core/NoMatch/Page404')} {...props}/>
+}
+
 const Product = props => {
     const {preloadedData} = props
     if (preloadedData && !preloadedData.is_dummy_data) { //saved api is full api, then no need api getting anymore
@@ -38,7 +43,11 @@ const Product = props => {
             {({ error, data }) => {
                 if (error) return <div>{Identify.__('Data Fetch Error')}</div>;
                 let product = null
-                if (data && data.productDetail) {
+                
+                if (data && data.productDetail && data.productDetail.items && !data.productDetail.items.length) {
+                    return <Page404 />
+                }
+                if (data && data.productDetail && data.productDetail.items && data.productDetail.items.length) {
                     //prepare data
                     product = data.productDetail.items[0];
                     let simiExtraField = data.simiProductDetailExtraField
