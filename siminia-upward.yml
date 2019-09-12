@@ -51,7 +51,7 @@ response:
     # to match the directory, but the resolver is still manually configured to
     # use that directory by name.
     - matches: request.url.pathname
-      pattern: '^/(icons/.+|favicon.ico$|manifest.json$|siminiaClosed.png|robots.txt$)'
+      pattern: '^/(icons/.+|favicon.ico$|manifest.json$|siminiaClosed.png|robots.txt$|fonts/.+\.[A-z]{3}$)'
       use: static
     - matches: request.url.pathname
       pattern: '^/simistatic/.'
