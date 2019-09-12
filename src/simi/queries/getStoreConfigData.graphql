@@ -24,6 +24,8 @@ query storeConfigData($storeId: Int, $currency: String) {
         secure_base_link_url
         secure_base_static_url
         secure_base_media_url
+        header_logo_src
+        logo_alt
     }
     simiRootCate {
         id
