@@ -9,4 +9,8 @@
     <!-- <event name="sales_quote_add_item">
         <observer name="simi_vendor_sales_quote_add_item" instance="Simi\VendorMapping\Observer\Sales\Quote\AddItem" />
     </event> -->
+    <event name="simi_simiconnector_graphql_product_detail_extra_field_after">
+        <observer name="simi_vendormapping_simiconnector_graphql_product_detail_extra_field_after"
+                  instance="Simi\VendorMapping\Observer\SimiGraphqProductDetailExtraFieldAfter" />
+    </event>
 </config>
