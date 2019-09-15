@@ -1,0 +1,129 @@
+$headerBackgroundColor: #fff;
+$menuItemBgColor: #E4E4E4;
+$menuItemBorderColor: #101820;
+$defaultBgColor: #E4E4E4;
+$bgColor1: #101820;
+$mainColor1: #101820;
+$textColor1: #101820;
+$textColor2: #727272;
+$textColor3: #E4E4E4;
+
+.footer-app{
+    font-family: Gotham;
+    font-weight: 500;
+    color: $textColor1;
+
+    .footer-wrapper{
+        background-color: $defaultBgColor;
+        .list-item{
+            margin-top: 110px;
+        }
+        .footer-logo{
+            height: 71.61px;
+            width: 255.26px;
+            margin: 0 auto;
+            margin-top: 97px;
+
+            img{
+                width: 100%;
+            }
+        }
+        .footer-subscriber{
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            margin-top: 102.39px;
+
+            h3{
+                height: 30px;
+                max-width: 327px;
+                color: $textColor1;
+                font-family: Didot;
+                font-size: 24px;
+                line-height: 44px;
+                text-align: justify;
+                text-transform: uppercase;
+                margin: 0 auto;
+            }
+            p{
+                height: 20px;
+                max-width: 207px;
+                color: $textColor1;
+                font-family: Gotham;
+                font-size: 10px;
+                font-weight: 500;
+                line-height: 10px;
+                text-align: center;
+                margin: 0 auto;
+                margin-top: 9px;
+            }
+            .subscriber-form{
+                min-height: 29px;
+                max-width: 363px;
+                border-bottom: 1px solid #000;
+                margin-top: 18px;
+
+                label{
+                    color: $textColor2;
+                    position: absolute;
+                    font-size: 16px;
+                }
+                input{
+                    width: 100%;
+                    padding-left: 60px;
+                    background-color: transparent;
+                    border: none;
+                    user-select: none;
+                    outline: none;
+                }
+                button{
+                    position: absolute;
+                    right: 18px;
+
+                    i{
+                        font-size: 16px;
+                        color: $textColor1;
+                    }
+                }
+            }
+        }
+        .footer--title{
+            text-transform: uppercase;
+            +ul{
+                margin-top: 40px;
+                li{
+                    line-height: 20px;
+                    margin-top: 22px;
+                    margin-bottom: 22px;
+                }
+            } 
+        }
+        .social-icon{
+            a svg{
+                color: $textColor1!important;
+                fill: $textColor1!important;
+                margin-right: 20px;
+            }
+        }
+        .download-icon{
+            .google-play{
+                width: 180px;
+                height: 59px;
+                img{
+                    width: 100%;
+                }
+            }
+            .app-store{
+                width: 180px;
+                height: 59px;
+                img{
+                    width: 100%;
+                }
+            }
+        }
+    }
+    .app-copyright{
+        background-color: $defaultBgColor;
+    }
+}

@@ -1,67 +1,112 @@
 import React, {useState, useEffect} from 'react'
-import defaultStyle from './style.css'
-import classify from 'src/classify';
+// import defaultStyle from './style.css'
+// import classify from 'src/classify';
 // import Newsletter from './Newsletter';
 import Identify from "src/simi/Helper/Identify";
-import {Link} from 'react-router-dom';
+// import {Link} from 'react-router-dom';
 import Copyright from './Copyright';
-import Facebook from 'src/simi/BaseComponents/Icon/Facebook'
-import Twitter from 'src/simi/BaseComponents/Icon/Twitter'
-import Instagram from 'src/simi/BaseComponents/Icon/Instagram'
+import Facebook from 'src/simi/App/Bianca/BaseComponents/Icon/Facebook'
+import Twitter from 'src/simi/App/Bianca/BaseComponents/Icon/Twitter'
+import Instagram from 'src/simi/App/Bianca/BaseComponents/Icon/Instagram'
 import Expansion from 'src/simi/BaseComponents/Expansion'
+import classes from './ProxyClasses';
+import { Link } from 'src/drivers';
+import { logoUrl, logoAlt } from 'src/simi/App/Bianca/Helper/Url';
+
+require('./footer.scss');
 
 const Footer = props => {
-    const {classes} = props;
+    // const {classes} = props;
     const [isPhone, setIsPhone] = useState(window.innerWidth < 1024);
     const $ = window.$;
     const [expanded, setExpanded] = useState(null);
     const pagec1 = 1;
     const pagep2 = 2;
-    const pageCustomerServices = [
+
+    const contactUs = [
+        {
+            id: 1,
+            link: '#',
+            title: Identify.__('+ 44 345 678 9009')
+        },
+        {
+            id: 2,
+            link: '#',
+            title: Identify.__('Example@gmail.com')
+        }
+    ]
+
+    const customerServices = [
         {
             id: 1,
             link: "#",
-            title: "About"
+            title: Identify.__("Delivery")
         },
         {
             id: 2,
             link: "#",
-            title: "Delivery & returns"
+            title: Identify.__("Exchange & Returns")
         },
         {
             id: 3,
             link: "#",
-            title: "Trade services"
+            title: Identify.__("Payment Methods")
         },
         {
             id: 4,
             link: "#",
-            title: "Branch Finder"
+            title: Identify.__("Gift Cards")
         },
         {
             id: 5,
-            link: "/contact.html",
-            title: "Contact us"
+            link: "#",
+            title: Identify.__("Live Chat")
+        },
+        {
+            id: 6,
+            link: "/faq.html",
+            title: Identify.__("FAQ")
         }
     ];
 
-    const pagePolicies = [
+    const information = [
         {
             id: 1,
-            link: "#",
-            title: "Terms & Conditions of supply"
+            link: "/abount-us.html",
+            title: Identify.__('About us')
         },
         {
             id: 2,
             link: "#",
-            title: "Terms of use"
+            title: Identify.__('Careers')
         },
         {
             id: 3,
             link: "#",
-            title: "Privacy & cookie policy"
+            title: Identify.__('Advertising')
+        },
+        {
+            id: 4,
+            link: "#",
+            title: Identify.__('Cooperation')
+        },
+        {
+            id: 5,
+            link: "#",
+            title: Identify.__('Terms and Conditions')
+        },
+        {
+            id: 6,
+            link: "/privacy-policy.html",
+            title: Identify.__('Privacy Policy')
+        },
+        {
+            id: 7,
+            link: "/cookie-policy.html",
+            title: Identify.__('Cookie Policy')
         }
-    ];
+    ]
+
     
     const listPages = pages => {
       
@@ -99,67 +144,122 @@ const Footer = props => {
 
     return (
         <div className={classes['footer-app']}>
-            {/* <Newsletter classes={classes}/> */}
-            <div className={classes['footer-middle']}>
-                <div className={`container ${classes['col-mobile-pd-0']}`}>
-                    <div className={`row ${classes['app--flex']}`}>
-                        <div className={`${classes['col-custom-20pr']} ${classes['col-mobile-pd-0']}`}>
-                            {!isPhone ? <React.Fragment>
-                                <span className={classes["footer--custom_title"]}>
-                                {Identify.__("Customer Services")}
-                            </span>
-                            {listPages(pageCustomerServices)}
-                            </React.Fragment>: <Expansion id={pagec1} title={Identify.__("Customer Services")} content={listPages(pageCustomerServices)} icon_color="#FFFFFF" handleExpand={(pagec1) => handleExpand(pagec1)} expanded={expanded} />}
+            <div className={classes['footer-wrapper']}>
+                <div className={`container`}>
+                    <div className={`row`}>
+                        <div className={`col-md-4 col-md-offset-4`}>
+                            <div className="footer-logo">
+                                <Link to='/'>
+                                    <img src={logoUrl()} alt={logoAlt()} />
+                                </Link>
+                            </div>
                         </div>
-                        <div className={`${classes['col-custom-20pr']} ${classes['col-mobile-pd-0']}`}>
-                        {!isPhone ? <React.Fragment>
-                            <span className={classes["footer--custom_title"]}>
-                            {Identify.__("Our Policies")}
-                        </span>
-                        {listPages(pagePolicies)}
-                            </React.Fragment>: <Expansion id={pagep2} title={Identify.__("Our Policies")} content={listPages(pagePolicies)} icon_color="#FFFFFF" handleExpand={(pagep2) => handleExpand(pagep2)} expanded={expanded} />}
-                        </div>
-                        <div className={`${classes['col-custom-20pr']} hidden-xs`} />
-                        <div className={`${classes['col-custom-20pr']} hidden-xs`} />
-                        <div className={`${classes["col-custom-20pr"]} text-right`}>
-                            <span className={classes["footer--custom_title"]}>
-                                {Identify.__("Get in touch today on")}
-                            </span>
-                            <ul className={classes["list-contact"]}>
-                                <li>
-                                    <a href={`tel:842466517968`}>84 - 24 - 6651 - 7968</a>
-                                </li>
-                                <li>
-                                    <a href={`mailto:Support@simicart.com `}>Support@simicart.com</a>
-                                </li>
-                            </ul>
-                            <span
-                                className={classes["footer--custom_title"]}
-                                style={{
-                                    display: "block",
-                                    marginTop: "40px"
-                                }}
-                            >
-                                {Identify.__("Connect")}
-                            </span>
-                            <div className={classes["social__md-block"]}>
-                                <a href='https://www.facebook.com/simicart' target="__blank">
-                                    <Facebook className={classes["facebook-icon"]} style={{width: "50px", height: "50px"}} />
-                                </a>
-                                <a href='https://twitter.com/SimiCart' target="__blank">
-                                    <Twitter className={classes["twitter-icon"]} style={{width: "50px", height: "50px"}} />
-                                </a>
-                                <a href='https://www.instagram.com/simicart.official/' target="__blank">
-                                    <Instagram className={classes["instagram-icon"]} style={{width: "50px", height: "50px"}} />
-                                </a>
+                    </div>
+                    <div className={`row`}>
+                        <div className={`col-md-4 col-md-offset-4`}>
+                            <div className="footer-subscriber">
+                                <h3>subscribe newsletter</h3>
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                <div className="subscriber-form">
+                                    <form>
+                                        <label htmlFor="subcriber-email">{Identify.__('Email *')}</label>
+                                        <input id="subcriber-email" name="email" />
+                                        <button type="submit"><i className="icon-arrow-right icons"></i></button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div className={`container list-item`}>
+                    <div className={`row`}>
+                        <div className={`col-md-3`}>
+                            {!isPhone ? 
+                                <React.Fragment>
+                                    <span className={classes["footer--title"]}>
+                                        {Identify.__("Contact Us")}
+                                    </span>
+                                    <ul>
+                                        {
+                                            contactUs.map((page, index) => {
+                                                return <li key={index}>
+                                                    <Link to={page.link}>{page.title}</Link>
+                                                </li>
+                                            })
+                                        }
+                                        <li>
+                                            <div className={classes["social-icon"]}>
+                                                <a href='https://www.facebook.com/simicart' target="__blank">
+                                                    <Facebook className={classes["facebook-icon"]} />
+                                                </a>
+                                                <a href='https://www.instagram.com/simicart.official/' target="__blank">
+                                                    <Instagram className={classes["instagram-icon"]} />
+                                                </a>
+                                                <a href='https://twitter.com/SimiCart' target="__blank">
+                                                    <Twitter className={classes["twitter-icon"]} />
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </React.Fragment>
+                                :
+                                <Expansion id={pagec1} title={Identify.__("Contact Us")} icon_color="#FFFFFF"
+                                    handleExpand={(pagec1) => handleExpand(pagec1)} expanded={expanded} 
+                                    content={listPages(contactUs)}
+                                />
+                            }
+                        </div>
 
+                        <div className={`col-md-3`}>
+                            {!isPhone ? 
+                                <React.Fragment>
+                                    <span className={classes["footer--title"]}>
+                                        {Identify.__("Customer Services")}
+                                    </span>
+                                    {listPages(customerServices)}
+                                </React.Fragment>
+                                :
+                                <Expansion id={pagec1} title={Identify.__("Customer Services")} 
+                                    content={listPages(customerServices)} icon_color="#FFFFFF" 
+                                    handleExpand={(pagec1) => handleExpand(pagec1)} expanded={expanded} 
+                                />
+                            }
+                        </div>
+
+                        <div className={`col-md-3`}>
+                            {!isPhone ? 
+                                <React.Fragment>
+                                    <span className={classes["footer--title"]}>
+                                        {Identify.__("Information")}
+                                    </span>
+                                    {listPages(information)}
+                                </React.Fragment>
+                                :
+                                <Expansion id={pagep2} title={Identify.__("Information")} icon_color="#FFFFFF" 
+                                    handleExpand={(pagep2) => handleExpand(pagep2)} expanded={expanded} 
+                                    content={listPages(information)}
+                                />
+                            }
+                        </div>
+
+                        <div className={`col-md-3`}>
+                            <span className={classes["footer--title"]}>
+                                {Identify.__("our app")}
+                            </span>
+                            <ul>
+                                <li>
+                                    <div className={classes["download-icon"]}>
+                                        <div className="google-play"><img src="/images/google-play.png" alt="google-play"/></div>
+                                        <div className="app-store"><img src="/images/app-store.png" alt="app-store"/></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
             <Copyright isPhone={isPhone} classes={classes}/>
         </div>
     )
 }
-export default classify(defaultStyle)(Footer)   
+export default Footer

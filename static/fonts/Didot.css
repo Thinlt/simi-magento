@@ -1,0 +1,36 @@
+@font-face {
+	font-family: 'Didot';
+	src: url('/fonts/Didot/Didot-HTF-L42-Light.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Didot';
+	src: url('/fonts/Didot/Didot-HTF-L42-Light-Ital.ttf') format('truetype');
+	font-weight: 400;
+	font-style: italic;
+}
+@font-face {
+	font-family: 'Didot';
+	src: url('/fonts/Didot/Didot-HTF-M24-Medium.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Didot';
+	src: url('/fonts/Didot/Didot-HTF-M24-Medium-Ital.ttf') format('truetype');
+	font-weight: 500;
+	font-style: italic;
+}
+@font-face {
+	font-family: 'Didot';
+	src: url('/fonts/Didot/Didot-HTF-B24-Bold.ttf') format('truetype');
+	font-weight: 600;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Didot';
+	src: url('/fonts/Didot/Didot-HTF-B24-Bold-Ital.ttf') format('truetype');
+	font-weight: 600;
+	font-style: italic;
+}

@@ -4,8 +4,14 @@
 	font-weight: normal;
 	font-style: normal;
 }
+@font-face {
+	font-family: 'Simple Linearicons';
+	src: url('/fonts/Simple-Line-Icons.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+}
 [class^="icon-"], [class*=" icon-"] {
-	font-family: 'Linearicons';
+	font-family: 'Linearicons', 'Simple Linearicons';
 	speak: none;
 	font-style: normal;
 	font-weight: normal;
@@ -3315,4 +3321,41 @@
 }
 .icon-copyright:before {
 	content: "\a9";
+}
+
+.icon-credit-card:before {
+    content: "\e025"
+}
+.icon-paypal:before {
+    content: "\e608"
+}
+.icon-social-tumblr:before {
+    content: "\e00a"
+}
+.icon-social-twitter:before {
+    content: "\e009"
+}
+.icon-social-facebook:before {
+    content: "\e00b"
+}
+.icon-social-instagram:before {
+    content: "\e609"
+}
+.icon-social-linkedin:before {
+    content: "\e60a"
+}
+.icon-social-pinterest:before {
+    content: "\e60b"
+}
+.icon-social-github:before {
+    content: "\e60c"
+}
+.icon-social-google:before {
+    content: "\e60d"
+}
+.icon-social-reddit:before {
+    content: "\e60e"
+}
+.icon-social-skype:before {
+    content: "\e60f"
 }
