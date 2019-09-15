@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { array, bool, func } from 'prop-types';
 
-import Main from 'src/simi/App/core/Main';
+import Main from 'src/simi/App/Bianca/Main';
 import Mask from 'src/simi/BaseComponents/Mask';
-import Navigation from 'src/simi/App/core/Navigation';
+import Navigation from 'src/simi/App/Bianca/Navigation';
 import OnlineIndicator from 'src/components/OnlineIndicator';
 import ErrorNotifications from './errorNotifications';
 import renderRoutes from './renderRoutes';

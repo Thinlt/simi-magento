@@ -1,5 +1,5 @@
 import React from 'react';
-import AppRouter from './Router/Basic/AppRouter'
+import AppRouter from './Router/Bianca/AppRouter'
 
 const renderRoutes = () => (
     <AppRouter />

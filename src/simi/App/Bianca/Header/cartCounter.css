@@ -1,0 +1,28 @@
+.root {
+    width: 12px;
+    height: 12px;
+    background-color: #B91C1C;
+    color: #fff;
+    border-radius: 100%;
+    z-index: 5;
+    font-family: 'iCiel Gotham', Gotham;
+    font-size: 8px;
+    line-height: 18px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-pack: center;
+    justify-content: end;
+    align-items: center;
+    position: absolute;
+    top: -4px;
+    left: 9px;
+}
+.root span{
+    line-height: 8px;
+    font-size: 8px;
+    text-align: center;
+    margin-top: 3px;
+    margin-left: 1px;
+}

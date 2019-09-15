@@ -1,0 +1,211 @@
+import React, { Suspense, Children } from 'react'
+import Identify from "src/simi/Helper/Identify";
+import Favorite from 'src/simi/App/Bianca/BaseComponents/Icon/Favorite'
+import MenuIcon from 'src/simi/App/Bianca/BaseComponents/Icon/Menu'
+import ToastMessage from 'src/simi/BaseComponents/Message/ToastMessage'
+import TopMessage from 'src/simi/BaseComponents/Message/TopMessage'
+import NavTrigger from './Component/navTrigger'
+import CartTrigger from './cartTrigger'
+// import defaultClasses from './header.css'
+// import { mergeClasses } from 'src/classify'
+import { Link } from 'src/drivers';
+import HeaderNavigation from './Component/HeaderNavigation'
+import MyAccount from './Component/MyAccount'
+// import Settings from './Component/Settings'
+import { withRouter } from 'react-router-dom';
+import { logoUrl, logoAlt } from 'src/simi/App/Bianca/Helper/Url';
+import Storeview from "src/simi/App/Bianca/BaseComponents/Settings/Storeview";
+import Currency from "src/simi/App/Bianca/BaseComponents/Settings/Currency";
+import ProxyClasses from './Component/ProxyClasses';
+import SearchFormTrigger from './Component/SearchFormTrigger';
+require('./header.scss')
+
+const SearchForm = React.lazy(() => import('./Component/SearchForm'));
+
+class Header extends React.Component{
+    constructor(props) {
+        super(props);
+        this._mounted = true;
+        const isPhone = window.innerWidth < 1024 ;
+        this.state = {isPhone}
+        // this.classes = mergeClasses(defaultClasses, this.props.classes)
+        this.classes = Object.assign(ProxyClasses, this.props.classes);
+    }
+
+    searchTrigger = () => {
+        if (this.searchFormCallback && typeof(this.searchFormCallback) === 'function') {
+            console.log('toggle search')
+            this.searchFormCallback()
+        }
+    }
+
+    toggleSearch = (callback) => {
+        this.searchFormCallback = callback;
+    }
+
+    setIsPhone(){
+        const obj = this;
+        $(window).resize(function () {
+            const width = window.innerWidth;
+            const isPhone = width < 1024;
+            if(obj.state.isPhone !== isPhone){
+                obj.setState({isPhone})
+            }
+        })
+    }
+
+    componentDidMount(){
+        this.setIsPhone();
+    }
+
+    renderLogo = () => {
+        // const {isPhone} = this.state;
+        return (
+            <div className={this.classes['header-logo']}>
+                <Link to='/'>
+                    <img src={logoUrl()} alt={logoAlt()} />
+                </Link>
+            </div>
+        )
+    }
+
+    renderSearchForm = () => {
+        return(
+            <div className="header-search">
+                <Suspense fallback={null}>
+                    <SearchForm 
+                        history={this.props.history} classes={this.classes}
+                    />
+                </Suspense>
+            </div>
+        )
+    }
+
+    renderRightBar = () => {
+        const {classes} = this
+        return(
+            <div className={classes['right-bar']}>
+                <div className={classes['right-bar-item']} id="my-account">
+                    <MyAccount classes={classes}/>
+                </div>
+                <div className={classes['right-bar-item']} id="wish-list">
+                    <Link to={'/wishlist.html'}>
+                        <div className={classes['item-icon']} style={{display: 'flex', justifyContent: 'center'}}>
+                            <Favorite />
+                        </div>
+                    </Link>
+                </div>
+                <div className={classes['right-bar-item']}>
+                    <CartTrigger classes={classes}/>
+                </div>
+            </div>
+        )
+    }
+
+    outerSearchComponent = (props) => {
+        return (
+            <div className={props.className} {...props}>
+                {props.children}
+            </div>
+        )
+    }
+
+    renderViewPhone = () => {
+        return(
+            <div className="header-wrapper mobile">
+                <div className="container-global-notice">
+                    <div className="container ">
+                        <div className="global-site-notice">
+                            <div className="notice-inner">
+                                <div className="notice-msg">
+                                    <span>{Identify.__('Sale up to 50%: on')} <a href={"#"}>{Identify.__('selected items')}</a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="container-header">
+                    <div className="container-fluid">
+                        <div className={this.classes['header']}>
+                            <NavTrigger classes={this.classes}>
+                                <MenuIcon />
+                            </NavTrigger>
+                            {this.renderLogo()}
+                            <div className={this.classes['right-bar']}>
+                                <div className={this.classes['right-bar-item']}>
+                                    <SearchFormTrigger searchTrigger={this.searchTrigger}/>
+                                </div>
+                                <div className={this.classes['right-bar-item']+' cart'}>
+                                    <CartTrigger />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <Suspense fallback={null}>
+                    <SearchForm outerComponent={this.outerSearchComponent} toggleSearch={this.toggleSearch} waiting={true}
+                        history={this.props.history} classes={this.classes}
+                    />
+                </Suspense>
+                <div id="id-message">
+                    <TopMessage/>
+                    <ToastMessage/>
+                </div>
+            </div>
+        )
+    }
+
+    render(){
+        const { classes } = this
+        const storeViewOptions = <Storeview classes={classes} className="storeview"/>
+        const currencyOptions = <Currency classes={classes} className="currency"/>
+        if(window.innerWidth < 1024){
+            return this.renderViewPhone()
+        }
+        return(
+            <React.Fragment>
+                <div className="header-wrapper">
+                    <div className="container-global-notice">
+                        <div className="container ">
+                            <div className="global-site-notice">
+                                <div className="notice-inner">
+                                    <div className="contact-info">
+                                        <span>{Identify.__('Contact us 24/7')}:</span>
+                                        <span className="phone">+965 555 5455 731</span>
+                                    </div>
+                                    <div className="notice-msg">
+                                        <span>{Identify.__('Sale up to 50%: on')} <a href={"#"}>{Identify.__('selected items')}</a></span>
+                                    </div>
+                                    <div className="store-switch">
+                                        <div className="storeview-switcher">
+                                            {storeViewOptions}
+                                        </div>
+                                        <div className="currency-switcher">
+                                            {currencyOptions}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="container-header">
+                        <div className="container">
+                            <div className="header">
+                                {this.renderSearchForm()}
+                                {this.renderLogo()}
+                                {this.renderRightBar()}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {window.innerWidth >= 1024 && 
+                <HeaderNavigation classes={this.classes}/>}
+                <div id="id-message">
+                    <TopMessage/>
+                    <ToastMessage/>
+                </div>
+            </React.Fragment>
+        )
+    }
+}
+export default (withRouter)(Header)

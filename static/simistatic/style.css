@@ -1,8 +1,17 @@
+@import '../fonts/Linearicons.css';
+@import '../fonts/Gotham.css';
+
+@media (min-width: 1200px){
+    .container {
+        width: 1190px;
+    }
+}
 @media (min-width: 1920px) {
     .container {
         width: 1430px;
     }
 }
+
 .flex {
     display: flex;
 }
