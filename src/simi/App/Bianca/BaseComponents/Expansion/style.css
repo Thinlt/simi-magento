@@ -1,0 +1,52 @@
+.simi-expansion-panel{
+    box-shadow: none !important;
+    background: transparent !important;
+}
+.simi-expansion-panel::before{
+    height: 0;
+    background: transparent !important;
+}
+.simi-expansion-panel:not(:first-child){
+    margin-top: 16px;
+}
+.simi-expansion-heading{
+    min-height: 14px!important;
+    line-height: 14px;
+    padding: 0px!important;
+}
+.simi-expansion-heading > div:not([role="button"]){
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 14px;
+    margin: 0px;
+    text-transform: uppercase;
+}
+.simi-expansion-heading > div[role="button"]{
+    -webkit-transition-property: none;
+    -moz-transition-property: none;
+    -o-transition-property: none;
+    transition-property: none;
+    padding: 0px;
+    margin-right: 0px;
+}
+.simi-expansion-heading > div[role="button"] i{
+    width: 12px;
+    height: 12px;
+    font-size: 12px;
+}
+.simi-expansion-content{
+    padding: 24px 0 32px;
+}
+
+@media (max-width: 767px){
+    .footer-middle{
+        padding-top: 0;
+    }
+    .simi-expansion-heading{
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .simi-expansion-content{
+        padding: 16px;
+    }
+}

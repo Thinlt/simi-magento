@@ -8,7 +8,7 @@ import Copyright from './Copyright';
 import Facebook from 'src/simi/App/Bianca/BaseComponents/Icon/Facebook'
 import Twitter from 'src/simi/App/Bianca/BaseComponents/Icon/Twitter'
 import Instagram from 'src/simi/App/Bianca/BaseComponents/Icon/Instagram'
-import Expansion from 'src/simi/BaseComponents/Expansion'
+import Expansion from 'src/simi/App/Bianca/BaseComponents/Expansion'
 import classes from './ProxyClasses';
 import { Link } from 'src/drivers';
 import { logoUrl, logoAlt } from 'src/simi/App/Bianca/Helper/Url';
@@ -143,7 +143,7 @@ const Footer = props => {
     })
 
     return (
-        <div className={classes['footer-app']}>
+        <div className={classes['footer-app'] + (isPhone ? ' on-mobile':'')}>
             <div className={classes['footer-wrapper']}>
                 <div className={`container`}>
                     <div className={`row`}>
@@ -203,10 +203,12 @@ const Footer = props => {
                                     </ul>
                                 </React.Fragment>
                                 :
-                                <Expansion id={pagec1} title={Identify.__("Contact Us")} icon_color="#FFFFFF"
-                                    handleExpand={(pagec1) => handleExpand(pagec1)} expanded={expanded} 
-                                    content={listPages(contactUs)}
-                                />
+                                <div className={`footer-mobile`}>
+                                    <Expansion id={`expan-1`} title={Identify.__("Contact Us")} icon_color="#FFFFFF"
+                                        handleExpand={(expanId) => handleExpand(expanId)} expanded={expanded} 
+                                        content={listPages(contactUs)}
+                                    />
+                                </div>
                             }
                         </div>
 
@@ -219,10 +221,12 @@ const Footer = props => {
                                     {listPages(customerServices)}
                                 </React.Fragment>
                                 :
-                                <Expansion id={pagec1} title={Identify.__("Customer Services")} 
-                                    content={listPages(customerServices)} icon_color="#FFFFFF" 
-                                    handleExpand={(pagec1) => handleExpand(pagec1)} expanded={expanded} 
-                                />
+                                <div className={`footer-mobile`}>
+                                    <Expansion id={`expan-2`} title={Identify.__("Customer Services")} 
+                                        content={listPages(customerServices)} icon_color="#FFFFFF" 
+                                        handleExpand={(expanId) => handleExpand(expanId)} expanded={expanded} 
+                                    />
+                                </div>
                             }
                         </div>
 
@@ -235,25 +239,49 @@ const Footer = props => {
                                     {listPages(information)}
                                 </React.Fragment>
                                 :
-                                <Expansion id={pagep2} title={Identify.__("Information")} icon_color="#FFFFFF" 
-                                    handleExpand={(pagep2) => handleExpand(pagep2)} expanded={expanded} 
-                                    content={listPages(information)}
-                                />
+                                <div className={`footer-mobile`}>
+                                    <Expansion id={`expan-3`} title={Identify.__("Information")} icon_color="#FFFFFF" 
+                                        handleExpand={(expanId) => handleExpand(expanId)} expanded={expanded} 
+                                        content={listPages(information)}
+                                    />
+                                </div>
                             }
                         </div>
 
                         <div className={`col-md-3`}>
-                            <span className={classes["footer--title"]}>
-                                {Identify.__("our app")}
-                            </span>
-                            <ul>
-                                <li>
-                                    <div className={classes["download-icon"]}>
-                                        <div className="google-play"><img src="/images/google-play.png" alt="google-play"/></div>
-                                        <div className="app-store"><img src="/images/app-store.png" alt="app-store"/></div>
-                                    </div>
-                                </li>
-                            </ul>
+                            {!isPhone ? 
+                                <React.Fragment>
+                                    <span className={classes["footer--title"]}>
+                                        {Identify.__("our app")}
+                                    </span>
+                                    <ul>
+                                        <li>
+                                            <div className={classes["download-icon"]}>
+                                                <div className="google-play"><img src="/images/google-play.png" alt="google-play"/></div>
+                                                <div className="app-store"><img src="/images/app-store.png" alt="app-store"/></div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </React.Fragment>
+                            :
+                                <div className={`footer-mobile download-app`}>
+                                    <Expansion id={`expan-4`} title={Identify.__("Our app")} icon_color="#FFFFFF" 
+                                        handleExpand={(expanId) => handleExpand(expanId)} expanded={expanded} 
+                                        content={(
+                                            <React.Fragment>
+                                                <ul>
+                                                    <li>
+                                                        <div className={classes["download-icon"]}>
+                                                            <div className="google-play"><img src="/images/google-play.png" alt="google-play"/></div>
+                                                            <div className="app-store"><img src="/images/app-store.png" alt="app-store"/></div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </React.Fragment>
+                                        )}
+                                    />
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
