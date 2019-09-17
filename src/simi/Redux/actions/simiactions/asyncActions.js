@@ -10,7 +10,9 @@ import isObjectEmpty from 'src/util/isObjectEmpty';
 import Identify from 'src/simi/Helper/Identify';
 import { refresh } from 'src/util/router-helpers';
 
-const { request } = RestApi.Magento2;
+//const { request } = RestApi.Magento2;
+import { request } from 'src/simi/Network/RestMagento'
+
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
 

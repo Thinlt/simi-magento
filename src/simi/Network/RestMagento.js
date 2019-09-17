@@ -1,8 +1,8 @@
 import { addRequestVars } from 'src/simi/Helper/Network'
 import Identify from 'src/simi/Helper/Identify'
-import { Util } from '@magento/peregrine';
+import { Util, RestApi } from '@magento/peregrine';
 const { BrowserPersistence } = Util;
-
+const peregrinRequest = RestApi.Magento2.request;
 
 const prepareData = (endPoint, getData, method, header, bodyData) => {
     let requestMethod = method
@@ -96,4 +96,24 @@ export async function sendRequest(endPoint, callBack, method='GET', getData= {},
         }).catch((error) => {
             console.warn(error);
         });
+}
+
+
+export const request = (resourceUrl, opts) => {
+    let newOpts = opts
+    let newResourceUrl = resourceUrl
+    if (newOpts && newOpts.body) {
+        const body = JSON.parse(newOpts.body)
+        newOpts = JSON.stringify(addRequestVars(body))
+    } else {
+        const getData = addRequestVars({})
+        let dataGetString = Object.keys(getData).map(function (key) {
+            return encodeURIComponent(key) + '=' +
+                encodeURIComponent(getData[key]);
+        })
+        dataGetString = dataGetString.join('&')
+        newResourceUrl += "?" + dataGetString;
+    }
+
+    return peregrinRequest(newResourceUrl, newOpts)
 }
