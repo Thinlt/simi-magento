@@ -79,7 +79,7 @@ export const submitShippingAddress = payload =>
             );
             return null;
         }
-
+        dispatch(actions.changeCheckoutUpdating(true));
         await saveShippingAddress(address);
         dispatch(checkoutActions.shippingAddress.accept(address));
 
@@ -87,7 +87,6 @@ export const submitShippingAddress = payload =>
         const authedEndpoint =
             '/rest/V1/carts/mine/estimate-shipping-methods';
         const endpoint = user.isSignedIn ? authedEndpoint : guestEndpoint;
-        dispatch(actions.changeCheckoutUpdating(true));
         const response = await request(endpoint, {
             method: 'POST',
             body: JSON.stringify({address})
