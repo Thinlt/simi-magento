@@ -100,20 +100,14 @@ export async function sendRequest(endPoint, callBack, method='GET', getData= {},
 
 
 export const request = (resourceUrl, opts) => {
-    let newOpts = opts
     let newResourceUrl = resourceUrl
-    if (newOpts && newOpts.body) {
-        const body = JSON.parse(newOpts.body)
-        newOpts = JSON.stringify(addRequestVars(body))
-    } else {
-        const getData = addRequestVars({})
-        let dataGetString = Object.keys(getData).map(function (key) {
-            return encodeURIComponent(key) + '=' +
-                encodeURIComponent(getData[key]);
-        })
-        dataGetString = dataGetString.join('&')
+    const getData = addRequestVars({})
+    let dataGetString = Object.keys(getData).map(function (key) {
+        return encodeURIComponent(key) + '=' +
+            encodeURIComponent(getData[key]);
+    })
+    dataGetString = dataGetString.join('&')
+    if (dataGetString)
         newResourceUrl += "?" + dataGetString;
-    }
-
-    return peregrinRequest(newResourceUrl, newOpts)
+    return peregrinRequest(newResourceUrl, opts)
 }
