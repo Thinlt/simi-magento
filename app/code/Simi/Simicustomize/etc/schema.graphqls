@@ -1,0 +1,8 @@
+type Mutation {
+    subscribe(email: String!): Subscribe @resolver(class: "\\Simi\\Simicustomize\\Model\\Resolver\\Subscribe") @doc(description: "Subscribe email to magento subscribed list for guest.")
+}
+
+type Subscribe {
+    status: String
+    message: String
+}
