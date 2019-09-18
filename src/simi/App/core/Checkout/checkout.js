@@ -246,7 +246,7 @@ class Checkout extends Component {
             };
             this.handleLink(locate);
         }
-        
+
         return <Fragment>
             {breadcrumb}
             {pageTitle}
@@ -295,7 +295,7 @@ class Checkout extends Component {
                 </div>
                 <div className='checkout-col-3'>
                     <div className='col-3-content'>
-                        <OrderSummary parent={this} cart={cart} cartCurrencyCode={cartCurrencyCode} 
+                        <OrderSummary parent={this} cart={cart} cartCurrencyCode={cartCurrencyCode}
                             checkout={checkout} panelClassName='checkout-panel'/>
                         {btnPlaceOrder}
                     </div>
@@ -310,7 +310,7 @@ class Checkout extends Component {
         else
             hideFogLoading()
         return (
-            <div className='checkout-bg'>
+            <div className={`checkout-bg ${Identify.isRtl() ? 'checkout-bg-rtl' : ''}`}>
                 <div className="container">
                     {TitleHelper.renderMetaHeader({
                         title: Identify.__('Checkout')

@@ -24,3 +24,7 @@
 .form-fields-body input.warning, .form-fields-body select.warning {
    box-shadow: 0 0 5px -2px #ee0000;
 }
+.form-fields-body .country > span,
+.form-fields-body .region_code > span {
+    width: 100%;
+}
