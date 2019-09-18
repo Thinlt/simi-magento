@@ -7,6 +7,8 @@ $mainColor1: #101820;
 $textColor1: #101820;
 $textColor2: #727272;
 $textColor3: #E4E4E4;
+$errorFormColor: #B91C1C;
+$errorFormBgColor: #ece2e2;
 
 .footer-app{
     font-family: Gotham;
@@ -82,10 +84,15 @@ $textColor3: #E4E4E4;
                 border-bottom: 1px solid #000;
                 margin-top: 18px;
                 position: relative;
+                &.invalid{
+                    border-bottom: 1px dashed $errorFormColor;
+                    background-color: $errorFormBgColor;
+                }
 
                 label{
                     color: $textColor2;
                     position: absolute;
+                    top: 5px;
                     font-size: 16px;
                     font-weight: 500;
                     line-height: 16px;
@@ -97,10 +104,14 @@ $textColor3: #E4E4E4;
                     border: none;
                     user-select: none;
                     outline: none;
+                    line-height: 22px;
+                    margin-bottom: 6px;
                 }
                 button{
                     position: absolute;
                     right: 0px;
+                    user-select: none;
+                    outline: none;
 
                     i{
                         font-size: 16px;

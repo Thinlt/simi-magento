@@ -12,6 +12,7 @@ import Expansion from 'src/simi/App/Bianca/BaseComponents/Expansion'
 import classes from './ProxyClasses';
 import { Link } from 'src/drivers';
 import { logoUrl, logoAlt } from 'src/simi/App/Bianca/Helper/Url';
+import Subscriber from './Subscriber';
 
 require('./footer.scss');
 
@@ -160,13 +161,7 @@ const Footer = props => {
                             <div className="footer-subscriber">
                                 <h3>subscribe newsletter</h3>
                                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                <div className="subscriber-form">
-                                    <form>
-                                        <label htmlFor="subcriber-email">{Identify.__('Email *')}</label>
-                                        <input id="subcriber-email" name="email" />
-                                        <button type="submit"><i className="icon-arrow-right icons"></i></button>
-                                    </form>
-                                </div>
+                                <Subscriber />
                             </div>
                         </div>
                     </div>
