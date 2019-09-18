@@ -10,7 +10,9 @@ import isObjectEmpty from 'src/util/isObjectEmpty';
 import Identify from 'src/simi/Helper/Identify';
 import { refresh } from 'src/util/router-helpers';
 
-const { request } = RestApi.Magento2;
+//const { request } = RestApi.Magento2;
+import { request } from 'src/simi/Network/RestMagento'
+
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
 
@@ -77,7 +79,7 @@ export const submitShippingAddress = payload =>
             );
             return null;
         }
-
+        dispatch(actions.changeCheckoutUpdating(true));
         await saveShippingAddress(address);
         dispatch(checkoutActions.shippingAddress.accept(address));
 
@@ -85,7 +87,6 @@ export const submitShippingAddress = payload =>
         const authedEndpoint =
             '/rest/V1/carts/mine/estimate-shipping-methods';
         const endpoint = user.isSignedIn ? authedEndpoint : guestEndpoint;
-        dispatch(actions.changeCheckoutUpdating(true));
         const response = await request(endpoint, {
             method: 'POST',
             body: JSON.stringify({address})

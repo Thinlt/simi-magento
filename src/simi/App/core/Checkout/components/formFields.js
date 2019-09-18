@@ -44,6 +44,27 @@ const listState = (states) => {
     return html;
 }
 
+const renderRegionField = (selectedCountry, initialCountry, countries, configFields, initialValues) => {
+    const country_id = (selectedCountry !== -1) ? selectedCountry : initialCountry
+    if (!country_id || !countries) return
+    const country = countries.find(({ id }) => id === country_id);
+    if (!country) return
+    const { available_regions: regions } = country;
+    if (country.available_regions && Array.isArray(regions) && regions.length && (!configFields || (configFields && configFields.hasOwnProperty('region_id_show') && configFields.region_id_show))) {
+        return (
+            <div className='region_code'>
+                <div className={`address-field-label ${(!configFields || configFields.region_id_show === 'req') ? 'req' : ''}`}>{Identify.__("State")}</div>
+                <Select 
+                    initialValue={initialValues.region_code}
+                    key={Identify.randomString(3)}
+                    field="region_code" items={listState(regions)}
+                    isrequired={(!configFields || (configFields && configFields.hasOwnProperty('region_id_show') && configFields.region_id_show === 'req')) ? 'isrequired' : ''}
+                />
+            </div>
+        )
+    }
+}
+
 const FormFields = (props) => {
     const {
         formId,
@@ -73,7 +94,7 @@ const FormFields = (props) => {
     const [shippingNewForm, setShippingNewForm] = useState(false);
     const [handlingEmail, setHandlingEmail] = useState(false)
     const [existCustomer, setExistCustomer] = useState(checkCustomer);
-    const [showRegion, setShowRegion] = useState(null);
+    const [selectedCountry, setSelectedCountry] = useState(-1);
     const [usingSameAddress, setUsingSameAddress] = useState(billingForm === true);
 
     const storageShipping = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'shipping_address');
@@ -204,28 +225,10 @@ const FormFields = (props) => {
         simiSignIn(setDataLogin, { username, password })
         showFogLoading()
     }
+
     const onHandleSelectCountry = () => {
         const country_id = $(`#${formId} select[name=country_id]`).val()
-        if (!country_id || !countries) {
-            if (showRegion) setShowRegion(null)
-            return;
-        }
-        const country = countries.find(({ id }) => id === country_id);
-        const { available_regions: regions } = country;
-        if (country.available_regions && Array.isArray(regions) && regions.length && (!configFields || (configFields && configFields.hasOwnProperty('region_id_show') && configFields.region_id_show))) {
-            setShowRegion(
-                <div className='region_code'>
-                    <div className={`address-field-label ${(!configFields || configFields.region_id_show === 'req') ? 'req' : ''}`}>{Identify.__("State")}</div>
-                    <Select 
-                        key={Identify.randomString(3)}
-                        field="region_code" items={listState(regions)}
-                        isrequired={(!configFields || (configFields && configFields.hasOwnProperty('region_id_show') && configFields.region_id_show === 'req')) ? 'isrequired' : ''}
-                    />
-                </div>
-            )
-        } else {
-            if (showRegion) setShowRegion(null)
-        }
+        setSelectedCountry(country_id)
     }
 
     const forgotPasswordLocation = {
@@ -317,7 +320,7 @@ const FormFields = (props) => {
                                 isrequired={(!configFields || (configFields && configFields.hasOwnProperty('country_id_show') && configFields.country_id_show === 'req')) ? 'isrequired' : ''}
                             />
                         </div> : null}
-                    {showRegion}
+                    {renderRegionField(selectedCountry, initialCountry, countries, configFields, initialValues)}
                     {!configFields || (configFields && configFields.hasOwnProperty('telephone_show') && configFields.telephone_show) ?
                         <div className='telephone'>
                             <div className={`address-field-label ${configFields.telephone_show === 'req' ? 'req' : ''}`}>{Identify.__("Phone")}</div> 
