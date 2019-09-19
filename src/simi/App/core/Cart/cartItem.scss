@@ -8,13 +8,17 @@
         min-height: 115px;
         border-bottom: 1px solid rgb(220, 220, 220);
     }
-    
+
     .cart-siminia-item .img-and-name{
         width: 60%;
         display: flex;
         padding-top: 15px;
         padding-bottom: 15px;
         border-right: 1px solid rgb(220, 220, 220);
+    }
+    .body-cart-rtl .cart-siminia-item .img-and-name{
+        border-right: 0;
+        border-left: 1px solid rgb(220, 220, 220);
     }
 }
 
@@ -45,6 +49,10 @@
         display: block;
         margin-right: 34px;
     }
+    .body-cart-rtl .cart-siminia-item .img-cart-container{
+        margin-right: 0;
+        margin-left: 34px;
+    }
 }
 
 @media(max-width: 1023px) {
@@ -53,6 +61,10 @@
         height: 100px;
         display: inline-block;
         margin-right: 8px;
+    }
+    .body-cart-rtl .cart-siminia-item .img-cart-container{
+        margin-right: 0;
+        margin-left: 8px;
     }
 }
 
@@ -125,12 +137,16 @@
         border-right: 1px solid rgb(220, 220, 220);
         padding-top: 38px;
     }
+    .body-cart-rtl .cart-siminia-item .item-price{
+        border-right: 0;
+        border-left: 1px solid rgb(220, 220, 220);
+    }
 }
 
 
 
 @media(max-width: 1023px) {
-    .cart-siminia-item .item-qty { 
+    .cart-siminia-item .item-qty {
         width: 37.5%;
         margin-left: 2.5%;
     }
@@ -147,6 +163,10 @@
         border-right: 1px solid rgb(220, 220, 220);
         padding-top: 32px;
     }
+    .body-cart-rtl .cart-siminia-item .item-qty{
+        border-right: 0;
+        border-left: 1px solid rgb(220, 220, 220);
+    }
 }
 
 .cart-siminia-item .item-qty input{
@@ -156,16 +176,16 @@
     display: block;
     border: 1px solid #DCDCDC;
 }
-.cart-siminia-item .item-qty input[type=number]::-webkit-inner-spin-button, 
-.cart-siminia-item .item-qty input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+.cart-siminia-item .item-qty input[type=number]::-webkit-inner-spin-button,
+.cart-siminia-item .item-qty input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 
 @media(min-width: 1024px) {
 
-    .cart-siminia-item .item-qty input{ 
+    .cart-siminia-item .item-qty input{
         margin: 0 auto;
         width: 40px;
         height: 30px;
@@ -185,6 +205,10 @@
         text-align: center;
         border-right: 1px solid rgb(220, 220, 220);
         padding-top: 38px;
+    }
+    .body-cart-rtl .cart-siminia-item .item-subtotal{
+        border-left: 1px solid rgb(220, 220, 220);
+        border-right: 0;
     }
 }
 

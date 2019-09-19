@@ -44,9 +44,12 @@ class Identify {
 
     static isRtl() {
         let is_rtl = false;
-        const configs = this.getStoreConfig();
-        if (configs !== null && configs.storeview && configs.storeview.base && configs.storeview.base.is_rtl) {
-            is_rtl = parseInt(configs.storeview.base.is_rtl, 10) === 1;
+        const storeConfigs = this.getStoreConfig();
+
+        const configs = storeConfigs && storeConfigs.hasOwnProperty('simiStoreConfig') ? storeConfigs.simiStoreConfig : null;
+
+        if (configs !== null && configs.config && configs.config.base && configs.config.base.is_rtl) {
+            is_rtl = parseInt(configs.config.base.is_rtl, 10) === 1;
         }
         return is_rtl;
     }

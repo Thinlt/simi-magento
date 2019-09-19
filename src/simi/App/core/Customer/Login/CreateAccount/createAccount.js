@@ -13,6 +13,7 @@ import TitleHelper from 'src/simi/Helper/TitleHelper'
 import { createAccount } from 'src/simi/Model/Customer'
 import {showToastMessage} from 'src/simi/Helper/Message';
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
+require('./createAccount.scss')
 
 const CreateAccount = props => {
     const { createAccountError } = props;
@@ -123,8 +124,8 @@ const CreateAccount = props => {
                 </div>
                 <div className={classes.error}>{errorMessage}</div>
                 <div className={classes.actions}>
-                    <button 
-                        priority="high" className={classes.submitButton} type="submit" 
+                    <button
+                        priority="high" className={classes.submitButton} type="submit"
                         style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}>
                         {Identify.__('Submit')}
                     </button>
