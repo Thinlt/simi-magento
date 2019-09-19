@@ -74,9 +74,6 @@ const Subscriber = props => {
                 }}
             </SimiMutation>
             <React.Fragment>
-                {
-                    console.log('loading..')
-                }
                 <div className={classForm}>
                     <form className={props.formClassName} onSubmit={formAction}>
                         <label htmlFor="subcriber-email">{Identify.__('Email *')}</label>
