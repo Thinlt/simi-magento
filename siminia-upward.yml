@@ -56,6 +56,14 @@ response:
     - matches: request.url.pathname
       pattern: '^/simistatic/.'
       use: static
+      #param contain simiproxyexception would use proxy directly to magento site
+    - matches: request.url.search
+      pattern: 'simiproxyexception'
+      use: proxy
+      #path contain simiproxyexception would use proxy directly to magento site
+    - matches: request.url.pathname
+      pattern: 'simiproxyexception'
+      use: proxy
     # Requests with a URL key are handled by the top-level 'appShell' object.
     # The existence of a URL key is determined using the top-level 'urlKey'
     # object.
