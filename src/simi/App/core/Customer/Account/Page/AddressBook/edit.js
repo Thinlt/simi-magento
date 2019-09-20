@@ -147,7 +147,6 @@ const Edit = props => {
         const { showOption } = props;
         var countryFieldState = useFieldState('country_id');
         var country_id = countryFieldState.value;
-
         // get country
         var country;
         for(var i in countries) {
@@ -314,7 +313,7 @@ const Edit = props => {
                                 >
                                     { countries.map((country, index) => {
                                         return country.full_name_locale !== null ? 
-                                            <Option value={`${index}-${country.id}`} key={index} >{country.full_name_locale}</Option> : null
+                                            <Option value={`${country.id}`} key={index} >{country.full_name_locale}</Option> : null
                                     })}
                                 </SimiSelect>
                             </div>
