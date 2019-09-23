@@ -42,7 +42,7 @@
 }
 @font-face {
 	font-family: 'Gotham';
-	src: url('/fonts/Gotham/Gotham-UltraItalic.otf') format('truetype');
+	src: url('/fonts/Gotham/Gotham-UltraItalic.otf') format('opentype');
 	font-weight: 600;
 	font-style: italic;
 }
