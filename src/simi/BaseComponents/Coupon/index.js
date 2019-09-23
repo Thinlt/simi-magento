@@ -58,7 +58,7 @@ const Coupon = (props) => {
                         <Close style={{width:15,height:15}}/>
                     </button>   }
         </div>
-        <Whitebtn id="submit-coupon" className={`${Identify.isRtl() ? "submit-coupon-rtl" : ''}`} onClick={() => handleCoupon()} text={Identify.__('Apply')} />
+        <Whitebtn id="submit-coupon" className={`${Identify.isRtl() ? "submit-coupon-rtl" : 'submit-coupon'}`} onClick={() => handleCoupon()} text={Identify.__('Apply')} />
     </div>
 }
 
