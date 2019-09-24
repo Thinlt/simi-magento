@@ -2,6 +2,7 @@
     align-items: center;
     display: grid;
     gap: 1rem;
+    column-gap: 15px;
     grid-auto-flow: column;
     grid-template-columns: 60px 1fr;
 }
@@ -19,4 +20,7 @@
 
 .name {
     word-break: break-word;
+    font-size: 14px;
+    line-height: 19px;
+    font-weight: 500;
 }
