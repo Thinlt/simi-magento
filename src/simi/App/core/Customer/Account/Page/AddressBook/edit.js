@@ -33,7 +33,7 @@ const SimiSelect = asField(({ fieldState, ...props }) => (
 
 const Edit = props => {
 
-    const { addressData, countries, classes, address_fields_config } = props;
+    const { addressData, countries, address_fields_config } = props;
     const addressConfig = address_fields_config;
 
     var CUSTOMER_MUTATION = CUSTOMER_ADDRESS_CREATE;
@@ -165,7 +165,7 @@ const Edit = props => {
                 required = 'req';
             }
             return (
-                <div className={classes['state-option']}>
+                <div className='state-option'>
                     <label htmlFor="input-state">{Identify.__('State/Province')}{required === 'req' && <span>*</span>}</label>
                     <div>
                         <SimiSelect id="input-state" field="region[region_id]" initialValue={regionValue} key={regionValue} 
@@ -184,7 +184,7 @@ const Edit = props => {
                 regionValue = null; //reset value region field when change country
             }
             return (
-                <div className={classes['state-text']}>
+                <div className='state-text'>
                     <label htmlFor="input-state">{Identify.__('State/Province')}{showOption === 'req' && <span>*</span>}</label>
                     <div>
                         <SimiText id="input-state" field="region[region]" initialValue={regionValue} 
@@ -196,26 +196,26 @@ const Edit = props => {
     }
 
     return (
-        <div className={classes['edit-address']}>
+        <div className='edit-address'>
             {TitleHelper.renderMetaHeader({title: Identify.__('Edit Address')})}
             <Form id="address-form" getApi={getFormApi} onSubmit={formSubmit} onChange={formChange}>
                 {({ formApi }) => (
                     <>
-                    <div className={classes["col-left"]}>
-                        <div className={classes["form-row"]}>
-                            <div className={classes["col-label"]}>{Identify.__('Contact Information')}</div>
+                    <div className="col-left">
+                        <div className="form-row">
+                            <div className="col-label">{Identify.__('Contact Information')}</div>
                         </div>
-                        <div className={classes["form-row"]}>
+                        <div className="form-row">
                             <label htmlFor="input-firstname">{Identify.__('First Name')}<span>*</span></label>
                             <SimiText id="input-firstname" field="firstname" initialValue={addressData.firstname} validate={validate} validateOnBlur validateOnChange />
                         </div>
-                        <div className={classes["form-row"]}>
+                        <div className="form-row">
                             <label htmlFor="input-lastname">{Identify.__('Last Name')}<span>*</span></label>
                             <SimiText id="input-lastname" field="lastname" initialValue={addressData.lastname} validate={validate} validateOnBlur validateOnChange />
                         </div>
 
                         { (!addressConfig || (addressConfig && addressConfig.company_show)) && 
-                            <div className={classes["form-row"]}>
+                            <div className="form-row">
                                 <label htmlFor="input-company">
                                     {Identify.__('Company')}
                                     {addressConfig && addressConfig.company_show === 'req' && <span>*</span>}
@@ -229,7 +229,7 @@ const Edit = props => {
 
                         {
                             (!addressConfig || (addressConfig && addressConfig.telephone_show)) && 
-                            <div className={classes["form-row"]}>
+                            <div className="form-row">
                                 <label htmlFor="input-telephone">
                                     {Identify.__('Phone Number')}
                                     {addressConfig && addressConfig.telephone_show !== 'req' ? null : <span>*</span>}
@@ -240,7 +240,7 @@ const Edit = props => {
                             </div>
                         }
                     </div>
-                    <div className={classes["col-right"]}>
+                    <div className="col-right">
                         {
                             (!addressConfig || (addressConfig && (
                                 addressConfig.street_show || 
@@ -249,15 +249,15 @@ const Edit = props => {
                                 addressConfig.zipcode_show || 
                                 addressConfig.country_id_show
                             ))) ? 
-                            <div className={classes["form-row"]}>
-                                <div className={classes["col-label"]}>{Identify.__('Address')}</div>
+                            <div className="form-row">
+                                <div className="col-label">{Identify.__('Address')}</div>
                             </div>
                         :  
                             <></>
                         }
 
                         { (!addressConfig || (addressConfig && addressConfig.street_show)) && 
-                            <div className={classes["form-row"]}>
+                            <div className="form-row">
                                 <label htmlFor="input-street1">
                                     {Identify.__('Street Address')}
                                     {addressConfig && addressConfig.street_show !== 'req' ? null : <span>*</span>}
@@ -271,7 +271,7 @@ const Edit = props => {
                         }
 
                         { (!addressConfig || (addressConfig && addressConfig.city_show)) && 
-                            <div className={classes["form-row"]}>
+                            <div className="form-row">
                                 <label htmlFor="input-city">
                                     {Identify.__('City')}
                                     {addressConfig && addressConfig.city_show !== 'req' ? null : <span>*</span>} 
@@ -283,13 +283,13 @@ const Edit = props => {
                         }
 
                         { (!addressConfig || (addressConfig && addressConfig.region_id_show)) && 
-                            <div className={classes["form-row"]+' '+classes["state-province"]} id="state-province">
+                            <div className={"form-row" + ' '+ "state-province"} id="state-province">
                                 <StateProvince showOption={addressConfig && addressConfig.region_id_show || undefined } />
                             </div>
                         }
 
                         { (!addressConfig || (addressConfig && addressConfig.zipcode_show)) && 
-                            <div className={classes["form-row"]}>
+                            <div className="form-row">
                                 <label htmlFor="input-postcode">
                                     {Identify.__('Zip/Postal Code')}
                                     {addressConfig && addressConfig.zipcode_show !== 'req' ? null : <span>*</span>}
@@ -302,7 +302,7 @@ const Edit = props => {
                         }
 
                         { (!addressConfig || (addressConfig && addressConfig.country_id_show)) && 
-                            <div className={classes["form-row"]}>
+                            <div className="form-row">
                                 <label htmlFor="input-country">
                                     {Identify.__('Country')}
                                     {addressConfig && addressConfig.country_id_show !== 'req' ? null : <span>*</span>}
@@ -320,18 +320,18 @@ const Edit = props => {
                         }
 
 
-                        <div className={classes["form-row"]}>
-                            <div className={classes["checkbox"]}>
+                        <div className="form-row">
+                            <div className="checkbox">
                                 <Checkbox id="checkbox-billing" field="default_billing" initialValue={addressData.default_billing} />
                                 <label htmlFor="checkbox-billing">{Identify.__('Use as my default billing address')}</label>
                             </div>
-                            <div className={classes["checkbox"]}>
+                            <div className="checkbox">
                                 <Checkbox id="checkbox-shipping" field="default_shipping" initialValue={addressData.default_shipping} />
                                 <label htmlFor="checkbox-shipping">{Identify.__('Use as my default shipping address')}</label>
                             </div>
                         </div>
                     </div>
-                    <div className={classes["form-button"]}>
+                    <div className="form-button">
                         <SimiMutation mutation={CUSTOMER_MUTATION}>
                             {(mutaionCallback, { data }) => {
                                 if (data) {
@@ -344,7 +344,7 @@ const Edit = props => {
                                 }
                                 return (
                                     <>
-                                        <div className={'btn '+classes["btn"]+' '+classes["save-address"]}>
+                                        <div className={'btn '+"btn"+' '+"save-address"}>
                                             <button onClick={() => buttonSubmitHandle(mutaionCallback, formApi)}>
                                                 <span>{Identify.__('Save Address')}</span>
                                             </button>

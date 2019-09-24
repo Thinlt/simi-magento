@@ -3,7 +3,7 @@ import Identify from 'src/simi/Helper/Identify';
 
 const ListItem = props => {
 
-    const { data, classes, address_fields_config } = props;
+    const { data, address_fields_config } = props;
     const addressConfig = address_fields_config;
     const { id } = data;
 
@@ -50,9 +50,9 @@ const ListItem = props => {
                 : null
             }
             <td data-th={Identify.__("Actions")}>
-                <a className={classes["edit"]} href="" onClick={editAddressHandle}>{Identify.__("Edit")}</a>
+                <a className="edit" href="" onClick={editAddressHandle}>{Identify.__("Edit")}</a>
                 |
-                <a className={classes["delete"]} href="" onClick={deleteCallback}>{Identify.__("Delete")}</a>
+                <a className="delete" href="" onClick={deleteCallback}>{Identify.__("Delete")}</a>
             </td>
         </tr>
     );
