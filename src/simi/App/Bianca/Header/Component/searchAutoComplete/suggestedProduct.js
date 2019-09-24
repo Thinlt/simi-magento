@@ -20,7 +20,7 @@ const SuggestedProduct = props => {
         }
     }
     const logo_url = logoUrl()
-    const { classes, url_key, small_image, name, price, type_id } = props;
+    const { classes, url_key, small_image, name, price, type_id, simiExtraField } = props;
     const uri = resourceUrl(`/${url_key}${productUrlSuffix()}`);
     const place_holder_img = <img alt={name} src={logo_url} style={{maxWidth: 60, maxHeight: 60}}/>
 
@@ -39,9 +39,15 @@ const SuggestedProduct = props => {
                     />
                 </LazyLoad>
             </span>
-            <span className={classes.name}>{ReactHTMLParse(name)}</span>
-            <span className={classes.price}>
-                <Price prices={price} type={type_id} classes={classes} />
+            <span className="right-label">
+                <span className={classes.name}>{ReactHTMLParse(name)}</span>
+                <span className={classes.price}>
+                    <Price prices={price} type={type_id} classes={classes} />
+                </span>
+                {
+                    simiExtraField && simiExtraField.attribute_values && simiExtraField.attribute_values.vendor_name && 
+                    <div className="vendor"><span>{simiExtraField.attribute_values.vendor_name}</span></div>
+                }
             </span>
         </Link>
     );

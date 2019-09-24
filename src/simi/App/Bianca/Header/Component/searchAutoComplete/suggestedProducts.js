@@ -19,7 +19,7 @@ const SuggestedProducts = props => {
         </li>
     ));
 
-    return <ul className={classes.root}>{items}</ul>;
+    return <ul className={classes.root + ' suggested-products-list'}>{items}</ul>;
 };
 
 export default SuggestedProducts;

@@ -19,14 +19,16 @@
     border: 1px solid rgb(var(--venia-border));
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
     display: grid;
-    font-size: 0.8125rem;
+    font-size: 12px;
     gap: 0.75rem;
+    top: 54px;
     left: 0;
-    padding: 1rem 1rem;
+    padding: 18px 20px;
     position: absolute;
     right: 0;
     transition-property: opacity, transform, visibility;
     z-index: 2;
+    color: #101820;
 }
 
 .root_hidden {
@@ -38,9 +40,15 @@
 }
 
 .message {
-    color: rgb(var(--venia-text-alt));
-    padding: 0 0.75rem;
-    text-align: center;
+    color: #101820;
+    padding: 3px 0px;
+    padding-right: 18px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 14px;
+    min-height: 16px;
+    position: relative;
 }
 
 .message:empty {
@@ -49,13 +57,18 @@
 
 .suggestions {
     display: grid;
-    gap: 0.5rem;
+    gap: 0px;
+    margin-top: 17px;
 }
 
 .suggestions:empty {
     display: none;
 }
 .close-icon {
-    display: flex;
-    justify-content: flex-end;
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    position: absolute;
+    right: -2px;
+    top: -2px;
 }

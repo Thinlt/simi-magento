@@ -1,0 +1,43 @@
+$textColor: #101820;
+
+.search-auto-complete-root {
+    font-family: Gotham;
+    .icon-cross {
+        font-size: 22px;
+    }
+    .suggested-products-list{
+        margin-top: 16px;
+        > li{
+            margin-top: 24.44px;
+            &:first-child{
+                margin-top: 0px;
+            }
+        }
+    }
+    .price-simple {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 19px;
+        color: $textColor;
+        span {
+            color: $textColor;
+        }
+    }
+    a {
+        text-decoration: none;
+        color: $textColor;
+        font-weight: 500;
+        :hover .price-simple{
+            span {
+                color: $textColor;
+            }
+        }
+    }
+    .vendor {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 14px;
+        color: $textColor;
+        margin-top: 8px;
+    }
+}

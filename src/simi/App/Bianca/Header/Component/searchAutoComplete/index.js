@@ -5,11 +5,12 @@ import { simiUseQuery } from 'src/simi/Network/Query'
 import { mergeClasses } from 'src/classify';
 import searchQuery from 'src/simi/queries/catalog/productSearch.graphql'
 import Suggestions from './suggestions';
-import Close from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
+// import Close from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
 import defaultClasses from './searchAutoComplete.css';
 import Identify from 'src/simi/Helper/Identify'
 import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
 
+require('./searchAutoComplete.scss');
 
 function useOutsideAlerter(ref, setVisible) {
     function handleClickOutside(event) {
@@ -74,10 +75,14 @@ const SearchAutoComplete = props => {
 
     return (
         <div className={rootClassName+' search-auto-complete-root'} ref={wrapperRef}>
-            <div role="button" tabIndex="0" className={classes['close-icon']} onClick={() => setVisible(false)} onKeyUp={() => setVisible(false)}>
-                <Close style={{width: 14, height: 14, display: 'block'}} />
+            
+            <div className={classes.message}>
+                {message}
+                <div role="button" tabIndex="0" className={classes['close-icon']} onClick={() => setVisible(false)} onKeyUp={() => setVisible(false)}>
+                    {/* <Close style={{width: 14, height: 14, display: 'block'}} /> */}
+                    <i className="icon-cross" />
+                </div>
             </div>
-            <div className={classes.message}>{message}</div>
             <div className={classes.suggestions}>
                 <Suggestions
                     products={data ? data.products : {}}
