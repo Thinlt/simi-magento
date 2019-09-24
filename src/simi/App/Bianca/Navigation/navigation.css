@@ -151,13 +151,21 @@
     display: flex;
     justify-content: space-between;
     padding: 8px 15px;
+    /* font-family: 'Gotham'; */
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 14px;
 }
 .cate-icon {
     
 }
 .cate-child-item {
     cursor: pointer;
-    padding: 8px 15px 18px;
+    padding: 8px 15px;
+    /* font-family: 'Gotham'; */
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 14px;
 }
 .menu-cate-name-item {
     font-size: 14px;

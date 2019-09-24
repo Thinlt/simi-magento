@@ -14,9 +14,23 @@ class SubCate extends React.Component{
         const cate = $('.cate-'+id);
         $('.sub-cate-'+id).slideToggle('fast');
         cate.find(`.${classes['cate-icon']}`).toggleClass('hidden')
-        if(!this.state.open)
+        if(!this.state.open){
             this.setState(state => ({ open: !state.open }));
+        }
     };
+
+    showAllProductOfCate = (item) =>{
+        const url_path = (item.url_path && item.url_path!=='/') ? "/" + item.url_path + cateUrlSuffix() :  "/products.html?cat=" + item.id
+        const url = {
+                pathname: url_path,
+                state: {
+                    cate_id: item.id,
+                    hasChild: item.children && item.children.length > 0,
+                    name: item.name
+            }
+        }
+        this.props.openLocation(url);
+    }
 
     shouldComponentUpdate(nextProps,nextState){
         return nextState.open !== this.state.open
@@ -92,18 +106,19 @@ class SubCate extends React.Component{
                     className={`cate-${item.id} ${classes['cate-parent-item']}`}
                     role="presentation"
                     style={{color:configColor.menu_text_color}}
-                    onClick={()=>this.handleToggleMenu(item.id)}>
-                    <div style={{color:configColor.menu_text_color}}>
+                    //onClick={()=>this.handleToggleMenu(item.id)}>
+                    onClick={()=>this.showAllProductOfCate(item)}>
+                    <div style={{color:configColor.menu_text_color, textTransform: 'uppercase'}}>
                         {cate_name}
                     </div>
-                    <div className={`${classes["cate-icon"]} hidden`}>
+                    {/* <div className={`${classes["cate-icon"]} hidden`}>
                         <ExpandLess className={`${classes["cate-icon"]} hidden`} color={configColor.menu_text_color}/>
                     </div>
                     <div className={`${classes["cate-icon"]}`}>
                         <ExpandMore className={classes['cate-icon']} color={configColor.menu_text_color}/>
-                    </div>
+                    </div> */}
                 </div>
-                {sub_cate}
+                {/* {sub_cate} */}
             </div>
 
         )

@@ -14,5 +14,5 @@
     cursor: pointer;
 }
 .menu-item-wrap.divider {
-    border-bottom: 1px solid;
+    /* border-bottom: 1px solid; */
 }

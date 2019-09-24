@@ -123,7 +123,6 @@ class CustomerLayout extends React.Component{
         const {page} = this.state;
         const menu = menuConfig.map(item => {
             const active = item.page.toString().indexOf(page) > -1 || (page === classes['order-detail'] && item.page === classes['my-order']) ? classes['active'] : '';
-
             return item.enable ?
                 <MenuItem key={item.title}
                           onClick={()=> item.page ==='webtrack-login' ? this.redirectExternalLink(item.url) : this.handleLink(item.url)}

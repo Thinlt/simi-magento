@@ -80,7 +80,7 @@ class CateTree extends React.Component {
             <div 
                 role="presentation" 
                 key={Identify.randomString(10)}
-                style={{color:configColor.menu_text_color}} 
+                style={{color:configColor.menu_text_color, textTransform:'uppercase'}} 
                 onClick={()=>this.openLocation(location)}
                 className={`${classes['cate-child-item']}`}>
                 <div style = {{color:configColor.menu_text_color}} >{cate_name}</div>
@@ -120,12 +120,12 @@ class CateTree extends React.Component {
         this.renderedOnce = true
         const primarytext = hideHeader?'':(
             <div className={classes["menu-content"]} id="cate-tree">
-                <div className={classes["icon-menu"]}>
+                {/* <div className={classes["icon-menu"]}>
                     <CateIcon style={{fill:configColor.menu_icon_color, width: 18, height: 18}}/>
-                </div>
+                </div> */}
                 <div className={classes["menu-title"]}
                         style={{color:configColor.menu_text_color}}>
-                    {Identify.__('Categories')}</div>
+                    {Identify.__('ALL CATEGORIES')}</div>
             </div>
         )
         return (
