@@ -50,16 +50,21 @@ const renderRegionField = (selectedCountry, initialCountry, countries, configFie
     const country = countries.find(({ id }) => id === country_id);
     if (!country) return
     const { available_regions: regions } = country;
-    if (country.available_regions && Array.isArray(regions) && regions.length && (!configFields || (configFields && configFields.hasOwnProperty('region_id_show') && configFields.region_id_show))) {
+    if (!configFields || (configFields && configFields.hasOwnProperty('region_id_show') && configFields.region_id_show)) {
         return (
             <div className='region_code'>
-                <div className={`address-field-label ${(!configFields || configFields.region_id_show === 'req') ? 'req' : ''}`}>{Identify.__("State")}</div>
-                <Select 
-                    initialValue={initialValues.region_code}
-                    key={Identify.randomString(3)}
-                    field="region_code" items={listState(regions)}
-                    isrequired={(!configFields || (configFields && configFields.hasOwnProperty('region_id_show') && configFields.region_id_show === 'req')) ? 'isrequired' : ''}
-                />
+                <div className={`address-field-label ${configFields.region_id_show === 'req' ? 'req' : ''}`}>{Identify.__("State")}</div>
+                {
+                    (country.available_regions && Array.isArray(regions) && regions.length) ?
+                    <Select 
+                        initialValue={initialValues.region_code}
+                        key={Identify.randomString(3)}
+                        field="region_code" items={listState(regions)}
+                        isrequired={(!configFields || (configFields && configFields.hasOwnProperty('region_id_show') && configFields.region_id_show === 'req')) ? 'isrequired' : ''}
+                    /> :
+                    <input type="text" id='region_code' name='region_code' 
+                    className={configFields.region_id_show === 'req' ? 'isrequired' : ''} defaultValue={initialValues.region_code}></input>
+                }
             </div>
         )
     }

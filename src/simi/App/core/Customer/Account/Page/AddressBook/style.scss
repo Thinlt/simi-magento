@@ -64,7 +64,6 @@
 .address-book .additional-address{}
 .address-book .additional-address .address-label{}
 .address-book .additional-address .table-wrap{
-    overflow-x: auto;
     padding: 10px 0px;
     margin-top: 10px;
 }
@@ -249,15 +248,30 @@
     flex-wrap: wrap;
 }
 
+@media (max-width: 1444px){
+    .address-book .additional-address {
+        .col.phone, .row.phone, 
+        .col.zip, .row.zip,
+        .col.lastname, .row.lastname,
+        .col.state, .row.state
+        {
+            display: none;
+        }
+    }
+}
+
 @media (max-width: 1024px){
-    .address-book {
-        max-width: 580px;
+    .address-book .additional-address .table-wrap table > thead {
+        display: none;
+    }
+    .address-book .additional-address tr {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 16px;
+        flex-direction: column;
     }
 }
 @media (max-width: 768px){
-    .address-book {
-        max-width: 354px;
-    }
     .address-book .billing-address{
         margin-right: 0px;
     }

@@ -214,7 +214,7 @@ class CustomerLayout extends React.Component{
 
         return (
             <React.Fragment>
-                <div className={`'customer-dashboard' ${page}`} style={{minHeight:window.innerHeight-200}}>
+                <div className={`customer-dashboard ${page}`} style={{minHeight:window.innerHeight-200}}>
                     <BreadCrumb history={this.props.history} breadcrumb={[{name:'Home', link:'/'},{name:'Account'}]}/>
                     <div className='container'>
                         <div className="dashboard-layout">
