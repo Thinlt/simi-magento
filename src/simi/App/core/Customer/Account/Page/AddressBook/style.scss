@@ -202,12 +202,21 @@
     padding: 2px 0px;
     margin: 5px 0px;
 }
-.address-book .edit-address .form-row label{
+.address-book .edit-address .address-field-label {
     font-size: 14px;
-    height: 22px;
-    line-height: 22px;
     margin-right: 10px;
+    margin-bottom: 5px;
+    font-weight: 700;
 }
+.address-book .edit-address .address-field-label.req::after {
+    color: #ee0000;
+    content: " *";
+}
+
+.address-book .edit-address .form-row input.warning, address-book .edit-address .form-row select.warning {
+    box-shadow: 0 0 5px -2px #ee0000;
+}
+
 .address-book .edit-address .form-row label span{}
 .address-book .edit-address .form-row input{
     width: 100%;
