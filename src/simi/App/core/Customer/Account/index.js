@@ -196,12 +196,6 @@ class CustomerLayout extends React.Component{
 
     componentDidMount(){
         this.setIsPhone()
-        this.pushTo = '/login.html';
-        const {isSignedIn, history} = this.props
-        if(!isSignedIn){
-            history.push(this.pushTo);
-            return
-        }
         $('body').addClass('body-customer-dashboard')
     }
 
@@ -211,6 +205,13 @@ class CustomerLayout extends React.Component{
 
     render() {
         const {page}= this.state;
+        const {isSignedIn, history} = this.props
+        this.pushTo = '/login.html';
+        if(!isSignedIn){
+            history.push(this.pushTo);
+            return ''
+        }
+
         return (
             <React.Fragment>
                 <div className={`'customer-dashboard' ${page}`} style={{minHeight:window.innerHeight-200}}>
