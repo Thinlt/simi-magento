@@ -21,7 +21,7 @@ class Identify {
     static __(text) {
         const appConfig = this.getAppDashboardConfigs();
         let config = null;
-        if (appConfig !== null) {
+        if (appConfig !== null && appConfig !== undefined) {
             config = appConfig['app-configs'][0] || null;
         }
 

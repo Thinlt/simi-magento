@@ -1,7 +1,6 @@
 import React from 'react'
 import { Query } from 'react-apollo';
 import { Mutation } from 'react-apollo';
-import { useMutation } from '@apollo/react-hooks';
 import {addRequestVars} from 'src/simi/Helper/Network'
 import { useApolloContext } from '@magento/peregrine'
 import { useQueryResult } from '@magento/peregrine'
@@ -36,21 +35,6 @@ export const SimiMutation = props => {
             }
         }
     </Mutation>
-}
-
-export const useSimiMutation = (mutationQuery) => {
-
-    const [
-        mutationCall,
-        { loading: mutationLoading, error: mutationError },
-    ] = useMutation(mutationQuery);
-
-    const simiMutationCall = (vars = {}) => {
-        let variables = addRequestVars(vars);
-        mutationCall(variables);
-    }
-
-    return [simiMutationCall, { loading: mutationLoading, error: mutationError }];
 }
 
 export var simiUseQuery = function simiUseQuery(query, use_cache = true) {
