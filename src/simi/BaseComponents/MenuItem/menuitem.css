@@ -5,12 +5,10 @@
     box-sizing: border-box;
     text-align: left;
     align-items: center;
-    padding-top: 11px;
+    padding-top: 11px;                                                                                                                                                                                                                                      
     padding-bottom: 11px;
     justify-content: flex-start;
-    text-decoration: none;
-    padding-left: 8px;
-    padding-right: 8px;
+    text-decoration: none;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
     cursor: pointer;
 }
 .menu-item-wrap.divider {

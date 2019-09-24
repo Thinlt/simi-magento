@@ -1,4 +1,33 @@
 .leftAccountMenu{
-    padding: 10px 8px;
+    margin-left: 33px;
+    margin-top: 47px;
     text-transform: uppercase;
+}
+.wrapper-account-title{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.cate-icon-down,
+.cate-icon-up{
+    color: #101820;
+    margin-right: 19px;
+}
+.cate-icon-down .icon-down,
+.cate-icon-up .icon-up{
+    font-family: 'Linearicons';
+    font-size: 12px;
+    line-height: 12px;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    letter-spacing: 0;
+}
+.cate-icon-down .icon-down::before{
+    content: "\e874"
+}
+.cate-icon-up .icon-up::before{
+    content: "\e873"
 }
