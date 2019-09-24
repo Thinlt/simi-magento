@@ -29,6 +29,7 @@
     transition-property: opacity, transform, visibility;
     z-index: 2;
     color: #101820;
+    min-width: 302px;
 }
 
 .root_hidden {
