@@ -26,7 +26,7 @@ const renderRegionField = (selectedCountry, initialCountry, countries, addressCo
                         name="region_code" id='region_code'
                         className={addressConfig && addressConfig.region_id_show === 'req' ? 'isrequired' : ''}
                     >
-                        <option key='pls-select'>{Identify.__('Please choose')}</option>
+                        <option key='pls-select' value="">{Identify.__('Please choose')}</option>
                         {regions.map((region, index) => {
                             return <option key={index} value={region.code}>{region.name}</option>
                         })}
@@ -90,8 +90,6 @@ const Edit = props => {
             const inputField = $(this)
             if (inputField) {
                 const value = inputField.val()
-                console.log(inputField.attr('name'))
-                console.log(value)
                 if ((inputField.hasClass('isrequired') || inputField.attr('isrequired') === 'isrequired') && !value) {
                     inputField.addClass('warning')
                     formValid = false
@@ -125,7 +123,6 @@ const Edit = props => {
                 }
             }
         });
-        console.log(submitValues)
         if (!formValid)
             return
 
@@ -152,11 +149,11 @@ const Edit = props => {
                         <div className="col-label">{Identify.__('Contact Information')}</div>
                     </div>
                     <div className="form-row">
-                        <div className='req'>{Identify.__("First Name")}</div>
+                        <div className='address-field-label req'>{Identify.__("First Name")}</div>
                         <input type="text" id='input-firstname' name='firstname' className='isrequired' defaultValue={addressData.firstname}></input>
                     </div>
                     <div className="form-row">
-                        <div className='req'>{Identify.__("Last Name")}</div>
+                        <div className='address-field-label req'>{Identify.__("Last Name")}</div>
                         <input type="text" id='input-lastname' name='lastname' className='isrequired' defaultValue={addressData.lastname}></input>
                     </div>
                     { (!addressConfig || (addressConfig && addressConfig.company_show)) && 
@@ -205,10 +202,6 @@ const Edit = props => {
                         </div>
                     }
 
-                    { (!addressConfig || (addressConfig && addressConfig.region_id_show)) && 
-                        renderRegionField(selectedCountry, initialCountry, countries, addressConfig, addressData)
-                    }
-
                     { (!addressConfig || (addressConfig && addressConfig.zipcode_show)) && 
                         <div className="form-row">
                             <div className={`address-field-label ${addressConfig && addressConfig.zipcode_show === 'req' ? 'req' : ''}`}>{Identify.__("Zip/Postal Code")}</div> 
@@ -226,7 +219,7 @@ const Edit = props => {
                                 onChange={() => onHandleSelectCountry()} onBlur={() => onHandleSelectCountry()}
                                 className={addressConfig && addressConfig.country_id_show === 'req' ? 'isrequired' : ''}
                             >   
-                                <option key='pls-select'>{Identify.__('Please choose')}</option>
+                                <option key='pls-select' value="">{Identify.__('Please choose')}</option>
                                 {
                                     countries.map((country, index) => {
                                         return country.full_name_locale?<option key={index} value={country.id}>{country.full_name_locale}</option>:''
@@ -235,6 +228,11 @@ const Edit = props => {
                             </select>
                         </div>
                     }
+
+                    { (!addressConfig || (addressConfig && addressConfig.region_id_show)) && 
+                        renderRegionField(selectedCountry, initialCountry, countries, addressConfig, addressData)
+                    }
+
                     <div className="form-row">
                         <div className="checkbox">
                             <Checkbox id="checkbox-billing" field="default_billing" initialValue={addressData.default_billing} />
