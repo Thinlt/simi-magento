@@ -1,22 +1,21 @@
 .login-background {
-    background-color: gray;
+    background-color: white;
     padding: 25px;
-    min-height: 1000px;
-    background-image: url('./login_bg_2.jpg');
+    /* background-image: url('./login_bg_2.jpg'); */
     background-size: cover;
     background-position: top center;
     background-repeat: no-repeat;
 }
 .login-container {
-    max-width: 420px;
+    max-width: 768px;
     margin-top: 15px;
     margin-left: auto;
     margin-right: auto;
-    padding: 55px 15px;
+    padding: 0px 15px 55px;
     box-shadow: 0px 0px 35px -18px #000;
     border-radius: 5px;
     background-color: white;
-    height: auto;
+    max-height: 562px;
 }
 .signIn_closed {
     display: none;

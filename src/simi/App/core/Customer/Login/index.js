@@ -20,7 +20,7 @@ import {showToastMessage} from 'src/simi/Helper/Message';
 
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
-
+const $ = window.$;
 class Login extends Component {
     state = {
         isCreateAccountOpen: false,
@@ -38,6 +38,8 @@ class Login extends Component {
         if (this.stateForgot()){
             this.setForgotPasswordForm()
         }
+
+        $('#siminia-main-page').css('min-height','unset')
     }
 
     get signInForm() {
