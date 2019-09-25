@@ -10,7 +10,7 @@ import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent/'
 import CateTree from './CateTree'
 import Setting from './Setting'
 import { connect } from 'src/drivers';
-import { Link } from 'react-router-dom';
+import LeftAccountMenu from '../../BaseComponents/LeftAccountMenu';
 
 const styles = {
     iconMenu : {
@@ -25,6 +25,7 @@ const styles = {
         backgroundColor : configColor.menu_line_color
     }
 }
+
 class LeftMenuContent extends React.Component{
 
     constructor(props) {
@@ -128,21 +129,21 @@ class LeftMenuContent extends React.Component{
         }
         return <div></div>;
     }
-    
 
     renderSections() {
         const {classes, isSignedIn, leftMenuItems} = this.props
         if (!leftMenuItems)
             return (
                 <React.Fragment>
-                    <MenuItem 
+                    <CateTree classes={classes} handleMenuItem={this.handleMenuItem.bind(this)} hideHeader={false}/>
+                    {/* <MenuItem 
                         classes={classes}
                         icon={<UserIcon style={styles.iconMenu}/>}
                         titleStyle={styles.menu}
-                        title={Identify.__('My Account')}
+                        title={Identify.__('ACCOUNT')}
                         onClick={()=>this.handleLink('/account.html')}
-                    />
-                    <CateTree classes={classes} handleMenuItem={this.handleMenuItem.bind(this)} hideHeader={true}/>
+                    /> */}
+                    <LeftAccountMenu handleMenuItem={this.handleMenuItem.bind(this)} />
                     <Setting parent={this} style={styles} classes={classes}/>
                 </React.Fragment>
             )

@@ -4,8 +4,6 @@ import {cateUrlSuffix} from 'src/simi/Helper/Url';
 import {configColor} from 'src/simi/Config';
 import CateIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/List'
 import SubCate from "./Subcate";
-import ExpandLess from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowUp";
-import ExpandMore from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowDown";
 
 class CateTree extends React.Component {
     constructor(props){
@@ -14,7 +12,23 @@ class CateTree extends React.Component {
             treecate : null,
             loaded : false,
             open:false,
+            displayDown: "block",
+            displayUp: "none"
         }
+    }
+
+    clickUp(){
+        this.setState({
+            displayUp:"none",
+            displayDown:"block"
+        })
+    }
+    clickDown(){
+        this.setState({
+            displayDown:"none",
+            displayUp:"block"
+            
+        })
     }
 
     shouldComponentUpdate(){
@@ -80,7 +94,7 @@ class CateTree extends React.Component {
             <div 
                 role="presentation" 
                 key={Identify.randomString(10)}
-                style={{color:configColor.menu_text_color}} 
+                style={{color:configColor.menu_text_color, textTransform:'uppercase'}} 
                 onClick={()=>this.openLocation(location)}
                 className={`${classes['cate-child-item']}`}>
                 <div style = {{color:configColor.menu_text_color}} >{cate_name}</div>
@@ -117,19 +131,26 @@ class CateTree extends React.Component {
         const storeConfig = Identify.getStoreConfig();
         if (!storeConfig || !storeConfig.simiRootCate)
             return <div></div>
-        this.renderedOnce = true
+        this.renderedOnce = false;
         const primarytext = hideHeader?'':(
             <div className={classes["menu-content"]} id="cate-tree">
-                <div className={classes["icon-menu"]}>
+                {/* <div className={classes["icon-menu"]}>
                     <CateIcon style={{fill:configColor.menu_icon_color, width: 18, height: 18}}/>
-                </div>
+                </div> */}
                 <div className={classes["menu-title"]}
                         style={{color:configColor.menu_text_color}}>
-                    {Identify.__('Categories')}</div>
+                    {Identify.__('ALL CATEGORIES')}</div>
+                <div className={`${classes["cate-icon-down"]}`} onClick={()=>this.clickDown()} style={{display: this.state.displayDown, color:configColor.menu_text_color}}>
+                    <div className={`${classes["icon-down"]}`}></div> 
+                </div> 
+                <div className={`${classes["cate-icon-up"]}`} onClick={()=>this.clickUp()} style={{display: this.state.displayUp, color:configColor.menu_text_color}}>
+                    <div className={`${classes['icon-up']}`}></div>
+                </div> 
+
             </div>
         )
         return (
-            <div >
+            <div style={{paddingTop:'7px'}}>
                 <div 
                     role="presentation"
                     className={`${classes["cate-root"]} ${classes["cate-parent-item"]}`} 

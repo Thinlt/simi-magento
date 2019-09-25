@@ -116,9 +116,10 @@
     padding: 5px 5px 0px;
 }
 .list-menu-header .menu-title {
+    /*font-family: Gotham;*/
     font-size: 14px;
-    margin-left: 10px;
-    margin-right: 10px;
+    font-weight: 300;
+    line-height: 14px;
 }
 .item-section {
     background-color: rgb(0,0,0,0.8);
@@ -150,14 +151,48 @@
     cursor: pointer;
     display: flex;
     justify-content: space-between;
-    padding: 8px 15px;
+    margin-left: 33px;
+    margin-top: 26px;
+    /*font-family: Gotham;*/
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 12px;
 }
-.cate-icon {
-    
+.cate-parent-item div:nth-child(1){
+    width:100%;
 }
+.cate-icon-down,
+.cate-icon-up{
+    color: #101820;
+    margin-right: 19px;
+}
+.cate-icon-down .icon-down,
+.cate-icon-up .icon-up{
+    font-family: 'Linearicons';
+    font-size: 12px;
+    line-height: 12px;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    letter-spacing: 0;
+}
+.cate-icon-down .icon-down::before{
+    content: "\e874"
+}
+.cate-icon-up .icon-up::before{
+    content: "\e873"
+}
+
 .cate-child-item {
     cursor: pointer;
-    padding: 8px 15px 18px;
+    margin-left: 33px;
+    margin-top: 26px;
+    /*font-family: Gotham;*/
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 12px;
 }
 .menu-cate-name-item {
     font-size: 14px;
