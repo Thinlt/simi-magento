@@ -11,24 +11,8 @@ class CateTree extends React.Component {
         this.state = {
             treecate : null,
             loaded : false,
-            open:false,
-            displayDown: "block",
-            displayUp: "none"
+            open:false
         }
-    }
-
-    clickUp(){
-        this.setState({
-            displayUp:"none",
-            displayDown:"block"
-        })
-    }
-    clickDown(){
-        this.setState({
-            displayDown:"none",
-            displayUp:"block"
-            
-        })
     }
 
     shouldComponentUpdate(){
@@ -127,23 +111,29 @@ class CateTree extends React.Component {
     render(){
         const {props} = this
         const { classes, hideHeader } = props
-
+        const hanndleClick = ()=>{
+            $('.'+ classes["cate-icon-down"]).toggleClass('hidden')
+            $('.'+classes["cate-icon-up"]).toggleClass('hidden')
+        }
         const storeConfig = Identify.getStoreConfig();
         if (!storeConfig || !storeConfig.simiRootCate)
             return <div></div>
         this.renderedOnce = false;
         const primarytext = hideHeader?'':(
-            <div className={classes["menu-content"]} id="cate-tree">
+            <div className={classes["menu-content"]} 
+                id="cate-tree"
+                onClick={()=>   hanndleClick()}
+            >
                 {/* <div className={classes["icon-menu"]}>
                     <CateIcon style={{fill:configColor.menu_icon_color, width: 18, height: 18}}/>
                 </div> */}
                 <div className={classes["menu-title"]}
                         style={{color:configColor.menu_text_color}}>
                     {Identify.__('ALL CATEGORIES')}</div>
-                <div className={`${classes["cate-icon-down"]}`} onClick={()=>this.clickDown()} style={{display: this.state.displayDown, color:configColor.menu_text_color}}>
+                <div className={`${classes["cate-icon-down"]} appear`} style={{display:'block', color:configColor.menu_text_color}}>
                     <div className={`${classes["icon-down"]}`}></div> 
                 </div> 
-                <div className={`${classes["cate-icon-up"]}`} onClick={()=>this.clickUp()} style={{display: this.state.displayUp, color:configColor.menu_text_color}}>
+                <div className={`${classes["cate-icon-up"]} hidden`} style={{display:'block', color:configColor.menu_text_color}}>
                     <div className={`${classes['icon-up']}`}></div>
                 </div> 
 
@@ -160,7 +150,7 @@ class CateTree extends React.Component {
                         {primarytext}
                     </div>
                 </div>
-                <div className="sub-cate-root">
+                <div className="sub-cate-root" style={{display:'none'}}>
                     {this.renderTreeMenu(storeConfig.simiRootCate)}
                 </div>
             </div>

@@ -56,19 +56,21 @@ class Storeview extends React.Component {
 
     renderItem() {
         const {classes} = this.props
-        if (typeof(Storage) !== "undefined") {
+        console.log(storage);
+        if (typeof(storage) !== "undefined") {
             const merchantConfigs = Identify.getStoreConfig();
             const storeList = merchantConfigs.simiStoreConfig.config.stores.stores;
             const selectedStore = storeList.filter((item) => {
                 return item.group_id === this.getSelectedGroupId()
             })[0];
             const storeViews = selectedStore.storeviews.storeviews;
+            console.log(storeViews);
             if (storeViews.length > 1) {
                 this.checkStore = true;
                 return(
                     <div className={this.props.className}>
                         <ListItemNested
-                            primarytext={<div className={`${classes["menu-title"]} menu-title`}>{Identify.__('Storeview')}</div>}
+                            primarytext={<div className={'menu-title'} >{Identify.__('Storeview')}</div>}
                             >
                             {this.renderSubItem(storeViews)}
                         </ListItemNested>
@@ -89,10 +91,10 @@ class Storeview extends React.Component {
             const isSelected = parseInt(store.store_id, 10) === this.getSelectedStoreId();
             const icon = isSelected ? 
                 <Check color={configColor.button_background} style={{width: 18, height: 18}}/> : 
-                <span className={`${classes["not-selected"]} not-selected`} style={{width: 18, height: 18}}></span>;
+                <span className={`not-selected`} style={{width: 18, height: 18}}></span>;
             const storeItem =  (
-                <div className={`${classes["store-item"]} store-item`} style={{display: 'flex'}}>
-                    <div className={`${classes["store-name"]} store-name`}>
+                <div className={'store-item'} style={{display: 'flex'}}>
+                    <div className={`store-name`}>
                         {store.name}
                     </div>
                 </div>

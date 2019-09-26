@@ -206,6 +206,45 @@
     font-size: 11px;
     margin-top: 3px;
 }
+.contact-us-left{
+
+}
+.contact-us-left div[class ~= "menu-item"]{
+    font-family: Gotham;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 14px;
+    margin-left: 33px;
+    padding-top:35px;
+}
+.menu-title{
+    font-family: Gotham;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 14px;
+    text-transform: uppercase;
+}
+.storeview-switcher div[class ~="storeview"] div[class ~="MuiListItem-gutters"]{
+    margin-top: 27px;
+    padding-left: 33px;
+    padding-right: 19px;
+}
+.storeview-switcher div[class ~="storeview"] i[class ~="icon-chevron-down"],
+.storeview-switcher div[class ~="storeview"] i[class ~="icon-chevron-up"]{
+    font-size: 12px;
+}
+.currency-switcher{
+
+}
+.currency-switcher div[class ~="currency"] div[class ~="MuiListItem-gutters"]{
+    margin-top: 31px;
+    padding-left: 33px;
+    padding-right: 19px;
+}
+.currency-switcher div[class ~="currency"] i[class ~="icon-chevron-down"],
+.currency-switcher div[class ~="currency"] i[class ~="icon-chevron-up"]{
+    font-size: 12px;
+}
 
 @media (max-width: 768px) {
     .right-icon-item button {

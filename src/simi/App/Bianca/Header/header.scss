@@ -18,7 +18,7 @@ $textColor3: #E4E4E4;
             display: flex;
             justify-content: space-between;
             height: 44px;
-            line-height: 44px;
+            line-height: 52px;
             vertical-align: middle;
             font-size: 14px;
 
@@ -30,6 +30,7 @@ $textColor3: #E4E4E4;
                 .icons{
                     margin-left: 4px;
                     font-size: 12px;
+                    margin-top: 3px;
                 }
                 .storeview-switcher, .currency-switcher {
                     font-size: 14px;
@@ -37,6 +38,7 @@ $textColor3: #E4E4E4;
                         font-size: 14px;
                         font-family: Gotham;
                         font-weight: 500;
+                        display: contents;
                     }
                     .MuiButtonBase-root{
                         padding-top: 5px;
@@ -54,16 +56,30 @@ $textColor3: #E4E4E4;
                             >div:nth-child(2n){border-top: 1px solid #f1f1f1;}
                         }
                     }
+                    .store-item .store-name, .currency-item .currency-name {
+                        margin-left: 10px;
+                        height: 32px;
+                        line-height: 38px;
+                    }
                 }
                 .storeview-switcher{
                     .storeview{
                         .MuiListItemText-root{
                             flex: unset;
+                            height: 22px;
+                            line-height: 32px;
+                            span *{display: contents;}
                         }
                     }
                 }
                 .currency-switcher {
                     .currency{
+                        .MuiListItemText-root{
+                            flex: unset;
+                            height: 22px;
+                            line-height: 32px;
+                            span *{display: contents;}
+                        }
                         >div {
                             margin-left: 32px;
                         }
@@ -507,9 +523,7 @@ body.fixed-scroll {
 .list-menu-settings > div {
     margin-left: 0 !important;
 }
-.store-item .store-name, .currency-item .currency-name {
-    margin-left: 10px;
-}
+
 .store-item .not-selected,
 .currency-item .not-selected {
     width: 20px;

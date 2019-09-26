@@ -1,7 +1,7 @@
 import React from 'react'
 import Identify from 'src/simi/Helper/Identify';
 import { configColor } from 'src/simi/Config';
-import MenuItem from 'src/simi/BaseComponents/MenuItem'
+import MenuItem from 'src/simi/App/Bianca/BaseComponents/MenuItem'
 require('./index.scss')
 
 const listAccountMenu = [
@@ -57,19 +57,7 @@ class LeftAccountMenu extends React.Component {
             displayUp: "none"
         }
     }
-    clickUp(){
-        this.setState({
-            displayUp:"none",
-            displayDown:"block"
-        })
-    }
-    clickDown(){
-        this.setState({
-            displayDown:"none",
-            displayUp:"block"
-            
-        })
-    }
+
     handleToggleMenu = (id) => {
         const listItemAccount = $('#' + id + ' .list-item-account')
         listItemAccount.slideToggle('fast')
@@ -97,23 +85,31 @@ class LeftAccountMenu extends React.Component {
     openLocation = (location) => {
         this.props.handleMenuItem(location);
     }
+
+    hanndleClick = ()=>{
+        $('.cate-icon-down').toggleClass('hidden')
+        $('.cate-icon-up').toggleClass('hidden')
+    }
+
     render() {
         return (
             <div className="leftAccountMenu">
-                <div className="wrapper-account-title">
+                <div className="wrapper-account-title"
+                    onClick={()=>this.hanndleClick()}
+                >
                     <div className="account-menu-title"
                         style={{ color: configColor.menu_text_color }}                                                                                                                                                                                                                      
                         onClick={() => this.handleToggleMenu('root')} >
                         {Identify.__('ACCOUNT')}
                     </div>
-                    <div className="cate-icon-down" onClick={()=>this.clickDown()} style={{display: this.state.displayDown, color:configColor.menu_text_color}}>                                                                                                                                                                                                                                                                                                                                                                                                                                           
+                    <div className="cate-icon-down appear" style={{display:'block',color:configColor.menu_text_color}}>                                                                                                                                                                                                                                                                                                                                                                                                                                           
                         <div className="icon-down"></div> 
                     </div> 
-                    <div className="cate-icon-up" onClick={()=>this.clickUp()} style={{display: this.state.displayUp, color:configColor.menu_text_color}}>
+                    <div className="cate-icon-up hidden" style={{display:'block',color:configColor.menu_text_color}}>
                         <div className='icon-up'></div>
                     </div>
                 </div> 
-                <div className="list-item-account">
+                <div className="list-item-account" style={{display:'none',color:configColor.menu_line_color}}>
                     {this.listPages(listAccountMenu)}
                 </div>
             </div>
