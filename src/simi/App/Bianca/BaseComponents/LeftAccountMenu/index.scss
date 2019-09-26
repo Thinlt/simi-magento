@@ -8,6 +8,13 @@
     display: flex;
     justify-content: space-between;
 }
+.account-menu-title{
+    font-family: Gotham;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 14px;
+    padding-bottom: 12px;
+}
 .cate-icon-down,
 .cate-icon-up{
     color: #101820;
@@ -30,4 +37,10 @@
 }
 .cate-icon-up .icon-up::before{
     content: "\e873"
+}
+.appear{
+    display: block !important;
+}
+.hidden{
+    display: none !important;
 }

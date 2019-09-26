@@ -49,7 +49,7 @@ class Currency extends StoreView {
 
     renderItem() {
         const {classes} = this.props
-        if (typeof(Storage) !== "undefined") {
+        if (typeof(storage) !== "undefined") {
             const merchantConfigs = Identify.getStoreConfig();
             const currencies = merchantConfigs.simiStoreConfig.config.base.currencies;
             
@@ -60,7 +60,7 @@ class Currency extends StoreView {
                         className={this.props.className}
                     >
                         <ListItemNested
-                            primarytext={<div className={`${classes["menu-title"]} menu-title`}>{Identify.__('Currency')}</div>} 
+                            primarytext={<div className={`${classes["menu-title"]} menu-title`} style={{color:configColor.menu_text_color}}>{Identify.__('Currency')}</div>} 
                             >
                             {this.renderSubItem()}
                         </ListItemNested>
@@ -90,7 +90,7 @@ class Currency extends StoreView {
                         {/* <div className={`${classes["selected"]} selected`}>
                             {icon}
                         </div> */}
-                        <div className={`${classes["currency-name"]} currency-name`}>
+                        <div style={{color:configColor.menu_line_color}} className={`${classes["currency-name"]} currency-name`}>
                             {currency.title}
                         </div>
                     </span>
