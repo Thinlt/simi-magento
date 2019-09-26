@@ -54,7 +54,7 @@ class NestedListItem extends React.Component {
                                   primaryTypographyProps={{
                                       style:{color:this.props.color ? this.props.color:''}
                                   }}/>
-                    {this.state.open ? <i style={{color:configColor.menu_text_color}} className="icon-chevron-up icons"></i> : <i style={{color:configColor.menu_text_color}} className="icon-chevron-down icons"></i>}
+                    {this.state.open ? <i className="icon-chevron-up icons"></i> : <i className="icon-chevron-down icons"></i>}
                 </ListItem>
                 <Collapse in={this.state.open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>

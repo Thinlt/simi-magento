@@ -70,7 +70,7 @@ class Storeview extends React.Component {
                 return(
                     <div className={this.props.className}>
                         <ListItemNested
-                            primarytext={<div className={`${classes["menu-title"]} menu-title`} style={{color:configColor.menu_text_color}}>{Identify.__('Storeview')}</div>}
+                            primarytext={<div className={'menu-title'} >{Identify.__('Storeview')}</div>}
                             >
                             {this.renderSubItem(storeViews)}
                         </ListItemNested>
@@ -91,10 +91,10 @@ class Storeview extends React.Component {
             const isSelected = parseInt(store.store_id, 10) === this.getSelectedStoreId();
             const icon = isSelected ? 
                 <Check color={configColor.button_background} style={{width: 18, height: 18}}/> : 
-                <span className={`${classes["not-selected"]} not-selected`} style={{width: 18, height: 18}}></span>;
+                <span className={`not-selected`} style={{width: 18, height: 18}}></span>;
             const storeItem =  (
-                <div className={`${classes["store-item"]} store-item`} style={{display: 'flex'}}>
-                    <div style={{color:configColor.menu_line_color}} className={`${classes["store-name"]} store-name`}>
+                <div className={'store-item'} style={{display: 'flex'}}>
+                    <div className={`store-name`}>
                         {store.name}
                     </div>
                 </div>

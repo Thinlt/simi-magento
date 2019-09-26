@@ -60,7 +60,7 @@ class Currency extends StoreView {
                         className={this.props.className}
                     >
                         <ListItemNested
-                            primarytext={<div className={`${classes["menu-title"]} menu-title`} style={{color:configColor.menu_text_color}}>{Identify.__('Currency')}</div>} 
+                            primarytext={<div className={`menu-title`} >{Identify.__('Currency')}</div>} 
                             >
                             {this.renderSubItem()}
                         </ListItemNested>
@@ -84,13 +84,13 @@ class Currency extends StoreView {
                 const isSelected = currency.value === this.getSelectedCurrency();
                 const icon = isSelected ? 
                     <Check color={configColor.button_background} style={{width: 18, height: 18}} /> : 
-                    <span className={`${classes["not-selected"]} not-selected`} style={{width: 18, height: 18}}></span>;
+                    <span className={`not-selected`} style={{width: 18, height: 18}}></span>;
                 const currencyItem = (
-                    <span className={`${classes["currency-item"]} currency-item`} style={{display: 'flex'}}>
+                    <span className={`currency-item`} style={{display: 'flex'}}>
                         {/* <div className={`${classes["selected"]} selected`}>
                             {icon}
                         </div> */}
-                        <div style={{color:configColor.menu_line_color}} className={`${classes["currency-name"]} currency-name`}>
+                        <div className={`currency-name`}>
                             {currency.title}
                         </div>
                     </span>

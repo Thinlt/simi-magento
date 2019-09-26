@@ -84,18 +84,18 @@ class Header extends React.Component{
     renderRightBar = () => {
         const {classes} = this
         return(
-            <div className={classes['right-bar']}>
-                <div className={classes['right-bar-item']} id="my-account">
+            <div className={'right-bar'}>
+                <div className={'right-bar-item'} id="my-account">
                     <MyAccount classes={classes}/>
                 </div>
-                <div className={classes['right-bar-item']} id="wish-list">
+                <div className={'right-bar-item'} id="wish-list">
                     <Link to={'/wishlist.html'}>
-                        <div className={classes['item-icon']} style={{display: 'flex', justifyContent: 'center'}}>
+                        <div className={'item-icon'} style={{display: 'flex', justifyContent: 'center'}}>
                             <Favorite />
                         </div>
                     </Link>
                 </div>
-                <div className={classes['right-bar-item']}>
+                <div className={'right-bar-item'}>
                     <CartTrigger classes={classes}/>
                 </div>
             </div>
@@ -126,16 +126,16 @@ class Header extends React.Component{
                 </div>
                 <div className="container-header">
                     <div className="container-fluid">
-                        <div className={this.classes['header']}>
+                        <div className={'header'}>
                             <NavTrigger classes={this.classes}>
                                 <MenuIcon />
                             </NavTrigger>
                             {this.renderLogo()}
-                            <div className={this.classes['right-bar']}>
-                                <div className={this.classes['right-bar-item']}>
+                            <div className={'right-bar'}>
+                                <div className={'right-bar-item'}>
                                     <SearchFormTrigger searchTrigger={this.searchTrigger}/>
                                 </div>
-                                <div className={this.classes['right-bar-item']+' cart'}>
+                                <div className={'right-bar-item cart'}>
                                     <CartTrigger />
                                 </div>
                             </div>

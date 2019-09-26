@@ -56,6 +56,11 @@ $textColor3: #E4E4E4;
                             >div:nth-child(2n){border-top: 1px solid #f1f1f1;}
                         }
                     }
+                    .store-item .store-name, .currency-item .currency-name {
+                        margin-left: 10px;
+                        height: 32px;
+                        line-height: 38px;
+                    }
                 }
                 .storeview-switcher{
                     .storeview{
@@ -518,9 +523,7 @@ body.fixed-scroll {
 .list-menu-settings > div {
     margin-left: 0 !important;
 }
-.store-item .store-name, .currency-item .currency-name {
-    margin-left: 10px;
-}
+
 .store-item .not-selected,
 .currency-item .not-selected {
     width: 20px;

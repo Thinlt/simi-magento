@@ -12,16 +12,16 @@ class MenuItem extends Component {
         const {title,icon,divider,menuStyle,iconStyle,titleStyle,classes} = this.props;
         const mergedClasses = mergeClasses(classes, defaultClasses)
         return (
-            <div className={`${mergedClasses["menu-item-wrap"]} ${divider?mergedClasses['divider']:''} menu-item`}>
+            <div className={`menu-item-wrap ${divider?mergedClasses['divider']:''} menu-item`}>
                 <div role="presentation" style={menuStyle} onClick={this.props.onClick}>
-                    <div className={mergedClasses["menu-content"]}>
+                    <div className={'menu-content'}>
                         {
                             icon && 
-                            <div className={mergedClasses["icon-menu"]} style={iconStyle}>
+                            <div className={'icon-menu'} style={iconStyle}>
                                 {icon}
                             </div>
                         }
-                        <div className={mergedClasses["menu-title"]} style={titleStyle}>
+                        <div className={'menu-title'} style={titleStyle}>
                             {title}
                         </div>
                     </div>
