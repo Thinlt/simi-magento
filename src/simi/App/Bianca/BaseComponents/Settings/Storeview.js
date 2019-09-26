@@ -56,7 +56,6 @@ class Storeview extends React.Component {
 
     renderItem() {
         const {classes} = this.props
-        console.log(storage);
         if (typeof(storage) !== "undefined") {
             const merchantConfigs = Identify.getStoreConfig();
             const storeList = merchantConfigs.simiStoreConfig.config.stores.stores;
@@ -64,7 +63,6 @@ class Storeview extends React.Component {
                 return item.group_id === this.getSelectedGroupId()
             })[0];
             const storeViews = selectedStore.storeviews.storeviews;
-            console.log(storeViews);
             if (storeViews.length > 1) {
                 this.checkStore = true;
                 return(

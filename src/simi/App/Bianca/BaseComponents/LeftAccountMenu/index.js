@@ -1,7 +1,9 @@
 import React from 'react'
 import Identify from 'src/simi/Helper/Identify';
 import { configColor } from 'src/simi/Config';
-import MenuItem from 'src/simi/App/Bianca/BaseComponents/MenuItem'
+import MenuItem from 'src/simi/App/Bianca/BaseComponents/MenuItem';
+import ListItemNested from 'src/simi/App/Bianca/BaseComponents/MuiListItem/Nested';
+import {showFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 require('./index.scss')
 
 const listAccountMenu = [
@@ -52,16 +54,8 @@ const listAccountMenu = [
 class LeftAccountMenu extends React.Component {
     constructor(props) {
         super(props)
-        this.state={
-            displayDown: "block",
-            displayUp: "none"
-        }
     }
 
-    handleToggleMenu = (id) => {
-        const listItemAccount = $('#' + id + ' .list-item-account')
-        listItemAccount.slideToggle('fast')
-    }
 
     listPages = pages => {
         let result = null;
@@ -70,6 +64,7 @@ class LeftAccountMenu extends React.Component {
                 return (
                     <li key={index}
                         onClick={() => this.openLocation(page)}
+                        className="list-item-account-title"
                     >
                         <MenuItem
                             title={Identify.__(page.title)}
@@ -86,35 +81,57 @@ class LeftAccountMenu extends React.Component {
         this.props.handleMenuItem(location);
     }
 
-    hanndleClick = ()=>{
-        $('.cate-icon-down').toggleClass('hidden')
-        $('.cate-icon-up').toggleClass('hidden')
+    renderItem(listAccountMenu) {
+            if (listAccountMenu.length > 1) {
+                return(
+                    <div className="left-account-menu">
+                        <ListItemNested
+                            primarytext={<div className="left-menu-account-title" >{Identify.__('ACCOUNT')}</div>}
+                            >
+                            {this.renderSubItem(listAccountMenu)}
+                        </ListItemNested>
+                    </div>
+                )
+            }
+        
+        return false;
     }
 
-    render() {
-        return (
-            <div className="leftAccountMenu">
-                <div className="wrapper-account-title"
-                    onClick={()=>this.hanndleClick()}
-                >
-                    <div className="account-menu-title"
-                        style={{ color: configColor.menu_text_color }}                                                                                                                                                                                                                      
-                        onClick={() => this.handleToggleMenu('root')} >
-                        {Identify.__('ACCOUNT')}
+    renderSubItem(listAccountMenu) {
+        let menuAccountRender = [];
+        
+        menuAccountRender = listAccountMenu.map((item) => {
+            const accountItem =  (
+                <div className={'list-account-menu-item'} style={{display: 'flex'}}>
+                    <div className={`account-item-name`}>
+                        {item.title}
                     </div>
-                    <div className="cate-icon-down appear" style={{display:'block',color:configColor.menu_text_color}}>                                                                                                                                                                                                                                                                                                                                                                                                                                           
-                        <div className="icon-down"></div> 
-                    </div> 
-                    <div className="cate-icon-up hidden" style={{display:'block',color:configColor.menu_text_color}}>
-                        <div className='icon-up'></div>
-                    </div>
-                </div> 
-                <div className="list-item-account" style={{display:'none',color:configColor.menu_line_color}}>
-                    {this.listPages(listAccountMenu)}
                 </div>
-            </div>
-        )
+            )
+            return (
+                <div 
+                    role="presentation"
+                    key={Identify.randomString(5)}
+                    style={{marginLeft: 5,marginRight:5}}
+                    onClick={() => this.openLocation(item)}>
+                    <MenuItem title={accountItem}
+                            className="left-account-item"
+                    />
+                </div>
+            );
+        }, this);
 
+        return menuAccountRender;
+    }
+
+    render(){
+        try {
+            const item = this.renderItem(listAccountMenu)
+            return item
+        } catch(err) {
+            console.log(err)
+        }
+        return ''
     }
 }
 

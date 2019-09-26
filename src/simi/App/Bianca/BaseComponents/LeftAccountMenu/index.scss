@@ -1,46 +1,41 @@
-.leftAccountMenu{
-    margin-left: 33px;
-    margin-top: 47px;
+$colorTitle : #101820;
+$colorSubTitle : #727272;
+
+.left-account-menu div[class ~= "MuiListItem-gutters"]{
+    margin-top: 27px;
+    padding-left: 33px;
+    padding-right: 19px;
+}
+
+.left-account-menu .MuiListItem-button{
+    padding-left: unset;
+}
+.left-account-menu .left-menu-account-title{
     text-transform: uppercase;
-}
-.wrapper-account-title{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
-.account-menu-title{
     font-family: Gotham;
     font-size: 14px;
     font-weight: 300;
     line-height: 14px;
-    padding-bottom: 12px;
+    color: $colorTitle;
 }
-.cate-icon-down,
-.cate-icon-up{
-    color: #101820;
-    margin-right: 19px;
-}
-.cate-icon-down .icon-down,
-.cate-icon-up .icon-up{
-    font-family: 'Linearicons';
+.left-account-menu .icons{
     font-size: 12px;
     line-height: 12px;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    letter-spacing: 0;
+    color: $colorTitle;
 }
-.cate-icon-down .icon-down::before{
-    content: "\e874"
+
+.left-account-menu .menu-item{
+    margin-left: -5px;
+    padding-left: 33px;
+    padding-top: 13px;
+    padding-bottom: 13px;
 }
-.cate-icon-up .icon-up::before{
-    content: "\e873"
-}
-.appear{
-    display: block !important;
-}
-.hidden{
-    display: none !important;
+
+.left-account-menu .menu-content{
+    font-family: Gotham;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 12px;
+    color: $colorSubTitle;
+    text-transform: uppercase;
 }

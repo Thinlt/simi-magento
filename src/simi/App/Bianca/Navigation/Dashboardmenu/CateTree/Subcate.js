@@ -5,6 +5,7 @@ import ExpandMore from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowDown";
 import Identify from 'src/simi/Helper/Identify';
 import Loading from 'src/simi/BaseComponents/Loading/ReactLoading'
 import { cateUrlSuffix } from 'src/simi/Helper/Url';
+require('./subcate.scss')
 
 class SubCate extends React.Component{
     state = { open: false };
@@ -105,10 +106,9 @@ class SubCate extends React.Component{
                 <div 
                     className={`cate-${item.id} ${classes['cate-parent-item']}`}
                     role="presentation"
-                    style={{color:configColor.menu_text_color}}
                     //onClick={()=>this.handleToggleMenu(item.id)}>
                     onClick={()=>this.showAllProductOfCate(item)}>
-                    <div style={{color:configColor.menu_text_color, textTransform: 'uppercase'}}>
+                    <div className="sub-cate-title-name" style={{textTransform: 'uppercase'}}>
                         {cate_name}
                     </div>
                     {/* <div className={`${classes["cate-icon"]} hidden`}>

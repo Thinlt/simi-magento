@@ -4,6 +4,7 @@ import {cateUrlSuffix} from 'src/simi/Helper/Url';
 import {configColor} from 'src/simi/Config';
 import CateIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/List'
 import SubCate from "./Subcate";
+require('./index.scss')
 
 class CateTree extends React.Component {
     constructor(props){
@@ -26,8 +27,7 @@ class CateTree extends React.Component {
     renderTitleMenu = (title)=>{
         const classes = this.props
         return (
-            <div className={classes["menu-cate-name-item"]}
-                 style={{color:configColor.menu_text_color}}>{Identify.__(title)}</div>
+            <div className={classes["menu-cate-name-item"]}>{Identify.__(title)}</div>
         )
     }
 
@@ -78,10 +78,10 @@ class CateTree extends React.Component {
             <div 
                 role="presentation" 
                 key={Identify.randomString(10)}
-                style={{color:configColor.menu_text_color, textTransform:'uppercase'}} 
+                style={{textTransform:'uppercase'}} 
                 onClick={()=>this.openLocation(location)}
-                className={`${classes['cate-child-item']}`}>
-                <div style = {{color:configColor.menu_text_color}} >{cate_name}</div>
+                className="cate-child-item">
+                <div>{cate_name}</div>
             </div>
         )
     }
@@ -112,29 +112,28 @@ class CateTree extends React.Component {
         const {props} = this
         const { classes, hideHeader } = props
         const hanndleClick = ()=>{
-            $('.'+ classes["cate-icon-down"]).toggleClass('hidden')
-            $('.'+classes["cate-icon-up"]).toggleClass('hidden')
+            $('.all-cate-icon-down').toggleClass('hidden')
+            $('.all-cate-icon-up').toggleClass('hidden')
         }
         const storeConfig = Identify.getStoreConfig();
         if (!storeConfig || !storeConfig.simiRootCate)
             return <div></div>
         this.renderedOnce = false;
         const primarytext = hideHeader?'':(
-            <div className={classes["menu-content"]} 
+            <div className="menu-content"
                 id="cate-tree"
-                onClick={()=>   hanndleClick()}
+                onClick={()=>hanndleClick()}
             >
                 {/* <div className={classes["icon-menu"]}>
                     <CateIcon style={{fill:configColor.menu_icon_color, width: 18, height: 18}}/>
                 </div> */}
-                <div className={classes["menu-title"]}
-                        style={{color:configColor.menu_text_color}}>
+                <div className="cate-menu-title">
                     {Identify.__('ALL CATEGORIES')}</div>
-                <div className={`${classes["cate-icon-down"]} appear`} style={{display:'block', color:configColor.menu_text_color}}>
-                    <div className={`${classes["icon-down"]}`}></div> 
+                <div className="all-cate-icon-down appear" style={{display:'block'}}>
+                    <div className="all-icon-down"></div> 
                 </div> 
-                <div className={`${classes["cate-icon-up"]} hidden`} style={{display:'block', color:configColor.menu_text_color}}>
-                    <div className={`${classes['icon-up']}`}></div>
+                <div className="all-cate-icon-up hidden" style={{display:'block'}}>
+                    <div className="all-icon-up"></div>
                 </div> 
 
             </div>
@@ -145,8 +144,8 @@ class CateTree extends React.Component {
                     role="presentation"
                     className={`${classes["cate-root"]} ${classes["cate-parent-item"]}`} 
                     onClick={()=>this.handleToggleMenu('root')}
-                    style={{color:configColor.menu_text_color}}>
-                    <div style={{color:configColor.menu_text_color}}>
+                >
+                    <div>
                         {primarytext}
                     </div>
                 </div>

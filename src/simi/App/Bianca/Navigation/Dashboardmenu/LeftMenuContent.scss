@@ -1,0 +1,78 @@
+$colorTitle: #101820;
+$colorSubTitle: #727272;
+
+.left-store-switch .storeview-switcher .storeview .menu-title{
+    text-transform: uppercase;
+    color: $colorTitle;
+    font-family: Gotham;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 14px;
+}
+.left-store-switch .storeview-switcher .storeview .menu-item{
+    margin-left: -5px;
+    padding-left: 33px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+.left-store-switch .storeview-switcher .storeview .menu-item .store-name{
+    text-transform: uppercase;
+    color: $colorSubTitle;
+    font-family: Gotham;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 12px;
+}
+.left-store-switch .storeview-switcher .storeview div[class ~="MuiListItem-gutters"]{
+    margin-top: 27px;
+    padding-left: 33px;
+    padding-right: 19px;
+}
+.left-store-switch .storeview-switcher .storeview i[class ~="icon-chevron-down"],
+.left-store-switch .storeview-switcher .storeview i[class ~="icon-chevron-up"]{
+    font-size: 12px;
+    color: $colorTitle;
+}
+
+.left-store-switch .currency-switcher .currency .menu-title{
+    text-transform: uppercase;
+    color: $colorTitle;
+    font-family: Gotham;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 14px;
+}
+.left-store-switch .currency-switcher .currency .menu-item{
+    margin-left: -5px;
+    padding-left: 33px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+.left-store-switch .currency-switcher .currency .menu-item .currency-name{
+    text-transform: uppercase;
+    color: $colorSubTitle;
+    font-family: Gotham;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 12px;
+}
+.left-store-switch .currency-switcher .currency div[class ~="MuiListItem-gutters"]{
+    margin-top: 31px;
+    padding-left: 33px;
+    padding-right: 19px;
+}
+.left-store-switch .currency-switcher .currency i[class ~="icon-chevron-down"],
+.left-store-switch .currency-switcher .currency i[class ~="icon-chevron-up"]{
+    font-size: 12px;
+    color: $colorTitle;
+}
+
+.left-contact-us .menu-item{
+    font-family: Gotham;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 14px;
+    margin-left: 33px;
+    padding-top:35px;
+    color: $colorTitle;
+}

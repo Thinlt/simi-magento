@@ -21,7 +21,7 @@ class Trigger extends Component {
 
         return (
             <button
-                className={classes.root}
+                // className={classes.root}
                 aria-label="Toggle navigation panel"
                 onClick={openNav}
             >

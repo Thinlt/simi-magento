@@ -14,6 +14,7 @@ import LeftAccountMenu from '../../BaseComponents/LeftAccountMenu';
 import Storeview from "src/simi/App/Bianca/BaseComponents/Settings/Storeview";
 import Currency from "src/simi/App/Bianca/BaseComponents/Settings/Currency";
 import ProxyClasses from 'src/simi/App/Bianca/Header/Component/ProxyClasses';
+require('./LeftMenuContent.scss')
 
 const styles = {
     iconMenu : {
@@ -149,15 +150,15 @@ class LeftMenuContent extends React.Component{
                         onClick={()=>this.handleLink('/account.html')}
                     /> */}
                     <LeftAccountMenu handleMenuItem={this.handleMenuItem.bind(this)} />
-                    <div className={classes["store-switch"]}>
-                        <div className={classes["storeview-switcher"]}>
+                    <div className="left-store-switch">
+                        <div className="storeview-switcher">
                             {storeViewOptions}
                         </div>
-                        <div className={classes["currency-switcher"]}>
+                        <div className="currency-switcher">
                             {currencyOptions}
                         </div>
                     </div>
-                    <div className={classes["contact-us-left"]} style={{color: configColor.menu_text_color}}>
+                    <div className="left-contact-us">
                         <MenuItem title={Identify.__('CONTACT US 24/7: +99 336 7890')}
                             />
                     </div>
