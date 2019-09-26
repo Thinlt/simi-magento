@@ -213,6 +213,14 @@ class Login extends Component {
                 })}
                 <div className={classes['login-background']} >
                     <div className={classes['login-container']} >
+                        <div className={classes['login-tab']}>
+                            <div className={`${classes['buyer-tab']} ${classes['active']}`}>
+                                {Identify.__("Buyer".toUpperCase())}
+                            </div>
+                            <div>
+                                {Identify.__("Seller".toUpperCase())}
+                            </div>
+                        </div>
                         <div className={`${classes['login-header']} ${showBackBtn&&classes['has-back-btn']}`}>
                             {
                                 (showBackBtn) &&
@@ -223,9 +231,9 @@ class Login extends Component {
                                     <BackIcon style={{width: 20, height: 20}}/>
                                 </div>
                             }
-                            <div className={classes['login-header-title']}>
+                            {/* <div className={classes['login-header-title']}>
                                 {title}
-                            </div>
+                            </div> */}
                         </div>
                         {signInForm}
                         {createAccountForm}
