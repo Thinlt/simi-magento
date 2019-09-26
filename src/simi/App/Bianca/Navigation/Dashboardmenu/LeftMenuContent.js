@@ -1,5 +1,5 @@
 import React from 'react'
-import MenuItem from 'src/simi/BaseComponents/MenuItem'
+import MenuItem from 'src/simi/App/Bianca/BaseComponents/MenuItem'
 import {configColor} from 'src/simi/Config';
 import Identify from "src/simi/Helper/Identify"
 import DownloadIcon from 'src/simi/BaseComponents/Icon/Download'
@@ -10,7 +10,10 @@ import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent/'
 import CateTree from './CateTree'
 import Setting from './Setting'
 import { connect } from 'src/drivers';
-import { Link } from 'react-router-dom';
+import LeftAccountMenu from '../../BaseComponents/LeftAccountMenu';
+import Storeview from "src/simi/App/Bianca/BaseComponents/Settings/Storeview";
+import Currency from "src/simi/App/Bianca/BaseComponents/Settings/Currency";
+import ProxyClasses from 'src/simi/App/Bianca/Header/Component/ProxyClasses';
 
 const styles = {
     iconMenu : {
@@ -25,13 +28,14 @@ const styles = {
         backgroundColor : configColor.menu_line_color
     }
 }
+
 class LeftMenuContent extends React.Component{
 
     constructor(props) {
         super(props);
         this.parent=this.props.parent;
+        this.classes = Object.assign(ProxyClasses, this.props.classes);
     }
-
     handleLink = (location) => {
         this.props.handleLink(location)
     }
@@ -128,22 +132,36 @@ class LeftMenuContent extends React.Component{
         }
         return <div></div>;
     }
-    
 
     renderSections() {
         const {classes, isSignedIn, leftMenuItems} = this.props
+        const storeViewOptions = <Storeview classes={classes} className="storeview"/>
+        const currencyOptions = <Currency classes={classes} className="currency"/>
         if (!leftMenuItems)
             return (
                 <React.Fragment>
-                    <MenuItem 
+                    <CateTree classes={classes} handleMenuItem={this.handleMenuItem.bind(this)} hideHeader={false}/>
+                    {/* <MenuItem 
                         classes={classes}
                         icon={<UserIcon style={styles.iconMenu}/>}
                         titleStyle={styles.menu}
-                        title={Identify.__('My Account')}
+                        title={Identify.__('ACCOUNT')}
                         onClick={()=>this.handleLink('/account.html')}
-                    />
-                    <CateTree classes={classes} handleMenuItem={this.handleMenuItem.bind(this)} hideHeader={true}/>
-                    <Setting parent={this} style={styles} classes={classes}/>
+                    /> */}
+                    <LeftAccountMenu handleMenuItem={this.handleMenuItem.bind(this)} />
+                    <div className={classes["store-switch"]}>
+                        <div className={classes["storeview-switcher"]}>
+                            {storeViewOptions}
+                        </div>
+                        <div className={classes["currency-switcher"]}>
+                            {currencyOptions}
+                        </div>
+                    </div>
+                    <div className={classes["contact-us-left"]} style={{color: configColor.menu_text_color}}>
+                        <MenuItem title={Identify.__('CONTACT US 24/7: +99 336 7890')}
+                            />
+                    </div>
+                    {/* <Setting parent={this} style={styles} classes={classes}/> */}
                 </React.Fragment>
             )
             

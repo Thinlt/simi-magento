@@ -1,3 +1,9 @@
 .menu-item-wrap {
     cursor: pointer;
+    /* font-family: Gotham; */
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 12px;
+    padding-top: 13px;
+    padding-bottom: 13px;
 }

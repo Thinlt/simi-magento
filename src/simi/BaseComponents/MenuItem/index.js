@@ -15,9 +15,9 @@ class MenuItem extends Component {
             <div className={`${mergedClasses["menu-item-wrap"]} ${divider?mergedClasses['divider']:''}`} style={{borderColor: configColor.menu_line_color}}>
                 <div role="presentation" style={menuStyle} onClick={this.props.onClick}>
                     <div className={mergedClasses["menu-content"]}>
-                        <div className={mergedClasses["icon-menu"]} style={iconStyle}>
+                        {/* <div className={mergedClasses["icon-menu"]} style={iconStyle}>
                             {icon}
-                        </div>
+                        </div> */}
                         <div className={mergedClasses["menu-title"]} style={titleStyle}>
                             {title}
                         </div>
