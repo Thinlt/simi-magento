@@ -92,10 +92,12 @@ $errorFormBgColor: #ece2e2;
                 label{
                     color: $textColor2;
                     position: absolute;
-                    top: 5px;
+                    top: 0px;
                     font-size: 16px;
                     font-weight: 500;
-                    line-height: 16px;
+                    height: 24px;
+                    line-height: 36px;
+                    margin-bottom: 6px;
                 }
                 input{
                     width: 100%;
