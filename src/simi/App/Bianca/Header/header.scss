@@ -18,7 +18,7 @@ $textColor3: #E4E4E4;
             display: flex;
             justify-content: space-between;
             height: 44px;
-            line-height: 44px;
+            line-height: 52px;
             vertical-align: middle;
             font-size: 14px;
 
@@ -30,6 +30,7 @@ $textColor3: #E4E4E4;
                 .icons{
                     margin-left: 4px;
                     font-size: 12px;
+                    margin-top: 3px;
                 }
                 .storeview-switcher, .currency-switcher {
                     font-size: 14px;
@@ -37,6 +38,7 @@ $textColor3: #E4E4E4;
                         font-size: 14px;
                         font-family: Gotham;
                         font-weight: 500;
+                        display: contents;
                     }
                     .MuiButtonBase-root{
                         padding-top: 5px;
@@ -59,11 +61,20 @@ $textColor3: #E4E4E4;
                     .storeview{
                         .MuiListItemText-root{
                             flex: unset;
+                            height: 22px;
+                            line-height: 32px;
+                            span *{display: contents;}
                         }
                     }
                 }
                 .currency-switcher {
                     .currency{
+                        .MuiListItemText-root{
+                            flex: unset;
+                            height: 22px;
+                            line-height: 32px;
+                            span *{display: contents;}
+                        }
                         >div {
                             margin-left: 32px;
                         }
