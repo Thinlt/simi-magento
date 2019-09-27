@@ -86,7 +86,8 @@ li.order-item .item-image {
 .cart-total > div > div {
     display: flex;
     justify-content: space-between;
-    height: 40px;
+    height: auto;
+    padding: 5px 0;
 }
 
 .shipping-address-detail .item-box {
