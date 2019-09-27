@@ -1,21 +1,30 @@
 import React, { Component } from 'react';
-import { bool, func, object } from 'prop-types';
+import { bool, func } from 'prop-types';
 import { Form } from 'informed';
 import TextInput from 'src/components/TextInput';
 import { isRequired } from 'src/util/formValidators';
-import classes from './signIn.css';
 import Identify from 'src/simi/Helper/Identify'
 import {configColor} from 'src/simi/Config'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import UserIcon from '../../../../../BaseComponents/Icon/User';
-import Warning from '../../../../../BaseComponents/Icon/Warning';
-import CheckBox from 'src/simi/BaseComponents/CheckBox';
+import Key from '../../../../../BaseComponents/Icon/Key';
+import Checkbox from 'src/simi/BaseComponents/Checkbox';
 import Facebook from 'src/simi/BaseComponents/Icon/Facebook';
 import Instagram from 'src/simi/BaseComponents/Icon/Instagram';
 import Twitter from 'src/simi/BaseComponents/Icon/Twitter';
 import GooglePlus from 'src/simi/BaseComponents/Icon/TapitaIcons/GooglePlus';
 
+require("./signIn.scss")
+
 class SignIn extends Component {
+    state = {
+        isSeleted: false
+    }
+
+    handleCheckBox = () => {
+        this.setState({isSeleted: !this.state.isSeleted})
+    }
+
     static propTypes = {
         isGettingDetails: bool,
         onForgotPassword: func.isRequired,
@@ -23,18 +32,21 @@ class SignIn extends Component {
     };
 
     render() {
+        const {isSeleted} = this.state;
+        const {classes} = this.props;
+
         return (
-            <div className={classes.root}>
+            <div className='root sign-in-form'>
                 {TitleHelper.renderMetaHeader({
                     title:Identify.__('Sign In')
                 })}
                 <Form
-                    className={classes.form}
+                    className='form'
                     getApi={this.setFormApi}
                     onSubmit={() => this.onSignIn()}
                 >
-                <div className={classes.userInput}>
-                    <UserIcon className={classes.userIcon} style={{width:'16px',height:'16px'}}/>
+                <div className='userInput'>
+                    <UserIcon className='userIcon' style={{width:'16px',height:'16px'}}/>
                     <TextInput
                         classes={classes}
                         style={{paddingLeft:"56px"}}
@@ -45,8 +57,8 @@ class SignIn extends Component {
                         placeholder="Email"
                     />
                 </div>
-                <div className={classes.passwordInput}>
-                    <Warning className={classes.passwordIcon} style={{width:'16px',height:'16px'}}/>
+                <div className='passwordInput'>
+                    <Key className='passwordIcon' style={{width:'16px',height:'16px'}}/>
                     <TextInput
                         classes={classes}
                         style={{paddingLeft:"56px"}}
@@ -58,36 +70,36 @@ class SignIn extends Component {
                         placeholder="Password"
                     />
                 </div>
-                    <div className={classes['signInAction']}>
-                        <CheckBox label={Identify.__("Remember me")}/>
+                    <div className='signInAction'>
+                        <Checkbox onClick={this.handleCheckBox} label={Identify.__("Remember me")} selected={isSeleted}/>
                         <button
                             type="button"
-                            className={classes.forgotPassword}
+                            className='forgotPassword'
                             onClick={this.handleForgotPassword}
                         >
                             {Identify.__('Forgot password')}
                         </button>
                     </div>
-                    <div className={classes.signInButtonCtn}>
+                    <div className='signInButtonCtn'>
                         <button 
-                            priority="high" className={classes.signInButton} type="submit" 
+                            priority="high" className='signInButton' type="submit" 
                             style={{backgroundColor: '#101820', color: configColor.button_text_color}}>
-                            {Identify.__('Sign In')}
+                            {Identify.__('Sign In'.toUpperCase())}
                         </button>
                     </div>
                 </Form>
-                <div className={classes.signInDivider}>
-                    <span className={classes.signInWith}>{Identify.__("or sign in with".toUpperCase())}</span>
+                <div className='signInDivider'>
+                    <span className='signInWith'>{Identify.__("or sign in with".toUpperCase())}</span>
                 </div>
-                <div className={classes.socialMedia}>
-                    <Facebook/>
-                    <Twitter/>
-                    <GooglePlus/>
-                    <Instagram/>
-                    <Instagram/>
+                <div className='socialMedia'>
+                    <Facebook className="social-icon"/>
+                    <Twitter className="social-icon"/>
+                    <GooglePlus className="social-icon"/>
+                    <Instagram className="social-icon"/>
+                    <Instagram className="social-icon"/>
                 </div>
-                <div className={classes.showCreateAccountButtonCtn}>
-                    <button priority="high" className={classes.showCreateAccountButton} onClick={this.showCreateAccountForm} type="submit">
+                <div className='showCreateAccountButtonCtn'>
+                    <button priority="high" className='showCreateAccountButton' onClick={this.showCreateAccountForm} type="submit">
                         {Identify.__('Create an Account')}
                     </button>
                 </div>

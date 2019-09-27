@@ -26,6 +26,7 @@ class Login extends Component {
         isCreateAccountOpen: false,
         isSignInOpen: true,
         isForgotPasswordOpen: false,
+        isBuyerTab: true
     };
 
     stateForgot = () => {
@@ -162,6 +163,11 @@ class Login extends Component {
         }
     }
 
+    changeLoginTab = () => {
+        this.setState({isBuyerTab: !this.state.isBuyerTab})
+        // console.log("1")
+    }
+
     render() {
         const {
             createAccountForm,
@@ -173,7 +179,8 @@ class Login extends Component {
         } = this;
         const {
             isCreateAccountOpen,
-            isForgotPasswordOpen
+            isForgotPasswordOpen,
+            isBuyerTab
         } = state;
 
         const {
@@ -214,10 +221,10 @@ class Login extends Component {
                 <div className={classes['login-background']} >
                     <div className={classes['login-container']} >
                         <div className={classes['login-tab']}>
-                            <div className={`${classes['buyer-tab']} ${classes['active']}`}>
-                                {Identify.__("Buyer".toUpperCase())}
+                            <div onClick={this.changeLoginTab} className={`${classes['buyer-tab']} ${isBuyerTab ? classes["active"]: null}`}>
+                                <span>{Identify.__("Buyer".toUpperCase())}</span>
                             </div>
-                            <div>
+                            <div onClick={this.changeLoginTab} className={!isBuyerTab ? classes["active"]: null}>
                                 {Identify.__("Seller".toUpperCase())}
                             </div>
                         </div>
