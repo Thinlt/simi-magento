@@ -19,7 +19,7 @@ const ReviewList = props => {
         if(data && data.reviews && data.reviews.length) {
             return (
                 <div className="list-review-item">
-                    <Pagination data={data.reviews} renderItem={renderItem} classes={classes}/>
+                    <Pagination data={data.reviews} renderItem={renderItem} />
                 </div>
             )
         }
