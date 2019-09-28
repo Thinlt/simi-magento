@@ -44,4 +44,9 @@
             </argument>
         </arguments>
     </type>
+
+    <preference for="Simi\VendorMapping\Api\VendorLoginInterface"
+                type="Simi\VendorMapping\Model\Api\VendorLogin" />
+    <preference for="Simi\VendorMapping\Api\VendorLogoutInterface"
+                type="Simi\VendorMapping\Model\Api\VendorLogout" />
 </config>
