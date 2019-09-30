@@ -1,5 +1,4 @@
 .customer-dashboard {
-    background-color: #f3f3f3;
     padding-top: 40px;
     padding-bottom: 86px;
 }
@@ -8,15 +7,15 @@
     margin-top: 30px;
 }
 .dashboard-menu {
-    width: 175px;
-    min-width: 175px;
+    min-width: 278px;
 }
-.menu-header .welcome-customer {
+.welcome-customer {
     font-size: 24px;
     line-height: 24px;
     font-weight: bold;
     color: #101820;
     font-family: Gotham;
+    margin-bottom: 24px;
 }
 .menu-header .menu-logout {
     padding-top: 14px;
@@ -32,13 +31,15 @@
 .list-menu-item .customer-menu-item {
     font-size: 14px;
     line-height: 24px;
-    background: #dcdcdc;
+    background: #F2F2F2;
     color: #333132;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
 }
 .customer-menu-item.active {
-    background: #333132;
+    background: #101820;
     color: #fff;
 }
 .list-menu-item-content {
@@ -47,7 +48,7 @@
 .dashboard-content {
     width: 100%;
     margin-right: 40px;
-    margin-left: 40px;
+    margin-left: 114px;
     max-width: 970px;
     max-width: unset;
     margin-right: 0;
@@ -279,10 +280,9 @@
     background: rgba(15, 125, 55, 0.05);
 }
 .customer-page-title .view-all {
-    color: #0f7d37;
-    font-size: 16px;
+    color: #101820;
+    font-size: 14px;
     line-height: 24px;
-    text-decoration: underline;
     font-weight: normal;
     margin-top: 2.5px;
     float: right;
@@ -302,23 +302,23 @@
 }
 .acc-information {
     display: flex;
-    justify-content: space-between;
     font-size: 16px;
     line-height: 24px;
     color: #333132;
 }
 .dash-column-box {
     background-color: #ffffff;
-    padding: 24px;
-    flex-basis: 477px;
-    min-height: 205px;
+    padding: 24px 24px 27px;
+    flex-basis: 376px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
+    border: 1px solid #727272;
 }
 .acc-information .dash-column-box:not(:first-of-type),
 .dashboard-address-book .dash-column-box:not(:first-of-type) {
-    margin-left: 17px;
+    margin-left: 16px;
 }
 .dash-column-box .box-title {
     font-weight: bold;
@@ -328,21 +328,41 @@
     margin-bottom: 8px;
 }
 .dash-column-box .edit-link {
-    color: #0f7d37;
-    text-decoration: underline;
+    color: #101820;
     cursor: pointer;
-    margin-bottom: 8px;
     display: inline-block;
+    max-width: 218px;
+    width: 100%;
+    height: 44px;
+    background-color: #F2F2F2;
+    font-size: 14px;
+    font-family: Gotham;
+    text-align: center;
+    line-height: 44px;
 }
 .dash-column-box .edit-information {
     width: 100px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    padding-top: 24px;
 }
+
+.dash-column-box .edit-information{
+    div{
+        margin-left: 8px;
+    }
+}
+
 .dashboard-address-book {
     margin-top: 40px;
 }
 .dashboard-address-book .customer-page-title .view-all {
     float: none;
     margin-left: 24px;
+    float: right;
 }
 .dashboard-address-book .dash-column-box {
     min-height: auto;
@@ -661,7 +681,7 @@
         background: #0f7d37;
         padding-right: 16px;
     }
-    .menu-header .welcome-customer {
+    .welcome-customer {
         background: unset;
         margin-right: auto;
         white-space: nowrap;

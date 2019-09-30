@@ -8,6 +8,7 @@ import { simiUseQuery } from 'src/simi/Network/Query'
 import getCustomerInfoQuery from 'src/simi/queries/getCustomerInfo.graphql'
 import AddressItem from './AddressItem'; 
 import TitleHelper from 'src/simi/Helper/TitleHelper';
+import Pencil from 'src/simi/BaseComponents/Icon/Pencil';
 
 const Dashboard = props => {
     const {isPhone, customer} = props;
@@ -45,7 +46,15 @@ const Dashboard = props => {
                              <AddressItem
                                 addressData={defaultBilling}
                             />
-                            <Link className="edit-item" to={{pathname: '/addresses.html', state: { addressEditing: defaultBilling}}}>{Identify.__("Edit address")}</Link>
+                            <Link 
+                                className="edit-item" 
+                                to={{pathname: '/addresses.html', 
+                                state: { addressEditing: defaultBilling}}}>   
+                                <div className="edit-information">
+                                    <Pencil style={{width: '16px', height: '16px'}}/>
+                                <div>{Identify.__("Edit".toUpperCase())}</div>
+                            </div>
+                            </Link>
                         </React.Fragment>
                     ) : <div>{Identify.__('You have not set a default billing address.  ')}</div>}
     
@@ -59,7 +68,12 @@ const Dashboard = props => {
                             <AddressItem
                                 addressData={defaultShipping}
                             />
-                            <Link className="edit-item" to={{pathname: '/addresses.html', state: { addressEditing: defaultShipping}}}>{Identify.__("Edit address")}</Link>
+                            <Link className="edit-item" to={{pathname: '/addresses.html', state: { addressEditing: defaultShipping}}}>
+                                <div className="edit-information">
+                                    <Pencil style={{width: '16px', height: '16px'}}/>
+                                    <div>{Identify.__("Edit".toUpperCase())}</div>
+                                </div>
+                            </Link>
                         </React.Fragment>
                     ) : <div>{Identify.__('You have not set a default shipping address.')}</div>}
                     
@@ -105,15 +119,14 @@ const Dashboard = props => {
                             <div className="box-title">
                                 {Identify.__("Contact information")}
                             </div>
-                            <p className="desc email">{`${customer.firstname} ${customer.lastname}`}</p>
                             <p className="desc email">{customer.email}</p>
                             <Link className="edit-link" to={{ pathname: '/profile.html', state: {profile_edit: 'password'} }}>{Identify.__("Change password")}</Link>
                         </div>
                         <Link to="/profile.html">
-                            <Whitebtn
-                                text={Identify.__("Edit")}
-                                className="edit-information"
-                            />
+                            <div className="edit-information">
+                                <Pencil style={{width: '16px', height: '16px'}}/>
+                                <div>{Identify.__("Edit".toUpperCase())}</div>
+                            </div>
                         </Link>
                         
                     </div>
@@ -135,10 +148,10 @@ const Dashboard = props => {
                             </div>
                         ) : <Loading /> }
                         <Link to="/newsletter.html">
-                            <Whitebtn
-                                text={Identify.__("Edit")}
-                                className="edit-information" 
-                            />            
+                            <div className="edit-information">
+                                <Pencil style={{width: '16px', height: '16px'}}/>
+                                <div>{Identify.__("Edit".toUpperCase())}</div>
+                            </div>
                         </Link>
                     </div>
                 </div>
@@ -147,7 +160,7 @@ const Dashboard = props => {
                 <div className="dashboard-address-book">
                     <div className="customer-page-title">
                         {Identify.__("Address Book")}
-                        <Link className="view-all" to="/addresses.html">{Identify.__("Manage addresses")}</Link>
+                        <Link className="view-all" to="/addresses.html">{Identify.__("Manage addresses".toUpperCase())}</Link>
                     </div>
                     {renderDefaultAddress(data.customer.addresses, data.customer.default_billing, data.customer.default_shipping)}
                 </div>
