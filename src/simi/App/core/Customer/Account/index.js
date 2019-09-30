@@ -122,7 +122,6 @@ class CustomerLayout extends React.Component{
     }
 
     renderMenu = () => {
-        const {firstname, lastname} = this.props
         const menuConfig = this.getMenuConfig()
         const {page} = this.state;
         const menu = menuConfig.map(item => {
