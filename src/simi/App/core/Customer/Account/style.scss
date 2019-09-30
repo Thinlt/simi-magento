@@ -32,7 +32,7 @@
     font-size: 14px;
     line-height: 24px;
     background: #F2F2F2;
-    color: #333132;
+    color: #101820;
     font-weight: bold;
     margin-bottom: 16px;
     display: flex;
@@ -42,6 +42,11 @@
     background: #101820;
     color: #fff;
 }
+
+.list-menu-item .customer-menu-item:last-child{
+    background-color: #BDBDBD;
+}
+
 .list-menu-item-content {
     padding: 0;
 }

@@ -88,11 +88,32 @@ class CustomerLayout extends React.Component{
                 sort_order : 60
             },
             {
+                title : 'MY GIFT VOUCHERS',
+                url : '/account.html',
+                page : 'newsletter',
+                enable : true,
+                sort_order : 70
+            },
+            {
+                title : 'MY RESERVED PRODUCTS',
+                url : '/account.html',
+                page : 'newsletter',
+                enable : true,
+                sort_order : 80
+            },
+            {
+                title : 'MY TRY & BUY PRODUCTS',
+                url : '/account.html',
+                page : 'newsletter',
+                enable : true,
+                sort_order : 90
+            },
+            {
                 title : 'Log out',
                 url : '/logout.html',
                 page : 'home',
                 enable : true,
-                sort_order : 70
+                sort_order : 100
             }
         ]
         return menuConfig
