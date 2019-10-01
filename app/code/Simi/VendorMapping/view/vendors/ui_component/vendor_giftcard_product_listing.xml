@@ -25,7 +25,7 @@
 
     <dataSource name="product_listing_data_source" component="Magento_Ui/js/grid/provider">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Aheadworks\Giftcard\Ui\DataProvider\Product\ListingDataProvider</argument>
+            <argument name="class" xsi:type="string">Simi\VendorMapping\Ui\DataProvider\Product\ListingDataProvider</argument>
             <argument name="name" xsi:type="string">product_listing_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>

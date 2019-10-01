@@ -10,6 +10,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Aheadworks\Giftcard\Api\GiftcardRepositoryInterface;
 use Magento\Framework\View\Result\PageFactory;
 use Vnecoms\Vendors\App\Action\Context;
+use Vnecoms\Vendors\Model\Session;
 
 /**
  * Class Edit
@@ -36,6 +37,11 @@ class Edit extends \Vnecoms\Vendors\Controller\Vendors\Action
     private $resultPageFactory;
 
     /**
+     * @var \Vnecoms\Vendors\Model\Session
+     */
+    protected $vendorSession;
+
+    /**
      * @param Context $context
      * @param GiftcardRepositoryInterface $giftcardRepository
      * @param PageFactory $resultPageFactory
@@ -43,11 +49,13 @@ class Edit extends \Vnecoms\Vendors\Controller\Vendors\Action
     public function __construct(
         Context $context,
         GiftcardRepositoryInterface $giftcardRepository,
-        PageFactory $resultPageFactory
+        PageFactory $resultPageFactory,
+        Session $vendorSession
     ) {
         parent::__construct($context);
         $this->giftcardRepository = $giftcardRepository;
         $this->resultPageFactory = $resultPageFactory;
+        $this->vendorSession = $vendorSession;
     }
 
     /**
@@ -63,7 +71,10 @@ class Edit extends \Vnecoms\Vendors\Controller\Vendors\Action
         $giftcardId = (int)$this->getRequest()->getParam('id');
         if ($giftcardId) {
             try {
-                $this->giftcardRepository->get($giftcardId);
+                $giftcard = $this->giftcardRepository->get($giftcardId);
+                if ($giftcard->getVendorId() != $this->vendorSession->getVendor()->getVendorId()) {
+                    throw new NoSuchEntityException(__('This gift card no longer exists.'));
+                }
             } catch (NoSuchEntityException $exception) {
                 $this->messageManager->addExceptionMessage(
                     $exception,

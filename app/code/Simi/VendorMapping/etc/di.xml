@@ -12,8 +12,8 @@
 	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
 		<arguments>
 			<argument name="collections" xsi:type="array">
-				<item name="vendor_giftcard_listing_data_source" xsi:type="string">Aheadworks\Giftcard\Model\ResourceModel\Giftcard\Grid\Collection</item>
-				<item name="vendor_giftcard_pool_listing_data_source" xsi:type="string">Aheadworks\Giftcard\Model\ResourceModel\Pool\Grid\Collection</item>
+				<item name="vendor_giftcard_listing_data_source" xsi:type="string">Simi\VendorMapping\Model\ResourceModel\Giftcard\Grid\Collection</item>
+				<item name="vendor_giftcard_pool_listing_data_source" xsi:type="string">Simi\VendorMapping\Model\ResourceModel\Pool\Grid\Collection</item>
 			</argument>
 		</arguments>
 	</type>

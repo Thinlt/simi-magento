@@ -153,4 +153,20 @@ class Pool extends AbstractModel implements PoolInterface
     ) {
         return $this->setData(self::EXTENSION_ATTRIBUTES_KEY, $extensionAttributes);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVendorId()
+    {
+        return $this->getData(self::VENDOR_ID);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setVendorId($vendor_id)
+    {
+        return $this->setData(self::VENDOR_ID, $vendor_id);
+    }
 }

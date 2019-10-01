@@ -421,6 +421,22 @@ class Giftcard extends AbstractModel implements GiftcardInterface
     /**
      * {@inheritdoc}
      */
+    public function getVendorId()
+    {
+        return $this->getData(self::VENDOR_ID);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setVendorId($vendor_id)
+    {
+        return $this->setData(self::VENDOR_ID, $vendor_id);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCurrentHistoryAction()
     {
         return $this->getData(self::CURRENT_HISTORY_ACTION);

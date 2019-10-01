@@ -22,6 +22,7 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Framework\Api\DataObjectHelper;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Vnecoms\Vendors\App\Action\Context;
+use Vnecoms\Vendors\Model\Session;
 
 /**
  * Class Save
@@ -88,6 +89,11 @@ class Save extends \Vnecoms\Vendors\Controller\Vendors\Action
     private $resourceGiftcard;
 
     /**
+     * @var \Vnecoms\Vendors\Model\Session
+     */
+    protected $vendorSession;
+
+    /**
      * @param Context $context
      * @param GiftcardRepositoryInterface $giftcardRepository
      * @param GiftcardManagementInterface $giftcardManagement
@@ -111,7 +117,8 @@ class Save extends \Vnecoms\Vendors\Controller\Vendors\Action
         DataPersistorInterface $dataPersistor,
         GiftcardInterfaceFactory $giftcardDataFactory,
         PoolManagementInterface $poolManagement,
-        ResourceGiftcard $resourceGiftcard
+        ResourceGiftcard $resourceGiftcard,
+        Session $vendorSession
     ) {
         parent::__construct($context);
         $this->giftcardRepository = $giftcardRepository;
@@ -124,6 +131,7 @@ class Save extends \Vnecoms\Vendors\Controller\Vendors\Action
         $this->giftcardDataFactory = $giftcardDataFactory;
         $this->poolManagement = $poolManagement;
         $this->resourceGiftcard = $resourceGiftcard;
+        $this->vendorSession = $vendorSession;
     }
 
     /**
@@ -242,6 +250,8 @@ class Save extends \Vnecoms\Vendors\Controller\Vendors\Action
         if (!$dataObject->getId()) {
             $dataObject->setId(null);
         }
+
+        $dataObject->setVendorId($this->vendorSession->getVendor()->getVendorId());
         $giftcard = $this->giftcardRepository->save($dataObject);
         if ($saveAction == 'save_and_send' && $giftcard->getEmailTemplate() != EmailTemplate::DO_NOT_SEND) {
             $giftcards = $this->giftcardManagement->sendGiftcardByCode($giftcard->getCode(), false);

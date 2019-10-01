@@ -18,6 +18,7 @@ use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\File\Csv;
 use Aheadworks\Giftcard\Model\Import\PoolCode as ImportPoolCode;
 use Vnecoms\Vendors\App\Action\Context;
+use Vnecoms\Vendors\Model\Session;
 
 /**
  * Class Save
@@ -69,6 +70,11 @@ class Save extends \Vnecoms\Vendors\Controller\Vendors\Action
     private $importPoolCode;
 
     /**
+     * @var \Vnecoms\Vendors\Model\Session
+     */
+    protected $vendorSession;
+
+    /**
      * @param Context $context
      * @param PoolRepositoryInterface $poolRepository
      * @param PoolManagementInterface $poolManagement
@@ -86,7 +92,8 @@ class Save extends \Vnecoms\Vendors\Controller\Vendors\Action
         DataPersistorInterface $dataPersistor,
         PoolInterfaceFactory $poolDataFactory,
         Csv $csvProcessor,
-        ImportPoolCode $importPoolCode
+        ImportPoolCode $importPoolCode,
+        Session $vendorSession
     ) {
         parent::__construct($context);
         $this->poolRepository = $poolRepository;
@@ -96,6 +103,7 @@ class Save extends \Vnecoms\Vendors\Controller\Vendors\Action
         $this->poolDataFactory = $poolDataFactory;
         $this->csvProcessor = $csvProcessor;
         $this->importPoolCode = $importPoolCode;
+        $this->vendorSession = $vendorSession;
     }
 
     /**
@@ -150,6 +158,7 @@ class Save extends \Vnecoms\Vendors\Controller\Vendors\Action
             if (!$dataObject->getId()) {
                 $dataObject->setId(null);
             }
+            $dataObject->setVendorId($this->vendorSession->getVendor()->getVendorId());
             $pool = $this->poolRepository->save($dataObject);
             $this->dataPersistor->clear('aw_giftcard_pool');
             $this->messageManager->addSuccessMessage(__('Code pool was successfully saved'));
@@ -229,7 +238,6 @@ class Save extends \Vnecoms\Vendors\Controller\Vendors\Action
             } catch (LocalizedException $e) {
                 $this->messageManager->addErrorMessage($e->getMessage());
             } catch (\Exception $e) {
-                echo '<pre>';var_dump($e->getMessage());die;
                 $this->messageManager->addExceptionMessage(
                     $e,
                     __('Something went wrong while importing codes to pool')

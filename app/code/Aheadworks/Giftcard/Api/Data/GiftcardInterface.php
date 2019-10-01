@@ -39,6 +39,7 @@ interface GiftcardInterface extends ExtensibleDataInterface
     const HEADLINE = 'headline';
     const MESSAGE = 'message';
     const CURRENT_HISTORY_ACTION = 'current_history_action';
+    const VENDOR_ID = 'vendor_id';
     /**#@-*/
 
     /**
@@ -355,6 +356,21 @@ interface GiftcardInterface extends ExtensibleDataInterface
      * @return $this
      */
     public function setMessage($message);
+
+    /**
+     * Get vendor_id
+     *
+     * @return string
+     */
+    public function getVendorId();
+
+    /**
+     * Set vendor_id
+     *
+     * @param string $vendor_id
+     * @return $this
+     */
+    public function setVendorId($vendor_id);
 
     /**
      * Get current history action

@@ -24,7 +24,24 @@ interface PoolInterface extends ExtensibleDataInterface
     const CODE_PREFIX = 'code_prefix';
     const CODE_SUFFIX = 'code_suffix';
     const CODE_DELIMITER_AT_EVERY = 'code_delimiter_at_every';
+    const VENDOR_ID = 'vendor_id';
+
     /**#@-*/
+
+    /**
+     * Get Vendor ID
+     *
+     * @return string
+     */
+    public function getVendorId();
+
+    /**
+     * Set Vendor ID
+     *
+     * @param int $id
+     * @return $this
+     */
+    public function setVendorId($vendor_id);
 
     /**
      * Get ID

@@ -5,6 +5,7 @@ namespace Simi\VendorMapping\Controller\Vendors\GiftcardPools;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Aheadworks\Giftcard\Api\PoolRepositoryInterface;
 use Magento\Framework\View\Result\PageFactory;
+use Vnecoms\Vendors\Model\Session;
 
 class Edit extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
@@ -26,6 +27,11 @@ class Edit extends \Vnecoms\Vendors\Controller\Vendors\Action
     private $resultPageFactory;
 
     /**
+     * @var \Vnecoms\Vendors\Model\Session
+     */
+    protected $vendorSession;
+
+    /**
      * @param Context $context
      * @param PoolRepositoryInterface $poolRepository
      * @param PageFactory $resultPageFactory
@@ -33,11 +39,13 @@ class Edit extends \Vnecoms\Vendors\Controller\Vendors\Action
     public function __construct(
         \Vnecoms\Vendors\App\Action\Context $context,
         PoolRepositoryInterface $poolRepository,
-        PageFactory $resultPageFactory
+        PageFactory $resultPageFactory,
+        Session $vendorSession
     ) {
         parent::__construct($context);
         $this->poolRepository = $poolRepository;
         $this->resultPageFactory = $resultPageFactory;
+        $this->vendorSession = $vendorSession;
     }
     
     /**
@@ -60,7 +68,10 @@ class Edit extends \Vnecoms\Vendors\Controller\Vendors\Action
         $poolId = (int)$this->getRequest()->getParam('id');
         if ($poolId) {
             try {
-                $this->poolRepository->get($poolId);
+                $pool = $this->poolRepository->get($poolId);
+                if ($pool->getVendorId() != $this->vendorSession->getVendor()->getVendorId()) {
+                    throw new NoSuchEntityException(__('This pool no longer exists.'));
+                }
             } catch (NoSuchEntityException $exception) {
                 $this->messageManager->addExceptionMessage(
                     $exception,
