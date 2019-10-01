@@ -14,4 +14,10 @@
             <resource ref="anonymous"/>
         </resources>
     </route>
+    <route url="/V1/simiconnector/vendor/register" method="POST">
+        <service class="Simi\VendorMapping\Api\VendorRegisterInterface" method="registerPost"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
 </routes>
