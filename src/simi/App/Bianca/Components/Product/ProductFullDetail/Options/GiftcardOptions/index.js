@@ -1,6 +1,6 @@
 import React from 'react';
 import Identify from 'src/simi/Helper/Identify';
-import OptionBase from '../OptionBase';
+import OptionBase from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/Options/OptionBase';
 import {formatPrice as helperFormatPrice} from 'src/simi/Helper/Pricing';
 import SelectField from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -10,24 +10,23 @@ import { connect } from 'src/drivers';
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent/';
 require('./giftcardoptions.scss');
 
-const DatePicker = (props)=>{
-    return <LazyComponent component={()=>import('./DateType')} {...props}/>
+const DatePicker = (props) => {
+    return <LazyComponent component={()=>import('./DateType')} {...props} />
 }
 
 class GiftcardOptions extends OptionBase {
 
-    state = {
-        isSendToFriend: false,
-        deliveryMethod: "email",
-        aw_gc_template: "aw_giftcard_email_template",
-        aw_gc_amount: "",
-        selectedClass: null
-    }
-
     constructor(props){
         super(props);
-        this.classes = {}
-        this.extraField = props.extraField
+        this.state = {
+            isSendToFriend: false,
+            deliveryMethod: "email",
+            aw_gc_template: "aw_giftcard_email_template",
+            aw_gc_amount: "",
+            selectedClass: null
+        }
+        this.classes = {};
+        this.extraField = props.extraField;
         this.timezoneOption = [];
         this.deliveryDateRef = React.createRef();
         this.awGcTemplateRef = React.createRef();
@@ -42,12 +41,12 @@ class GiftcardOptions extends OptionBase {
         if(this.extraField instanceof Object && this.extraField.hasOwnProperty('attribute_values')){
             const options = this.extraField.attribute_values;
             if (options.aw_gc_amounts) {
-                this.state.aw_gc_amount = options.aw_gc_amounts[0].price
+                this.state.aw_gc_amount = options.aw_gc_amounts[0].price;
             }
         }
     }
 
-    componentWillMount(){
+    componentWillMount() {
         const aw_gc_timezones = this.extraField.aw_gc_timezones || null;
         if (aw_gc_timezones) {
             for (const key in aw_gc_timezones) {
@@ -56,18 +55,18 @@ class GiftcardOptions extends OptionBase {
                 );
             }
         }
-        this.updatePrices(this.state.aw_gc_amount)
+        this.updatePrices(this.state.aw_gc_amount);
     }
 
-    componentDidMount(){
-        this.props.myRef(this)
+    componentDidMount() {
+        this.props.myRef(this);
     }
 
-    toggleSendToFriend(e){
+    toggleSendToFriend(e) {
         this.setState({isSendToFriend: !this.state.isSendToFriend});
     }
 
-    chooseDeliveryMethod(e){
+    chooseDeliveryMethod(e) {
         let value = e.target.value;
         this.setState({deliveryMethod: value});
     }
@@ -78,19 +77,19 @@ class GiftcardOptions extends OptionBase {
             this.checkOptionRequired()
         }
         this.setState({aw_gc_template: template_id});
-    }
+    };
 
     formChange = () => {
         if (this.isCheckOptionRequired) {
             this.checkOptionRequired()
         }
-    }
+    };
 
     deliveryDateChange = () => {
         if (this.isCheckOptionRequired) {
             this.checkOptionRequired()
         }
-    }
+    };
 
     gcAmountChange = (event) => {
         jQuery('form [name="'+event.target.name+'"]').val(event.target.value)
@@ -101,7 +100,7 @@ class GiftcardOptions extends OptionBase {
             aw_gc_amount: event.target.value
         })
         this.updatePrices(event.target.value)
-    }
+    };
 
     checkOptionRequired = () => {
         this.isCheckOptionRequired = true;
@@ -142,9 +141,9 @@ class GiftcardOptions extends OptionBase {
             return false
         }
         return true
-    }
+    };
 
-    getParams = () =>{
+    getParams = () => {
         if(!this.checkOptionRequired()){
             return false;
         }
@@ -163,7 +162,7 @@ class GiftcardOptions extends OptionBase {
         }
         this.params = Object.assign(this.params, aw_gc_params);
         return this.params;
-    }
+    };
 
     // validateRequired = (value) => {
     //     return !value ? Identify.__('This is a required field.') : undefined;
@@ -171,7 +170,7 @@ class GiftcardOptions extends OptionBase {
 
     formatPrice = (price) => {
         return helperFormatPrice(price)
-    }
+    };
 
     renderOptions = () => {
         const { classes } = this;
@@ -288,7 +287,7 @@ class GiftcardOptions extends OptionBase {
                 </div>
             );
         }
-    }
+    };
 
     updatePrices = (amount = this.state.aw_gc_amount) => {
         let exclT = 0;
@@ -296,19 +295,19 @@ class GiftcardOptions extends OptionBase {
         exclT += parseFloat(amount);
         inclT += parseFloat(amount);
         this.parentObj.Price && this.parentObj.Price.setCustomPrice(exclT, inclT);
-    }
+    };
     
-    render(){
+    render() {
         return (
             <div>
                 {this.renderOptions()}
             </div>
-        )
+        );
     }
 }
 
 const mapStateToProps = ({ user }) => {
-    const { currentUser, isSignedIn } = user
+    const { currentUser, isSignedIn } = user;
     const { firstname, lastname, email } = currentUser;
     return {
         firstname,

@@ -1,4 +1,4 @@
-import DateOptionType from '../OptionType/Date';
+import DateOptionType from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/Options/OptionType/Date';
 
 class DateType extends DateOptionType {
     handleChange = (event, date) => {

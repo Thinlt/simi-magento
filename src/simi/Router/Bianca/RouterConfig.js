@@ -30,7 +30,7 @@ const Contact = (props) => {
 }
 
 const Product = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "SimiProduct"*/'src/simi/App/Bianca/Components/Product')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "SimiBiancaProduct"*/'src/simi/App/core/RootComponents/Product')} {...props}/>
 }
 
 const Search = (props) => {
