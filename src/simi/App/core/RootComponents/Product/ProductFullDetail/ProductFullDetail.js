@@ -29,6 +29,7 @@ const CustomOptions = React.lazy(() => import('./Options/CustomOptions'));
 const BundleOptions = React.lazy(() => import('./Options/Bundle'));
 const GroupedOptions = React.lazy(() => import('./Options/GroupedOptions'));
 const DownloadableOptions = React.lazy(() => import('./Options/DownloadableOptions'));
+const GiftcardOptions = React.lazy(() => import('src/simi/App/Bianca/Components/Product/ProductFullDetail/Options/GiftcardOptions'));
 
 class ProductFullDetail extends Component {  
     state = {
@@ -204,11 +205,13 @@ class ProductFullDetail extends Component {
     }
 
     get productOptions() {
+        console.log('product option ');
         const { fallback, handleConfigurableSelectionChange, props } = this;
         const { configurable_options, simiExtraField, type_id, is_dummy_data } = props.product;
         const isConfigurable = isProductConfigurable(props.product);
         if (is_dummy_data)
             return <Loading />
+        console.log('type_id: ', type_id);
         return (
             <Suspense fallback={fallback}>
                 {
@@ -249,6 +252,18 @@ class ProductFullDetail extends Component {
                     />
                 }
                 {
+                    type_id === 'aw_giftcard' &&
+                    <GiftcardOptions 
+                        key={Identify.randomString(5)}
+                        extraField={simiExtraField}
+                        app_options={simiExtraField.app_options}
+                        product_id={this.props.product.entity_id}
+                        // ref={e => this.giftcardOption = e}
+                        myRef={e => this.giftcardOption = e}
+                        parent={this}
+                    />
+                }
+                {
                     ( simiExtraField && simiExtraField.app_options && simiExtraField.app_options.custom_options) &&
                     <CustomOptions 
                         key={Identify.randomString(5)}
@@ -275,6 +290,8 @@ class ProductFullDetail extends Component {
         const { type_id, name, simiExtraField } = product;
         const short_desc = (product.short_description && product.short_description.html)?product.short_description.html:''
         const hasReview = simiExtraField && simiExtraField.app_reviews && simiExtraField.app_reviews.number
+        
+        console.log('render product')
         return (
             <div className={`${classes.root} container`}>
                 {this.breadcrumb(product)}

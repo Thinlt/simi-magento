@@ -14,7 +14,7 @@ const Thankyou = (props) => {
 }
 
 const Login = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Login"*/'src/simi/App/core/Customer/Login')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "Login"*/'src/simi/App/Bianca/Customer/Login')} {...props}/>
 }
 
 const Account = (props) => {
@@ -30,7 +30,7 @@ const Contact = (props) => {
 }
 
 const Product = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "SimiProduct"*/'src/simi/App/Bianca/Components/Product')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "SimiBiancaProduct"*/'src/simi/App/core/RootComponents/Product')} {...props}/>
 }
 
 const Search = (props) => {

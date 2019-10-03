@@ -21,3 +21,7 @@ export const checkExistingCustomer = (callBack, email) => {
 export const forgotPassword = (callBack, email) => {
     sendRequest('rest/V1/simiconnector/customers/forgetpassword', callBack, 'GET', {email});
 }
+
+export const vendorLogin = (callBack, postData) => {
+    sendRequest('/rest/V1/simiconnector/vendor/login',callBack, 'POST',{getSessionId: 1},postData)
+}
