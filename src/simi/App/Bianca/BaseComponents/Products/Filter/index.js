@@ -1,0 +1,236 @@
+import React from 'react';
+import Identify from 'src/simi/Helper/Identify'
+import Checkbox from 'src/simi/BaseComponents/Checkbox'
+import Dropdownplus from 'src/simi/BaseComponents/Dropdownplus'
+import { withRouter } from 'react-router-dom';
+import { formatPrice } from 'src/simi/Helper/Pricing';
+import ListItemNested from 'src/simi/App/Bianca/BaseComponents/MuiListItem/Nested';
+require ('./filter.scss')
+
+class Filter extends React.Component {
+    constructor(props) {
+        super(props);
+        const isPhone = window.innerWidth < 1024 ;
+        this.state = {isPhone}
+        this.rowFilterAttributes = []
+        this.rowsActived = []
+        this.filtersToApply = {}
+        this.activedItems = {}
+    }
+
+    setIsPhone(){
+        const obj = this;
+        $(window).resize(function () {
+            const width = window.innerWidth;
+            const isPhone = width < 1024;
+            if(obj.state.isPhone !== isPhone){
+                obj.setState({isPhone})
+            }
+        })
+    }
+
+    componentDidMount(){
+        this.setIsPhone();
+    }
+
+    renderActivedFilters() {
+        const {props} = this
+        const {filterData} = props
+        if (props.data)
+            this.items = props.data;
+        if (this.items && this.items.length !== 0) {
+            if (this.activedItems !== filterData && this.items && this.items.length !== 0) {
+                this.activedItems = filterData;
+                this.rowsActived = []
+                this.items.map((item) => {
+                    const is_price = item.request_var === 'price'
+                    if (is_price) {
+                        if (this.activedItems[item.request_var]) {
+                            let filter_item_label = this.activedItems[item.request_var]
+                            const splited_prices = filter_item_label.split('-')
+                            if (splited_prices.length === 2) {
+                                if (splited_prices[1])
+                                    filter_item_label = <>{formatPrice(parseFloat(splited_prices[0]))} - {formatPrice(parseFloat(splited_prices[1]))}</>
+                                else
+                                    filter_item_label = <>{formatPrice(parseFloat(splited_prices[0]))} {Identify.__('and above')}</>
+                            }
+                            this.rowsActived.push(this.renderActivedFilterItem(item, filter_item_label))
+                        }
+                    } else if (item && item.request_var && item.filter_items && this.activedItems[item.request_var]) {
+                        item.filter_items.map((filter_item)=> {
+                            if (
+                                (filter_item.value_string === String(this.activedItems[item.request_var]))
+                            ) {
+                                const filter_item_label = filter_item.label
+                                this.rowsActived.push(this.renderActivedFilterItem(item, filter_item_label))
+                            }
+                        })
+                    }
+                })
+
+                return (
+                    <div>{this.rowsActived}</div>
+                );
+            }
+        }
+    }
+
+    renderActivedFilterItem(item, filter_item_label) {
+        return (
+            <div key={Identify.randomString(5)} className="active-filter-item">
+                <div className="filter-name">
+                    <span className="filter-name-text root-menu">{Identify.__(item.name)}</span>
+                </div>
+                {
+                    <Checkbox
+                        key={Identify.randomString(5)}
+                        className="filter-item"
+                        onClick={() => this.deleteFilter(item.request_var)}
+                        label={filter_item_label}
+                        selected={true}
+                    /> 
+                }
+            </div>
+        )
+    }
+    
+    renderFilterItems() {
+        const { props } = this
+        if (props.data)
+            this.items = props.data;
+        if (this.items && this.items.length !== 0) {
+            if (this.filterAttributes !== this.items) {
+                this.filterAttributes = this.items
+                this.rowFilterAttributes = []
+                this.filterAttributes.map((item, index) => {
+                    const styles = {}
+                    if (index === 0 && !this.items.layer_state)
+                        styles.marginTop = 0 
+                    const name = <span className="filter-name-text root-menu">{Identify.__(item.name)}</span>
+                    const filterOptions = this.renderFilterItemsOptions(item)
+                    if (filterOptions.length > 0 && !this.activedItems[item.request_var]) {
+                        this.rowFilterAttributes.push(
+                            <ListItemNested 
+                                key={Identify.randomString(5)}
+                                primarytext={Identify.__(item.name)}
+                            >
+                                <div 
+                                    id={`filter-option-items-${item.request_var}`} 
+                                    className="filter-option-items">
+                                    {this.renderFilterItemsOptions(item)}
+                                </div>
+                            </ListItemNested>
+                        )
+                    }
+                    return null
+                }, this);
+            }
+            return (
+                <div>{this.rowFilterAttributes}</div>
+            );
+        }
+    }
+
+    renderFilterItemsOptions(item)
+    {
+        let options= [];
+        if(item){
+            if(item.filter_items !== null){
+                options = item.filter_items.map(function (optionItem) {
+                    const name = <span className="filter-item-text">
+                        {$("<div/>").html(Identify.__(optionItem.label)).text()}
+                        </span>;
+                    return (
+                        <Checkbox
+                            key={Identify.randomString(5)}
+                            id={`filter-item-${item.request_var}-${optionItem.value_string}`}
+                            className="filter-item"
+                            onClick={()=>{
+                                this.clickedFilter(item.request_var, optionItem.value_string);
+                            }}
+                            label={name}
+                            selected={this.filtersToApply[item.request_var] === optionItem.value_string}
+                        />
+                    );
+                }, this, item);
+            }
+        }
+        return options
+    };
+    
+    renderClearButton() {
+        const { props } = this
+        const {filterData} = props
+        
+        return this.state.isPhone?'':
+        (filterData)
+        ? (<div className="action-clear">
+                <div 
+                    role="presentation"
+                    onClick={() => this.clearFilter()}
+                    className="clear-filter">{Identify.__('Clear all')}</div>
+            </div>
+        ) : <div className="clear-filter"></div>
+    }
+
+    clearFilter() {
+        const {history, location} = this.props
+        const { search } = location;
+        const queryParams = new URLSearchParams(search);
+        queryParams.delete('filter');
+        history.push({ search: queryParams.toString() });
+    }
+
+    deleteFilter(attribute) {
+        const {history, location, filterData} = this.props
+        const { search } = location;
+        const filterParams = filterData?filterData:{}
+        delete filterParams[attribute]
+        const queryParams = new URLSearchParams(search);
+        queryParams.set('filter', JSON.stringify(filterParams));
+        history.push({ search: queryParams.toString() });
+    }
+    
+    clickedFilter(attribute, value) {
+        const {history, location, filterData} = this.props
+        const { search } = location;
+        const filterParams = filterData?filterData:{}
+        filterParams[attribute] = value
+        const queryParams = new URLSearchParams(search);
+        queryParams.set('page', 1);
+        queryParams.set('filter', JSON.stringify(filterParams));
+        history.push({ search: queryParams.toString() });
+    }
+    
+    render() {
+        const { props } = this
+        const {filterData} = props
+        this.items = props.data?this.props.data:null;
+        const activeFilter = filterData?
+            (
+                <div className="active-filter">
+                    {this.renderActivedFilters()}
+                </div>
+            ):
+            ''
+        const filterProducts = 
+                <div className="filter-products">
+                    {this.renderClearButton()}
+                    {activeFilter}
+                    {this.renderFilterItems()}
+                </div>
+        if (this.rowsActived.length === 0 && this.rowFilterAttributes.length === 0)
+                return ''
+                
+        return this.state.isPhone?
+        <ListItemNested
+            className="siminia-phone-filter"
+            primarytext={Identify.__('SHOPPING OPTION')}
+        >
+            {filterProducts}
+        </ListItemNested>
+        :filterProducts;
+    }
+}
+
+export default (withRouter)(Filter);

@@ -8,11 +8,11 @@ import Identify from 'src/simi/Helper/Identify';
 import {configColor} from 'src/simi/Config';
 
 class NestedListItem extends React.Component {
-    state = { open: false };
 
     constructor(props){
         super(props);
         this.refListItem = React.createRef();
+        this.state = { open: false };
     }
 
     handleClickOutside = (event) => {
