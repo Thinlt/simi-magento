@@ -129,7 +129,6 @@ class VendorLogin extends Component {
 
     showVendorRegisterForm = () => {
         this.props.showVendorRegisterForm();
-        console.log("clicked")
     };
 }
 

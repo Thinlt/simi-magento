@@ -31,7 +31,7 @@ const CreateAccount = props => {
     }
 
     const handleSubmit = values => {
-        let params = {
+        const params = {
             password : values.password,
             confirm_password : values.confirm,
             ...values.customer,

@@ -22,7 +22,6 @@ import VendorRegister from './VendorRegister';
 
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
-const $ = window.$;
 class Login extends Component {
     state = {
         isCreateAccountOpen: false,
@@ -89,7 +88,7 @@ class Login extends Component {
             return (
                 <div className={className}>
                     <VendorRegister
-                        onSignIn={this.onSignIn.bind(this)}
+                        onSignIn={this.onVendorLogin.bind(this)}
                     />
                 </div>
             )
@@ -220,7 +219,7 @@ class Login extends Component {
     vendorLoginCallback = (data) => {
         hideFogLoading()
         console.log(data);
-        this.props.history.push(data.redirect_url)
+        window.location.href = data.redirect_url
     }
 
     signinCallback = (data) => {
@@ -260,7 +259,6 @@ class Login extends Component {
             isForgotPasswordOpen,
             isSignInOpen,
             isVendorLoginOpen,
-            isVendorRegisterOpen
         } = state;
 
         const {
@@ -286,12 +284,12 @@ class Login extends Component {
         }
         const showBackBtn = isCreateAccountOpen || isForgotPasswordOpen
 
-        const title =
-            isCreateAccountOpen
-                ? Identify.__('Create Account')
-                : isForgotPasswordOpen
-                ? Identify.__('Forgot password')
-                : Identify.__('Sign In')
+        // const title =
+        //     isCreateAccountOpen
+        //         ? Identify.__('Create Account')
+        //         : isForgotPasswordOpen
+        //         ? Identify.__('Forgot password')
+        //         : Identify.__('Sign In')
 
         return (
             <React.Fragment>
