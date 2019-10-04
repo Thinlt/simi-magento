@@ -18,16 +18,17 @@ import  * as Constants from 'src/simi/Config/Constants'
 import { Util } from '@magento/peregrine'
 import { simiSignedIn } from 'src/simi/Redux/actions/simiactions';
 import {showToastMessage} from 'src/simi/Helper/Message';
+import VendorRegister from './VendorRegister';
 
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
-const $ = window.$;
 class Login extends Component {
     state = {
         isCreateAccountOpen: false,
         isSignInOpen: true,
         isForgotPasswordOpen: false,
-        isVendorLoginOpen: false
+        isVendorLoginOpen: false,
+        isVendorRegisterOpen: false
     };
 
     stateForgot = () => {
@@ -41,7 +42,6 @@ class Login extends Component {
             this.setForgotPasswordForm()
         }
 
-        $('#siminia-main-page').css('min-height','unset')
     }
 
     get signInForm() {
@@ -72,7 +72,7 @@ class Login extends Component {
             <div className={className}>
                 <VendorLogInForm
                     classes={classes}
-                    showCreateAccountForm={this.setCreateAccountForm}
+                    showVendorRegisterForm={this.setVendorRegisterForm}
                     onForgotPassword={this.setForgotPasswordForm}
                     onSignIn={this.onVendorLogin.bind(this)}
                 />
@@ -80,7 +80,21 @@ class Login extends Component {
         );
     }
 
+    vendorRegister = () => {};
     createAccount = () => {};
+
+    setVendorRegisterForm = () => {
+        this.vendorRegister = className => {
+            return (
+                <div className={className}>
+                    <VendorRegister
+                        onSignIn={this.onVendorLogin.bind(this)}
+                    />
+                </div>
+            )
+        }
+        this.showVendorRegisterForm();
+    }
 
     setCreateAccountForm = () => {
         this.createAccount = className => {
@@ -114,6 +128,15 @@ class Login extends Component {
         this.hideForgotPasswordForm();
     };
 
+    get vendorRegisterForm(){
+        const { isVendorRegisterOpen } = this.state;
+        const { classes } = this.props;
+        const isOpen = isVendorRegisterOpen;
+        const className = isOpen ? classes.form_open : classes.form_closed;
+
+        return this.vendorRegister(className);
+    }
+
     get createAccountForm() {
         const { isCreateAccountOpen } = this.state;
         const { classes } = this.props;
@@ -131,12 +154,23 @@ class Login extends Component {
         return this.forgotPassword(className);
     }
 
+    showVendorRegisterForm = () => {
+        this.setState(() => ({
+            isCreateAccountOpen: false,
+            isSignInOpen: false,
+            isForgotPasswordOpen: false,
+            isVendorLoginOpen: false,
+            isVendorRegisterOpen: true
+        }));
+    }
+
     showCreateAccountForm = () => {
         this.setState(() => ({
             isCreateAccountOpen: true,
             isSignInOpen: false,
             isForgotPasswordOpen: false,
-            isVendorLoginOpen: false
+            isVendorLoginOpen: false,
+            isVendorRegisterOpen: false
         }));
     };
 
@@ -145,7 +179,8 @@ class Login extends Component {
             isForgotPasswordOpen: true,
             isSignInOpen: false,
             isCreateAccountOpen: false,
-            isVendorLoginOpen: false
+            isVendorLoginOpen: false,
+            isVendorRegisterOpen: false
         }));
     };
 
@@ -154,7 +189,8 @@ class Login extends Component {
             isForgotPasswordOpen: false,
             isSignInOpen: true,
             isCreateAccountOpen: false,
-            isVendorLoginOpen: false
+            isVendorLoginOpen: false,
+            isVendorRegisterOpen: false
         }));
     };
 
@@ -163,7 +199,8 @@ class Login extends Component {
             isForgotPasswordOpen: false,
             isSignInOpen: false,
             isCreateAccountOpen: false,
-            isVendorLoginOpen: true
+            isVendorLoginOpen: true,
+            isVendorRegisterOpen: false
         }));
     }
 
@@ -182,7 +219,7 @@ class Login extends Component {
     vendorLoginCallback = (data) => {
         hideFogLoading()
         console.log(data);
-        this.props.history.push(data.redirect_url)
+        window.location.href = data.redirect_url
     }
 
     signinCallback = (data) => {
@@ -213,6 +250,7 @@ class Login extends Component {
             forgotPasswordForm,
             showLoginForm,
             vendorLogInForm,
+            vendorRegisterForm,
             props,
             state
         } = this;
@@ -220,7 +258,7 @@ class Login extends Component {
             isCreateAccountOpen,
             isForgotPasswordOpen,
             isSignInOpen,
-            isVendorLoginOpen
+            isVendorLoginOpen,
         } = state;
 
         const {
@@ -246,12 +284,12 @@ class Login extends Component {
         }
         const showBackBtn = isCreateAccountOpen || isForgotPasswordOpen
 
-        const title =
-            isCreateAccountOpen
-                ? Identify.__('Create Account')
-                : isForgotPasswordOpen
-                ? Identify.__('Forgot password')
-                : Identify.__('Sign In')
+        // const title =
+        //     isCreateAccountOpen
+        //         ? Identify.__('Create Account')
+        //         : isForgotPasswordOpen
+        //         ? Identify.__('Forgot password')
+        //         : Identify.__('Sign In')
 
         return (
             <React.Fragment>
@@ -285,6 +323,7 @@ class Login extends Component {
                         {signInForm}
                         {vendorLogInForm}
                         {createAccountForm}
+                        {vendorRegisterForm}
                         {forgotPasswordForm}
                     </div>
                 </div>
