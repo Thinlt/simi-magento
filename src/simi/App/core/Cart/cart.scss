@@ -225,7 +225,8 @@
 .cart-total > div > div {
     display: flex;
     justify-content: space-between;
-    height: 40px;
+    height: auto;
+    padding: 5px 0;
 }
 
 .cart-btn-section {
