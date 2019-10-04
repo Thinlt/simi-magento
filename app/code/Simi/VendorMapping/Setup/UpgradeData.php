@@ -42,39 +42,41 @@ class UpgradeData implements UpgradeDataInterface
      * @return void
      */
     public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context){
-        $attributes = [
-            'is_admin_sell' => [
-                // 'group'              => '',
-                'input'              => 'boolean',
-                'type'               => 'int',
-                'label'              => 'Sell by Admin',
-                'visible'            => true,
-                'required'           => false,
-                'user_defined'               => false,
-                'searchable'                 => false,
-                'filterable'                 => true,
-                'comparable'                 => false,
-                'visible_on_front'           => false,
-                'visible_in_advanced_search' => false,
-                'is_html_allowed_on_front'   => false,
-                'used_for_promo_rules'       => true,
-                // 'source'                     => Status::class,
-                'source' => \Magento\Eav\Model\Entity\Attribute\Source\Boolean::class,
-                'default' => \Magento\Eav\Model\Entity\Attribute\Source\Boolean::VALUE_YES,
-                // 'frontend_class'             => '',
-                'global'                     =>  \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
-                'unique'                     => false,
-                'apply_to'                   => 'simple,grouped,configurable,downloadable,virtual,bundle,aw_giftcard'
-            ]
-        ];
-
-        // $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
-        foreach ($attributes as $attribute_code => $attributeOptions) {
-            $this->eavSetup->addAttribute(
-                \Magento\Catalog\Model\Product::ENTITY,
-                $attribute_code,
-                $attributeOptions
-            );
+        if ($context->getVersion() && version_compare($context->getVersion(), '0.1.1', '<')) {
+            $attributes = [
+                'is_admin_sell' => [
+                    // 'group'              => '',
+                    'input'              => 'boolean',
+                    'type'               => 'int',
+                    'label'              => 'Sell by Admin',
+                    'visible'            => true,
+                    'required'           => false,
+                    'user_defined'               => false,
+                    'searchable'                 => false,
+                    'filterable'                 => true,
+                    'comparable'                 => false,
+                    'visible_on_front'           => false,
+                    'visible_in_advanced_search' => false,
+                    'is_html_allowed_on_front'   => false,
+                    'used_for_promo_rules'       => true,
+                    // 'source'                     => Status::class,
+                    'source' => \Magento\Eav\Model\Entity\Attribute\Source\Boolean::class,
+                    'default' => \Magento\Eav\Model\Entity\Attribute\Source\Boolean::VALUE_YES,
+                    // 'frontend_class'             => '',
+                    'global'                     =>  \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+                    'unique'                     => false,
+                    'apply_to'                   => 'simple,grouped,configurable,downloadable,virtual,bundle,aw_giftcard'
+                ]
+            ];
+    
+            // $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+            foreach ($attributes as $attribute_code => $attributeOptions) {
+                $this->eavSetup->addAttribute(
+                    \Magento\Catalog\Model\Product::ENTITY,
+                    $attribute_code,
+                    $attributeOptions
+                );
+            }
         }
     }
 }

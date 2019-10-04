@@ -20,4 +20,12 @@
         <observer name="Simi_Simicustomize_simiconnector_system_rest_modify"
                   instance="Simi\Simicustomize\Observer\SimiSystemRestModify" />
     </event>
+    <event name="checkout_cart_product_add_before">
+        <observer name="Simi_Simicustomize_Simiconnector_Model_Checkout_Cart_AddBefore" 
+                  instance="Simi\Simicustomize\Observer\Checkout\Cart\AddBefore" />
+    </event>
+    <event name="sales_quote_address_collect_totals_before">
+        <observer name="Simi_Simicustomize_Simiconnector_Observer_Quote_Address_Collect_Total_Before" 
+                  instance="Simi\Simicustomize\Observer\QuoteAddressCollectTotalBefore" />
+    </event>
 </config>
