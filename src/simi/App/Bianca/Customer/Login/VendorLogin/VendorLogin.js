@@ -16,9 +16,15 @@ import GooglePlus from 'src/simi/BaseComponents/Icon/TapitaIcons/GooglePlus';
 
 require("./vendorLogin.scss")
 
+const $ = window.$;
+
 class VendorLogin extends Component {
     state = {
         isSeleted: false
+    }
+
+    componentDidMount(){
+        $('#siminia-main-page').css('min-height','unset')
     }
 
     handleCheckBox = () => {
@@ -99,8 +105,8 @@ class VendorLogin extends Component {
                     <Instagram className="social-icon"/>
                 </div> */}
                 <div className='showCreateAccountButtonCtn'>
-                    <button priority="high" className='showCreateAccountButton' onClick={this.showCreateAccountForm} type="submit">
-                        {Identify.__('Create an Account')}
+                    <button priority="high" className='showCreateAccountButton' onClick={this.showVendorRegisterForm} type="submit">
+                        {Identify.__('Create a Seller Account')}
                     </button>
                 </div>
             </div>
@@ -121,8 +127,8 @@ class VendorLogin extends Component {
         this.formApi = formApi;
     };
 
-    showCreateAccountForm = () => {
-        this.props.showCreateAccountForm();
+    showVendorRegisterForm = () => {
+        this.props.showVendorRegisterForm();
     };
 }
 
