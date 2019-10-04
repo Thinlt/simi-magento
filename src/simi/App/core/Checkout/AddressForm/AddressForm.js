@@ -96,6 +96,8 @@ const AddressForm = props => {
                 }, {}),
             [address_fields_config]
         )
+    } else {
+        configFields = defaultConfigFields;
     }
 
     const values = useMemo(

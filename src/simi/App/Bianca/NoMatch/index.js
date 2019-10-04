@@ -1,5 +1,5 @@
 import React from 'react'
-import Product from 'src/simi/App/Bianca/Components/Product'
+import Product from 'src/simi/App/core/RootComponents/Product'
 import Category from 'src/simi/App/Bianca/Components/Category'
 import Simicms from 'src/simi/App/Bianca/Components/Simicms'
 import resolveUrl from 'src/simi/queries/urlResolver.graphql'
