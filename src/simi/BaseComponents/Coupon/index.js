@@ -5,7 +5,7 @@ import { updateCoupon } from 'src/simi/Model/Cart';
 import Identify from 'src/simi/Helper/Identify';
 import { Whitebtn } from 'src/simi/BaseComponents/Button'
 import Close from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
-require ('./index.scss')
+require ('./style.scss')
 
 const Coupon = (props) => {
     const { value, toggleMessages, getCartDetails } = props;

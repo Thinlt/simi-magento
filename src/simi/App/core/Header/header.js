@@ -27,20 +27,22 @@ class Header extends React.Component{
         this.classes = mergeClasses(defaultClasses, this.props.classes)
     }
 
-    setIsPhone(){
-        const obj = this;
-        $(window).resize(function () {
-            const width = window.innerWidth;
-            const isPhone = width < 1024;
-            if(obj.state.isPhone !== isPhone){
-                obj.setState({isPhone})
-            }
-        })
+    setMinPhone = () => {
+        const width = window.innerWidth;
+        const isPhone = width < 1024;
+        if (this.state.isPhone !== isPhone){
+            this.setState({isPhone})
+        }
     }
 
     componentDidMount(){
-        this.setIsPhone();
+        window.addEventListener('resize', this.setMinPhone);
     }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.setMinPhone);
+    }
+
 
     renderLogo = () => {
         const {isPhone} = this.state;
@@ -129,7 +131,7 @@ class Header extends React.Component{
 
     render(){
         this.classes = mergeClasses(defaultClasses, this.props.classes);
-        if(window.innerWidth < 1024){
+        if(this.state.isPhone){
             return this.renderViewPhone()
         }
         return(
