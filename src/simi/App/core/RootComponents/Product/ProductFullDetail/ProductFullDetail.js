@@ -30,6 +30,7 @@ const BundleOptions = React.lazy(() => import('./Options/Bundle'));
 const GroupedOptions = React.lazy(() => import('./Options/GroupedOptions'));
 const DownloadableOptions = React.lazy(() => import('./Options/DownloadableOptions'));
 const GiftcardOptions = React.lazy(() => import('src/simi/App/Bianca/Components/Product/ProductFullDetail/Options/GiftcardOptions'));
+const TrytobuyOptions = React.lazy(() => import('src/simi/App/Bianca/Components/Product/ProductFullDetail/Options/TrytobuyOptions'));
 
 class ProductFullDetail extends Component {  
     state = {
@@ -107,6 +108,17 @@ class ProductFullDetail extends Component {
             })
             params['super_attribute'] = super_attribute
         }
+        
+        if (this.trytobuyOptionsRef) {
+            params['try_to_buy'] = this.trytobuyOptionsRef.checked ? 1 : 0;
+        }
+        if (this.trytobuyOptionsRef2) {
+            params['reservable'] = this.trytobuyOptionsRef2.checked ? 1 : 0;
+        }
+        if (this.trytobuyOptionsRef3) {
+            params['pre_order'] = this.trytobuyOptionsRef3.checked ? 1 : 0;
+        }
+
         return params
     }
 
@@ -205,13 +217,11 @@ class ProductFullDetail extends Component {
     }
 
     get productOptions() {
-        console.log('product option ');
         const { fallback, handleConfigurableSelectionChange, props } = this;
         const { configurable_options, simiExtraField, type_id, is_dummy_data } = props.product;
         const isConfigurable = isProductConfigurable(props.product);
         if (is_dummy_data)
             return <Loading />
-        console.log('type_id: ', type_id);
         return (
             <Suspense fallback={fallback}>
                 {
@@ -273,6 +283,12 @@ class ProductFullDetail extends Component {
                         parent={this}
                     />
                 }
+                {
+                    <TrytobuyOptions className={"try-to-buy"} cbRef={el => this.trytobuyOptionsRef = el}
+                    cbRef2={el => this.trytobuyOptionsRef2 = el}
+                    cbRef3={el => this.trytobuyOptionsRef3 = el}
+                     />
+                }
             </Suspense>
         );
     }
@@ -290,8 +306,6 @@ class ProductFullDetail extends Component {
         const { type_id, name, simiExtraField } = product;
         const short_desc = (product.short_description && product.short_description.html)?product.short_description.html:''
         const hasReview = simiExtraField && simiExtraField.app_reviews && simiExtraField.app_reviews.number
-        
-        console.log('render product')
         return (
             <div className={`${classes.root} container`}>
                 {this.breadcrumb(product)}

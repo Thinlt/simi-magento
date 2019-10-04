@@ -10,7 +10,7 @@
     --venia-border: 224, 224, 224;
     --venia-error: 192, 18, 63;
     --venia-error-alt: 255, 226, 234;
-    --venia-font: Muli, -apple-system, BlinkMacSystemFont, sans-serif;
+    --venia-font: Gotham, Muli, -apple-system, BlinkMacSystemFont, sans-serif;
     --venia-grey: 246, 246, 246;
     --venia-grey-dark: 209, 209, 209;
     --venia-orange: 241, 99, 33;
@@ -18,7 +18,7 @@
     --venia-teal-alt: 224, 240, 241;
     --venia-teal-dark: 0, 104, 108;
     --venia-teal-light: 212, 243, 238;
-    --venia-text: 33, 33, 33;
+    --venia-text: 16 24 32;
     --venia-text-alt: 112, 112, 112;
     --venia-text-hint: 158, 158, 158;
     --venia-text-spot: 255, 99, 51;

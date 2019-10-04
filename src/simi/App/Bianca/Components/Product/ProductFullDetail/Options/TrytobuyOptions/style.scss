@@ -1,0 +1,58 @@
+$cbColor: #101820;
+$cbColor2: #fff;
+
+.try-to-buy{
+    position: relative;
+    padding: 0 1.5rem;
+    margin-top: 1rem;
+
+    input{
+        display: none;
+        visibility: hidden;
+        opacity: 0;
+        
+    }
+    label{
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 14px;
+        margin-bottom: 0px;
+        padding-left: 33px;
+        position: relative;
+        height: 24px;
+        display: flex;
+        align-items: flex-end;
+
+        &::before{
+            content: '';
+            width: 24px;
+            height: 24px;
+            border: 1px solid $cbColor;
+            box-sizing: border-box;
+            position: absolute;
+            left: 0;
+        }
+    }
+    input:checked{
+        &+label::before{
+            background-color: $cbColor;
+        }
+        &+label::after{
+            content: '';
+            transform: rotateX(0deg) rotateY(180deg) rotateZ(-45deg);
+            color: $cbColor2;
+            border: 1px solid $cbColor2;
+            border-top: none;
+            border-right: none;
+            background: transparent;
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            width: 5px;
+            height: 10px;
+            font-size: 14px;
+            font-weight: 400;
+            transition: all .2s;
+        }
+    } 
+}
