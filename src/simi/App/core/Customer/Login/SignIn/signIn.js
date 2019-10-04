@@ -16,6 +16,8 @@ import GooglePlus from 'src/simi/BaseComponents/Icon/TapitaIcons/GooglePlus';
 
 require("./signIn.scss")
 
+require('./signIn.scss');
+
 class SignIn extends Component {
     state = {
         isSeleted: false

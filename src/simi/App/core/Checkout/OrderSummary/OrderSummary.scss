@@ -77,13 +77,17 @@ li.order-item .item-image {
     font-weight: 400;
     white-space: unset;
 }
+.checkout-bg-rtl .cart-total .label {
+    text-align: right;
+}
 .cart-total .grand_total .label {
     font-weight: 600;
 }
 .cart-total > div > div {
     display: flex;
     justify-content: space-between;
-    height: 40px;
+    height: auto;
+    padding: 5px 0;
 }
 
 .shipping-address-detail .item-box {

@@ -58,15 +58,14 @@ class DateField extends Abstract {
     };
 
     renderDate = ()=> {
-        const {classes} = this.props
         const {date} = this.state
         const text = Identify.isRtl() ? 'yyyy/mm/dd' : 'dd/mm/yyyy';
         const dateClassName = classes['date-picker-ctn'] ? classes['date-picker-ctn'] : '';
         return (
-            <div className={dateClassName+' '+this.props.className}>
+            <div className={'date-picker-ctn' + ' '+this.props.className}>
                 <MuiThemeProvider muiTheme={muiTheme}>
                     <DatePicker
-                        className={classes["date-picker"]}
+                        className="date-picker"
                         hintText={<div className="flex"><span>{Identify.__('Select date')}</span> <span>: {text}</span></div>}
                         value={date}
                         minDate={new Date()}
@@ -79,7 +78,7 @@ class DateField extends Abstract {
                         }}
                     />
                 </MuiThemeProvider>
-                <div role="presentation" className={classes['clear-date']} onClick={()=>this.handleChange()}>
+                <div role="presentation" className='clear-date' onClick={()=>this.handleChange()}>
                     {date && <CloseIcon style={{width: 12, height: 12, fill: '#aeaeae'}}/>}
                 </div>
             </div>

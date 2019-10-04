@@ -54,6 +54,23 @@ class Cart extends Component {
         getCartDetails();
     }
 
+    shouldComponentUpdate(nextProps){
+        if (this.showAPIloading(nextProps)) {
+            showFogLoading()
+            return false
+        }
+        console.log(nextProps)
+        hideFogLoading()
+        return true
+    }
+
+    showAPIloading = (props) => {
+        const { cart } = props;
+        if (cart && cart.isUpdatingItem)
+            return true
+        return false
+    }
+
     get cartId() {
         const { cart } = this.props;
 
@@ -75,14 +92,15 @@ class Cart extends Component {
         if (!cart)
             return
         const { cartCurrencyCode, cartId } = this;
+        const borderItemStyle = Identify.isRtl() ? {borderLeft: 'solid #DCDCDC 1px'} : {borderRight: 'solid #DCDCDC 1px'};
         if (cartId) {
             const obj = [];
             obj.push(
-                <div key={Identify.randomString(5)} className='cart-item-header'>
-                    <div style={{width: '60%', borderRight: 'solid #DCDCDC 1px'}}>{Identify.__('Items')}</div>
-                    <div style={{width: '11%', borderRight: 'solid #DCDCDC 1px', textAlign: 'center'}}>{Identify.__('Unit Price')}</div>
-                    <div style={{width: '11%', borderRight: 'solid #DCDCDC 1px', textAlign: 'center'}}>{Identify.__('Qty')}</div>
-                    <div style={{width: '11%', borderRight: 'solid #DCDCDC 1px', textAlign: 'center'}}>{Identify.__('Total Price')}</div>
+                <div key="cart-item-header" className='cart-item-header'>
+                    <div style={{...borderItemStyle ,width: '60%'}}>{Identify.__('Items')}</div>
+                    <div style={{...borderItemStyle ,width: '11%', textAlign: 'center'}}>{Identify.__('Unit Price')}</div>
+                    <div style={{...borderItemStyle ,width: '11%', textAlign: 'center'}}>{Identify.__('Qty')}</div>
+                    <div style={{...borderItemStyle ,width: '11%', textAlign: 'center'}}>{Identify.__('Total Price')}</div>
                     <div style={{width: '7%'}}>{Identify.__('').toUpperCase()}</div>
                 </div>
             );
@@ -100,7 +118,7 @@ class Cart extends Component {
                 }
                 if (itemTotal) {
                     const element = <CartItem
-                        key={Identify.randomString(5)}
+                        key={item.item_id}
                         item={item}
                         isPhone={this.state.isPhone}
                         currencyCode={cartCurrencyCode}
@@ -130,7 +148,7 @@ class Cart extends Component {
 
         return (
             <div>
-                <div className="summary">{totalsSummary}</div>
+                <div className={`summary ${Identify.isRtl() ? 'summary-cart-rtl' : ''}`}>{totalsSummary}</div>
             </div>
         );
     }
@@ -186,10 +204,10 @@ class Cart extends Component {
         return <div className={`cart-coupon-form`}><Coupon {...childCPProps} /></div>
     }
 
-    get miniCartInner() {
+    get cartInner() {
         const { productList, props, total, checkoutButton, couponView } = this;
         const { cart: { isLoading }, isCartEmpty,cart } = props;
-        
+
         if (isCartEmpty || !cart.details || !parseInt(cart.details.items_count)) {
             if (isLoading)
                 return <Loading />
@@ -207,7 +225,7 @@ class Cart extends Component {
             showFogLoading()
         else
             hideFogLoading()
-            
+
 
         return (
             <Fragment>
@@ -226,7 +244,7 @@ class Cart extends Component {
                         </div>:''
                     }
                 </div>
-                <div className="body">{productList}</div>
+                <div className={`body ${Identify.isRtl() ? 'body-cart-rtl' : ''}`}>{productList}</div>
                 {couponView}
                 {total}
                 {checkoutButton}
@@ -235,13 +253,12 @@ class Cart extends Component {
     }
 
     render() {
-        hideFogLoading()
         return (
             <div className="container">
                 {TitleHelper.renderMetaHeader({
                     title:Identify.__('Shopping Cart')
                 })}
-                {this.miniCartInner}
+                {this.cartInner}
             </div>
         );
     }

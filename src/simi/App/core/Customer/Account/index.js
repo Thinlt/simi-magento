@@ -3,6 +3,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import Identify from "src/simi/Helper/Identify";
 import defaultClasses from './style.scss'
+import LogoutIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Logout'
 import CloseIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
 import MenuIcon from 'src/simi/BaseComponents/Icon/Menu'
 import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
@@ -143,6 +144,7 @@ class CustomerLayout extends React.Component{
     }
 
     renderMenu = () => {
+        const {firstname, lastname} = this.props
         const menuConfig = this.getMenuConfig()
         const {page} = this.state;
         const menu = menuConfig.map(item => {
@@ -151,7 +153,7 @@ class CustomerLayout extends React.Component{
             return item.enable ?
                 <MenuItem key={item.title}
                           onClick={()=> item.page ==='webtrack-login' ? this.redirectExternalLink(item.url) : this.handleLink(item.url)}
-                          className={`customer-menu-item ${item.page} ${active}`}>
+                          className={`'customer-menu-item' ${item.page} ${active}`}>
                     <div className="menu-item-title">
                         {Identify.__(item.title)}
                     </div>
@@ -160,9 +162,13 @@ class CustomerLayout extends React.Component{
         return(
             <div className="dashboard-menu">
                 <div className="menu-header">
-                    {/* <div className="welcome-customer">
-                        {Identify.__("Welcome %s").replace('%s', firstname + ' ' + lastname)}
-                    </div> */}
+                    <div className="welcome-customer">
+                        {Identify.__("Welcome, %s").replace('%s', firstname + ' ' + lastname)}
+                    </div>
+                    <div role="presentation" className="menu-logout" onClick={()=>this.handleLink('/logout.html')}>
+                        <div className="hidden-xs">{Identify.__('Log out')}</div>
+                        <LogoutIcon color={`#D7282F`} style={{width:18,height:18,marginRight:8, marginLeft:10}}/>
+                    </div>
                     <div role="presentation" className="menu-toggle" onClick={()=>this.handleToggleMenu()}>
                         <MenuIcon color={`#fff`} style={{width:30,height:30, marginTop: 1}}/>
                         <CloseIcon className={`hidden`} color={`#fff`} style={{width:16,height:16, marginTop:7, marginLeft: 9, marginRight: 5}}/>

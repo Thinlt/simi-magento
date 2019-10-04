@@ -101,13 +101,15 @@ export async function sendRequest(endPoint, callBack, method='GET', getData= {},
 
 export const request = (resourceUrl, opts) => {
     let newResourceUrl = resourceUrl
-    const getData = addRequestVars({})
-    let dataGetString = Object.keys(getData).map(function (key) {
-        return encodeURIComponent(key) + '=' +
-            encodeURIComponent(getData[key]);
-    })
-    dataGetString = dataGetString.join('&')
-    if (dataGetString)
-        newResourceUrl += "?" + dataGetString;
+    if (opts && !(opts.method && opts.method!=='GET')) { //only for get method
+        const getData = addRequestVars({})
+        let dataGetString = Object.keys(getData).map(function (key) {
+            return encodeURIComponent(key) + '=' +
+                encodeURIComponent(getData[key]);
+        })
+        dataGetString = dataGetString.join('&')
+        if (dataGetString)
+            newResourceUrl += "?" + dataGetString;
+    }
     return peregrinRequest(newResourceUrl, opts)
 }

@@ -6,14 +6,15 @@ import TextInput from 'src/components/TextInput';
 import { isRequired } from 'src/util/formValidators';
 import {configColor} from 'src/simi/Config'
 import Identify from 'src/simi/Helper/Identify'
-import classes from './forgotPasswordForm.css';
+
+require('./forgotPasswordForm.scss');
 
 const ForgotPasswordForm  =  props => {
     const { onSubmit } = props;
 
     return (
         <Form
-            className={classes.root}
+            className='root forgot-pass-form'
             onSubmit={onSubmit}
         >
             <Field label="Email Address" required={true}>
@@ -24,9 +25,9 @@ const ForgotPasswordForm  =  props => {
                     validateOnBlur
                 />
             </Field>
-            <div className={classes.buttonContainer}>
+            <div className='buttonContainer'>
                 <button 
-                    priority="high" className={classes.submitButton} type="submit" 
+                    priority="high" className='submitButton' type="submit" 
                     style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}>
                     {Identify.__('Submit')}
                 </button>

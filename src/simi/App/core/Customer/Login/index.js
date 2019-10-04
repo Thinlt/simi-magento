@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import defaultClasses from './login.css';
+import defaultClasses from './login.scss';
 import classify from 'src/classify';
 import Identify from 'src/simi/Helper/Identify';
 import SignIn from './SignIn';
@@ -45,14 +45,12 @@ class Login extends Component {
 
     get signInForm() {
         const { isSignInOpen } = this.state;
-        const { classes } = this.props;
         const isOpen = isSignInOpen;
-        const className = isOpen ? classes.signIn_open : classes.signIn_closed;
+        const className = isOpen ? 'signIn_open' : 'signIn_closed';
 
         return (
             <div className={className}>
                 <SignIn
-                    classes={classes}
                     showCreateAccountForm={this.setCreateAccountForm}
                     onForgotPassword={this.setForgotPasswordForm}
                     onSignIn={this.onSignIn.bind(this)}
@@ -97,18 +95,16 @@ class Login extends Component {
 
     get createAccountForm() {
         const { isCreateAccountOpen } = this.state;
-        const { classes } = this.props;
         const isOpen = isCreateAccountOpen;
-        const className = isOpen ? classes.form_open : classes.form_closed;
+        const className = isOpen ? 'form_open' : 'form_closed';
 
         return this.createAccount(className);
     }
 
     get forgotPasswordForm() {
         const { isForgotPasswordOpen } = this.state;
-        const { classes } = this.props;
         const isOpen = isForgotPasswordOpen;
-        const className = isOpen ? classes.form_open : classes.form_closed;
+        const className = isOpen ? 'form_open' : 'form_closed';
         return this.forgotPassword(className);
     }
 
@@ -184,7 +180,6 @@ class Login extends Component {
         } = state;
 
         const {
-            classes,
             isSignedIn,
             firstname,
             history
@@ -232,7 +227,7 @@ class Login extends Component {
                             {
                                 (showBackBtn) &&
                                 <div role="presentation"
-                                    className={classes['login-header-back']}
+                                    className='login-header-back'
                                     onClick={showLoginForm}
                                     >
                                     <BackIcon style={{width: 20, height: 20}}/>

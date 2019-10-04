@@ -5,7 +5,7 @@ import { updateCoupon } from 'src/simi/Model/Cart';
 import Identify from 'src/simi/Helper/Identify';
 import { Whitebtn } from 'src/simi/BaseComponents/Button'
 import Close from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
-require ('./index.scss')
+require ('./style.scss')
 
 const Coupon = (props) => {
     const { value, toggleMessages, getCartDetails } = props;
@@ -58,7 +58,7 @@ const Coupon = (props) => {
                         <Close style={{width:15,height:15}}/>
                     </button>   }
         </div>
-        <Whitebtn id="submit-coupon" className='submit-coupon' onClick={() => handleCoupon()} text={Identify.__('Apply')} />
+        <Whitebtn id="submit-coupon" className={`${Identify.isRtl() ? "submit-coupon-rtl" : 'submit-coupon'}`} onClick={() => handleCoupon()} text={Identify.__('Apply')} />
     </div>
 }
 

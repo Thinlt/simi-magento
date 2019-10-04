@@ -1,18 +1,17 @@
 import React from 'react';
 import { shape, string } from 'prop-types';
 import { Form } from 'informed';
-
 import Checkbox from 'src/components/Checkbox';
 import Field from 'src/components/Field';
 import TextInput from 'src/components/TextInput';
 import { validators } from './validators';
-import classes from './createAccount.css';
 import {configColor} from 'src/simi/Config'
 import Identify from 'src/simi/Helper/Identify'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import { createAccount } from 'src/simi/Model/Customer'
 import {showToastMessage} from 'src/simi/Helper/Message';
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
+require('./createAccount.scss')
 
 const CreateAccount = props => {
     const { createAccountError } = props;
@@ -66,11 +65,11 @@ const CreateAccount = props => {
                 title:Identify.__('Create Account')
             })}
             <Form
-                className={classes.root}
+                className='root create-acc-form'
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
             >
-                <h3 className={classes.lead}>
+                <h3 className='lead'>
                     {`Check out faster, use multiple addresses, track
                             orders and more by creating an account!`}
                 </h3>
@@ -115,16 +114,16 @@ const CreateAccount = props => {
                         validateOnBlur
                     />
                 </Field>
-                <div className={classes.subscribe}>
+                <div className='subscribe'>
                     <Checkbox
                         field="subscribe"
                         label="Subscribe to news and updates"
                     />
                 </div>
-                <div className={classes.error}>{errorMessage}</div>
-                <div className={classes.actions}>
-                    <button 
-                        priority="high" className={classes.submitButton} type="submit" 
+                <div className='error'>{errorMessage}</div>
+                <div className='actions'>
+                    <button
+                        priority="high" className='submitButton' type="submit"
                         style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}>
                         {Identify.__('Submit')}
                     </button>

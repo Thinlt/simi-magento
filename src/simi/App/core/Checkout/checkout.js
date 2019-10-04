@@ -36,6 +36,15 @@ class Checkout extends Component {
         this.checkoutRedirect(storeConfig);
     }
 
+    shouldComponentUpdate(nextProps){
+        if (this.showAPIloading(nextProps)) {
+            showFogLoading()
+            return false
+        }
+        hideFogLoading()
+        return true
+    }
+
     async componentDidMount() {
         const { props, check3DSecure } = this;
         const { beginCheckout, getCartDetails } = props;
@@ -115,8 +124,8 @@ class Checkout extends Component {
         return cart.is_virtual || (cart.details && cart.details.is_virtual)
     }
 
-    get showAPIloading() {
-        const { props, cartDetail } = this;
+    showAPIloading = (props) => {
+        const { cartDetail } = this;
         const { cart } = props;
         const { cartId, isLoading } = cart;
         const cartLoading = (!cartDetail && cartId && !isLoading && (!cart.details || !cart.details.item))
@@ -246,7 +255,7 @@ class Checkout extends Component {
             };
             this.handleLink(locate);
         }
-        
+
         return <Fragment>
             {breadcrumb}
             {pageTitle}
@@ -295,7 +304,7 @@ class Checkout extends Component {
                 </div>
                 <div className='checkout-col-3'>
                     <div className='col-3-content'>
-                        <OrderSummary parent={this} cart={cart} cartCurrencyCode={cartCurrencyCode} 
+                        <OrderSummary parent={this} cart={cart} cartCurrencyCode={cartCurrencyCode}
                             checkout={checkout} panelClassName='checkout-panel'/>
                         {btnPlaceOrder}
                     </div>
@@ -305,12 +314,8 @@ class Checkout extends Component {
     }
 
     render() {
-        if (this.showAPIloading)
-            showFogLoading()
-        else
-            hideFogLoading()
         return (
-            <div className='checkout-bg'>
+            <div className={`checkout-bg ${Identify.isRtl() ? 'checkout-bg-rtl' : ''}`}>
                 <div className="container">
                     {TitleHelper.renderMetaHeader({
                         title: Identify.__('Checkout')
