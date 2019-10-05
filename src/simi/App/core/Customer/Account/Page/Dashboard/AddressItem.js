@@ -5,7 +5,7 @@ const AddressItem = props => {
     const { addressData } = props;
 
     const showAddress = (address) => {
-        const result = address.map((item, index) => {
+        let result = address.map((item, index) => {
             return (
                 <p key={index} className="address">
                     {item}

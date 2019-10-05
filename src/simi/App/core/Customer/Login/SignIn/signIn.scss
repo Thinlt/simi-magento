@@ -1,19 +1,24 @@
 .root.sign-in-form {
     display: grid;
+    gap: 0.5rem;
     justify-items: stretch;
-    padding: 0 98px;
+    padding: 0 1.5rem;
 }
+
+$white: white;
+$red: red;
+$gray: #38404A;
 
 .sign-in-form{
     .forgotPassword {
         display: block;
-        font-family: Gotham;
+        text-decoration: underline;
         font-size: 16px;
-        color: #101820;
     }
     
     .form {
         display: grid;
+        row-gap: 1rem;
     }
     
     .modal {
@@ -33,11 +38,6 @@
     .showCreateAccountButtonCtn, .signInButtonCtn {
         text-align: center;
         margin-top: 0.5rem;
-        margin-bottom: 32px;
-    }
-    
-    .showCreateAccountButtonCtn{
-        margin-bottom: 0px;
     }
     
     .showCreateAccountButton,
@@ -53,7 +53,6 @@
         width: 100%;
         min-width: 200px;
         padding-bottom: 10px;
-        font-family: Gotham;
     }
     
     .signInButton:hover {
@@ -61,97 +60,27 @@
     }
     
     .showCreateAccountButton {
-        background-color: white;
-        color: #38404A;
+        background-color: $white;
+        color: $gray;
         padding-top: 11px;
-        border: solid #38404A 1px;
+        border: solid $gray 1px;
         font-weight: 400;
     }
     
     .showCreateAccountButton:hover {
         padding-top: 9px;
-        border: solid #38404A 2px;
+        border: solid $gray 2px;
     }
     
     .signInDivider {
-        width: 100%; 
-        text-align: center; 
-        border-bottom: 1px solid #000; 
-        line-height: 0.1em;
-        margin: 10px 0 20px;
+        border-style: solid;
+        border-width: 0 0 1px;
+        margin: 2rem 1rem;
     }
     
     .signInError {
-        color: red;
+        color: $red;
         text-align: center;
     }
-    
-    .userIcon{
-        position: absolute;
-        margin: 16px;
-        size: 16px;
-    }
-    
-    .passwordIcon{
-        position: absolute;
-        margin: 16px;
-        size: 16px;
-    }
-    
-    .input{
-        min-height: 48px;
-        padding-left: 56px !important;
-        background-color: #F2F2F2;
-        min-width: 572px;
-        width: 100%;
-        border: unset;
-        margin-bottom: 24px;
-    }
-    
-    .userInput{
-        margin-bottom: 20px;
-    }
-    
-    .userInput p{
-        padding-top: 20px;
-    }
-    
-    
-    .passwordInput{
-        margin-bottom: 24px;
-    }
-    
-    .passwordInput p{
-        padding-top: 20px;
-    }
-    .signInAction{
-        display: flex;
-        justify-content: space-between;
-    }
-    
-    .signInWith{
-        background:#fff; 
-        padding:0 12px; 
-    }
-    
-    .socialMedia{
-        display: flex;
-        justify-content: space-between;
-        margin: auto;
-        max-width: 244px;
-    }
-
-    .social-icon{
-        width: 36px !important;
-        height: 36px !important;
-        border: 1px solid;
-        border-radius: 50%;
-        padding: 6px 0
-    }
-
-    .social-icon{
-        &:not(:last-child){
-            margin-right: 16px;
-        }
-    }
 }
+

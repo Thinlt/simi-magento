@@ -8,6 +8,7 @@ import CloseIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
 import MenuIcon from 'src/simi/BaseComponents/Icon/Menu'
 import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
 import classify from 'src/classify';
+import {Link} from 'react-router-dom'
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
 import Dashboard from './Page/Dashboard';
@@ -87,34 +88,6 @@ class CustomerLayout extends React.Component{
                 page : 'wishlist',
                 enable : true,
                 sort_order : 60
-            },
-            {
-                title : 'MY GIFT VOUCHERS',
-                url : '/account.html',
-                page : 'newsletter',
-                enable : true,
-                sort_order : 70
-            },
-            {
-                title : 'MY RESERVED PRODUCTS',
-                url : '/account.html',
-                page : 'newsletter',
-                enable : true,
-                sort_order : 80
-            },
-            {
-                title : 'MY TRY & BUY PRODUCTS',
-                url : '/account.html',
-                page : 'newsletter',
-                enable : true,
-                sort_order : 90
-            },
-            {
-                title : 'Log out',
-                url : '/logout.html',
-                page : 'home',
-                enable : true,
-                sort_order : 100
             }
         ]
         return menuConfig
@@ -239,16 +212,11 @@ class CustomerLayout extends React.Component{
             return ''
         }
 
-        const {firstname, lastname} = this.props
-
         return (
             <React.Fragment>
                 <div className={`customer-dashboard ${page}`} style={{minHeight:window.innerHeight-200}}>
                     <BreadCrumb history={this.props.history} breadcrumb={[{name:'Home', link:'/'},{name:'Account'}]}/>
                     <div className='container'>
-                        <div className="welcome-customer">
-                            {Identify.__("Welcome %s").replace('%s', firstname + ' ' + lastname)}
-                        </div>
                         <div className="dashboard-layout">
                             {this.renderMenu()}
                             <div className='dashboard-content'>

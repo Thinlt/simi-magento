@@ -20,13 +20,12 @@ import {showToastMessage} from 'src/simi/Helper/Message';
 
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
-const $ = window.$;
+
 class Login extends Component {
     state = {
         isCreateAccountOpen: false,
         isSignInOpen: true,
         isForgotPasswordOpen: false,
-        isBuyerTab: true
     };
 
     stateForgot = () => {
@@ -39,8 +38,6 @@ class Login extends Component {
         if (this.stateForgot()){
             this.setForgotPasswordForm()
         }
-
-        $('#siminia-main-page').css('min-height','unset')
     }
 
     get signInForm() {
@@ -159,11 +156,6 @@ class Login extends Component {
         }
     }
 
-    changeLoginTab = () => {
-        this.setState({isBuyerTab: !this.state.isBuyerTab})
-        // console.log("1")
-    }
-
     render() {
         const {
             createAccountForm,
@@ -175,8 +167,7 @@ class Login extends Component {
         } = this;
         const {
             isCreateAccountOpen,
-            isForgotPasswordOpen,
-            isBuyerTab
+            isForgotPasswordOpen
         } = state;
 
         const {
@@ -213,17 +204,9 @@ class Login extends Component {
                 {TitleHelper.renderMetaHeader({
                     title:Identify.__('Customer Login')
                 })}
-                <div className={classes['login-background']} >
-                    <div className={classes['login-container']} >
-                        <div className={classes['login-tab']}>
-                            <div onClick={this.changeLoginTab} className={`${classes['buyer-tab']} ${isBuyerTab ? classes["active"]: null}`}>
-                                <span>{Identify.__("Buyer".toUpperCase())}</span>
-                            </div>
-                            <div onClick={this.changeLoginTab} className={!isBuyerTab ? classes["active"]: null}>
-                                {Identify.__("Seller".toUpperCase())}
-                            </div>
-                        </div>
-                        <div className={`${classes['login-header']} ${showBackBtn&&classes['has-back-btn']}`}>
+                <div className='login-background' >
+                    <div className='login-container' >
+                        <div className={`login-header ${showBackBtn && 'has-back-btn'}`}>
                             {
                                 (showBackBtn) &&
                                 <div role="presentation"
@@ -233,9 +216,9 @@ class Login extends Component {
                                     <BackIcon style={{width: 20, height: 20}}/>
                                 </div>
                             }
-                            {/* <div className={classes['login-header-title']}>
+                            <div className='login-header-title'>
                                 {title}
-                            </div> */}
+                            </div>
                         </div>
                         {signInForm}
                         {createAccountForm}
