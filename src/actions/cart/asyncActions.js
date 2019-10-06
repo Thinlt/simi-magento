@@ -52,23 +52,24 @@ export const createCart = () =>
             // authenticated customer gets added with a price of zero.
             // @see https://github.com/magento/magento2/issues/2991
             // This workaround is in place until that issue is resolved.
-            if (user.isSignedIn) {
-                await request('/rest/V1/carts/mine/billing-address', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        address: {},
-                        cartId
-                    })
-                });
-            }
+            // Robert comment this
+            // if (user.isSignedIn) {
+            //     await request('/rest/V1/carts/mine/billing-address', {
+            //         method: 'POST',
+            //         body: JSON.stringify({
+            //             address: {},
+            //             cartId
+            //         })
+            //     });
+            // }
 
             dispatch(actions.getCart.receive(cartId));
         } catch (error) {
             dispatch(actions.getCart.receive(error));
             //cody logout + reload while getting cart failed (token outdated)
-            storage.removeItem('signin_token');
-            clearCartId();
-            window.location.reload();
+            // storage.removeItem('signin_token');
+            // clearCartId();
+            // window.location.reload();
             //end cody changing
         }
     };
