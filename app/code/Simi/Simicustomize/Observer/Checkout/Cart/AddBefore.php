@@ -68,6 +68,14 @@ class AddBefore implements ObserverInterface {
                 }
                 $this->session->setData('pre_order', $itemIds);
             }
+            if (!$requestInfo['try_to_buy'] && !$requestInfo['reservable'] && !$requestInfo['pre_order']) {
+                if (!empty($session->getData('try_to_buy')) || !empty($session->getData('reservable')) || !empty($session->getData('pre_order'))) {
+                    $buyType = !empty($session->getData('pre_order')) ? 'pre-order' : '';
+                    $buyType = !empty($session->getData('reservable')) ? 'reservable' : $buyType;
+                    $buyType = !empty($session->getData('try_to_buy')) ? 'try to buy' : $buyType;
+                    throw new \Exception(__('Adding normal product type to cart error with '.$buyType));
+                }
+            }
         }
     }
 
