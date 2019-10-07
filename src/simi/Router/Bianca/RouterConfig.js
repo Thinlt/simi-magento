@@ -26,7 +26,7 @@ const Account = (props) => {
 }
 
 const Cart = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Cart"*/'src/simi/App/core/Cart')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "Cart"*/'src/simi/App/Bianca/Cart')} {...props}/>
 }
 
 const Contact = (props) => {
@@ -46,7 +46,7 @@ const PaypalExpress = (props) => {
 }
 
 const NoMatch = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/Bianca/NoMatch')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/core/NoMatch')} {...props}/>
 }
 
 

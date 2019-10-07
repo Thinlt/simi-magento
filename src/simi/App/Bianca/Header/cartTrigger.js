@@ -8,8 +8,6 @@ import Basket from "src/simi/App/Bianca/BaseComponents/Icon/Basket";
 import classify from 'src/classify';
 import defaultClasses from './cartTrigger.css'
 // import Identify from 'src/simi/Helper/Identify'
-import { Link } from 'src/drivers'
-import { resourceUrl } from 'src/simi/Helper/Url'
 
 
 export class Trigger extends Component {
@@ -38,7 +36,7 @@ export class Trigger extends Component {
         }
         return (
             <React.Fragment>
-                <div className={classes['item-icon']} style={{display: 'flex', justifyContent: 'center'}}>  
+                <div className='item-icon' style={{display: 'flex', justifyContent: 'center'}}>  
                     <Basket style={{display: 'block', margin: 0}}/>
                 </div>
             </React.Fragment>
@@ -48,20 +46,29 @@ export class Trigger extends Component {
     render() {            
         const {
             classes,
-            //toggleCart,
+            toggleCart,
             cart: { details }
         } = this.props;
         const { cartIcon } = this;
         const itemsQty = details.items_qty;
         return (
-            <Link 
-                to={resourceUrl('/cart.html')}
-                className={classes.root}
-                aria-label="Open cart page"
+            // <Link 
+            //     to={resourceUrl('/cart.html')}
+            //     className={classes.root}
+            //     aria-label="Open cart page"
+            //     onClick={toggleCart}
+            // >
+            //     {cartIcon}
+            //     <CartCounter counter={itemsQty ? itemsQty : 0} />
+            // </Link>
+            <button
+                className='root'
+                aria-label="Toggle mini cart"
+                onClick={toggleCart}
             >
                 {cartIcon}
                 <CartCounter counter={itemsQty ? itemsQty : 0} />
-            </Link>
+            </button>
         )
     }
 }
