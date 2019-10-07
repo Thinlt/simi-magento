@@ -4,9 +4,9 @@ import Header from './header';
 import { toggleSearch } from 'src/actions/app';
 
 const mapStateToProps = ({ app }) => {
-    const { searchOpen } = app;
-
+    const { searchOpen, drawer } = app;
     return {
+        drawer,
         searchOpen
     };
 };
