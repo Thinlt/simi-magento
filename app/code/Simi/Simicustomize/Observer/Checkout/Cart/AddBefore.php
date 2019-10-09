@@ -40,10 +40,10 @@ class AddBefore implements ObserverInterface {
                 $itemIds[] = $requestInfo['product'];
             }
             // processing cart with try to buy product
-            $message = 'Cannot add this product type to cart. Remove another type in your cart and try again.';
+            $message = 'Adding product to cart error. Please checkout with existing products in cart first.';
             if (isset($requestInfo['try_to_buy']) && (int)$requestInfo['try_to_buy']) {
                 if (!empty($session->getData('reservable')) || !empty($session->getData('pre_order'))) {
-                    throw new \Exception(__($message));
+                    throw new \Exception(__('Try to buy products can not be added to the same cart with regular products or Pre-order products. Please checkout with existing products in cart first.'));
                 }
                 if (!$product->getTryToBuy()) {
                     throw new \Exception(__('Try to buy for this product does not allowed'));
@@ -61,7 +61,7 @@ class AddBefore implements ObserverInterface {
             }
             if (isset($requestInfo['pre_order']) && (int)$requestInfo['pre_order']) {
                 if (!empty($session->getData('try_to_buy')) || !empty($session->getData('reservable'))) {
-                    throw new \Exception(__($message));
+                    throw new \Exception(__('Pre-order products can not be added to the same cart with regular products or try to buy products. Please checkout with existing products in cart first.'));
                 }
                 if (!$product->getPreOrder()) {
                     throw new \Exception(__('Pre-order for this product does not allowed'));
@@ -73,7 +73,8 @@ class AddBefore implements ObserverInterface {
                     $buyType = !empty($session->getData('pre_order')) ? 'pre-order' : '';
                     $buyType = !empty($session->getData('reservable')) ? 'reservable' : $buyType;
                     $buyType = !empty($session->getData('try_to_buy')) ? 'try to buy' : $buyType;
-                    throw new \Exception(__('Adding normal product type to cart error with '.$buyType));
+                    // throw new \Exception(__('Adding normal product type to cart error with '.$buyType));
+                    throw new \Exception(__('Regular products can not be added to the same cart with Pre-order products or try to buy products. Please checkout with existing products in cart first.'));
                 }
             }
         }
