@@ -18,6 +18,7 @@ import Storeview from "src/simi/App/Bianca/BaseComponents/Settings/Storeview";
 import Currency from "src/simi/App/Bianca/BaseComponents/Settings/Currency";
 import ProxyClasses from './Component/ProxyClasses';
 import SearchFormTrigger from './Component/SearchFormTrigger';
+import MiniCart from 'src/simi/App/Bianca/Components/MiniCart';
 require('./header.scss')
 
 const SearchForm = React.lazy(() => import('./Component/SearchForm'));
@@ -82,6 +83,7 @@ class Header extends React.Component{
     }
 
     renderRightBar = () => {
+        console.log(this.props)
         const {classes} = this
         return(
             <div className={'right-bar'}>
@@ -156,7 +158,9 @@ class Header extends React.Component{
     }
 
     render(){
-        const { classes } = this
+        const { classes } = this;
+        const { drawer } = this.props;
+        const cartIsOpen = drawer === 'cart';
         const storeViewOptions = <Storeview classes={classes} className="storeview"/>
         const currencyOptions = <Currency classes={classes} className="currency"/>
         if(window.innerWidth < 1024){
@@ -187,7 +191,7 @@ class Header extends React.Component{
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> 
                     <div className="container-header">
                         <div className="container">
                             <div className="header">
@@ -195,6 +199,7 @@ class Header extends React.Component{
                                 {this.renderLogo()}
                                 {this.renderRightBar()}
                             </div>
+                            <MiniCart isOpen={cartIsOpen}/>
                         </div>
                     </div>
                 </div>
