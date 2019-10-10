@@ -7,6 +7,9 @@ use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Eav\Setup\EavSetup;
 use Magento\Catalog\Model\Product\Attribute\Source\Status;
+use Magento\Framework\ObjectManagerInterface;
+use Psr\Log\LoggerInterface;
+use Magento\Store\Api\StoreRepositoryInterface;
 
 class UpgradeData implements UpgradeDataInterface
 {
@@ -15,15 +18,33 @@ class UpgradeData implements UpgradeDataInterface
      */
     private $eavSetup;
 
+    private $logger;
+
+    /**
+     * Magento\Framework\ObjectManagerInterface
+     */
+    protected $_objectManager;
+
+    /**
+     * Magento\Store\Api\StoreRepositoryInterface;
+     */
+    protected $storeRepository;
+
     /**
        * @param EavSetup $eavSetup
        * @param QuoteSetupFactory $setupFactory
        * @param SalesSetupFactory $salesSetupFactory
        */
       public function __construct(
-        EavSetup $eavSetup
+        EavSetup $eavSetup,
+        ObjectManagerInterface $objectManager,
+        StoreRepositoryInterface $storeRepository,
+        LoggerInterface $logger
     ) {
         $this->eavSetup = $eavSetup;
+        $this->_objectManager = $objectManager;
+        $this->storeRepository = $storeRepository;
+        $this->logger = $logger;
     }
 
     /**
@@ -113,5 +134,42 @@ class UpgradeData implements UpgradeDataInterface
             }
         }
 
+        /**
+         * Add try to buy order status
+         */
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.2', '<')) {
+            $data = [];
+            $statusCode = 'try_to_buy';
+            $storeLabel = 'Try To Buy';
+            $status = $this->_objectManager->create(\Magento\Sales\Model\Order\Status::class)->load($statusCode);
+            if ($status && !$status->getStatus()) {
+                // try {
+                //     throw new \Exception(__('We found another order status with the same order status try_to_buy code.'));
+                // } catch (\Exception $e) {
+                //     $this->logger->log($e, 1);
+                // }
+                try {
+                    $data['status'] = $statusCode;
+                    $data['label'] = $storeLabel;
+                    if (!isset($data['store_labels'])) {
+                        $data['store_labels'] = [];
+                    }
+                    // get all stores \Magento\Store\Api\Data\StoreInterface[]
+                    $stores = $this->storeRepository->getList();
+                    foreach ($stores as $store) {
+                        $data['store_labels'][(int)$store->getId()] = $storeLabel;
+                    }
+                    // save status
+                    $status->setData($data)->setStatus($statusCode);
+                    $status->save();
+                    // assign status to state
+                    $isDefault = 0;
+                    $visibleOnFront = 1;
+                    $status->assignState('pending', $isDefault, $visibleOnFront);
+                } catch (\Exception $e) {
+                    $this->logger->log($e, 1);
+                }
+            }
+        }
     }
 }

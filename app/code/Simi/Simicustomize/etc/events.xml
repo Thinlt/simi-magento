@@ -28,4 +28,8 @@
         <observer name="Simi_Simicustomize_Simiconnector_Observer_Quote_Address_Collect_Total_Before" 
                   instance="Simi\Simicustomize\Observer\QuoteAddressCollectTotalBefore" />
     </event>
+    <event name="sales_order_place_after">
+        <observer name="Simi_Simicustomize_Simiconnector_Observer_Sales_Order_Place_After" 
+                  instance="Simi\Simicustomize\Observer\SalesOrderPlaceAfter" />
+    </event>
 </config>
