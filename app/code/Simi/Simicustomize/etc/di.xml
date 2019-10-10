@@ -5,4 +5,10 @@
     <type name="Magento\Quote\Model\Cart\CartTotalRepository">
         <plugin name="simi_cart_total_plugin" type="Simi\Simicustomize\Plugin\CartTotalRepository" />
     </type>
+    <type name="Magento\Checkout\Model\Cart">
+        <plugin name="simi_cart_plugin_checkout_model_cart" type="Simi\Simicustomize\Plugin\Cart" />
+    </type>
+    <type name="Magento\Quote\Model\Quote\Item\Repository">
+        <plugin name="simi_cart_plugin_quote_item_repository" type="Simi\Simicustomize\Plugin\QuoteItemRepository" />
+    </type>
 </config>

@@ -27,8 +27,17 @@ class AddBefore implements ObserverInterface {
         $product = $observer->getEvent()->getData('product');
         if ($items = $this->_getCart()->getItems()) {
             $itemIds = [];
+            $productIds = [];
+            $productOptionsSuperAttribute = [];
             foreach($items as $item){
                 $itemIds[] = $item->getId();
+                $productIds[] = $item->getProductId();
+                foreach($item->getOptions() as $option){
+                    $options = json_decode($option->getValue(), true);
+                    if (isset($options['super_attribute'])) {
+                        $productOptionsSuperAttribute[$item->getProductId()][$item->getId()] = $options['super_attribute'];
+                    }
+                }
             }
             // reset session
             if (!count($itemIds)) {
@@ -42,11 +51,33 @@ class AddBefore implements ObserverInterface {
             // processing cart with try to buy product
             $message = 'Adding product to cart error. Please checkout with existing products in cart first.';
             if (isset($requestInfo['try_to_buy']) && (int)$requestInfo['try_to_buy']) {
+                if (!$product->getIsAdminSell()) {
+                    if ($product->getVendorId() && $product->getVendorId() != 'default') {
+                        throw new \Exception(__("Vendor products can not be added to the cart to try to buy"));
+                    }
+                }
                 if (!empty($session->getData('reservable')) || !empty($session->getData('pre_order'))) {
                     throw new \Exception(__('Try to buy products can not be added to the same cart with regular products or Pre-order products. Please checkout with existing products in cart first.'));
                 }
                 if (!$product->getTryToBuy()) {
                     throw new \Exception(__('Try to buy for this product does not allowed'));
+                }
+                // check cart existed 1 qty
+                if (in_array($product->getId(), $productIds)) {
+                    if (!isset($requestInfo['super_attribute'])) {
+                        throw new \Exception(__('This product has existed in cart'));
+                    }
+                    if (isset($requestInfo['super_attribute'])) {
+                        foreach($itemIds as $itemId){
+                            if (serialize($requestInfo['super_attribute']) == serialize($productOptionsSuperAttribute[$product->getId()][$itemId])) {
+                                throw new \Exception(__('This product has existed in cart'));
+                            }
+                        }
+                    }
+                }
+                // allow try to buy qty = 1
+                if (isset($requestInfo['qty'])) {
+                    $requestInfo['qty'] = '1';
                 }
                 $this->session->setData('try_to_buy', $itemIds);
             }
