@@ -39,13 +39,19 @@
     overflow: auto;
 }
 
+.titleSummary{
+    margin-top: 32px;
+    font-size: 16px
+}
+
 .footer {
     --minicart-footer-padding-top: 1.5rem;
     --minicart-footer-padding-bottom: 0.5rem;
-    box-shadow: 0 -1px rgb(var(--venia-border));
-    padding: var(--minicart-footer-padding-top) 0
-        var(--minicart-footer-padding-bottom);
-    background-color: white;
+    background-color: #E4E4E4;
+}
+
+.summary{
+    margin: 0 40px;
 }
 
 .footerMaskOpen {
@@ -64,12 +70,24 @@
 }
 
 .subtotalLabel {
-    color: rgb(var(--venia-text-alt));
+    font-size: 16px;
 }
 
-.subtotalValue {
-    font-weight: 600;
-    margin-left: 0.5rem;
+.subtotal {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+}
+
+.grandTotalLabel{
+    font-size: 24px;
+    text-transform: uppercase
+}
+
+.grandTotal{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
 }
 
 .title {
@@ -93,4 +111,35 @@
 .placeholderButton {
     text-align: center;
     margin: 1.5rem 0 1rem 0;
+}
+
+.addCoupon{
+    margin-top: 28px;
+}
+
+.giftVoucher{
+    margin-top: 28px;
+}
+
+.estimateShipAndTax{
+    margin-top: 28px;
+}
+
+.minicartAction{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 52px;
+    margin-bottom: 50px;
+}
+
+.viewCartBtn{
+    padding: 16px 47.5px;
+    background-color: #F2F2F2;
+}
+
+.checkoutBtn{
+    padding: 16px 22px;
+    border: 1px solid #101820;
+    background-color: #101820;
+    color: #FFF
 }
