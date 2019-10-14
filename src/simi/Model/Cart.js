@@ -29,8 +29,14 @@ export const updateCoupon = (callBack, params) => {
     sendRequest('rest/V1/simiconnector/quoteitems', callBack, 'PUT', getParams, params)
 }
 
-export const updateGiftVoucher = (callBack, params) => {
+export const updateGiftVoucher = (callBack, params, isSignedIn) => {
     const cartId = storage.getItem('cartId');
     const giftVoucher = params['aw-giftcard'];
-    sendRequest('/rest/default/V1/guest-carts/' + cartId + '/aw-giftcard/' + giftVoucher , callBack, 'PUT',{},params)
+
+    if(isSignedIn){
+        sendRequest('/rest/default/V1/carts/mine/aw-giftcard/' + giftVoucher, callBack, 'PUT', {}, params )
+    } else {
+        sendRequest('/rest/default/V1/guest-carts/' + cartId + '/aw-giftcard/' + giftVoucher , callBack, 'PUT',{},params)
+    }
+
 }

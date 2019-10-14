@@ -97,9 +97,9 @@ class MiniCart extends Component {
     }
 
     get productList() {
-        const { cart, removeItemFromCart, isOpen } = this.props;
+        const { cart, removeItemFromCart, isOpen, updateItemInCart } = this.props;
 
-        const { cartCurrencyCode, cartId, updateItemInCart } = this;
+        const { cartCurrencyCode, cartId } = this;
 
         if (cartId) {
             const obj = [];
