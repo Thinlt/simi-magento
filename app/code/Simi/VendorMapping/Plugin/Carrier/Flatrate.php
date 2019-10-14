@@ -70,18 +70,19 @@ class Flatrate
         VnecomsFlatrate $subject,
         RateRequest $request
     ){
+        // fixbug: vender_id loaded when product load
         //update vendor id for item in quote
-        $allItems = [];
-        foreach ($request->getAllItems() as $item) {
-            if (!$item->getVendorId() || $item->getIsAdminSell()) {
-                $item->setVendorId('default'); //set vendor_id for items that are does not belong to a vendor
-                $product = $item->getProduct()->load($item->getProductId());
-                $product->setVendorId('default');
-                $item->setProduct($product);
-            }
-            $allItems[] = $item;
-        }
-        $request->setAllItems($allItems);
+        // $allItems = [];
+        // foreach ($request->getAllItems() as $item) {
+        //     if ($item->getVendorId() == '' || (int)$item->getVendorId() == 0 || (int)$item->getIsAdminSell() == 1) {
+        //         $item->setVendorId('default'); //set vendor_id for items that are does not belong to a vendor
+        //         $product = $item->getProduct()->load($item->getProductId());
+        //         $product->setVendorId('default');
+        //         $item->setProduct($product);
+        //     }
+        //     $allItems[] = $item;
+        // }
+        // $request->setAllItems($allItems);
 
         return [$request];
     }
