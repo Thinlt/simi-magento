@@ -25,37 +25,52 @@ class QuoteAddressCollectTotalBefore implements ObserverInterface {
      */
     protected $customerGroup;
 
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $cartSession;
+
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $simiObjectManager,
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Customer\Model\ResourceModel\Group\Collection $customerGroup
+        \Magento\Customer\Model\ResourceModel\Group\Collection $customerGroup,
+        \Magento\Checkout\Model\Session $cartSession
     ) {
         $this->simiObjectManager = $simiObjectManager;
         $this->quoteRepository = $quoteRepository;
         $this->storeManager = $storeManager;
         $this->customerGroup = $customerGroup;
+        $this->cartSession = $cartSession;
     }
 
+    /**
+     * This observer will add TRYTOBUY coupon code to the quote and create new one sales rule (coupon code) if it does not existed.
+     */
     public function execute(\Magento\Framework\Event\Observer $observer) {
         /** @var $model \Magento\SalesRule\Model\Rule */
         $rule = $this->simiObjectManager->create(\Magento\SalesRule\Model\Rule::class);
         $coupon = $this->simiObjectManager->create(\Magento\SalesRule\Model\Coupon::class);
-        $websites = $this->storeManager->getWebsites();
-        $websiteIds = [];
-        foreach($websites as $website){
-            $websiteIds[] = $website->getId();
-        }
-        // $customerGroups = $this->groupManagement->getAllCustomersGroup();
-        $customerGroups = $this->customerGroup->toOptionArray();
-        $customerGroupIds = [];
-        foreach($customerGroups as $group){
-            $customerGroupIds[] = $group['value'];
-        }
         $quote = $observer->getEvent()->getQuote();
         $couponCode = $quote->getCouponCode();
-        if ($coupon->loadByCode($couponCode) && $couponCode == 'TRYTOBUY') {
+        if (!$couponCode) {
+            if ($this->cartSession->getTryToBuyCode() == 'TRYTOBUY') {
+                $couponCode = 'TRYTOBUY';
+                $quote->setCouponCode('TRYTOBUY');
+            }
+        }
+        if ($couponCode && $coupon->loadByCode($couponCode) && $couponCode == 'TRYTOBUY') {
             if (!$coupon->getId()) {
+                $websites = $this->storeManager->getWebsites();
+                $websiteIds = [];
+                foreach($websites as $website){
+                    $websiteIds[] = $website->getId();
+                }
+                $customerGroups = $this->customerGroup->toOptionArray();
+                $customerGroupIds = [];
+                foreach($customerGroups as $group){
+                    $customerGroupIds[] = $group['value'];
+                }
                 $rule->loadPost([
                     'name' => 'Try to buy',
                     'uses_per_customer' => 0,
@@ -84,10 +99,6 @@ class QuoteAddressCollectTotalBefore implements ObserverInterface {
                 ]);
                 $rule->save();
             }
-        }
-        if (!$couponCode) {
-            $quote->setCouponCode('TRYTOBUY');
-            $this->quoteRepository->save($quote->collectTotals());
         }
     }
 

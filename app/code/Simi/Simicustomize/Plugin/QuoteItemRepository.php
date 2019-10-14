@@ -25,7 +25,7 @@ class QuoteItemRepository
         $this->quoteRepository = $quoteRepository;
     }
     /**
-     * Plugin allowed qty = 1 when try to buy adding to cart
+     * Plugin allow qty = 1 when try to buy update item to cart
      */
     public function beforeSave(
         \Magento\Quote\Model\Quote\Item\Repository $repository,

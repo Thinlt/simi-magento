@@ -1,11 +1,11 @@
 <?php
 
-namespace Simi\Simicustomize\Observer\Checkout\Cart;
+namespace Simi\Simicustomize\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 
 
-class AddBefore implements ObserverInterface {
+class CheckoutCartProductAddBefore implements ObserverInterface {
     public $simiObjectManager;
 
     /**
@@ -27,6 +27,7 @@ class AddBefore implements ObserverInterface {
         $product = $observer->getEvent()->getData('product');
         if ($items = $this->_getCart()->getItems()) {
             $itemIds = [];
+            $tryToBuyItemIds = [];
             $productIds = [];
             $productOptionsSuperAttribute = [];
             foreach($items as $item){
@@ -39,6 +40,7 @@ class AddBefore implements ObserverInterface {
                     }
                 }
             }
+            
             // reset session
             if (!count($itemIds)) {
                 $this->session->setData('try_to_buy', []);
@@ -51,12 +53,20 @@ class AddBefore implements ObserverInterface {
             // processing cart with try to buy product
             $message = 'Adding product to cart error. Please checkout with existing products in cart first.';
             if (isset($requestInfo['try_to_buy']) && (int)$requestInfo['try_to_buy']) {
+                $quoteItems = $this->_getCart()->getQuote()->getItems();
+                foreach($quoteItems as $item){
+                    $infoRequest = $item->getBuyRequest(); // \Magento\Framework\DataObject $infoRequest
+                    if((int)$infoRequest->getData('try_to_buy')){
+                        $tryToBuyItemIds[] = $item->getItemId();
+                    }
+                }
                 if (!$product->getIsAdminSell()) {
                     if ($product->getVendorId() && $product->getVendorId() != 'default') {
                         throw new \Exception(__("Vendor products can not be added to the cart to try to buy"));
                     }
                 }
-                if (!empty($session->getData('reservable')) || !empty($session->getData('pre_order'))) {
+                if (!empty($session->getData('reservable')) || !empty($session->getData('pre_order')) 
+                    || (!count($tryToBuyItemIds) && count($productIds))) {
                     throw new \Exception(__('Try to buy products can not be added to the same cart with regular products or Pre-order products. Please checkout with existing products in cart first.'));
                 }
                 if (!$product->getTryToBuy()) {
@@ -107,6 +117,12 @@ class AddBefore implements ObserverInterface {
                     // throw new \Exception(__('Adding normal product type to cart error with '.$buyType));
                     throw new \Exception(__('Regular products can not be added to the same cart with Pre-order products or try to buy products. Please checkout with existing products in cart first.'));
                 }
+            }
+            // remove TRYTOBUY coupon code when no try-to-buy items in the cart
+            if (empty($session->getData('try_to_buy'))) {
+                $session->setTryToBuyCode('');
+            } else {
+                $session->setTryToBuyCode('TRYTOBUY');
             }
         }
     }

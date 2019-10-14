@@ -11,4 +11,7 @@
     <type name="Magento\Quote\Model\Quote\Item\Repository">
         <plugin name="simi_cart_plugin_quote_item_repository" type="Simi\Simicustomize\Plugin\QuoteItemRepository" />
     </type>
+    <type name="Magento\Sales\Model\Convert\Order">
+        <plugin name="simi_cart_plugin_sales_model_convert_order" type="Simi\Simicustomize\Plugin\SalesModelConvertOrder" />
+    </type>
 </config>

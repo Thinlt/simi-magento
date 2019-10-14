@@ -21,7 +21,12 @@ class CartTotalRepository
     /**
      * @var StoreManagerInterface
      */
-    private $storeManager;
+    protected $storeManager;
+    
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    private $cartSession;
 
     /**
      * CartTotalRepository constructor.
@@ -32,24 +37,24 @@ class CartTotalRepository
      */
     public function __construct(
         \Magento\SalesRule\Api\RuleRepositoryInterface $ruleRepository,
+        \Magento\Checkout\Model\Session $cartSession,
         StoreManagerInterface $storeManager
     ) {
         $this->ruleRepository = $ruleRepository;
         $this->storeManager = $storeManager;
+        $this->cartSession = $cartSession;
     }
 
     /**
-     * @param \Magento\Quote\Model\Cart\CartTotalRepository $subject
-     * @param \Magento\Quote\Api\Data\TotalsInterface $result
-     * @return \Magento\Quote\Api\Data\TotalsInterface
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * After get cart total. Note: add TRYTOBUY coupon code to quote at here not work after total is collected
      */
     public function afterGet(
         \Magento\Quote\Model\Cart\CartTotalRepository $subject,
         \Magento\Quote\Api\Data\TotalsInterface $result
     ) {
-        // $result->setGrandTotal(0);
+        // if ($this->cartSession->getTryToBuyCode() == 'TRYTOBUY') {
+        //     $result->setCouponCode('TRYTOBUY');
+        // }
         return $result;
     }
 }

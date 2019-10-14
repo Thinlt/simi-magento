@@ -21,6 +21,7 @@ class Cart
     ){
         if (isset($requestInfo['try_to_buy']) && $requestInfo['try_to_buy']) {
             $requestInfo['qty'] = '1';
+            $cart->getQuote()->setCouponCode('TRYTOBUY'); // add coupon code when add try to buy product to the cart
         }
         return [$productInfo, $requestInfo];
     }
