@@ -26,6 +26,8 @@ import Trigger from './trigger';
 import Icon from 'src/components/Icon';
 import CloseIcon from 'react-feather/dist/icons/x';
 import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon'
+import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher'
+import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 class MiniCart extends Component {
     static propTypes = {
         cancelCheckout: func.isRequired,
@@ -173,7 +175,7 @@ class MiniCart extends Component {
     }
 
     get couponCode() {
-        const { classes, cart, toggleMessages, getCartDetails } = this.props;
+        const { cart, toggleMessages, getCartDetails } = this.props;
         let value = "";
         if (cart.totals.coupon_code) {
             value = cart.totals.coupon_code;
@@ -188,12 +190,19 @@ class MiniCart extends Component {
     }
 
     get giftVoucher() {
-        const { classes } = this.props;
-        return (
-            <div className={classes.giftVoucher}>
-                {Identify.__("Add a Gift Voucher")}
-            </div>
-        )
+        const { cart, toggleMessages, getCartDetails } = this.props;
+        let value = "";
+        if (cart.totals.coupon_code) {
+            value = cart.totals.coupon_code;
+        }
+
+        const childCPProps = {
+            value,
+            toggleMessages,
+            getCartDetails,
+            cart
+        }
+        return <div className={`cart-voucher-form`}><GiftVoucher {...childCPProps} /></div>
     }
 
     get estimateShipAndTax() {
@@ -333,7 +342,8 @@ const mapDispatchToProps = {
     openOptionsDrawer,
     closeOptionsDrawer,
     cancelCheckout,
-    closeDrawer
+    closeDrawer,
+    toggleMessages
 };
 
 export default compose(
