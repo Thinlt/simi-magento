@@ -38,5 +38,11 @@ export const updateGiftVoucher = (callBack, params, isSignedIn) => {
     } else {
         sendRequest('/rest/default/V1/guest-carts/' + cartId + '/aw-giftcard/' + giftVoucher , callBack, 'PUT',{},params)
     }
+}
 
+export const deleteGiftCode = (callBack, params, isSignedIn) => {
+    const cartId = storage.getItem('cartId');
+    const giftVoucher = params['aw-giftcard'];
+
+    sendRequest('/rest/default/V1/guest-carts/' + cartId + '/aw-giftcard/' + giftVoucher, callBack, 'DELETE', {}, params)
 }

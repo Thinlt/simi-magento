@@ -7,7 +7,6 @@ import classify from 'src/classify';
 import {
     getCartDetails,
     updateItemInCart,
-    removeItemFromCart,
     openOptionsDrawer,
     closeOptionsDrawer,
 } from 'src/actions/cart';
@@ -28,6 +27,8 @@ import CloseIcon from 'react-feather/dist/icons/x';
 import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon'
 import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher'
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+import {removeItemFromCart} from 'src/simi/Model/Cart'
+
 class MiniCart extends Component {
     static propTypes = {
         cancelCheckout: func.isRequired,
@@ -87,7 +88,6 @@ class MiniCart extends Component {
 
     get cartCurrencyCode() {
         const { cart } = this.props;
-
         return (
             cart &&
             cart.details &&
@@ -96,8 +96,15 @@ class MiniCart extends Component {
         );
     }
 
+    removeFromCart(item) {
+        if (confirm(Identify.__("Are you sure?")) === true) {
+            // <Loading/>
+            removeItemFromCart(()=>{this.props.getCartDetails()},item.item_id, this.props.isSignedIn)
+        }
+    }
+
     get productList() {
-        const { cart, removeItemFromCart, isOpen, updateItemInCart } = this.props;
+        const { cart, isOpen, updateItemInCart } = this.props;
 
         const { cartCurrencyCode, cartId } = this;
 
@@ -118,7 +125,7 @@ class MiniCart extends Component {
                 if (itemTotal) {
                     const element = <CartItem
                         key={Identify.randomString(5)}
-                        removeFromCart={removeItemFromCart}
+                        removeFromCart={this.removeFromCart.bind(this)}
                         updateCartItem={updateItemInCart}
                         currencyCode={cartCurrencyCode}
                         item={item}
@@ -191,13 +198,16 @@ class MiniCart extends Component {
 
     get giftVoucher() {
         const { cart, toggleMessages, getCartDetails } = this.props;
-        let value = "";
-        if (cart.totals.coupon_code) {
-            value = cart.totals.coupon_code;
+        let giftCode = ''
+        if (cart.totals.total_segments) {
+            if(cart.totals.total_segments[4]){
+                const value = JSON.parse(cart.totals.total_segments[4].extension_attributes.aw_giftcard_codes[0]);
+                giftCode = value.giftcard_code;
+            }
         }
 
         const childCPProps = {
-            value,
+            giftCode,
             toggleMessages,
             getCartDetails,
             cart
@@ -326,12 +336,13 @@ class MiniCart extends Component {
 }
 
 const mapStateToProps = state => {
-    const { cart } = state;
-
+    const { cart, user } = state;
+    const { isSignedIn } = user;
     return {
         cart,
         isCartEmpty: isEmptyCartVisible(state),
-        isMiniCartMaskOpen: isMiniCartMaskOpen(state)
+        isMiniCartMaskOpen: isMiniCartMaskOpen(state),
+        isSignedIn,
     };
 };
 

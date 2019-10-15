@@ -7,11 +7,14 @@ import { Whitebtn } from 'src/simi/BaseComponents/Button'
 import Close from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
 import ArrowDown from 'src/simi/BaseComponents/Icon/TapitaIcons/ArrowDown'
 import ArrowUp from 'src/simi/BaseComponents/Icon/TapitaIcons/ArrowUp'
-require ('./style.scss')
+import Dropdownoption from 'src/simi/BaseComponents/Dropdownoption';
+require ('./giftVoucher.scss')
 
 const GiftVoucher = (props) => {
     const { value, toggleMessages, getCartDetails, cart } = props;
     const [isOpen, setOpen] = useState(false)
+    const storeConfig = Identify.getStoreConfig();
+    const countries = storeConfig.simiStoreConfig.config.allowed_countries;
     let clearVoucher = false;
     const handleVoucher = (type = '') => {
         let voucher = document.querySelector('#voucher_field').value;
@@ -62,7 +65,8 @@ const GiftVoucher = (props) => {
                 }
         </div>
         <div className={`gift-voucher-area-tablet ${isOpen ? 'voucher-open': 'voucher-close'}`}>
-            
+            <div>Enter your destination to get a shipping estimate</div>
+            <Dropdownoption/>
             <input id="voucher_field" type="text" placeholder={Identify.__('enter gift code')} defaultValue={value} />
                     {value && <button className='btn-clear-voucher' onClick={()=>handleVoucher('clear')}>
                         <Close style={{width:15,height:15}}/>
