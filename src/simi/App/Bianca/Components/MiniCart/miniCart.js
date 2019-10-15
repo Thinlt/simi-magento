@@ -1,4 +1,4 @@
-import React, { Component, Fragment, Suspense } from 'react';
+import React, { Component, Fragment } from 'react';
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
 import { bool, func, object, shape, string } from 'prop-types';
@@ -7,29 +7,27 @@ import classify from 'src/classify';
 import {
     getCartDetails,
     updateItemInCart,
-    removeItemFromCart,
     openOptionsDrawer,
-    closeOptionsDrawer
+    closeOptionsDrawer,
 } from 'src/actions/cart';
 import { cancelCheckout } from 'src/actions/checkout';
-import Icon from 'src/components/Icon';
-import CloseIcon from 'react-feather/dist/icons/x';
 import CheckoutButton from 'src/components/Checkout/checkoutButton';
 import EmptyMiniCart from './emptyMiniCart';
 import Mask from './mask';
-import ProductList from './productList';
-import Cart from 'src/simi/App/Bianca/Cart/cart'
-import Trigger from './trigger';
 import defaultClasses from './miniCart.css';
 import { isEmptyCartVisible, isMiniCartMaskOpen } from 'src/selectors/cart';
-import CartOptions from './cartOptions';
-import getProductDetailByName from 'src/queries/getProductDetailByName.graphql';
-import { loadingIndicator } from 'src/components/LoadingIndicator';
-import { Query } from 'react-apollo';
+import Loading from 'src/simi/BaseComponents/Loading';
 import CartItem from '../../Cart/cartItem';
-import Identify from 'src/simi/Helper/Identify'
-
-const Checkout = React.lazy(() => import('src/components/Checkout'));
+import Identify from 'src/simi/Helper/Identify';
+import { closeDrawer } from 'src/actions/app';
+import { Link } from 'react-router-dom'
+import Trigger from './trigger';
+import Icon from 'src/components/Icon';
+import CloseIcon from 'react-feather/dist/icons/x';
+import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon'
+import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher'
+import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+import {removeItemFromCart} from 'src/simi/Model/Cart'
 
 class MiniCart extends Component {
     static propTypes = {
@@ -60,19 +58,26 @@ class MiniCart extends Component {
         updateItemInCart: func,
         openOptionsDrawer: func.isRequired,
         closeOptionsDrawer: func.isRequired,
-        isMiniCartMaskOpen: bool
+        isMiniCartMaskOpen: bool,
+        closeDrawer: func.isRequired
     };
 
     constructor(...args) {
         super(...args);
         this.state = {
-            focusItem: null
+            focusItem: null,
         };
+        this.wrapperMiniCart = React.createRef();
     }
 
     async componentDidMount() {
         const { getCartDetails } = this.props;
         await getCartDetails();
+        document.removeEventListener('click', this.closeDrawer)
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('click', this.closeDrawer)
     }
 
     get cartId() {
@@ -83,7 +88,6 @@ class MiniCart extends Component {
 
     get cartCurrencyCode() {
         const { cart } = this.props;
-
         return (
             cart &&
             cart.details &&
@@ -92,10 +96,17 @@ class MiniCart extends Component {
         );
     }
 
-    get productList() {
-        const { cart, removeItemFromCart } = this.props;
+    removeFromCart(item) {
+        if (confirm(Identify.__("Are you sure?")) === true) {
+            // <Loading/>
+            removeItemFromCart(()=>{this.props.getCartDetails()},item.item_id, this.props.isSignedIn)
+        }
+    }
 
-        const { cartCurrencyCode, cartId, updateItemInCart } = this;
+    get productList() {
+        const { cart, isOpen, updateItemInCart } = this.props;
+
+        const { cartCurrencyCode, cartId } = this;
 
         if (cartId) {
             const obj = [];
@@ -103,7 +114,7 @@ class MiniCart extends Component {
                 const item = cart.details.items[i];
                 let itemTotal = null
                 if (cart.totals && cart.totals.items) {
-                    cart.totals.items.every(function(total) {
+                    cart.totals.items.every(function (total) {
                         if (total.item_id === item.item_id) {
                             itemTotal = total
                             return false
@@ -113,13 +124,14 @@ class MiniCart extends Component {
                 }
                 if (itemTotal) {
                     const element = <CartItem
-                    key={Identify.randomString(5)}
-                    removeFromCart={removeItemFromCart}
-                    updateCartItem={updateItemInCart}
-                    currencyCode={cartCurrencyCode}
-                    item={item}
-                    itemTotal={itemTotal}
-                    handleLink={this.handleLink.bind(this)}
+                        key={Identify.randomString(5)}
+                        removeFromCart={this.removeFromCart.bind(this)}
+                        updateCartItem={updateItemInCart}
+                        currencyCode={cartCurrencyCode}
+                        item={item}
+                        itemTotal={itemTotal}
+                        handleLink={this.handleLink.bind(this)}
+                        isOpen={isOpen}
                     />;
                     obj.push(element);
                 }
@@ -136,26 +148,80 @@ class MiniCart extends Component {
         const { cart, classes } = this.props;
         const { cartCurrencyCode, cartId } = this;
         const hasSubtotal = cartId && cart.totals && 'subtotal' in cart.totals;
-        const itemsQuantity = cart.details.items_qty;
-        const itemQuantityText = itemsQuantity === 1 ? 'item' : 'items';
         const totalPrice = cart.totals.subtotal;
 
         return hasSubtotal ? (
-            <dl className={classes.totals}>
-                <dt className={classes.subtotalLabel}>
-                    <span>
-                        Cart Total :&nbsp;
-                        <Price
-                            currencyCode={cartCurrencyCode}
-                            value={totalPrice}
-                        />
-                    </span>
-                </dt>
-                <dd className={classes.subtotalValue}>
-                    ({itemsQuantity} {itemQuantityText})
-                </dd>
-            </dl>
+            <div className={classes.subtotal}>
+                <div className={classes.subtotalLabel}>Subtotal</div>
+                <div>
+                    <Price
+                        currencyCode={cartCurrencyCode}
+                        value={totalPrice}
+                    />
+                </div>
+            </div>
         ) : null;
+    }
+
+    get grandTotal() {
+        const { cart, classes } = this.props;
+        const { cartCurrencyCode, cartId } = this;
+        const hasGrandtotal = cartId && cart.totals && 'grand_total' in cart.totals;
+        const grandTotal = cart.totals.grand_total
+        return hasGrandtotal ? (
+            <div className={classes.grandTotal}>
+                <div className={classes.grandTotalLabel}>Grand Total</div>
+                <div>
+                    <Price
+                        currencyCode={cartCurrencyCode}
+                        value={grandTotal}
+                    />
+                </div>
+            </div>
+        ) : null
+    }
+
+    get couponCode() {
+        const { cart, toggleMessages, getCartDetails } = this.props;
+        let value = "";
+        if (cart.totals.coupon_code) {
+            value = cart.totals.coupon_code;
+        }
+
+        const childCPProps = {
+            value,
+            toggleMessages,
+            getCartDetails
+        }
+        return <div className={`cart-coupon-form`}><Coupon {...childCPProps} /></div>
+    }
+
+    get giftVoucher() {
+        const { cart, toggleMessages, getCartDetails } = this.props;
+        let giftCode = ''
+        if (cart.totals.total_segments) {
+            if(cart.totals.total_segments[4]){
+                const value = JSON.parse(cart.totals.total_segments[4].extension_attributes.aw_giftcard_codes[0]);
+                giftCode = value.giftcard_code;
+            }
+        }
+
+        const childCPProps = {
+            giftCode,
+            toggleMessages,
+            getCartDetails,
+            cart
+        }
+        return <div className={`cart-voucher-form`}><GiftVoucher {...childCPProps} /></div>
+    }
+
+    get estimateShipAndTax() {
+        const { classes } = this.props;
+        return (
+            <div className={classes.estimateShipAndTax}>
+                {Identify.__("Estimate Shipping and Tax")}
+            </div>
+        )
     }
 
     get placeholderButton() {
@@ -168,61 +234,32 @@ class MiniCart extends Component {
     }
 
     get checkout() {
-        const { props, totalsSummary, placeholderButton } = this;
-        const { classes, cart } = props;
+        const { props, totalsSummary, couponCode, giftVoucher, estimateShipAndTax, grandTotal } = this;
+        const { classes } = props;
 
         return (
-            <div>
-                <div className={classes.summary}>{totalsSummary}</div>
-                <Suspense fallback={placeholderButton}>
-                    <Checkout cart={cart} />
-                </Suspense>
+            <div className={classes.summary}>
+
+                <h2 className={classes.titleSummary}>
+                    <span>
+                        {Identify.__("Summary")}
+                    </span>
+                </h2>
+                {totalsSummary}
+                {couponCode}
+                {giftVoucher}
+                {estimateShipAndTax}
+                {grandTotal}
+
+                <div className={classes.minicartAction}>
+                    <button className={classes.viewCartBtn}>
+                        <Link to="/cart.html">{Identify.__('VIEW & EDIT CART')}</Link>
+                    </button>
+                    <button className={classes.checkoutBtn}>
+                        <Link to="/checkout.html">{Identify.__("PROCEED TO CHECKOUT")}</Link>
+                    </button>
+                </div>
             </div>
-        );
-    }
-
-    get productOptions() {
-        const { props, state, closeOptionsDrawer } = this;
-        const { updateItemInCart, cart } = props;
-        const { focusItem } = state;
-
-        if (focusItem === null) return;
-        const hasOptions = focusItem.options.length !== 0;
-
-        return hasOptions ? (
-            // `Name` is being used here because GraphQL does not allow
-            // filtering products by id, and sku is unreliable without
-            // a reference to the base product. Additionally, `url-key`
-            // cannot be used because we don't have page context in cart.
-            <Query
-                query={getProductDetailByName}
-                variables={{ name: focusItem.name, onServer: false }}
-            >
-                {({ loading, error, data }) => {
-                    if (error) return <div>Data Fetch Error</div>;
-                    if (loading) return loadingIndicator;
-
-                    const itemWithOptions = data.products.items[0];
-
-                    return (
-                        <CartOptions
-                            cartItem={focusItem}
-                            configItem={itemWithOptions}
-                            closeOptionsDrawer={closeOptionsDrawer}
-                            isUpdatingItem={cart.isUpdatingItem}
-                            updateCart={updateItemInCart}
-                        />
-                    );
-                }}
-            </Query>
-        ) : (
-            <CartOptions
-                cartItem={focusItem}
-                configItem={{}}
-                closeOptionsDrawer={closeOptionsDrawer}
-                isUpdatingItem={cart.isUpdatingItem}
-                updateCart={updateItemInCart}
-            />
         );
     }
 
@@ -233,9 +270,15 @@ class MiniCart extends Component {
         this.props.openOptionsDrawer();
     };
 
-    closeOptionsDrawer = () => {
-        this.props.closeOptionsDrawer();
-    };
+    // closeDrawer = () => {
+    //     // const {target} = e;
+
+    //     // if(!this.wrapperMiniCart.current.contains(target)){
+    //     //     this.props.closeDrawer();
+    //     // }
+    //     this.props.closeDrawer();
+    //     // this.handleClick();
+    // };
 
     get miniCartInner() {
         const { checkout, productList, props } = this;
@@ -269,18 +312,23 @@ class MiniCart extends Component {
             isOpen
         } = props;
 
+
         const className = isOpen ? classes.root_open : classes.root;
         const body = isOptionsDrawerOpen ? productOptions : miniCartInner;
         const title = isOptionsDrawerOpen ? 'Edit Cart Item' : 'My Cart';
 
+
         return (
-            <aside className={className}>
+            <aside className={`${className} minicart`}>
                 <div className={classes.header}>
                     <h2 className={classes.title}>
                         <span>{title}</span>
                     </h2>
+                    <Trigger>
+                        <Icon src={CloseIcon} />
+                    </Trigger>
                 </div>
-                {isLoading ? loadingIndicator : body}
+                {isLoading ? <Loading /> : body}
                 <Mask isActive={isMiniCartMaskOpen} dismiss={cancelCheckout} />
             </aside>
         );
@@ -288,12 +336,13 @@ class MiniCart extends Component {
 }
 
 const mapStateToProps = state => {
-    const { cart } = state;
-
+    const { cart, user } = state;
+    const { isSignedIn } = user;
     return {
         cart,
         isCartEmpty: isEmptyCartVisible(state),
-        isMiniCartMaskOpen: isMiniCartMaskOpen(state)
+        isMiniCartMaskOpen: isMiniCartMaskOpen(state),
+        isSignedIn,
     };
 };
 
@@ -303,7 +352,9 @@ const mapDispatchToProps = {
     removeItemFromCart,
     openOptionsDrawer,
     closeOptionsDrawer,
-    cancelCheckout
+    cancelCheckout,
+    closeDrawer,
+    toggleMessages
 };
 
 export default compose(
