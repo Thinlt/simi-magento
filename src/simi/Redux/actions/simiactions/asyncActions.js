@@ -236,8 +236,7 @@ export const submitShippingMethod = payload =>
         try{
             // POST to shipping-information to submit the shipping address and shipping method.
             const guestShippingEndpoint = `/rest/V1/guest-carts/${cartId}/shipping-information`;
-            const authedShippingEndpoint =
-                '/rest/V1/carts/mine/shipping-information';
+            const authedShippingEndpoint = '/rest/V1/carts/mine/shipping-information';
             const shippingEndpoint = isSignedIn
                 ? authedShippingEndpoint
                 : guestShippingEndpoint;
