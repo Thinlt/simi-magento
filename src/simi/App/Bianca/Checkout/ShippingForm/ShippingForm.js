@@ -70,6 +70,11 @@ const ShippingForm = (props) => {
             return response;
         }
         getVendors(vendorIds);
+
+        return () => {
+            const controller = new AbortController();
+            controller.abort(); //cancel requesting
+        }
     }, []);
 
     let selectableShippingMethodsVendorsArray = Object.values(selectableShippingMethodsVendors);
