@@ -252,12 +252,16 @@ class MiniCart extends Component {
                 {grandTotal}
 
                 <div className={classes.minicartAction}>
-                    <button className={classes.viewCartBtn}>
-                        <Link to="/cart.html">{Identify.__('VIEW & EDIT CART')}</Link>
-                    </button>
-                    <button className={classes.checkoutBtn}>
-                        <Link to="/checkout.html">{Identify.__("PROCEED TO CHECKOUT")}</Link>
-                    </button>
+                    <Link to="/cart.html">
+                        <button className={classes.viewCartBtn}>
+                            {Identify.__('VIEW & EDIT CART')}
+                        </button>
+                    </Link>
+                    <Link to="/checkout.html">
+                        <button className={classes.checkoutBtn}>
+                            {Identify.__("PROCEED TO CHECKOUT")}
+                        </button>
+                    </Link>
                 </div>
             </div>
         );

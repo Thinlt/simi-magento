@@ -11,7 +11,8 @@ require ('./style.scss')
 
 const Coupon = (props) => {
     const { value, toggleMessages, getCartDetails } = props;
-    const [isOpen, setOpen] = useState(false)
+    const [isCouponOpen, setOpen] = useState(false)
+    // console.log(isOpen)
     let clearCoupon = false;
     const handleCoupon = (type = '') => {
         let coupon = document.querySelector('#coupon_field').value;
@@ -55,14 +56,14 @@ const Coupon = (props) => {
 
     return (
     <div className='coupon-code'>
-        <div role="button" className="coupon-code-title" tabIndex="0" onClick={() => setOpen(!isOpen)} onKeyDown={() => setOpen(!isOpen)}>
+        <div role="button" className="coupon-code-title" tabIndex="0" onClick={() => setOpen(!isCouponOpen)} onKeyUp={() => setOpen(!isCouponOpen)}>
             {Identify.__('Add a Coupon Code')}
-            {isOpen
+            {isCouponOpen
             ? <ArrowUp/>
             : <ArrowDown/>
             }
         </div>
-        <div className={`coupon-code-area-tablet ${isOpen ? 'coupon-open': 'coupon-close'}`}>
+        <div className={`coupon-code-area-tablet ${isCouponOpen ? 'coupon-open': 'coupon-close'}`}>
             <input id="coupon_field" type="text" placeholder={Identify.__('enter code here')} defaultValue={value} />
             {value && <button className='btn-clear-coupon' onClick={()=>handleCoupon('clear')}>
                         <Close style={{width:15,height:15}}/>
