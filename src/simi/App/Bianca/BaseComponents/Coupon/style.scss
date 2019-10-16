@@ -33,7 +33,6 @@
 }
 .cart-coupon-form .coupon-code-area-tablet {
     margin-top: 8px;
-    display: inline-block;
     position: relative;
     vertical-align: bottom;
 }
@@ -48,9 +47,10 @@
 
 .coupon-code {
     max-width: 444px;
+    margin-left: unset !important;
     margin-top: 20px;
     .coupon-close{
-        display: none;
+        display: none !important;
     }
 }
 
