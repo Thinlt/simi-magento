@@ -26,4 +26,10 @@
             <resource ref="anonymous"/>
         </resources>
     </route>
+    <route url="/V1/simiconnector/vendors" method="POST">
+        <service class="Simi\VendorMapping\Api\VendorListInterface" method="getVendorList"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
 </routes>

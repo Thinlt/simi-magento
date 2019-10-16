@@ -47,6 +47,13 @@ class VendorList implements VendorListInterface
         $vendors = [];
         $this->_buildLimit();
         $vendorIds = $this->_request->getParam(self::VENDOR_IDS);
+        $postData = $this->_request->getContent();
+        if ($postData) {
+            $postData = json_decode($postData, true);
+            if (isset($postData[self::VENDOR_IDS]) && $postData[self::VENDOR_IDS]) {
+                $vendorIds = $postData[self::VENDOR_IDS];
+            }
+        }
         if ($this->_collection) {
             if ($vendorIds) {
                 $vendor_ids = explode(',', $vendorIds);
@@ -67,6 +74,10 @@ class VendorList implements VendorListInterface
     protected function _buildLimit(){
         if ($this->_collection) {
             $parameters = $this->_request->getParams();
+            $postContent = $this->_request->getContent();
+            if ($postContent) {
+                $parameters = json_decode($postContent, true);
+            }
             $page       = 1;
             if (isset($parameters[self::PAGE]) && $parameters[self::PAGE]) {
                 $page = $parameters[self::PAGE];
