@@ -200,9 +200,16 @@ class MiniCart extends Component {
         const { cart, toggleMessages, getCartDetails } = this.props;
         let giftCode = ''
         if (cart.totals.total_segments) {
-            if(cart.totals.total_segments[4]){
-                const value = JSON.parse(cart.totals.total_segments[4].extension_attributes.aw_giftcard_codes[0]);
-                giftCode = value.giftcard_code;
+            let segment = cart.totals.total_segments.find((item) => {
+                if (item.extension_attributes && item.extension_attributes.aw_giftcard_codes) return true;
+                return false;
+            });
+            if (segment) {
+                let aw_giftcard_codes = segment.extension_attributes.aw_giftcard_codes[0] ? segment.extension_attributes.aw_giftcard_codes[0] : '';
+                if(aw_giftcard_codes){
+                    const value = JSON.parse(aw_giftcard_codes);
+                    giftCode = value.giftcard_code;
+                }
             }
         }
 

@@ -185,7 +185,7 @@ const ShippingForm = (props) => {
                             vendorId = methods[1].value.split('||')[1] ? methods[1].value.split('||')[1] : 0;
                             selectedValue = selectedMethods[vendorId] ? selectedMethods[vendorId] : ''
                         }
-                        const vendor = vendors.find(({entity_id}) => parseInt(entity_id) === parseInt(vendorId));
+                        const vendor = vendors && vendors.find(({entity_id}) => parseInt(entity_id) === parseInt(vendorId));
                         const vendorName = vendor ? (vendor.firstname + (vendor.lastname ? ` ${vendor.lastname}` : '')) : Identify.__('Default');
                         return <div key={key}>
                             <span>{vendorName}</span>
