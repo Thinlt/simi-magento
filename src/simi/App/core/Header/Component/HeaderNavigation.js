@@ -95,6 +95,7 @@ class Navigation extends React.Component{
             const storeConfig = Identify.getStoreConfig();
             if (storeConfig && storeConfig.simiRootCate && storeConfig.simiRootCate.children) {
                 const rootCateChildren  = storeConfig.simiRootCate.children
+                rootCateChildren.sort((a, b)=> parseFloat(a.position) - parseFloat(b.position))
                 menuItems = rootCateChildren.map((item, index) => {
                     if (!item.name)
                         return ''
