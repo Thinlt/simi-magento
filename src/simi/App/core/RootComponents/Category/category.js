@@ -64,10 +64,12 @@ const Category = props => {
                         data.products.filters = data.products.simi_filters
                 }
                 const categoryTitle = data && data.category ? data.category.name : '';
+                let urlTillHere = ''
                 const breadcrumb = [{name: "Home", link: '/'}];
                 if(data && data.category && data.category.breadcrumbs instanceof Array) {
                     data.category.breadcrumbs.forEach(item => {
-                        breadcrumb.push({name: item.category_name, link: '/' + item.category_url_key + cateUrlSuffix()})
+                        urlTillHere += '/' + item.category_url_key 
+                        breadcrumb.push({name: item.category_name, link: urlTillHere + cateUrlSuffix()})
                     })
                 }
                 breadcrumb.push({name: data.category.name})
@@ -75,7 +77,7 @@ const Category = props => {
 
                 return (
                     <div className="container">
-                        <BreadCrumb breadcrumb={breadcrumb} history={props.history}/>
+                        <BreadCrumb breadcrumb={breadcrumb}/>
                         {TitleHelper.renderMetaHeader({
                             title: data.category.meta_title?data.category.meta_title:data.category.name,
                             desc: data.category.meta_description

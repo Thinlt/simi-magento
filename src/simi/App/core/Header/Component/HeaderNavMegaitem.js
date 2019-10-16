@@ -9,7 +9,7 @@ const NavMegaitem = props => {
         if (rootItem.children) {
             rootItem.children.sort((a, b)=> parseFloat(a.position) - parseFloat(b.position))
             const childCats = rootItem.children.map((item, index) => {
-                if (!item.name)
+                if (!item.name || !item.include_in_menu)
                     return ''
                 let subChildLevel2 = []
                 if (item.children) {

@@ -97,7 +97,7 @@ class Navigation extends React.Component{
                 const rootCateChildren  = storeConfig.simiRootCate.children
                 rootCateChildren.sort((a, b)=> parseFloat(a.position) - parseFloat(b.position))
                 menuItems = rootCateChildren.map((item, index) => {
-                    if (!item.name)
+                    if (!item.name || !item.include_in_menu)
                         return ''
                     if (item.children && item.children.length > 0) {
                         const location = {
