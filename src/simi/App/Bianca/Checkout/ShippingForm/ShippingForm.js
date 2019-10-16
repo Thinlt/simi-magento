@@ -1,15 +1,16 @@
-import React, { useCallback } from 'react';
-import { Form } from 'informed';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
+// import { Form } from 'informed';
 import { array, func, shape, string } from 'prop-types';
 import { formatLabelPrice } from 'src/simi/Helper/Pricing';
 import Identify from 'src/simi/Helper/Identify';
 import FieldShippingMethod from 'src/simi/App/Bianca/Checkout/components/fieldShippingMethod';
 import Loading from 'src/simi/BaseComponents/Loading/ReactLoading';
+import { request } from 'src/simi/Network/RestMagento';
 require('./ShippingForm.scss')
 
 const SHIPPING_METHOD_SELECTED = 'shipping_method_selected';
 
-const ShippingForm = props => {
+const ShippingForm = (props) => {
     const {
         availableShippingMethods,
         cancel,
@@ -20,6 +21,8 @@ const ShippingForm = props => {
     let initialValue = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, SHIPPING_METHOD_SELECTED);
     let selectableShippingMethods;
     let selectableShippingMethodsVendors = {};
+    let vendorIds = [];
+    let [vendors, setVendors] = useState([]); // vendor list
 
     const defaultMethod = { value: '', label: Identify.__('Please choose') }
 
@@ -33,6 +36,7 @@ const ShippingForm = props => {
                 if (method_code) {
                     let rateVendorId = method_code.split('||');
                     if (rateVendorId[1] !== undefined){
+                        if (vendorIds.indexOf(rateVendorId[1]) === -1) vendorIds.push(rateVendorId[1]);
                         if (selectableShippingMethodsVendors[rateVendorId[1]] == undefined)
                             selectableShippingMethodsVendors[rateVendorId[1]] = [];
                         selectableShippingMethodsVendors[rateVendorId[1]].push({
@@ -52,6 +56,21 @@ const ShippingForm = props => {
         // initialValue = '';
         return <Loading />
     }
+
+    useEffect(() => {
+        async function getVendors(vendorIds) {
+            const vendorApi = '/rest/V1/simiconnector/vendors';
+            const response = await request(vendorApi, {
+                method: 'POST',
+                body: JSON.stringify({
+                    ids: vendorIds.join(',')
+                })
+            });
+            setVendors(response);
+            return response;
+        }
+        getVendors(vendorIds);
+    }, []);
 
     let selectableShippingMethodsVendorsArray = Object.values(selectableShippingMethodsVendors);
 
@@ -149,22 +168,28 @@ const ShippingForm = props => {
     }
 
     return (
-        <form className="root">
-            <div className="body">
+        <form className="shipping-form">
+            <div className="shipping-body">
                 {
                     selectableShippingMethodsVendorsArray.map((methods, key) => {
                         methods.sort((a, b) => (a.order > b.order) ? 1 : -1); //sort
                         methods.unshift(defaultMethod);
                         let selectedValue = '';
+                        let vendorId;
                         if (methods[1]) {
-                            let vendorId = methods[1].value.split('||')[1] ? methods[1].value.split('||')[1] : 0;
+                            vendorId = methods[1].value.split('||')[1] ? methods[1].value.split('||')[1] : 0;
                             selectedValue = selectedMethods[vendorId] ? selectedMethods[vendorId] : ''
                         }
-                        return <FieldShippingMethod 
-                            handleSelect={(selectedMethod) => handleSubmit(selectedMethod)} 
-                            initialValue={selectedValue}
-                            selectableShippingMethods={methods} 
-                            {...childFieldProps} key={key}/>
+                        const vendor = vendors.find(({entity_id}) => parseInt(entity_id) === parseInt(vendorId));
+                        const vendorName = vendor ? (vendor.firstname + (vendor.lastname ? ` ${vendor.lastname}` : '')) : Identify.__('Default');
+                        return <div key={key}>
+                            <span>{vendorName}</span>
+                            <FieldShippingMethod 
+                                handleSelect={(selectedMethod) => handleSubmit(selectedMethod)} 
+                                initialValue={selectedValue}
+                                selectableShippingMethods={methods} 
+                                {...childFieldProps} />
+                        </div>
                     })
                 }
             </div>
