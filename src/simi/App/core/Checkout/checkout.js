@@ -139,7 +139,7 @@ class Checkout extends Component {
     }
 
     isCheckoutReady = checkout => {
-        const { billingAddress, paymentData, shippingAddress, shippingMethod } = checkout;
+        const { billingAddress, paymentData, shippingAddress, shippingMethod, availableShippingMethods } = checkout;
         const {is_virtual} = this
         const objectsToCheck = [
             billingAddress,

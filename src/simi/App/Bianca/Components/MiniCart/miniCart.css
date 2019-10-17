@@ -1,0 +1,145 @@
+.root {
+    --base-z-index: 4;
+    --minicart-height: 100vh;
+    --minicart-header-height: 3.5rem;
+    align-content: start;
+    background-color: white;
+    bottom: 0;
+    box-shadow: -1px 0 rgb(var(--venia-border));
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    height: var(--minicart-height);
+    opacity: 0;
+    overflow: hidden;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transform: translate3d(100%, 0, 0);
+    transition-duration: 192ms;
+    transition-property: opacity, transform, visibility;
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+    visibility: hidden;
+    width: 100%;
+    max-width: 614px;
+    z-index: 50;
+}
+
+/* state: open */
+
+.root_open {
+    composes: root;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition-duration: 224ms;
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    visibility: visible;
+}
+
+.body {
+    overflow: auto;
+}
+
+.titleSummary{
+    margin-top: 32px;
+    font-size: 16px
+}
+
+.footer {
+    --minicart-footer-padding-top: 1.5rem;
+    --minicart-footer-padding-bottom: 0.5rem;
+    background-color: #E4E4E4;
+}
+
+.summary{
+    margin: 0 40px;
+}
+
+.footerMaskOpen {
+    composes: footer;
+    z-index: 3;
+}
+
+.header {
+    align-content: center;
+    align-items: center;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr;
+    padding: 0 57px;
+    margin: 40px 0 51px;
+}
+
+.subtotalLabel {
+    font-size: 16px;
+}
+
+.subtotal {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+}
+
+.grandTotalLabel{
+    font-size: 24px;
+    text-transform: uppercase
+}
+
+.grandTotal{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+}
+
+.title {
+    align-items: center;
+    display: inline-flex;
+    font-size: 24px;
+    font-weight: 500;
+    margin-right: auto;
+    padding: 0;
+    text-transform: uppercase;
+    font-family: Gotham;
+}
+
+.totals {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.placeholderButton {
+    text-align: center;
+    margin: 1.5rem 0 1rem 0;
+}
+
+.addCoupon{
+    margin-top: 28px;
+}
+
+.giftVoucher{
+    margin-top: 28px;
+}
+
+.estimateShipAndTax{
+    margin-top: 28px;
+}
+
+.minicartAction{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 52px;
+    margin-bottom: 50px;
+}
+
+.viewCartBtn{
+    padding: 16px 47.5px;
+    background-color: #F2F2F2;
+}
+
+.checkoutBtn{
+    padding: 16px 22px;
+    border: 1px solid #101820;
+    background-color: #101820;
+    color: #FFF
+}

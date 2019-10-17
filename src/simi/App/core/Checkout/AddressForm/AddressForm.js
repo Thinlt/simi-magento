@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { array, bool, func, object, shape, string } from 'prop-types';
 
 import isObjectEmpty from 'src/util/isObjectEmpty';
-import FormFields from '../components/formFields';
+import FormFields from 'src/simi/App/Bianca/Checkout/components/formFields';
 import Identify from 'src/simi/Helper/Identify';
 import { smoothScrollToView } from 'src/simi/Helper/Behavior';
 

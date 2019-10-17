@@ -84,8 +84,7 @@ export const submitShippingAddress = payload =>
         dispatch(checkoutActions.shippingAddress.accept(address));
 
         const guestEndpoint = `/rest/V1/guest-carts/${cartId}/estimate-shipping-methods`;
-        const authedEndpoint =
-            '/rest/V1/carts/mine/estimate-shipping-methods';
+        const authedEndpoint = '/rest/V1/carts/mine/estimate-shipping-methods';
         const endpoint = user.isSignedIn ? authedEndpoint : guestEndpoint;
         const response = await request(endpoint, {
             method: 'POST',
@@ -236,8 +235,7 @@ export const submitShippingMethod = payload =>
         try{
             // POST to shipping-information to submit the shipping address and shipping method.
             const guestShippingEndpoint = `/rest/V1/guest-carts/${cartId}/shipping-information`;
-            const authedShippingEndpoint =
-                '/rest/V1/carts/mine/shipping-information';
+            const authedShippingEndpoint = '/rest/V1/carts/mine/shipping-information';
             const shippingEndpoint = isSignedIn
                 ? authedShippingEndpoint
                 : guestShippingEndpoint;

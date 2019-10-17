@@ -60,7 +60,6 @@ class DateField extends Abstract {
     renderDate = ()=> {
         const {date} = this.state
         const text = Identify.isRtl() ? 'yyyy/mm/dd' : 'dd/mm/yyyy';
-        const dateClassName = classes['date-picker-ctn'] ? classes['date-picker-ctn'] : '';
         return (
             <div className={'date-picker-ctn' + ' '+this.props.className}>
                 <MuiThemeProvider muiTheme={muiTheme}>

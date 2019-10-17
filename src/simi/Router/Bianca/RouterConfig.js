@@ -17,12 +17,16 @@ const Login = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Login"*/'src/simi/App/Bianca/Customer/Login')} {...props}/>
 }
 
+const Logout = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Logout"*/'src/simi/App/Bianca/Customer/Logout')} {...props}/>
+}
+
 const Account = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Account"*/'src/simi/App/core/Customer/Account')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "Account"*/'src/simi/App/Bianca/Customer/Account')} {...props}/>
 }
 
 const Cart = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Cart"*/'src/simi/App/core/Cart')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "Cart"*/'src/simi/App/Bianca/Cart')} {...props}/>
 }
 
 const Contact = (props) => {
@@ -37,16 +41,12 @@ const Search = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Search"*/'src/simi/App/core/RootComponents/Search')} {...props}/>
 }
 
-const Logout = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Logout"*/'src/simi/App/core/Customer/Logout')} {...props}/>
-}
-
 const PaypalExpress = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "PaypalExpress"*/'src/simi/App/core/Payment/Paypalexpress')} {...props}/>
 }
 
 const NoMatch = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/Bianca/NoMatch')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/core/NoMatch')} {...props}/>
 }
 
 
