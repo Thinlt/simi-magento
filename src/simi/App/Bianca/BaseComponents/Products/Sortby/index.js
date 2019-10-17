@@ -4,10 +4,11 @@ import Check from 'src/simi/BaseComponents/Icon/TapitaIcons/SingleSelect';
 import {configColor} from "src/simi/Config";
 import Dropdownoption from 'src/simi/BaseComponents/Dropdownoption/'
 import { withRouter } from 'react-router-dom';
+import ListItemNested from 'src/simi/App/Bianca/BaseComponents/MuiListItem/Nested';
 
 
 const Sortby = props => {
-    const { history, location, sortByData } = props;
+    const { data, history, location, sortByData } = props;
     const { search } = location;
     let dropdownItem = null
 
@@ -20,12 +21,20 @@ const Sortby = props => {
             history.push({ search: queryParams.toString() });
         }
     }
+    let itemCount = ''
+    if(data && data.products && data.products.total_count){
+        const text = data.products.total_count > 1 ? Identify.__('%t product(s)') : Identify.__('%t product');
+        itemCount = <div className="items-count">
+                {text
+                    .replace('%t', data.products.total_count)}
+            </div>;
+    }
 
     parent = props.parent
     let selections = []
     const orders = [
-        {"key":"name","value":"Product Name","direction":"asc"},
-        {"key":"name","value":"Product Name","direction":"desc"},
+        {"key":"name","value":"Name","direction":"asc"},
+        {"key":"name","value":"Name","direction":"desc"},
         {"key":"price","value":"Price","direction":"asc"},
         {"key":"price","value":"Price","direction":"desc"},
     ];
@@ -65,6 +74,7 @@ const Sortby = props => {
             {
                 selections.length === 0 ?
                 <span></span> : 
+                <React.Fragment>
                 <div className="sort-by-select">
                     <Dropdownoption 
                         title={sortByTitle}
@@ -73,6 +83,8 @@ const Sortby = props => {
                         {selections}
                     </Dropdownoption>
                 </div>
+                {itemCount}
+                </React.Fragment>
             }
         </div>
     )

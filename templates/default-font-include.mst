@@ -50,4 +50,28 @@
     font-weight:400;
     font-style:normal;
   }
+  /* Simple-Line-Icons */
+  @font-face {
+	font-family:Simple-Line-Icons;
+    src:url(https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/fonts/Simple-Line-Icons.eot);
+    src:url(https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/fonts/Simple-Line-Icons.eot?#iefix) format('embedded-opentype'),
+        url(https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/fonts/Simple-Line-Icons.woff2) format('woff2'),
+        url(https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/fonts/Simple-Line-Icons.ttf) format('truetype'),
+        url(https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/fonts/Simple-Line-Icons.woff) format('woff'),
+        url(https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/fonts/Simple-Line-Icons.svg) format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+  /*Material Design Iconic Font*/
+    @font-face {
+	font-family:Material-Design-Iconic-Font;
+    src:url(https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/fonts/Material-Design-Iconic-Font.eot);
+    src:url(https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/fonts/Material-Design-Iconic-Font.eot?#iefix) format('embedded-opentype'),
+        url(https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/fonts/Material-Design-Iconic-Font.woff2) format('woff2'),
+        url(https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/fonts/Material-Design-Iconic-Font.ttf) format('truetype'),
+        url(https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/fonts/Material-Design-Iconic-Font.woff) format('woff'),
+        url(https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/fonts/Material-Design-Iconic-Font.svg) format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
 </style>

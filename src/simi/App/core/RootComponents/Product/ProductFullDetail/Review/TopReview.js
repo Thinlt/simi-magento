@@ -10,7 +10,7 @@ const TopReview = props => {
         <div className="review-rate">
             <StaticRate rate={app_reviews.rate}/>
             <span className="review-count">
-                ({app_reviews.number} {(app_reviews.number)?Identify.__('Reviews'):Identify.__('Review')})
+                {app_reviews.number} {(app_reviews.number)?Identify.__('reviews'):Identify.__('review')}
             </span>
         </div>
     )

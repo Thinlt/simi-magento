@@ -28,6 +28,8 @@ const Product = props => {
 
     const sku = Identify.findGetParameter('sku') //cases with url like: product.html?sku=ab12
     const productQuery = sku?connectorGetProductDetailBySku:connectorGetProductDetailByUrl
+    // console.log(productQuery);
+    // console.log(getUrlKey());
     const variables = {onServer: false}
     if (sku)
         variables.sku = sku
@@ -41,6 +43,7 @@ const Product = props => {
             fetchPolicy="no-cache" //cannot save to cache cause of "heuristic fragment matching" from ConfigurableProduct and GroupedProduct
         >
             {({ error, data }) => {
+                console.log(data)
                 if (error) return <div>{Identify.__('Data Fetch Error')}</div>;
                 let product = null
                 

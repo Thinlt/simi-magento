@@ -1,9 +1,17 @@
  import React from 'react';
  import PropTypes from 'prop-types';
+ require ('./index.scss')
  
  const $ = window.$
 class SocialShare extends React.PureComponent{
+    constructor(props) {
+        super(props);
+        this.state = {
+            reRenderSuccess : "not-render-yet"
+        }
+    }
     componentDidMount(){
+        let renderStatus = this.state.reRenderSuccess
         let url = this.props.sharingUrl?this.props.sharingUrl:document.URL
         if(url.indexOf('?id') === -1 && this.props.id){
         url = url + '?id='+this.props.id;
@@ -23,12 +31,47 @@ class SocialShare extends React.PureComponent{
             })
         })
     }
+
+    updateDesign(){
+        $('.social-share .at-share-btn-elements .at-icon-wrapper span.at-icon-wrapper svg').css("display", "none")
+        $('.social-share .at-share-btn-elements a.at-svc-facebook span.at-icon-wrapper').append(
+            '<div class="fb"><span class="share-facebook" aria-hidden="true"></span></div>'
+        )
+        $('.social-share .at-share-btn-elements a.at-svc-twitter span.at-icon-wrapper').append(
+            '<div class="twitter"><span class="share-twitter" aria-hidden="true"></span></div>'
+        )
+        $('.social-share .at-share-btn-elements a.at-svc-google span.at-icon-wrapper').append(
+            '<div class="google"><span class="share-google" aria-hidden="true"></span></div>'
+        )
+        $('.social-share .at-share-btn-elements a.at-svc-linkedin span.at-icon-wrapper').append(
+            '<div class="linkedin"><span class="share-linkedin" aria-hidden="true"></span></div>'
+        )
+    }
+
     renderJS(){
+        var self = this
         $.ajax({
             method: "GET",
             cache: false,
-            url: "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5a4f1df88e0b979a",
-            dataType: "script"
+            url: "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5da533f6b678dc11",
+            dataType: "script",
+            start_time: new Date().getTime(),
+            success: function(res){
+                //   wait ajax return response success 
+                    var along = new Date().getTime() - this.start_time
+                    let count = 0;
+                //    console.log(('This request took '+along+' ms'));
+                    setTimeout(
+                    function (data) {
+                        count++;
+                        // change state to re-render and update our customize design
+                        self.setState({reRenderSuccess: "already-re-rendered"})
+                        if (count===1){
+                            // only update design 1 time
+                            self.updateDesign()
+                        }
+                    },along);
+            }
         });
     }
  

@@ -5,6 +5,7 @@ import Sortby from './Sortby'
 import Filter from './Filter'
 import Pagination from 'src/simi/App/Bianca/BaseComponents/Pagination'
 import Loading from 'src/simi/BaseComponents/Loading'
+import {Carousel} from 'react-responsive-carousel';
 require('./products.scss')
 
 class Products extends React.Component {
@@ -12,7 +13,6 @@ class Products extends React.Component {
     renderFilter() {
         const {props} = this
         const { data, filterData } = props;
-        // console.log(data);
         if (data && data.products &&
             data.products.filters) {
             return (
@@ -81,7 +81,7 @@ class Products extends React.Component {
                         itemCount={data.products.total_count}
                         limit={pageSize}
                         currentPage={currentPage}
-                        itemsPerPageOptions={[12, 24, 36, 48, 60]}
+                        itemsPerPageOptions={[9, 18, 27, 36, 45]}
                         showInfoItem={false}
                         ref={(page) => {this.pagination = page}}/>
                 </div>
@@ -89,18 +89,22 @@ class Products extends React.Component {
         )
     }
 
+    renderRecentViewedProduct = () => {
+        return(
+            <div>
+
+            </div>
+        )
+    }
+
+    openProductDetail = (item) => {
+        console.log('click');
+    }
+
     render() {
         const {props} = this
         const { data, title } = props;
-        let itemCount = ''
         let descriptionArea = ''
-        if(data && data.products && data.products.total_count){
-            const text = data.products.total_count > 1 ? Identify.__('%t items') : Identify.__('%t item');
-            itemCount = <div className="items-count">
-                    {text
-                        .replace('%t', data.products.total_count)}
-                </div>;
-        }
         if(data&& data.category && data.category.description){
             const description = data.category.description ? Identify.__('%t') : Identify.__('%t')
             descriptionArea = <div className="description">
@@ -116,11 +120,28 @@ class Products extends React.Component {
                 <h2 className="description-area">
                     {descriptionArea}
                 </h2>
-                {/* {itemCount} */}
                 <div className="product-list-container-siminia">
                     {this.renderLeftNavigation()}
-                    <div style={{display: 'inline-block', width: '100%'}}>
+                    <div className="listing-product">
                         {this.renderList()}
+                    </div>
+                </div>
+                <div className="recent-viewed-product">
+                    <div className="recent-viewed-title">
+                        {Identify.__('Recently Viewed Products')}
+                    </div>
+                    <div className="recent-viewed-slide">
+                        <Carousel 
+                            key={Identify.randomString(5)}
+                            showArrows={true}  
+                            showThumbs={false}
+                            showIndicators={true}
+                            onClickItem={(e) => this.openProductDetail(e)}
+                            infiniteLoop={true}
+                            autoPlay={true}
+                        >
+                            {this.renderRecentViewedProduct()}
+                        </Carousel>
                     </div>
                 </div>
             </article>
