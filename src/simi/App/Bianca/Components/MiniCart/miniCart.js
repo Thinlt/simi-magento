@@ -10,6 +10,11 @@ import {
     openOptionsDrawer,
     closeOptionsDrawer,
 } from 'src/actions/cart';
+import {
+    submitShippingMethod,
+    editOrder,
+    getShippingMethods
+} from 'src/actions/checkout'
 import { cancelCheckout } from 'src/actions/checkout';
 import CheckoutButton from 'src/components/Checkout/checkoutButton';
 import EmptyMiniCart from './emptyMiniCart';
@@ -27,8 +32,8 @@ import CloseIcon from 'react-feather/dist/icons/x';
 import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon'
 import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher'
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
-import {removeItemFromCart} from 'src/simi/Model/Cart'
-
+import {removeItemFromCart} from 'src/simi/Model/Cart';
+import Estimate from 'src/simi/App/Bianca/Cart/Components/Estimate'
 class MiniCart extends Component {
     static propTypes = {
         cancelCheckout: func.isRequired,
@@ -71,13 +76,9 @@ class MiniCart extends Component {
     }
 
     async componentDidMount() {
-        const { getCartDetails } = this.props;
+        const { getCartDetails, getShippingMethods } = this.props;
         await getCartDetails();
-        document.removeEventListener('click', this.closeDrawer)
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener('click', this.closeDrawer)
+        await getShippingMethods();
     }
 
     get cartId() {
@@ -223,12 +224,17 @@ class MiniCart extends Component {
     }
 
     get estimateShipAndTax() {
-        const { classes } = this.props;
-        return (
-            <div className={classes.estimateShipAndTax}>
-                {Identify.__("Estimate Shipping and Tax")}
-            </div>
-        )
+        const { cart, toggleMessages, getCartDetails, submitShippingMethod, editOrder, availableShippingMethods,getShippingMethods } = this.props;
+        const childCPProps = {
+            toggleMessages,
+            getCartDetails,
+            cart,
+            submitShippingMethod,
+            editOrder,
+            availableShippingMethods,
+            getShippingMethods
+        }
+        return <div className={`estimate-form`}><Estimate {...childCPProps} /></div>
     }
 
     get placeholderButton() {
@@ -347,13 +353,15 @@ class MiniCart extends Component {
 }
 
 const mapStateToProps = state => {
-    const { cart, user } = state;
+    const { cart, user, checkout } = state;
     const { isSignedIn } = user;
+    const { availableShippingMethods } = checkout
     return {
         cart,
         isCartEmpty: isEmptyCartVisible(state),
         isMiniCartMaskOpen: isMiniCartMaskOpen(state),
         isSignedIn,
+        availableShippingMethods
     };
 };
 
@@ -365,7 +373,10 @@ const mapDispatchToProps = {
     closeOptionsDrawer,
     cancelCheckout,
     closeDrawer,
-    toggleMessages
+    toggleMessages,
+    submitShippingMethod,
+    editOrder,
+    getShippingMethods
 };
 
 export default compose(

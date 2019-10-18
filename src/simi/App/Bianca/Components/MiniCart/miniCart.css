@@ -1,6 +1,6 @@
 .root {
     --base-z-index: 4;
-    --minicart-height: 100vh;
+    /* --minicart-height: 100vh; */
     --minicart-header-height: 3.5rem;
     align-content: start;
     background-color: white;
@@ -8,7 +8,7 @@
     box-shadow: -1px 0 rgb(var(--venia-border));
     display: grid;
     grid-template-rows: min-content 1fr;
-    height: var(--minicart-height);
+    /* height: var(--minicart-height); */
     opacity: 0;
     overflow: hidden;
     position: fixed;
@@ -48,6 +48,7 @@
     --minicart-footer-padding-top: 1.5rem;
     --minicart-footer-padding-bottom: 0.5rem;
     background-color: #E4E4E4;
+    overflow: auto;
 }
 
 .summary{
