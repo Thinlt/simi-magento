@@ -37,7 +37,7 @@ class CateTree extends React.Component {
         const {classes} = this.props
         if (data) {
             const obj =this;
-            data.children.sort((a, b)=> parseFloat(a.position) - parseFloat(b.position))
+            data.children.sort((a, b)=> a.position - b.position)
             const categories = data.children.map(function (item,key) {
                 if (!item.name || !item.include_in_menu)
                     return ''
