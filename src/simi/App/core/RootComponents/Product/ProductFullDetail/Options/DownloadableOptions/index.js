@@ -1,6 +1,7 @@
 import React from 'react';
 import OptionBase from '../OptionBase'
 import Checkbox from '../OptionType/Checkbox';
+import ReactHTMLParse from 'react-html-parser';
 
 require('./downloadableoptions.scss')
 
@@ -64,7 +65,7 @@ class DownloadableOptions extends OptionBase {
                     { 
                         links_purchased_separately ?
                         <Checkbox id={id} title={item.title} value={item.id} parent={this} item={item}/> :
-                        item.title
+                        ReactHTMLParse(item.title)
                     }
                 </div>
             );
@@ -113,13 +114,6 @@ class DownloadableOptions extends OptionBase {
         this.parentObj.Price.setDownloadableOptionPrice(exclT, inclT);
     }
 
-    getParams = ()=>{
-        this.selected = this.selected[0];
-        this.setParamOption('links');
-        return this.params;
-    };
-
-
     checkOptionRequired =(selected = this.selected,required=this.required)=>{
         let check = true;
         for (const i in required){
@@ -134,7 +128,7 @@ class DownloadableOptions extends OptionBase {
 
     getParams = ()=>{
         if(!this.checkOptionRequired()) return false;
-            this.selected = this.selected?this.selected[0]:{};
+        this.selected = (this.selected && this.selected[0])?this.selected[0]:{};
         this.setParamOption('links');
         return this.params;
     };

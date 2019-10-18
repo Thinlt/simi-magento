@@ -279,8 +279,8 @@ class ProductFullDetail extends Component {
                 </div>
                 <div className="image-carousel">
                     <ProductImage 
-                        optionCodes={optionCodes} 
-                        optionSelections={optionSelections} 
+                        optionCodes={optionCodes}
+                        optionSelections={optionSelections}
                         product={product}
                     />
                 </div>
@@ -292,7 +292,7 @@ class ProductFullDetail extends Component {
                     <div className="product-price">
                         <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections}/>
                     </div>
-                    <div className="product-short-desc">{ReactHTMLParse(ReactHTMLParse(short_desc))}</div>
+                    <div className="product-short-desc">{ReactHTMLParse(short_desc)}</div>
                     <div className="options">{productOptions}</div>
                     <div className="cart-actions">
                         {
