@@ -7,7 +7,9 @@ export const Checkbox = (props) => {
             {...props}
             className={`checkbox-item ${props.className} ${props.selected?'selected':''}`}
         >
-            <div className="checkbox-item-icon" />
+            <div className="checkbox-item-icon">
+                <div className={`${props.selected?'selected':''}`}></div>
+            </div>
             <span className="checkbox-item-text">
                 {props.label}
             </span>
