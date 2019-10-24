@@ -64,7 +64,7 @@ const Coupon = (props) => {
             }
         </div>
         <div className={`coupon-code-area-tablet ${isCouponOpen ? 'coupon-open': 'coupon-close'}`}>
-            <input id="coupon_field" type="text" placeholder={Identify.__('enter code here')} defaultValue={value} />
+            <input id="coupon_field" type="text" placeholder={Identify.__('Coupon Code')} defaultValue={value} />
             {value && <button className='btn-clear-coupon' onClick={()=>handleCoupon('clear')}>
                         <Close style={{width:15,height:15}}/>
                     </button>   }

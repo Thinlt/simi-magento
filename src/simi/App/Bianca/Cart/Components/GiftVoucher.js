@@ -65,7 +65,7 @@ const GiftVoucher = (props) => {
                 }
         </div>
         <div className={`gift-voucher-area-tablet ${isOpen ? 'voucher-open': 'voucher-close'}`}>
-            <input id="voucher_field" type="text" placeholder={Identify.__('enter gift code')} defaultValue={giftCode} />
+            <input id="voucher_field" type="text" placeholder={Identify.__('Enter Gift Code')} defaultValue={giftCode} />
                     {giftCode && <button className='btn-clear-voucher' onClick={()=>deleteVoucher()}>
                         <Close style={{width:15,height:15}}/>
                     </button>   }

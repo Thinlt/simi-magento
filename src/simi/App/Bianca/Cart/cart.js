@@ -11,8 +11,7 @@ import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
 import Loading from 'src/simi/BaseComponents/Loading'
 
 import Identify from 'src/simi/Helper/Identify'
-import Arrowup from 'src/simi/BaseComponents/Icon/Arrowup'
-import Basket from 'src/simi/BaseComponents/Icon/Basket'
+// import CartItem from 'src/simi/App/core/Cart/cartItem'
 import CartItem from './cartItem'
 import Total from 'src/simi/BaseComponents/Total'
 import {Colorbtn, Whitebtn} from 'src/simi/BaseComponents/Button'
@@ -21,10 +20,11 @@ import TitleHelper from 'src/simi/Helper/TitleHelper'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import {removeItemFromCart} from 'src/simi/Model/Cart'
-import Coupon from 'src/simi/BaseComponents/Coupon'
+import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon'
+import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher'
+import Estimate from 'src/simi/App/Bianca/Cart/Components/Estimate'
+
 require('./cart.scss')
-
-
 
 class Cart extends Component {
     constructor(...args) {
@@ -79,11 +79,11 @@ class Cart extends Component {
             const obj = [];
             obj.push(
                 <div key={Identify.randomString(5)} className='cart-item-header'>
-                    <div style={{width: '60%', borderRight: 'solid #DCDCDC 1px'}}>{Identify.__('Items')}</div>
-                    <div style={{width: '11%', borderRight: 'solid #DCDCDC 1px', textAlign: 'center'}}>{Identify.__('Unit Price')}</div>
-                    <div style={{width: '11%', borderRight: 'solid #DCDCDC 1px', textAlign: 'center'}}>{Identify.__('Qty')}</div>
-                    <div style={{width: '11%', borderRight: 'solid #DCDCDC 1px', textAlign: 'center'}}>{Identify.__('Total Price')}</div>
-                    <div style={{width: '7%'}}>{Identify.__('').toUpperCase()}</div>
+                    <div style={{width: '54%'}}>{Identify.__('Items')}</div>
+                    <div style={{width: '14%', textAlign: 'center'}}>{Identify.__('Price')}</div>
+                    <div style={{width: '14%', textAlign: 'center'}}>{Identify.__('Quantity')}</div>
+                    <div style={{width: '20%', textAlign: 'center'}}>{Identify.__('Subtotal')}</div>
+                    {/* <div style={{width: '7%'}}>{Identify.__('').toUpperCase()}</div> */}
                 </div>
             );
             for (const i in cart.details.items) {
@@ -112,7 +112,27 @@ class Cart extends Component {
                     obj.push(element);
                 }
             }
-            return <div className='cart-list'>{obj}</div>;
+            return <div className='cart-list'>
+                        {obj}
+                        <div className='cart-list-footer'>
+                            <div 
+                                role="button"
+                                tabIndex="0"
+                                onClick={this.handleBack}
+                                onKeyDown={this.handleBack}
+                            >
+                                {Identify.__('Continue Shopping')}
+                            </div>
+                            <div 
+                                role="button"
+                                tabIndex="0"
+                                onClick={this.handleBack}
+                                onKeyDown={this.handleBack}
+                            >
+                                {Identify.__('Clear all items')}
+                            </div>
+                        </div>
+                    </div>;
         }
     }
 
@@ -171,7 +191,7 @@ class Cart extends Component {
         }
     }
 
-    get couponView () {
+    get couponCode() {
         const { cart, toggleMessages, getCartDetails } = this.props;
         let value = "";
         if (cart.totals.coupon_code) {
@@ -186,10 +206,49 @@ class Cart extends Component {
         return <div className={`cart-coupon-form`}><Coupon {...childCPProps} /></div>
     }
 
+    get giftVoucher() {
+        const { cart, toggleMessages, getCartDetails } = this.props;
+        let giftCode = ''
+        if (cart.totals.total_segments) {
+            const segment = cart.totals.total_segments.find((item) => {
+                if (item.extension_attributes && item.extension_attributes.aw_giftcard_codes) return true;
+                return false;
+            });
+            if (segment) {
+                const aw_giftcard_codes = segment.extension_attributes.aw_giftcard_codes[0] ? segment.extension_attributes.aw_giftcard_codes[0] : '';
+                if(aw_giftcard_codes){
+                    const value = JSON.parse(aw_giftcard_codes);
+                    giftCode = value.giftcard_code;
+                }
+            }
+        }
+
+        const childCPProps = {
+            giftCode,
+            toggleMessages,
+            getCartDetails,
+            cart
+        }
+        return <div className={`cart-voucher-form`}><GiftVoucher {...childCPProps} /></div>
+    }
+
+    get estimateShipAndTax() {
+        const { cart, toggleMessages, getCartDetails, submitShippingMethod, editOrder, availableShippingMethods,getShippingMethods } = this.props;
+        const childCPProps = {
+            toggleMessages,
+            getCartDetails,
+            cart,
+            submitShippingMethod,
+            editOrder,
+            availableShippingMethods,
+            getShippingMethods
+        }
+        return <div className={`estimate-form`}><Estimate {...childCPProps} /></div>
+    }
+
     get miniCartInner() {
-        const { productList, props, total, checkoutButton, couponView } = this;
+        const { productList, props, total, checkoutButton, couponCode, giftVoucher, estimateShipAndTax } = this;
         const { cart: { isLoading }, isCartEmpty,cart } = props;
-        
         if (isCartEmpty || !cart.details || !parseInt(cart.details.items_count)) {
             if (isLoading)
                 return <Loading />
@@ -213,22 +272,28 @@ class Cart extends Component {
             <Fragment>
                 {this.state.isPhone && this.breadcrumb}
                 <div className='cart-header'>
-                    <div role="presentation" className='cart-back-btn' onClick={() => this.handleBack()} onKeyUp={() => this.handleBack()} >
-                        <Arrowup style={{width: 25}}/>
-                        <span>{Identify.__('Continue shopping')}</span>
-                    </div>
                     {   (cart.details && parseInt(cart.details.items_count))?
                         <div className='cart-title'>
-                            <Basket/>
                             <div>
-                                {Identify.__('Your basket contains: %s item(s)').replace('%s', cart.details.items_count)}
+                                {Identify.__('Shopping cart')}
                             </div>
                         </div>:''
                     }
                 </div>
-                <div className="body">{productList}</div>
-                {couponView}
-                {total}
+            
+                <div className="body">
+                    {productList}
+                    <div className="summary-zone">
+                        <div>{Identify.__('Summary')}</div>
+                        {couponCode}
+                        {giftVoucher}
+                        {estimateShipAndTax}
+                        {total}
+                    </div>
+                </div>
+                
+                {/* {couponView}
+                {total} */}
                 {checkoutButton}
             </Fragment>
         );
@@ -237,7 +302,7 @@ class Cart extends Component {
     render() {
         hideFogLoading()
         return (
-            <div className="container">
+            <div className="container cart-page">
                 {TitleHelper.renderMetaHeader({
                     title:Identify.__('Shopping Cart')
                 })}
