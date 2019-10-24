@@ -5,6 +5,11 @@ import {
     getCartDetails,
     updateItemInCart
 } from 'src/actions/cart';
+import {
+    submitShippingMethod,
+    editOrder,
+    getShippingMethods
+} from 'src/actions/checkout'
 import { isEmptyCartVisible } from 'src/selectors/cart';
 
 import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
@@ -13,9 +18,8 @@ import Loading from 'src/simi/BaseComponents/Loading'
 import Identify from 'src/simi/Helper/Identify'
 // import CartItem from 'src/simi/App/core/Cart/cartItem'
 import CartItem from './cartItem'
-import Total from 'src/simi/BaseComponents/Total'
-import {Colorbtn, Whitebtn} from 'src/simi/BaseComponents/Button'
-import {configColor} from 'src/simi/Config'
+import { Price } from '@magento/peregrine';
+import {Colorbtn} from 'src/simi/BaseComponents/Button'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
@@ -138,10 +142,43 @@ class Cart extends Component {
 
     get totalsSummary() {
         const { cart } = this.props;
-        const { cartCurrencyCode } = this;
-        if (!cart.totals)
-            return
-        return (<Total data={cart.totals} currencyCode={cartCurrencyCode} />)
+        const { cartCurrencyCode, cartId } = this;
+        const hasSubtotal = cartId && cart.totals && 'subtotal' in cart.totals;
+        const totalPrice = cart.totals.subtotal;
+        const hasGrandtotal = cartId && cart.totals && 'grand_total' in cart.totals;
+        const grandTotal = cart.totals.grand_total
+        return (
+            <div>
+                {hasSubtotal
+                ? 
+                    <div className='subtotal'>
+                        <div className='subtotal-label'>Subtotal</div>
+                        <div>
+                            <Price
+                                currencyCode={cartCurrencyCode}
+                                value={totalPrice}
+                            />
+                        </div>
+                    </div>
+
+                : null
+                }
+                {hasGrandtotal
+                ?
+                    <div className='grandtotal'>
+                        <div className='grandtotal-label'>Grand Total</div>
+                        <div>
+                            <Price
+                                currencyCode={cartCurrencyCode}
+                                value={grandTotal}
+                            />
+                        </div>
+                    </div>
+
+                : null
+                }
+            </div>
+        )
     }
 
 
@@ -158,12 +195,10 @@ class Cart extends Component {
     get checkoutButton() {
         return (
             <div className='cart-btn-section'>
-                <Whitebtn className='continue-shopping' onClick={() => this.handleBack()} text={Identify.__('Continue shopping')}/>
                 <Colorbtn
                     id="go-checkout"
-                    style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
                     className="go-checkout"
-                    onClick={() => this.handleGoCheckout()} text={Identify.__('Pay Securely')}/>
+                    onClick={() => this.handleGoCheckout()} text={Identify.__('Proceed to checkout')}/>
             </div>
         )
     }
@@ -176,8 +211,8 @@ class Cart extends Component {
         this.props.history.push(link)
     }
 
-    handleBack() {
-        this.props.history.goBack()
+    handleBack = () => {
+        this.props.history.push('/')
     }
 
     handleGoCheckout() {
@@ -289,12 +324,12 @@ class Cart extends Component {
                         {giftVoucher}
                         {estimateShipAndTax}
                         {total}
+                        {checkoutButton}    
                     </div>
                 </div>
                 
                 {/* {couponView}
                 {total} */}
-                {checkoutButton}
             </Fragment>
         );
     }
@@ -324,12 +359,14 @@ Cart.propTypes = {
 }
 
 const mapStateToProps = state => {
-    const { cart, user } = state;
+    const { cart, user, checkout } = state;
     const { isSignedIn } = user;
+    const { availableShippingMethods } = checkout
     return {
         cart,
         isCartEmpty: isEmptyCartVisible(state),
         isSignedIn,
+        availableShippingMethods
     };
 };
 
@@ -337,6 +374,9 @@ const mapDispatchToProps = {
     getCartDetails,
     toggleMessages,
     updateItemInCart,
+    submitShippingMethod,
+    editOrder,
+    getShippingMethods
 };
 
 export default connect(
