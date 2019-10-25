@@ -13,6 +13,9 @@
     }
 }
 
+/* Reset css */
+button,[role="button"],select,input{outline: none;}
+
 .flex {
     display: flex;
 }
