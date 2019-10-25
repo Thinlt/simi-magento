@@ -36,9 +36,9 @@ const listState = (states) => {
     let html = null;
     if (states && states.length) {
         html = states.map(itemState => {
-            return { value: itemState.code, label: itemState.name };
+            return { value: itemState.code, label: itemState.name, key: Identify.randomString(3)};
         });
-        const ctoState = { value: '', label: Identify.__('Please choose') };
+        const ctoState = { value: '', label: Identify.__('Please choose'), key: Identify.randomString(3)};
         html.unshift(ctoState);
     }
     return html;
@@ -50,24 +50,22 @@ const renderRegionField = (selectedCountry, initialCountry, countries, configFie
     const country = countries.find(({ id }) => id === country_id);
     if (!country) return
     const { available_regions: regions } = country;
-    if (!configFields || (configFields && configFields.hasOwnProperty('region_id_show') && configFields.region_id_show)) {
-        return (
-            <div className='region_code'>
-                <div className={`address-field-label ${configFields.region_id_show === 'req' ? 'req' : ''}`}>{Identify.__("State")}</div>
-                {
-                    (country.available_regions && Array.isArray(regions) && regions.length) ?
-                    <Select
-                        initialValue={initialValues.region_code}
-                        key={Identify.randomString(3)}
-                        field="region_code" items={listState(regions)}
-                        isrequired={(!configFields || (configFields && configFields.hasOwnProperty('region_id_show') && configFields.region_id_show === 'req')) ? 'isrequired' : ''}
-                    /> :
-                    <input type="text" id='region_code' name='region_code'
-                    className={configFields.region_id_show === 'req' ? 'isrequired' : ''} defaultValue={initialValues.region_code}></input>
-                }
-            </div>
-        )
-    }
+    return (
+        <div className='region_code'>
+            <div className={`address-field-label ${configFields.region_id_show === 'req' ? 'req' : ''}`}>{Identify.__("State")}</div>
+            {
+                (country.available_regions && Array.isArray(regions) && regions.length) ?
+                <Select
+                    initialValue={initialValues.region_code}
+                    key={Identify.randomString(3)}
+                    field="region_code" items={listState(regions)}
+                    isrequired={(!configFields || (configFields && configFields.hasOwnProperty('region_id_show') && configFields.region_id_show === 'req')) ? 'isrequired' : ''}
+                /> :
+                <input type="text" id='region_code' name='region_code'
+                className={configFields.region_id_show === 'req' ? 'isrequired' : ''} defaultValue={initialValues.region_code}></input>
+            }
+        </div>
+    )
 }
 
 const FormFields = (props) => {
@@ -262,6 +260,9 @@ const FormFields = (props) => {
         </Fragment>;
     }
 
+    const isFieldShow = (field_id) => {
+        return !configFields || (configFields && !configFields.hasOwnProperty(field_id)) || (configFields && configFields.hasOwnProperty(field_id) && configFields[field_id] !== false)
+    }
 
     const viewFields = (!usingSameAddress) ? (
         <Fragment>
@@ -317,24 +318,23 @@ const FormFields = (props) => {
                             <input type="text" id='company' name='company' className={configFields.company_show === 'req' ? 'isrequired' : ''} defaultValue={initialValues.company}></input>
                         </div>
                         : null}
-                    {!configFields || (configFields && configFields.hasOwnProperty('street_show') && configFields.street_show) ?
+                    {isFieldShow('street_show') &&
                         <div className='street0'>
                             <div className={`address-field-label ${configFields.street_show === 'req' ? 'req' : ''}`}>{Identify.__("Street")}</div>
                             <input type="text" id='street[0]' name='street[0]' className={configFields.street_show === 'req' ? 'isrequired' : ''} defaultValue={(initialValues.street && initialValues.street[0])?initialValues.street[0]:''}></input>
                             <input type="text" id='street[1]' name='street[1]' defaultValue={(initialValues.street && initialValues.street[1])?initialValues.street[1]:''}></input>
-                        </div>
-                        : null}
-                    {!configFields || (configFields && configFields.hasOwnProperty('city_show') && configFields.city_show) ?
+                        </div>}
+                    {isFieldShow('city_show') &&
                         <div className='city'>
                             <div className={`address-field-label ${configFields.city_show === 'req' ? 'req' : ''}`}>{Identify.__("City")}</div>
                             <input type="text" id='city' name='city' className={configFields.city_show === 'req' ? 'isrequired' : ''} defaultValue={initialValues.city}></input>
-                        </div> : null}
+                        </div>}
                     {!configFields || (configFields && configFields.hasOwnProperty('zipcode_show') && configFields.zipcode_show) ?
                         <div className='postcode'>
                             <div className={`address-field-label ${configFields.zipcode_show === 'req' ? 'req' : ''}`}>{Identify.__("ZIP")}</div>
                             <input type="text" id='postcode' name='postcode' className={configFields.zipcode_show === 'req' ? 'isrequired' : ''} defaultValue={initialValues.postcode}></input>
                         </div> : null}
-                    {!configFields || (configFields && configFields.hasOwnProperty('country_id_show') && configFields.country_id_show) ?
+                    {isFieldShow('country_id_show') &&
                         <div className='country'>
                             <div className={`address-field-label ${(!configFields || configFields.country_id_show === 'req') ? 'req' : ''}`}>{Identify.__("Country")}</div>
                             <Select
@@ -345,13 +345,13 @@ const FormFields = (props) => {
                                 items={selectableCountries}
                                 isrequired={(!configFields || (configFields && configFields.hasOwnProperty('country_id_show') && configFields.country_id_show === 'req')) ? 'isrequired' : ''}
                             />
-                        </div> : null}
-                    {renderRegionField(selectedCountry, initialCountry, countries, configFields, initialValues)}
-                    {!configFields || (configFields && configFields.hasOwnProperty('telephone_show') && configFields.telephone_show) ?
+                        </div>}
+                    {isFieldShow('region_id_show') && renderRegionField(selectedCountry, initialCountry, countries, configFields, initialValues)}
+                    {isFieldShow('telephone_show') &&
                         <div className='telephone'>
                             <div className={`address-field-label ${configFields.telephone_show === 'req' ? 'req' : ''}`}>{Identify.__("Phone")}</div>
                             <input type="tel" id='telephone' name='telephone' className={configFields.telephone_show === 'req' ? 'isrequired' : ''} defaultValue={initialValues.telephone}></input>
-                        </div> : null}
+                        </div>}
                     {configFields && configFields.hasOwnProperty('fax_show') && configFields.fax_show ?
                         <div className='fax'>
                             <div className={`address-field-label ${configFields.fax_show === 'req' ? 'req' : ''}`}>{Identify.__("Fax")}</div>

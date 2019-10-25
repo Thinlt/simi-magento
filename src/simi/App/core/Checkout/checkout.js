@@ -277,7 +277,8 @@ class Checkout extends Component {
                     />
                 </div>
                 <div className='checkout-col-2'>
-                    {(!is_virtual && shippingAddress) && <Panel title={<div className='checkout-section-title'>{Identify.__('Shipping Method')}</div>}
+                    {(!is_virtual && shippingAddress) && 
+                    <Panel title={<div className='checkout-section-title'>{Identify.__('Shipping Method')}</div>}
                         className='checkout-panel'
                         renderContent={<EditableForm {...stepProps} editing='shippingMethod' />}
                         isToggle={true}

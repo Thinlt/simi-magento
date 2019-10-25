@@ -32,8 +32,8 @@ class Select extends Component {
 
     render() {
         const { classes, fieldState, items, message, ...rest } = this.props;
-        const options = items.map(({ label, value }) => (
-            <Option key={value} value={value}>
+        const options = items.map(({ label, value, key }) => (
+            <Option key={key || value} value={value}>
                 {label || (value != null ? value : '')}
             </Option>
         ));
