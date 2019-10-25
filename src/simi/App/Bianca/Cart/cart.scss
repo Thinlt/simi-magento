@@ -148,6 +148,25 @@
             .submit-coupon, .submit-voucher{
                 max-width: 84px;
             }
+
+            .summary-zone{
+                .summary{
+                    margin-top: 32px;
+                    .subtotal, .grandtotal{
+                        display: flex;
+                        justify-content: space-between;
+                    }
+
+                    .subtotal{
+                        font-size: 16px;
+                        margin-bottom: 32px;
+                    }
+
+                    .grandtotal{
+                        font-size: 24px;
+                    }
+                }
+            }
         }
     }
 
@@ -263,17 +282,24 @@
     height: 40px;
 }
 
-.cart-btn-section {
-    margin-bottom: 38px;
-}
-
 @media (min-width: 1024px) {
     .cart-btn-section {
-        margin-top: 20px;
+        margin-top: 48px !important;
         max-width: 444px;
-        margin-left: auto;
-        display: flex;
-        justify-content: space-between;
+        margin: auto;
+        text-align: center;
+
+        .go-checkout {
+            display: inline-block;
+            max-width: 252px;
+            background-color: #101820;
+            color: #FFF;
+
+            span{
+                padding: 16px 22px;
+                text-transform: uppercase;
+            }
+        }
     }
 
     .cart-btn-section .continue-shopping {
@@ -282,11 +308,6 @@
         max-width: 220px;
     }
 
-    .cart-btn-section .go-checkout {
-        width: 48%;
-        display: inline-block;
-        max-width: 220px;
-    }
 }
 
 @media (max-width: 1024px) {
