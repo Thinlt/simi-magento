@@ -46,3 +46,13 @@ export const deleteGiftCode = (callBack, params, isSignedIn) => {
 
     sendRequest('/rest/default/V1/guest-carts/' + cartId + '/aw-giftcard/' + giftVoucher, callBack, 'DELETE', {}, params)
 }
+
+export const updateEstimateShipping = (callBack, params, isSignedIn) => {
+    const cartId = storage.getItem('cartId');
+
+    if(isSignedIn){
+        sendRequest('/rest/default/V1/carts/mine/estimate-shipping-methods', callBack, 'POST', {}, params )
+    } else {
+        sendRequest('/rest/default/V1/guest-carts/' + cartId + '/estimate-shipping-methods' , callBack, 'POST',{},params)
+    }
+}

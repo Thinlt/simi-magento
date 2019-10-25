@@ -1,0 +1,124 @@
+.social-share span[class ~= "at-icon-wrapper"]{
+    color: #101820;;
+}
+.social-share [class ~= "at-share-btn-elements"]:focus{
+    transform: none;
+}
+.social-share span[class ~= "share-facebook"]{
+    margin-top: 6px;
+    margin-bottom: 6px;
+    display: inline-block;
+    font-family: 'Simple-Line-Icons';
+    font-size: 24px;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    line-height: 24px;
+    text-align: center;
+}
+.social-share span[class ~= "share-facebook"]::before{
+    content: "\e00b";
+}
+
+.social-share [class ~= "fb"]{
+    text-align: center;
+}
+
+.social-share span[class ~= "share-twitter"]{
+    margin-top: 6px;
+    margin-bottom: 6px;
+    display: inline-block;
+    font-family: 'Simple-Line-Icons';
+    font-size: 24px;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    line-height: 24px;
+    text-align: center;
+}
+.social-share span[class ~= "share-twitter"]::before{
+    content: "\e009";
+}
+
+.social-share [class ~= "twitter"]{
+    text-align: center;
+}
+.social-share span[class ~= "share-google"]{
+    margin-top: 6px;
+    margin-bottom: 6px;
+    display: inline-block;
+    font-family: 'Material-Design-Iconic-Font';
+    font-size: 24px;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    line-height: 24px;
+    text-align: center;
+}
+.social-share span[class ~= "share-google"]::before{
+    content: "\f3f7";
+}
+
+.social-share [class ~= "google"]{
+    text-align: center;
+}
+
+.social-share span[class ~= "share-linkedin"]{
+    margin-top: 6px;
+    margin-bottom: 6px;
+    display: inline-block;
+    font-family: 'Simple-Line-Icons';
+    font-size: 24px;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    line-height: 24px;
+    text-align: center;
+}
+.social-share span[class ~= "share-linkedin"]::before{
+    content: "\e60a";
+}
+.social-share [class ~= "linkedin"]{
+    text-align: center;
+}
+
+.social-share [class ~= "at-share-btn-elements"]>a:nth-child(1){
+    padding: 1px !important;
+    border: 1px solid black !important;
+    background-color: white !important;
+    margin: 0 16px 0 0;
+    outline: none;
+}
+.social-share [class ~= "at-share-btn-elements"]>a:nth-child(2){
+    padding: 1px !important;
+    border: 1px solid black !important;
+    background-color: white !important;
+    margin: 0 16px 0 0;
+    outline: none;
+}
+.social-share [class ~= "at-share-btn-elements"]>a:nth-child(3){
+    padding: 1px !important;
+    border: 1px solid black !important;
+    background-color: white !important;
+    margin: 0 16px 0 0;
+    outline: none;
+}
+.social-share [class ~= "at-share-btn-elements"]>a:nth-child(4){
+    padding: 1px !important;
+    border: 1px solid black !important;
+    background-color: white !important;
+    margin: 0 16px 0 0;
+    outline: none;
+}

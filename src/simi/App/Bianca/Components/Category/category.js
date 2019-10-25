@@ -21,7 +21,7 @@ var filterData = null
 const Category = props => {
     const { id } = props;
     let pageSize = Identify.findGetParameter('product_list_limit')
-    pageSize = pageSize?Number(pageSize):window.innerWidth < 1024?12:24
+    pageSize = pageSize?Number(pageSize):window.innerWidth < 1024?6:9
     let currentPage = Identify.findGetParameter('page')
     currentPage = currentPage?Number(currentPage):1
     sortByData = null

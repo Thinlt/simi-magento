@@ -24,8 +24,11 @@ class Options extends Component {
     render() {
         const { handleSelectionChange, props } = this;
         const { options } = props;
-
-        return options.map(option => (
+        // Move size on above color
+        const reverseOptions = []
+        reverseOptions.push(options[1])
+        reverseOptions.push(options[0])
+        return reverseOptions.map(option => (
             <Option
                 {...option}
                 key={option.attribute_id}

@@ -1,0 +1,63 @@
+.option-root {
+    margin-left: 15px;
+    margin-top: 24px;
+}
+
+.option-title {
+    color: #101820;
+    font-family: "Gotham Medium";
+    font-size: 14px;
+    line-height: 14px;
+    text-transform: uppercase;
+}
+.option-root .list-size{
+    margin-top: 8px;
+    height: 48px;
+    width: 376px;
+}
+.option-root .list-size .MuiListItem-root{
+    background-color: #F2F2F2;
+}
+
+.option-root .MuiCollapse-container .MuiList-root{
+    background-color: #F2F2F2;
+}
+.option-root .MuiCollapse-container .MuiList-root .group-options{
+    padding: 8px 16px;
+    height: 48px;
+}
+.option-root .MuiCollapse-container .MuiList-root .group-options .tile-root{
+    margin-top: unset;
+    margin-left: unset;
+}
+.option-root .MuiCollapse-container .MuiList-root .size{
+    height: 48px;
+    padding: 16px;
+    cursor: pointer;
+    color: #727272;
+    background-color: #F2F2F2;
+    font-family: "Gotham Book";
+    font-size: 14px;
+    line-height: 14px;
+}
+.option-root .list-color{
+    margin-top: 8px;
+    padding-left: 1px;
+}
+.option-root .list-color div:nth-child(1){
+    display: flex;
+}
+.option-root .list-color .tile-root{
+    height: unset;
+    min-width: unset;
+    padding: unset;
+    margin-left: unset;
+    margin-top: unset;
+    border-radius: unset;
+    height: 55px;
+    width: 82px;
+    margin-right: 16px;
+}
+.option-root .list-color .group-options{
+    
+}

@@ -8,14 +8,14 @@ export const Colorbtn = props => {
                     type={props.type}
                     className={`${defaultClasses['siminia-color-btn']} ${props.className}`}
                 >
-                    {props.text}
+                    <span className="siminia-btn">{props.text}</span>
                 </button>
             ) : (
                 <div
                     {...props}
                     className={`${defaultClasses['siminia-color-btn']} ${props.className}`}
                 >
-                    {props.text}
+                   <span className="siminia-btn">{props.text}</span>
                 </div>
             )}
         </React.Fragment>
@@ -29,14 +29,14 @@ export const Whitebtn = props => {
                     type={props.type}
                     className={`${defaultClasses['siminia-white-btn']} ${props.className}`}
                 >
-                    {props.text}
+                    <span className="siminia-btn">{props.text}</span>
                 </button>
             ) : (
                 <div
                     {...props}
                     className={`${defaultClasses['siminia-white-btn']} ${props.className}`}
                 >
-                    {props.text}
+                    <span className="siminia-btn">{props.text}</span>
                 </div>
             )}
         </React.Fragment>

@@ -1,0 +1,139 @@
+.checkout-col-2 .estimate-area-tablet{
+    width: 100%;
+    position: relative;
+}
+.checkout-col-2 .estimate-title{
+    display: none;
+}
+.estimate-area-tablet .btn-clear-coupon {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    z-index: 9;
+    cursor: pointer;
+    max-height: 15px;
+}
+.estimate-form {
+    font-size: 16px;
+    margin-top: 28px;
+    .estimate-title {
+        font-weight: 600;
+        svg{
+            vertical-align: middle
+        }
+    }
+}
+
+.estimate-form .estimate-area-tablet {
+    margin-top: 8px;
+    display: inline-block;
+    position: relative;
+    vertical-align: bottom;
+}
+.estimate-area-tablet .btn-clear-voucher {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    z-index: 9;
+    cursor: pointer;
+    max-height: 15px;
+}
+
+.estimate {
+    max-width: 444px;
+    margin-top: 20px;
+    .estimate-close{
+        display: none;
+    }
+}
+
+.estimate-form .estimate-area-tablet input {
+    height: 45px;
+    max-width: 293px;
+    width: 100%;
+    border: solid 1px #F2F2F2;
+    padding: 10px 25px 11px 16px;
+    background-color: #F2F2F2;
+}
+
+.estimate select{
+    /*for firefox*/
+    -moz-appearance: none;
+    /*for chrome*/
+    -webkit-appearance:none;
+}
+
+.estimate{
+    .estimate-subtitle{
+        margin-bottom: 20px;
+    }
+    .country-select{
+        border: 1px solid #F2F2F2;
+        overflow: hidden; 
+        max-width: 293px;
+        width: 100%; 
+        padding: 17px 16px;
+        background-color: #F2F2F2;
+    }
+
+    .country-field{
+        margin-bottom: 20px;
+    }
+
+    .postcode-field{
+        margin-bottom: 24px;
+    }
+
+    .checkbox-item-icon{
+        height: 24px;
+        width: 24px;
+        border: 1px solid;
+        border-radius: 50%;
+        background-image: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .selected{
+            padding: 4px;
+            background:#101820;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            background-image: none;
+        }
+    }
+
+    .checkbox-item.selected .checkbox-item-icon{
+        background-image: none;
+    }
+
+    .checkbox-item:hover {
+        cursor: pointer;
+        color: unset;
+    }
+
+    .form-row{
+        position: relative;
+        max-width: 293px;
+    }
+
+    .arrow-country{
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 16px;
+    }
+}
+
+
+@media (max-width: 1023px) {
+    .estimate-form .estimate-area-tablet {
+        width: 100%;
+    }
+    .estimate-form .estimate-area-tablet input {
+        width: 100%;
+    }
+    .checkout-col-2 .estimate{
+        max-width: unset;
+    }
+}

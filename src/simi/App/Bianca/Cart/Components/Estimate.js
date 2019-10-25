@@ -1,60 +1,72 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import { func, string } from 'prop-types';
-import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
-import { updateGiftVoucher } from 'src/simi/Model/Cart';
+import {hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import Identify from 'src/simi/Helper/Identify';
-import { Whitebtn } from 'src/simi/BaseComponents/Button'
-import Close from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
 import ArrowDown from 'src/simi/BaseComponents/Icon/TapitaIcons/ArrowDown'
 import ArrowUp from 'src/simi/BaseComponents/Icon/TapitaIcons/ArrowUp'
-import Dropdownoption from 'src/simi/BaseComponents/Dropdownoption';
-require ('./giftVoucher.scss')
+import ShippingForm from 'src/simi/App/Bianca/Checkout/ShippingForm';
+import { Form, Option, asField, Select } from 'informed';
+import {updateEstimateShipping} from 'src/simi/Model/Cart'
 
-const GiftVoucher = (props) => {
-    const { value, toggleMessages, getCartDetails, cart } = props;
+require ('./Estimate.scss')
+
+const Estimate = (props) => {
+    const {toggleMessages, getCartDetails, cart, submitShippingMethod, editOrder,availableShippingMethods } = props;
     const [isOpen, setOpen] = useState(false)
     const storeConfig = Identify.getStoreConfig();
     const countries = storeConfig.simiStoreConfig.config.allowed_countries;
-    let clearVoucher = false;
-    const handleVoucher = (type = '') => {
-        let voucher = document.querySelector('#voucher_field').value;
-        if (!voucher && type !== 'clear') {
-            toggleMessages([{ type: 'error', message: 'Please enter gift code', auto_dismiss: true }]);
-            return null;
-        }
-        if(type === 'clear'){
-            clearVoucher = true
-            voucher = ''
-        }
-        showFogLoading()
-        const params = {
-            'aw-giftcard': voucher
-        }
-        updateGiftVoucher(processData, params)
-    }
+
+    const SimiSelect = asField(({ fieldState, ...props }) => (
+        <React.Fragment>
+          <Select
+            fieldState={fieldState}
+            {...props}
+            style={fieldState.error ? { border: 'solid 1px red' } : null}
+            className='country-select'
+            onBlur={()=> updateEstimateShipping(processData,{"region_id": fieldState.value})}
+          />
+          {fieldState.error ? (<small style={{ color: 'red' }}>{fieldState.error}</small>) : null}
+        </React.Fragment>
+    ));
 
     const processData = (data) => {
-        const giftcard = cart.totals.total_segments[4] ? cart.totals.total_segments[4] : null;
-        const textSuccess = 'Added Gift Card';
-        const textFailed = giftcard ? 'Gift Cart has already added' : 'Gift Cart is invalid'
-        if (data.errors || giftcard) {
-            toggleMessages([{ type: 'error', message: textFailed, auto_dismiss: true }]);
-        }
-        if(clearVoucher){
-            clearVoucher = false
-            success = true
-            document.querySelector('#voucher_field').value = ''
-        }
-        if (data === true) toggleMessages([{ type: 'success', message: textSuccess, auto_dismiss: true }]);
-        getCartDetails();
-        hideFogLoading();
+        // const giftcard = cart.totals.total_segments[4] ? cart.totals.total_segments[4] : null;
+        // const textSuccess = 'Added Gift Card';
+        // const textFailed = giftcard ? 'Gift Cart has already added' : 'Gift Cart is invalid'
+        // if (data.errors || giftcard) {
+        //     toggleMessages([{ type: 'error', message: textFailed, auto_dismiss: true }]);
+        // }
+        // if(clearVoucher){
+        //     clearVoucher = false
+        //     success = true
+        //     document.querySelector('#voucher_field').value = ''
+        // }
+        // if (data === true) toggleMessages([{ type: 'success', message: textSuccess, auto_dismiss: true }]);
+        // getCartDetails();
+        // hideFogLoading();
+        console.log(data)
     }
 
+    const handleSubmitShippingForm = useCallback(
+        formValues => {
+            submitShippingMethod({
+                formValues
+            });
+        },
+        [submitShippingMethod]
+    );
+
+    const handleCancel = useCallback(() => {
+        editOrder(null);
+    }, [editOrder]);
+
+    const {estimateOpen, countryOpen} = isOpen
+
     return (
-    <div className='gift-voucher'>
+    <div className='estimate'>
         <div 
             role="button" 
-            className="gift-voucher-title" 
+            className="estimate-title" 
             tabIndex="0" 
             onClick={() => setOpen(!isOpen)} 
             onKeyDown={() => setOpen(!isOpen)}>
@@ -64,22 +76,46 @@ const GiftVoucher = (props) => {
                 : <ArrowDown/>
                 }
         </div>
-        <div className={`gift-voucher-area-tablet ${isOpen ? 'voucher-open': 'voucher-close'}`}>
-            <div>Enter your destination to get a shipping estimate</div>
-            <Dropdownoption/>
-            <input id="voucher_field" type="text" placeholder={Identify.__('enter gift code')} defaultValue={value} />
-                    {value && <button className='btn-clear-voucher' onClick={()=>handleVoucher('clear')}>
-                        <Close style={{width:15,height:15}}/>
-                    </button>   }
-            <Whitebtn id="submit-voucher" className={`${Identify.isRtl() ? "submit-voucher-rtl" : 'submit-voucher'}`} onClick={() => handleVoucher()} text={Identify.__('Apply')} />
+        <div className={`estimate-area-tablet ${isOpen ? 'estimate-open': 'estimate-close'}`}>
+            <div className="estimate-subtitle">Enter your destination to get a shipping estimate</div>
+            <div className="country-field">
+                <span>Countries</span>
+                <div className="form-row">
+                    <SimiSelect id="input-country" field="country" initialValue={'US'} 
+                        // validate={(value) => validateOption(value, addressConfig && addressConfig.country_id_show || 'req')} 
+                        validateOnChange
+                    >
+                        { countries.map((country, index) => {
+                            return country.country_name !== null ? 
+                                <Option 
+                                    value={`${country.country_code}`} 
+                                    key={index} 
+                                >
+                                    {country.country_name}
+                                </Option> : null
+                        })}
+                    </SimiSelect>
+                    <ArrowDown className='arrow-country'/>
+                </div>
+            </div>
+            <div className="postcode-field">
+                <div>ZIP/POSTCODE</div>
+                <input 
+                    id="estimate_field" 
+                    type="text" 
+                    placeholder={Identify.__('ZIP/POSTCODE')}  
+                    onBlur={()=> updateEstimateShipping(processData,{"postcode": value})}
+                />
+            </div>
+            <ShippingForm cancel={handleCancel} submit={handleSubmitShippingForm} availableShippingMethods={availableShippingMethods} />
         </div>
     </div>
     )
 }
 
-GiftVoucher.propTypes = {
+Estimate.propTypes = {
     value: string,
     toggleMessages: func,
     getCartDetails: func
 }
-export default GiftVoucher;
+export default Estimate;

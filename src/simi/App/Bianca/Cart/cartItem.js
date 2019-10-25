@@ -68,14 +68,14 @@ const CartItem = props => {
     const itemPrice = (
         <div className="sub-item item-price">
             {isPhone && <div className='item-label'>{Identify.__('Unit Price')}</div>}
-            <div className='cart-item-value' style={{ color: configColor.price_color }}>{itemprice}</div>
+            <div className='cart-item-value'>{itemprice}</div>
         </div>
     )
 
     const itemQty = (
         <div className='sub-item item-qty'>
             {isPhone && <div className='item-label'>{Identify.__('Qty')}</div>}
-            <div>{Identify.__('Quantity')}</div>
+            <div className="minicart-qty-title">{Identify.__('Quantity')}</div>
             <input
                 min={1}
                 type="number"

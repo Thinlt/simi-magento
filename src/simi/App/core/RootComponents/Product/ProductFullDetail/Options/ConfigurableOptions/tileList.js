@@ -2,21 +2,21 @@ import React, { Component } from 'react';
 import { arrayOf, object, shape, string } from 'prop-types';
 import { List } from '@magento/peregrine';
 
-import classify from 'src/classify';
 import Tile from './tile';
-import defaultClasses from './tileList.css';
+require ('./tileList.scss');
 
 class TileList extends Component {
+    constructor(props){
+        super(props)
+    }
     static propTypes = {
-        classes: shape({
-            root: string
-        }),
         items: arrayOf(object)
     };
-
+    
     render() {
+        const {items} = this.props
         return <List renderItem={Tile} {...this.props} />;
     }
 }
 
-export default classify(defaultClasses)(TileList);
+export default TileList;

@@ -4,40 +4,46 @@ import {smoothScrollToView} from 'src/simi/Helper/Behavior'
 import Loading from 'src/simi/BaseComponents/Loading'
 import { Colorbtn, Whitebtn } from 'src/simi/BaseComponents/Button'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
-import ProductImage from './ProductImage';
-import Quantity from './ProductQuantity';
+import ProductImage from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/ProductImage';
+import Quantity from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/ProductQuantity';
 import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import {prepareProduct} from 'src/simi/Helper/Product'
-import ProductPrice from '../Component/Productprice';
+import ProductPrice from 'src/simi/App/core/RootComponents/Product/Component/Productprice';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
 import { addToWishlist as simiAddToWishlist } from 'src/simi/Model/Wishlist';
 import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
 import ReactHTMLParse from 'react-html-parser';
 import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
-import { TopReview, ReviewList, NewReview } from './Review/index'
+import { TopReview, ReviewList, NewReview } from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/Review/index'
 import SocialShare from 'src/simi/BaseComponents/SocialShare';
-import Description from './Description';
-import Techspec from './Techspec';
-import LinkedProduct from './LinkedProduct';
+import Description from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/Description';
+import Techspec from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/Techspec';
+import LinkedProduct from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/LinkedProduct';
+import ProductFullDetail from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/ProductFullDetail';
 
-const ConfigurableOptions = React.lazy(() => import('./Options/ConfigurableOptions'));
-const CustomOptions = React.lazy(() => import('./Options/CustomOptions'));
-const BundleOptions = React.lazy(() => import('./Options/Bundle'));
-const GroupedOptions = React.lazy(() => import('./Options/GroupedOptions'));
-const DownloadableOptions = React.lazy(() => import('./Options/DownloadableOptions'));
+const ConfigurableOptions = React.lazy(() => import('src/simi/App/core/RootComponents/Product/ProductFullDetail/Options/ConfigurableOptions'));
+const CustomOptions = React.lazy(() => import('src/simi/App/core/RootComponents/Product/ProductFullDetail/Options/CustomOptions'));
+const BundleOptions = React.lazy(() => import('src/simi/App/core/RootComponents/Product/ProductFullDetail/Options/Bundle'));
+const GroupedOptions = React.lazy(() => import('src/simi/App/core/RootComponents/Product/ProductFullDetail/Options/GroupedOptions'));
+const DownloadableOptions = React.lazy(() => import('src/simi/App/core/RootComponents/Product/ProductFullDetail/Options/DownloadableOptions'));
 const GiftcardOptions = React.lazy(() => import('src/simi/App/Bianca/Components/Product/ProductFullDetail/Options/GiftcardOptions'));
 const TrytobuyOptions = React.lazy(() => import('src/simi/App/Bianca/Components/Product/ProductFullDetail/Options/TrytobuyOptions'));
 
-require('./productFullDetail.scss');
+class QuickViewDetail extends ProductFullDetail{
+    constructor(props){
+        super(props)
+        this.state= {
+            optionCodes: new Map(),
+            optionSelections: new Map(),
+            deliveryDisplay: "block",
+            informationDisplay: "none",
+            reivewsDisplay: "none"
+        };
+    }
 
-class ProductFullDetail extends Component {  
-    state = {
-        optionCodes: new Map(),
-        optionSelections: new Map(),
-    };
     quantity = 1
       
     static getDerivedStateFromProps(props, state) {
@@ -112,16 +118,15 @@ class ProductFullDetail extends Component {
         if (this.trytobuyOptionsRef) {
             params['try_to_buy'] = this.trytobuyOptionsRef.checked ? 1 : 0;
         }
-        if (this.trytobuyOptionsRef2) {
-            params['reservable'] = this.trytobuyOptionsRef2.checked ? 1 : 0;
-        }
-        if (this.trytobuyOptionsRef3) {
-            params['pre_order'] = this.trytobuyOptionsRef3.checked ? 1 : 0;
-        }
 
         return params
     }
+    addToReserve = () => {
 
+    }
+    addToCompare = () =>{
+        
+    }
     addToCart = () => {
         const { props } = this;
         const {  product } = props;
@@ -192,6 +197,49 @@ class ProductFullDetail extends Component {
                 message: Array.isArray(data.message)?data.message[0]:data.message,
                 auto_dismiss: true
             }])
+        }
+    }
+
+    shouldComponentUpdate(nextProps, nextState){
+        return ((nextState.deliveryDisplay!= this.state.deliveryDisplay) ||(nextState.informationDisplay!=this.state.informationDisplay)||(nextState.reivewsDisplay!= this.state.reivewsDisplay))
+    }
+
+    handleClickTitle = (value) =>{
+        console.log(value);
+        switch(value){
+            case "delivery": {
+                $('.three-titles .delivery').css('color', '#101820')
+                $('.three-titles .information').css('color', '#727272')
+                $('.three-titles .reviews').css('color', '#727272')
+                this.setState({
+                    deliveryDisplay: "block",
+                    informationDisplay: "none",
+                    reivewsDisplay: "none"
+                })
+                break
+            }
+            case "information": {
+                $('.three-titles .delivery').css('color', '#727272')
+                $('.three-titles .information').css('color', '#101820')
+                $('.three-titles .reviews').css('color', '#727272')
+                this.setState({
+                    deliveryDisplay: "none",
+                    informationDisplay: "block",
+                    reivewsDisplay: "none"
+                })
+                break
+            }
+            case "reviews": {
+                $('.three-titles .delivery').css('color', '#727272')
+                $('.three-titles .information').css('color', '#727272')
+                $('.three-titles .reviews').css('color', '#101820')
+                this.setState({
+                    deliveryDisplay: "none",
+                    informationDisplay: "none",
+                    reivewsDisplay: "block"
+                })
+                break
+            }
         }
     }
 
@@ -284,9 +332,8 @@ class ProductFullDetail extends Component {
                     />
                 }
                 {
-                    <TrytobuyOptions className={"try-to-buy"} cbRef={el => this.trytobuyOptionsRef = el}
-                    cbRef2={el => this.trytobuyOptionsRef2 = el}
-                    cbRef3={el => this.trytobuyOptionsRef3 = el}
+                    <TrytobuyOptions className={"try-to-buy"} 
+                    cbRef={el => this.trytobuyOptionsRef = el}
                      />
                 }
             </Suspense>
@@ -296,10 +343,9 @@ class ProductFullDetail extends Component {
     breadcrumb = (product) => {
         return <BreadCrumb breadcrumb={[{name:'Home',link:'/'},{name:product.name}]} history={this.props.history}/>
     }
-    
     render() {
         hideFogLoading()
-        const { addToCart, productOptions, props, state, addToWishlist } = this;
+        const { addToReserve, addToCart, productOptions, props, state, addToWishlist, addToCompare } = this;
         const { optionCodes, optionSelections, } = state
         const product = prepareProduct(props.product)
         const { type_id, name, simiExtraField } = product;
@@ -312,11 +358,6 @@ class ProductFullDetail extends Component {
                     title: product.meta_title?product.meta_title:product.name?product.name:'',
                     desc: product.meta_description?product.meta_description:product.description?product.description:''
                 })}
-                <div className="title">
-                    <h1 className="product-name">
-                        <span>{ReactHTMLParse(name)}</span>
-                    </h1>
-                </div>
                 <div className="image-carousel">
                     <ProductImage 
                         optionCodes={optionCodes} 
@@ -325,58 +366,105 @@ class ProductFullDetail extends Component {
                     />
                 </div>
                 <div className="main-actions">
-                    {hasReview ? <div className="top-review"><TopReview app_reviews={product.simiExtraField.app_reviews}/></div> : ''}
-                    <div role="presentation" className="review-btn" onClick={()=>smoothScrollToView($('#product-detail-new-review'))}>
-                        {hasReview ? Identify.__('Submit Review') : Identify.__('Be the first to review this product')}
+                    <div className="title">
+                        <h1 className="product-name">
+                            <span>{ReactHTMLParse(name)}</span>
+                        </h1>
                     </div>
+                    <div className="vendor-name">
+                        Desinger name
+                    </div>
+                    {hasReview ? <div className="top-review"><TopReview app_reviews={product.simiExtraField.app_reviews}/></div> : ''}
                     <div className="product-price">
                         <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections}/>
                     </div>
                     <div className="product-short-desc">{ReactHTMLParse(ReactHTMLParse(short_desc))}</div>
                     <div className="options">{productOptions}</div>
-                    <div className="cart-actions">
-                        {
-                            type_id !== 'grouped' &&
-                            <Quantity
-                                initialValue={this.quantity}
-                                onValueChange={this.setQuantity}
-                            />
-                        }
-                        <div 
-                            className="add-to-cart-ctn" 
-                            style={{
-                                borderColor:  configColor.button_background, borderWidth: '1px', borderStyle: 'solid'
-                            }}>
-                            <Colorbtn 
-                                style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
-                                className="add-to-cart-btn"
-                                onClick={addToCart}
-                                text={Identify.__('Add to Cart')}/>
+                    <div className="cart-wishlist-compare">
+                        <div className="cart-actions">
+                            <div 
+                                className="add-to-cart-ctn" >
+                                <Colorbtn 
+                                    className="add-to-cart-btn"
+                                    onClick={addToCart}
+                                    text={Identify.__('Add to Cart')}/>
+                            </div>
                         </div>
-                    </div>
-                    <div className="wishlist-actions">
-                        <Whitebtn 
-                            className="add-to-wishlist-btn"
-                            onClick={addToWishlist}
-                            text={Identify.__('Add to Favourites')}/>
+                        <div className="reserve-actions">
+                            <div 
+                                className="reserve-ctn" >
+                                <Colorbtn 
+                                    className="add-to-reserve-btn"
+                                    onClick={addToReserve}
+                                    text={Identify.__('Reserve')}/>
+                            </div>
+                        </div>
+                        <div className="wishlistAction">
+                            <div className="wishlist">
+                                <span
+                                    className="add-to-wishlist-btn icon-chef"
+                                    onClick={addToWishlist}
+                                >
+                                </span>
+                            </div>
+                        </div>
+                        <div className="compareAction">
+                            <div className="compare">
+                                <span
+                                    className="add-to-compare-btn icon-bench-press"
+                                    onClick={addToCompare}
+                                >
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div className="social-share"><SocialShare id={product.id} className="social-share-item" /></div>
                 </div>
-                {product.description && <div className="description"><Description product={product}/></div>}
-                {(simiExtraField && simiExtraField.additional && simiExtraField.additional.length) ?
-                    <div className="techspec"><Techspec product={product}/></div> : ''}
-                <div className="review-list"><ReviewList product_id={product.id}/></div>
-                <div className="new-review" id="product-detail-new-review">
-                    <NewReview product={product} toggleMessages={this.props.toggleMessages}/>
+                <div className="description-and-review">
+                    <div className="three-titles">
+                        <span className="title delivery"
+                            onClick={()=>this.handleClickTitle("delivery")}
+                        >
+                            {Identify.__('Delivery & Returns')}
+                        </span>
+                        <span className="title information"
+                            onClick={()=>this.handleClickTitle("information")}
+                        >
+                            {Identify.__('More Information')}
+                        </span>
+                        <span className="title reviews"
+                            onClick={()=>this.handleClickTitle("reviews")}
+                        >
+                            {Identify.__('Reviews')}
+                        </span>
+                    </div>
+                    <div className="three-contents">
+                        {product.description && 
+                            <div className="content description"
+                                style={{display: this.state.deliveryDisplay}} >
+                                <Description product={product}/>
+                            </div>
+                        }
+                        {(simiExtraField && simiExtraField.additional && simiExtraField.additional.length) ?
+                            <div className="content techspec"
+                                style={{display: this.state.informationDisplay}} >
+                                <Techspec product={product}/>
+                            </div> : ''
+                        }
+                        <div className="content review-list"
+                            style={{display: this.state.reivewsDisplay}} >
+                            <ReviewList product_id={product.id}/>
+                        </div>
+                    </div>
                 </div>
+
                 <LinkedProduct product={product} link_type="related" history={this.props.history}/>
                 <LinkedProduct product={product} link_type="crosssell" history={this.props.history}/>
             </div>
         );
     }
 }
-
-ProductFullDetail.propTypes = {
+QuickViewDetail.propTypes = {
     product: shape({
         __typename: string,
         id: number,
@@ -400,5 +488,4 @@ ProductFullDetail.propTypes = {
         description: object
     }).isRequired
 };
-
-export default ProductFullDetail;
+export default QuickViewDetail
