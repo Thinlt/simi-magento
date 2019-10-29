@@ -131,8 +131,8 @@ class Start extends \Magento\Framework\App\Action\Action
                 $cart->save();
     
                 $url = $this->_url->getUrl('checkout/index');
-                if (isset($paymentMap[$payment->getMethod()])) {
-                    $url = $this->_url->getUrl($paymentMap[$payment->getMethod()]);
+                if (isset($this->paymentMap[$payment->getMethod()])) {
+                    $url = $this->_url->getUrl($this->paymentMap[$payment->getMethod()]);
                 }
                 if ($url) {
                     $this->getResponse()->setRedirect($url);
