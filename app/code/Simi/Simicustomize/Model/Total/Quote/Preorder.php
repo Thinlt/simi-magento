@@ -112,7 +112,7 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
                 $address->setTaxAmount(0);
                 $address->setBaseTaxAmount(0);
                 $address->setFreeShipping(true);
-                $this->_isDiscount = true;
+                $this->_isDiscount = false;
             }
         }
         return $this;
