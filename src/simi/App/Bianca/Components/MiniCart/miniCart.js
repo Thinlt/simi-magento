@@ -248,7 +248,7 @@ class MiniCart extends Component {
 
     get checkout() {
         const { props, totalsSummary, couponCode, giftVoucher, estimateShipAndTax, grandTotal } = this;
-        const { classes } = props;
+        const { classes, closeDrawer } = props;
 
         return (
             <div className={classes.summary}>
@@ -265,12 +265,12 @@ class MiniCart extends Component {
                 {grandTotal}
 
                 <div className={classes.minicartAction}>
-                    <Link to="/cart.html">
+                    <Link to="/cart.html" onClick={closeDrawer}>
                         <button className={classes.viewCartBtn}>
                             {Identify.__('VIEW & EDIT CART')}
                         </button>
                     </Link>
-                    <Link to="/checkout.html">
+                    <Link to="/checkout.html" onClick={closeDrawer}>
                         <button className={classes.checkoutBtn}>
                             {Identify.__("PROCEED TO CHECKOUT")}
                         </button>
