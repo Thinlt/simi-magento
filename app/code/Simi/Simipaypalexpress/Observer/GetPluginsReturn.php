@@ -23,7 +23,7 @@ class GetPluginsReturn implements ObserverInterface
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         $object = $observer->getEvent()->getData('object');
-        $data = &$observer->getEvent()->getData('data');
+        $data = $observer->getEvent()->getData('data');
         if ($data['resource'] == 'ppexpressapis') {
             $data['module'] = 'simipaypalexpress';
         }
