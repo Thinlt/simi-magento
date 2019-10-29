@@ -78,15 +78,16 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         if ($this->_isPreorderAllowed($items)) {
             $baseDiscount = $this->_getDepositAmount($total);
             $discount =  $this->_priceCurrency->convert($baseDiscount);
-            $total->addTotalAmount('preorder_deposit', -$discount);
-            $total->addBaseTotalAmount('preorder_deposit', -$baseDiscount);
-            $total->addTotalAmount('discount', $discount); //set discount to payment
-            $total->addBaseTotalAmount('discount', $baseDiscount); //set discount to payment
-            // $total->setBaseGrandTotal($total->getBaseGrandTotal() - $baseDiscount);
+            // $total->addTotalAmount('preorder_deposit', -$discount);
+            // $total->addBaseTotalAmount('preorder_deposit', -$baseDiscount);
+            $total->addTotalAmount('discount', -$discount); //set discount to payment
+            $total->addBaseTotalAmount('discount', -$baseDiscount); //set discount to payment
+            // save data value to quote and address
             $quote->setDepositAmount($discount);
             $quote->setBaseDepositAmount($baseDiscount);
             $address->setDepositAmount($discount);
             $address->setBaseDepositAmount($baseDiscount);
+            $address->setDiscountDescription(__('Pre-order Deposit'));
             $this->_isDiscount = true;
         } elseif ($quote->getReservedOrderId()) {
             $order = $this->order->loadByIncrementId($quote->getReservedOrderId());
