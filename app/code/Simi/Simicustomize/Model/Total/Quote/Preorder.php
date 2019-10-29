@@ -76,9 +76,6 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
          */
         $items = $shippingAssignment->getItems();
         if ($this->_isPreorderAllowed($items)) {
-            // return $this;
-            die('3333');
-
             $baseDiscount = $this->_getDepositAmount($total);
             $discount =  $this->_priceCurrency->convert($baseDiscount);
             $total->addTotalAmount('preorder_deposit', -$discount);
@@ -92,28 +89,13 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
             $address->setBaseDepositAmount($baseDiscount);
             $this->_isDiscount = true;
         } elseif ($quote->getReservedOrderId()) {
-// die('aaaaa');
-// return $this;
-            // var_dump($quote->getReservedOrderId());die;
-
             $order = $this->order->loadByIncrementId($quote->getReservedOrderId());
             if ($order->getId() && $order->getDepositAmount()) {
-                // var_dump($order->getGrandTotal());die;
-
                 $orderTotals = max($order->getSubtotal() - $order->getDepositAmount(), $order->getTotalPaid());
                 $orderBaseTotals = max($order->getBaseSubtotal() - $order->getBaseDepositAmount(), $order->getBaseTotalPaid());
-                // $orderTotals = max($order->getTotalDue(), $order->getTotalPaid());
-                // $orderBaseTotals = max($order->getBaseTotalDue(), $order->getBaseTotalPaid());
-                
-                // $depositDiscount = max($total - $order->getDepositAmount(), 0);
-                // $baseDepositDiscount = max($orderBaseTotals - $order->getBaseDepositAmount(), 0);
 
                 $discount = $orderTotals;
                 $baseDiscount = $orderBaseTotals;
-                // var_dump($baseDepositDiscount);die;
-
-                // $total->addTotalAmount('preorder_discount', -$discount);
-                // $total->addBaseTotalAmount('preorder_discount', -$baseDiscount);
                 
                 $total->addTotalAmount('discount', -$discount); //set discount to payment when convert deposit to #2 order
                 $total->addBaseTotalAmount('discount', -$baseDiscount); //set discount to payment when convert deposit to #2 order
@@ -129,12 +111,6 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
                 $address->setTaxAmount(0);
                 $address->setBaseTaxAmount(0);
                 $address->setFreeShipping(true);
-                // $total->setShippingAmount(0);
-                // $total->setBaseShippingAmount(0);
-                //Magento/Weee/Model/Total/Quote/WeeeTax.php
-
-                // $total->setGrandTotal($order->getDepositAmount());
-                // $total->setBaseGrandTotal($order->getBaseDepositAmount());
                 $this->_isDiscount = true;
             }
         }
