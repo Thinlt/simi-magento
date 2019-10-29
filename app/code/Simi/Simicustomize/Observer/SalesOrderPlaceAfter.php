@@ -27,5 +27,8 @@ class SalesOrderPlaceAfter implements ObserverInterface
         if ($coupon_code && $coupon_code == 'TRYTOBUY') {
             $order->setStatus('try_to_buy');
         }
+        if ($order->getOrderType() == 'pre_order') {
+            $order->setStatus('pre_order');
+        }
     }
 }

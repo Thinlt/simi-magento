@@ -5,5 +5,8 @@
         <route id="simicustomize" frontName="simicustomize">
             <module name="Simi_Simicustomize" />
         </route>
+        <route id="simicustomize_checkout" frontName="simi">
+            <module name="Simi_Simicustomize" />
+        </route>
     </router>
 </config>

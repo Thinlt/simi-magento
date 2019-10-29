@@ -10,6 +10,9 @@ use Magento\Catalog\Model\Product\Attribute\Source\Status;
 use Magento\Framework\ObjectManagerInterface;
 use Psr\Log\LoggerInterface;
 use Magento\Store\Api\StoreRepositoryInterface;
+use Magento\Sales\Setup\SalesSetupFactory;
+use Magento\Sales\Setup\SalesSetup;
+use Magento\Framework\DB\Ddl\Table;
 
 class UpgradeData implements UpgradeDataInterface
 {
@@ -31,20 +34,29 @@ class UpgradeData implements UpgradeDataInterface
     protected $storeRepository;
 
     /**
-       * @param EavSetup $eavSetup
-       * @param QuoteSetupFactory $setupFactory
-       * @param SalesSetupFactory $salesSetupFactory
-       */
-      public function __construct(
+     * @var SalesSetupFactory
+     */
+    protected $salesSetupFactory;
+
+    /**
+    * @param EavSetup $eavSetup,
+    * @param ObjectManagerInterface $objectManager,
+    * @param StoreRepositoryInterface $storeRepository,
+    * @param LoggerInterface $logger,
+    * @param SalesSetupFactory $salesSetupFactory
+    */
+    public function __construct(
         EavSetup $eavSetup,
         ObjectManagerInterface $objectManager,
         StoreRepositoryInterface $storeRepository,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        SalesSetupFactory $salesSetupFactory
     ) {
         $this->eavSetup = $eavSetup;
         $this->_objectManager = $objectManager;
         $this->storeRepository = $storeRepository;
         $this->logger = $logger;
+        $this->salesSetupFactory = $salesSetupFactory;
     }
 
     /**
@@ -170,6 +182,46 @@ class UpgradeData implements UpgradeDataInterface
                     $this->logger->log($e, 1);
                 }
             }
+        }
+
+        /**
+         * Add pre_order order status
+         */
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.3', '<')) {
+            $data = [];
+            $statusCode = 'pre_order';
+            $storeLabel = 'Pre-order';
+            $status = $this->_objectManager->create(\Magento\Sales\Model\Order\Status::class)->load($statusCode);
+            if ($status && !$status->getStatus()) {
+                try {
+                    $data['status'] = $statusCode;
+                    $data['label'] = $storeLabel;
+                    if (!isset($data['store_labels'])) {
+                        $data['store_labels'] = [];
+                    }
+                    // get all stores \Magento\Store\Api\Data\StoreInterface[]
+                    $stores = $this->storeRepository->getList();
+                    foreach ($stores as $store) {
+                        $data['store_labels'][(int)$store->getId()] = $storeLabel;
+                    }
+                    // save status
+                    $status->setData($data)->setStatus($statusCode);
+                    $status->save();
+                    // assign status to state
+                    $status->assignState('processing', $isDefault = 0, $visibleOnFront = 1);
+                } catch (\Exception $e) {
+                    $this->logger->log($e, 1);
+                }
+            }
+
+            /**
+             * Add pre-order deposit to sales order attribute
+             */
+            /** @var SalesSetup $salesSetup */
+            $salesSetup = $this->salesSetupFactory->create(['setup' => $setup]);
+            $salesSetup->addAttribute('order', 'order_type', ['type' => Table::TYPE_TEXT, 'length' => 100]);
+            $salesSetup->addAttribute('order', 'base_deposit_amount', ['type' => Table::TYPE_DECIMAL]);
+            $salesSetup->addAttribute('order', 'deposit_amount', ['type' => Table::TYPE_DECIMAL]);
         }
     }
 }

@@ -1,0 +1,8 @@
+<!-- ko if: isDisplayedPreorderDeposit() -->
+<tr class="totals preorder-deposit excl">
+    <th class="mark" colspan="1" scope="row" data-bind="text: preorder_deposit"></th>
+    <td class="amount">
+        <span class="price" data-bind="text: getPreorderDeposit(), attr: {'data-th': preorder_deposit}"></span>
+    </td>
+ </tr>
+ <!-- /ko -->

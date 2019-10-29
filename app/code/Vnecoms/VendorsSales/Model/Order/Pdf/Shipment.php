@@ -177,6 +177,9 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\Shipment
             $vendorOrderId = $shipment->getVendorOrderId();
             $vendorOrder = $this->_objectManager->create('Vnecoms\VendorsSales\Model\Order')->load($vendorOrderId);
             $order = $vendorOrder->getOrder();
+            if (!$order->getId()) {
+                $order = $shipment->getOrder(); //fix bug
+            }
         }
 
         $this->y = $this->y ? $this->y : 815;
@@ -232,10 +235,13 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\Shipment
         reset($payment);
 
         /* Shipping Address and Method */
+        $shippingMethod = '';
         if (!$order->getIsVirtual()) {
             /* Shipping Address */
             $shippingAddress = $this->_formatAddress($this->addressRenderer->format($order->getShippingAddress(), 'pdf'));
-            $shippingMethod = $vendorOrder->getShippingDescription();
+            if (isset($vendorOrder)) {
+                $shippingMethod = $vendorOrder->getShippingDescription();
+            }
         }
 
         $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
@@ -275,7 +281,7 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\Shipment
 
         $addressesEndY = $this->y;
 
-        if (!$order->getIsVirtual()) {
+        if (!$order->getIsVirtual() && $shippingAddress) {
             $this->y = $addressesStartY;
             foreach ($shippingAddress as $value) {
                 if ($value !== '') {

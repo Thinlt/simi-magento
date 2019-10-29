@@ -23,6 +23,9 @@ class Cart
             $requestInfo['qty'] = '1';
             $cart->getQuote()->setCouponCode('TRYTOBUY'); // add coupon code when add try to buy product to the cart
         }
+        if (isset($requestInfo['pre_order']) && $requestInfo['pre_order']) {
+            $cart->getQuote()->setIsPreorder(true); // set is pre-order - not work
+        }
         return [$productInfo, $requestInfo];
     }
 }
