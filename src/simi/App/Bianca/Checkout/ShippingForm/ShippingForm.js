@@ -175,6 +175,20 @@ const ShippingForm = (props) => {
      */
     const methodSelecteHandle = (action) => {
         let selecteds = {...methodCodesSelected};
+        // check no vendor in cart and remove initial state
+        if (selecteds) {
+            for(let venId in selecteds){
+                if (availableVendorsMethods && availableVendorsMethods.length) {
+                    let foundVendorMethod = availableVendorsMethods.find((vendorMethod) => {
+                        if (vendorMethod.vendor_id === venId) return true;
+                        return false;
+                    });
+                    if (!foundVendorMethod) {
+                        selecteds = {}
+                    }
+                }
+            }
+        }
         selecteds[action.vendor_id] = action.method_code;
         setMethodCodesSelected(selecteds);
         handleSubmit2(selecteds);

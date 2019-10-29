@@ -329,11 +329,11 @@ const FormFields = (props) => {
                             <div className={`address-field-label ${configFields.city_show === 'req' ? 'req' : ''}`}>{Identify.__("City")}</div>
                             <input type="text" id='city' name='city' className={configFields.city_show === 'req' ? 'isrequired' : ''} defaultValue={initialValues.city}></input>
                         </div>}
-                    {!configFields || (configFields && configFields.hasOwnProperty('zipcode_show') && configFields.zipcode_show) ?
+                    {isFieldShow('zipcode_show') &&
                         <div className='postcode'>
                             <div className={`address-field-label ${configFields.zipcode_show === 'req' ? 'req' : ''}`}>{Identify.__("ZIP")}</div>
                             <input type="text" id='postcode' name='postcode' className={configFields.zipcode_show === 'req' ? 'isrequired' : ''} defaultValue={initialValues.postcode}></input>
-                        </div> : null}
+                        </div>}
                     {isFieldShow('country_id_show') &&
                         <div className='country'>
                             <div className={`address-field-label ${(!configFields || configFields.country_id_show === 'req') ? 'req' : ''}`}>{Identify.__("Country")}</div>
