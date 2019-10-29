@@ -105,7 +105,7 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
                 $total->setBaseTotalAmount('shipping', 0);
                 $total->setTotalAmount('tax', 0);
                 $total->setBaseTotalAmount('tax', 0);
-                $total->setTaxAmount(1);
+                $total->setTaxAmount(0);
 
                 $address->setShippingAmount(0);
                 $address->setBaseShippingAmount(0);

@@ -105,6 +105,14 @@ class Start extends \Magento\Framework\App\Action\Action
                 // add order items to cart
                 $allOrderItems = $order->getAllItems();
                 foreach($allOrderItems as $item){
+                    // $info = $item->getProductOptionByCode('info_buyRequest');
+                    $options = $item->getProductOptions();
+                    if (isset($options['info_buyRequest'])) {
+                        if (isset($options['info_buyRequest']['pre_order'])) {
+                            $options['info_buyRequest']['pre_order'] = 0;
+                            $item->setProductOptions($options);
+                        }
+                    }
                     $cart->addOrderItem($item);
                 }
     
