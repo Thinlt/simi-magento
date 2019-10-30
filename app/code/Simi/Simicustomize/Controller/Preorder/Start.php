@@ -97,7 +97,11 @@ class Start extends \Magento\Framework\App\Action\Action
                 $this->_checkoutSession
                     ->clearQuote()
                     ->clearStorage()
-                    ->setLoadInactive(true);
+                    ->setLoadInactive(false);
+
+                //set order for quote change ReservedOrderId
+                $this->_checkoutSession
+                    ->setLastDepositOrderId($orderId);
     
                 $cart = ObjectManager::getInstance()->create(\Magento\Checkout\Model\Cart::class); //create checkout cart
                 $quote = $this->_checkoutSession->getQuote();

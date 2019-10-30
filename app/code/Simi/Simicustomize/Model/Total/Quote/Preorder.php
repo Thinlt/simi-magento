@@ -45,16 +45,23 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
     protected $order;
 
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
     * Custom constructor.
     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
     */
     public function __construct(
        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
        \Magento\Framework\App\Config\ScopeConfigInterface $config,
+       \Magento\Checkout\Model\Session $checkoutSession,
        \Magento\Sales\Model\Order $order
     ){
         $this->_priceCurrency = $priceCurrency;
         $this->_config = $config;
+        $this->_checkoutSession = $checkoutSession;
         $this->order = $order;
     }
    /**
@@ -69,6 +76,7 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         \Magento\Quote\Model\Quote\Address\Total $total
     )
     {
+        
         parent::collect($quote, $shippingAssignment, $total);
         $address = $shippingAssignment->getShipping()->getAddress();
         /**
@@ -91,6 +99,9 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
             $this->_isDiscount = true;
         } elseif ($quote->getReservedOrderId()) {
             $order = $this->order->loadByIncrementId($quote->getReservedOrderId());
+            if (!$order->getId() && $this->_checkoutSession->getLastDepositOrderId()) {
+                $order = $this->order->loadByIncrementId($this->_checkoutSession->getLastDepositOrderId());
+            }
             if ($order->getId() && $order->getDepositAmount()) {
                 $orderTotals = max($order->getSubtotal() - $order->getDepositAmount(), $order->getTotalPaid());
                 $orderBaseTotals = max($order->getBaseSubtotal() - $order->getBaseDepositAmount(), $order->getBaseTotalPaid());
