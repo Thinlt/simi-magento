@@ -91,7 +91,7 @@ class Ppexpressapis extends \Simi\Simiconnector\Model\Api\Apiabstract
                     $this->_initCheckout();
                     $this->checkout->returnFromPaypal($this->_initToken());
                     if ($success_callback = $this->getStoreConfig('simipaypalexpress/pwa_studio/success_callback')) {
-                        $controller->getResponse()->setRedirect($success_callback . '&token=' . $controller->getRequest()->getParam('token'));
+                        $controller->getResponse()->setRedirect($success_callback . '?token=' . $controller->getRequest()->getParam('token'));
                     }
                 }
             }  else if (strpos($data['resourceid'], 'cancel')  !== false) { //for pwa-studio
