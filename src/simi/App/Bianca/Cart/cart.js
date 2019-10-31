@@ -11,7 +11,8 @@ import {
     getShippingMethods
 } from 'src/actions/checkout'
 import { isEmptyCartVisible } from 'src/selectors/cart';
-
+import { getCountries } from 'src/actions/directory';
+import {submitShippingAddress} from 'src/simi/Redux/actions/simiactions';
 import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
 import Loading from 'src/simi/BaseComponents/Loading'
 
@@ -54,8 +55,9 @@ class Cart extends Component {
     componentDidMount() {
         showFogLoading()
         this.setIsPhone()
-        const { getCartDetails } = this.props;
+        const { getCartDetails, getCountries } = this.props;
         getCartDetails();
+        getCountries()
     }
 
     get cartId() {
@@ -268,7 +270,7 @@ class Cart extends Component {
     }
 
     get estimateShipAndTax() {
-        const { cart, toggleMessages, getCartDetails, submitShippingMethod, editOrder, availableShippingMethods,getShippingMethods } = this.props;
+        const { cart, countries, shippingAddress ,toggleMessages, getCartDetails, submitShippingMethod, editOrder, availableShippingMethods,getShippingMethods, submitShippingAddress } = this.props;
         const childCPProps = {
             toggleMessages,
             getCartDetails,
@@ -276,7 +278,10 @@ class Cart extends Component {
             submitShippingMethod,
             editOrder,
             availableShippingMethods,
-            getShippingMethods
+            getShippingMethods,
+            countries,
+            submitShippingAddress,
+            shippingAddress
         }
         return <div className={`estimate-form`}><Estimate {...childCPProps} /></div>
     }
@@ -359,14 +364,17 @@ Cart.propTypes = {
 }
 
 const mapStateToProps = state => {
-    const { cart, user, checkout } = state;
+    const { cart, user, checkout, directory } = state;
     const { isSignedIn } = user;
-    const { availableShippingMethods } = checkout
+    const { availableShippingMethods,shippingAddress } = checkout
+    const { countries } = directory
     return {
         cart,
         isCartEmpty: isEmptyCartVisible(state),
         isSignedIn,
-        availableShippingMethods
+        availableShippingMethods,
+        countries,
+        shippingAddress
     };
 };
 
@@ -376,7 +384,9 @@ const mapDispatchToProps = {
     updateItemInCart,
     submitShippingMethod,
     editOrder,
-    getShippingMethods
+    getShippingMethods,
+    getCountries,
+    submitShippingAddress
 };
 
 export default connect(
