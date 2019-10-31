@@ -73,7 +73,7 @@ const CreateAccount = props => {
                     {`Check out faster, use multiple addresses, track
                             orders and more by creating an account!`}
                 </h3>
-                <Field label="First Name" required={true}>
+                <Field label={Identify.__("First Name")} required={true}>
                     <TextInput
                         field="customer.firstname"
                         autoComplete="given-name"
@@ -81,7 +81,7 @@ const CreateAccount = props => {
                         validateOnBlur
                     />
                 </Field>
-                <Field label="Last Name" required={true}>
+                <Field label={Identify.__("Last Name")} required={true}>
                     <TextInput
                         field="customer.lastname"
                         autoComplete="family-name"
@@ -89,7 +89,7 @@ const CreateAccount = props => {
                         validateOnBlur
                     />
                 </Field>
-                <Field label="Email" required={true}>
+                <Field label={Identify.__("Email")} required={true}>
                     <TextInput
                         field="customer.email"
                         autoComplete="email"
@@ -97,7 +97,7 @@ const CreateAccount = props => {
                         validateOnBlur
                     />
                 </Field>
-                <Field label="Password">
+                <Field label={Identify.__("Password")}>
                     <TextInput
                         field="password"
                         type="password"
@@ -106,7 +106,7 @@ const CreateAccount = props => {
                         validateOnBlur
                     />
                 </Field>
-                <Field label="Confirm Password">
+                <Field label={Identify.__("Confirm Password")}>
                     <TextInput
                         field="confirm"
                         type="password"
@@ -117,7 +117,7 @@ const CreateAccount = props => {
                 <div className='subscribe'>
                     <Checkbox
                         field="subscribe"
-                        label="Subscribe to news and updates"
+                        label={Identify.__("Subscribe to news and updates")}
                     />
                 </div>
                 <div className='error'>{errorMessage}</div>
