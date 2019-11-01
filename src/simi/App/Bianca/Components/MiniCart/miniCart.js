@@ -77,12 +77,13 @@ class MiniCart extends Component {
         this.wrapperMiniCart = React.createRef();
     }
 
-    async componentDidMount() {
-        const { getCartDetails, getShippingMethods, getCountries } = this.props;
-        await getCartDetails();
-        await getShippingMethods();
-        await getCountries();
-    }
+    // async componentDidMount() {
+    //     const { getCartDetails, getCountries } = this.props;
+    //     console.log('loaded')
+    //     // await getCartDetails();
+    //     // await getShippingMethods();
+    //     // await getCountries();
+    // }
 
     get cartId() {
         const { cart } = this.props;
@@ -303,7 +304,7 @@ class MiniCart extends Component {
                 {totalsSummary}
                 {couponCode}
                 {giftVoucher}
-                {estimateShipAndTax}
+                {/* {estimateShipAndTax} */}
                 {grandTotal}
 
                 <div className={classes.minicartAction}>

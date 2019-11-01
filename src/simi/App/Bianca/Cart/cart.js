@@ -392,7 +392,7 @@ class Cart extends Component {
                         <div>{Identify.__('Summary')}</div>
                         {couponCode}
                         {giftVoucher}
-                        {estimateShipAndTax}
+                        {/* {estimateShipAndTax} */}
                         {total}
                         {checkoutButton}
                     </div>
