@@ -83,7 +83,6 @@ class Header extends React.Component{
     }
 
     renderRightBar = () => {
-        console.log(this.props)
         const {classes} = this
         return(
             <div className={'right-bar'}>
@@ -97,7 +96,7 @@ class Header extends React.Component{
                         </div>
                     </Link>
                 </div>
-                <div className={'right-bar-item'}>
+                <div className={'right-bar-item'} id="cart">
                     <CartTrigger classes={classes}/>
                 </div>
             </div>
@@ -158,6 +157,17 @@ class Header extends React.Component{
     }
 
     render(){
+        const {storeConfig} = this.props
+        var bianca_header_phone = ""
+        var bianca_header_sale_title = ""
+        var bianca_header_sale_link = ""
+        var bianca_header_storelocator = ""
+        if(storeConfig && storeConfig.simiStoreConfig && storeConfig.simiStoreConfig.config && storeConfig.simiStoreConfig.config.base){
+            let base_option = storeConfig.simiStoreConfig.config.base
+            bianca_header_phone = base_option.bianca_header_phone ? base_option.bianca_header_phone : ""
+            bianca_header_sale_title = base_option.bianca_header_sale_title ? base_option.bianca_header_sale_title : ""
+            bianca_header_storelocator = base_option.bianca_header_storelocator ? base_option.bianca_header_storelocator : ""
+        }
         const { classes } = this;
         const { drawer } = this.props;
         const cartIsOpen = drawer === 'cart';
@@ -174,13 +184,16 @@ class Header extends React.Component{
                             <div className="global-site-notice">
                                 <div className="notice-inner">
                                     <div className="contact-info">
-                                        <span>{Identify.__('Contact us 24/7')}:</span>
-                                        <span className="phone">+965 555 5455 731</span>
+                                        <span className="title-phone">{Identify.__('Contact us 24/7')}: {Identify.__(bianca_header_phone)}</span>
                                     </div>
                                     <div className="notice-msg">
-                                        <span>{Identify.__('Sale up to 50%: on')} <a href={"#"}>{Identify.__('selected items')}</a></span>
+                                        <span>{Identify.__(bianca_header_sale_title)}: <a href={bianca_header_sale_link}>{Identify.__('on selected items')}</a></span>
                                     </div>
                                     <div className="store-switch">
+                                        <div className="storelocator">
+                                            <div className="storelocator-icon"></div>
+                                            <div className="storelocator-title"><a href={bianca_header_storelocator}>{Identify.__("Store")}</a></div>
+                                        </div>
                                         <div className="storeview-switcher">
                                             {storeViewOptions}
                                         </div>
@@ -193,7 +206,7 @@ class Header extends React.Component{
                         </div>
                     </div> 
                     <div className="container-header">
-                        <div className="container">
+                        <div className="container sub-container">
                             <div className="header">
                                 {this.renderSearchForm()}
                                 {this.renderLogo()}

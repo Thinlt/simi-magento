@@ -34,7 +34,11 @@ const SearchForm = props => {
             setShowAC(false)
         }
     }
-
+    const handleMouseLeave = () => {
+        if(searchField.value){
+            $('.placeholder').css('display', 'none')
+        }
+    }
 
     const classes = props.classes
 
@@ -66,10 +70,12 @@ const SearchForm = props => {
                             type="text" 
                             id="siminia-search-field"
                             ref={(e) => {searchField = e}}
-                            placeholder={Identify.__('Search')}
+                            className="search"
                             onChange={() => handleSearchField()}
                             onKeyPress={(e) => {if (e.key === 'Enter') startSearch()}}
+                            onMouseLeave={()=> handleMouseLeave()}
                         />
+                        <span className="placeholder">{Identify.__('Search')}</span>
                         {/* <div role="button" tabIndex="0" className={classes['search-icon']} onClick={() => startSearch()} onKeyUp={() => startSearch()}>
                             <Search style={{width: 30, height: 30, display: 'block'}} />
                         </div> */}
