@@ -22,22 +22,14 @@ class SalesModelServiceQuoteSubmitBefore implements ObserverInterface
     }
 
     public function execute(Observer $observer) {
-        $isPreorder = false;
         $order = $observer->getEvent()->getOrder();
         $quote = $observer->getEvent()->getQuote();
-        // check quote has pre-order items
-        $items = $quote->getAllItems();
-        foreach ($items as $item) {
-            $infoRequest = $item->getBuyRequest();
-            if ($infoRequest && (int)$infoRequest->getData('pre_order')) {
-                $isPreorder = true;
-                break;
-            }
-        }
-        if ($isPreorder) {
-            $order->setOrderType('pre_order');
+        if ($quote->getQuoteType() == \Simi\Simicustomize\Model\Total\Quote\Preorder::QUOTE_TYPE) {
+            $order->setOrderType(\Simi\Simicustomize\Model\Total\Quote\Preorder::QUOTE_TYPE);
             $order->setData('deposit_amount', $quote->getData('deposit_amount'));
             $order->setData('base_deposit_amount', $quote->getData('base_deposit_amount'));
+            $order->setData('remaining_amount', $quote->getData('remaining_amount'));
+            $order->setData('base_remaining_amount', $quote->getData('base_remaining_amount'));
         }
     }
 }

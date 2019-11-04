@@ -5,14 +5,11 @@
  * See COPYING.txt for license details.
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceBlock name="sales_order_edit">
-            <block class="Simi\Simicustomize\Block\Adminhtml\Order\View" name="simi_simicustomize_sales_order_view_button" />
-        </referenceBlock>
-        <referenceBlock name="order_totals">
+        <referenceContainer name="invoice_totals">
             <block class="Simi\Simicustomize\Block\Adminhtml\Order\Totals\PreorderDeposit" name="preorder_deposit" template="Simi_Simicustomize::order/totals/preorder_deposit.phtml"/>
             <block class="Simi\Simicustomize\Block\Adminhtml\Order\Totals\PreorderRemaining" name="preorder_remaining" template="Simi_Simicustomize::order/totals/preorder_deposit.phtml"/>
-        </referenceBlock>
+        </referenceContainer>
     </body>
 </page>

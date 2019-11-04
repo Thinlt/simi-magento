@@ -11,4 +11,14 @@
             <item name="preorder_deposit" instance="Simi\Simicustomize\Model\Total\Quote\Preorder" sort_order="399"/>
         </group>
     </section>
+    <section name="order_invoice">
+        <group name="totals">
+            <item name="preorder_deposit" instance="Simi\Simicustomize\Model\Sales\Totals\Invoice" sort_order="1000"/>
+        </group>
+    </section>
+    <section name="order_creditmemo">
+        <group name="totals">
+            <item name="preorder_deposit" instance="Simi\Simicustomize\Model\Sales\Totals\Creditmemo" sort_order="1000"/>
+        </group>
+    </section>
 </config>

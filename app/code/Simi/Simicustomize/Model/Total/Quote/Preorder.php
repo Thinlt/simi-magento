@@ -11,7 +11,17 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
     /**
      * Pre-order deposit total label
      */
-    const LABEL = 'Pre-order Deposit';
+    const LABEL = 'Pre-order Remaining';
+
+    /**
+     * Deposit label
+     */
+    const LABEL_DEPOSIT = 'Pre-order Deposit';
+
+    /**
+     * Deposit label
+     */
+    const QUOTE_TYPE = 'pre_order';
 
     /**
     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
@@ -59,6 +69,7 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
        \Magento\Checkout\Model\Session $checkoutSession,
        \Magento\Sales\Model\Order $order
     ){
+        $this->setCode('preorder_deposit');
         $this->_priceCurrency = $priceCurrency;
         $this->_config = $config;
         $this->_checkoutSession = $checkoutSession;
@@ -76,7 +87,6 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         \Magento\Quote\Model\Quote\Address\Total $total
     )
     {
-        
         parent::collect($quote, $shippingAssignment, $total);
         $address = $shippingAssignment->getShipping()->getAddress();
         /**
@@ -84,31 +94,44 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
          */
         $items = $shippingAssignment->getItems();
         if ($this->_isPreorderAllowed($items)) {
-            $baseDiscount = $this->_getDepositAmount($total);
+            $baseDepositAmount = $this->_getDepositAmount($total);
+            $depositAmount = $this->_priceCurrency->convert($baseDepositAmount);
+            $baseDiscount = $this->_getRemaningAmount($total);
             $discount =  $this->_priceCurrency->convert($baseDiscount);
             // $total->addTotalAmount('preorder_deposit', -$discount);
             // $total->addBaseTotalAmount('preorder_deposit', -$baseDiscount);
-            $total->addTotalAmount('discount', -$discount); //set discount to payment
             $total->addBaseTotalAmount('discount', -$baseDiscount); //set discount to payment
+            $total->addTotalAmount('discount', -$discount); //set discount to payment
             // save data value to quote and address
-            $quote->setDepositAmount($discount);
-            $quote->setBaseDepositAmount($baseDiscount);
-            $address->setDepositAmount($discount);
-            $address->setBaseDepositAmount($baseDiscount);
-            $address->setDiscountDescription(__('Pre-order Deposit'));
+            $quote->setQuoteType(self::QUOTE_TYPE);
+            $quote->setDepositAmount($depositAmount);
+            $quote->setBaseDepositAmount($baseDepositAmount);
+            $quote->setRemainingAmount($discount);
+            $quote->setBaseRemainingAmount($baseDiscount);
+            $address->setDepositAmount($depositAmount);
+            $address->setBaseDepositAmount($baseDepositAmount);
+            $address->setRemainingAmount($discount);
+            $address->setBaseRemainingAmount($baseDiscount);
+            $address->setDiscountDescription(__('Pre-order'));
             $this->_isDiscount = true;
         } elseif ($quote->getReservedOrderId()) {
+            // when pay for #2 order
             $order = $this->order->loadByIncrementId($quote->getReservedOrderId());
             if (!$order->getId() && $this->_checkoutSession->getLastDepositOrderId()) {
                 $order = $this->order->loadByIncrementId($this->_checkoutSession->getLastDepositOrderId());
             }
-            if ($order->getId() && $order->getDepositAmount()) {
-                $orderTotals = max($order->getSubtotal() - $order->getDepositAmount(), $order->getTotalPaid());
-                $orderBaseTotals = max($order->getBaseSubtotal() - $order->getBaseDepositAmount(), $order->getBaseTotalPaid());
+            if ($order->getId() && $order->getRemainingAmount()) {
+                $quote->setQuoteType(self::QUOTE_TYPE);
+                $quote->setReservedOrderId($order->getIncrementId());
+                $quote->setBaseRemainingAmount(0);
+                $quote->setRemainingAmount(0);
+                $quote->setBaseDepositAmount($order->getBaseDepositAmount());
+                $quote->setDepositAmount($order->getDepositAmount());
+                $address->setBaseDepositAmount($order->getBaseDepositAmount());
+                $address->setDepositAmount($order->getDepositAmount());
 
-                $discount = $orderTotals;
-                $baseDiscount = $orderBaseTotals;
-                
+                $discount = max($order->getSubtotal() - $order->getRemainingAmount(), $order->getDepositAmount());
+                $baseDiscount = max($order->getBaseSubtotal() - $order->getBaseRemainingAmount(), $order->getBaseDepositAmount());
                 $total->addTotalAmount('discount', -$discount); //set discount to payment when convert deposit to #2 order
                 $total->addBaseTotalAmount('discount', -$baseDiscount); //set discount to payment when convert deposit to #2 order
 
@@ -123,6 +146,7 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
                 $address->setTaxAmount(0);
                 $address->setBaseTaxAmount(0);
                 $address->setFreeShipping(true);
+                $address->setDiscountDescription(__('Pre-order'));
                 $this->_isDiscount = false;
             }
         }
@@ -146,20 +170,30 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         return [
             'code' => $this->getCode(),
             'title' => $this->getLabel(),
-            'value' => $this->_priceCurrency->convert($this->_getDepositAmount($total))
+            'value' => $this->_priceCurrency->convert($this->_getRemaningAmount($total))
         ];
     }
 
+    /**
+     * Get deposit amount base on baseSubtotal
+     */
     protected function _getDepositAmount($total){
         if (!$this->_baseSubtotal) {
             $this->_baseSubtotal = $total->getBaseSubtotal();
         }
-        $baseSubTotal = $this->_baseSubtotal;
-        $percent = $this->_getPreorderValue(); // percent
-        if ($percent > 100) {
-            $percent = 100.00;
+        $percent = max($this->_getPreorderValue(), 0); // percent
+        $percent = min($percent, 100); // percent
+        return ($this->_baseSubtotal / 100) * $percent;
+    }
+
+    /**
+     * Get remaining amount base on baseSubtotal
+     */
+    protected function _getRemaningAmount($total){
+        if (!$this->_baseSubtotal) {
+            $this->_baseSubtotal = $total->getBaseSubtotal();
         }
-        return $baseSubTotal - ($baseSubTotal / 100) * $percent;
+        return $this->_baseSubtotal - $this->_getDepositAmount($total);
     }
 
     /**
@@ -185,7 +219,7 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
     }
 
     /**
-     * Check preorder allowed
+     * Check preorder allowed if quote has pre-order items
      * return bool
      */
     protected function _isPreorderAllowed($items){
@@ -194,7 +228,7 @@ class Preorder extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         }
         foreach ($items as $item) {
             $infoRequest = $item->getBuyRequest();
-            if ($infoRequest && (int)$infoRequest->getData('pre_order')) {
+            if ($infoRequest && (int)$infoRequest->getData(self::QUOTE_TYPE)) {
                 return true;
             }
         }

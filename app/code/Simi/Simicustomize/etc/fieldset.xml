@@ -9,11 +9,36 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:DataObject/etc/fieldset.xsd">
     <scope id="global">
         <fieldset id="sales_convert_quote">
+            <field name="quote_type">
+                <aspect name="to_order" targetField="order_type"/>
+            </field>
             <field name="deposit_amount">
                 <aspect name="to_order" />
             </field>
             <field name="base_deposit_amount">
                 <aspect name="to_order" />
+            </field>
+            <field name="remaining_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="base_remaining_amount">
+                <aspect name="to_order" />
+            </field>
+        </fieldset>
+        <fieldset id="sales_convert_quote_address">
+            <field name="discount_description">
+                <aspect name="to_order"/>
+            </field>
+        </fieldset>
+        <fieldset id="sales_convert_order">
+            <field name="discount_description">
+                <aspect name="to_invoice"/>
+            </field>
+            <field name="base_discount_amount">
+                <aspect name="to_invoice"/>
+            </field>
+            <field name="discount_amount">
+                <aspect name="to_invoice"/>
             </field>
         </fieldset>
     </scope>

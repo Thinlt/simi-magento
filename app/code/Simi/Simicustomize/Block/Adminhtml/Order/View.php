@@ -16,12 +16,12 @@ class View extends \Magento\Backend\Block\Widget\Container
     {
         $order = $this->getParentBlock()->getOrder();
 
-        if ($this->_isAllowedAction('Magento_Sales::emails') && $order->getBaseDepositAmount() > 0) {
+        if ($this->_isAllowedAction('Magento_Sales::emails') && $order->getBaseRemainingAmount() > 0) {
             $message = __('Are you sure you want to send an deposit order email to customer?');
             $this->addButton(
                 'preorder_deposit',
                 [
-                    'label' => __('Pre-order Deposit'),
+                    'label' => __('Send Pre-order Remaining Email'),
                     'class' => 'preorder-deposit',
                     'onclick' => "confirmSetLocation('{$message}', '{$this->getPreorderDepositUrl()}')",
                     // 'data_attribute' => [

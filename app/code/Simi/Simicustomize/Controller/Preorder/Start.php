@@ -132,6 +132,13 @@ class Start extends \Magento\Framework\App\Action\Action
                     }
                 }
     
+                $shippingAddress->setShippingMethod('freeshipping_freeshipping')->setCollectShippingRates(true);
+                $cartExtension = $quote->getExtensionAttributes();
+                if ($cartExtension && $cartExtension->getShippingAssignments()) {
+                    $cartExtension->getShippingAssignments()[0]
+                        ->getShipping()
+                        ->setMethod('freeshipping_freeshipping');
+                }
                 $quote
                     ->setReservedOrderId($orderId)
                     ->setShippingAddress($shippingAddress)
