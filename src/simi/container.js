@@ -1,20 +1,39 @@
-import { connect } from 'src/drivers';
+import React, { Component } from 'react';
+import { connect } from '@magento/venia-drivers';
 
-import appActions, { closeDrawer } from 'src/actions/app';
+import appActions, { closeDrawer } from '@magento/venia-ui/lib/actions/app';
 import App from './app';
 
-const mapStateToProps = ({ app, unhandledErrors }) => {
-    const { hasBeenOffline, isOnline } = app
-    return {
-        hasBeenOffline,
-        isOnline,
-        unhandledErrors
+class AppContainer extends Component {
+    static get initialState() {
+        return {
+            renderError: null
+        };
     }
-};
+
+    static getDerivedStateFromError(renderError) {
+        return { renderError };
+    }
+
+    state = AppContainer.initialState;
+
+    render() {
+        const { renderError } = this.state;
+        return <ConnectedApp renderError={renderError} />;
+    }
+}
+
+const mapStateToProps = ({ app, unhandledErrors }) => ({
+    app,
+    unhandledErrors
+});
+
 const { markErrorHandled } = appActions;
 const mapDispatchToProps = { closeDrawer, markErrorHandled };
 
-export default connect(
+const ConnectedApp = connect(
     mapStateToProps,
     mapDispatchToProps
 )(App);
+
+export default AppContainer;
