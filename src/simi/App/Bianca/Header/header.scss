@@ -312,6 +312,7 @@ $textColor3: #E4E4E4;
                 line-height: 12px;
                 height: 26px;
                 display: inline-block;
+                margin-bottom: 30px;
             }
             .nav-mega-item {
                 position: absolute;
@@ -327,17 +328,13 @@ $textColor3: #E4E4E4;
                 padding-bottom: 20px;
                 display: flex;
                 display: none;
-                justify-content: center;
+                justify-content: space-between;
                 -webkit-box-shadow: 0px 20px 20px -12px #00000030;
                 -moz-box-shadow: 0px 20px 20px -12px #00000030;
                 box-shadow: 0px 20px 20px -12px #00000030;
                 
                 .mega-content{
-                    display: flex;
-                    justify-content: center;
-                    > div{
-                        margin-right: 43px;
-                    }
+                    width: 100%;
                 }
                 .mega-image{
                     z-index: 10;
@@ -350,6 +347,24 @@ $textColor3: #E4E4E4;
                         width: 100%;
                     }
                 }
+
+                .mega-lv1-sub-cats{
+                    display: grid;
+                }
+
+                .mega-lv2-list-cats{
+                    border-bottom: 1px solid #E0E0E0;
+                    margin-top: 30px;
+                }
+
+                .mega-lv2-list-cats:nth-child(1){
+                    margin-top: 0;
+                }
+
+                .mega-lv2-list-cats:nth-last-child(){
+                    border-bottom: 0;
+                }
+                
             }
             &:hover .nav-mega-item{
                 display: flex;
@@ -560,6 +575,24 @@ body.fixed-scroll {
 
     }
 }
+
+@media (min-width: 1440px){
+    .nav-item-container{
+        .nav-mega-item{
+            .mega-lv2-list-cats{
+                text-align: justify;
+                width: 100%;
+                display: flex;
+                div{
+                    max-width: 214px;
+                    display: inline-block;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
 @media (max-width: 1250px) {
     .main-nav .nav-item {
         padding: 10px 20px;
