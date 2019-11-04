@@ -82,21 +82,7 @@ module.exports = async function(env) {
                     ]
                 },
                 {
-                    include: [themePaths.src, /peregrine\/lib\//],
-                    test: /\.(mjs|js)$/,
-                    use: [
-                        {
-                            loader: 'babel-loader',
-                            options: {
-                                cacheDirectory: true,
-                                envName: mode,
-                                rootMode: 'upward'
-                            }
-                        }
-                    ]
-                },
-                {
-                    include: [themePaths.src, /venia-ui\/lib\//],
+                    include: [themePaths.src, /peregrine\/src\//],
                     test: /\.(mjs|js)$/,
                     use: [
                         {

@@ -5,9 +5,9 @@ import { Util } from '@magento/peregrine';
 
 import { Adapter } from 'src/drivers';
 import store from 'src/store';
-import app from '@magento/venia-ui/lib/actions/app';
-import { AppContextProvider } from '@magento/venia-ui/lib/components/App';
+import app from 'src/actions/app';
 import App from 'src/simi';
+import {initializeUI,subscribeUser} from "src/simi/Helper/SimiServiceworker";
 import './index.css';
 
 const { BrowserPersistence } = Util;
@@ -37,28 +37,25 @@ ReactDOM.render(
         apiBase={apiBase}
         apollo={{ link: authLink.concat(Adapter.apolloLink(apiBase)) }}
         store={store}
-    >   
-        <AppContextProvider>
-            <App />
-        </AppContextProvider>
+    >
+        <App />
     </Adapter>,
     document.getElementById('root')
 );
 
-if (
-    process.env.NODE_ENV === 'production' ||
-    process.env.DEV_SERVER_SERVICE_WORKER_ENABLED
-) {
-    window.addEventListener('load', () =>
+if (process.env.SERVICE_WORKER && 'serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
         navigator.serviceWorker
-            .register('/sw.js')
+            .register(process.env.SERVICE_WORKER)
             .then(registration => {
+                initializeUI(registration);
+                subscribeUser(registration);
                 console.log('Service worker registered: ', registration);
             })
             .catch(error => {
                 console.log('Service worker registration failed: ', error);
-            })
-    );
+            });
+    });
 }
 
 window.addEventListener('online', () => {

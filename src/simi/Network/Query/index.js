@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import { Query } from 'react-apollo';
 import { Mutation } from 'react-apollo';
 import {addRequestVars} from 'src/simi/Helper/Network'
@@ -9,7 +9,6 @@ import _regeneratorRuntime from "@babel/runtime/regenerator";
 import _asyncToGenerator from "@babel/runtime/helpers/asyncToGenerator";
 import _slicedToArray from "@babel/runtime/helpers/slicedToArray";
 import _objectSpread from "@babel/runtime/helpers/objectSpread";
-import { ApolloContext } from 'react-apollo/ApolloContext';
 
 export const Simiquery = props => {
     let modProps = {}
@@ -39,8 +38,8 @@ export const SimiMutation = props => {
 }
 
 export var simiUseQuery = function simiUseQuery(query, use_cache = true) {
-    const useApolloContext = () => useContext(ApolloContext);
     var apolloClient = useApolloContext();
+
     var _useQueryResult = useQueryResult(),
         _useQueryResult2 = _slicedToArray(_useQueryResult, 2),
         queryResultState = _useQueryResult2[0],

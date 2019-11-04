@@ -2,8 +2,8 @@ import { combineReducers } from 'redux';
 
 import app from './app';
 import cart from './cart';
-import catalog from '@magento/venia-ui/lib/reducers/catalog';
-import checkout from '@magento/venia-ui/lib/reducers/checkout';
+import catalog from './catalog';
+import checkout from './checkout';
 import directory from './directory';
 import user from './user';
 import purchaseDetails from './purchaseDetails';
