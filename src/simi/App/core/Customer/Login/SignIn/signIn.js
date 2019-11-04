@@ -28,7 +28,7 @@ class SignIn extends Component {
                     getApi={this.setFormApi}
                     onSubmit={() => this.onSignIn()}
                 >
-                    <Field label="Email" required={true}>
+                    <Field label={Identify.__("Email")} required={true}>
                         <TextInput
                             autoComplete="email"
                             field="email"
@@ -36,7 +36,7 @@ class SignIn extends Component {
                             validateOnBlur
                         />
                     </Field>
-                    <Field label="Password" required={true}>
+                    <Field label={Identify.__("Password")} required={true}>
                         <TextInput
                             autoComplete="current-password"
                             field="password"

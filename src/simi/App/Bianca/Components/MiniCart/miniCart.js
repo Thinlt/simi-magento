@@ -8,14 +8,16 @@ import {
     getCartDetails,
     updateItemInCart,
     openOptionsDrawer,
-    closeOptionsDrawer,
+    closeOptionsDrawer
 } from 'src/actions/cart';
 import {
     submitShippingMethod,
     editOrder,
     getShippingMethods
-} from 'src/actions/checkout'
+} from 'src/actions/checkout';
 import { cancelCheckout } from 'src/actions/checkout';
+import { getCountries } from 'src/actions/directory';
+import { submitShippingAddress } from 'src/simi/Redux/actions/simiactions';
 import CheckoutButton from 'src/components/Checkout/checkoutButton';
 import EmptyMiniCart from './emptyMiniCart';
 import Mask from './mask';
@@ -25,15 +27,15 @@ import Loading from 'src/simi/BaseComponents/Loading';
 import CartItem from '../../Cart/cartItem';
 import Identify from 'src/simi/Helper/Identify';
 import { closeDrawer } from 'src/actions/app';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import Trigger from './trigger';
 import Icon from 'src/components/Icon';
 import CloseIcon from 'react-feather/dist/icons/x';
-import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon'
-import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher'
+import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon';
+import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
-import {removeItemFromCart} from 'src/simi/Model/Cart';
-import Estimate from 'src/simi/App/Bianca/Cart/Components/Estimate'
+import { removeItemFromCart } from 'src/simi/Model/Cart';
+import Estimate from 'src/simi/App/Bianca/Cart/Components/Estimate';
 class MiniCart extends Component {
     static propTypes = {
         cancelCheckout: func.isRequired,
@@ -70,16 +72,18 @@ class MiniCart extends Component {
     constructor(...args) {
         super(...args);
         this.state = {
-            focusItem: null,
+            focusItem: null
         };
         this.wrapperMiniCart = React.createRef();
     }
 
-    async componentDidMount() {
-        const { getCartDetails, getShippingMethods } = this.props;
-        await getCartDetails();
-        await getShippingMethods();
-    }
+    // async componentDidMount() {
+    //     const { getCartDetails, getCountries } = this.props;
+    //     console.log('loaded')
+    //     // await getCartDetails();
+    //     // await getShippingMethods();
+    //     // await getCountries();
+    // }
 
     get cartId() {
         const { cart } = this.props;
@@ -98,9 +102,15 @@ class MiniCart extends Component {
     }
 
     removeFromCart(item) {
-        if (confirm(Identify.__("Are you sure?")) === true) {
+        if (confirm(Identify.__('Are you sure?')) === true) {
             // <Loading/>
-            removeItemFromCart(()=>{this.props.getCartDetails()},item.item_id, this.props.isSignedIn)
+            removeItemFromCart(
+                () => {
+                    this.props.getCartDetails();
+                },
+                item.item_id,
+                this.props.isSignedIn
+            );
         }
     }
 
@@ -113,36 +123,37 @@ class MiniCart extends Component {
             const obj = [];
             for (const i in cart.details.items) {
                 const item = cart.details.items[i];
-                let itemTotal = null
+                let itemTotal = null;
                 if (cart.totals && cart.totals.items) {
-                    cart.totals.items.every(function (total) {
+                    cart.totals.items.every(function(total) {
                         if (total.item_id === item.item_id) {
-                            itemTotal = total
-                            return false
-                        }
-                        else return true
-                    })
+                            itemTotal = total;
+                            return false;
+                        } else return true;
+                    });
                 }
                 if (itemTotal) {
-                    const element = <CartItem
-                        key={Identify.randomString(5)}
-                        removeFromCart={this.removeFromCart.bind(this)}
-                        updateCartItem={updateItemInCart}
-                        currencyCode={cartCurrencyCode}
-                        item={item}
-                        itemTotal={itemTotal}
-                        handleLink={this.handleLink.bind(this)}
-                        isOpen={isOpen}
-                    />;
+                    const element = (
+                        <CartItem
+                            key={Identify.randomString(5)}
+                            removeFromCart={this.removeFromCart.bind(this)}
+                            updateCartItem={updateItemInCart}
+                            currencyCode={cartCurrencyCode}
+                            item={item}
+                            itemTotal={itemTotal}
+                            handleLink={this.handleLink.bind(this)}
+                            isOpen={isOpen}
+                        />
+                    );
                     obj.push(element);
                 }
             }
-            return <div className='cart-list'>{obj}</div>;
+            return <div className="cart-list">{obj}</div>;
         }
     }
 
     handleLink(link) {
-        this.props.history.push(link)
+        this.props.history.push(link);
     }
 
     get totalsSummary() {
@@ -155,10 +166,7 @@ class MiniCart extends Component {
             <div className={classes.subtotal}>
                 <div className={classes.subtotalLabel}>Subtotal</div>
                 <div>
-                    <Price
-                        currencyCode={cartCurrencyCode}
-                        value={totalPrice}
-                    />
+                    <Price currencyCode={cartCurrencyCode} value={totalPrice} />
                 </div>
             </div>
         ) : null;
@@ -167,24 +175,22 @@ class MiniCart extends Component {
     get grandTotal() {
         const { cart, classes } = this.props;
         const { cartCurrencyCode, cartId } = this;
-        const hasGrandtotal = cartId && cart.totals && 'grand_total' in cart.totals;
-        const grandTotal = cart.totals.grand_total
+        const hasGrandtotal =
+            cartId && cart.totals && 'grand_total' in cart.totals;
+        const grandTotal = cart.totals.grand_total;
         return hasGrandtotal ? (
             <div className={classes.grandTotal}>
                 <div className={classes.grandTotalLabel}>Grand Total</div>
                 <div>
-                    <Price
-                        currencyCode={cartCurrencyCode}
-                        value={grandTotal}
-                    />
+                    <Price currencyCode={cartCurrencyCode} value={grandTotal} />
                 </div>
             </div>
-        ) : null
+        ) : null;
     }
 
     get couponCode() {
         const { cart, toggleMessages, getCartDetails } = this.props;
-        let value = "";
+        let value = '';
         if (cart.totals.coupon_code) {
             value = cart.totals.coupon_code;
         }
@@ -193,21 +199,32 @@ class MiniCart extends Component {
             value,
             toggleMessages,
             getCartDetails
-        }
-        return <div className={`cart-coupon-form`}><Coupon {...childCPProps} /></div>
+        };
+        return (
+            <div className={`cart-coupon-form`}>
+                <Coupon {...childCPProps} />
+            </div>
+        );
     }
 
     get giftVoucher() {
         const { cart, toggleMessages, getCartDetails } = this.props;
-        let giftCode = ''
+        let giftCode = '';
         if (cart.totals.total_segments) {
-            let segment = cart.totals.total_segments.find((item) => {
-                if (item.extension_attributes && item.extension_attributes.aw_giftcard_codes) return true;
+            let segment = cart.totals.total_segments.find(item => {
+                if (
+                    item.extension_attributes &&
+                    item.extension_attributes.aw_giftcard_codes
+                )
+                    return true;
                 return false;
             });
             if (segment) {
-                let aw_giftcard_codes = segment.extension_attributes.aw_giftcard_codes[0] ? segment.extension_attributes.aw_giftcard_codes[0] : '';
-                if(aw_giftcard_codes){
+                let aw_giftcard_codes = segment.extension_attributes
+                    .aw_giftcard_codes[0]
+                    ? segment.extension_attributes.aw_giftcard_codes[0]
+                    : '';
+                if (aw_giftcard_codes) {
                     const value = JSON.parse(aw_giftcard_codes);
                     giftCode = value.giftcard_code;
                 }
@@ -219,12 +236,27 @@ class MiniCart extends Component {
             toggleMessages,
             getCartDetails,
             cart
-        }
-        return <div className={`cart-voucher-form`}><GiftVoucher {...childCPProps} /></div>
+        };
+        return (
+            <div className={`cart-voucher-form`}>
+                <GiftVoucher {...childCPProps} />
+            </div>
+        );
     }
 
     get estimateShipAndTax() {
-        const { cart, toggleMessages, getCartDetails, submitShippingMethod, editOrder, availableShippingMethods,getShippingMethods } = this.props;
+        const {
+            cart,
+            toggleMessages,
+            getCartDetails,
+            submitShippingMethod,
+            editOrder,
+            availableShippingMethods,
+            getShippingMethods,
+            shippingAddress,
+            submitShippingAddress,
+            countries
+        } = this.props;
         const childCPProps = {
             toggleMessages,
             getCartDetails,
@@ -232,9 +264,16 @@ class MiniCart extends Component {
             submitShippingMethod,
             editOrder,
             availableShippingMethods,
-            getShippingMethods
-        }
-        return <div className={`estimate-form`}><Estimate {...childCPProps} /></div>
+            getShippingMethods,
+            shippingAddress,
+            submitShippingAddress,
+            countries
+        };
+        return (
+            <div className={`estimate-form`}>
+                <Estimate {...childCPProps} />
+            </div>
+        );
     }
 
     get placeholderButton() {
@@ -247,21 +286,25 @@ class MiniCart extends Component {
     }
 
     get checkout() {
-        const { props, totalsSummary, couponCode, giftVoucher, estimateShipAndTax, grandTotal } = this;
+        const {
+            props,
+            totalsSummary,
+            couponCode,
+            giftVoucher,
+            estimateShipAndTax,
+            grandTotal
+        } = this;
         const { classes, closeDrawer } = props;
 
         return (
             <div className={classes.summary}>
-
                 <h2 className={classes.titleSummary}>
-                    <span>
-                        {Identify.__("Summary")}
-                    </span>
+                    <span>{Identify.__('Summary')}</span>
                 </h2>
                 {totalsSummary}
                 {couponCode}
                 {giftVoucher}
-                {estimateShipAndTax}
+                {/* {estimateShipAndTax} */}
                 {grandTotal}
 
                 <div className={classes.minicartAction}>
@@ -272,7 +315,7 @@ class MiniCart extends Component {
                     </Link>
                     <Link to="/checkout.html" onClick={closeDrawer}>
                         <button className={classes.checkoutBtn}>
-                            {Identify.__("PROCEED TO CHECKOUT")}
+                            {Identify.__('PROCEED TO CHECKOUT')}
                         </button>
                     </Link>
                 </div>
@@ -329,11 +372,9 @@ class MiniCart extends Component {
             isOpen
         } = props;
 
-
         const className = isOpen ? classes.root_open : classes.root;
         const body = isOptionsDrawerOpen ? productOptions : miniCartInner;
         const title = isOptionsDrawerOpen ? 'Edit Cart Item' : 'My Cart';
-
 
         return (
             <aside className={`${className} minicart`}>
@@ -353,15 +394,18 @@ class MiniCart extends Component {
 }
 
 const mapStateToProps = state => {
-    const { cart, user, checkout } = state;
+    const { cart, user, checkout, directory } = state;
     const { isSignedIn } = user;
-    const { availableShippingMethods } = checkout
+    const { availableShippingMethods, shippingAddress } = checkout;
+    const { countries } = directory
     return {
         cart,
         isCartEmpty: isEmptyCartVisible(state),
         isMiniCartMaskOpen: isMiniCartMaskOpen(state),
         isSignedIn,
-        availableShippingMethods
+        availableShippingMethods,
+        shippingAddress,
+        countries
     };
 };
 
@@ -376,7 +420,9 @@ const mapDispatchToProps = {
     toggleMessages,
     submitShippingMethod,
     editOrder,
-    getShippingMethods
+    getShippingMethods,
+    getCountries,
+    submitShippingAddress
 };
 
 export default compose(

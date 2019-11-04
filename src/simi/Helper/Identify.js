@@ -33,6 +33,8 @@ class Identify {
                 const languageWithCode = language[languageCode];
                 if (languageWithCode.hasOwnProperty(text)) {
                     return languageWithCode[text];
+                } else if (languageWithCode.hasOwnProperty(text.toLowerCase())) {
+                    return languageWithCode[text.toLowerCase()];
                 }
             }
         } catch (err) {
@@ -105,9 +107,21 @@ class Identify {
     static getAppDashboardConfigs() {
         let data = this.getDataFromStoreage(this.SESSION_STOREAGE, Constants.DASHBOARD_CONFIG);
         if (data === null) {
+            //init dashboard config
             data = window.DASHBOARD_CONFIG;
-            if (data)
-                this.storeDataToStoreage(this.SESSION_STOREAGE, Constants.DASHBOARD_CONFIG, data);
+            if (data) {
+                try {
+                    let languages = {}
+                    if (languages = data['app-configs'][0]['language']) {
+                        for(const locale in languages) {
+                            for(const term in languages[locale]) {
+                                languages[locale][term.toLowerCase()] = languages[locale][term]
+                            }
+                        }
+                    }
+                } catch (err) {console.log(err)}
+                this.storeDataToStoreage(this.SESSION_STOREAGE, Constants.DASHBOARD_CONFIG, data)
+            }
         }
         return data;
     }
