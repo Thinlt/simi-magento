@@ -21,7 +21,7 @@ const themePaths = {
     src: path.resolve(__dirname, 'src'),
     output: path.resolve(__dirname, 'dist')
 };
-const rootComponentsDirs = ['./src/simi/App/core/RootComponents/'];
+const rootComponentsDirs = ['./src/simi/App/Bianca/RootComponents/'];
 const libs = [
     'apollo-cache-inmemory',
     'apollo-cache-persist',
