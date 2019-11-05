@@ -1,7 +1,7 @@
 import React from 'react';
 import Loading from 'src/simi/BaseComponents/Loading'
 import Identify from 'src/simi/Helper/Identify'
-import ProductFullDetail from 'src/simi/App/Bianca/Components/Product/ProductFullDetail/productFullDetail';
+import ProductFullDetail from './ProductFullDetail';
 import getUrlKey from 'src/util/getUrlKey';
 import connectorGetProductDetailByUrl from 'src/simi/queries/catalog/getProductDetail.graphql';
 import connectorGetProductDetailBySku from 'src/simi/queries/catalog/getProductDetailBySku.graphql'
@@ -28,8 +28,6 @@ const Product = props => {
 
     const sku = Identify.findGetParameter('sku') //cases with url like: product.html?sku=ab12
     const productQuery = sku?connectorGetProductDetailBySku:connectorGetProductDetailByUrl
-    // console.log(productQuery);
-    // console.log(getUrlKey());
     const variables = {onServer: false}
     if (sku)
         variables.sku = sku
@@ -43,7 +41,6 @@ const Product = props => {
             fetchPolicy="no-cache" //cannot save to cache cause of "heuristic fragment matching" from ConfigurableProduct and GroupedProduct
         >
             {({ error, data }) => {
-                console.log(data)
                 if (error) return <div>{Identify.__('Data Fetch Error')}</div>;
                 let product = null
                 
