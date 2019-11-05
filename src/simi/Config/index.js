@@ -1,6 +1,7 @@
 import Identify from 'src/simi/Helper/Identify'
 
-const simicartConfig = Identify.getAppDashboardConfigs();
+// const simicartConfig = Identify.getAppDashboardConfigs();
+const simicartConfig = null;
 const config = simicartConfig ? simicartConfig['app-configs'][0] : null;
 
 export const configColor = {
