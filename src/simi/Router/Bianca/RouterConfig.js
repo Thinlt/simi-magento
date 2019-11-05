@@ -46,7 +46,7 @@ const PaypalExpress = (props) => {
 }
 
 const NoMatch = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/core/NoMatch')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/Bianca/NoMatch')} {...props}/>
 }
 
 

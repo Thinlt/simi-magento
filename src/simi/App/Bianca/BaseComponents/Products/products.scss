@@ -1,5 +1,14 @@
 $colorTitle: #101820;
 
+#data-breadcrumb {
+    size: 12px;
+    line-height: 12px;
+    color: $colorTitle;
+}
+.breadcrumb-item:last-of-type {
+    color: $colorTitle !important;
+}
+
 .products-gallery-root {
   .title {
     .categoryTitle {
