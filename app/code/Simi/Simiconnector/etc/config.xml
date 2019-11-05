@@ -22,6 +22,10 @@
                 <open_url_in_app>1</open_url_in_app>
                 <filter_categories_by_include_in_menu>1</filter_categories_by_include_in_menu>
                 <show_discount_label_in_product>1</show_discount_label_in_product>
+                <bianca_header_phone>+0965 555 5455 731</bianca_header_phone>
+                <bianca_header_sale_title>Sale up to 50%</bianca_header_sale_title>
+                <bianca_header_sale_link>#</bianca_header_sale_link>
+                <bianca_header_storelocator>#</bianca_header_storelocator>
             </general>
             <currency>                                           
                 <thousand_separator>,</thousand_separator>

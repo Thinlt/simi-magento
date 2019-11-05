@@ -130,6 +130,10 @@ class Storeviews extends Apiabstract
                 'title_prefix' => $this->getStoreConfig('design/head/title_prefix'),
                 'title_suffix' => $this->getStoreConfig('design/head/title_suffix'),
                 'default_keywords' => $this->getStoreConfig('design/head/default_keywords'),
+                'bianca_header_phone' => $this->getStoreConfig('simiconnector/general/bianca_header_phone'),
+                'bianca_header_sale_title' => $this->getStoreConfig('simiconnector/general/bianca_header_sale_title'),
+                'bianca_header_sale_link' => $this->getStoreConfig('simiconnector/general/bianca_header_sale_link'),
+                'bianca_header_storelocator' => $this->getStoreConfig('simiconnector/general/bianca_header_storelocator')
             ],
             'sales'             => [
                 'sales_reorder_allow'           => $this->getStoreConfig('sales/reorder/allow'),
