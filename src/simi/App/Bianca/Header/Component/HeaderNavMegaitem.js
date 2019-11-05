@@ -55,7 +55,7 @@ const NavMegaitem = props => {
             const chunkSize = Math.ceil(childCats.length/childCol)
             for (var i = 0; i < childCats.length; i+= chunkSize){
                 childCatGroups.push(
-                    <div key={i}>
+                    <div className="mega-lv2-list-cats" key={i}>
                         {childCats.slice(i,i+chunkSize)}
                     </div>
                 );
