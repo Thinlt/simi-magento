@@ -19,6 +19,7 @@ import Currency from "src/simi/App/Bianca/BaseComponents/Settings/Currency";
 import ProxyClasses from './Component/ProxyClasses';
 import SearchFormTrigger from './Component/SearchFormTrigger';
 import MiniCart from 'src/simi/App/Bianca/Components/MiniCart';
+import { connect } from 'src/drivers';
 require('./header.scss')
 
 const SearchForm = React.lazy(() => import('./Component/SearchForm'));
@@ -82,20 +83,24 @@ class Header extends React.Component{
         )
     }
 
-    renderRightBar = () => {
+    renderWishList = (isSignedIn) =>{
+        return isSignedIn ? <div className={'right-bar-item'} id="wish-list">
+        <Link to={'/wishlist.html'}>
+            <div className={'item-icon'} style={{display: 'flex', justifyContent: 'center'}}>
+                <Favorite />
+            </div>
+        </Link>
+    </div> : ""
+    }
+
+    renderRightBar = (isSignedIn) => {
         const {classes} = this
         return(
             <div className={'right-bar'}>
                 <div className={'right-bar-item'} id="my-account">
                     <MyAccount classes={classes}/>
                 </div>
-                <div className={'right-bar-item'} id="wish-list">
-                    <Link to={'/wishlist.html'}>
-                        <div className={'item-icon'} style={{display: 'flex', justifyContent: 'center'}}>
-                            <Favorite />
-                        </div>
-                    </Link>
-                </div>
+                {this.renderWishList(isSignedIn)}
                 <div className={'right-bar-item'} id="cart">
                     <CartTrigger classes={classes}/>
                 </div>
@@ -157,7 +162,13 @@ class Header extends React.Component{
     }
 
     render(){
-        const {storeConfig} = this.props
+        const {user, storeConfig} = this.props
+        // Check user login to show wish lish
+        var isSignedIn = false
+        if(user && user.isSignedIn){
+            isSignedIn = user.isSignedIn
+        }
+        // Get some custom link on header
         var bianca_header_phone = ""
         var bianca_header_sale_title = ""
         var bianca_header_sale_link = ""
@@ -210,7 +221,7 @@ class Header extends React.Component{
                             <div className="header">
                                 {this.renderSearchForm()}
                                 {this.renderLogo()}
-                                {this.renderRightBar()}
+                                {this.renderRightBar(isSignedIn)}
                             </div>
                             <MiniCart isOpen={cartIsOpen}/>
                         </div>
@@ -226,4 +237,12 @@ class Header extends React.Component{
         )
     }
 }
-export default (withRouter)(Header)
+
+const mapStateToProps = ({ user }) =>  {
+    return {
+        user
+    }
+}
+
+// export default (withRouter)(Header)
+export default connect(mapStateToProps)(Header);
