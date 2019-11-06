@@ -19,6 +19,12 @@
                 <pwa_mobile_only>1</pwa_mobile_only>
                 <dynamic_rendering>0</dynamic_rendering>
             </general>
+            <pwa_header>
+                <bianca_header_phone>+0965 555 5455 731</bianca_header_phone>
+                <bianca_header_sale_title>Sale up to 50%</bianca_header_sale_title>
+                <bianca_header_sale_link>#</bianca_header_sale_link>
+                <bianca_header_storelocator>#</bianca_header_storelocator>
+            </pwa_header>
         </simipwa>
     </default>
 </config>

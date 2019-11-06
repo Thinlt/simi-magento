@@ -86,22 +86,6 @@
                     <label>Show discount label in product</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="bianca_header_phone" translate="label" type="text" sortOrder="1499" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Phone number on header</label>
-                    <comment>Example: +0965 555 5455 731</comment>
-                </field>
-                <field id="bianca_header_sale_title" translate="label" type="text" sortOrder="1599" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Header sale title</label>
-                    <comment>Example: Sale up to 50%</comment>
-                </field>
-                <field id="bianca_header_sale_link" translate="label" type="text" sortOrder="1699" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Header sale link</label>
-                    <comment>Example: https://...</comment>
-                </field>
-                <field id="bianca_header_storelocator" translate="label" type="text" sortOrder="1799" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Link to storelocator</label>
-                    <comment>Example: https://...</comment>
-                </field>
             </group>
             <group id="currency" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Currency Display Configuration</label>
