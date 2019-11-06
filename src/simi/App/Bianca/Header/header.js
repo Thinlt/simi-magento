@@ -175,7 +175,7 @@ class Header extends React.Component {
 		const { user, storeConfig } = this.props;
 		// Check user login to show wish lish
 		var isSignedIn = false;
-		if (user && user.isSignedIn) {
+		if (user) {
 			isSignedIn = user.isSignedIn;
 		}
 		// Get some custom link on header
@@ -192,6 +192,7 @@ class Header extends React.Component {
 			let base_option = storeConfig.simiStoreConfig.config.base;
 			bianca_header_phone = base_option.bianca_header_phone ? base_option.bianca_header_phone : '';
 			bianca_header_sale_title = base_option.bianca_header_sale_title ? base_option.bianca_header_sale_title : '';
+			bianca_header_sale_link = base_option.bianca_header_sale_link ? base_option.bianca_header_sale_link : '';
 			bianca_header_storelocator = base_option.bianca_header_storelocator
 				? base_option.bianca_header_storelocator
 				: '';
