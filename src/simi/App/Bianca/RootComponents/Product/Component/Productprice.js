@@ -139,7 +139,7 @@ class ProductPrice extends React.Component {
         return (
             <div className='prices-container' id={data.type_id}>
                 {priceLabel}
-                <div className='product-stock-status'>
+                {/* <div className='product-stock-status'>
                     <div className='stock-status'>
                         {stockLabel}
                     </div>
@@ -149,7 +149,7 @@ class ProductPrice extends React.Component {
                             <span className='sku-label'>{Identify.__('Sku') + ": "} {data.sku}</span>
                         </div>
                     }
-                </div>
+                </div> */}
             </div>
 
         );

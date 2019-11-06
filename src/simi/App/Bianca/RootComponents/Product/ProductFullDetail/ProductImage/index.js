@@ -18,10 +18,10 @@ class ProductImage extends React.Component {
         super(props);
         this.title = this.props.title || 'Alt';
         this.showThumbs = this.props.showThumbs || true;
-        this.showArrows = this.props.showArrows || true;
+        this.showArrows = this.props.showArrows || false;
         this.showIndicators = this.props.showIndicators || false;
-        this.autoPlay = this.props.autoPlay || true;
-        this.showStatus = this.props.showStatus || true;
+        this.autoPlay = this.props.autoPlay || false;
+        this.showStatus = this.props.showStatus || false;
         this.itemClick = this.props.itemClick || function (e) {
         };
         this.onChange = this.props.onChange || function (e) {
@@ -40,12 +40,39 @@ class ProductImage extends React.Component {
         this.lightbox.showLightbox(index);
     }
 
+    convertEmberVideo = (url) => {
+        const vimeoPattern = /(?:http?s?:\/\/)?(?:www\.)?(?:vimeo\.com)\/?(.+)/g;
+        const youtubePattern = /(?:http?s?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.+)/g;
+        if (vimeoPattern.test(url)){
+            const replacement = "//player.vimeo.com/video/$1";
+            return url.replace(vimeoPattern, replacement);
+        }
+        if (youtubePattern.test(url)){
+            const replacementY = "https://www.youtube.com/embed/$1";
+            return url.replace(youtubePattern, replacementY);
+        }
+    }
+
+    // renderImageLighboxBlock = () => {
+    //     let images = this.images
+    //     images = images.map((item) => {
+    //         return item.file
+    //         ? resourceUrl(item.file, { type: 'image-product', width: 640 })
+    //         : transparentPlaceholder
+    //     });
+    //     return (
+    //         <ImageLightbox ref={(lightbox) => {
+    //             this.lightbox = lightbox
+    //         }} images={images}/>
+    //     );
+    // }
+
     renderImageLighboxBlock = () => {
         let images = this.images
         images = images.map((item) => {
-            return item.file
-            ? resourceUrl(item.file, { type: 'image-product', width: 640 })
-            : transparentPlaceholder
+            return (item.video_content && item.video_content instanceof Object )? { url : this.convertEmberVideo(item.video_content.video_url), type: 'video', altTag: item.video_content.video_title} : (item.file
+            ? {url: window.location.origin+resourceUrl(item.file, { type: 'image-product', width: 640 }), type: 'photo', altTag: item.label}
+            : {url: window.location.origin+transparentPlaceholder, type: 'photo', altTag: 'no image'})
         });
         return (
             <ImageLightbox ref={(lightbox) => {
@@ -150,27 +177,27 @@ class ProductImage extends React.Component {
         this.images = this.sortedImages()
         const {images} = this
         return (
-            <div className="product-detail-carousel">
-                <Carousel 
-                        key={(images && images[0] && images[0].file) ? images[0].file : Identify.randomString(5)}
-                        showArrows={this.showArrows}  
-                        showThumbs={this.showThumbs}
-                        showIndicators={this.showIndicators}
-                        showStatus={this.showStatus}
-                        onClickItem={(e) => this.openImageLightbox(e)}
-                        onClickThumb={(e) => this.onClickThumbDefault(e)}
-                        onChange={(e) => this.onChangeItemDefault(e)}
-                        infiniteLoop={true}
-                        autoPlay={this.autoPlay}
-                        thumbWidth={80}
-                        statusFormatter={this.statusFormatter}
-                >
+            <React.Fragment>
+                <Carousel className="product-carousel"
+                            key={(images && images[0] && images[0].file) ? images[0].file : Identify.randomString(5)}
+                            showArrows={this.showArrows}  
+                            showThumbs={this.showThumbs}
+                            showIndicators={this.showIndicators}
+                            showStatus={this.showStatus}
+                            onClickItem={(e) => this.openImageLightbox(e)}
+                            onClickThumb={(e) => this.onClickThumbDefault(e)}
+                            onChange={(e) => this.onChangeItemDefault(e)}
+                            infiniteLoop={true}
+                            autoPlay={this.autoPlay}
+                            thumbWidth={82}
+                            statusFormatter={this.statusFormatter}
+                            // axis={'vertical'}
+                            verticalSwipe={'natural'}
+                    >
                     {this.renderImage()}
                 </Carousel>
                 {this.renderImageLighboxBlock()}
-                {this.renderJs()}
-            </div>
-
+            </React.Fragment>
         );
     }
 }

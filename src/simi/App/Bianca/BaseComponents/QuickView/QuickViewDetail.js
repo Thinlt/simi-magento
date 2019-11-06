@@ -4,31 +4,31 @@ import {smoothScrollToView} from 'src/simi/Helper/Behavior'
 import Loading from 'src/simi/BaseComponents/Loading'
 import { Colorbtn, Whitebtn } from 'src/simi/BaseComponents/Button'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
-import ProductImage from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/ProductImage';
-import Quantity from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/ProductQuantity';
+import ProductImage from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/ProductImage';
+import Quantity from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/ProductQuantity';
 import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import {prepareProduct} from 'src/simi/Helper/Product'
-import ProductPrice from 'src/simi/App/core/RootComponents/Product/Component/Productprice';
+import ProductPrice from 'src/simi/App/Bianca/RootComponents/Product/Component/Productprice';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
 import { addToWishlist as simiAddToWishlist } from 'src/simi/Model/Wishlist';
 import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
 import ReactHTMLParse from 'react-html-parser';
 import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
-import { TopReview, ReviewList, NewReview } from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/Review/index'
+import { TopReview, ReviewList, NewReview } from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Review/index'
 import SocialShare from 'src/simi/BaseComponents/SocialShare';
-import Description from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/Description';
-import Techspec from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/Techspec';
-import LinkedProduct from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/LinkedProduct';
-import ProductFullDetail from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/ProductFullDetail';
+import Description from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Description';
+import Techspec from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Techspec';
+import LinkedProduct from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/LinkedProduct';
+import ProductFullDetail from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/ProductFullDetail';
 
-const ConfigurableOptions = React.lazy(() => import('src/simi/App/core/RootComponents/Product/ProductFullDetail/Options/ConfigurableOptions'));
-const CustomOptions = React.lazy(() => import('src/simi/App/core/RootComponents/Product/ProductFullDetail/Options/CustomOptions'));
-const BundleOptions = React.lazy(() => import('src/simi/App/core/RootComponents/Product/ProductFullDetail/Options/Bundle'));
-const GroupedOptions = React.lazy(() => import('src/simi/App/core/RootComponents/Product/ProductFullDetail/Options/GroupedOptions'));
-const DownloadableOptions = React.lazy(() => import('src/simi/App/core/RootComponents/Product/ProductFullDetail/Options/DownloadableOptions'));
+const ConfigurableOptions = React.lazy(() => import('src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Options/ConfigurableOptions'));
+const CustomOptions = React.lazy(() => import('src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Options/CustomOptions'));
+const BundleOptions = React.lazy(() => import('src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Options/Bundle'));
+const GroupedOptions = React.lazy(() => import('src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Options/GroupedOptions'));
+const DownloadableOptions = React.lazy(() => import('src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Options/DownloadableOptions'));
 const GiftcardOptions = React.lazy(() => import('src/simi/App/Bianca/Components/Product/ProductFullDetail/Options/GiftcardOptions'));
 const TrytobuyOptions = React.lazy(() => import('src/simi/App/Bianca/Components/Product/ProductFullDetail/Options/TrytobuyOptions'));
 

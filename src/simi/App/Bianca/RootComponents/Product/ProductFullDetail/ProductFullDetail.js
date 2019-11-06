@@ -16,12 +16,12 @@ import { addToWishlist as simiAddToWishlist } from 'src/simi/Model/Wishlist';
 import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
 import ReactHTMLParse from 'react-html-parser';
-import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
-import { TopReview, ReviewList, NewReview } from './Review/index'
+import BreadCrumb from "src/simi/App/Bianca/BaseComponents/BreadCrumb";
+import { TopReview, ReviewList, NewReview } from './Review'
 import SocialShare from 'src/simi/BaseComponents/SocialShare';
-import Description from './Description';
-import Techspec from './Techspec';
-import LinkedProduct from './LinkedProduct';
+import Description from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Description';
+import Techspec from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Techspec';
+import LinkedProduct from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/LinkedProduct';
 
 const ConfigurableOptions = React.lazy(() => import('./Options/ConfigurableOptions'));
 const CustomOptions = React.lazy(() => import('./Options/CustomOptions'));
@@ -312,62 +312,72 @@ class ProductFullDetail extends Component {
                     title: product.meta_title?product.meta_title:product.name?product.name:'',
                     desc: product.meta_description?product.meta_description:product.description?product.description:''
                 })}
-                <div className="title">
-                    <h1 className="product-name">
-                        <span>{ReactHTMLParse(name)}</span>
-                    </h1>
-                </div>
-                <div className="image-carousel">
-                    <ProductImage 
-                        optionCodes={optionCodes}
-                        optionSelections={optionSelections}
-                        product={product}
-                    />
-                </div>
-                <div className="main-actions">
-                    {hasReview ? <div className="top-review"><TopReview app_reviews={product.simiExtraField.app_reviews}/></div> : ''}
-                    <div role="presentation" className="review-btn" onClick={()=>smoothScrollToView($('#product-detail-new-review'))}>
-                        {hasReview ? Identify.__('Submit Review') : Identify.__('Be the first to review this product')}
-                    </div>
-                    <div className="product-price">
-                        <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections}/>
-                    </div>
-                    <div className="product-short-desc">{ReactHTMLParse(short_desc)}</div>
-                    <div className="options">{productOptions}</div>
-                    <div className="cart-actions">
-                        {
-                            type_id !== 'grouped' &&
-                            <Quantity
-                                initialValue={this.quantity}
-                                onValueChange={this.setQuantity}
+                <div className="detail-top">
+                    <div className="top-col col-left">
+                        <div className="image-carousel">
+                            <ProductImage 
+                                optionCodes={optionCodes}
+                                optionSelections={optionSelections}
+                                product={product}
                             />
-                        }
-                        <div 
-                            className="add-to-cart-ctn" 
-                            style={{
-                                borderColor:  configColor.button_background, borderWidth: '1px', borderStyle: 'solid'
-                            }}>
-                            <Colorbtn 
-                                style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
-                                className="add-to-cart-btn"
-                                onClick={addToCart}
-                                text={Identify.__('Add to Cart')}/>
                         </div>
                     </div>
-                    <div className="wishlist-actions">
-                        <Whitebtn 
-                            className="add-to-wishlist-btn"
-                            onClick={addToWishlist}
-                            text={Identify.__('Add to Favourites')}/>
+                    <div className="top-col col-right">
+                        <div className="title">
+                            <h1 className="product-name">
+                                <span>{ReactHTMLParse(name)}</span>
+                            </h1>
+                        </div>
+                        <div className="main-actions">
+                            { hasReview ? <div className="top-review">
+                                <TopReview app_reviews={product.simiExtraField.app_reviews}/>
+                                <div role="presentation" className="review-btn" onClick={()=>smoothScrollToView($('#product-detail-new-review'))}>
+                                    {hasReview ? Identify.__('Add your review') : Identify.__('Be the first to review this product')}
+                                </div>
+                            </div> : null}
+                            <div className="product-price">
+                                <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections}/>
+                            </div>
+                            <div className="product-short-desc">{ReactHTMLParse(short_desc)}</div>
+                            <div className="options">{productOptions}</div>
+                            <div className="cart-actions">
+                                {
+                                    type_id !== 'grouped' &&
+                                    <Quantity
+                                        initialValue={this.quantity}
+                                        onValueChange={this.setQuantity}
+                                    />
+                                }
+                                <div 
+                                    className="add-to-cart-ctn" 
+                                    style={{
+                                        borderColor:  configColor.button_background, borderWidth: '1px', borderStyle: 'solid'
+                                    }}>
+                                    <Colorbtn 
+                                        style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
+                                        className="add-to-cart-btn"
+                                        onClick={addToCart}
+                                        text={Identify.__('Add to Cart')}/>
+                                </div>
+                            </div>
+                            <div className="wishlist-actions">
+                                <Whitebtn 
+                                    className="add-to-wishlist-btn"
+                                    onClick={addToWishlist}
+                                    text={Identify.__('Add to Favourites')}/>
+                            </div>
+                            <div className="social-share"><SocialShare id={product.id} className="social-share-item" /></div>
+                        </div>
                     </div>
-                    <div className="social-share"><SocialShare id={product.id} className="social-share-item" /></div>
                 </div>
-                {product.description && <div className="description"><Description product={product}/></div>}
-                {(simiExtraField && simiExtraField.additional && simiExtraField.additional.length) ?
-                    <div className="techspec"><Techspec product={product}/></div> : ''}
-                <div className="review-list"><ReviewList product_id={product.id}/></div>
-                <div className="new-review" id="product-detail-new-review">
-                    <NewReview product={product} toggleMessages={this.props.toggleMessages}/>
+                <div className="main-info">
+                    {product.description && <div className="description"><Description product={product}/></div>}
+                    {(simiExtraField && simiExtraField.additional && simiExtraField.additional.length) ?
+                        <div className="techspec"><Techspec product={product}/></div> : ''}
+                    <div className="review-list"><ReviewList product_id={product.id}/></div>
+                    <div className="new-review" id="product-detail-new-review">
+                        <NewReview product={product} toggleMessages={this.props.toggleMessages}/>
+                    </div>
                 </div>
                 <LinkedProduct product={product} link_type="related" history={this.props.history}/>
                 <LinkedProduct product={product} link_type="crosssell" history={this.props.history}/>
