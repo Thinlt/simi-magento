@@ -4,13 +4,13 @@ import {configColor} from 'src/simi/Config';;
 import PropTypes from 'prop-types';
 
 const StaticRate = props => {
-    const {classes, size, rate} = props
+    const {classes, size, width, rate} = props
     const height = size
-    const width = 5 * height
+    // const width = 5 * height
     const rateWidth = width * rate / 5
     
     return (
-        <div className={classes["static-rate"]} style={{width: width, height: height, position:'relative'}}>
+        <div className={classes["static-rate"]} style={{width: width, height: height, position:'relative', marginTop: '1px'}}>
             <FiveStars style={{width: width, height: height, fill:'#e0e0e0'}}/>
             <div className={classes["static-rate-active"]} style={{height: size, width: rateWidth, overflow: 'hidden', position: 'absolute', left: 0, top: 0}}>
                 <FiveStars style={{width: width, height: height, fill:configColor.button_background}}/>
@@ -21,6 +21,7 @@ const StaticRate = props => {
 StaticRate.defaultProps = {
     rate : 0,
     size : 15,
+    width : 80,
     classes: {},
 };
 StaticRate.propTypes = {
