@@ -68,7 +68,6 @@ const Category = props => {
         
     const cateQuery = simicntrCategoryQuery
     smoothScrollToView($('#root'))
-    console.log('!!!')
     return (
         <Simiquery query={cateQuery} variables={variables}>
             {({ loading, error, data }) => {

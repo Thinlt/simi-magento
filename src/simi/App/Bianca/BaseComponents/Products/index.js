@@ -105,6 +105,7 @@ class Products extends React.Component {
         const {props} = this
         const { data, title } = props;
         let descriptionArea = ''
+        console.log(data)
         if(data&& data.category && data.category.description){
             const description = data.category.description ? Identify.__('%t') : Identify.__('%t')
             descriptionArea = <div className="description">

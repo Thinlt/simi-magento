@@ -2,23 +2,24 @@ $colorTitle: #101820;
 $colorBackgroundFilter: #f2f2f2;
 
 .filter-products .MuiListItem-root {
-  color: $colorTitle;
-  background-color: $colorBackgroundFilter;
-  padding-top: 17px;
-  padding-bottom: 17px;
-  margin-bottom: 8px;
+    color: $colorTitle;
+    background-color: $colorBackgroundFilter;
+    padding-top: 13px;
+    padding-bottom: 9px;
+    margin-bottom: 8px;
 }
 .filter-products .MuiListItemText-root {
-  line-height: 14px;
-  margin-top: unset;
-  margin-bottom: unset;
+    line-height: 14px;
+    margin-top: unset;
+    margin-bottom: unset;
 }
 .filter-products .MuiTypography-body1 {
-  display: block;
-  color: $colorTitle;
-  font-family: "Gotham Book";
-  font-size: 14px;
-  line-height: 14px;
+    display: block;
+    color: $colorTitle;
+    font-family: "Gotham Book";
+    font-size: 14px;
+    line-height: 18px;
+    padding-top: 8px;
 }
 
 .filter-products .icon-chevron-down,
@@ -52,6 +53,7 @@ $colorBackgroundFilter: #f2f2f2;
 }
 .filter-products .filter-item-text {
   font-weight: 400;
+  line-height: 22px;
 }
 
 .filter-products .clear-filter {
