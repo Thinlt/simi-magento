@@ -4,8 +4,8 @@ $colorBackgroundFilter: #f2f2f2;
 .filter-products .MuiListItem-root {
     color: $colorTitle;
     background-color: $colorBackgroundFilter;
-    padding-top: 13px;
-    padding-bottom: 9px;
+    padding-top: 17px;
+    padding-bottom: 13px;
     margin-bottom: 8px;
 }
 .filter-products .MuiListItemText-root {
@@ -19,7 +19,6 @@ $colorBackgroundFilter: #f2f2f2;
     font-family: "Gotham Book";
     font-size: 14px;
     line-height: 18px;
-    padding-top: 8px;
 }
 
 .filter-products .icon-chevron-down,
