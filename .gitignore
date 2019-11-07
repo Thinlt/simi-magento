@@ -2,3 +2,4 @@ node_modules
 esm
 dist
 lastCachedGraphQLSchema.json
+.DS_Store

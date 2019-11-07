@@ -3,6 +3,7 @@ import { arrayOf, func, object, shape, string } from 'prop-types';
 import TileList from './tileList';
 import ListItemNested from 'src/simi/App/Bianca/BaseComponents/MuiListItem/Nested';
 import Identify from 'src/simi/Helper/Identify';
+import QuestionIcon from 'src/simi/App/Bianca/BaseComponents/Icon/Question';
 require('./option.scss');
 
 const getItemKey = ({ value_index }) => value_index;
@@ -16,6 +17,7 @@ class Option extends Component {
 		attribute_code: string.isRequired,
 		label: string.isRequired,
 		onSelectionChange: func,
+		onAskOption: func,
 		values: arrayOf(object).isRequired
 	};
 
@@ -38,8 +40,13 @@ class Option extends Component {
 		}
 	};
 
+	handleAskOption = () => {
+		const { attribute_id, onAskOption } = this.props;
+		onAskOption(attribute_id);
+	}
+
 	render() {
-		const { handleSelectionChange, props } = this;
+		const { handleSelectionChange, handleAskOption, props } = this;
 		const { attribute_code, label, values } = props;
 		if (attribute_code === 'size') {
 			return (
@@ -49,16 +56,19 @@ class Option extends Component {
 					</h3>
 
 					<div className="list-size">
-						<ListItemNested
-							primarytext={<div className="choose-your-size">{Identify.__('Choose your size...')}</div>}
-						>
-							<TileList
-								getItemKey={getItemKey}
-								items={values}
-								onSelectionChange={handleSelectionChange}
-								attribute_code={attribute_code}
-							/>
-						</ListItemNested>
+						<div className="option-select">
+							<ListItemNested
+								primarytext={<div className="choose-your-size">{Identify.__('Choose your size...')}</div>}
+							>
+								<TileList
+									getItemKey={getItemKey}
+									items={values}
+									onSelectionChange={handleSelectionChange}
+									attribute_code={attribute_code}
+								/>
+							</ListItemNested>
+						</div>
+						<div className="size-guide"><button onClick={handleAskOption}><QuestionIcon />{Identify.__('Size Guide')}</button></div>
 					</div>
 				</div>
 			);

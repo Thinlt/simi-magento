@@ -53,20 +53,6 @@ class ProductImage extends React.Component {
         }
     }
 
-    // renderImageLighboxBlock = () => {
-    //     let images = this.images
-    //     images = images.map((item) => {
-    //         return item.file
-    //         ? resourceUrl(item.file, { type: 'image-product', width: 640 })
-    //         : transparentPlaceholder
-    //     });
-    //     return (
-    //         <ImageLightbox ref={(lightbox) => {
-    //             this.lightbox = lightbox
-    //         }} images={images}/>
-    //     );
-    // }
-
     renderImageLighboxBlock = () => {
         let images = this.images
         images = images.map((item) => {

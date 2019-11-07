@@ -1,4 +1,5 @@
 import React, { Component, Suspense } from 'react';
+import { withRouter } from 'react-router-dom';
 import { arrayOf, bool, number, shape, string, object } from 'prop-types';
 import {smoothScrollToView} from 'src/simi/Helper/Behavior'
 import Loading from 'src/simi/BaseComponents/Loading'
@@ -22,6 +23,10 @@ import SocialShare from 'src/simi/BaseComponents/SocialShare';
 import Description from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Description';
 import Techspec from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Techspec';
 import LinkedProduct from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/LinkedProduct';
+
+import Favorite from 'src/simi/App/Bianca/BaseComponents/Icon/Favorite';
+import CompareIcon from 'src/simi/App/Bianca/BaseComponents/Icon/SyncCompare';
+
 
 const ConfigurableOptions = React.lazy(() => import('./Options/ConfigurableOptions'));
 const CustomOptions = React.lazy(() => import('./Options/CustomOptions'));
@@ -112,12 +117,6 @@ class ProductFullDetail extends Component {
         if (this.trytobuyOptionsRef) {
             params['try_to_buy'] = this.trytobuyOptionsRef.checked ? 1 : 0;
         }
-        if (this.trytobuyOptionsRef2) {
-            params['reservable'] = this.trytobuyOptionsRef2.checked ? 1 : 0;
-        }
-        if (this.trytobuyOptionsRef3) {
-            params['pre_order'] = this.trytobuyOptionsRef3.checked ? 1 : 0;
-        }
 
         return params
     }
@@ -128,6 +127,20 @@ class ProductFullDetail extends Component {
         if (product && product.id) {
             this.missingOption = false
             const params = this.prepareParams()
+            if (this.missingOption) {
+                showToastMessage(Identify.__('Please select the options required (*)'));
+                return
+            }
+            showFogLoading()
+            simiAddToCart(this.addToCartCallBack, params)
+        }
+    };
+
+    addToCartWithParams = (data = {}) => {
+        const { product } = this.props;
+        if (product && product.id) {
+            this.missingOption = false
+            const params = {...this.prepareParams(), ...data};
             if (this.missingOption) {
                 showToastMessage(Identify.__('Please select the options required (*)'));
                 return
@@ -171,6 +184,22 @@ class ProductFullDetail extends Component {
             }])
         }
     }
+
+    addToCompare = () => {
+        const {product, isSignedIn, history} = this.props
+        if (!isSignedIn) {
+            history.push('/login.html')
+        } else if (product && product.id) {
+            this.missingOption = false
+            const params = this.prepareParams()
+            showFogLoading()
+            simiAddToWishlist(this.addToWishlistCallBack, params)
+        }
+    }
+
+    reserveAction = () => {
+        alert('reserve')
+    };
 
     showError(data) {
         if (data.errors.length) {
@@ -219,6 +248,23 @@ class ProductFullDetail extends Component {
     get productOptions() {
         const { fallback, handleConfigurableSelectionChange, props } = this;
         const { configurable_options, simiExtraField, type_id, is_dummy_data } = props.product;
+        const {attribute_values: {pre_order, try_to_buy, reservable}} = simiExtraField;
+
+        // map color options in simiExtraField to configurable_options
+        if (simiExtraField && simiExtraField.app_options && simiExtraField.app_options.configurable_options && simiExtraField.app_options.configurable_options.attributes) {
+            let optionColors = Object.values(simiExtraField.app_options.configurable_options.attributes);
+            let optionColor = optionColors.find(item => item.code === 'color');
+            if (optionColor && optionColor.options){
+                let _optionColor = configurable_options.find(item => item.attribute_code === 'color');
+                if (_optionColor && _optionColor.values) {
+                    optionColor.options.map(item => {
+                        let option = _optionColor.values.find(_optItem => _optItem.value_index === parseInt(item.id));
+                        return option.option_value = item.option_value;
+                    })
+                }
+            }
+        }
+
         const isConfigurable = isProductConfigurable(props.product);
         if (is_dummy_data)
             return <Loading />
@@ -284,10 +330,7 @@ class ProductFullDetail extends Component {
                     />
                 }
                 {
-                    <TrytobuyOptions className={"try-to-buy"} cbRef={el => this.trytobuyOptionsRef = el}
-                    cbRef2={el => this.trytobuyOptionsRef2 = el}
-                    cbRef3={el => this.trytobuyOptionsRef3 = el}
-                     />
+                    try_to_buy === '1' && <TrytobuyOptions className={"try-to-buy"} cbRef={el => this.trytobuyOptionsRef = el} />
                 }
             </Suspense>
         );
@@ -299,12 +342,13 @@ class ProductFullDetail extends Component {
     
     render() {
         hideFogLoading()
-        const { addToCart, productOptions, props, state, addToWishlist } = this;
+        const { addToCart, addToCartWithParams, addToCompare, reserveAction, productOptions, props, state, addToWishlist } = this;
         const { optionCodes, optionSelections, } = state
         const product = prepareProduct(props.product)
         const { type_id, name, simiExtraField } = product;
         const short_desc = (product.short_description && product.short_description.html)?product.short_description.html:''
         const hasReview = simiExtraField && simiExtraField.app_reviews && simiExtraField.app_reviews.number
+        const {attribute_values: {pre_order, try_to_buy, reservable}} = simiExtraField;
         return (
             <div className="container product-detail-root">
                 {this.breadcrumb(product)}
@@ -329,43 +373,53 @@ class ProductFullDetail extends Component {
                             </h1>
                         </div>
                         <div className="main-actions">
-                            { hasReview ? <div className="top-review">
-                                <TopReview app_reviews={product.simiExtraField.app_reviews}/>
+                            <div className="vendor-name">{Identify.__('Designer name')}</div>
+                            <div className="top-review">
+                                {hasReview ? <TopReview app_reviews={product.simiExtraField.app_reviews}/> : null}
                                 <div role="presentation" className="review-btn" onClick={()=>smoothScrollToView($('#product-detail-new-review'))}>
                                     {hasReview ? Identify.__('Add your review') : Identify.__('Be the first to review this product')}
                                 </div>
-                            </div> : null}
+                            </div>
                             <div className="product-price">
                                 <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections}/>
                             </div>
                             <div className="product-short-desc">{ReactHTMLParse(short_desc)}</div>
                             <div className="options">{productOptions}</div>
                             <div className="cart-actions">
-                                {
+                                {/* {
                                     type_id !== 'grouped' &&
                                     <Quantity
                                         initialValue={this.quantity}
                                         onValueChange={this.setQuantity}
                                     />
+                                } */}
+                                {
+                                    pre_order === '1' && try_to_buy !== '1' ? 
+                                    <div className="cart-ctn">
+                                        <Colorbtn className="pre-order-btn btn btn__black" onClick={() => addToCartWithParams({pre_order: '1'})} text={Identify.__('Pre-order')}/>
+                                    </div>
+                                    :
+                                    <div className="cart-ctn">
+                                        <Colorbtn className="add-to-cart-btn btn btn__black" onClick={addToCart} text={Identify.__('Add to Cart')}/>
+                                    </div>
                                 }
-                                <div 
-                                    className="add-to-cart-ctn" 
-                                    style={{
-                                        borderColor:  configColor.button_background, borderWidth: '1px', borderStyle: 'solid'
-                                    }}>
-                                    <Colorbtn 
-                                        style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
-                                        className="add-to-cart-btn"
-                                        onClick={addToCart}
-                                        text={Identify.__('Add to Cart')}/>
+                                <div className="cart-ctn">
+                                    <Whitebtn className="buy-1-click-btn btn btn__white" onClick={() => addToCartWithParams({buy1click: '1'})} text={Identify.__('Buy with 1-click')}/>
+                                </div>
+                                {
+                                    pre_order !== '1' && 
+                                    <div className="cart-ctn">
+                                        <Whitebtn className="reserve-btn btn btn__white" onClick={reserveAction} text={Identify.__('Reserve')}/>
+                                    </div>
+                                }
+                                <div className="wishlist-actions action-icon">
+                                    <button onClick={addToWishlist} title={Identify.__('Add to Favourites')}><Favorite /></button>
+                                </div>
+                                <div className="compare-actions action-icon">
+                                    <button onClick={addToCompare} title={Identify.__('Compare')}><CompareIcon /></button>
                                 </div>
                             </div>
-                            <div className="wishlist-actions">
-                                <Whitebtn 
-                                    className="add-to-wishlist-btn"
-                                    onClick={addToWishlist}
-                                    text={Identify.__('Add to Favourites')}/>
-                            </div>
+                            
                             <div className="social-share"><SocialShare id={product.id} className="social-share-item" /></div>
                         </div>
                     </div>
@@ -411,4 +465,4 @@ ProductFullDetail.propTypes = {
     }).isRequired
 };
 
-export default ProductFullDetail;
+export default (withRouter)(ProductFullDetail);

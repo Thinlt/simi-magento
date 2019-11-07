@@ -3,8 +3,7 @@ $cbColor2: #fff;
 
 .try-to-buy{
     position: relative;
-    padding: 0 1.5rem;
-    margin-top: 1rem;
+    margin-top: 24px;
 
     input{
         display: none;
@@ -21,7 +20,7 @@ $cbColor2: #fff;
         position: relative;
         height: 24px;
         display: flex;
-        align-items: flex-end;
+        align-items: center;
 
         &::before{
             content: '';
