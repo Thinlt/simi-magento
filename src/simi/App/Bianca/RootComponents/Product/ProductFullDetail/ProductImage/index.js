@@ -53,7 +53,6 @@ class ProductImage extends React.Component {
         }
     }
 
-
     renderImageLighboxBlock = () => {
         let images = this.images
         images = images.map((item) => {

@@ -9,7 +9,6 @@ import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
 require('./linkedProduct.scss');
 
 const LinkedProducts = props => {
-    console.log(props);
     const {product, history} = props
     const link_type = props.link_type?props.link_type:'related'
     const maxItem = 8 //max 10 items

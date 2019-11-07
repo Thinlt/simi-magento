@@ -21,8 +21,12 @@ class Options extends Component {
         }
     };
 
+    handleAskOption = (optionId) => {
+        console.log('ask option ', optionId)
+    }
+
     render() {
-        const { handleSelectionChange, props } = this;
+        const { handleSelectionChange, handleAskOption, props } = this;
         const { options } = props;
 
         return options.map(option => (
@@ -30,6 +34,7 @@ class Options extends Component {
                 {...option}
                 key={option.attribute_id}
                 onSelectionChange={handleSelectionChange}
+                onAskOption={handleAskOption}
             />
         ));
     }
