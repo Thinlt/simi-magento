@@ -33,6 +33,14 @@ class Products extends React.Component {
                     key="siminia-left-navigation-filter" 
                     className="left-navigation" >
                     {filter}
+                    <div className="left-nav-pcompare">
+                        <div className="left-nav-pcompare-title">
+                            {Identify.__('Compare product')}
+                        </div>   
+                        <div className="left-nav-pcompare-content">
+                            {Identify.__('You have  no products to compare')}
+                        </div>    
+                    </div>
                 </div>
             );
         }

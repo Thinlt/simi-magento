@@ -81,7 +81,7 @@ Image
 
 .siminia-product-grid-item .siminia-product-image {
     width: 100%;
-    min-height: 280px;
+    min-height: 348px;
     padding-top: 100%;
     background-size: contain;
     background-position: center;
@@ -98,6 +98,7 @@ Image
     -o-object-fit: contain;
     vertical-align: top;
     object-fit: contain;
+    border: solid 1px #eeeeee;
 }
 
 @media(min-width: 1440px){
@@ -239,6 +240,7 @@ Image
     font-size: 14px;
     line-height: 14px;
     text-align: center;
+    margin-bottom: 10px;
 }
 
 .siminia-product-des .product-short-description {
