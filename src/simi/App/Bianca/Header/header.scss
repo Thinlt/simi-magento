@@ -121,6 +121,9 @@ $textColor3: #E4E4E4;
                 .item-icon {
                     height: 16px;
                     width: 16px;
+                    svg{
+                        fill: $textColor1!important;
+                    }
                 }
             }
             .header-search {
