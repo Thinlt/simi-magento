@@ -5,8 +5,8 @@ const useWindowSize = (initial = {width: window.innerWidth, height: window.inner
 
     const onChangeSize = () => {
         setSize({
-            width: window.innerWidth,
-            height: window.innerHeight
+            width: window.outerWidth || document.body.clientWidth,
+            height: window.outerHeight || document.body.clientHeight
         })
     }
 

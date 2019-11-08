@@ -8,25 +8,35 @@ import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product';
 import useWindowSize from 'src/simi/App/Bianca/Hooks';
 // import {Carousel} from 'react-responsive-carousel';
 import ItemsCarousel from 'react-items-carousel';
+import ChevronLeft from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronLeft';
+import ChevronRight from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronRight';
 
 require('./linkedProduct.scss');
 
 const responsive = {
     superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
+      breakpoint: { max: 4000, min: 1470 },
       items: 5,
+      chevronWidth: 72,
+      iconWidth: 48
     },
     desktop: {
-      breakpoint: { max: 3000, min: 1024 },
+      breakpoint: { max: 1470, min: 1176 },
       items: 4,
+      chevronWidth: 72,
+      iconWidth: 48
     },
     tablet: {
-      breakpoint: { max: 1024, min: 411 },
+      breakpoint: { max: 1176, min: 588 },
       items: 2,
+      chevronWidth: 20,
+      iconWidth: 16
     },
     mobile: {
-      breakpoint: { max: 464, min: 0 },
+      breakpoint: { max: 588, min: 0 },
       items: 1,
+      chevronWidth: 20,
+      iconWidth: 16
     },
 };
 
@@ -60,7 +70,7 @@ const LinkedProducts = props => {
                 })
             }, [])
 
-            let linkedProducts = <Loading />
+            let linkedProducts = [<Loading key={Identify.randomString(3)}/>]
             if (data && data.simiproducts && data.simiproducts.items) {
                 let count = 0
                 data.products = applySimiProductListItemExtraField(data.simiproducts)
@@ -87,16 +97,21 @@ const LinkedProducts = props => {
             const _responseSize = Object.values(responsive);
             const breakPoint = _responseSize.find((itemSize) => {
                 if (itemSize.breakpoint) {
-                    if (width >= itemSize.breakpoint.min && width < itemSize.breakpoint.max) {
+                    if (width > itemSize.breakpoint.min && width <= itemSize.breakpoint.max) {
                         return true;
                     }
                 }
                 return false;
             });
-            let numberCards = 4;
+            let numberCards = 4, chevWidth = 72, iconWidth = 24; // default values
             if (breakPoint.items) {
                 numberCards = breakPoint.items;
+                chevWidth = breakPoint.chevronWidth;
+                iconWidth = breakPoint.iconWidth;
             }
+
+            console.log(width)
+            console.log(numberCards)
 
             return (
                 <div className="linked-product-ctn">
@@ -110,20 +125,20 @@ const LinkedProducts = props => {
                     <div className="linked-products">
                         <ItemsCarousel
                             infiniteLoop={false}
-                            gutter={12}
+                            gutter={16} //Space between cards.
+                            firstAndLastGutter={false}
                             activePosition={'center'}
-                            chevronWidth={60}
+                            chevronWidth={chevWidth}
                             disableSwipe={false}
                             alwaysShowChevrons={false}
                             numberOfCards={numberCards}
-                            slidesToScroll={2}
+                            slidesToScroll={1}
                             outsideChevron={true}
                             showSlither={false}
-                            firstAndLastGutter={false}
                             activeItemIndex={activeItemIndex}
                             requestToChangeActive={setActiveItemIndex}
-                            rightChevron={'>'}
-                            leftChevron={'<'}
+                            leftChevron={<ChevronLeft className="chevron-left" style={{width: `${iconWidth}px`}} />}
+                            rightChevron={<ChevronRight className="chevron-right" style={{width: `${iconWidth}px`}} />}
                         >
                             {linkedProducts}
                         </ItemsCarousel>
