@@ -104,7 +104,7 @@ $color2: #727272;
                     .prices-container{
                         .prices-layout{
                             margin-top: 0;
-                            .price-configurable{
+                            .price-configurable, .price-simple{
                                 .product-prices{
                                     display: flex;
                                     .price{
@@ -115,19 +115,22 @@ $color2: #727272;
                                         margin-top: 24px;
                                         display: inline-block;
                                     }
-                                    .special{
+                                    .regular{
                                         .price{
                                             padding-top: 10px;
                                             margin-bottom: -10px;
                                         }
                                     }
-                                    .regular{
+                                    .special{
                                         .price{
                                             color: $color2;
                                             font-family: 'Gotham Book';
                                             text-decoration: line-through;
                                             margin-left: 32px;
+                                            padding-top: 0;
                                         }
+                                        .label{display: none;}
+                                        .sale_off{display: none;}
                                     }
                                 }
                             }
@@ -348,6 +351,7 @@ $color2: #727272;
         padding: 0;
         padding-top: 60px;
         padding-bottom: 100px;
+        border-top: 1px solid $color1;
         .title{
             width: 100%;
             margin-bottom: 32px;
@@ -358,6 +362,35 @@ $color2: #727272;
                 line-height: 24px;
                 color: $color1;
                 display: inline-block;
+            }
+        }
+        .linked-products{
+            text-align: center;
+            .linked-product-item{
+                display: inline-grid;
+                padding: 0px;
+                width: 278px;
+                min-height: 488px;
+                .siminia-product-grid-item{
+                    width: 278px;
+                    .siminia-product-image{
+                        height: 348px;
+                        background-color: $color2!important;
+                        outline: none;
+                        img{
+                            object-fit: cover!important;
+                        }
+                    }
+                }
+            }
+            .chevron-left, .chevron-right{
+                width: 24px!important;
+                height: 24px!important;
+                color: $color1!important;
+                // margin-right: 10px;
+                // margin-left: 10px;
+                align-self: flex-start;
+                margin-top: 174px;
             }
         }
     }
