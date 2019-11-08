@@ -38,10 +38,18 @@ class Tile extends Component {
 		const className = getClassName('tile-root', isSelected, hasFocus);
 		const { option_value, label } = item;
 		if (option_value) {
+			if (option_value.includes('http')) {
+				return (
+					<div className="group-options">
+						<button {...restProps} className={className}>
+							<img src={option_value} alt={label}/>
+						</button>
+					</div>
+				);
+			}
 			return (
 				<div className="group-options">
-					<button {...restProps} className={className}>
-						<img src={option_value} alt={label}/>
+					<button {...restProps} className={className} style={{backgroundColor: option_value}}>
 					</button>
 				</div>
 			);

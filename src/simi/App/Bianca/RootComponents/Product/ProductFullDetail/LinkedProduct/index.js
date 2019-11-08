@@ -110,9 +110,6 @@ const LinkedProducts = props => {
                 iconWidth = breakPoint.iconWidth;
             }
 
-            console.log(width)
-            console.log(numberCards)
-
             return (
                 <div className="linked-product-ctn">
                     <h2 className="title">
