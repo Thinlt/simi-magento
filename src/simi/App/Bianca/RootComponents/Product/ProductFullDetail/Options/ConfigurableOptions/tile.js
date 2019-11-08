@@ -36,8 +36,16 @@ class Tile extends Component {
 			...restProps
 		} = this.props;
 		const className = getClassName('tile-root', isSelected, hasFocus);
-
-		const { label } = item;
+		const { option_value, label } = item;
+		if (option_value) {
+			return (
+				<div className="group-options">
+					<button {...restProps} className={className}>
+						<img src={option_value} alt={label}/>
+					</button>
+				</div>
+			);
+		}
 		return (
 			<div className="group-options">
 				<button {...restProps} className={className}>

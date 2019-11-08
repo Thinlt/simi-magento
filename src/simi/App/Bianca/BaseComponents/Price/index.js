@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import BundlePrice from './Bundle';
 import Simple from './Simple';
 import Grouped from './Grouped';
+import Configurable from './Configurable';
 
 class PriceComponent extends React.Component {
     constructor(props) {
@@ -18,6 +19,9 @@ class PriceComponent extends React.Component {
         else if (this.type === "grouped") { 
             // for list page group product
             return <Grouped prices={this.prices} parent={this} />
+        }
+        else if (this.type === "configurable") {
+            return <Configurable prices={this.prices} parent={this} />
         }
         else {
             ////simple, configurable ....

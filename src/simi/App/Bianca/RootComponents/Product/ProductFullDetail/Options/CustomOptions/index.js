@@ -51,6 +51,9 @@ class CustomOptions extends OptionBase {
                     </div>
                 );
             });
+            
+            if (!optionsHtml || !optionsHtml.length) return null;
+
             return (
                 <div className="custom-options">
                     <div id="customOption" style={{marginTop: '10px'}}>
@@ -59,6 +62,7 @@ class CustomOptions extends OptionBase {
                 </div>
             );
         }
+        return null;
     }
 
     renderContentOption = (ObjOptions, type) => {
@@ -184,11 +188,7 @@ class CustomOptions extends OptionBase {
         return this.params;
     }
     render(){
-        return (
-            <div>
-                {this.renderOptions()}
-            </div>
-        )
+        return this.renderOptions();
     }
 }
 export default CustomOptions;

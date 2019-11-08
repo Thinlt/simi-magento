@@ -8,7 +8,7 @@ const TopReview = props => {
     const { app_reviews } = props
     return (
         <div className="review-rate">
-            <StaticRate rate={app_reviews.rate}/>
+            <StaticRate className="rate-star" rate={app_reviews.rate} size={14} width={80}/>
             <span className="review-count">
                 {app_reviews.number} {(app_reviews.number > 1) ? Identify.__('reviews') : Identify.__('review')}
             </span>

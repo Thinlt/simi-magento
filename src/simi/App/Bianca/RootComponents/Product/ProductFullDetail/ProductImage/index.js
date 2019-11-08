@@ -52,7 +52,7 @@ class ProductImage extends React.Component {
             return url.replace(youtubePattern, replacementY);
         }
     }
-    
+
     renderImageLighboxBlock = () => {
         let images = this.images
         images = images.map((item) => {

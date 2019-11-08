@@ -1,6 +1,6 @@
 import React from 'react';
 import Identify from 'src/simi/Helper/Identify';
-import Price from 'src/simi/BaseComponents/Price';
+import Price from 'src/simi/App/Bianca/BaseComponents/Price';
 import ObjectHelper from 'src/simi/Helper/ObjectHelper';
 import PropTypes from 'prop-types';
 
