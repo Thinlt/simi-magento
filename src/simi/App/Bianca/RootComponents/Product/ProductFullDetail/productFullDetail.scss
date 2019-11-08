@@ -7,6 +7,7 @@ $color2: #727272;
 
     .detail-top{
         width: 100%;
+        padding-bottom: 85px;
         display: flex;
         flex-wrap: wrap;
         align-items: flex-start;
@@ -281,7 +282,7 @@ $color2: #727272;
                 }
                 .social-share{
                     margin-top: 34px;
-                    
+
                 }
             }
             
@@ -293,47 +294,71 @@ $color2: #727272;
         }
     }
 
-    .top-review {
-        padding: 1rem 1.5rem 0 1.5rem;
-    }
-    
-    .product-quantity {
-        display: flex;
-        font-size: 17px;
-        width: 25%;
-    }
-    
-    .product-quantity input{
-        padding: 10px;
-        border: solid #eaeaea 1px;
+    .main-info{
+        padding-top: 50px;
+        border-top: 1px solid $color2;
         width: 100%;
-        text-align: center;
+        .tabs{
+            .tab-list{
+                border: none;
+                border-bottom: none;
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+                li.tab-list-item{
+                    color: $color2;
+                    font-size: 24px;
+                    line-height: 24px;
+                    font-family: 'Gotham Book';
+                    padding: 10px 30px;
+                    text-transform: uppercase;
+                    &.tab-list-active{
+                        color: $color1;
+                        font-weight: 600;
+                        border: none;
+                    }
+                }
+            }
+            .tab-content{
+                padding-top: 28px;
+                padding-bottom: 60px;
+                color: $color1;
+                font-size: 16px;
+                line-height: 24px;
+                font-family: 'Gotham Book';
+                text-align: justify;
+                .description{
+                    .description-title{display: none;}
+                    .description-content{
+                        text-align: justify;
+                        p:nth-child(n+2){
+                            margin-top: 10px;
+                        }
+                    }
+                }
+            }
+        }
     }
-    
-    .description {
-        margin-top: 15px;
-        width: 100%;
-        border-top: solid #eaeaea 1px;
-        padding: 1.5rem;
-    }
-    .techspec {
-        margin-top: 15px;
-        width: 100%;
-        border-top: solid #eaeaea 1px;
-        padding: 1.5rem;
-    }
-    .review-list {
-        margin-top: 15px;
-        padding: 1.5rem;
-        width: 100%;
-        border-top: solid #eaeaea 1px;
-        margin-bottom: 25px;
-    }
-    .new-review {
-        margin-top: 15px;
-        padding: 1.5rem;
-        width: 100%;
-        border-top: solid #eaeaea 1px;
-        margin-bottom: 25px;
+
+    .linked-product-ctn{
+        margin: 0;
+        margin-top: 0px;
+        padding: 0;
+        padding-top: 60px;
+        padding-bottom: 100px;
+        .title{
+            width: 100%;
+            margin-bottom: 32px;
+            text-align: center;
+            span{
+                font-family: Didot;
+                font-size: 24px;
+                line-height: 24px;
+                color: $color1;
+                display: inline-block;
+            }
+        }
     }
 }

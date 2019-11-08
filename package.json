@@ -63,6 +63,7 @@
     "react-html-parser": "^2.0.2",
     "react-image-lightbox": "^5.1.0",
     "react-image-video-lightbox": "^2.0.1",
+    "react-items-carousel": "~2.8.0",
     "react-lazyload": "^2.6.2",
     "react-loadable": "^5.5.0",
     "react-redux": "~6.0.1",

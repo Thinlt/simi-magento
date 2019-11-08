@@ -18,10 +18,11 @@ import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
 import ReactHTMLParse from 'react-html-parser';
 import BreadCrumb from "src/simi/App/Bianca/BaseComponents/BreadCrumb";
+import Tabs from "src/simi/App/Bianca/BaseComponents/Tabs";
 import { TopReview, ReviewList, NewReview } from './Review'
 import SocialShare from 'src/simi/BaseComponents/SocialShare';
 import Description from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Description';
-import Techspec from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Techspec';
+// import Techspec from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Techspec';
 import LinkedProduct from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/LinkedProduct';
 
 import Favorite from 'src/simi/App/Bianca/BaseComponents/Icon/Favorite';
@@ -339,6 +340,17 @@ class ProductFullDetail extends Component {
     breadcrumb = (product) => {
         return <BreadCrumb breadcrumb={[{name:'Home',link:'/'},{name:product.name}]} history={this.props.history}/>
     }
+
+    tabItem = (props) => {
+        if (!props.show) return null;
+        return (
+            <div className={`item item-${props.id} ${props.className}`}>
+                <div className="tab-container">
+                    {props.children}
+                </div>
+            </div>
+        );
+    }
     
     render() {
         hideFogLoading()
@@ -425,16 +437,32 @@ class ProductFullDetail extends Component {
                     </div>
                 </div>
                 <div className="main-info">
-                    {product.description && <div className="description"><Description product={product}/></div>}
-                    {(simiExtraField && simiExtraField.additional && simiExtraField.additional.length) ?
-                        <div className="techspec"><Techspec product={product}/></div> : ''}
-                    <div className="review-list"><ReviewList product_id={product.id}/></div>
-                    <div className="new-review" id="product-detail-new-review">
-                        <NewReview product={product} toggleMessages={this.props.toggleMessages}/>
-                    </div>
+                    <Tabs>
+                        <div label={Identify.__('Delivery & Returns')}>
+                            <div className="delivery-returns">
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuribut also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets It was popularised in the 1960s with the release of Letraset sheets. 
+                            </div>
+                        </div>
+                        <div label={Identify.__('More Information')}>
+                            <div className="description"><Description product={product}/></div>
+                        </div>
+                        <div label={Identify.__('Reviews')}>
+                            <div className="review-list"><ReviewList product_id={product.id}/></div>
+                            <div className="new-review" id="product-detail-new-review">
+                                <NewReview product={product} toggleMessages={this.props.toggleMessages}/>
+                            </div>
+                        </div>
+                        {/* <div label={Identify.__('Additional Information')}>
+                            {(simiExtraField && simiExtraField.additional && simiExtraField.additional.length) ?
+                                <div className="item">
+                                    <div className="techspec"><Techspec product={product}/></div> 
+                                </div>
+                            : ''}
+                        </div> */}
+                    </Tabs>
                 </div>
                 <LinkedProduct product={product} link_type="related" history={this.props.history}/>
-                <LinkedProduct product={product} link_type="crosssell" history={this.props.history}/>
+                {/* <LinkedProduct product={product} link_type="crosssell" history={this.props.history}/> */}
             </div>
         );
     }
