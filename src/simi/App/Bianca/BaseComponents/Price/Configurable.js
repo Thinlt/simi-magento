@@ -21,10 +21,9 @@ class Configurable extends Abstract {
             regular_price = (
                 <div className="regular">{this.formatPrice(this.prices.regularPrice.amount.value, this.prices.regularPrice.amount.currency, false)}</div>
             );
-            // price_label = (
-            //     <div>{Identify.__('Regular Price')}: {this.formatPrice(this.prices.regularPrice.amount.value, false)} <span
-            //         className="sale_off">-{this.prices.discount_percent}%</span></div>
-            // );
+            price_label = (
+                <div className="old-price">{this.formatPrice(this.prices.regularPrice.amount.value, false)}</div>
+            );
         } else {
             if (this.prices.show_ex_in_price !== null && this.prices.show_ex_in_price === 1) {
                 price_excluding_tax = (

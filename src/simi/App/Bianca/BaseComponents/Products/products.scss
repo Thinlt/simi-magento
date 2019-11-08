@@ -31,7 +31,26 @@ $colorTitle: #101820;
             font-weight: 500;
         }
   }
+  .category-top-children {
+      border-top: solid 1px #E0E0E0;
+      border-bottom: solid 1px #E0E0E0;
+      justify-content: center;
+      display: flex;
+      flex-wrap: wrap;
+      font-size: 16px;
+      line-height: 16px;
+      font-family: 'Gotham';
+      .category-top-child {
+          padding: 25px 15px;
+          a {
+            color: #101820;
+            font-family: 'Gotham';
+            font-weight: 500;
+          }
+      }
+  }
 }
+
 
 .full-width-container {
   width: 99.3vw;

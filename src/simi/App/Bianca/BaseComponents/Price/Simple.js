@@ -12,7 +12,7 @@ class Simple extends Abstract {
         let price = <div></div>;
         if (this.prices.has_special_price) {
             if (this.prices.show_ex_in_price !== null && this.prices.show_ex_in_price === 1) {
-                special_price_label = (<div>{this.prices.special_price_label}</div>);
+                // special_price_label = (<div>{this.prices.special_price_label}</div>);
                 price_excluding_tax = (
                     <div>{Identify.__('Excl. Tax')}: {this.formatPrice(this.prices.minimalPrice.excl_tax_amount.value, this.prices.minimalPrice.amount.currency)}</div>
                 );
@@ -24,8 +24,7 @@ class Simple extends Abstract {
             }
             
             price_label = (
-                <div>{Identify.__('Regular Price')}: {this.formatPrice(this.prices.regularPrice.amount.value, false)} <span
-                    className="sale_off">-{this.prices.discount_percent}%</span></div>
+                <div className="old-price">{this.formatPrice(this.prices.regularPrice.amount.value, false)}</div>
             );
         } else {
             if (this.prices.show_ex_in_price !== null && this.prices.show_ex_in_price === 1) {
@@ -41,8 +40,8 @@ class Simple extends Abstract {
         }
         return (
             <div className='product-prices' >
-                {price}
                 {price_label}
+                {price}
                 {special_price_label}
                 {price_excluding_tax}
                 {price_including_tax}

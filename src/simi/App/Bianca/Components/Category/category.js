@@ -2,7 +2,7 @@ import React from 'react';
 import LoadingSpiner from 'src/simi/BaseComponents/Loading/LoadingSpiner'
 import { number } from 'prop-types';
 import simicntrCategoryQuery from 'src/simi/queries/catalog/getCategory.graphql'
-import Products from 'src/simi/App/Bianca/BaseComponents/Products';
+import Products from '../..//BaseComponents/Products';
 import { resourceUrl } from 'src/simi/Helper/Url'
 import CategoryHeader from './categoryHeader'
 import Identify from 'src/simi/Helper/Identify';
@@ -14,6 +14,7 @@ import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
 import BreadCrumb from "src/simi/App/Bianca/BaseComponents/BreadCrumb"
 import { cateUrlSuffix } from 'src/simi/Helper/Url';
 import { smoothScrollToView } from 'src/simi/Helper/Behavior';
+import ChildCats from './childCats'
 
 var sortByData = null
 var filterData = null
@@ -88,6 +89,7 @@ const Category = props => {
                         }
                         <Products
                             title={categoryTitle}
+                            underHeader={<ChildCats category={data.category}/>}
                             history={props.history}
                             location={props.location}
                             currentPage={currentPage}

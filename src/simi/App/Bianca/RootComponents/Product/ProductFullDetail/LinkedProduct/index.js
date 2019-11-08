@@ -3,7 +3,7 @@ import Identify from 'src/simi/Helper/Identify';
 import { simiUseQuery } from 'src/simi/Network/Query' ;
 import getProductsBySkus from 'src/simi/queries/catalog/getProductsBySkus.graphql';
 import Loading from "src/simi/BaseComponents/Loading";
-import { GridItem } from 'src/simi/BaseComponents/GridItem';
+import { GridItem } from 'src/simi/App/Bianca/BaseComponents/GridItem';
 import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product';
 import useWindowSize from 'src/simi/App/Bianca/Hooks';
 // import {Carousel} from 'react-responsive-carousel';

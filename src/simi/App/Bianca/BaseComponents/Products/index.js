@@ -6,6 +6,7 @@ import Filter from './Filter'
 import Pagination from 'src/simi/App/Bianca/BaseComponents/Pagination'
 import Loading from 'src/simi/BaseComponents/Loading'
 import {Carousel} from 'react-responsive-carousel';
+import ReactHTMLParse from 'react-html-parser'
 require('./products.scss')
 
 class Products extends React.Component {
@@ -117,7 +118,7 @@ class Products extends React.Component {
         if(data&& data.category && data.category.description){
             const description = data.category.description ? Identify.__('%t') : Identify.__('%t')
             descriptionArea = <div className="description">
-                                {description.replace('%t', data.category.description)}                 
+                                {ReactHTMLParse(description.replace('%t', data.category.description))}                 
                             </div>;
         }
                 
@@ -129,6 +130,7 @@ class Products extends React.Component {
                 <h2 className="description-area">
                     {descriptionArea}
                 </h2>
+                {props.underHeader}
                 <div className="product-list-container-siminia">
                     {this.renderLeftNavigation()}
                     <div className="listing-product">
