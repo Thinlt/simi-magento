@@ -144,7 +144,6 @@ Image
 .siminia-product-grid-item .siminia-product-des .cart-wishlish-compare {
     margin-top: 14px;
     display: flex;
-    justify-content: space-between;
 }
 
 .siminia-product-grid-item .siminia-product-des .cart-wishlish-compare .add-to-cart-btn{
@@ -157,10 +156,11 @@ Image
     line-height: 12px;
     text-align: center;
     text-transform: uppercase;
+    margin-right: 13px;
 }
 
 .siminia-product-grid-item .siminia-product-des .cart-wishlish-compare .wishlistAction{
-    margin: auto;
+    margin: auto 12px;
     cursor: pointer;
 }
 .siminia-product-grid-item .siminia-product-des .cart-wishlish-compare .wishlistAction .add-to-wishlist-btn{
@@ -178,7 +178,7 @@ Image
     color: $titleColor;
 }
 .siminia-product-grid-item .siminia-product-des .cart-wishlish-compare .compareAction{
-    margin: auto;
+    margin: auto 12px;
     cursor: pointer;
 }
 .siminia-product-grid-item .siminia-product-des .cart-wishlish-compare .compareAction .add-to-compare-btn{
