@@ -49,24 +49,28 @@ class Currency extends StoreView {
 
     renderItem() {
         const {classes} = this.props
-        if (typeof(storage) !== "undefined") {
-            const merchantConfigs = Identify.getStoreConfig();
-            const currencies = merchantConfigs.simiStoreConfig.config.base.currencies;
-            
-            if(currencies.length > 1) {
-                this.checkCurrency = true;
-                return(
-                    <div
-                        className={this.props.className}
-                    >
-                        <ListItemNested
-                            primarytext={<div className={`menu-title`} >{Identify.__('Currency')}</div>} 
-                            >
-                            {this.renderSubItem()}
-                        </ListItemNested>
-                    </div>
-                )
+        try {
+            if (typeof(storage) !== "undefined") {
+                const merchantConfigs = Identify.getStoreConfig();
+                const currencies = merchantConfigs.simiStoreConfig.config.base.currencies;
+                
+                if(currencies.length > 1) {
+                    this.checkCurrency = true;
+                    return(
+                        <div
+                            className={this.props.className}
+                        >
+                            <ListItemNested
+                                primarytext={<div className={`menu-title`} >{Identify.__('Currency')}</div>} 
+                                >
+                                {this.renderSubItem()}
+                            </ListItemNested>
+                        </div>
+                    )
+                }
             }
+        } catch (err) {
+            
         }
         return null;
     }

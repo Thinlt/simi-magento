@@ -21,7 +21,7 @@ const themePaths = {
     src: path.resolve(__dirname, 'src'),
     output: path.resolve(__dirname, 'dist')
 };
-const rootComponentsDirs = ['./src/simi/App/core/RootComponents/'];
+const rootComponentsDirs = ['./src/simi/App/Bianca/RootComponents/'];
 const libs = [
     'apollo-cache-inmemory',
     'apollo-cache-persist',
@@ -82,7 +82,21 @@ module.exports = async function(env) {
                     ]
                 },
                 {
-                    include: [themePaths.src, /peregrine\/src\//],
+                    include: [themePaths.src, /peregrine\/lib\//],
+                    test: /\.(mjs|js)$/,
+                    use: [
+                        {
+                            loader: 'babel-loader',
+                            options: {
+                                cacheDirectory: true,
+                                envName: mode,
+                                rootMode: 'upward'
+                            }
+                        }
+                    ]
+                },
+                {
+                    include: [themePaths.src, /venia-ui\/lib\//],
                     test: /\.(mjs|js)$/,
                     use: [
                         {

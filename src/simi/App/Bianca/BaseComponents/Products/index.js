@@ -6,6 +6,7 @@ import Filter from './Filter'
 import Pagination from 'src/simi/App/Bianca/BaseComponents/Pagination'
 import Loading from 'src/simi/BaseComponents/Loading'
 import {Carousel} from 'react-responsive-carousel';
+import ReactHTMLParse from 'react-html-parser'
 require('./products.scss')
 
 class Products extends React.Component {
@@ -33,6 +34,14 @@ class Products extends React.Component {
                     key="siminia-left-navigation-filter" 
                     className="left-navigation" >
                     {filter}
+                    <div className="left-nav-pcompare">
+                        <div className="left-nav-pcompare-title">
+                            {Identify.__('Compare product')}
+                        </div>   
+                        <div className="left-nav-pcompare-content">
+                            {Identify.__('You have  no products to compare')}
+                        </div>    
+                    </div>
                 </div>
             );
         }
@@ -105,10 +114,11 @@ class Products extends React.Component {
         const {props} = this
         const { data, title } = props;
         let descriptionArea = ''
+        console.log(data)
         if(data&& data.category && data.category.description){
             const description = data.category.description ? Identify.__('%t') : Identify.__('%t')
             descriptionArea = <div className="description">
-                                {description.replace('%t', data.category.description)}                 
+                                {ReactHTMLParse(description.replace('%t', data.category.description))}                 
                             </div>;
         }
                 
@@ -120,6 +130,7 @@ class Products extends React.Component {
                 <h2 className="description-area">
                     {descriptionArea}
                 </h2>
+                {props.underHeader}
                 <div className="product-list-container-siminia">
                     {this.renderLeftNavigation()}
                     <div className="listing-product">

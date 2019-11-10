@@ -1,0 +1,28 @@
+.tile-root {
+    border-radius: 2px;
+    height: 3rem;
+    margin-left: 1rem;
+    margin-top: 1rem;
+    min-width: 3rem;
+    padding: 0 0.75rem;
+}
+
+@media (min-width: 1024px) {
+    .tile-root {
+        height: 2rem;
+        min-width: 2rem;
+        padding: 0 0.5rem;
+    }
+}
+
+._selected {
+    composes: tile-root;
+    background-color: black;
+    color: white;
+}
+._focused {
+    composes: tile-root;
+}
+._selected_focused {
+    composes: tile-root_selected;
+}

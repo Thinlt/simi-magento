@@ -21,7 +21,6 @@ class Abstract extends React.Component{
     formatPrice(price, currency = null, special = true) {
         if (!price)
             return
-        const {props} = this
         style.price = {...style.price,...this.props.stylePrice};
         style.specialPrice = {...style.specialPrice,...this.props.styleSpecialPrice};
         if (special) {

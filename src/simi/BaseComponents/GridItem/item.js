@@ -44,11 +44,11 @@ class Griditem extends React.Component {
 
     showBtnQuickView = (id) => {
         $(`.view-item-${id}`).css('display', 'block')
-        $(`img.img-${id}`).css('object-fit','cover')
+        //$(`img.img-${id}`).css('object-fit','cover')
     }
     hideBtnQuickView = (id) => {
         $(`.view-item-${id}`).css('display', 'none')
-        $(`img.img-${id}`).css('object-fit','contain')
+        //$(`img.img-${id}`).css('object-fit','contain')
     }
     showModalQuickView = () => {
         this.setState({

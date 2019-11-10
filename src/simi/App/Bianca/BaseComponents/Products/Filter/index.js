@@ -106,7 +106,6 @@ class Filter extends React.Component {
                     const styles = {}
                     if (index === 0 && !this.items.layer_state)
                         styles.marginTop = 0 
-                    const name = <span className="filter-name-text root-menu">{Identify.__(item.name)}</span>
                     const filterOptions = this.renderFilterItemsOptions(item)
                     if (filterOptions.length > 0 && !this.activedItems[item.request_var]) {
                         this.rowFilterAttributes.push(

@@ -114,7 +114,7 @@ class Navigation extends React.Component{
                     return 0
                 });
                 menuItems = rootCateChildren.map((item, index) => {
-                    var isActive = window.location.pathname.indexOf(item.url_path) !== -1 ? 'active':'';
+                    var isActive = window.location.pathname.indexOf(item.url_path) === 1 ? 'active':'';
                     if (!item.name)
                         return ''
                     if (item.children && item.children.length > 0) {

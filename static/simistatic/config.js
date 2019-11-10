@@ -12,7 +12,7 @@ var SMCONFIGS = {
 var DEFAULT_COLORS = {
     key_color: '#ff9800',
     top_menu_icon_color: '#ffffff',
-    button_background: '#ff9800',
+    button_background: '#101820',
     button_text_color: '#ffffff',
     menu_background: '#1b1b1b',
     menu_text_color: '#ffffff',

@@ -33,6 +33,11 @@ query productDetail($urlKey: String, $onServer: Boolean!) {
                 position
                 disabled
                 file
+                video_content {
+                    video_url
+                    video_title
+                    video_description
+                }
             }
             ... on ConfigurableProduct {
                 ... ConfigurableOptions

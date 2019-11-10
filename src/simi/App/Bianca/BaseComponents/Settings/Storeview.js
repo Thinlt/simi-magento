@@ -57,23 +57,27 @@ class Storeview extends React.Component {
     renderItem() {
         const {classes} = this.props
         if (typeof(storage) !== "undefined") {
-            const merchantConfigs = Identify.getStoreConfig();
-            const storeList = merchantConfigs.simiStoreConfig.config.stores.stores;
-            const selectedStore = storeList.filter((item) => {
-                return item.group_id === this.getSelectedGroupId()
-            })[0];
-            const storeViews = selectedStore.storeviews.storeviews;
-            if (storeViews.length > 1) {
-                this.checkStore = true;
-                return(
-                    <div className={this.props.className}>
-                        <ListItemNested
-                            primarytext={<div className={'menu-title'} >{Identify.__('Storeview')}</div>}
-                            >
-                            {this.renderSubItem(storeViews)}
-                        </ListItemNested>
-                    </div>
-                )
+            try {
+                const merchantConfigs = Identify.getStoreConfig();
+                const storeList = merchantConfigs.simiStoreConfig.config.stores.stores;
+                const selectedStore = storeList.filter((item) => {
+                    return item.group_id === this.getSelectedGroupId()
+                })[0];
+                const storeViews = selectedStore.storeviews.storeviews;
+                if (storeViews.length > 1) {
+                    this.checkStore = true;
+                    return(
+                        <div className={this.props.className}>
+                            <ListItemNested
+                                primarytext={<div className={'menu-title'} >{Identify.__('Storeview')}</div>}
+                                >
+                                {this.renderSubItem(storeViews)}
+                            </ListItemNested>
+                        </div>
+                    )
+                }
+            } catch (err) {
+                
             }
         }
         return false;

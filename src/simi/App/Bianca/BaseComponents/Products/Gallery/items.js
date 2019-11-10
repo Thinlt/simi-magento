@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { arrayOf, number, shape } from 'prop-types';
-import { GridItem } from 'src/simi/BaseComponents/GridItem';
+import { GridItem } from 'src/simi/App/Bianca/BaseComponents/GridItem';
 
 const pageSize = 12;
 const emptyData = Array.from({ length: pageSize }).fill(null);

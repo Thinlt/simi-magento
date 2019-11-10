@@ -2,7 +2,7 @@ import React from 'react'
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent'
 
 const Home = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Home"*/'src/simi/App/core/RootComponents/CMS/Home')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "Home"*/'src/simi/App/Bianca/RootComponents/CMS/Home')} {...props}/>
 }
 
 const Checkout = (props) => {
@@ -34,11 +34,11 @@ const Contact = (props) => {
 }
 
 const Product = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "SimiBiancaProduct"*/'src/simi/App/core/RootComponents/Product')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "SimiBiancaProduct"*/'src/simi/App/Bianca/RootComponents/Product')} {...props}/>
 }
 
 const Search = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Search"*/'src/simi/App/core/RootComponents/Search')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "Search"*/'src/simi/App/Bianca/RootComponents/Search')} {...props}/>
 }
 
 const PaypalExpress = (props) => {
@@ -46,7 +46,7 @@ const PaypalExpress = (props) => {
 }
 
 const NoMatch = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/core/NoMatch')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/Bianca/NoMatch')} {...props}/>
 }
 
 
