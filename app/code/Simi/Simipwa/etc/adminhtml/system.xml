@@ -203,6 +203,19 @@
                     <comment>Example: https://...</comment>
                 </field>
             </group>
+            <group id="footer_customer_service" translate="label" type="text" sortOrder="599" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Customer Services and Informations at Footer</label>
+                <field id="customer_service" translate="label" sortOrder="1899" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Customer Service</label>
+                    <frontend_model>Simi\Simipwa\Block\Adminhtml\Form\Field\CustomerServiceLink</frontend_model>
+                    <backend_model>Simi\Simipwa\Config\Backend\FooterConfig</backend_model>
+                </field>
+                <field id="more_information" translate="label" sortOrder="1999" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Information</label>
+                    <frontend_model>Simi\Simipwa\Block\Adminhtml\Form\Field\MoreInformationLink</frontend_model>
+                    <backend_model>Simi\Simipwa\Config\Backend\FooterConfig</backend_model>
+                </field>
+            </group>
         </section>
     </system>
 </config>
