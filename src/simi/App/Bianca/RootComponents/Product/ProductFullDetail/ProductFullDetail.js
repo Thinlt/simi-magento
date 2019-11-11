@@ -424,7 +424,7 @@ class ProductFullDetail extends Component {
                                     />
                                 } */}
                                 {
-                                    pre_order === '1' && try_to_buy !== '1' ? 
+                                    pre_order === '1' && try_to_buy !== '1' && reservable !== '1' ? 
                                     <div className="cart-ctn">
                                         <Colorbtn className="pre-order-btn btn btn__black" onClick={() => addToCartWithParams({pre_order: '1'})} text={Identify.__('Pre-order')}/>
                                     </div>
@@ -437,7 +437,7 @@ class ProductFullDetail extends Component {
                                     <Whitebtn className="buy-1-click-btn btn btn__white" onClick={() => addToCartWithParams({buy1click: '1'})} text={Identify.__('Buy with 1-click')}/>
                                 </div>
                                 {
-                                    pre_order !== '1' && 
+                                    reservable === '1' && 
                                     <div className="cart-ctn">
                                         <Whitebtn className="reserve-btn btn btn__white" onClick={reserveAction} text={Identify.__('Reserve')}/>
                                     </div>
