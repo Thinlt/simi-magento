@@ -178,6 +178,7 @@ $color2: #727272;
                                 .tile-root{
                                     background-color: unset;
                                     box-sizing: border-box;
+                                    border: 1px solid #efefef;
                                     &._selected{
                                         border: 1px solid $color1;
                                         background-color: unset;
