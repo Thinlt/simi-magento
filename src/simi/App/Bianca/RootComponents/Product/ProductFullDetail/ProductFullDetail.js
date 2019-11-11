@@ -351,6 +351,24 @@ class ProductFullDetail extends Component {
             </div>
         );
     }
+
+    vendorName = () => {
+        const { product: {simiExtraField: {attribute_values: attribute_values} }} = this.props;
+        if (attribute_values && attribute_values.vendor_id) {
+            const configs = Identify.getStoreConfig();
+            if (configs && configs.simiStoreConfig && configs.simiStoreConfig.config && configs.simiStoreConfig.config.vendor_list) {
+                const vendorList = configs.simiStoreConfig.config.vendor_list;
+                const vendor = vendorList.find((vendor) => {
+                    return parseInt(vendor.entity_id) === parseInt(attribute_values.vendor_id);
+                });
+                let vendorName = '';
+                if (vendor && vendor.firstname) vendorName = `${vendor.firstname}`;
+                if (vendor && vendor.lastname) vendorName = `${vendorName} ${vendor.lastname}`;
+                if (vendorName) return vendorName;
+            }
+        }
+        return null
+    }
     
     render() {
         hideFogLoading()
@@ -385,7 +403,7 @@ class ProductFullDetail extends Component {
                             </h1>
                         </div>
                         <div className="main-actions">
-                            <div className="vendor-name">{Identify.__('Designer name')}</div>
+                            <div className="vendor-name">{this.vendorName()}</div>
                             <div className="top-review">
                                 {hasReview ? <TopReview app_reviews={product.simiExtraField.app_reviews}/> : null}
                                 <div role="presentation" className="review-btn" onClick={()=>smoothScrollToView($('#product-detail-new-review'))}>
