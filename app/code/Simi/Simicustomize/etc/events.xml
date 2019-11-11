@@ -16,6 +16,10 @@
         <observer name="Simi_Simicustomize_simiconnector_graphql_product_detail_extra_field_after"
                   instance="Simi\Simicustomize\Observer\SimiGraphqProductDetailExtraFieldAfter" />
     </event>
+    <event name="simiconnector_get_storeview_info_after">
+        <observer name="Simi_Simicustomize_simiconnector_get_storeview_info_after"
+                  instance="Simi\Simicustomize\Observer\SimiGetStoreviewInfoAfter" />
+    </event>
     <event name="simiconnector_system_rest_modify">
         <observer name="Simi_Simicustomize_simiconnector_system_rest_modify"
                   instance="Simi\Simicustomize\Observer\SimiSystemRestModify" />
