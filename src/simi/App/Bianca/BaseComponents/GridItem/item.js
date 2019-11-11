@@ -16,7 +16,7 @@ import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
 import { Colorbtn } from 'src/simi/BaseComponents/Button'
 import { updateItemInCart } from 'src/actions/cart'
-import QuickView from '../../App/Bianca/BaseComponents/QuickView';
+import QuickView from 'src/simi/App/Bianca/BaseComponents/QuickView';
 
 const $ = window.$;
 require('./item.scss')
@@ -85,7 +85,9 @@ class Griditem extends React.Component {
                     backgroundColor: 'white'
                 }}
                 onMouseOver={(e) => this.showBtnQuickView(id)}
+                onFocus={(e) => this.showBtnQuickView(id)}
                 onMouseOut={(e) => this.hideBtnQuickView(id)}
+                onBlur={(e) => this.hideBtnQuickView(id)}
             >
                 <div
                     style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '100%' }}>
@@ -93,7 +95,9 @@ class Griditem extends React.Component {
                         {<Image className={`img-${id}`} src={small_image} alt={name} />}
                     </Link>
                 </div>
-                <div className={`quick-view view-item-${id}`}
+                <div 
+                    role="presentation"
+                    className={`quick-view view-item-${id}`}
                     onClick={() => this.showModalQuickView()}
                 >
                     <div className="btn-quick-view">
@@ -137,6 +141,7 @@ class Griditem extends React.Component {
                         <div className="wishlistAction">
                             <div className="wishlist">
                                 <span
+                                    role="presentation"
                                     className="add-to-wishlist-btn icon-chef"
                                     onClick={addToWishlist}
                                 >
@@ -146,6 +151,7 @@ class Griditem extends React.Component {
                         <div className="compareAction">
                             <div className="compare">
                                 <span
+                                    role="presentation"
                                     className="add-to-compare-btn icon-bench-press"
                                     onClick={addToCompare}
                                 >

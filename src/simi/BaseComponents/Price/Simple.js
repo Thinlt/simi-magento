@@ -25,8 +25,7 @@ class Simple extends Abstract {
             }
             
             price_label = (
-                <div>{Identify.__('Regular Price')}: {this.formatPrice(this.prices.regularPrice.amount.value, false)} <span
-                    className={classes["sale_off"]}>-{this.prices.discount_percent}%</span></div>
+                <div>{this.formatPrice(this.prices.regularPrice.amount.value, false)}</div>
             );
         } else {
             if (this.prices.show_ex_in_price !== null && this.prices.show_ex_in_price === 1) {

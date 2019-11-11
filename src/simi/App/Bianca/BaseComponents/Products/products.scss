@@ -31,7 +31,26 @@ $colorTitle: #101820;
             font-weight: 500;
         }
   }
+  .category-top-children {
+      border-top: solid 1px #E0E0E0;
+      border-bottom: solid 1px #E0E0E0;
+      justify-content: center;
+      display: flex;
+      flex-wrap: wrap;
+      font-size: 16px;
+      line-height: 16px;
+      font-family: 'Gotham';
+      .category-top-child {
+          padding: 25px 15px;
+          a {
+            color: #101820;
+            font-family: 'Gotham';
+            font-weight: 500;
+          }
+      }
+  }
 }
+
 
 .full-width-container {
   width: 99.3vw;
@@ -44,10 +63,26 @@ $colorTitle: #101820;
 }
 
 .products-gallery-root .product-list-container-siminia .left-navigation {
-  display: inline-block;
-  max-width: 279px;
-  margin-left: -1px;
-  padding-top: 8px;
+    display: inline-block;
+    max-width: 279px;
+    margin-left: -1px;
+    padding-top: 8px;
+    .left-nav-pcompare {
+        font-family: 'Gotham Book';
+        padding-top: 34px;
+        .left-nav-pcompare-title {
+            text-transform: uppercase;
+            font-size: 16px;
+            line-height: 16px;
+            font-weight: 500;
+        }
+        .left-nav-pcompare-content {
+            margin-top: 14px;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 14px;
+        }
+    }
 }
 .products-gallery-root .product-list-container-siminia .listing-product{
   display: inline-block;
