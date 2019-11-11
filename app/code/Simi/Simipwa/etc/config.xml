@@ -25,6 +25,15 @@
                 <bianca_header_sale_link>#</bianca_header_sale_link>
                 <bianca_header_storelocator>#</bianca_header_storelocator>
             </pwa_header>
+            <pwa_footer>
+                <bianca_footer_phone>+44 345 678 9009</bianca_footer_phone>
+                <bianca_footer_email>Example@gmail.com</bianca_footer_email>
+                <bianca_footer_facebook>https://facebook.com</bianca_footer_facebook>
+                <bianca_footer_instagram>https://instagram.com</bianca_footer_instagram>
+                <bianca_footer_twitter>https://twitter.com</bianca_footer_twitter>
+                <bianca_footer_linkedin>https://linkedin.com</bianca_footer_linkedin>
+                <bianca_footer_google>https://google.com</bianca_footer_google>
+            </pwa_footer>
         </simipwa>
     </default>
 </config>

@@ -135,7 +135,14 @@ class Storeviews extends Apiabstract
                 'bianca_header_sale_link' => $this->getStoreConfig('simipwa/pwa_header/bianca_header_sale_link'),
                 'bianca_header_storelocator' => $this->getStoreConfig('simipwa/pwa_header/bianca_header_storelocator'),
                 'footer_customer_service' => $this->getStoreConfig('simipwa/footer_customer_service/customer_service'),
-                'footer_information' => $this->getStoreConfig('simipwa/footer_customer_service/more_information')
+                'footer_information' => $this->getStoreConfig('simipwa/footer_customer_service/more_information'),
+                'bianca_footer_phone' => $this->getStoreConfig('simipwa/pwa_footer/bianca_footer_phone'),
+                'bianca_footer_email' => $this->getStoreConfig('simipwa/pwa_footer/bianca_footer_email'),
+                'bianca_footer_facebook' => $this->getStoreConfig('simipwa/pwa_footer/bianca_footer_facebook'),
+                'bianca_footer_instagram' => $this->getStoreConfig('simipwa/pwa_footer/bianca_footer_instagram'),
+                'bianca_footer_twitter' => $this->getStoreConfig('simipwa/pwa_footer/bianca_footer_twitter'),
+                'bianca_footer_linkedin' => $this->getStoreConfig('simipwa/pwa_footer/bianca_footer_linkedin'),
+                'bianca_footer_google' => $this->getStoreConfig('simipwa/pwa_footer/bianca_footer_google')
             ],
             'sales'             => [
                 'sales_reorder_allow'           => $this->getStoreConfig('sales/reorder/allow'),
