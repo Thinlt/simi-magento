@@ -202,6 +202,12 @@ $color2: #727272;
                                     padding-right: 16px;
                                     width: 376px;
                                     height: 48px;
+                                    @media (max-width: 497px){
+                                        width: 306px;
+                                    }
+                                    @media (max-width: 375px){
+                                        width: 250px;
+                                    }
                                     .MuiListItemText-root{
                                         margin: 0;
                                         .choose-your-size{
@@ -223,6 +229,9 @@ $color2: #727272;
                                 margin-left: 16px;
                                 align-items: center;
                                 display: flex;
+                                @media (max-width: 497px){
+                                    margin-left: 5px;
+                                }
                                 button{
                                     font-size: 12px;
                                     line-height: 12px;
