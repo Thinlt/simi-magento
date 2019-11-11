@@ -171,6 +171,9 @@ $color2: #727272;
                             margin-bottom: 8px;
                         }
                         .list-color{
+                            div:nth-child(1){
+                                flex-wrap: wrap;
+                            }
                             .group-options{
                                 .tile-root{
                                     background-color: unset;
