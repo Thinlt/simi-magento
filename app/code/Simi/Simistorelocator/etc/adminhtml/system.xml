@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="simistorelocator" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Simi Store Locator</label>
+            <tab>simi</tab>
+            <resource>Simi_Simistorelocator::config_storelocator</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enable_frontend" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <comment>Enable/Disable extension in frontend</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="display_toplink" translate="label comment" type="select" sortOrder="10"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display Top Link</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="order_type" translate="label comment" type="select" sortOrder="20"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>List Stores by</label>
+                    <comment><![CDATA[<strong>Default</strong> - Based on Sort Order of each store.<br/><strong>Distance</strong> - Based on the distances between customers' location & stores. If customers don't enter their location, stores will be listed by Default (Sort Order).<br/><strong>Alphabetical order</strong> - Based on alphabetical order of store name.]]></comment>
+                    <source_model>Simi\Simistorelocator\Model\Config\Source\OrderTypeStore</source_model>
+                </field>
+                <field id="page_title" translate="label comment" type="text" sortOrder="30"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Page title</label>
+                    <comment>Title of the Store List page and Store Details pages.</comment>
+                </field>
+                <field id="limit_day" translate="label comment" type="text" sortOrder="40"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display holidays and special days in the next</label>
+                    <comment>day(s). Store's holidays and special days within this period will be shown in frontend.</comment>
+                    <validate>required-entry integer validate-greater-than-zero</validate>
+                </field>
+                <field id="list_store_page_size" translate="label comment" type="text" sortOrder="40"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>List Store Page Size</label>
+                    <comment>Limit the number of stores will be show in list store when paging at frontend.</comment>
+                    <validate>required-entry integer validate-greater-than-zero</validate>
+                </field>
+                <field id="limit_image_gallery" translate="label comment" type="text" sortOrder="50"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Image gallery</label>
+                    <comment>Limit the number of image for each store when uploading image.</comment>
+                    <validate>required-entry integer validate-greater-than-zero validate-number-range number-range-1-100</validate>
+                </field>
+            </group>
+            <group id="service" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Service API</label>
+                <field id="google_api_key" translate="label comment" type="text" sortOrder="10"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Google Map API key</label>
+                    <comment>Google comment</comment>
+                </field>
+                <field id="allow_facebook_comment" translate="label comment" type="select" sortOrder="20"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow Facebook comment</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="facebook_api_key" translate="label comment" type="text" sortOrder="30"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Facebook API key</label>
+                    <comment>Facbook comment</comment>
+                    <depends>
+                        <field id="allow_facebook_comment">1</field>
+                    </depends>
+                </field>
+                <field id="language_facebook" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Locale</label>
+                    <source_model>Magento\Config\Model\Config\Source\Locale</source_model>
+                    <depends>
+                        <field id="allow_facebook_comment">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="searching" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Store Search</label>
+                <field id="search_criteria" translate="label comment" type="multiselect" sortOrder="10"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Search Criteria</label>
+                    <source_model>Simi\Simistorelocator\Model\Config\Source\StoreSearchCriteria</source_model>
+                    <comment>Select criteria to search for store in frontend.</comment>
+                </field>
+                <field id="default_radius" translate="label comment" type="text" sortOrder="30"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Radius for Search</label>
+                    <comment>Used with Google Suggest to search nearest store from customer location. Max raidus is 2000.</comment>
+                    <validate>integer validate-greater-than-zero validate-number-range number-range-1-2000</validate>
+                </field>
+                <field id="distance_unit" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Distance Unit</label>
+                    <source_model>Simi\Simistorelocator\Model\Config\Source\Unit</source_model>
+                    <comment>Unit to measure distance between store and customer.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

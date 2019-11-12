@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Simi_Simistorelocator::storelocator" title="Store Locator" resource="Simi_Simistorelocator::storelocator" module="Simi_Simistorelocator" sortOrder="799" parent="Simi_Simiconnector::simiconnector"/>
+        <add id="Simi_Simistorelocator::store" title="Manage Store" resource="Simi_Simistorelocator::store" parent="Simi_Simistorelocator::storelocator" action="simistorelocatoradmin/store" module="Simi_Simistorelocator" sortOrder="20"/>
+        <add id="Simi_Simistorelocator::tag" title="Manage Tag" resource="Simi_Simistorelocator::tag" parent="Simi_Simistorelocator::storelocator" action="simistorelocatoradmin/tag" module="Simi_Simistorelocator" sortOrder="20"/>
+        <add id="Simi_Simistorelocator::schedule" title="Manage Schedule" resource="Simi_Simistorelocator::schedule" parent="Simi_Simistorelocator::storelocator" action="simistorelocatoradmin/schedule" module="Simi_Simistorelocator" sortOrder="20"/>
+        <add id="Simi_Simistorelocator::holiday" title="Manage Holiday" resource="Simi_Simistorelocator::holiday" parent="Simi_Simistorelocator::storelocator" action="simistorelocatoradmin/holiday" module="Simi_Simistorelocator" sortOrder="20"/>
+        <add id="Simi_Simistorelocator::specialday" title="Manage Special day" resource="Simi_Simistorelocator::specialday" parent="Simi_Simistorelocator::storelocator" action="simistorelocatoradmin/specialday" module="Simi_Simistorelocator" sortOrder="20"/>
+        <add id="Simi_Simistorelocator::guide" title="Guide" module="Simi_Simistorelocator" parent="Simi_Simistorelocator::storelocator" action="simistorelocatoradmin/guide" resource="Simi_Simistorelocator::guide" sortOrder="20" />
+        <add id="Simi_Simistorelocator::settings" title="Settings" module="Simi_Simistorelocator" parent="Simi_Simistorelocator::storelocator" action="adminhtml/system_config/edit/section/simistorelocator" resource="Simi_Simistorelocator::settings" sortOrder="20"/>
+    </menu>
+</config>

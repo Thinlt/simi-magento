@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Store pickup</title>
+        <css src="Simi_Simistorelocator::css/gallery.css"/>
+    </head>
+    <update handle="formkey"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Simi\Simistorelocator\Block\Adminhtml\Store\Import" name="simistorelocator_store_import"/>
+        </referenceContainer>
+    </body>
+</page>

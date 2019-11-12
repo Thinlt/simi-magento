@@ -1,0 +1,47 @@
+<div class="map-container">
+    <div class="map-control-box">
+        <input type="text" size="40" class="map-inp-search input-text" placeholder="<?php echo __('Enter a location to search') ?>" />
+        <button type="button" class="map-btn-search primary" title="<?php echo __('Search') ?>">
+            <span><?php echo __('Search') ?></span>
+        </button>
+        <button type="button" title="<?php echo __('Reset Map') ?>" class="map-btn-reset primary">
+            <span><?php echo __('Reset Map') ?></span>
+        </button>
+    </div>
+    <div class="mapbox" style="height: 400px"></div>
+    <span class="message" style="display: block;top: 27px;">
+        <?php echo __('Click on map or drag the marker to set store position.') ?><br/>
+        <?php echo __('The information in popup will help you to get location information of your store in Google Map faster.') ?>
+    </span>
+</div>
+<script id="{$block->getHtmlId()}-template" class="map-template" type="text/x-magento-template">
+    <div class="map-infowindow">
+        <span class="formattedAddress">Address: <%- data.formattedAddress %></span><br />
+        <span class="city">City: <%- data.city %></span><br />
+        <span class="zipcode">Zip Code: <%- data.zipcode %></span><br />
+        <span class="country">Country: <%- data.countryName %></span><br />
+        <span class="state">State: <%- data.state %></span><br />
+        <button type="button" class="apply-to-form primary"><?php echo __('Apply to Form') ?></button>
+    </div>
+</script>
+<script>
+    require(['jquery','Simi_Simistorelocator/js/store/map'], function($) {
+        $(document).ready(function($) {
+            window.mapIsShow = false;
+            $(document).scroll(function() {
+                if(window.mapIsShow == false && $(this).scrollTop() > 300 && $('[data-ui-id="store-edit-tabs-tab-item-gmap-section"]').attr('aria-selected') === "true") {
+                    $('.mapbox').gmap($.extend(<?php echo $block->getOptionMapJson() ?>,{
+                        searchBox: '.map-inp-search',
+                        searchBtn: '.map-btn-search',
+                        resetBtn: '.map-btn-reset',
+                        mapControlBox: '.map-control-box',
+                        applyToFormBtn: '.apply-to-form',
+                        googlemapTab: '#store-edit-tabs-tab-item-gmap-section',
+                    }));
+                    window.mapIsShow = true;
+                }
+            });
+        });
+    });
+    window.googleMapApiKey= "<?php echo $block->getGoolgeApiKey()?>";
+</script>

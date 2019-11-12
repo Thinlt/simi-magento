@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Simi\Simistorelocator\Controller\Adminhtml\Store">
+        <arguments>
+            <argument name="mainModelName" xsi:type="string">Simi\Simistorelocator\Model\Store</argument>
+            <argument name="mainCollectionName" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Store\Collection</argument>
+        </arguments>
+    </type>
+    <type name="Simi\Simistorelocator\Controller\Adminhtml\Tag">
+        <arguments>
+            <argument name="mainModelName" xsi:type="string">Simi\Simistorelocator\Model\Tag</argument>
+            <argument name="mainCollectionName" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Tag\Collection</argument>
+        </arguments>
+    </type>
+    <type name="Simi\Simistorelocator\Controller\Adminhtml\Holiday">
+        <arguments>
+            <argument name="mainModelName" xsi:type="string">Simi\Simistorelocator\Model\Holiday</argument>
+            <argument name="mainCollectionName" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Holiday\Collection</argument>
+        </arguments>
+    </type>
+    <type name="Simi\Simistorelocator\Controller\Adminhtml\Specialday">
+        <arguments>
+            <argument name="mainModelName" xsi:type="string">Simi\Simistorelocator\Model\Specialday</argument>
+            <argument name="mainCollectionName" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Specialday\Collection</argument>
+        </arguments>
+    </type>
+    <type name="Simi\Simistorelocator\Controller\Adminhtml\Schedule">
+        <arguments>
+            <argument name="mainModelName" xsi:type="string">Simi\Simistorelocator\Model\Schedule</argument>
+            <argument name="mainCollectionName" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Schedule\Collection</argument>
+        </arguments>
+    </type>
+    <type name="Simi\Simistorelocator\Controller\Adminhtml\Store\InlineEdit">
+        <arguments>
+            <argument name="mainCollectionName" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Store\Collection</argument>
+        </arguments>
+    </type>
+    <type name="Simi\Simistorelocator\Controller\Adminhtml\Tag\InlineEdit">
+        <arguments>
+            <argument name="mainCollectionName" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Tag\Collection</argument>
+        </arguments>
+    </type>
+    <type name="Simi\Simistorelocator\Controller\Adminhtml\Holiday\InlineEdit">
+        <arguments>
+            <argument name="mainCollectionName" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Holiday\Collection</argument>
+        </arguments>
+    </type>
+    <type name="Simi\Simistorelocator\Controller\Adminhtml\Specialday\InlineEdit">
+        <arguments>
+            <argument name="mainCollectionName" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Specialday\Collection</argument>
+        </arguments>
+    </type>
+    <type name="Simi\Simistorelocator\Controller\Adminhtml\Schedule\InlineEdit">
+        <arguments>
+            <argument name="mainCollectionName" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Schedule\Collection</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Config\Model\Config\Structure\Element\Field">
+        <plugin name="custom_field" type="Simi\Simistorelocator\Plugin\Config\Structure\Element\Field"/>
+    </type>
+</config>

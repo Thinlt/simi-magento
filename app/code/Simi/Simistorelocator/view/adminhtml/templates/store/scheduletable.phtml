@@ -1,0 +1,42 @@
+<div class="schedule-table-wrapper">
+    <?php echo $block->getChildHtml('schedule_table_grid'); ?>
+</div>
+<div style="display: none;" class="schedule-table-loading loading-mask">
+    <div class="popup popup-loading">
+        <div class="popup-inner">
+            <img alt="<?php echo __('Loading...'); ?>" src="<?php echo $block->getViewFileUrl('Simi_Simistorelocator::images/loader.gif'); ?>" />
+            <?php echo __('Please wait...'); ?>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .schedule-table-wrapper .a-center {
+        text-align: center;
+    }
+</style>
+<script type="text/javascript">
+    require(['jquery'], function ($) {
+        $('#store_schedule_id').change(function () {
+           if($(this).val()) {
+               $('.schedule-table-loading').show();
+               $.ajax({
+                   url: '<?php echo $block->getAjaxLoadScheduleUrl(); ?>',
+                   type: 'POST',
+                   dataType: 'html',
+                   data: {
+                       schedule_id: $(this).val()
+                   },
+               }).done(function(data) {
+                   $('.schedule-table-wrapper').html(data);
+                   $('.schedule-table-loading').hide();
+               })
+               .fail(function() {
+                   $('.schedule-table-wrapper').html('');
+                   $('.schedule-table-loading').hide();
+               });
+           } else {
+               $('.schedule-table-wrapper').html('');
+           }
+        });
+    });
+</script>

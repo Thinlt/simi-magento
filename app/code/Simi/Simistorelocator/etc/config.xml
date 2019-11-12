@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <simistorelocator>
+            <general>
+                <enable_frontend>1</enable_frontend>
+                <display_toplink>1</display_toplink>
+                <order_type>0</order_type>
+                <limit_day>60</limit_day>
+                <display_toplink>1</display_toplink>
+                <page_title>Store Locator</page_title>
+                <limit_image_gallery>30</limit_image_gallery>
+                <list_store_page_size>10</list_store_page_size>
+            </general>
+            <service>
+                <allow_facebook_comment>1</allow_facebook_comment>
+                <language_facebook>en_US</language_facebook>
+            </service>
+            <searching>
+                <search_criteria>1,2,3,4,5</search_criteria>
+                <default_radius>100</default_radius>
+                <distance_unit>1</distance_unit>
+            </searching>
+        </simistorelocator>
+    </default>
+</config>

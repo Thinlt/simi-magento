@@ -1,0 +1,201 @@
+.admin__scope-old .images {
+    position: relative;
+    border: 2px dotted #ccc;
+    margin-bottom: 2px;
+    padding: 5px 0 0;
+}
+
+.admin__scope-old .images .image {
+    margin-bottom: 5px;
+}
+
+.admin__scope-old .image .spacer {
+    width: 100%;
+}
+
+.admin__scope-old .image.image-placeholder .fileinput-button {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.admin__scope-old .image.image-placeholder .fileinput-button > span {
+    display: none;
+}
+
+.admin__scope-old .image .store-image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 100%;
+    z-index: 1;
+}
+
+.admin__scope-old .base-image .image-label {
+    background: url(Magento_Backend::images/gallery-image-base-label.png) no-repeat;
+    bottom: 0;
+    height: 33px;
+    right: 0;
+    visibility: visible;
+    width: 33px;
+}
+
+.admin__scope-old .image.base-image .image-label:before {
+    display: none;
+}
+
+.admin__scope-old .image.base-image:hover .image-label:before {
+    display: block;
+}
+
+.admin__scope-old .image.active {
+    box-shadow: 0 0 10px #2ea9ec;
+}
+
+.admin__scope-old .image .actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.admin__scope-old .image .actions [class^="action-"],
+.admin__scope-old .image .image-label,
+.admin__scope-old .image[data-image-hidden] .actions [class^="action-"],
+.admin__scope-old .image.hidden-for-front .actions [class^="action-"],
+.admin__scope-old .image .actions .mage-action-make-base {
+    visibility: hidden;
+}
+
+.admin__scope-old .image:hover .actions [class^="action-"],
+.admin__scope-old .image:hover .image-label,
+.admin__scope-old .image.base-image .image-label,
+.admin__scope-old .image[data-image-hidden]:hover .actions .action-delete,
+.admin__scope-old .hidden-for-front:hover .actions [class^="action-"],
+.admin__scope-old .image:hover .actions .mage-action-make-base {
+    visibility: visible;
+}
+.admin__scope-old .image .actions .mage-action-make-base
+{
+    position: absolute;
+    bottom: 40px;
+    left: 10%;
+    right: 10%;
+    padding: 5px;
+    margin: auto;
+}
+.admin__scope-old .image:hover .actions .mage-action-make-base {
+    z-index: 1000;
+    border-radius: 20px;
+    background-color: azure;
+    border-color: azure;
+    opacity: 0.8;
+}
+.admin__scope-old .image .action-delete {
+    position: absolute;
+    left: 6px;
+    bottom: 6px;
+    z-index: 3;
+}
+
+.admin__scope-old .image .action-delete:before {
+    font-family: "Admin Icons";
+    content: "\e630";
+    font-size: 1.8rem;
+    line-height: inherit;
+    color: #9e9e9e;
+    overflow: hidden;
+    font-weight: normal;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.admin__scope-old .image.base-image .mage-action-make-base {
+    display: none;
+}
+
+.admin__scope-old .image .draggable-handle {
+    background: none;
+    cursor: move;
+    height: 20px;
+    line-height: inherit;
+    width: 20px;
+}
+
+.admin__scope-old .gallery .image .mage-action-make-base {
+    width: 70%;
+}
+
+/* Gallery image panel */
+.admin__scope-old .image-panel {
+    display: none;
+    position: relative;
+    top: 5px;
+    clear: both;
+    background: #fff;
+    margin: 0 -2px 15px;
+    padding: 20px 15px;
+    box-shadow: 0 1px 3px #aaa inset;
+    border-bottom: 1px solid #cfd0cb;
+}
+
+.admin__scope-old .image-panel-controls .fieldset-image-panel .field {
+    margin-bottom: 10px;
+}
+
+.admin__scope-old .image-panel-controls .fieldset-image-panel .label {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+    padding-top: 0;
+}
+
+.admin__scope-old .image-panel-controls .fieldset-image-panel .field > .control,
+.admin__scope-old .image-panel-controls textarea {
+    width: 100%;
+    resize: vertical;
+}
+
+.admin__scope-old .image-panel-preview img {
+    width: 100%;
+}
+
+.admin__scope-old .image-loader-wrapper {
+    position: relative;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    display: none;
+    opacity: 0.7;
+    background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+}
+
+.admin__scope-old .image-loader-wrapper .image-loader{
+    position: relative;
+    left: -34px;
+    width: 190px;
+    max-width: none;
+}
+
+.admin__scope-old .base-image:hover .image-label {
+    background: url(Magento_Backend::images/gallery-image-base-label.png) no-repeat;
+    bottom: 0;
+    height: 33px;
+    right: 0;
+    visibility: visible;
+    width: 33px;
+    display: block;
+}

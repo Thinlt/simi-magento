@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Store Locator</title>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Simi\Simistorelocator\Block\Adminhtml\Holiday\Edit" name="simistorelocator_holiday_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Simi\Simistorelocator\Block\Adminhtml\Holiday\Edit\Tabs" name="holiday_edit_tabs">
+                <block class="Simi\Simistorelocator\Block\Adminhtml\Holiday\Edit\Tab\GeneralTab" name="holiday_edit_tab_general"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

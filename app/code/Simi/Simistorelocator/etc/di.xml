@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Simi\Simistorelocator\Model\StoreUrlPathGeneratorInterface" type="Simi\Simistorelocator\Model\StoreUrlPathGenerator" />
+    <preference for="Simi\Simistorelocator\Model\StoreUrlRewriteGeneratorInterface" type="Simi\Simistorelocator\Model\StoreUrlRewriteGenerator" />
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="simistorelocator_store_listing_data_source" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Store\Grid\Collection</item>
+                <item name="simistorelocator_tag_listing_data_source" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Tag\Grid\Collection</item>
+                <item name="simistorelocator_holiday_listing_data_source" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Holiday\Grid\Collection</item>
+                <item name="simistorelocator_specialday_listing_data_source" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Specialday\Grid\Collection</item>
+                <item name="simistorelocator_schedule_listing_data_source" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Schedule\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="SimistorelocatorGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Simi\Simistorelocator\Model\ResourceModel\Store\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">simi_simistorelocator_store</argument>
+            <argument name="eventPrefix" xsi:type="string">simistorelocator_store_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">store_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Store</argument>
+            <argument name="loadBaseimage" xsi:type="boolean">true</argument>
+        </arguments>
+    </type>
+    <virtualType name="StoreGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Simi\Simistorelocator\Model\ResourceModel\Store\Grid\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">StorelocatorGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <type name="Simi\Simistorelocator\Model\ResourceModel\Tag\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">simi_simistorelocator_tag</argument>
+            <argument name="eventPrefix" xsi:type="string">simistorelocator_tag_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">tag_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Tag</argument>
+        </arguments>
+    </type>
+    <virtualType name="TagGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Simi\Simistorelocator\Model\ResourceModel\Tag\Grid\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">SimistorelocatorGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <type name="Simi\Simistorelocator\Model\ResourceModel\Specialday\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">simi_simistorelocator_specialday</argument>
+            <argument name="eventPrefix" xsi:type="string">simistorelocator_specialday_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">specialday_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Specialday</argument>
+        </arguments>
+    </type>
+    <virtualType name="SpecialdayGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Simi\Simistorelocator\Model\ResourceModel\Specialday\Grid\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">SimistorelocatorGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <type name="Simi\Simistorelocator\Model\ResourceModel\Holiday\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">simi_simistorelocator_holiday</argument>
+            <argument name="eventPrefix" xsi:type="string">simistorelocator_holiday_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">holiday_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Holiday</argument>
+        </arguments>
+    </type>
+    <virtualType name="HolidayGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Simi\Simistorelocator\Model\ResourceModel\Holiday\Grid\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">SimistorelocatorGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <type name="Simi\Simistorelocator\Model\ResourceModel\Schedule\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">simi_simistorelocator_schedule</argument>
+            <argument name="eventPrefix" xsi:type="string">simistorelocator_schedule_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">schedule_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Simi\Simistorelocator\Model\ResourceModel\Schedule</argument>
+        </arguments>
+    </type>
+    <virtualType name="ScheduleGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Simi\Simistorelocator\Model\ResourceModel\Schedule\Grid\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">SimistorelocatorGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+</config>
