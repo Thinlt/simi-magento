@@ -6,7 +6,7 @@
 
 namespace Simi\VendorMapping\Model\Api;
 
-use Simi\VendorMapping\Api\VendorLoginInterface;
+use Simi\VendorMapping\Api\VendorRegisterInterface;
 use Vnecoms\Vendors\Controller\Seller\RegisterPost;
 
 class VendorRegister extends RegisterPost implements VendorRegisterInterface
