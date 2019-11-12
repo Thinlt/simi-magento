@@ -205,7 +205,7 @@
             </group>
             <group id="pwa_footer_subcribe" translate="label" type="text" sortOrder="599" showInDefault="1" showInWebsite="1">
                 <label>Subcribe newsletter at footer</label>
-                <field id="bianca_subcribe_description" translate="label" type="text" sortOrder="1899" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="bianca_subcribe_description" translate="label" type="textarea" sortOrder="1899" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Subcribe description</label>
                 </field>
             </group>
