@@ -56,11 +56,8 @@ const Category = props => {
         <Simiquery query={cateQuery} variables={variables}>
             {({ loading, error, data }) => {
                 if (error) return <div>{Identify.__('Data Fetch Error')}</div>;
-                if ((!data || !data.category) && !loadedData) {
-                    return <LoadingSpiner />
-                }
                 //prepare data
-                if (data) {
+                if (data && data.simiproducts) {
                     data.products = applySimiProductListItemExtraField(data.simiproducts)
                     if (data.products.simi_filters)
                         data.products.filters = data.products.simi_filters
@@ -83,6 +80,11 @@ const Category = props => {
                     loadedData.vars = stringVar
                 }
                 data = loadedData
+
+                if (!data || !data.category) {
+                    return <LoadingSpiner />
+                }
+
                 //breadcrumb
                 const categoryTitle = data && data.category ? data.category.name : '';
                 const breadcrumb = [{name: "Home", link: '/'}];

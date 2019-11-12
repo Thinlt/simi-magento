@@ -104,10 +104,9 @@ const Search = props => {
     return (
         <Simiquery query={PRODUCT_SEARCH} variables={queryVariable}>
             {({ loading, error, data }) => {
-                if (error) return <div>Data Fetch Error</div>;
-                if (loading) return <Loading />;
+                if (error) return <div>{Identify.__('Data Fetch Error')}</div>;
                 //prepare data
-                if (data) {
+                if (data && data.simiproducts) {
                     data.products = applySimiProductListItemExtraField(data.simiproducts)
                     if (data.products.simi_filters)
                         data.products.filters = data.products.simi_filters
@@ -131,6 +130,9 @@ const Search = props => {
                 }
                 data = loadedData
             
+                if (!data || !data.simiproducts) {
+                    return <Loading />
+                }
                 if (data.products.items.length === 0)
                     return (
                         <div className={classes.noResult}>
@@ -153,7 +155,7 @@ const Search = props => {
                             classes={classes}
                             currentPage={currentPage}
                             pageSize={pageSize}
-                            data={loading ? null : data}
+                            data={data}
                             sortByData={sortByData}
                             filterData={filterData?JSON.parse(productListFilter):null}
                             setCurrentPage={setCurrentPage}
