@@ -1,0 +1,108 @@
+import React, { useState} from 'react';
+import { GridItem } from 'src/simi/App/Bianca/BaseComponents/GridItem';
+import useWindowSize from 'src/simi/App/Bianca/Hooks';
+import ItemsCarousel from 'react-items-carousel';
+import ChevronLeft from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronLeft';
+import ChevronRight from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronRight';
+import {getRecentViewedProducts} from '../../Helper/Biancaproduct'
+
+require('./recentViewed.scss');
+
+const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 1470 },
+      items: 5,
+      chevronWidth: 72,
+      iconWidth: 48
+    },
+    desktop: {
+      breakpoint: { max: 1470, min: 1176 },
+      items: 4,
+      chevronWidth: 72,
+      iconWidth: 48
+    },
+    tablet: {
+      breakpoint: { max: 1176, min: 588 },
+      items: 2,
+      chevronWidth: 20,
+      iconWidth: 16
+    },
+    mobile: {
+      breakpoint: { max: 588, min: 0 },
+      items: 1,
+      chevronWidth: 20,
+      iconWidth: 16
+    },
+};
+
+const RecentViewed = props => {
+    const [activeItemIndex, setActiveItemIndex] = useState(0);
+    const {width} = useWindowSize();
+    const maxItem = 8 //max 10 items
+    const productsRecent = getRecentViewedProducts()
+    if (productsRecent && productsRecent.length) {
+        let count = 0
+        const recentProducts = productsRecent.map((item, index) => {
+            if (count < maxItem) {
+                count ++ 
+                const { small_image } = item;
+                const itemData =  { ...item, small_image: typeof small_image === 'object' ? small_image.url : small_image}
+                return (
+                    <div key={index} className="recent-product-item">
+                        <GridItem
+                            item={itemData}
+                            lazyImage={true}
+                        />
+                    </div>
+                )
+            }
+            return null
+        });
+
+        // calculate items number for Carousel
+        const _responseSize = Object.values(responsive);
+        const breakPoint = _responseSize.find((itemSize) => {
+            if (itemSize.breakpoint) {
+                if (width > itemSize.breakpoint.min && width <= itemSize.breakpoint.max) {
+                    return true;
+                }
+            }
+            return false;
+        });
+        let numberCards = 4, chevWidth = 72, iconWidth = 24; // default values
+        if (breakPoint.items) {
+            numberCards = breakPoint.items;
+            chevWidth = breakPoint.chevronWidth;
+            iconWidth = breakPoint.iconWidth;
+        }
+
+        return (
+            <div className="recent-product-ctn">
+                <div className="recent-products">
+                    <ItemsCarousel
+                        infiniteLoop={false}
+                        gutter={16} //Space between cards.
+                        firstAndLastGutter={false}
+                        activePosition={'center'}
+                        chevronWidth={chevWidth}
+                        disableSwipe={false}
+                        alwaysShowChevrons={false}
+                        numberOfCards={numberCards}
+                        slidesToScroll={1}
+                        outsideChevron={true}
+                        showSlither={false}
+                        activeItemIndex={activeItemIndex}
+                        requestToChangeActive={setActiveItemIndex}
+                        leftChevron={<ChevronLeft className="chevron-left" style={{width: `${iconWidth}px`}} />}
+                        rightChevron={<ChevronRight className="chevron-right" style={{width: `${iconWidth}px`}} />}
+                    >
+                        {recentProducts}
+                    </ItemsCarousel>
+                </div>
+            </div>
+        )
+    }
+
+    return ''
+}
+export default RecentViewed

@@ -7,6 +7,7 @@ import LoadMore from './loadMore'
 import Loading from 'src/simi/BaseComponents/Loading'
 import {Carousel} from 'react-responsive-carousel';
 import ReactHTMLParse from 'react-html-parser'
+import RecentViewed from './recentViewed'
 require('./products.scss')
 
 class Products extends React.Component {
@@ -90,11 +91,7 @@ class Products extends React.Component {
     }
 
     renderRecentViewedProduct = () => {
-        return(
-            <div>
-
-            </div>
-        )
+        return (<RecentViewed />)
     }
 
     openProductDetail = (item) => {
@@ -133,17 +130,7 @@ class Products extends React.Component {
                         {Identify.__('Recently Viewed Products')}
                     </div>
                     <div className="recent-viewed-slide">
-                        <Carousel 
-                            key={Identify.randomString(5)}
-                            showArrows={true}  
-                            showThumbs={false}
-                            showIndicators={true}
-                            onClickItem={(e) => this.openProductDetail(e)}
-                            infiniteLoop={true}
-                            autoPlay={true}
-                        >
-                            {this.renderRecentViewedProduct()}
-                        </Carousel>
+                        {this.renderRecentViewedProduct()}
                     </div>
                 </div>
             </article>
