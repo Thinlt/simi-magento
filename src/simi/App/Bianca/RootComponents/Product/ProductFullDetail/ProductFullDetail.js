@@ -6,7 +6,7 @@ import Loading from 'src/simi/BaseComponents/Loading'
 import { Colorbtn, Whitebtn } from 'src/simi/BaseComponents/Button'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import ProductImage from './ProductImage';
-import Quantity from './ProductQuantity';
+// import Quantity from './ProductQuantity';
 import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
 import TitleHelper from 'src/simi/Helper/TitleHelper'
@@ -14,7 +14,7 @@ import {prepareProduct} from 'src/simi/Helper/Product'
 import ProductPrice from '../Component/Productprice';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
 import { addToWishlist as simiAddToWishlist } from 'src/simi/Model/Wishlist';
-import {configColor} from 'src/simi/Config'
+// import {configColor} from 'src/simi/Config'
 import {showToastMessage} from 'src/simi/Helper/Message';
 import ReactHTMLParse from 'react-html-parser';
 import BreadCrumb from "src/simi/App/Bianca/BaseComponents/BreadCrumb";
@@ -24,9 +24,12 @@ import SocialShare from 'src/simi/BaseComponents/SocialShare';
 import Description from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Description';
 // import Techspec from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Techspec';
 import LinkedProduct from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/LinkedProduct';
-
 import Favorite from 'src/simi/App/Bianca/BaseComponents/Icon/Favorite';
 import CompareIcon from 'src/simi/App/Bianca/BaseComponents/Icon/SyncCompare';
+import CloseIcon from 'src/simi/App/Bianca/BaseComponents/Icon/Close';
+import Modal from 'react-responsive-modal';
+import ListItemNested from 'src/simi/App/Bianca/BaseComponents/MuiListItem/Nested';
+import { List } from '@magento/peregrine';
 
 
 const ConfigurableOptions = React.lazy(() => import('./Options/ConfigurableOptions'));
@@ -43,6 +46,7 @@ class ProductFullDetail extends Component {
     state = {
         optionCodes: new Map(),
         optionSelections: new Map(),
+        openModal: false
     };
     quantity = 1
       
@@ -198,8 +202,12 @@ class ProductFullDetail extends Component {
         }
     }
 
+    onCloseReserve = () => {
+        this.setState({openModal: false});
+    }
+
     reserveAction = () => {
-        alert('reserve')
+        this.setState({openModal: true});
     };
 
     showError(data) {
@@ -481,6 +489,37 @@ class ProductFullDetail extends Component {
                 </div>
                 <LinkedProduct product={product} link_type="related" history={this.props.history}/>
                 {/* <LinkedProduct product={product} link_type="crosssell" history={this.props.history}/> */}
+                <Modal open={this.state.openModal} onClose={this.onCloseReserve}
+                    overlayId={'reserve-modal-overlay'}
+                    modalId={'reserve-modal'}
+                    closeIconId={'reserve-modal-close'}
+                    closeIconSize={16}
+                    closeIconSvgPath={<CloseIcon style={{fill: '#101820'}}/>}
+                >
+                    <div className="reserve-modal-content">
+                        <div className="modal-title">
+                            <h2>RESERVE</h2>
+                        </div>
+                        <div className="modal-header">
+                            <p>Please visit chosen store in next working day to try your item. Contact us if you have any question.</p>
+                        </div>
+                        <div className="modal-body">
+                            <div className="locations-select">
+                                <label>{Identify.__('Location')}</label>
+                                <div className="option-select">
+                                    <select>
+                                        <option value="" hidden>{Identify.__('Choose a store')}</option>
+                                        <option value="1">{Identify.__('Store 1')}</option>
+                                        <option value="2">{Identify.__('Store 2')}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="submit-btn">
+                                <span>{Identify.__('Submit')}</span>
+                            </div>
+                        </div>
+                    </div>
+                </Modal>
             </div>
         );
     }
