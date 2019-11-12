@@ -372,11 +372,13 @@ $textColor3: #E4E4E4;
     justify-content: center;
     align-items: center;
     color: $textColor1;
+    margin-top: 39.19px;
 
     .main-nav {
         display: flex;
         position: relative;
         justify-content: center;
+        flex-wrap: wrap;
         a, a:hover, a:focus {
             text-decoration: none;
             color: $textColor1;

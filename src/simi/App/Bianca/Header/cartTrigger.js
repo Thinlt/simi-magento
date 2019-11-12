@@ -62,7 +62,7 @@ export class Trigger extends Component {
             //     <CartCounter counter={itemsQty ? itemsQty : 0} />
             // </Link>
             <button
-                className='root'
+                className='cart-trigger-root'
                 aria-label="Toggle mini cart"
                 onClick={toggleCart}
             >
