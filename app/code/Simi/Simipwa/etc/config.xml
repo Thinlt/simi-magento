@@ -25,6 +25,9 @@
                 <bianca_header_sale_link>#</bianca_header_sale_link>
                 <bianca_header_storelocator>#</bianca_header_storelocator>
             </pwa_header>
+            <pwa_footer_subcribe>
+                <bianca_subcribe_description>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</bianca_subcribe_description>
+            </pwa_footer_subcribe>
             <pwa_footer>
                 <bianca_footer_phone>+44 345 678 9009</bianca_footer_phone>
                 <bianca_footer_email>Example@gmail.com</bianca_footer_email>
@@ -34,6 +37,10 @@
                 <bianca_footer_linkedin>https://linkedin.com</bianca_footer_linkedin>
                 <bianca_footer_google>https://google.com</bianca_footer_google>
             </pwa_footer>
+            <footer_app>
+                <bianca_android_app>#</bianca_android_app>
+                <bianca_ios_app>#</bianca_ios_app>
+            </footer_app>
         </simipwa>
     </default>
 </config>

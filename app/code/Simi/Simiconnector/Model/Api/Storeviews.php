@@ -135,6 +135,7 @@ class Storeviews extends Apiabstract
                 'bianca_header_sale_title' => $this->getStoreConfig('simipwa/pwa_header/bianca_header_sale_title'),
                 'bianca_header_sale_link' => $this->getStoreConfig('simipwa/pwa_header/bianca_header_sale_link'),
                 'bianca_header_storelocator' => $this->getStoreConfig('simipwa/pwa_header/bianca_header_storelocator'),
+                'bianca_subcribe_description' => $this->getStoreConfig('simipwa/pwa_footer_subcribe/bianca_subcribe_description'),
                 'footer_customer_service' => $this->getStoreConfig('simipwa/footer_customer_service/customer_service'),
                 'footer_information' => $this->getStoreConfig('simipwa/footer_customer_service/more_information'),
                 'bianca_footer_phone' => $this->getStoreConfig('simipwa/pwa_footer/bianca_footer_phone'),
@@ -143,7 +144,9 @@ class Storeviews extends Apiabstract
                 'bianca_footer_instagram' => $this->getStoreConfig('simipwa/pwa_footer/bianca_footer_instagram'),
                 'bianca_footer_twitter' => $this->getStoreConfig('simipwa/pwa_footer/bianca_footer_twitter'),
                 'bianca_footer_linkedin' => $this->getStoreConfig('simipwa/pwa_footer/bianca_footer_linkedin'),
-                'bianca_footer_google' => $this->getStoreConfig('simipwa/pwa_footer/bianca_footer_google')
+                'bianca_footer_google' => $this->getStoreConfig('simipwa/pwa_footer/bianca_footer_google'),
+                'bianca_android_app' => $this->getStoreConfig('simipwa/footer_app/bianca_android_app'),
+                'bianca_ios_app' => $this->getStoreConfig('simipwa/footer_app/bianca_ios_app')
             ],
             'sales'             => [
                 'sales_reorder_allow'           => $this->getStoreConfig('sales/reorder/allow'),

@@ -192,59 +192,78 @@
                 </field>
                 <field id="bianca_header_sale_title" translate="label" type="text" sortOrder="1599" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Header sale title</label>
-                    <comment>Example: Sale up to 50%</comment>
+                    <comment>Example: Sale up to 50% : on selected items</comment>
                 </field>
                 <field id="bianca_header_sale_link" translate="label" type="text" sortOrder="1699" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Header sale link</label>
-                    <comment>Example: https://...</comment>
+                    <comment>Note: use relative link</comment>
                 </field>
                 <field id="bianca_header_storelocator" translate="label" type="text" sortOrder="1799" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Link to storelocator</label>
-                    <comment>Example: https://...</comment>
+                    <comment>Note: use relative link</comment>
                 </field>
             </group>
-            <group id="pwa_footer" translate="label" type="text" sortOrder="599" showInDefault="1" showInWebsite="1">
+            <group id="pwa_footer_subcribe" translate="label" type="text" sortOrder="599" showInDefault="1" showInWebsite="1">
+                <label>Subcribe newsletter at footer</label>
+                <field id="bianca_subcribe_description" translate="label" type="text" sortOrder="1899" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Subcribe description</label>
+                </field>
+            </group>
+            <group id="pwa_footer" translate="label" type="text" sortOrder="699" showInDefault="1" showInWebsite="1">
                 <label>Contact us at Footer</label>
-                <field id="bianca_footer_phone" translate="label" type="text" sortOrder="1899" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="bianca_footer_phone" translate="label" type="text" sortOrder="1999" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Phone number at footer</label>
                     <comment>Example: +0965 555 5455 731</comment>
                 </field>
-                <field id="bianca_footer_email" translate="label" type="text" sortOrder="1999" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="bianca_footer_email" translate="label" type="text" sortOrder="2099" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Email at footer</label>
                     <comment>Example: Example@gmail.com</comment>
                 </field>
-                <field id="bianca_footer_facebook" translate="label" type="text" sortOrder="2099" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="bianca_footer_facebook" translate="label" type="text" sortOrder="2199" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Facebook link at footer</label>
                     <comment>Example: https://...</comment>
                 </field>
-                <field id="bianca_footer_instagram" translate="label" type="text" sortOrder="2199" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="bianca_footer_instagram" translate="label" type="text" sortOrder="2299" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Instagram link at footer</label>
                     <comment>Example: https://...</comment>
                 </field>
-                <field id="bianca_footer_twitter" translate="label" type="text" sortOrder="2299" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="bianca_footer_twitter" translate="label" type="text" sortOrder="2399" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Twitter link at footer</label>
                     <comment>Example: https://...</comment>
                 </field>
-                <field id="bianca_footer_linkedin" translate="label" type="text" sortOrder="2399" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="bianca_footer_linkedin" translate="label" type="text" sortOrder="2499" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Linked in link at footer</label>
                     <comment>Example: https://...</comment>
                 </field>
-                <field id="bianca_footer_google" translate="label" type="text" sortOrder="2499" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="bianca_footer_google" translate="label" type="text" sortOrder="2599" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Google link at footer</label>
                     <comment>Example: https://...</comment>
                 </field>
             </group>
-            <group id="footer_customer_service" translate="label" type="text" sortOrder="699" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="footer_customer_service" translate="label" type="text" sortOrder="799" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Customer Services and Informations at Footer</label>
-                <field id="customer_service" translate="label" sortOrder="2599" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="customer_service" translate="label" sortOrder="2699" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Customer Service</label>
                     <frontend_model>Simi\Simipwa\Block\Adminhtml\Form\Field\CustomerServiceLink</frontend_model>
                     <backend_model>Simi\Simipwa\Config\Backend\FooterConfig</backend_model>
+                    <comment>Use relative link. Example: service.html</comment>
                 </field>
-                <field id="more_information" translate="label" sortOrder="2699" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="more_information" translate="label" sortOrder="2799" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Information</label>
                     <frontend_model>Simi\Simipwa\Block\Adminhtml\Form\Field\MoreInformationLink</frontend_model>
                     <backend_model>Simi\Simipwa\Config\Backend\FooterConfig</backend_model>
+                    <comment>Use relative link. Example: information.html</comment>
+                </field>
+            </group>
+            <group id="footer_app" translate="label" type="text" sortOrder="899" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Config links 's apps Android and IOS at footer (OUR APP)</label>
+                <field id="bianca_android_app" translate="label" type="text" sortOrder="2899" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Android app</label>
+                    <comment>Example: https://play.google.com/...</comment>
+                </field>
+                <field id="bianca_ios_app" translate="label" type="text" sortOrder="2999" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>IOS app</label>
+                    <comment>Example: https://app.apple.com/...</comment>
                 </field>
             </group>
         </section>
