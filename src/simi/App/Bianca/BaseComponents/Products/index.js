@@ -3,7 +3,7 @@ import Gallery from './Gallery';
 import Identify from 'src/simi/Helper/Identify'
 import Sortby from './Sortby'
 import Filter from './Filter'
-import Pagination from 'src/simi/App/Bianca/BaseComponents/Pagination'
+import LoadMore from './loadMore'
 import Loading from 'src/simi/BaseComponents/Loading'
 import {Carousel} from 'react-responsive-carousel';
 import ReactHTMLParse from 'react-html-parser'
@@ -50,19 +50,16 @@ class Products extends React.Component {
 
     renderItem = ()=>{
         const {pagination} = this
-        const {history, location, currentPage, pageSize} = this.props
+        const {currentPage} = this.props
+        // if (pagination)
+        //     console.log(pagination.state)
         if (
             pagination && 
             pagination.state && 
-            pagination.state.limit && 
             pagination.state.currentPage &&
-            (pagination.state.limit!==pageSize||
-            pagination.state.currentPage!==currentPage)) {
-                const { search } = location;
-                const queryParams = new URLSearchParams(search);
-                queryParams.set('product_list_limit', pagination.state.limit);
-                queryParams.set('page', pagination.state.currentPage);
-                history.push({ search: queryParams.toString() });
+            pagination.state.currentPage!==currentPage) {
+                if (this.props.setCurrentPage)
+                    this.props.setCurrentPage(pagination.state.currentPage)
         }
     };
 
@@ -85,12 +82,11 @@ class Products extends React.Component {
                     <Gallery data={items} pageSize={pageSize} history={history} location={location} />
                 </section>
                 <div className="product-grid-pagination" style={{marginBottom: 20}}>
-                    <Pagination 
+                    <LoadMore 
                         renderItem={this.renderItem.bind(this)}
                         itemCount={data.products.total_count}
                         limit={pageSize}
                         currentPage={currentPage}
-                        itemsPerPageOptions={[9, 18, 27, 36, 45]}
                         showInfoItem={false}
                         ref={(page) => {this.pagination = page}}/>
                 </div>
@@ -114,7 +110,7 @@ class Products extends React.Component {
         const {props} = this
         const { data, title } = props;
         let descriptionArea = ''
-        console.log(data)
+        //console.log(data)
         if(data&& data.category && data.category.description){
             const description = data.category.description ? Identify.__('%t') : Identify.__('%t')
             descriptionArea = <div className="description">

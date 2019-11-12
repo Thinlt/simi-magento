@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import LoadingSpiner from 'src/simi/BaseComponents/Loading/LoadingSpiner'
 import { number } from 'prop-types';
 import simicntrCategoryQuery from 'src/simi/queries/catalog/getCategory.graphql'
@@ -18,13 +18,14 @@ import ChildCats from './childCats'
 
 var sortByData = null
 var filterData = null
+let loadedData = null
 
 const Category = props => {
     const { id } = props;
     let pageSize = Identify.findGetParameter('product_list_limit')
     pageSize = pageSize?Number(pageSize):window.innerWidth < 1024?6:9
-    let currentPage = Identify.findGetParameter('page')
-    currentPage = currentPage?Number(currentPage):1
+    const paramPageval = Identify.findGetParameter('page')
+    const [currentPage, setCurrentPage] = useState(paramPageval?Number(paramPageval):1)
     sortByData = null
     const productListOrder = Identify.findGetParameter('product_list_order')
     const productListDir = Identify.findGetParameter('product_list_dir')
@@ -52,18 +53,38 @@ const Category = props => {
         variables.sort = sortByData
         
     const cateQuery = simicntrCategoryQuery
-    smoothScrollToView($('#root'))
     return (
         <Simiquery query={cateQuery} variables={variables}>
             {({ loading, error, data }) => {
                 if (error) return <div>Data Fetch Error</div>;
-                if (!data || !data.category) return <LoadingSpiner />;
-
+                console.log(data)
+                if ((!data || !data.category) && !loadedData) return <LoadingSpiner />
+                //prepare data
                 if (data) {
+                    console.log(data)
                     data.products = applySimiProductListItemExtraField(data.simiproducts)
                     if (data.products.simi_filters)
                         data.products.filters = data.products.simi_filters
+
+                    if (!loadedData) {
+                        smoothScrollToView($('#root'))
+                        loadedData = data
+                    } else {
+                        let loadedItems = loadedData.products.items
+                        const newItems = data.products.items
+                        loadedItems = loadedItems.concat(newItems)
+                        for(var i=0; i<loadedItems.length; ++i) {
+                            for(var j=i+1; j<loadedItems.length; ++j) {
+                                if(loadedItems[i] && loadedItems[j] && loadedItems[i].id === loadedItems[j].id)
+                                    loadedItems.splice(j--, 1);
+                            }
+                        }
+                        loadedData.products.items = loadedItems
+                    }
+                    data = loadedData
                 }
+
+                //breadcrumb
                 const categoryTitle = data && data.category ? data.category.name : '';
                 const breadcrumb = [{name: "Home", link: '/'}];
                 if(data && data.category && data.category.breadcrumbs instanceof Array) {
@@ -72,7 +93,6 @@ const Category = props => {
                     })
                 }
                 breadcrumb.push({name: data.category.name})
-                
                 return (
                     <div className="container">
                         <BreadCrumb breadcrumb={breadcrumb} history={props.history}/>
@@ -87,17 +107,20 @@ const Category = props => {
                                 image_url={resourceUrl(data.category.image, { type: 'image-category' })}
                             />
                         }
-                        <Products
-                            title={categoryTitle}
-                            underHeader={<ChildCats category={data.category}/>}
-                            history={props.history}
-                            location={props.location}
-                            currentPage={currentPage}
-                            pageSize={pageSize}
-                            data={loading ? null : data}
-                            sortByData={sortByData}
-                            filterData={filterData?JSON.parse(productListFilter):null}
-                        />
+                        {
+                            <Products
+                                title={categoryTitle}
+                                underHeader={<ChildCats category={data.category}/>}
+                                history={props.history}
+                                location={props.location}
+                                currentPage={currentPage}
+                                pageSize={pageSize}
+                                data={loading ? null : data}
+                                sortByData={sortByData}
+                                filterData={filterData?JSON.parse(productListFilter):null}
+                                setCurrentPage={setCurrentPage}
+                            />
+                        }
                     </div>
                 )
 
