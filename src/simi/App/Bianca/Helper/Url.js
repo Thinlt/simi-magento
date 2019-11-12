@@ -44,7 +44,7 @@ export const logoUrl = () => {
         }
         return logoUrl
     }
-    return '/images/logo.png'; // default logo static file
+    return '/images/header_logo.jpg'; // default logo static file
     // if (dbConfig && dbConfig["app-configs"] && dbConfig["app-configs"][0] &&  dbConfig["app-configs"][0]["app_images"] && dbConfig["app-configs"][0]["app_images"]["logo"]) {
     //     return dbConfig["app-configs"][0]["app_images"]["logo"]
     // }
@@ -60,6 +60,17 @@ export const logoAlt = () => {
         return logoAlt
     }
     return ''; // default logo static file
+}
+
+/*
+Footer Logo Url
+*/
+export const footerLogoUrl = () => {
+
+}
+
+export const footerLogoAlt = () => {
+
 }
 
 /*
