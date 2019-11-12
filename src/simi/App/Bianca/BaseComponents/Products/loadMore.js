@@ -11,7 +11,15 @@ class Pagination extends React.Component {
             data: this.props.data,
             itemCount: this.props.itemCount
         }
-        this.startPage = 1;
+        this.latestCount = 0
+    }
+
+    shouldComponentUpdate(nextProps){
+        if (nextProps.items && nextProps.items.length !== this.latestCount) {
+            this.latestCount = nextProps.items.length
+            return true
+        }
+        return false
     }
 
     renderItem = () => {
@@ -25,10 +33,10 @@ class Pagination extends React.Component {
 
     render() {
         const { currentPage, itemCount } = this.state;
-        const { limit } = this.props;
+        const { items } = this.props;
         if (itemCount > 0) {
             this.renderItem()
-            if(limit*currentPage < itemCount) {
+            if(items.length < itemCount) {
                 return (
                     <div className="load-more">
                         <div
@@ -55,6 +63,7 @@ Pagination.defaultProps = {
     limit: 5,
     data: [],
     itemCount: 0,
+    items: [],
 };
 Pagination.propTypes = {
     currentPage: PropTypes.number,
@@ -62,5 +71,6 @@ Pagination.propTypes = {
     data: PropTypes.array,
     renderItem: PropTypes.func,
     itemCount: PropTypes.number,
+    items: PropTypes.array,
 };
 export default Pagination;

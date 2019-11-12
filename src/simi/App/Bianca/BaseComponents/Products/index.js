@@ -85,6 +85,7 @@ class Products extends React.Component {
                     <LoadMore 
                         renderItem={this.renderItem.bind(this)}
                         itemCount={data.products.total_count}
+                        items={data.products.items}
                         limit={pageSize}
                         currentPage={currentPage}
                         showInfoItem={false}
