@@ -37,9 +37,17 @@ const DownloadableOptions = React.lazy(() => import('./Options/DownloadableOptio
 const GiftcardOptions = React.lazy(() => import('src/simi/App/Bianca/Components/Product/ProductFullDetail/Options/GiftcardOptions'));
 const TrytobuyOptions = React.lazy(() => import('src/simi/App/Bianca/Components/Product/ProductFullDetail/Options/TrytobuyOptions'));
 
+import {addRecentViewedProducts} from '../../../Helper/Biancaproduct'
+
 require('./productFullDetail.scss');
 
 class ProductFullDetail extends Component {  
+    constructor(props) {
+        super(props)
+        if (props.product)
+            addRecentViewedProducts(props.product)
+    }
+
     state = {
         optionCodes: new Map(),
         optionSelections: new Map(),

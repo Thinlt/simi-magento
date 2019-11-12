@@ -7,45 +7,29 @@ class Pagination extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentPage: this.props.currentPage,
             data: this.props.data,
             itemCount: this.props.itemCount
         }
         this.latestCount = 0
     }
-
-    shouldComponentUpdate(nextProps){
-        if (nextProps.items && nextProps.items.length !== this.latestCount) {
-            this.latestCount = nextProps.items.length
-            return true
-        }
-        return false
-    }
-
-    renderItem = () => {
-        return this.props.renderItem()
-    };
-
-    handleLoadMore = () =>{
-        this.setState({currentPage: this.state.currentPage + 1})
-        this.renderItem()
-    }
-
+    
     render() {
-        const { currentPage, itemCount } = this.state;
+        const { itemCount } = this.state;
         const { items } = this.props;
+        console.log(this.props)
         if (itemCount > 0) {
-            this.renderItem()
             if(items.length < itemCount) {
                 return (
-                    <div className="load-more">
+                    <div 
+                        className="load-more"
+                        role="presentation" 
+                        onClick={()=>this.props.updateSetPage(this.props.currentPage + 1)}
+                    >
                         <div
-                            role="presentation" 
                             className="btn-load-more"
-                            onClick={()=>this.handleLoadMore()}
                         >
                             {
-                                (currentPage !== this.props.currentPage) ?
+                                (this.props.loading) ?
                                 <Loading divStyle={{marginTop: '-25px'}} loadingStyle={{fill: 'white'}}/> :
                                 Identify.__('Load More')
                             }
@@ -69,7 +53,7 @@ Pagination.propTypes = {
     currentPage: PropTypes.number,
     limit: PropTypes.number,
     data: PropTypes.array,
-    renderItem: PropTypes.func,
+    updateSetPage: PropTypes.func,
     itemCount: PropTypes.number,
     items: PropTypes.array,
 };

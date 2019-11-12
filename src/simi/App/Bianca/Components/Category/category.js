@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import LoadingSpiner from 'src/simi/BaseComponents/Loading/LoadingSpiner'
 import { number } from 'prop-types';
 import simicntrCategoryQuery from 'src/simi/queries/catalog/getCategory.graphql'
-import Products from '../..//BaseComponents/Products';
+import Products from '../../BaseComponents/Products';
 import { resourceUrl } from 'src/simi/Helper/Url'
 import CategoryHeader from './categoryHeader'
 import Identify from 'src/simi/Helper/Identify';
@@ -13,7 +13,6 @@ import TitleHelper from 'src/simi/Helper/TitleHelper'
 import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
 import BreadCrumb from "src/simi/App/Bianca/BaseComponents/BreadCrumb"
 import { cateUrlSuffix } from 'src/simi/Helper/Url';
-import { smoothScrollToView } from 'src/simi/Helper/Behavior';
 import ChildCats from './childCats'
 
 var sortByData = null
@@ -23,7 +22,7 @@ let loadedData = null
 const Category = props => {
     const { id } = props;
     let pageSize = Identify.findGetParameter('product_list_limit')
-    pageSize = pageSize?Number(pageSize):window.innerWidth < 1024?6:9
+    pageSize = pageSize?Number(pageSize):9
     const paramPageval = Identify.findGetParameter('page')
     const [currentPage, setCurrentPage] = useState(paramPageval?Number(paramPageval):1)
     sortByData = null
@@ -65,9 +64,9 @@ const Category = props => {
                     data.products = applySimiProductListItemExtraField(data.simiproducts)
                     if (data.products.simi_filters)
                         data.products.filters = data.products.simi_filters
-
-                    if (!loadedData) {
-                        smoothScrollToView($('#root'))
+                        
+                    const stringVar = JSON.stringify({...variables, ...{currentPage: 0}})
+                    if (!loadedData || !loadedData.vars || loadedData.vars !== stringVar) {
                         loadedData = data
                     } else {
                         let loadedItems = loadedData.products.items
@@ -81,6 +80,7 @@ const Category = props => {
                         }
                         loadedData.products.items = loadedItems
                     }
+                    loadedData.vars = stringVar
                 }
                 data = loadedData
                 //breadcrumb
@@ -118,6 +118,7 @@ const Category = props => {
                                 sortByData={sortByData}
                                 filterData={filterData?JSON.parse(productListFilter):null}
                                 setCurrentPage={setCurrentPage}
+                                loading={loading}
                             />
                         }
                     </div>

@@ -48,18 +48,11 @@ class Products extends React.Component {
         return shopby;
     }
 
-    renderItem = ()=>{
-        const {pagination} = this
-        const {currentPage} = this.props
-        // if (pagination)
-        //     console.log(pagination.state)
-        if (
-            pagination && 
-            pagination.state && 
-            pagination.state.currentPage &&
-            pagination.state.currentPage!==currentPage) {
-                if (this.props.setCurrentPage)
-                    this.props.setCurrentPage(pagination.state.currentPage)
+    updateSetPage = (newPage)=>{
+        const { pageSize, data, currentPage} = this.props
+        if (newPage !== currentPage) {
+            if (this.props.setCurrentPage && ((newPage-1)*pageSize < data.products.total_count))
+                this.props.setCurrentPage(newPage)
         }
     };
 
@@ -83,13 +76,14 @@ class Products extends React.Component {
                 </section>
                 <div className="product-grid-pagination" style={{marginBottom: 20}}>
                     <LoadMore 
-                        renderItem={this.renderItem.bind(this)}
+                        updateSetPage={this.updateSetPage.bind(this)}
                         itemCount={data.products.total_count}
                         items={data.products.items}
                         limit={pageSize}
                         currentPage={currentPage}
                         showInfoItem={false}
-                        ref={(page) => {this.pagination = page}}/>
+                        loading={this.props.loading}
+                        />
                 </div>
             </React.Fragment>
         )

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Identify from 'src/simi/Helper/Identify'
 import { Redirect } from 'src/drivers';
 import {Simiquery} from 'src/simi/Network/Query'
@@ -9,7 +9,7 @@ import getQueryParameterValue from 'src/util/getQueryParameterValue';
 import Loading from 'src/simi/BaseComponents/Loading'
 import defaultClasses from './search.css';
 import PRODUCT_SEARCH from 'src/simi/queries/catalog/productSearch.graphql';
-import Products from 'src/simi/BaseComponents/Products'
+import Products from '../../BaseComponents/Products'
 import CloseIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Close';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -17,6 +17,7 @@ import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
 
 var sortByData = null
 var filterData = null
+let loadedData = null
 
 const getCategoryNameQr = gql`
     query getCategoryName($id: Int!) {
@@ -28,11 +29,10 @@ const getCategoryNameQr = gql`
 
 const Search = props => {
     const { classes, location, history } = props;
-    
-    let currentPage = Identify.findGetParameter('page')
-    currentPage = currentPage?Number(currentPage):1
+    const paramPageval = Identify.findGetParameter('page')
+    const [currentPage, setCurrentPage] = useState(paramPageval?Number(paramPageval):1)
     let pageSize = Identify.findGetParameter('product_list_limit')
-    pageSize = pageSize?Number(pageSize):window.innerWidth < 1024?12:24
+    pageSize = pageSize?Number(pageSize):9
     sortByData = null
     const productListOrder = Identify.findGetParameter('product_list_order')
     const productListDir = Identify.findGetParameter('product_list_dir')
@@ -106,17 +106,35 @@ const Search = props => {
             {({ loading, error, data }) => {
                 if (error) return <div>Data Fetch Error</div>;
                 if (loading) return <Loading />;
-
+                //prepare data
                 if (data) {
                     data.products = applySimiProductListItemExtraField(data.simiproducts)
                     if (data.products.simi_filters)
                         data.products.filters = data.products.simi_filters
+
+                    const stringVar = JSON.stringify({...queryVariable, ...{currentPage: 0}})
+                    if (!loadedData || !loadedData.vars || loadedData.vars !== stringVar) {
+                        loadedData = data
+                    } else {
+                        let loadedItems = loadedData.products.items
+                        const newItems = data.products.items
+                        loadedItems = loadedItems.concat(newItems)
+                        for(var i=0; i<loadedItems.length; ++i) {
+                            for(var j=i+1; j<loadedItems.length; ++j) {
+                                if(loadedItems[i] && loadedItems[j] && loadedItems[i].id === loadedItems[j].id)
+                                    loadedItems.splice(j--, 1);
+                            }
+                        }
+                        loadedData.products.items = loadedItems
+                    }
+                    loadedData.vars = stringVar
                 }
+                data = loadedData
             
                 if (data.products.items.length === 0)
                     return (
                         <div className={classes.noResult}>
-                            No results found!
+                            {Identify.__('No results found!')}
                         </div>
                     );
                     
@@ -138,6 +156,8 @@ const Search = props => {
                             data={loading ? null : data}
                             sortByData={sortByData}
                             filterData={filterData?JSON.parse(productListFilter):null}
+                            setCurrentPage={setCurrentPage}
+                            loading={loading}
                         />
                     </div>
                 );
