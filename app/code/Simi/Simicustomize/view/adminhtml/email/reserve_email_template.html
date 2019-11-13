@@ -1,0 +1,15 @@
+<!--@vars {
+"var data.customer_email":"Sender Email",
+"var data.customer_name":"Sender Name"
+} @-->
+
+Reserve infomations:
+
+{{trans "Name: %name" name=$data.customer_name}}
+{{trans "Email: %email" email=$data.customer_email}}
+{{trans "Product: %product" product=$data.product_name}}
+{{trans "with options: %info" info=$data.request_info}}
+{{trans "Store: %store" store=$data.store_name}}
+{{trans "Reservation date: %date" date=$data.reservation_date}}
+
+Thanks for your requested!

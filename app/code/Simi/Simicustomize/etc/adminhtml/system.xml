@@ -19,6 +19,21 @@
                     <comment>Email template send to customer to pay #2 order.</comment>
                 </field>
             </group>
+            <group id="reserve" translate="label" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Reserve Settings</label>
+                <field id="working_days" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Working days</label>
+                    <comment>mon,tue,wed,thu,fri,sat,sun</comment>
+                </field>
+                <field id="holiday" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Holiday</label>
+                    <comment>date/month, use commas to separate between dates - example: 1/12,2/12.</comment>
+                </field>
+                <field id="emailTemplate" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Email template ID</label>
+                    <comment>Default value: send_email_reserve_template</comment>
+                </field>
+            </group>
         </section>
     </system>
 </config>

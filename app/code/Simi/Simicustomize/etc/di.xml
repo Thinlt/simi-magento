@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="\Simi\Simiconnector\Helper\Products" type="\Simi\Simicustomize\Override\Helper\Products" />
+    <preference for="\Simi\Simicustomize\Api\ReserveInterface" type="\Simi\Simicustomize\Model\Api\Reserve" />
 
     <type name="Magento\Quote\Model\Cart\CartTotalRepository">
         <plugin name="simi_cart_total_plugin" type="Simi\Simicustomize\Plugin\CartTotalRepository" />
@@ -23,4 +24,17 @@
             </argument>
         </arguments>
     </virtualType>
+    <virtualType name="SimiReserveGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">simi_reserve</argument>
+            <argument name="resourceModel" xsi:type="string">Simi\Simicustomize\Model\ResourceModel\Reserve</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="simi_reserve_data_source" xsi:type="string">SimiReserveGridDataProvider</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

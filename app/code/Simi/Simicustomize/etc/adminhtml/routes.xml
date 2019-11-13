@@ -4,7 +4,7 @@
         <!-- <route id="simicustomize" frontName="simicustomize">
             <module name="Simi_Simicustomize" />
         </route> -->
-        <route id="simicustomize_sales" frontName="simi">
+        <route id="simi_sales" frontName="simi">
             <module name="Simi_Simicustomize" before="Magento_Backend" />
         </route>
     </router>

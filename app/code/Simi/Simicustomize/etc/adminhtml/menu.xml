@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Backend/etc/menu.xsd">
     <menu>
+        <add id="Simi_Simicustomize::sales_reserve" title="Reserve" translate="title" module="Simi_Simicustomize" sortOrder="100" parent="Magento_Sales::sales_operation" action="simi/reserve" resource="Simi_Simicustomize::sales_reserve" />
     </menu>
 </config>
