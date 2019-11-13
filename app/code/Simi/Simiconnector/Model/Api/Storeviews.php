@@ -136,6 +136,8 @@ class Storeviews extends Apiabstract
                 'bianca_header_sale_link' => $this->getStoreConfig('simipwa/pwa_header/bianca_header_sale_link'),
                 'bianca_header_storelocator' => $this->getStoreConfig('simipwa/pwa_header/bianca_header_storelocator'),
                 'bianca_subcribe_description' => $this->getStoreConfig('simipwa/pwa_footer_subcribe/bianca_subcribe_description'),
+                'footer_logo' => $this->getStoreConfig('simipwa/pwa_footer_subcribe/footer_logo'),
+                'footer_logo_alt' => $this->getStoreConfig('simipwa/pwa_footer_subcribe/footer_logo_alt'),
                 'footer_customer_service' => $this->getStoreConfig('simipwa/footer_customer_service/customer_service'),
                 'footer_information' => $this->getStoreConfig('simipwa/footer_customer_service/more_information'),
                 'bianca_footer_phone' => $this->getStoreConfig('simipwa/pwa_footer/bianca_footer_phone'),
