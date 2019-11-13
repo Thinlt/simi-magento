@@ -319,7 +319,7 @@ $textColor3: #E4E4E4;
                     margin-left: 44px;
                     flex: 1 0;
                     .header-image{
-                        margin-left: 47%;
+                        margin-left: 44px;
                         width: 193px;
                         img{
                             width: 85px;
@@ -855,5 +855,11 @@ body.fixed-scroll {
 @media(max-width: 425px){
     .header-wrapper .container-global-notice .notice-inner .notice-msg span{
         font-size: 12px !important;
+    }
+}
+
+@media(max-width: 406px){
+    .header-wrapper.mobile .container-header .header .header-logo{
+        margin-left: unset;
     }
 }

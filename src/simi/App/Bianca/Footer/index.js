@@ -198,7 +198,7 @@ const Footer = (props) => {
 						<div className={`col-md-4 col-md-offset-4`}>
 							<div className="footer-logo">
 								<Link to="/">
-									<img src={logoUrl()} alt={logoAlt()} />
+									<img src={footerLogoUrl()} alt={footerLogoAlt()} />
 								</Link>
 							</div>
 						</div>

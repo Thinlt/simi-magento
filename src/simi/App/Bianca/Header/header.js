@@ -173,7 +173,6 @@ class Header extends React.Component {
 	};
 
 	render() {
-		console.log(logoUrl())
 		const { user, storeConfig } = this.props;
 		// Check user login to show wish lish
 		var isSignedIn = false;
