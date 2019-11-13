@@ -29,10 +29,10 @@
     .review-item-detail {
         padding: 0;
         margin-bottom: 5px;
+        margin-top: 24px;
         flex-wrap: wrap;
         display: inline-flex;
         line-height: 16px;
-        height: 16px;
     }
     .item-detail {
         padding: 0;
@@ -54,9 +54,11 @@
         font-size: 12px;
         margin-left: auto;
         span{
-            padding: 10px;
-            margin: 10px;
+            padding-right: 10px;
+            margin-right: 10px;
             border-right: 1px solid #808080;
+            max-height: 16px;
+            line-height: 16px;
         }
     }
 }

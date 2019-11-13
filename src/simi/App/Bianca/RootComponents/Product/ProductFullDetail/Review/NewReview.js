@@ -71,11 +71,8 @@ const NewReview = props => {
     
     return (
         <div>
-            <h2 className="review-list-title">
-                <span>{Identify.__("You're reviewing:")} {Identify.__(product.name)}</span>
-            </h2>
-            <div className="review-form" style={{padding: '8px'}}>
-                <p className="your-rating-title">{Identify.__('Your Rating')}</p>
+            <div className="review-form">
+                <p className="your-rating-title">{Identify.__('Your Review')}</p>
                 <table className="table">
                     <tbody>
                     {rates.map((item, index) => {
