@@ -28,9 +28,9 @@ import Favorite from 'src/simi/App/Bianca/BaseComponents/Icon/Favorite';
 import CompareIcon from 'src/simi/App/Bianca/BaseComponents/Icon/SyncCompare';
 import CloseIcon from 'src/simi/App/Bianca/BaseComponents/Icon/Close';
 import Modal from 'react-responsive-modal';
-import ListItemNested from 'src/simi/App/Bianca/BaseComponents/MuiListItem/Nested';
-import { List } from '@magento/peregrine';
-
+import {sendRequest} from 'src/simi/Network/RestMagento';
+import { compose } from 'redux';
+import { connect } from 'src/drivers';
 
 const ConfigurableOptions = React.lazy(() => import('./Options/ConfigurableOptions'));
 const CustomOptions = React.lazy(() => import('./Options/CustomOptions'));
@@ -46,9 +46,28 @@ class ProductFullDetail extends Component {
     state = {
         optionCodes: new Map(),
         optionSelections: new Map(),
-        openModal: false
+        openModal: false,
+        reserveSuccess: false,
+        reserveError: ''
     };
-    quantity = 1
+    quantity = 1;
+    stores = []; // Storelocators
+    reserveStoreId = '';
+
+    componentDidMount(){
+        this.getStoreLocations();
+    }
+
+    getStoreLocations = (callback) => {
+        sendRequest('/rest/V1/simiconnector/storelocations', (data) => {
+            if (data && data.storelocations) {
+                this.stores = data.storelocations;
+                console.log(this.stores);
+                if (callback) callback(this.stores);
+            }
+        });
+        return this.stores;
+    }
       
     static getDerivedStateFromProps(props, state) {
         const { configurable_options } = props.product;
@@ -128,7 +147,7 @@ class ProductFullDetail extends Component {
 
     addToCart = () => {
         const { props } = this;
-        const {  product } = props;
+        const { product } = props;
         if (product && product.id) {
             this.missingOption = false
             const params = this.prepareParams()
@@ -203,12 +222,74 @@ class ProductFullDetail extends Component {
     }
 
     onCloseReserve = () => {
-        this.setState({openModal: false});
+        this.reserveStoreId = null;
+        this.setState({openModal: false, reserveSuccess: false, reserveError: ''});
     }
 
     reserveAction = () => {
-        this.setState({openModal: true});
+        // check user signedin
+        if (!this.props.isSignedIn) {
+            // this.props.history.push(`/login.html?return=${this.props.location.pathname}`);
+            this.props.history.push('/login.html');
+        }
+        // try to fetch storelocations
+        if (this.stores.length <= 0) {
+            this.getStoreLocations((stores) => {
+                console.log(stores)
+                this.setState({openModal: true});
+            });
+        } else {
+            this.setState({openModal: true});
+        }
     };
+
+    onReserveChooseStore = (e) => {
+        const storeId = e.target.value;
+        this.reserveStoreId = storeId;
+        this.setState({reserveSuccess: false, reserveError: ''});
+        console.log(storeId)
+    }
+
+    handleReserveSubmit = (data) => {
+        console.log(data)
+        let regData = {};
+        regData = {...regData, ...data}
+        // find store and get store name
+        if (this.stores.length) {
+            if (this.reserveStoreId) {
+                regData.storelocator_id = this.reserveStoreId;
+                let store = this.stores.find((store) => {
+                    return parseInt(store.simistorelocator_id) === parseInt(this.reserveStoreId);
+                });
+                if (store) {
+                    regData.store_name = store.store_name;
+                }
+            } else {
+                this.setState({reserveError: Identify.__('Please choose a store'), reserveSuccess: false});
+                return
+            }
+        }
+        // get product option selected
+        this.missingOption = false
+        const params = this.prepareParams();
+        if (this.missingOption) {
+            showToastMessage(Identify.__('Please select the options required (*)'));
+            return
+        }
+        regData.request_info = params;
+        if (!this.props.isSignedIn) {
+            this.props.history.push('/login.html');
+        }
+        regData.customer_id = this.props.customerId;
+        regData.customer_name = this.props.customerLastname ? this.props.customerFirstname : `${this.props.customerFirstname} ${this.props.customerLastname}`;
+        sendRequest('/rest/V1/simiconnector/reserve', (data) => {
+            console.log(data);
+            if (data && data === true) {
+                console.log('reserve success');
+                this.setState({reserveSuccess: true, reserveError: ''});
+            }
+        }, 'POST', null, regData);
+    }
 
     showError(data) {
         if (data.errors.length) {
@@ -498,26 +579,41 @@ class ProductFullDetail extends Component {
                 >
                     <div className="reserve-modal-content">
                         <div className="modal-title">
-                            <h2>RESERVE</h2>
+                            <h2>{Identify.__('RESERVE')}</h2>
                         </div>
                         <div className="modal-header">
-                            <p>Please visit chosen store in next working day to try your item. Contact us if you have any question.</p>
+                            <p>{Identify.__('Please visit chosen store in next working day to try your item. Contact us if you have any question.')}</p>
                         </div>
-                        <div className="modal-body">
-                            <div className="locations-select">
-                                <label>{Identify.__('Location')}</label>
-                                <div className="option-select">
-                                    <select>
-                                        <option value="" hidden>{Identify.__('Choose a store')}</option>
-                                        <option value="1">{Identify.__('Store 1')}</option>
-                                        <option value="2">{Identify.__('Store 2')}</option>
-                                    </select>
+                        {
+                            this.state.reserveSuccess ? 
+                            <div className="modal-body">
+                                <div className="reserve-success"><h3>{Identify.__('Thank you for your reservation!')}</h3></div>
+                            </div>
+                            :
+                            <div className="modal-body">
+                                <div className="locations-select">
+                                    <label>{Identify.__('Location')}</label>
+                                    <div className="option-select">
+                                        <select onChange={this.onReserveChooseStore}>
+                                            <option value="" hidden>{Identify.__('Choose a store')}</option>
+                                            {
+                                                this.stores && 
+                                                this.stores.map((store, index) => {
+                                                    return <option value={store.simistorelocator_id} key={index}>{store.store_name}</option>
+                                                })
+                                            }
+                                        </select>
+                                    </div>
+                                    {this.state.reserveError && <div className="error">{this.state.reserveError}</div>}
+                                </div>
+                                <div className="submit-btn" onClick={() => this.handleReserveSubmit({
+                                    product_id: product.id,
+                                    product_name: product.name,
+                                })}>
+                                    <span>{Identify.__('Submit')}</span>
                                 </div>
                             </div>
-                            <div className="submit-btn">
-                                <span>{Identify.__('Submit')}</span>
-                            </div>
-                        </div>
+                        }
                     </div>
                 </Modal>
             </div>
@@ -547,7 +643,23 @@ ProductFullDetail.propTypes = {
             })
         ),
         description: object
-    }).isRequired
+    }).isRequired,
+    isSignedIn: bool,
+    customerFirstname: string,
+    customerLastname: string,
+    customerId: number
 };
 
-export default (withRouter)(ProductFullDetail);
+const mapStateToProps = ({ user }) => {
+    const { currentUser, isSignedIn } = user;
+    const { firstname, lastname, id } = currentUser;
+
+    return {
+        isSignedIn,
+        customerFirstname: firstname,
+        customerLastname: lastname,
+        customerId: id
+    };
+}
+// export default (withRouter)(ProductFullDetail);
+export default compose(connect(mapStateToProps), withRouter)(ProductFullDetail);
