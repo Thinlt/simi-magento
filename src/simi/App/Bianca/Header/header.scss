@@ -16,21 +16,31 @@ $textColor3: #E4E4E4;
 
         .notice-inner{
             display: flex;
-            justify-content: space-between;
+            justify-content: start;
             height: 44px;
             line-height: 52px;
             vertical-align: middle;
             font-size: 14px;
+            .contact-info{
+                width: 35%;
+            }
+            .notice-msg{
+                width: 30%;
+                span{
+                    text-align: center;
+                }
+            }
+
+
             .contact-info span,
             .notice-msg span{
-                display: inline-block;
+                display: block;
                 color: $mainColor1;
                 font-family: Gotham;
                 font-size: 14px;
                 font-weight: 500;
                 line-height: 14px;
                 max-height: 14px;
-                position: absolute;
                 margin-top: 15px;
                 margin-bottom:15px;
             }
@@ -39,11 +49,10 @@ $textColor3: #E4E4E4;
                 text-decoration: none;
             }   
             .store-switch{
-                left: -80px;
+                width: 35%;
                 display: flex;
-                width: 232px;
                 position: relative;
-
+                justify-content: flex-end;
                 .icons{
                     margin-left: 4px;
                     font-size: 12px;
@@ -52,7 +61,6 @@ $textColor3: #E4E4E4;
                 .storelocator{
                     display: flex;
                     align-items: center;
-                    margin-right: 38px;
 
                     .storelocator-icon{
                         font-family: Linearicons;
@@ -119,8 +127,8 @@ $textColor3: #E4E4E4;
                     }
                 }
                 .storeview-switcher{
-                    margin-right: 38px;
                     .storeview{
+                        margin-left: 38px;
                         .MuiListItemText-root{
                             flex: unset;
                             height: 14px;
@@ -140,6 +148,7 @@ $textColor3: #E4E4E4;
                 }
                 .currency-switcher {
                     .currency{
+                        margin-left: 38px;
                         .MuiListItemText-root{
                             flex: unset;
                             height: 14px;
@@ -200,7 +209,8 @@ $textColor3: #E4E4E4;
                     }
                 }
                 .header-search {
-                    margin-top: 28px;
+                    width: 35%;
+                    margin-top: 10px;
     
                     .header-search-form {
                         width: 277px;
@@ -211,9 +221,9 @@ $textColor3: #E4E4E4;
                             color: $textColor2;
                             font-family: Gotham;
                             font-size: 14px;
-                            line-height: 14px;
+                            line-height: 35px;
                             width: 100%;
-                            height: 30px;
+                            height: 60px;
                             padding-left: 31px;
                             padding-right: 30px;
                             border: none;
@@ -228,7 +238,7 @@ $textColor3: #E4E4E4;
                             min-width: 78px;
                             position: absolute;
                             left: 15px;
-                            top: 0px;
+                            top: 24px;
                             padding: 0px 15px 0px 15px;
                             color: $textColor2;
                             font-family: Gotham;
@@ -238,25 +248,32 @@ $textColor3: #E4E4E4;
                         }
                         .icon-magnifier {
                             position: absolute;
-                            top: 1px;
+                            top: 24px;
                             font-size: 16px;
                             color: $textColor1;
                         }
                     }
                 }
                 .header-logo{
+                    width: 30%;
                     margin-top: 22px;
                     flex: 1 0;
-                    margin-left: 206.5px;
-    
-                    img{
+                    .header-image{
+                        margin: auto;
                         width: 193px;
-                        max-height: 54.61px;
+                        img{
+                            display: block;
+                            margin: auto;
+                            width: 193px;
+                            max-height: 54.61px;
+                        }
                     }
                 }
                 .right-bar{
+                    width: 35%;
                     display: flex;
-                    align-items: center;
+                    flex-direction: row-reverse;
+                    margin-top: 7px;
                     
                     .right-bar-item {
                         font-size: 12px;
@@ -265,6 +282,11 @@ $textColor3: #E4E4E4;
                         position: relative;
                         z-index: 50;
                         cursor: pointer;
+                        svg{
+                            fill: $mainColor1!important;
+                            width: 16px!important;
+                            height: 16px!important;
+                        }
                     }
                 }
             }
@@ -281,8 +303,8 @@ $textColor3: #E4E4E4;
                 color: $textColor3;
                 text-align: center;
                 .notice-msg{
-                    display: inline-block;
-                    margin: 0 auto;
+                    display: block;
+                    margin: auto;
                 }
             }
         }
@@ -296,9 +318,13 @@ $textColor3: #E4E4E4;
                     margin-top: unset;
                     margin-left: 44px;
                     flex: 1 0;
-                    img{
-                        width: 85px;
-                        max-height: 23px;
+                    .header-image{
+                        margin-left: 44px;
+                        width: 193px;
+                        img{
+                            width: 85px;
+                            max-height: 23px;
+                        }
                     }
                 }
                 button{
@@ -320,6 +346,11 @@ $textColor3: #E4E4E4;
                         }
                         &.cart{
                             margin-right: 16px;
+                        }
+                        svg{
+                            fill: $mainColor1!important;
+                            width: 16px!important;
+                            height: 16px!important;
                         }
                     }
                 }
@@ -677,29 +708,22 @@ body.fixed-scroll {
         margin-right: 110px;
 
     }
+    .header-container,
     .sub-container{
         width: 1430px !important;
         padding: 0 15px !important;
     }
-    .header-wrapper .container-header .sub-container .header .header-logo{
-        margin-left: 327.5px;
-    }
 }
 @media(min-width: 1441px){
+    .header-container,
     .sub-container{
-        width: 1160px !important;
+        width: 1160px;
         padding: 0px !important;
-    }
-    .header-wrapper .container-header .sub-container .header .header-logo{
-        margin-left: 206.5px;
     }
 }
 
 @media(width: 1440px){
 
-    .header-wrapper .container-header .sub-container .header .header-logo{
-        margin-left: 206.5px !important;
-    }
     .header-wrapper{
         .container-global-notice{
             .container{
@@ -716,7 +740,7 @@ body.fixed-scroll {
             margin-left: 140px;
             margin-right: 140px;
 
-            .header .header-logo img{
+            .header .header-logo .header-image img{
                 min-height: 54.61px;
             }
            }
@@ -755,17 +779,18 @@ body.fixed-scroll {
 }
 
 @media(max-width: 1199px){
+    .header-container,
     .sub-container{
         width: 1000px;
         padding: 0 12px;
         margin: auto;
     }
-    .header-wrapper .container-header .sub-container .header .header-logo{
-        margin-left: 114.5px !important;
-    }
 }
 
 @media (max-width: 1023px) {
+    .header-wrapper .container-global-notice .notice-inner .notice-msg{
+        width: 100%;
+    }
     .header-wrapper .container-global-notice .notice-inner span {
         color: $defaultBgColor !important;
         position: unset !important;
@@ -824,5 +849,17 @@ body.fixed-scroll {
                 }
             }
         }
+    }
+}
+
+@media(max-width: 425px){
+    .header-wrapper .container-global-notice .notice-inner .notice-msg span{
+        font-size: 12px !important;
+    }
+}
+
+@media(max-width: 406px){
+    .header-wrapper.mobile .container-header .header .header-logo{
+        margin-left: unset;
     }
 }

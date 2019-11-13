@@ -65,9 +65,11 @@ class Header extends React.Component {
 		// const {isPhone} = this.state;
 		return (
 			<div className={this.classes['header-logo']}>
-				<Link to="/">
-					<img src={logoUrl()} alt={logoAlt()} />
-				</Link>
+				<div className="header-image">
+					<Link to="/">
+						<img src={logoUrl()} alt={logoAlt()} />
+					</Link>
+				</div>
 			</div>
 		);
 	};
@@ -119,17 +121,16 @@ class Header extends React.Component {
 		);
 	};
 
-	renderViewPhone = () => {
+	renderViewPhone = (bianca_header_sale_title,bianca_header_sale_link) => {
 		return (
 			<div className="header-wrapper mobile">
 				<div className="container-global-notice">
-					<div className="container ">
+					<div className="container">
 						<div className="global-site-notice">
 							<div className="notice-inner">
 								<div className="notice-msg">
 									<span>
-										{Identify.__('Sale up to 50%: on')}{' '}
-										<a href={'#'}>{Identify.__('selected items')}</a>
+										<a href={bianca_header_sale_link}>{Identify.__(bianca_header_sale_title)}</a>
 									</span>
 								</div>
 							</div>
@@ -203,13 +204,13 @@ class Header extends React.Component {
 		const storeViewOptions = <Storeview classes={classes} className="storeview" />;
 		const currencyOptions = <Currency classes={classes} className="currency" />;
 		if (window.innerWidth < 1024) {
-			return this.renderViewPhone();
+			return this.renderViewPhone(bianca_header_sale_title,bianca_header_sale_link);
 		}
 		return (
 			<React.Fragment>
 				<div className="header-wrapper">
 					<div className="container-global-notice">
-						<div className="container ">
+						<div className="container header-container">
 							<div className="global-site-notice">
 								<div className="notice-inner">
 									<div className="contact-info">
@@ -219,8 +220,7 @@ class Header extends React.Component {
 									</div>
 									<div className="notice-msg">
 										<span>
-											{Identify.__(bianca_header_sale_title)}:{' '}
-											<a href={bianca_header_sale_link}>{Identify.__('on selected items')}</a>
+											<a href={bianca_header_sale_link}>{Identify.__(bianca_header_sale_title)}</a>
 										</span>
 									</div>
 									<div className="store-switch">

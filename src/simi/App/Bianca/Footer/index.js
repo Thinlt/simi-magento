@@ -9,6 +9,7 @@ import Expansion from 'src/simi/App/Bianca/BaseComponents/Expansion';
 import classes from './ProxyClasses';
 import { Link } from 'src/drivers';
 import { logoUrl, logoAlt } from 'src/simi/App/Bianca/Helper/Url';
+import { footerLogoUrl, footerLogoAlt } from 'src/simi/App/Bianca/Helper/Url';
 import Subscriber from './Subscriber';
 
 require('./footer.scss');
@@ -31,9 +32,12 @@ const Footer = (props) => {
     var footer_twitter = null
     var footer_linkedin = null
     var footer_google = null
+	var bianca_subcribe_description = null
+	var bianca_android_app = null
+	var bianca_ios_app = null
 
     const storeConfig = Identify.getStoreConfig();
-    // get contactus config\
+    // get contactus config
     if(
         storeConfig &&
         storeConfig.simiStoreConfig &&
@@ -90,7 +94,8 @@ const Footer = (props) => {
 		storeConfig.simiStoreConfig.config.base.footer_information
 	) {
         footer_information = storeConfig.simiStoreConfig.config.base.footer_information
-    }
+	}
+	
     if(footer_information){
         const inf = JSON.parse(footer_information)
         informations = Object.values(inf)
@@ -112,6 +117,32 @@ const Footer = (props) => {
 
 		return <ul>{result}</ul>;
 	};
+
+	// get subcribe description
+	if(
+		storeConfig &&
+        storeConfig.simiStoreConfig &&
+		storeConfig.simiStoreConfig.config &&
+		storeConfig.simiStoreConfig.config.base && 
+		storeConfig.simiStoreConfig.config.base.bianca_subcribe_description
+	){
+		bianca_subcribe_description = storeConfig.simiStoreConfig.config.base.bianca_subcribe_description
+	}
+
+	// get link android and ios app
+	if(
+		storeConfig &&
+        storeConfig.simiStoreConfig &&
+		storeConfig.simiStoreConfig.config &&
+		storeConfig.simiStoreConfig.config.base
+	){
+		if(storeConfig.simiStoreConfig.config.base.bianca_android_app){
+			bianca_android_app = storeConfig.simiStoreConfig.config.base.bianca_android_app
+		}
+		if(storeConfig.simiStoreConfig.config.base.bianca_ios_app){
+			bianca_ios_app = storeConfig.simiStoreConfig.config.base.bianca_ios_app
+		}
+	}
 
 	const contactUs = [
 		{
@@ -167,7 +198,7 @@ const Footer = (props) => {
 						<div className={`col-md-4 col-md-offset-4`}>
 							<div className="footer-logo">
 								<Link to="/">
-									<img src={logoUrl()} alt={logoAlt()} />
+									<img src={footerLogoUrl()} alt={footerLogoAlt()} />
 								</Link>
 							</div>
 						</div>
@@ -176,7 +207,7 @@ const Footer = (props) => {
 						<div className={`col-md-4 col-md-offset-4`}>
 							<div className="footer-subscriber">
 								<h3>subscribe newsletter</h3>
-								<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+								<p>{Identify.__(bianca_subcribe_description)}</p>
 								<Subscriber />
 							</div>
 						</div>
@@ -279,10 +310,14 @@ const Footer = (props) => {
 										<li>
 											<div className={classes['download-icon']}>
 												<div className="google-play">
-													<img src="/images/google-play.png" alt="google-play" />
+													<a href={bianca_android_app} target="__blank">
+														<img src="/images/google-play.png" alt="google-play" />
+													</a>
 												</div>
 												<div className="app-store">
-													<img src="/images/app-store.png" alt="app-store" />
+													<a href={bianca_ios_app} target="__blank">
+														<img src="/images/app-store.png" alt="app-store" />
+													</a>
 												</div>
 											</div>
 										</li>
@@ -302,10 +337,14 @@ const Footer = (props) => {
 													<li>
 														<div className={classes['download-icon']}>
 															<div className="google-play">
-																<img src="/images/google-play.png" alt="google-play" />
+																<a href={bianca_android_app} target="__blank">
+																	<img src="/images/google-play.png" alt="google-play" />
+																</a>
 															</div>
 															<div className="app-store">
-																<img src="/images/app-store.png" alt="app-store" />
+																<a href={bianca_ios_app} target="__blank">
+																	<img src="/images/app-store.png" alt="app-store" />
+																</a>
 															</div>
 														</div>
 													</li>
