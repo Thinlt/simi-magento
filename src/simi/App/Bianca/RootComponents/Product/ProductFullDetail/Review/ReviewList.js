@@ -3,7 +3,7 @@ import { getReviews } from 'src/simi/Model/Product';
 import Loading from 'src/simi/BaseComponents/Loading';
 import Identify from 'src/simi/Helper/Identify';
 import Pagination from 'src/simi/BaseComponents/Pagination';
-import { StaticRate } from 'src/simi/BaseComponents/Rate';
+import { StaticRate } from 'src/simi/App/Bianca/BaseComponents/Rate';
 
 require('./reviewList.scss');
 
@@ -34,39 +34,45 @@ const ReviewList = props => {
 
     const renderItem = item => {
         if (item.hasOwnProperty('votes')) {
-            const rating_votes = item.votes.map((rate, index) => {
-                const point = rate.value;
-                return (
-                    <div className="rating-votes" key={index}>
-                        <div className="label-rate">
-                            {Identify.__(rate.label)}
-                        </div>
-                        <div className="item-rating">
-                            <Rate rate={parseInt(point, 10)} size={13} />
-                        </div>
-                    </div>
-                );
-            });
-            const created = (
-                <div className="item-created flex">
-                    <span>{item.created_at}</span>
-                    <span>{item.nickname}</span>
-                </div>
-            );
-            return (
-                <div className="review-item item" key={item.review_id}>
-                    <div className="item-title flex">{item.title}</div>
-                    <div className="review-item-detail">
-                        <div className="item-review-content">
-                            <div className="item-detail">{item.detail}</div>
-                            {created}
-                        </div>
-                        <div className="item-votes">{rating_votes}</div>
-                    </div>
-                    <div className="clearfix" />
-                </div>
-            );
+            // const rating_votes = item.votes.map((rate, index) => {
+            //     const point = rate.value;
+            //     return (
+            //         <div className="rating-votes" key={index}>
+            //             <div className="label-rate">
+            //                 {Identify.__(rate.label)}
+            //             </div>
+            //             <div className="item-rating">
+            //                 <Rate rate={parseInt(point, 10)} size={13} />
+            //             </div>
+            //         </div>
+            //     );
+            // });
+            // const created = (
+            //     <div className="item-created flex">
+            //         <span>{item.created_at}</span>
+            //         <span>{item.nickname}</span>
+            //     </div>
+            // );
+            // return (
+            //     <div className="review-item item" key={item.review_id}>
+            //         <div className="item-title flex">{item.title}</div>
+            //         <div className="review-item-detail">
+            //             <div className="item-review-content">
+            //                 <div className="item-detail">{item.detail}</div>
+            //                 {created}
+            //             </div>
+            //             <div className="item-votes">{rating_votes}</div>
+            //         </div>
+            //         <div className="clearfix" />
+            //     </div>
+            // );
         }
+
+        const createdAt = new Date(item.created_at);
+        const monthNames = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
 
         return (
             <div className="review-item item" key={item.review_id}>
@@ -80,7 +86,7 @@ const ReviewList = props => {
                             marginRight: Identify.isRtl() ? 'auto' : 0
                         }}
                     >
-                        <span>{item.created_at}</span>
+                        <span>{`${createdAt.getDate()} ${monthNames[createdAt.getMonth()]} ${createdAt.getFullYear()}`}</span>
                         <span>{item.nickname}</span>
                     </div>
                     <div className="item-rate">
@@ -128,8 +134,8 @@ const ReviewList = props => {
             total;
         const roundedAverageStar = averageStar.toFixed(1);
         return (
-            <div className="item-rate">
-                <StaticRate rate={averageStar} />
+            <div className="total-rate">
+                <StaticRate rate={averageStar} size={24} width={137}/>
                 <p>{Identify.__(`This has a rating of ${roundedAverageStar}/5`)}</p>
             </div>
         );
@@ -143,8 +149,8 @@ const ReviewList = props => {
         <div>
             <h2 className="review-list-title">
                 <span>{Identify.__(`${data.total} Customer Reviews`)}</span>
-                {renderAverageStar()}
             </h2>
+            {renderAverageStar()}
             {renderListItem()}
         </div>
     );

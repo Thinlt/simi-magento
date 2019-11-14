@@ -4,41 +4,78 @@
         margin-bottom: 20px;
     }
     .review-form {
-        max-width: 600px;
+        max-width: 572px;
+        .your-rating-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
         .table{
+            margin-bottom: 25px;
             td{
                 border-top: none;
                 padding-left: 0;
+                vertical-align: middle;
+                padding: 0;
+                font-size: 16px;
+                line-height: 16px;
+                &.label-item{
+                    padding-right: 12px;
+                }
+                .rate-star{
+                    margin-right: 5px;
+                }
             }
         }
-    }
-    .your-rating-title {
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
-    .table {
-        margin-bottom: 10px;
-    }
-    .form-group {
-        margin-bottom: 10px;
-    }
-    .label-item {
-        margin-bottom: 5px;
     }
     .rq {
         color: red;
     }
-    .btn-submit-review-ctn {
-        margin-top: 15px;
-    }
-
     .form-content{
         .form-group{
+            margin-bottom: 27px;
+            .label-item {
+                margin-bottom: 15px;
+                font-family: Gotham;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 16px;
+            }
             .form-control{
                 border: none !important;
                 border-radius: 0 !important;
                 box-shadow: none !important;
+                font-family: 'Gotham Book';
+                color: #101820;
+                height: 48px;
+                padding: 17px 16px;
+                &::-webkit-input-placeholder,&:-ms-input-placeholder,&::placeholder { /* Edge */
+                    color: #727272;
+                }
+            }
+            textarea.form-control{
+                height: 208px;
+            }
+        }
+        .btn-submit-review-ctn{
+            margin-top: 50px;
+            .btn-submit-review{
+                width: 278px;
+                height: 55px;
+                background-color: #101820;
+                color: #fff;
+                font-family: Gotham;
+                font-weight: 500;
+                text-transform: uppercase;
+                font-size: 16px;
+                line-height: 16px;
+                padding-top: 0px;
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                &:hover{
+                    opacity: .8;
+                }
             }
         }
     }

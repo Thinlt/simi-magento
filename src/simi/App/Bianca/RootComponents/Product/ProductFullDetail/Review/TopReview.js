@@ -1,6 +1,6 @@
-import React from 'react'
-import Identify from 'src/simi/Helper/Identify'
-import {StaticRate} from 'src/simi/BaseComponents/Rate'
+import React from 'react';
+import Identify from 'src/simi/Helper/Identify';
+import {StaticRate} from 'src/simi/App/Bianca/BaseComponents/Rate';
 
 require('./topReview.scss')
 
