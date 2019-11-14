@@ -470,11 +470,13 @@ class ProductFullDetail extends Component {
     render() {
         hideFogLoading()
         const { addToCart, addToCartWithParams, addToCompare, reserveAction, productOptions, props, state, addToWishlist } = this;
-        const { optionCodes, optionSelections, } = state
-        const product = prepareProduct(props.product)
+        const { optionCodes, optionSelections, } = state;
+        const storeConfig = Identify.getStoreConfig()
+        const delivery_returns = storeConfig && storeConfig.simiStoreConfig && storeConfig.simiStoreConfig.config && storeConfig.simiStoreConfig.config.delivery_returns || null;
+        const product = prepareProduct(props.product);
         const { type_id, name, simiExtraField } = product;
-        const short_desc = (product.short_description && product.short_description.html)?product.short_description.html:''
-        const hasReview = simiExtraField && simiExtraField.app_reviews && simiExtraField.app_reviews.number
+        const short_desc = (product.short_description && product.short_description.html)?product.short_description.html:'';
+        const hasReview = simiExtraField && simiExtraField.app_reviews && simiExtraField.app_reviews.number;
         const {attribute_values: {pre_order, try_to_buy, reservable}} = simiExtraField;
         return (
             <div className="container product-detail-root">
@@ -555,7 +557,7 @@ class ProductFullDetail extends Component {
                     <Tabs>
                         <div label={Identify.__('Delivery & Returns')}>
                             <div className="delivery-returns">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuribut also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets It was popularised in the 1960s with the release of Letraset sheets. 
+                                {delivery_returns}
                             </div>
                         </div>
                         <div label={Identify.__('More Information')}>
