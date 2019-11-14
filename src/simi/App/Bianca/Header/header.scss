@@ -329,8 +329,8 @@ $textColor3: #E4E4E4;
                 }
                 button{
                     color: $mainColor1;
-                    width: 20px;
-                    height: 20px;
+                    width: 16px;
+                    height: 16px;
                     svg{
                         fill: $mainColor1!important;
                         width: 16px!important;
@@ -788,6 +788,12 @@ body.fixed-scroll {
 }
 
 @media (max-width: 1023px) {
+    .header-wrapper.mobile .container-header .header .header-logo{
+        margin-left: unset;
+    }
+    .header-wrapper.mobile .container-header .header .header-logo .header-image{
+        width: unset;
+    }
     .header-wrapper .container-global-notice .notice-inner .notice-msg{
         width: 100%;
     }
@@ -819,7 +825,7 @@ body.fixed-scroll {
         cursor: pointer;
     }
     .right-bar-item.cart {
-        margin-right: 16px;
+        margin-right: 25px;
     }
     .mini-cart-view{
         position: fixed;
@@ -856,10 +862,10 @@ body.fixed-scroll {
     .header-wrapper .container-global-notice .notice-inner .notice-msg span{
         font-size: 12px !important;
     }
-}
-
-@media(max-width: 406px){
-    .header-wrapper.mobile .container-header .header .header-logo{
-        margin-left: unset;
+    .right-bar-item {
+        margin-left: 25px;
+    }
+    .right-bar-item.cart {
+        margin-right: 1px !important;
     }
 }

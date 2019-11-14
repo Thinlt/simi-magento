@@ -102,12 +102,12 @@ class Header extends React.Component {
 		const { classes } = this;
 		return (
 			<div className={'right-bar'}>
-				<div className={'right-bar-item'} id="my-account">
-					<MyAccount classes={classes} />
-				</div>
-				{this.renderWishList(isSignedIn)}
 				<div className={'right-bar-item'} id="cart">
 					<CartTrigger classes={classes} />
+				</div>
+				{this.renderWishList(isSignedIn)}
+				<div className={'right-bar-item'} id="my-account">
+					<MyAccount classes={classes} />
 				</div>
 			</div>
 		);
