@@ -21,7 +21,7 @@ $cbColor2: #fff;
         height: 24px;
         display: flex;
         align-items: center;
-
+        font-family: 'Gotham Book';
         &::before{
             content: '';
             width: 24px;
@@ -45,10 +45,10 @@ $cbColor2: #fff;
             border-right: none;
             background: transparent;
             position: absolute;
-            top: 5px;
-            left: 10px;
-            width: 5px;
-            height: 10px;
+            top: 1px;
+            left: 8px;
+            width: 7px;
+            height: 17px;
             font-size: 14px;
             font-weight: 400;
             transition: all .2s;
