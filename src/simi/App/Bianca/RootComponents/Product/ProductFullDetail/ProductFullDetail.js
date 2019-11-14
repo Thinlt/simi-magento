@@ -70,7 +70,6 @@ class ProductFullDetail extends Component {
         sendRequest('/rest/V1/simiconnector/storelocations', (data) => {
             if (data && data.storelocations) {
                 this.stores = data.storelocations;
-                console.log(this.stores);
                 if (callback) callback(this.stores);
             }
         });
@@ -243,7 +242,6 @@ class ProductFullDetail extends Component {
         // try to fetch storelocations
         if (this.stores.length <= 0) {
             this.getStoreLocations((stores) => {
-                console.log(stores)
                 this.setState({openModal: true});
             });
         } else {
@@ -255,11 +253,9 @@ class ProductFullDetail extends Component {
         const storeId = e.target.value;
         this.reserveStoreId = storeId;
         this.setState({reserveSuccess: false, reserveError: ''});
-        console.log(storeId)
     }
 
     handleReserveSubmit = (data) => {
-        console.log(data)
         let regData = {};
         regData = {...regData, ...data}
         // find store and get store name
@@ -291,9 +287,7 @@ class ProductFullDetail extends Component {
         regData.customer_id = this.props.customerId;
         regData.customer_name = this.props.customerLastname ? this.props.customerFirstname : `${this.props.customerFirstname} ${this.props.customerLastname}`;
         sendRequest('/rest/V1/simiconnector/reserve', (data) => {
-            console.log(data);
             if (data && data === true) {
-                console.log('reserve success');
                 this.setState({reserveSuccess: true, reserveError: ''});
             }
         }, 'POST', null, regData);
