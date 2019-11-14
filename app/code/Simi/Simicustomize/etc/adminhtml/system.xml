@@ -34,6 +34,12 @@
                     <comment>Default value: send_email_reserve_template</comment>
                 </field>
             </group>
+            <group id="policy" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Delivery and Returns</label>
+                <field id="delivery_returns" translate="label" type="textarea" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Content</label>
+                </field>
+            </group>
         </section>
     </system>
 </config>
