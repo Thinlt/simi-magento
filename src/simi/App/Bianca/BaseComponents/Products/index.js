@@ -3,10 +3,11 @@ import Gallery from './Gallery';
 import Identify from 'src/simi/Helper/Identify'
 import Sortby from './Sortby'
 import Filter from './Filter'
-import Pagination from 'src/simi/App/Bianca/BaseComponents/Pagination'
+import LoadMore from './loadMore'
 import Loading from 'src/simi/BaseComponents/Loading'
 import {Carousel} from 'react-responsive-carousel';
 import ReactHTMLParse from 'react-html-parser'
+import RecentViewed from './recentViewed'
 require('./products.scss')
 
 class Products extends React.Component {
@@ -48,21 +49,11 @@ class Products extends React.Component {
         return shopby;
     }
 
-    renderItem = ()=>{
-        const {pagination} = this
-        const {history, location, currentPage, pageSize} = this.props
-        if (
-            pagination && 
-            pagination.state && 
-            pagination.state.limit && 
-            pagination.state.currentPage &&
-            (pagination.state.limit!==pageSize||
-            pagination.state.currentPage!==currentPage)) {
-                const { search } = location;
-                const queryParams = new URLSearchParams(search);
-                queryParams.set('product_list_limit', pagination.state.limit);
-                queryParams.set('page', pagination.state.currentPage);
-                history.push({ search: queryParams.toString() });
+    updateSetPage = (newPage)=>{
+        const { pageSize, data, currentPage} = this.props
+        if (newPage !== currentPage) {
+            if (this.props.setCurrentPage && ((newPage-1)*pageSize < data.products.total_count))
+                this.props.setCurrentPage(newPage)
         }
     };
 
@@ -85,25 +76,22 @@ class Products extends React.Component {
                     <Gallery data={items} pageSize={pageSize} history={history} location={location} />
                 </section>
                 <div className="product-grid-pagination" style={{marginBottom: 20}}>
-                    <Pagination 
-                        renderItem={this.renderItem.bind(this)}
+                    <LoadMore 
+                        updateSetPage={this.updateSetPage.bind(this)}
                         itemCount={data.products.total_count}
+                        items={data.products.items}
                         limit={pageSize}
                         currentPage={currentPage}
-                        itemsPerPageOptions={[9, 18, 27, 36, 45]}
                         showInfoItem={false}
-                        ref={(page) => {this.pagination = page}}/>
+                        loading={this.props.loading}
+                        />
                 </div>
             </React.Fragment>
         )
     }
 
     renderRecentViewedProduct = () => {
-        return(
-            <div>
-
-            </div>
-        )
+        return (<RecentViewed />)
     }
 
     openProductDetail = (item) => {
@@ -114,7 +102,7 @@ class Products extends React.Component {
         const {props} = this
         const { data, title } = props;
         let descriptionArea = ''
-        console.log(data)
+        //console.log(data)
         if(data&& data.category && data.category.description){
             const description = data.category.description ? Identify.__('%t') : Identify.__('%t')
             descriptionArea = <div className="description">
@@ -142,17 +130,7 @@ class Products extends React.Component {
                         {Identify.__('Recently Viewed Products')}
                     </div>
                     <div className="recent-viewed-slide">
-                        <Carousel 
-                            key={Identify.randomString(5)}
-                            showArrows={true}  
-                            showThumbs={false}
-                            showIndicators={true}
-                            onClickItem={(e) => this.openProductDetail(e)}
-                            infiniteLoop={true}
-                            autoPlay={true}
-                        >
-                            {this.renderRecentViewedProduct()}
-                        </Carousel>
+                        {this.renderRecentViewedProduct()}
                     </div>
                 </div>
             </article>

@@ -5,6 +5,12 @@
     }
     .review-form {
         max-width: 600px;
+        .table{
+            td{
+                border-top: none;
+                padding-left: 0;
+            }
+        }
     }
     .your-rating-title {
         font-size: 20px;
@@ -25,5 +31,15 @@
     }
     .btn-submit-review-ctn {
         margin-top: 15px;
+    }
+
+    .form-content{
+        .form-group{
+            .form-control{
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+            }
+        }
     }
 }

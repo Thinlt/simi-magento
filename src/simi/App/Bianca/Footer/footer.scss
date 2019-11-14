@@ -22,15 +22,39 @@ $errorFormBgColor: #ece2e2;
             ul{
                 margin-top: 40px;
                 li{
+                    a{
+                        text-decoration: none !important;
+                    }
+                    a:hover,
+                    a:actived,
+                    a:visited{
+                        text-decoration:none !important;
+                    }
                     line-height: 20px;
                     margin-top: 22px;
                     margin-bottom: 22px;
+                }
+                li.contact_us{
+                    cursor: auto;
+                    a:hover,
+                    a{
+                        cursor: auto;
+                        color: $textColor1;
+                    }
                 }
             }
             .footer-mobile{
                 ul{
                     margin-top: 10px;
                     li{
+                        a{
+                            text-decoration: none !important;
+                        }
+                        a:hover,
+                        a:actived,
+                        a:visited{
+                            text-decoration:none !important;
+                        }
                         line-height: 20px;
                         margin-top: 10px;
                         margin-bottom: 10px;
@@ -39,13 +63,15 @@ $errorFormBgColor: #ece2e2;
             }
         }
         .footer-logo{
-            height: 71.61px;
-            width: 255.26px;
+            height: 72px;
+            width: 255px;
             margin: 0 auto;
             margin-top: 97px;
 
             img{
-                width: 100%;
+                // width: 100%;
+                height: 72px;
+                width: 255px;
             }
         }
         .footer-subscriber{
@@ -92,12 +118,12 @@ $errorFormBgColor: #ece2e2;
                 label{
                     color: $textColor2;
                     position: absolute;
-                    top: 0px;
+                    top: -6px;
                     font-size: 16px;
                     font-weight: 500;
                     height: 24px;
                     line-height: 36px;
-                    margin-bottom: 6px;
+                    margin-bottom: 12px;
                 }
                 input{
                     width: 100%;
@@ -126,10 +152,91 @@ $errorFormBgColor: #ece2e2;
             text-transform: uppercase;
         }
         .social-icon{
-            a svg{
-                color: $textColor1!important;
-                fill: $textColor1!important;
+            display: flex;
+            a,
+            a:hover,
+            a:active,
+            a:visited {
+                text-decoration: none;
+            }
+            .facebook-icon{
                 margin-right: 20px;
+                width: fit-content;
+                font-family: Simple-Line-Icons;
+                font-size: 16px;
+                line-height: 16px;
+                speak: none;
+                font-style: normal;
+                font-weight: 500;
+                font-variant: normal;
+                text-transform: none;
+                color: $textColor1;
+            }
+            .facebook-icon::before{
+                content: "\e00b";
+            }
+            .instagram-icon{
+                margin-right: 20px;
+                width: fit-content;
+                font-family: Simple-Line-Icons;
+                font-size: 16px;
+                line-height: 16px;
+                speak: none;
+                font-style: normal;
+                font-weight: 500;
+                font-variant: normal;
+                text-transform: none;
+                color: $textColor1;
+            }
+            .instagram-icon::before{
+                content: "\e609";
+            }
+            .twitter-icon{
+                margin-right: 20px;
+                width: fit-content;
+                font-family: Simple-Line-Icons;
+                font-size: 16px;
+                line-height: 16px;
+                speak: none;
+                font-style: normal;
+                font-weight: 500;
+                font-variant: normal;
+                text-transform: none;
+                color: $textColor1;
+            }
+            .twitter-icon::before{
+                content: "\e009";
+            }
+            .linkedin-icon{
+                margin-right: 20px;
+                width: fit-content;
+                font-family: Simple-Line-Icons;
+                font-size: 16px;
+                line-height: 16px;
+                speak: none;
+                font-style: normal;
+                font-weight: 500;
+                font-variant: normal;
+                text-transform: none;
+                color: $textColor1;
+            }
+            .linkedin-icon::before{
+                content: "\e60a";
+            }
+            .google-icon{
+                width: fit-content;
+                font-family: Material-Design-Iconic-Font;
+                font-size: 16px;
+                line-height: 16px;
+                speak: none;
+                font-style: normal;
+                font-weight: 500;
+                font-variant: normal;
+                text-transform: none;
+                color: $textColor1;
+            }
+            .google-icon::before{
+                content: '\f3f7';
             }
         }
         .download-icon{
@@ -199,7 +306,78 @@ $errorFormBgColor: #ece2e2;
                 padding-right: 32px;
                 margin-top: 23px;
                 margin-bottom: 23px;
+                .MuiIconButton-root{
+                    padding: 12px 0px 12px 24px !important;
+                }
             }
         }
+    }
+}
+@media(min-width: 1920px){
+    .footer-app .footer-wrapper .footer-subscriber .subscriber-form{
+        max-width: unset;
+    }
+}
+
+@media(min-width: 1440px){
+    .download-icon{
+        .google-play{
+            width: 186px !important;
+            height: 65px !important;
+            img{
+                width: 100%;
+                height: 65px !important;
+            }
+            margin-bottom: 20px;
+        }
+        .app-store{
+            width: 186px !important;
+            height: 65px !important;
+            img{
+                width: 100%;
+                height: 65px !important;
+            }
+        }
+    }
+}
+
+@media(max-width: 1199px){
+    .footer-app .footer-wrapper .footer-subscriber{
+        margin-top: 60px;
+    }
+    .footer-app .footer-wrapper .footer-subscriber h3{
+        font-size: 21px;
+        margin-bottom: 10px;
+    }
+}
+
+@media(max-width: 1023px){
+    .footer-app.on-mobile .footer-wrapper .footer-logo{
+        width: 190.26px;
+        height: 65.61px;
+        margin-top: 25px
+    }
+    .footer-app .footer-wrapper .footer-subscriber{
+        margin-top: 35px !important;
+    }
+    .footer-app .footer-wrapper .footer-subscriber h3{
+        font-size: 15px !important;
+    }   
+    .footer-app .footer-wrapper .footer-logo img{
+        width: 100%;
+        height: auto;
+    }
+}
+@media(max-width: 991px){
+    .footer-app .footer-wrapper .footer-subscriber .subscriber-form{
+        max-width: unset;
+    }
+}
+
+@media(max-width: 600px){
+    .footer-app.on-mobile .footer-wrapper .footer-logo {
+        width: 105.26px;
+        height: 29.61px;
+        margin-top: 24px;
     }
 }
