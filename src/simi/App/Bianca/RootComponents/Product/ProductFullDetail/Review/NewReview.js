@@ -1,7 +1,7 @@
 import React from 'react';
 import Identify from 'src/simi/Helper/Identify';
 import { Whitebtn } from 'src/simi/BaseComponents/Button'
-import { SwipeableRate } from 'src/simi/BaseComponents/Rate'
+import { SwipeableRate } from 'src/simi/App/Bianca/BaseComponents/Rate'
 import { submitReview } from 'src/simi/Model/Product'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import {showToastMessage} from 'src/simi/Helper/Message'
@@ -40,6 +40,9 @@ const NewReview = props => {
                     message: Array.isArray(data.message)?data.message[0]:data.message,
                     auto_dismiss: false
                 }])
+                $('#new-rv-nickname').val('')
+                $('#new-rv-title').val('')
+                $('#new-rv-detail').val('')
             }
         }
     }
@@ -65,7 +68,8 @@ const NewReview = props => {
                 params.ratings[rate_key] = point;
             }
             showFogLoading()
-            submitReview(setData, params)
+            const submitRevRest = submitReview(setData, params);
+            console.log(submitRevRest)
         }
     }
     
@@ -79,24 +83,24 @@ const NewReview = props => {
                         return (
                             <tr key={index}>
                                 <td className="label-item" width="50px">{Identify.__(item.rate_code)}</td>
-                                    <td id={item.rate_code}><SwipeableRate rate={1} size={25} rate_option={item.rate_options} rate_code={item.rate_code} change={true}/></td>
+                                    <td id={item.rate_code}><SwipeableRate rate={1} size={24} rate_option={item.rate_options} rate_code={item.rate_code} change={true}/></td>
                             </tr>
                         );
                     })}
                     </tbody>
                 </table>
                 <div className="form-content">
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         <p className="label-item">{Identify.__('Nickname')}<span className="rq">*</span></p>
-                        <input type="text" id="new-rv-nickname" className="form-control" name="nickname" style={{background : '#f2f2f2'}} required/>
+                        <input type="text" id="new-rv-nickname" className="form-control" name="nickname" style={{background : '#f2f2f2'}} required placeholder={Identify.__('')}/>
+                    </div> */}
+                    <div className="form-group">
+                        <p className="label-item">{Identify.__('Your review title:')}{/*<span className='rq'>*</span>*/}</p>
+                        <input type="text" id="new-rv-title" className="form-control" name="title" style={{background : '#f2f2f2'}} required placeholder={Identify.__('Please write your review title.')}/>
                     </div>
                     <div className="form-group">
-                        <p className="label-item">{Identify.__('Title')}<span className='rq'>*</span></p>
-                        <input type="text" id="new-rv-title" className="form-control" name="title" style={{background : '#f2f2f2'}} required/>
-                    </div>
-                    <div className="form-group">
-                        <p className="label-item">{Identify.__('Detail')}<span className="rq">*</span></p>
-                        <textarea id="new-rv-detail" name="detail" className={`form-control`} rows="10" style={{background : '#f2f2f2'}}></textarea>
+                        <p className="label-item">{Identify.__('Your review:')}{/*<span className="rq">*</span>*/}</p>
+                        <textarea id="new-rv-detail" name="detail" className={`form-control`} rows="10" style={{background : '#f2f2f2'}} placeholder={Identify.__('Please write your review.')}></textarea>
                     </div>
                     <div className="btn-submit-review-ctn">
                         <Whitebtn 
