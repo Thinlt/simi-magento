@@ -5,6 +5,7 @@ import ItemsCarousel from 'react-items-carousel';
 import ChevronLeft from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronLeft';
 import ChevronRight from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronRight';
 import {getRecentViewedProducts} from '../../Helper/Biancaproduct'
+import Identify from 'src/simi/Helper/Identify'
 
 require('./recentViewed.scss');
 
@@ -77,29 +78,36 @@ const RecentViewed = props => {
         }
 
         return (
-            <div className="recent-product-ctn">
-                <div className="recent-products">
-                    <ItemsCarousel
-                        infiniteLoop={false}
-                        gutter={16} //Space between cards.
-                        firstAndLastGutter={false}
-                        activePosition={'center'}
-                        chevronWidth={chevWidth}
-                        disableSwipe={false}
-                        alwaysShowChevrons={false}
-                        numberOfCards={numberCards}
-                        slidesToScroll={1}
-                        outsideChevron={true}
-                        showSlither={false}
-                        activeItemIndex={activeItemIndex}
-                        requestToChangeActive={setActiveItemIndex}
-                        leftChevron={<ChevronLeft className="chevron-left" style={{width: `${iconWidth}px`}} />}
-                        rightChevron={<ChevronRight className="chevron-right" style={{width: `${iconWidth}px`}} />}
-                    >
-                        {recentProducts}
-                    </ItemsCarousel>
+            <React.Fragment>
+                <div className="recent-viewed-title">
+                    {Identify.__('Recently Viewed Products')}
                 </div>
-            </div>
+                <div className="recent-viewed-slide">
+                    <div className="recent-product-ctn">
+                        <div className="recent-products">
+                            <ItemsCarousel
+                                infiniteLoop={false}
+                                gutter={16} //Space between cards.
+                                firstAndLastGutter={false}
+                                activePosition={'center'}
+                                chevronWidth={chevWidth}
+                                disableSwipe={false}
+                                alwaysShowChevrons={false}
+                                numberOfCards={numberCards}
+                                slidesToScroll={1}
+                                outsideChevron={true}
+                                showSlither={false}
+                                activeItemIndex={activeItemIndex}
+                                requestToChangeActive={setActiveItemIndex}
+                                leftChevron={<ChevronLeft className="chevron-left" style={{width: `${iconWidth}px`}} />}
+                                rightChevron={<ChevronRight className="chevron-right" style={{width: `${iconWidth}px`}} />}
+                            >
+                                {recentProducts}
+                            </ItemsCarousel>
+                        </div>
+                    </div>
+                </div>
+            </React.Fragment>
         )
     }
 

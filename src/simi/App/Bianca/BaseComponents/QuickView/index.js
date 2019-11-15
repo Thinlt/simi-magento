@@ -1,20 +1,14 @@
 import React from 'react'
 import Modal from 'react-responsive-modal'
-import QuickViewDetail from './QuickViewDetail'
 import Identify from 'src/simi/Helper/Identify'
-import getUrlKey from 'src/util/getUrlKey';
 import connectorGetProductDetailByUrl from 'src/simi/queries/catalog/getProductDetail.graphql';
 import connectorGetProductDetailBySku from 'src/simi/queries/catalog/getProductDetailBySku.graphql'
 import { Simiquery } from 'src/simi/Network/Query' 
 import { saveDataToUrl, productUrlSuffix } from 'src/simi/Helper/Url';
 import Loading from 'src/simi/BaseComponents/Loading'
-import {smoothScrollToView} from 'src/simi/Helper/Behavior'
-import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent'
+import ProductFullDetail from '../../RootComponents/Product/ProductFullDetail'
 require('./index.scss')
 
-const Page404 = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/core/NoMatch/Page404')} {...props}/>
-}
 
 class QuickView extends React.Component {
     constructor(props) {
@@ -55,7 +49,7 @@ class QuickView extends React.Component {
                         let product = null
 
                         if (data && data.productDetail && data.productDetail.items && !data.productDetail.items.length) {
-                            return <Page404 />
+                            return ''
                         }
                         if (data && data.productDetail && data.productDetail.items && data.productDetail.items.length) {
                             //prepare data
@@ -71,7 +65,7 @@ class QuickView extends React.Component {
                         }
                         if (product) {
                             return (
-                                <QuickViewDetail
+                                <ProductFullDetail
                                     product={product}
                                 />
                             );
