@@ -53,21 +53,27 @@ class Navigation extends React.Component{
                     const navItemContainerId = `nav-item-container-${item.menu_item_id}`
                     return (
                         <div
-                            key={index} 
-                            id={navItemContainerId}
-                            className={classes['nav-item-container']}
-                            onFocus={() => {
-                                $(`#${navItemContainerId}`).addClass(classes['active'])
-                            }}
-                            onMouseOver={() => {
-                                $(`#${navItemContainerId}`).addClass(classes['active'])
-                            }}
-                            onBlur={() => {
-                                $(`#${navItemContainerId}`).removeClass(classes['active'])
-                            }}
-                            onMouseOut={() => {
-                                $(`#${navItemContainerId}`).removeClass(classes['active'])
-                            }}>
+                        key={index} 
+                        id={navItemContainerId}
+                        role='button'
+                        tabIndex='0'
+                        onKeyDown={()=>{}}
+                        className={classes['nav-item-container']}
+                        onFocus={() => {
+                            $(`#${navItemContainerId}`).find('.nav-mega-item').addClass('active')
+                        }}
+                        onMouseOver={() => {
+                            $(`#${navItemContainerId}`).find('.nav-mega-item').addClass('active')
+                        }}
+                        onBlur={() => {
+                            $(`#${navItemContainerId}`).find('.nav-mega-item').removeClass('active')
+                        }}
+                        onMouseOut={() => {
+                            $(`#${navItemContainerId}`).find('.nav-mega-item').removeClass('active')
+                        }}
+                        onClick={() => {
+                            $(`#${navItemContainerId}`).find('.nav-mega-item').removeClass('active')
+                        }}>
                             {title}
                             <HeaderNavMegaitem 
                                 classes={classes}
