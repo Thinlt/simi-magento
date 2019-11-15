@@ -1,7 +1,7 @@
 import { sendRequest } from 'src/simi/Network/RestMagento';
 
 export const addToWishlist = (callBack , params) => {
-    sendRequest('rest/V1/simiconnector/wishlistitems', callBack, 'POST', {}, params)
+    sendRequest('/rest/V1/simiconnector/wishlistitems', callBack, 'POST', {}, params)
 }
 
 export const getWishlist = (callBack, params) => {
@@ -9,7 +9,7 @@ export const getWishlist = (callBack, params) => {
 }
 
 export const removeWlItem = (id, callBack) => {
-    sendRequest(`rest/V1/simiconnector/wishlistitems/${id}`, callBack, 'DELETE')
+    sendRequest(`/rest/V1/simiconnector/wishlistitems/${id}`, callBack, 'DELETE')
 }
 
 export const addWlItemToCart = (id, callBack) =>{

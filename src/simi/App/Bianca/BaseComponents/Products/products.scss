@@ -223,10 +223,8 @@ Sort by
   padding-top: 12px;
 }
 .products-gallery-root .recent-viewed-product{
-  margin-top: 65px;
   margin-left: -45px;
   margin-right: -45px;
-  min-height: 540px;
 }
 
 .products-gallery-root .recent-viewed-product .recent-viewed-title{
@@ -236,10 +234,12 @@ Sort by
   font-weight: 500;
   line-height: 24px;
   text-align: center;
+  margin-top: 65px;
 }
 
 .products-gallery-root .recent-viewed-product .recent-viewed-slide{
   margin-top: 31px;
+  min-height: 540px;
 }
 @media(max-width: 1439px){
   .products-gallery-root .recent-viewed-product{

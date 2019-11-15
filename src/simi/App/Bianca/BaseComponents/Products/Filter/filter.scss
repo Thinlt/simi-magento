@@ -36,6 +36,8 @@ $colorBackgroundFilter: #f2f2f2;
 }
 .filter-products .action-clear {
   padding-left: 16px;
+  padding-top: 15px;;
+  padding-bottom: 15px;
 }
 .filter-products .filter-name {
   line-height: 20px;
@@ -52,7 +54,7 @@ $colorBackgroundFilter: #f2f2f2;
 }
 .filter-products .filter-item-text {
   font-weight: 400;
-  line-height: 22px;
+  line-height: 12px;
 }
 
 .filter-products .clear-filter {
@@ -70,6 +72,7 @@ $colorBackgroundFilter: #f2f2f2;
 
 .filter-products .filter-item {
   padding-left: 16px;
+  padding-bottom: 15px;
 }
 
 @media (max-width: 1023px) {
@@ -119,7 +122,7 @@ $colorBackgroundFilter: #f2f2f2;
   }
   .filter-products .filter-name {
     background-color: #333132;
-    padding: 7px 17px 8px;
+    padding: 15px 17px 5px;
   }
 
   .filter-products .filter-name-text {
