@@ -440,7 +440,7 @@ $textColor3: #E4E4E4;
         .nav-item-container{
             .mega-lv1-name{
                 line-height: 12px;
-                height: 26px;
+                height: 16px;
                 display: inline-block;
                 margin-bottom: 30px;
             }
@@ -500,8 +500,11 @@ $textColor3: #E4E4E4;
                 }
                 
             }
-            &:hover .nav-mega-item{
+            .nav-mega-item.active{
                 display: flex;
+            }
+            .nav-mega-item{
+                display: none;
             }
         }
     }
