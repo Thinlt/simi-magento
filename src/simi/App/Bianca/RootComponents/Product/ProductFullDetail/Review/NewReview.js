@@ -6,6 +6,9 @@ import { submitReview } from 'src/simi/Model/Product'
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import {showToastMessage} from 'src/simi/Helper/Message'
 import {smoothScrollToView} from 'src/simi/Helper/Behavior'
+import { compose } from 'redux';
+import { connect } from 'src/drivers';
+import { withRouter } from 'react-router-dom';
 
 require('./newReview.scss');
 
@@ -48,9 +51,15 @@ const NewReview = props => {
     }
 
     const handleSubmitReview = () => {
-        const nickname = $('#new-rv-nickname').val()
+        // const nickname = $('#new-rv-nickname').val()
         const title = $('#new-rv-title').val()
         const detail = $('#new-rv-detail').val()
+        const { isSignedIn, history, firstname, lastname } = props
+        if (!isSignedIn) {
+            history.push('/login.html')
+            return
+        }
+        const nickname = lastname ? `${firstname} ${lastname}` : `${firstname}`;
         if (!nickname || !title || !detail) {
             showToastMessage(Identify.__('Please fill in all required fields'));
         } else {
@@ -69,7 +78,6 @@ const NewReview = props => {
             }
             showFogLoading()
             const submitRevRest = submitReview(setData, params);
-            console.log(submitRevRest)
         }
     }
     
@@ -115,4 +123,15 @@ const NewReview = props => {
     )
 }
 
-export default NewReview
+const mapStateToProps = ({ user }) => {
+    const { currentUser, isSignedIn } = user;
+    const { firstname, lastname, id } = currentUser;
+
+    return {
+        isSignedIn,
+        firstname,
+        lastname,
+        customerId: id
+    };
+}
+export default compose(connect(mapStateToProps), withRouter)(NewReview);
