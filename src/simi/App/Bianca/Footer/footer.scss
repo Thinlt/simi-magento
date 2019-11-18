@@ -307,15 +307,36 @@ $errorFormBgColor: #ece2e2;
                 margin-top: 23px;
                 margin-bottom: 23px;
                 .MuiIconButton-root{
-                    padding: 12px 0px 12px 24px !important;
+                    left : 12px;
                 }
             }
         }
     }
 }
+.defaultError{
+    display: none;
+}
+.showError{
+    position: absolute;
+    display: block;
+    color: $errorFormColor;
+    font-family: Gotham;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 10px;
+    text-align: center;
+    bottom: -21px;
+    left: 45px;
+}
+
+
 @media(min-width: 1920px){
     .footer-app .footer-wrapper .footer-subscriber .subscriber-form{
         max-width: unset;
+    }
+    .showError{
+        left: 80px;
+        font-size: 11px;
     }
 }
 
@@ -349,6 +370,11 @@ $errorFormBgColor: #ece2e2;
         font-size: 21px;
         margin-bottom: 10px;
     }
+    .showError{
+        left: 29px;
+        font-size: 9px;
+    }
+
 }
 
 @media(max-width: 1023px){
@@ -367,10 +393,19 @@ $errorFormBgColor: #ece2e2;
         width: 100%;
         height: auto;
     }
+    .showError{
+        left: 45px;
+        font-size: 8px;
+    }
+    
 }
 @media(max-width: 991px){
     .footer-app .footer-wrapper .footer-subscriber .subscriber-form{
         max-width: unset;
+    }
+    .showError{
+        left: 49px;
+        font-size: 10px;
     }
 }
 
@@ -379,5 +414,17 @@ $errorFormBgColor: #ece2e2;
         width: 105.26px;
         height: 29.61px;
         margin-top: 24px;
+    }
+}
+
+@media(max-width: 425px){
+    .showError{
+        font-size: 9px;
+    }
+}
+
+@media(max-width: 320px){
+    .showError{
+        font-size: 7px;
     }
 }

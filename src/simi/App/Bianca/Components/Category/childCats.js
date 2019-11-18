@@ -19,8 +19,10 @@ const childCats = props => {
     if (props.category && props.category.id) {
         const storeConfig = Identify.getStoreConfig();
         if (storeConfig && storeConfig.simiRootCate && storeConfig.simiRootCate.children) {
-            if (!foundChild || foundChild.id !== props.category.id)
+            if (!foundChild || foundChild.id !== props.category.id ) {
+                foundChild = false
                 findChild(storeConfig.simiRootCate.children, props.category.id)
+            }
 
             if (foundChild.children && foundChild.children.length) {
                 return (

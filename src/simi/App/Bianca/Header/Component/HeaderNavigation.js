@@ -30,6 +30,9 @@ class Navigation extends React.Component{
             });
             menuItems = menuItemsData.map((item, index) => {
                 var isActive = item.link.indexOf(window.location.pathname) !== -1 ? 'active':'';
+                if(!item.include_in_menu){
+                    return null
+                }
                 if (item.children && item.children.length > 0) {
                     let title = item.name
                     if (item.link) {
@@ -50,21 +53,27 @@ class Navigation extends React.Component{
                     const navItemContainerId = `nav-item-container-${item.menu_item_id}`
                     return (
                         <div
-                            key={index} 
-                            id={navItemContainerId}
-                            className={classes['nav-item-container']}
-                            onFocus={() => {
-                                $(`#${navItemContainerId}`).addClass(classes['active'])
-                            }}
-                            onMouseOver={() => {
-                                $(`#${navItemContainerId}`).addClass(classes['active'])
-                            }}
-                            onBlur={() => {
-                                $(`#${navItemContainerId}`).removeClass(classes['active'])
-                            }}
-                            onMouseOut={() => {
-                                $(`#${navItemContainerId}`).removeClass(classes['active'])
-                            }}>
+                        key={index} 
+                        id={navItemContainerId}
+                        role='button'
+                        tabIndex='0'
+                        onKeyDown={()=>{}}
+                        className={classes['nav-item-container']}
+                        onFocus={() => {
+                            $(`#${navItemContainerId}`).find('.nav-mega-item').addClass('active')
+                        }}
+                        onMouseOver={() => {
+                            $(`#${navItemContainerId}`).find('.nav-mega-item').addClass('active')
+                        }}
+                        onBlur={() => {
+                            $(`#${navItemContainerId}`).find('.nav-mega-item').removeClass('active')
+                        }}
+                        onMouseOut={() => {
+                            $(`#${navItemContainerId}`).find('.nav-mega-item').removeClass('active')
+                        }}
+                        onClick={() => {
+                            $(`#${navItemContainerId}`).find('.nav-mega-item').removeClass('active')
+                        }}>
                             {title}
                             <HeaderNavMegaitem 
                                 classes={classes}
@@ -107,14 +116,14 @@ class Navigation extends React.Component{
             if (storeConfig && storeConfig.simiRootCate && storeConfig.simiRootCate.children) {
                 var rootCateChildren  = storeConfig.simiRootCate.children
                 rootCateChildren = rootCateChildren.sort(function(a, b){
-                    if (a.position && b.position){
-                        if (a.position > b.position) return 1; 
-                        if (a.position < b.position) return -1;
-                    }
-                    return 0
+                    return a.position - b.position
                 });
                 menuItems = rootCateChildren.map((item, index) => {
                     var isActive = window.location.pathname.indexOf(item.url_path) === 1 ? 'active':'';
+                    
+                    if(!item.include_in_menu){
+                        return null
+                    }
                     if (!item.name)
                         return ''
                     if (item.children && item.children.length > 0) {
@@ -127,18 +136,24 @@ class Navigation extends React.Component{
                             <div
                                 key={index} 
                                 id={navItemContainerId}
+                                role='button'
+                                tabIndex='0'
+                                onKeyDown={()=>{}}
                                 className={classes['nav-item-container']}
                                 onFocus={() => {
-                                    $(`#${navItemContainerId}`).addClass(classes['active'])
+                                    $(`#${navItemContainerId}`).find('.nav-mega-item').addClass('active')
                                 }}
                                 onMouseOver={() => {
-                                    $(`#${navItemContainerId}`).addClass(classes['active'])
+                                    $(`#${navItemContainerId}`).find('.nav-mega-item').addClass('active')
                                 }}
                                 onBlur={() => {
-                                    $(`#${navItemContainerId}`).removeClass(classes['active'])
+                                    $(`#${navItemContainerId}`).find('.nav-mega-item').removeClass('active')
                                 }}
                                 onMouseOut={() => {
-                                    $(`#${navItemContainerId}`).removeClass(classes['active'])
+                                    $(`#${navItemContainerId}`).find('.nav-mega-item').removeClass('active')
+                                }}
+                                onClick={() => {
+                                    $(`#${navItemContainerId}`).find('.nav-mega-item').removeClass('active')
                                 }}
                                 >
                                 <Link

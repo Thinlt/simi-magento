@@ -126,12 +126,7 @@ class Products extends React.Component {
                     </div>
                 </div>
                 <div className="recent-viewed-product">
-                    <div className="recent-viewed-title">
-                        {Identify.__('Recently Viewed Products')}
-                    </div>
-                    <div className="recent-viewed-slide">
-                        {this.renderRecentViewedProduct()}
-                    </div>
+                    {this.renderRecentViewedProduct()}
                 </div>
             </article>
         );
