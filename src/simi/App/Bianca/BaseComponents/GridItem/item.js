@@ -27,10 +27,24 @@ require('./item.scss')
 class Griditem extends React.Component {
     constructor(props) {
         super(props)
+        const isPhone = window.innerWidth < 1024 
         this.state = ({
-            openModal : false
+            openModal : false,
+            isPhone: isPhone,
         })
         this.vendorName = ''
+        this.setIsPhone()
+    }
+
+    setIsPhone(){
+        const obj = this;
+        $(window).resize(function () {
+            const width = window.innerWidth;
+            const isPhone = width < 1024;
+            if(obj.state.isPhone !== isPhone){
+                obj.setState({isPhone})
+            }
+        })
     }
 
     addToCart = () => {
@@ -116,8 +130,37 @@ class Griditem extends React.Component {
         return this.vendorName
     }
 
+    wishlistCompareAction = () => {
+        const { addToWishlist, addToCompare } = this
+        return (
+            <React.Fragment>
+                <div className="wishlistAction">
+                    <div className="wishlist">
+                        <span
+                            ref={(item)=> {this.wlBtnRef = item}}
+                            role="presentation"
+                            className="add-to-wishlist-btn icon-chef"
+                            onClick={addToWishlist}
+                        >
+                        </span>
+                    </div>
+                </div>
+                <div className="compareAction">
+                    <div className="compare">
+                        <span
+                            role="presentation"
+                            className="add-to-compare-btn icon-bench-press"
+                            onClick={addToCompare}
+                        >
+                        </span>
+                    </div>
+                </div>
+            </React.Fragment>
+        )
+    }
+
     render() {
-        const { props, addToCart, addToWishlist, addToCompare } = this
+        const { props, addToCart } = this
         const item = prepareProduct(props.item)
         const logo_url = logoUrl()
         if (!item) return '';
@@ -166,13 +209,17 @@ class Griditem extends React.Component {
             <div
                 className="siminia-product-grid-item">
                 <QuickView openModal={this.state.openModal} closeModal={this.closeModal} product={item} />
-                {
-                    props.lazyImage ?
-                        (<LazyLoad placeholder={<img alt={name} src={logo_url} style={{ maxWidth: 60, maxHeight: 60 }} />}>
-                            {image}
-                        </LazyLoad>) :
-                        image
-                }
+                <div style={{position: 'relative'}}>
+                    {
+                        props.lazyImage ?
+                            (<LazyLoad placeholder={<img alt={name} src={logo_url} style={{ maxWidth: 60, maxHeight: 60 }} />}>
+                                {image}
+                            </LazyLoad>) :
+                            image
+                    }  
+                    {this.state.isPhone && this.wishlistCompareAction()}
+                </div>
+                
                 <div className="siminia-product-des">
                     <div className="product-des-info">
                         <div className="product-name">
@@ -195,27 +242,7 @@ class Griditem extends React.Component {
                             className="add-to-cart-btn"
                             onClick={addToCart}
                             text={Identify.__('Add to Cart')} />
-                        <div className="wishlistAction">
-                            <div className="wishlist">
-                                <span
-                                    ref={(item)=> {this.wlBtnRef = item}}
-                                    role="presentation"
-                                    className="add-to-wishlist-btn icon-chef"
-                                    onClick={addToWishlist}
-                                >
-                                </span>
-                            </div>
-                        </div>
-                        <div className="compareAction">
-                            <div className="compare">
-                                <span
-                                    role="presentation"
-                                    className="add-to-compare-btn icon-bench-press"
-                                    onClick={addToCompare}
-                                >
-                                </span>
-                            </div>
-                        </div>
+                        {!this.state.isPhone && this.wishlistCompareAction()}
                     </div>
                 </div>
             </div>

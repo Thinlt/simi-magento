@@ -5,12 +5,34 @@ import Sortby from './Sortby'
 import Filter from './Filter'
 import LoadMore from './loadMore'
 import Loading from 'src/simi/BaseComponents/Loading'
-import {Carousel} from 'react-responsive-carousel';
 import ReactHTMLParse from 'react-html-parser'
 import RecentViewed from './recentViewed'
+import Modal from 'react-responsive-modal'
 require('./products.scss')
 
+const $ = window.$;
+
 class Products extends React.Component {
+    constructor(props) {
+        super(props)
+        const isPhone = window.innerWidth < 1024 
+        this.state = ({
+            isPhone: isPhone,
+            openMobileModel : false,
+        })
+        this.setIsPhone()
+    }
+
+    setIsPhone(){
+        const obj = this;
+        $(window).resize(function () {
+            const width = window.innerWidth;
+            const isPhone = width < 1024;
+            if(obj.state.isPhone !== isPhone){
+                obj.setState({isPhone})
+            }
+        })
+    }
 
     renderFilter() {
         const {props} = this
@@ -35,14 +57,6 @@ class Products extends React.Component {
                     key="siminia-left-navigation-filter" 
                     className="left-navigation" >
                     {filter}
-                    <div className="left-nav-pcompare">
-                        <div className="left-nav-pcompare-title">
-                            {Identify.__('Compare product')}
-                        </div>   
-                        <div className="left-nav-pcompare-content">
-                            {Identify.__('You have  no products to compare')}
-                        </div>    
-                    </div>
                 </div>
             );
         }
@@ -57,6 +71,56 @@ class Products extends React.Component {
         }
     };
 
+    renderBottomFilterSort() {
+        const {props} = this
+        const { data, filterData, sortByData } = props;
+        return (
+            <React.Fragment>
+                <Modal open={this.state.openMobileModel !== false} onClose={this.closeModalFilter}>
+                    <div className="modal-mobile-filter-view" style={{display: this.state.openMobileModel === 'filter' ? 'block' : 'none'}}>
+                        <Filter data={data.products.filters} filterData={filterData}/>
+                    </div>
+                    <div className="modal-mobile-sort-view" style={{display: this.state.openMobileModel !== 'filter' ? 'block' : 'none'}}>
+                        <Sortby  parent={this} data={data} sortByData={sortByData} />
+                    </div>
+                </Modal>
+                <div className="mobile-bottom-filter">
+                    <div className="mobile-bottom-filter-subitem" role="presentation" onClick={this.showModalFilter}>
+                        <span className="mobile-bottom-btn icon-funnel">
+                        </span>
+                        <div className="mobile-bottom-btn-title">
+                            {Identify.__('Filter')}
+                        </div>
+                    </div>
+                    <div className="mobile-bottom-filter-subitem" role="presentation" onClick={this.showModalSortby}>
+                        <div className="mobile-bottom-btn-title">
+                            {Identify.__('Sort')}
+                        </div>
+                        <span className="mobile-bottom-btn icon-sort-amount-asc" >
+                        </span>
+                    </div>
+                </div>
+            </React.Fragment>
+        )
+    }
+
+    showModalSortby = () => {
+        this.setState({
+            openMobileModel : 'sortby'
+        })
+    }
+
+    showModalFilter = () => {
+        this.setState({
+            openMobileModel : 'filter'
+        })
+    }
+    closeModalFilter = () =>{
+        this.setState({
+            openMobileModel : false
+        })
+    }
+
     renderList = () => {
         const {props} = this
         const { data, pageSize, history, location, sortByData, currentPage } = props;
@@ -67,11 +131,13 @@ class Products extends React.Component {
             return(<div className="no-product">{Identify.__('No product found')}</div>)
         return (
             <React.Fragment>
-                <Sortby 
+                {!this.state.isPhone && 
+                    <Sortby 
                     parent={this}
                     data={data}
                     sortByData={sortByData}
                     />
+                }
                 <section className="gallery">
                     <Gallery data={items} pageSize={pageSize} history={history} location={location} />
                 </section>
@@ -88,14 +154,6 @@ class Products extends React.Component {
                 </div>
             </React.Fragment>
         )
-    }
-
-    renderRecentViewedProduct = () => {
-        return (<RecentViewed />)
-    }
-
-    openProductDetail = (item) => {
-        console.log('click');
     }
 
     render() {
@@ -120,13 +178,14 @@ class Products extends React.Component {
                 </h2>
                 {props.underHeader}
                 <div className="product-list-container-siminia">
-                    {this.renderLeftNavigation()}
+                    {!this.state.isPhone && this.renderLeftNavigation()}
+                    {this.state.isPhone && this.renderBottomFilterSort()}
                     <div className="listing-product">
                         {this.renderList()}
                     </div>
                 </div>
                 <div className="recent-viewed-product">
-                    {this.renderRecentViewedProduct()}
+                    <RecentViewed />
                 </div>
             </article>
         );

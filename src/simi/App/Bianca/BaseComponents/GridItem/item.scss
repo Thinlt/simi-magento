@@ -97,15 +97,6 @@ $titleColor: #101820;
         line-height: 18px;
         text-align: start;
     }
-
-    .product-prices .special .old{
-        color: #727272;
-        font-family: "Gotham Book";
-        text-decoration: line-through;
-        margin-bottom: 8px;
-        margin-top: -3px;
-        font-size: 18px;
-    }
     .product-prices .label {
         display: none;
     }
@@ -126,7 +117,7 @@ $titleColor: #101820;
         margin-top: 14px;
         display: flex;
     }
-    .siminia-product-des .cart-wishlish-compare .add-to-cart-btn{
+    .cart-wishlish-compare .add-to-cart-btn{
         max-width: 70%;
         padding-top: 12px;
         color: #FFF;
@@ -138,11 +129,11 @@ $titleColor: #101820;
         text-transform: uppercase;
         margin-right: 13px;
     }
-    .siminia-product-des .cart-wishlish-compare .wishlistAction{
+    .cart-wishlish-compare .wishlistAction{
         margin: auto 12px;
         cursor: pointer;
     }
-    .siminia-product-des .cart-wishlish-compare .wishlistAction .add-to-wishlist-btn{
+    .cart-wishlish-compare .wishlistAction .add-to-wishlist-btn{
         font-family: Linearicons;
         font-size: 16px;
         speak: none;
@@ -156,14 +147,14 @@ $titleColor: #101820;
         border: none;
         color: $titleColor;
     }
-    .siminia-product-des .cart-wishlish-compare .wishlistAction .added-item {
+    .cart-wishlish-compare .wishlistAction .added-item {
         color: #B91C1C;
     }
-    .siminia-product-des .cart-wishlish-compare .compareAction{
+    .cart-wishlish-compare .compareAction{
         margin: auto 0px auto 12px;
         cursor: pointer;
     }
-    .siminia-product-des .cart-wishlish-compare .compareAction .add-to-compare-btn{
+    .cart-wishlish-compare .compareAction .add-to-compare-btn{
         font-family: Linearicons;
         font-size: 16px;
         speak: none;
@@ -185,13 +176,6 @@ $titleColor: #101820;
         .siminia-product-des .cart-wishlish-compare .add-to-cart-btn{
             width: 145px;
             height: 36px;
-        }
-    }
-
-    @media(max-width: 1439px){
-        .siminia-product-des .cart-wishlish-compare .add-to-cart-btn{
-            height: 32px;
-            padding: 12px;
         }
     }
 
@@ -222,6 +206,7 @@ $titleColor: #101820;
         margin-bottom: 15px;
     }
 
+
     .siminia-product-des .product-short-description {
         display: inline-block;
         font-size: 12px;
@@ -229,6 +214,12 @@ $titleColor: #101820;
     }
 
     .siminia-product-des .old {
+        color: #727272;
+        font-family: "Gotham Book";
+        text-decoration: line-through;
+        margin-bottom: 8px;
+        margin-top: -3px;
+        font-size: 18px;
         font-weight: 500;
         font-size: 14px;
         float: left;
@@ -261,6 +252,57 @@ $titleColor: #101820;
         font-size: 16px;
         line-height: 16px;
         padding-top: 14px;
+    }
+
+    /*
+    phone
+    */
+   @media (max-width: 1023px) {
+
+        .siminia-product-image {
+            width: 100%;
+            min-height: 208px;
+        }
+        
+        .wishlistAction{
+            position: absolute;
+            bottom: 10px;
+            left: 12px;
+        }
+
+        .compareAction{
+            position: absolute;
+            bottom: 10px;
+            right: 12px;
+        }
+        .cart-wishlish-compare {
+            margin-top: 0px;
+        }
+        .cart-wishlish-compare .add-to-cart-btn {
+            margin-right: 0px;
+            width: 100%;
+            max-width: 100%;
+            height: 22px;
+            font-size: 8px;
+            padding-top: 6px;
+            font-family: 'Gotham';
+            padding-top: 5px;
+            font-weight: 500;
+        }
+
+        .product-prices{
+            font-family: "Gotham Book";
+            font-size: 10px;
+        }
+        .siminia-product-des .product-name.small {
+            font-size: 10px;
+        }
+        .siminia-product-des .old {
+            font-size: 10px;
+        }
+        .siminia-product-des .vendor-and-price .vendor {
+            font-size: 10px;
+        }
     }
 
 }

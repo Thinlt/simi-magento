@@ -308,7 +308,7 @@ Sort by
     height: 19px;
   }
   .products-gallery-root .siminia-product-grid-item .siminia-product-des{
-    padding: 16px 24px;
+    padding: 9px;
   }
   .products-gallery-root .product-list-container-siminia .listing-product{
     padding-left: unset;
@@ -323,6 +323,34 @@ Sort by
   }
   .products-gallery-root .product-list-container-siminia .filter-products .MuiListItem-root{
     margin-bottom: unset;
+  }
+  .mobile-bottom-filter {
+      position: fixed;
+      bottom: 0;
+      height: 45px;
+      width: 100%;
+      background-color: #101820;
+      left: 0px;
+      padding: 14px 16px;
+      z-index: 2;
+      font-size: 12px;
+      font-family: 'Gotham';
+      font-weight: 500;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+  }
+  .mobile-bottom-filter .mobile-bottom-filter-subitem {
+    display: flex;
+  }
+  .mobile-bottom-filter .mobile-bottom-btn {
+    color: white;
+    margin-top: 2px;
+  }
+  .mobile-bottom-filter .mobile-bottom-btn-title {
+      margin-left: 5px;
+      margin-right: 5px;
+      text-transform: uppercase;
   }
 }
 
