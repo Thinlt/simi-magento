@@ -38,6 +38,12 @@
         flex-wrap: wrap;
         display: inline-flex;
         line-height: 16px;
+        @media (max-width: 1024px){
+            justify-content: center;
+            .item-created{
+                margin-left: 0px;
+            }
+        }
     }
     .item-detail {
         padding: 0;
