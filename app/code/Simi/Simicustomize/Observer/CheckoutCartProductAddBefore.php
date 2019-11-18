@@ -109,12 +109,16 @@ class CheckoutCartProductAddBefore implements ObserverInterface {
                 }
                 $this->session->setData('pre_order', $itemIds);
             }
-            if (!$requestInfo['try_to_buy'] && !$requestInfo['reservable'] && !$requestInfo['pre_order']) {
+            // if product is normal product will be added to cart
+            if ((!isset($requestInfo['pre_order']) && !isset($requestInfo['reservable']) && !isset($requestInfo['try_to_buy']))
+                ||
+                (isset($requestInfo['pre_order']) && isset($requestInfo['reservable']) && isset($requestInfo['try_to_buy']))
+                && (!$requestInfo['try_to_buy'] && !$requestInfo['reservable'] && !$requestInfo['pre_order'])
+            ) {
                 if (!empty($session->getData('try_to_buy')) || !empty($session->getData('reservable')) || !empty($session->getData('pre_order'))) {
                     $buyType = !empty($session->getData('pre_order')) ? 'pre-order' : '';
                     $buyType = !empty($session->getData('reservable')) ? 'reservable' : $buyType;
                     $buyType = !empty($session->getData('try_to_buy')) ? 'try to buy' : $buyType;
-                    // throw new \Exception(__('Adding normal product type to cart error with '.$buyType));
                     throw new \Exception(__('Regular products can not be added to the same cart with Pre-order products or try to buy products. Please checkout with existing products in cart first.'));
                 }
             }
