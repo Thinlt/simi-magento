@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link } from 'src/drivers';
 import { cateUrlSuffix } from 'src/simi/Helper/Url';
+import Identify from 'src/simi/Helper/Identify';
 
 const NavMegaitem = props => {
+    const storeConfig = Identify.getStoreConfig();
+    const baseUrl = storeConfig.storeConfig.base_url
+
     if (props.itemAndChild) {
         const { classes } = props;
         const rootItem = props.itemAndChild;
@@ -43,8 +47,9 @@ const NavMegaitem = props => {
                         : item.link,
                     state: {}
                 };
+
                 return (
-                    <div key={index}>
+                    <div key={index} className="mega-lv1-list">
                         <Link
                             className={classes['mega-lv1-name']}
                             to={location}
@@ -68,15 +73,15 @@ const NavMegaitem = props => {
                     </div>
                 );
             });
-            const childCatGroups = [];
-            const chunkSize = Math.ceil(childCats.length / childCol);
-            for (var i = 0; i < childCats.length; i += chunkSize) {
-                childCatGroups.push(
-                    <div className="mega-lv2-list-cats" key={i}>
-                        {childCats.slice(i, i + chunkSize)}
-                    </div>
-                );
-            }
+            // const childCatGroups = [];
+            // const chunkSize = Math.ceil(childCats.length / childCol);
+            // for (var i = 0; i < childCats.length; i += chunkSize) {
+            //     childCatGroups.push(
+            //         <div className="mega-lv2-list-cats" key={i}>
+            //             {childCats.slice(i, i + chunkSize)}
+            //         </div>
+            //     );
+            // }
 
             return (
                 <div className={classes['nav-mega-item']} id={props.id}>
@@ -88,14 +93,14 @@ const NavMegaitem = props => {
                                 props.toggleMegaItemContainer();
                         }}
                     >
-                        {childCatGroups}
+                        {childCats}
                     </div>
                     {
                         <div className={`${classes['mega-image']} hidden-xs`}>
                             <img
                                 src={
-                                    rootItem.image_url
-                                        ? rootItem.image_url
+                                    rootItem.image
+                                        ? `${baseUrl}/pub/media/catalog/category/${rootItem.image}`
                                         : 'https://www.simicart.com/media/simicart/mockup-ps-simipwa.png'
                                 }
                                 alt={rootItem.image_url}

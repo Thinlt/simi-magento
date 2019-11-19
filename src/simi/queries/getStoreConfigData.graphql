@@ -39,6 +39,7 @@ query storeConfigData($storeId: Int, $currency: String) {
             level
             url_key
             url_path
+            image
             path
             include_in_menu
       	    position
