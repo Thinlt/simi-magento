@@ -1,0 +1,36 @@
+.product-detail-root {
+    .detail-top{
+        .top-col{
+            .main-actions{
+                .product-price{
+                    .prices-container{
+                        .prices-layout{
+                            .price-configurable, .price-simple{
+                                .product-prices{
+                                    .regular{
+                                        .price{
+                                            padding-top: 10px;
+                                            margin-bottom: -10px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+#reserve-modal{
+    .reserve-modal-content{
+        .modal-body{
+            .submit-btn{
+                span{
+                    padding-top: 4px;
+                    margin-bottom: -8px;
+                }
+            }
+        }
+    }
+}

@@ -10,10 +10,10 @@ const StaticRate = props => {
     const rateWidth = width * rate / 5
     
     return (
-        <div className={classes["static-rate"]} style={{width: width, height: height, position:'relative', marginTop: '1px'}}>
-            <FiveStars style={{width: width, height: height, fill:'#e0e0e0'}}/>
-            <div className={classes["static-rate-active"]} style={{height: size, width: rateWidth, overflow: 'hidden', position: 'absolute', left: 0, top: 0}}>
-                <FiveStars style={{width: width, height: height, fill:configColor.button_background}}/>
+        <div className={classes["static-rate"]} style={{width: `${width}px`, height: height, position:'relative', marginTop: '1px'}}>
+            <FiveStars style={{width: `${width}px`, height: `${height}px`, fill:'#e0e0e0'}}/>
+            <div className={classes["static-rate-active"]} style={{height: `${size}px`, width: `${rateWidth}px`, overflow: 'hidden', position: 'absolute', left: 0, top: 0}}>
+                <FiveStars style={{width: `${width}px`, height: `${height}px`, fill:configColor.button_background}}/>
             </div>
         </div>
     )
