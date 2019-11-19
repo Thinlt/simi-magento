@@ -63,6 +63,18 @@ class Products extends React.Component {
         return shopby;
     }
 
+    renderItemCount = (data) => {
+        if(data && data.products && data.products.total_count){
+            const text = data.products.total_count > 1 ? Identify.__('%t products') : Identify.__('%t product');
+            return (
+                <div className="items-count">
+                    {text
+                        .replace('%t', data.products.total_count)}
+                </div>
+            )
+        }
+    }
+    
     updateSetPage = (newPage)=>{
         const { pageSize, data, currentPage} = this.props
         if (newPage !== currentPage) {
@@ -71,17 +83,20 @@ class Products extends React.Component {
         }
     };
 
+    
     renderBottomFilterSort() {
         const {props} = this
         const { data, filterData, sortByData } = props;
         return (
             <React.Fragment>
-                <Modal open={this.state.openMobileModel !== false} onClose={this.closeModalFilter}>
+                <Modal open={this.state.openMobileModel !== false} onClose={this.closeModalFilter} classNames={{modal: "products-mobile-sort-filter-modal"}}>
                     <div className="modal-mobile-filter-view" style={{display: this.state.openMobileModel === 'filter' ? 'block' : 'none'}}>
                         <Filter data={data.products.filters} filterData={filterData}/>
                     </div>
                     <div className="modal-mobile-sort-view" style={{display: this.state.openMobileModel !== 'filter' ? 'block' : 'none'}}>
-                        <Sortby  parent={this} data={data} sortByData={sortByData} />
+                        <div className="top-sort-by">
+                            <Sortby  parent={this} data={data} sortByData={sortByData} />
+                        </div>
                     </div>
                 </Modal>
                 <div className="mobile-bottom-filter">
@@ -131,12 +146,17 @@ class Products extends React.Component {
             return(<div className="no-product">{Identify.__('No product found')}</div>)
         return (
             <React.Fragment>
-                {!this.state.isPhone && 
-                    <Sortby 
-                    parent={this}
-                    data={data}
-                    sortByData={sortByData}
-                    />
+                {!this.state.isPhone ? 
+                    <div className="top-sort-by">
+                        <Sortby 
+                            parent={this}
+                            sortByData={sortByData}
+                            />
+                        {this.renderItemCount(data)}
+                    </div> :
+                    <div className="mobile-item-count">
+                        {this.renderItemCount(data)}
+                    </div>
                 }
                 <section className="gallery">
                     <Gallery data={items} pageSize={pageSize} history={history} location={location} />
@@ -148,7 +168,6 @@ class Products extends React.Component {
                         items={data.products.items}
                         limit={pageSize}
                         currentPage={currentPage}
-                        showInfoItem={false}
                         loading={this.props.loading}
                         />
                 </div>

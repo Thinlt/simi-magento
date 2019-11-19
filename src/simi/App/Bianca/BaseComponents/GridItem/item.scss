@@ -221,7 +221,6 @@ $titleColor: #101820;
         margin-top: -3px;
         font-size: 18px;
         font-weight: 500;
-        font-size: 14px;
         float: left;
     }
 
@@ -275,10 +274,10 @@ $titleColor: #101820;
             bottom: 10px;
             right: 12px;
         }
-        .cart-wishlish-compare {
+        .siminia-product-des .cart-wishlish-compare {
             margin-top: 0px;
         }
-        .cart-wishlish-compare .add-to-cart-btn {
+        .siminia-product-des .cart-wishlish-compare .add-to-cart-btn {
             margin-right: 0px;
             width: 100%;
             max-width: 100%;
@@ -289,10 +288,13 @@ $titleColor: #101820;
             padding-top: 5px;
             font-weight: 500;
         }
-
+        .siminia-product-grid-item .prices-layout {
+            line-height: 14px;
+        }
         .product-prices{
             font-family: "Gotham Book";
             font-size: 10px;
+            line-height: 14px;
         }
         .siminia-product-des .product-name.small {
             font-size: 10px;
@@ -302,6 +304,14 @@ $titleColor: #101820;
         }
         .siminia-product-des .vendor-and-price .vendor {
             font-size: 10px;
+            line-height: 14px;
+            padding-top: 1px;
+        }
+
+        .siminia-product-des {
+            .product-des-info {
+                min-height: 76px;
+            }
         }
     }
 
