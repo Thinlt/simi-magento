@@ -365,26 +365,28 @@ class ProductFullDetail extends Component {
         }
 
         // sorting options
-        let startSortOrder = 3;
-        configurable_options.map((option) => {
-            if (option.attribute_code === 'size') {
-                option.sort_order = 1;
+        if (configurable_options) {
+            let startSortOrder = 3;
+            configurable_options.map((option) => {
+                if (option.attribute_code === 'size') {
+                    option.sort_order = 1;
+                    return option;
+                }
+                if (option.attribute_code === 'color') {
+                    option.sort_order = 2;
+                    return option;
+                }
+                option.sort_order = startSortOrder;
+                startSortOrder += 1;
                 return option;
-            }
-            if (option.attribute_code === 'color') {
-                option.sort_order = 2;
-                return option;
-            }
-            option.sort_order = startSortOrder;
-            startSortOrder += 1;
-            return option;
-        });
-        configurable_options.sort(function(a, b){
-            if (a.sort_order && b.sort_order){
-                return a.sort_order - b.sort_order;
-            }
-            return 0;
-        })
+            });
+            configurable_options.sort(function(a, b){
+                if (a.sort_order && b.sort_order){
+                    return a.sort_order - b.sort_order;
+                }
+                return 0;
+            })
+        }
 
         const isConfigurable = isProductConfigurable(props.product);
         if (is_dummy_data)

@@ -4,30 +4,22 @@ import Check from 'src/simi/BaseComponents/Icon/TapitaIcons/SingleSelect';
 import {configColor} from "src/simi/Config";
 import Dropdownoption from 'src/simi/BaseComponents/Dropdownoption/'
 import { withRouter } from 'react-router-dom';
-import ListItemNested from 'src/simi/App/Bianca/BaseComponents/MuiListItem/Nested';
 
 
 const Sortby = props => {
-    const { data, history, location, sortByData } = props;
+    const { history, location, sortByData } = props;
     const { search } = location;
     let dropdownItem = null
+    const width = window.innerWidth;
+    const isPhone = width < 1024;
 
     const changedSortBy = (item) => {
-        if (dropdownItem && item) {
+        if (dropdownItem)
             dropdownItem.handleToggle()
-            const queryParams = new URLSearchParams(search);
-            queryParams.set('product_list_order', item.key);
-            queryParams.set('product_list_dir', item.direction);
-            history.push({ search: queryParams.toString() });
-        }
-    }
-    let itemCount = ''
-    if(data && data.products && data.products.total_count){
-        const text = data.products.total_count > 1 ? Identify.__('%t product(s)') : Identify.__('%t product');
-        itemCount = <div className="items-count">
-                {text
-                    .replace('%t', data.products.total_count)}
-            </div>;
+        const queryParams = new URLSearchParams(search);
+        queryParams.set('product_list_order', item.key);
+        queryParams.set('product_list_dir', item.direction);
+        history.push({ search: queryParams.toString() });
     }
 
     parent = props.parent
@@ -70,23 +62,23 @@ const Sortby = props => {
     });
 
     return (
-        <div className="top-sort-by">
+        <React.Fragment>
             {
                 selections.length === 0 ?
                 <span></span> : 
-                <React.Fragment>
                 <div className="sort-by-select">
-                    <Dropdownoption 
-                        title={sortByTitle}
-                        ref={(item)=> {dropdownItem = item}}
-                    >
-                        {selections}
-                    </Dropdownoption>
+                    {isPhone ? selections : (
+                        <Dropdownoption 
+                            title={sortByTitle}
+                            ref={(item)=> {dropdownItem = item}}
+                        >
+                            {selections}
+                        </Dropdownoption>
+                        )
+                    }
                 </div>
-                {itemCount}
-                </React.Fragment>
             }
-        </div>
+        </React.Fragment>
     )
 }
 
