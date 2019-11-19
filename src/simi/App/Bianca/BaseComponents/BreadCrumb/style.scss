@@ -1,0 +1,21 @@
+/**
+ * Bread crumb
+ * */
+.siminia-breadcrumb {
+    margin-top: 33px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 12px;
+    .breadcrumb-item {
+        cursor: pointer;
+        line-height: 20px;
+        display: inline-block;
+    }
+    .breadcrumb-item:hover {
+        color: #d7272e;
+    }
+    .breadcrumb-item:last-of-type {
+        color: #d7272e;
+        cursor: unset;
+    }
+}

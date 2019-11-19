@@ -4,14 +4,14 @@ $color2: #727272;
 .product-detail-root {
     display: flex;
     flex-wrap: wrap;
-
+    margin-top: 10px;
     .detail-top{
         width: 100%;
         padding-bottom: 85px;
         display: flex;
         flex-wrap: wrap;
         align-items: flex-start;
-        justify-content: center;
+        justify-content: flex-start;
         .top-col{
             .image-carousel {
                 margin: 0;
@@ -91,8 +91,8 @@ $color2: #727272;
                     font-weight: 500;
                     font-size: 24px;
                     line-height: 32px;
-                    text-align: justify;
-                    max-width: 364px;
+                    // text-align: justify;
+                    max-width: 365px;
                 }
             }
             .main-actions{
@@ -120,8 +120,6 @@ $color2: #727272;
                                     }
                                     .regular{
                                         .price{
-                                            padding-top: 10px;
-                                            margin-bottom: -10px;
                                         }
                                     }
                                     .special{
@@ -147,8 +145,8 @@ $color2: #727272;
                                         font-weight: 500;
                                         margin-top: 24px;
                                         display: inline-block;
-                                        padding-top: 10px;
-                                        margin-bottom: -10px;
+                                        // padding-top: 10px;
+                                        // margin-bottom: -10px;
                                     }
                                 }
                             }
@@ -159,9 +157,9 @@ $color2: #727272;
                     font-size: 14px;
                     font-weight: 500;
                     line-height: 24px;
-                    text-align: justify;
+                    // text-align: justify;
                     margin-top: 24px;
-                    max-width: 349px;
+                    max-width: 350px;
                 }
                 .options{
                     .option-root{
@@ -174,14 +172,21 @@ $color2: #727272;
                             margin-bottom: 8px;
                         }
                         .list-color{
-                            div:nth-child(1){
+                            margin-top: -8px;
+                            margin-bottom: -8px;
+                            margin-left: -8px;
+                            margin-right: -8px;
+                            >div:nth-child(1){
                                 flex-wrap: wrap;
+                                max-width: 392px;
                             }
                             .group-options{
+                                padding: 8px;
                                 .tile-root{
                                     background-color: unset;
                                     box-sizing: border-box;
                                     border: 1px solid #efefef;
+                                    margin-right: 0px;
                                     &._selected{
                                         border: 1px solid $color1;
                                         background-color: unset;
@@ -527,8 +532,6 @@ $color2: #727272;
                     color: #fff;
                     font-size: 16px;
                     line-height: 16px;
-                    padding-top: 4px;
-                    margin-bottom: -8px;
                 }
             }
         }

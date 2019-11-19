@@ -1,56 +1,55 @@
 $colorTitle: #101820;
 
 .breadcrumb-item {
-    font-size: 12px;
-    line-height: 12px;
-    color: $colorTitle;
+  font-size: 12px;
+  line-height: 12px;
+  color: $colorTitle;
 }
 .breadcrumb-item:last-of-type {
-    color: $colorTitle;
+  color: $colorTitle;
 }
 
 .products-gallery-root {
   .title {
     .categoryTitle {
-        margin-top: 24px;
-        color: $colorTitle;
-        font-family: "Gotham Medium";
-        font-size: 24px;
-        line-height: 24px;
-        text-transform: uppercase;
+      margin-top: 24px;
+      color: $colorTitle;
+      font-family: "Gotham Medium";
+      font-size: 24px;
+      line-height: 24px;
+      text-transform: uppercase;
     }
   }
   .description-area {
-        margin-top: 24px;
-        .description {
-            color: $colorTitle;
-            font-family: "Gotham";
-            font-size: 16px;
-            line-height: 24px;
-            text-align: justify;
-            font-weight: 500;
-        }
+    margin-top: 24px;
+    .description {
+      color: $colorTitle;
+      font-family: "Gotham";
+      font-size: 16px;
+      line-height: 24px;
+      text-align: justify;
+      font-weight: 500;
+    }
   }
   .category-top-children {
-      border-top: solid 1px #E0E0E0;
-      border-bottom: solid 1px #E0E0E0;
-      justify-content: center;
-      display: flex;
-      flex-wrap: wrap;
-      font-size: 16px;
-      line-height: 16px;
-      font-family: 'Gotham';
-      .category-top-child {
-          padding: 25px 15px;
-          a {
-            color: #101820;
-            font-family: 'Gotham';
-            font-weight: 500;
-          }
+    border-top: solid 1px #e0e0e0;
+    border-bottom: solid 1px #e0e0e0;
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 16px;
+    line-height: 16px;
+    font-family: "Gotham";
+    .category-top-child {
+      padding: 25px 15px;
+      a {
+        color: #101820;
+        font-family: "Gotham";
+        font-weight: 500;
       }
+    }
   }
 }
-
 
 .full-width-container {
   width: 99.3vw;
@@ -63,28 +62,28 @@ $colorTitle: #101820;
 }
 
 .products-gallery-root .product-list-container-siminia .left-navigation {
-    display: inline-block;
-    max-width: 279px;
-    margin-left: -1px;
-    padding-top: 8px;
-    .left-nav-pcompare {
-        font-family: 'Gotham Book';
-        padding-top: 34px;
-        .left-nav-pcompare-title {
-            text-transform: uppercase;
-            font-size: 16px;
-            line-height: 16px;
-            font-weight: 500;
-        }
-        .left-nav-pcompare-content {
-            margin-top: 14px;
-            font-weight: 500;
-            font-size: 14px;
-            line-height: 14px;
-        }
+  display: inline-block;
+  max-width: 279px;
+  margin-left: -1px;
+  padding-top: 8px;
+  .left-nav-pcompare {
+    font-family: "Gotham Book";
+    padding-top: 34px;
+    .left-nav-pcompare-title {
+      text-transform: uppercase;
+      font-size: 16px;
+      line-height: 16px;
+      font-weight: 500;
     }
+    .left-nav-pcompare-content {
+      margin-top: 14px;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 14px;
+    }
+  }
 }
-.products-gallery-root .product-list-container-siminia .listing-product{
+.products-gallery-root .product-list-container-siminia .listing-product {
   display: inline-block;
   width: 100%;
   padding-left: 16px;
@@ -95,17 +94,22 @@ $colorTitle: #101820;
   margin: 0 15px;
 }
 
-.products-gallery-root .product-list-container-siminia .top-sort-by .sort-by-select .dropdownoption{
+.products-gallery-root .product-list-container-siminia .top-sort-by .sort-by-select .dropdownoption {
   border-radius: unset;
   border: 1px solid $colorTitle;
   box-sizing: border-box;
   padding: 16px 16px;
 }
-.products-gallery-root .product-list-container-siminia .top-sort-by .sort-by-select .dropdownoption-title{
+.products-gallery-root .product-list-container-siminia .top-sort-by .sort-by-select .dropdownoption-title {
   line-height: unset;
   max-height: 16px;
 }
-.products-gallery-root .product-list-container-siminia .top-sort-by .sort-by-select .dropdownoption-title .dropdown-title{
+.products-gallery-root
+  .product-list-container-siminia
+  .top-sort-by
+  .sort-by-select
+  .dropdownoption-title
+  .dropdown-title {
   color: $colorTitle;
   font-family: "Gotham";
   font-size: 14px;
@@ -113,13 +117,13 @@ $colorTitle: #101820;
   font-weight: 500;
   max-height: 14px;
 }
-.products-gallery-root .product-list-container-siminia .top-sort-by .sort-by-select .dropdownoption-title-down-ic{
+.products-gallery-root .product-list-container-siminia .top-sort-by .sort-by-select .dropdownoption-title-down-ic {
   width: unset;
   height: unset;
   margin-top: -1px;
   margin-bottom: -1px;
 }
-.products-gallery-root .product-list-container-siminia .top-sort-by .sort-by-select .dropdownoption-title-up-ic{
+.products-gallery-root .product-list-container-siminia .top-sort-by .sort-by-select .dropdownoption-title-up-ic {
   width: unset;
   height: unset;
   margin-top: -1px;
@@ -200,19 +204,19 @@ Sort by
   margin-top: 56px;
 }
 /* Pagination */
-.products-gallery-root .product-grid-pagination{
+.products-gallery-root .product-grid-pagination {
   margin-top: 22px;
 }
-.products-gallery-root .product-grid-pagination .load-more{
-  background-color : $colorTitle;
+.products-gallery-root .product-grid-pagination .load-more {
+  background-color: $colorTitle;
   height: 36px;
   width: 145px;
   margin: auto;
   cursor: pointer;
 }
 
-.products-gallery-root .product-grid-pagination .btn-load-more{
-  color: #FFF;
+.products-gallery-root .product-grid-pagination .btn-load-more {
+  color: #fff;
   font-family: Gotham;
   font-size: 12px;
   font-weight: 500;
@@ -222,12 +226,12 @@ Sort by
   text-transform: uppercase;
   padding-top: 12px;
 }
-.products-gallery-root .recent-viewed-product{
+.products-gallery-root .recent-viewed-product {
   margin-left: -45px;
   margin-right: -45px;
 }
 
-.products-gallery-root .recent-viewed-product .recent-viewed-title{
+.products-gallery-root .recent-viewed-product .recent-viewed-title {
   color: $colorTitle;
   font-family: Didot;
   font-size: 24px;
@@ -237,18 +241,18 @@ Sort by
   margin-top: 65px;
 }
 
-.products-gallery-root .recent-viewed-product .recent-viewed-slide{
+.products-gallery-root .recent-viewed-product .recent-viewed-slide {
   margin-top: 31px;
   min-height: 540px;
 }
-@media(max-width: 1439px){
-  .products-gallery-root .recent-viewed-product{
+@media (max-width: 1439px) {
+  .products-gallery-root .recent-viewed-product {
     margin-left: unset;
     margin-right: unset;
   }
 }
-@media(max-width:1199px){
-  .products-gallery-root .siminia-product-grid-item .siminia-product-des{
+@media (max-width: 1199px) {
+  .products-gallery-root .siminia-product-grid-item .siminia-product-des {
     padding: 16px 10px;
   }
 }
@@ -259,7 +263,7 @@ Sort by
     min-width: 180px;
     min-height: 48px;
   }
-  .products-gallery-root .product-list-container-siminia .top-sort-by .sort-by-select .dropdownoption{
+  .products-gallery-root .product-list-container-siminia .top-sort-by .sort-by-select .dropdownoption {
     width: unset;
     min-width: 180px;
     min-height: 48px;
@@ -276,53 +280,73 @@ Sort by
   }
 }
 
-
 @media (max-width: 1023px) {
-  .full-width-container {
-    width: 100vw;
+  
+    .full-width-container {
+        width: 100vw;
+      }
+    .products-gallery-root .gallery {
+    margin-top: 10px;
   }
-  .products-gallery-root .product-list-container-siminia .left-navigation {
-    width: 100%;
-    margin: 0;
+  .top-sort-by .dir-item {
+    padding: 10px 0px;
+    display: flex;
+    justify-content: space-between;
   }
-  .products-gallery-root .product-list-container-siminia .top-sort-by .sort-by-select {
+  .top-sort-by .sort-by-select {
     min-height: 45px;
-  }
-
-  .products-gallery-root .product-list-container-siminia .top-sort-by .sort-by-select {
-    top: 8px;
-  }
-  .products-gallery-root .shopping-option {
-    display: none;
+    margin-top: 30px;
   }
   .products-gallery-root .product-list-container-siminia {
     padding: 0;
+    margin-top: 10px;
   }
-  .products-gallery-root .product-list-container-siminia .top-sort-by .dir-item {
-    padding: 10px 0px;
-  }
-  .products-gallery-root .product-list-container-siminia .top-sort-by .items-count {
+  .top-sort-by .items-count {
     margin: unset;
     margin-top: 45px;
     padding: 0;
     height: 19px;
   }
-  .products-gallery-root .siminia-product-grid-item .siminia-product-des{
-    padding: 16px 24px;
+  .products-gallery-root .siminia-product-grid-item .siminia-product-des {
+    padding: 9px;
   }
-  .products-gallery-root .product-list-container-siminia .listing-product{
+  .products-gallery-root .product-list-container-siminia .listing-product {
     padding-left: unset;
   }
-  .products-gallery-root .product-list-container-siminia .top-sort-by .sort-by-select .dropdownoption{
+  .top-sort-by .sort-by-select .dropdownoption {
     max-width: 279px;
     background-color: #f2f2f2;
     border: unset;
   }
-  .products-gallery-root .product-list-container-siminia .left-navigation .siminia-phone-filter{
-    background-color: #f2f2f2;
+  .mobile-bottom-filter {
+    position: fixed;
+    bottom: 0;
+    height: 45px;
+    width: 100%;
+    background-color: #101820;
+    left: 0px;
+    padding: 14px 16px;
+    z-index: 2;
+    font-size: 12px;
+    font-family: "Gotham";
+    font-weight: 500;
+    color: white;
+    display: flex;
+    justify-content: space-between;
   }
-  .products-gallery-root .product-list-container-siminia .filter-products .MuiListItem-root{
-    margin-bottom: unset;
+  .mobile-bottom-filter .mobile-bottom-filter-subitem {
+    display: flex;
+  }
+  .mobile-bottom-filter .mobile-bottom-btn {
+    color: white;
+    margin-top: 2px;
+  }
+  .mobile-bottom-filter .mobile-bottom-btn-title {
+    margin-left: 5px;
+    margin-right: 5px;
+    text-transform: uppercase;
+  }
+  div[class*="_modal_"] {
+    margin-top: 50px;
   }
 }
-

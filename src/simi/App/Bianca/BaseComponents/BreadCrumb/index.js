@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDom from 'react-dom'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
-
+require('./style.scss');
 class Breadcrumb extends React.Component{
     renderBreadcrumb = data => {
         const {history} = this.props
