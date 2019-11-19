@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link } from 'src/drivers';
 import { cateUrlSuffix } from 'src/simi/Helper/Url';
+import Identify from 'src/simi/Helper/Identify';
 
 const NavMegaitem = props => {
+    const storeConfig = Identify.getStoreConfig();
+    const baseUrl = storeConfig.storeConfig.base_url
+
     if (props.itemAndChild) {
         const { classes } = props;
         const rootItem = props.itemAndChild;
@@ -95,8 +99,8 @@ const NavMegaitem = props => {
                         <div className={`${classes['mega-image']} hidden-xs`}>
                             <img
                                 src={
-                                    rootItem.image_url
-                                        ? rootItem.image_url
+                                    rootItem.image
+                                        ? `${baseUrl}/pub/media/catalog/category/${rootItem.image}`
                                         : 'https://www.simicart.com/media/simicart/mockup-ps-simipwa.png'
                                 }
                                 alt={rootItem.image_url}
