@@ -20,7 +20,7 @@ import ReactHTMLParse from 'react-html-parser';
 import BreadCrumb from "src/simi/App/Bianca/BaseComponents/BreadCrumb";
 import Tabs from "src/simi/App/Bianca/BaseComponents/Tabs";
 import { TopReview, ReviewList, NewReview } from './Review'
-import SocialShare from 'src/simi/BaseComponents/SocialShare';
+import SocialShare from 'src/simi/App/Bianca/BaseComponents/SocialShare';
 import Description from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Description';
 // import Techspec from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/Techspec';
 import LinkedProduct from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail/LinkedProduct';
@@ -31,6 +31,7 @@ import Modal from 'react-responsive-modal';
 import {sendRequest} from 'src/simi/Network/RestMagento';
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
+import { getOS } from 'src/simi/App/Bianca/Helper';
 
 const ConfigurableOptions = React.lazy(() => import('./Options/ConfigurableOptions'));
 const CustomOptions = React.lazy(() => import('./Options/CustomOptions'));
@@ -43,6 +44,9 @@ const TrytobuyOptions = React.lazy(() => import('src/simi/App/Bianca/Components/
 import {addRecentViewedProducts} from '../../../Helper/Biancaproduct'
 
 require('./productFullDetail.scss');
+if (getOS() === 'MacOS') {
+    require('src/simi/App/Bianca/Components/Product/ProductFullDetail/style-macos.scss');
+}
 
 class ProductFullDetail extends Component {  
     constructor(props) {
@@ -242,10 +246,10 @@ class ProductFullDetail extends Component {
         // try to fetch storelocations
         if (this.stores.length <= 0) {
             this.getStoreLocations((stores) => {
-                this.setState({openModal: true});
+                this.setState({openModal: true, reserveSubmitting: false});
             });
         } else {
-            this.setState({openModal: true});
+            this.setState({openModal: true, reserveSubmitting: false});
         }
     };
 
@@ -288,9 +292,12 @@ class ProductFullDetail extends Component {
         regData.customer_name = this.props.customerLastname ? this.props.customerFirstname : `${this.props.customerFirstname} ${this.props.customerLastname}`;
         sendRequest('/rest/V1/simiconnector/reserve', (data) => {
             if (data && data === true) {
-                this.setState({reserveSuccess: true, reserveError: ''});
+                this.setState({reserveSuccess: true, reserveError: '', reserveSubmitting: false});
+            } else {
+                this.setState({openModal: false, reserveSubmitting: false});
             }
         }, 'POST', null, regData);
+        this.setState({reserveSubmitting: true});
     }
 
     showError(data) {
@@ -355,6 +362,30 @@ class ProductFullDetail extends Component {
                     })
                 }
             }
+        }
+
+        // sorting options
+        if (configurable_options) {
+            let startSortOrder = 3;
+            configurable_options.map((option) => {
+                if (option.attribute_code === 'size') {
+                    option.sort_order = 1;
+                    return option;
+                }
+                if (option.attribute_code === 'color') {
+                    option.sort_order = 2;
+                    return option;
+                }
+                option.sort_order = startSortOrder;
+                startSortOrder += 1;
+                return option;
+            });
+            configurable_options.sort(function(a, b){
+                if (a.sort_order && b.sort_order){
+                    return a.sort_order - b.sort_order;
+                }
+                return 0;
+            })
         }
 
         const isConfigurable = isProductConfigurable(props.product);
@@ -443,6 +474,12 @@ class ProductFullDetail extends Component {
         );
     }
 
+    handleAddYourReview = () => {
+        if(this.tabs){
+            this.tabs.openTab(2);
+        }
+    }
+
     vendorName = () => {
         const { product: {simiExtraField: {attribute_values: attribute_values} }} = this.props;
         if (attribute_values && attribute_values.vendor_id) {
@@ -459,6 +496,10 @@ class ProductFullDetail extends Component {
             }
         }
         return null
+    }
+
+    componentDidMount(){
+        smoothScrollToView($('#siminia-main-page'));
     }
     
     render() {
@@ -498,9 +539,9 @@ class ProductFullDetail extends Component {
                         <div className="main-actions">
                             <div className="vendor-name">{this.vendorName()}</div>
                             <div className="top-review">
-                                {hasReview ? <TopReview app_reviews={product.simiExtraField.app_reviews}/> : null}
-                                <div role="presentation" className="review-btn" onClick={()=>smoothScrollToView($('#product-detail-new-review'))}>
-                                    {hasReview ? Identify.__('Add your review') : Identify.__('Be the first to review this product')}
+                                <TopReview app_reviews={product.simiExtraField.app_reviews}/>
+                                <div role="presentation" className="review-btn" onClick={this.handleAddYourReview}>
+                                    {Identify.__('Add your review')}
                                 </div>
                             </div>
                             <div className="product-price">
@@ -548,7 +589,10 @@ class ProductFullDetail extends Component {
                     </div>
                 </div>
                 <div className="main-info">
-                    <Tabs>
+                    <Tabs activeItem={0} 
+                        scrollTo={() => smoothScrollToView($('#product-detail-new-review'))} 
+                        objRef={(tabs) => this.tabs = tabs}
+                    >
                         <div label={Identify.__('Delivery & Returns')}>
                             <div className="delivery-returns">
                                 {delivery_returns}
@@ -610,12 +654,16 @@ class ProductFullDetail extends Component {
                                     </div>
                                     {this.state.reserveError && <div className="error">{this.state.reserveError}</div>}
                                 </div>
-                                <div className="submit-btn" onClick={() => this.handleReserveSubmit({
-                                    product_id: product.id,
-                                    product_name: product.name,
-                                })}>
-                                    <span>{Identify.__('Submit')}</span>
-                                </div>
+                                {
+                                    this.state.reserveSubmitting ? 
+                                    <Loading /> :
+                                    <div className="submit-btn" onClick={() => this.handleReserveSubmit({
+                                        product_id: product.id,
+                                        product_name: product.name,
+                                    })}>
+                                        <span>{Identify.__('Submit')}</span>
+                                    </div>
+                                }
                             </div>
                         }
                     </div>

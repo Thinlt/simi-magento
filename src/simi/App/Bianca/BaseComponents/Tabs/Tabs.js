@@ -10,14 +10,42 @@ class Tabs extends Component {
 
     constructor(props) {
         super(props);
-
+        let activeItem = this.props.children[0];
+        if (this.props.activeItem !== undefined && this.props.activeItem !== null) {
+            activeItem = this.props.children[this.props.activeItem];
+        }
+        if (this.props.children) {
+            const activeItemFind = this.props.children.find((item) => {
+                return item.props.isActive === 1;
+            });
+            if (activeItemFind) activeItem = activeItemFind;
+        }
         this.state = {
-            activeTab: this.props.children[0].props.label,
+            activeTab: activeItem.props.label,
         };
+        if (this.props.objRef) {
+            this.props.objRef(this);
+        }
+    }
+
+    componentDidUpdate(){
+        if (this.state.scrollTo) {
+            this.state.scrollTo();
+        }
     }
 
     onClickTabItem = (tab) => {
-        this.setState({ activeTab: tab });
+        this.setState({ activeTab: tab});
+    }
+
+    openTab = (tabId) => {
+        if(this.props.children[tabId]){
+            let newState = {}
+            if (this.props.scrollTo) {
+                newState.scrollTo = this.props.scrollTo;
+            }
+            this.setState({ activeTab: this.props.children[tabId].props.label, ...newState});
+        }
     }
 
     render() {

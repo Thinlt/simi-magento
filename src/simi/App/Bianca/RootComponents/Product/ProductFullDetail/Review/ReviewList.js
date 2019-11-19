@@ -125,14 +125,18 @@ const ReviewList = props => {
     const renderAverageStar = () => {
         const { count, total } = data;
 
-        const averageStar =
-            (5 * count['5_star'] +
+        let averageStar = 0;
+        let roundedAverageStar = 0;
+        if (total !== 0) {
+            averageStar =
+                (5 * count['5_star'] +
                 4 * count['4_star'] +
                 3 * count['3_star'] +
                 2 * count['2_star'] +
-                1 * count['1_star']) /
-            total;
-        const roundedAverageStar = averageStar.toFixed(1);
+                1 * count['1_star']
+                ) / total;
+            roundedAverageStar = averageStar.toFixed(1);
+        }
         return (
             <div className="total-rate">
                 <StaticRate rate={averageStar} size={24} width={137}/>
