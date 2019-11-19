@@ -231,6 +231,20 @@ $color2: #727272;
                                     top: 48px;
                                     z-index: 999;
                                     width: 100%;
+                                    .MuiList-root{
+                                        >ul li{
+                                            list-style: none;
+                                            padding: 8px;
+                                            padding-left: 16px;
+                                            padding-right: 16px;
+                                            font-weight: 500;
+                                            font-family: 'Gotham Book';
+                                            &._selected{
+                                                background-color: #000;
+                                                color: #fff;
+                                            }
+                                        }
+                                    }
                                 }
                             }
                             .size-guide{

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { arrayOf, func, object, shape, string } from 'prop-types';
 import TileList from './tileList';
 import ListItemNested from 'src/simi/App/Bianca/BaseComponents/MuiListItem/Nested';
+import List from 'src/simi/App/Bianca/Components/Product/ProductFullDetail/Options/ConfigurableOptions/List';
 import Identify from 'src/simi/Helper/Identify';
 import QuestionIcon from 'src/simi/App/Bianca/BaseComponents/Icon/Question';
 require('./option.scss');
@@ -9,8 +10,10 @@ require('./option.scss');
 const getItemKey = ({ value_index }) => value_index;
 
 class Option extends Component {
+
 	constructor(props) {
 		super(props);
+		this.state = {optionKey: null}
 	}
 	static propTypes = {
 		attribute_id: string,
@@ -37,12 +40,20 @@ class Option extends Component {
 				}
 			}
 			onSelectionChange(attribute_id, selection);
+			if (this.refListItem) {
+				this.refListItem.closeMenu();
+			}
+			this.setState({optionKey});
 		}
 	};
 
 	handleAskOption = () => {
 		const { attribute_id, onAskOption } = this.props;
 		onAskOption(attribute_id);
+	}
+
+	createRefListItem = (obj) => {
+		this.refListItem = obj;
 	}
 
 	render() {
@@ -58,13 +69,15 @@ class Option extends Component {
 					<div className="list-size">
 						<div className="option-select">
 							<ListItemNested
+								obj={this.createRefListItem}
 								primarytext={<div className="choose-your-size">{Identify.__('Choose your size...')}</div>}
 							>
-								<TileList
+								<List
 									getItemKey={getItemKey}
 									items={values}
 									onSelectionChange={handleSelectionChange}
 									attribute_code={attribute_code}
+									defaultSelection={this.state.optionKey}
 								/>
 							</ListItemNested>
 						</div>

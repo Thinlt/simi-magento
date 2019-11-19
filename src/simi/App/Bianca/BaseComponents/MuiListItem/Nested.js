@@ -40,11 +40,12 @@ class NestedListItem extends React.Component {
     render() {
         const className = this.props.className?this.props.className:'';
         const primaryText = Identify.isRtl()? <div style={{textAlign: 'right'}}>{this.props.primarytext}</div> : this.props.primarytext
-        
+        if (this.props.obj) {
+            this.props.obj(this);
+        }
         return (
             <div ref={this.refListItem}>
                 <ListItem
-                    {...this.props}
                     button
                     className={className}
                     onClick={this.handleClick}
