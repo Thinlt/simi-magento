@@ -174,18 +174,14 @@ $color2: #727272;
                         .list-color{
                             margin-top: -8px;
                             margin-bottom: -8px;
-                            div:nth-child(1){
+                            margin-left: -8px;
+                            margin-right: -8px;
+                            >div:nth-child(1){
                                 flex-wrap: wrap;
-                                max-width: 376px;
+                                max-width: 392px;
                             }
                             .group-options{
                                 padding: 8px;
-                                &:first-child{
-                                    padding-left: 0px;
-                                }
-                                &:last-child{
-                                    padding-right: 0px;
-                                }
                                 .tile-root{
                                     background-color: unset;
                                     box-sizing: border-box;
