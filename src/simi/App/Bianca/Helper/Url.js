@@ -42,13 +42,7 @@ export const logoUrl = () => {
 		}
 		return logoUrl;
 	}
-	return '/images/header_logo.jpg'; // default logo static file
-	// if (dbConfig && dbConfig["app-configs"] && dbConfig["app-configs"][0] &&  dbConfig["app-configs"][0]["app_images"] && dbConfig["app-configs"][0]["app_images"]["logo"]) {
-	//     return dbConfig["app-configs"][0]["app_images"]["logo"]
-	// }
-	// return window.SMCONFIGS.logo_url ?
-	//     window.SMCONFIGS.logo_url :
-	// 'https://www.simicart.com/skin/frontend/default/simicart2.1/images/simicart/new_logo_small.png'
+	return '/images/header_logo.jpg';
 };
 export const logoAlt = () => {
 	const { storeConfig } = Identify.getStoreConfig() || { storeConfig: null };

@@ -51,7 +51,7 @@ class LeftMenuContent extends React.Component{
 
     renderItemDownloadApp =()=> {
         const jsonSimiCart = Identify.getAppDashboardConfigs();
-        if (jsonSimiCart) {
+        if (jsonSimiCart && jsonSimiCart['app-configs'] && jsonSimiCart['app-configs'][0]) {
             const config = jsonSimiCart['app-configs'][0];
             if(Identify.detectPlatforms() === 1 && config.ios_link){
                 return (
@@ -77,6 +77,8 @@ class LeftMenuContent extends React.Component{
 
     renderPbItem = () => {
         const jsonSimiCart = Identify.getAppDashboardConfigs();
+        if (!jsonSimiCart || !jsonSimiCart['app-configs'] || !jsonSimiCart['app-configs'][0])
+            return
         const config = jsonSimiCart['app-configs'][0];
         const menu_pb_page = []
         if (

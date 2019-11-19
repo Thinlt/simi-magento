@@ -100,7 +100,7 @@ class Dashboardmenu extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <aside className={this.props.className} style={{backgroundColor: configColor.menu_background}}>
+                <aside className={this.props.className}>
                     {this.renderLeftMenu()}
                 </aside>
                 {this.renderBottomMenu()}
