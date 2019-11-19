@@ -43,8 +43,9 @@ const NavMegaitem = props => {
                         : item.link,
                     state: {}
                 };
+
                 return (
-                    <div key={index}>
+                    <div key={index} className="mega-lv1-list">
                         <Link
                             className={classes['mega-lv1-name']}
                             to={location}
@@ -68,15 +69,15 @@ const NavMegaitem = props => {
                     </div>
                 );
             });
-            const childCatGroups = [];
-            const chunkSize = Math.ceil(childCats.length / childCol);
-            for (var i = 0; i < childCats.length; i += chunkSize) {
-                childCatGroups.push(
-                    <div className="mega-lv2-list-cats" key={i}>
-                        {childCats.slice(i, i + chunkSize)}
-                    </div>
-                );
-            }
+            // const childCatGroups = [];
+            // const chunkSize = Math.ceil(childCats.length / childCol);
+            // for (var i = 0; i < childCats.length; i += chunkSize) {
+            //     childCatGroups.push(
+            //         <div className="mega-lv2-list-cats" key={i}>
+            //             {childCats.slice(i, i + chunkSize)}
+            //         </div>
+            //     );
+            // }
 
             return (
                 <div className={classes['nav-mega-item']} id={props.id}>
@@ -88,7 +89,7 @@ const NavMegaitem = props => {
                                 props.toggleMegaItemContainer();
                         }}
                     >
-                        {childCatGroups}
+                        {childCats}
                     </div>
                     {
                         <div className={`${classes['mega-image']} hidden-xs`}>
