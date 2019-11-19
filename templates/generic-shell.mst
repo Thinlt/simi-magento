@@ -1,5 +1,5 @@
 {{> templates/open-document}}
-    <title>Siminia</title>
+    <title>Bianca Nera</title>
   {{> templates/open-body }}
     <div id="root">
         {{> templates/splash}}

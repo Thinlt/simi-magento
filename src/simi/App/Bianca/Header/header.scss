@@ -796,6 +796,9 @@ body.fixed-scroll {
     .header-wrapper.mobile .container-header .header .header-logo .header-image{
         width: unset;
     }
+    .header-wrapper.mobile .container-header .header .header-logo .header-image img{
+        background-color: #E4E4E4;
+    }
     .header-wrapper .container-global-notice .notice-inner .notice-msg{
         width: 100%;
     }
