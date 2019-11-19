@@ -1,7 +1,6 @@
 import React from 'react';
 import Identify from 'src/simi/Helper/Identify'
 import Checkbox from 'src/simi/BaseComponents/Checkbox'
-import Dropdownplus from 'src/simi/BaseComponents/Dropdownplus'
 import { withRouter } from 'react-router-dom';
 import { formatPrice } from 'src/simi/Helper/Pricing';
 import ListItemNested from 'src/simi/App/Bianca/BaseComponents/MuiListItem/Nested';
@@ -10,27 +9,10 @@ require ('./filter.scss')
 class Filter extends React.Component {
     constructor(props) {
         super(props);
-        const isPhone = window.innerWidth < 1024 ;
-        this.state = {isPhone}
         this.rowFilterAttributes = []
         this.rowsActived = []
         this.filtersToApply = {}
         this.activedItems = {}
-    }
-
-    setIsPhone(){
-        const obj = this;
-        $(window).resize(function () {
-            const width = window.innerWidth;
-            const isPhone = width < 1024;
-            if(obj.state.isPhone !== isPhone){
-                obj.setState({isPhone})
-            }
-        })
-    }
-
-    componentDidMount(){
-        this.setIsPhone();
     }
 
     renderActivedFilters() {
@@ -161,9 +143,8 @@ class Filter extends React.Component {
         const { props } = this
         const {filterData} = props
         
-        return this.state.isPhone?'':
-        (filterData)
-        ? (<div className="action-clear">
+        return  filterData ? 
+        (<div className="action-clear">
                 <div 
                     role="presentation"
                     onClick={() => this.clearFilter()}
@@ -220,15 +201,7 @@ class Filter extends React.Component {
                 </div>
         if (this.rowsActived.length === 0 && this.rowFilterAttributes.length === 0)
                 return ''
-                
-        return this.state.isPhone?
-        <ListItemNested
-            className="siminia-phone-filter"
-            primarytext={Identify.__('SHOPPING OPTION')}
-        >
-            {filterProducts}
-        </ListItemNested>
-        :filterProducts;
+        return filterProducts;
     }
 }
 

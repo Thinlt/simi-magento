@@ -15,8 +15,17 @@
     margin-bottom: 10px;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1279px) {
     .gallery-items {
         grid-template-columns: repeat(2, 1fr);
     }
+}
+
+
+
+@media(min-width: 1280px){
+    
+}
+@media(max-width: 1279px) {
+
 }
