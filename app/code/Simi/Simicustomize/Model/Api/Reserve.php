@@ -103,44 +103,48 @@ class Reserve extends \Simi\Simiconnector\Model\Api\Apiabstract implements \Simi
             try{
                 $reserve->save();
                 
-                // send email to customer
-                $customer = $this->simiObjectManager->create('\Magento\Customer\Model\Customer')->load($data['customer_id']);
-                if ($customer->getEmail()) {
-                    $this->inlineTranslation->suspend();
-                    $postObject = new \Magento\Framework\DataObject();
-                    $postObject->setData($reserve->getData());
-                    $postObject->setData('customer_email', $customer->getEmail());
-                    $postObject->setData('email', $customer->getEmail());
-                    
-                    $error = false;
-                    $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-                    
-                    $sender = [
-                        'name' => $this->config->getValue('trans_email/ident_sales/name', $storeScope),
-                        'email' => $this->config->getValue('trans_email/ident_sales/email', $storeScope),
-                    ];
-                    
-                    $transport = $this->transportBuilder
-                        ->setTemplateIdentifier($this->config->getValue('sales/reserve/emailTemplate', $storeScope)) // this code we have mentioned in the email_templates.xml
-                        ->setTemplateOptions([
-                            'area' => \Magento\Framework\App\Area::AREA_ADMINHTML, // this is using frontend area to get the template file
-                            'store' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
-                        ])
-                        ->setTemplateVars(['data' => $postObject])
-                        ->setFrom($sender)
-                        ->addTo($customer->getEmail())
-                        ->getTransport();
-                    
-                    $transport->sendMessage();
-                    $this->inlineTranslation->resume();
+                try{
+                    // send email to customer
+                    $customer = $this->simiObjectManager->create('\Magento\Customer\Model\Customer')->load($data['customer_id']);
+                    if ($customer->getEmail()) {
+                        $this->inlineTranslation->suspend();
+                        $postObject = new \Magento\Framework\DataObject();
+                        $postObject->setData($reserve->getData());
+                        $postObject->setData('customer_email', $customer->getEmail());
+                        $postObject->setData('email', $customer->getEmail());
+                        
+                        $error = false;
+                        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+                        
+                        $sender = [
+                            'name' => $this->config->getValue('trans_email/ident_sales/name', $storeScope),
+                            'email' => $this->config->getValue('trans_email/ident_sales/email', $storeScope),
+                        ];
+                        
+                        $transport = $this->transportBuilder
+                            ->setTemplateIdentifier($this->config->getValue('sales/reserve/emailTemplate', $storeScope)) // this code we have mentioned in the email_templates.xml
+                            ->setTemplateOptions([
+                                'area' => \Magento\Framework\App\Area::AREA_ADMINHTML, // this is using frontend area to get the template file
+                                'store' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
+                            ])
+                            ->setTemplateVars(['data' => $postObject])
+                            ->setFrom($sender)
+                            ->addTo($customer->getEmail())
+                            ->getTransport();
+                        
+                        $transport->sendMessage();
+                        $this->inlineTranslation->resume();
+                    }
+                }catch(\Exception $e){
+                    // return ['data' => ['status' => false, 'message' => $e->getMessage()]];
                 }
                 
                 return true;
             }catch(\Exception $e){
-                return false;
+                return ['data' => ['status' => false, 'message' => $e->getMessage()]];
             }
         }
-        return false;
+        return ['data' => ['status' => false, 'message' => __('Invalid request value!')]];
     }
 
     /**
