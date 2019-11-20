@@ -203,12 +203,12 @@
                     <comment>Note: use relative link</comment>
                 </field>
             </group>
-            <group id="pwa_footer_subcribe" translate="label" type="text" sortOrder="599" showInDefault="1" showInWebsite="1">
+            <group id="pwa_footer_subcribe" translate="label" type="text" sortOrder="599" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Config footer-logo and subcribe description at footer</label>
                 <field id="bianca_subcribe_description" translate="label" type="textarea" sortOrder="1899" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Subcribe description</label>
                 </field>
-                <field id="footer_logo" translate="label" type="Magento\Config\Block\System\Config\Form\Field\File" sortOrder="1911" showInDefault="1" showInWebsite="1" >
+                <field id="footer_logo" translate="label" type="Magento\Config\Block\System\Config\Form\Field\File" sortOrder="1911" showInDefault="1" showInWebsite="1" showInStore="1" >
                     <label>Upload footer logo</label>
                     <backend_model>Simi\Simipwa\Model\Config\Backend\FooterLogo</backend_model>
                     <upload_dir config="system" scope_info="1">footer_logo</upload_dir>
@@ -219,7 +219,7 @@
                     <comment>Example: footer-bianca</comment>
                 </field>
             </group>
-            <group id="pwa_footer" translate="label" type="text" sortOrder="699" showInDefault="1" showInWebsite="1">
+            <group id="pwa_footer" translate="label" type="text" sortOrder="699" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Contact us at Footer</label>
                 <field id="bianca_footer_phone" translate="label" type="text" sortOrder="1999" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Phone number at footer</label>
