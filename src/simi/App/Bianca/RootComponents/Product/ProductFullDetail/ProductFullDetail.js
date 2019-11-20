@@ -520,6 +520,8 @@ class ProductFullDetail extends Component {
         const { config } = storeConfig && storeConfig.simiStoreConfig || null;
         const { delivery_returns, preorder_deposit } = config;
         const product = prepareProduct(props.product);
+        console.log(product)
+        console.log(config)
         const { is_dummy_data, name, simiExtraField } = product;
         const short_desc = (product.short_description && product.short_description.html)?product.short_description.html:'';
         // const hasReview = simiExtraField && simiExtraField.app_reviews && simiExtraField.app_reviews.number;
