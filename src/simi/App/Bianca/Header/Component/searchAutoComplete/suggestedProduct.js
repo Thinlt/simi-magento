@@ -21,7 +21,7 @@ const SuggestedProduct = props => {
     }
     const logo_url = logoUrl()
     const { classes, url_key, small_image, name, price, type_id, simiExtraField } = props;
-    console.log(price)
+    // console.log(price)
     const uri = resourceUrl(`/${url_key}${productUrlSuffix()}`);
     const place_holder_img = <img alt={name} src={logo_url} style={{maxWidth: 60, maxHeight: 60}}/>
 
