@@ -69,7 +69,7 @@ class Storeview extends React.Component {
                     return(
                         <div className={this.props.className}>
                             <ListItemNested
-                                primarytext={<div className={'menu-title'} >{Identify.__('Storeview')}</div>}
+                                primarytext={<div className={'menu-title'} >{Identify.__('Language')}</div>}
                                 >
                                 {this.renderSubItem(storeViews)}
                             </ListItemNested>
