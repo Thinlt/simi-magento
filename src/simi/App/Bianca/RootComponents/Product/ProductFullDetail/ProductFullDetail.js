@@ -560,7 +560,9 @@ class ProductFullDetail extends Component {
                             </div>
                             <div className="product-short-desc">
                                 {ReactHTMLParse(short_desc)}
-                                {preorder_deposit && <p className="deposit">{Identify.__(`Deposit ${preorder_deposit}%`)}</p>}
+                                {pre_order === '1' && preorder_deposit ? 
+                                    <p className="deposit">{Identify.__(`Deposit ${preorder_deposit}%`)}</p> 
+                                    : null }
                             </div>
                             <div className="options">{productOptions}</div>
                             {
