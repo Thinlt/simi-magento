@@ -79,8 +79,10 @@ class CheckoutCartProductAddBefore implements ObserverInterface {
                     }
                     if (isset($requestInfo['super_attribute'])) {
                         foreach($itemIds as $itemId){
-                            if (serialize($requestInfo['super_attribute']) == serialize($productOptionsSuperAttribute[$product->getId()][$itemId])) {
-                                throw new \Exception(__('This product has existed in cart'));
+                            if (isset($productOptionsSuperAttribute[$product->getId()][$itemId])) {
+                                if (serialize($requestInfo['super_attribute']) == serialize($productOptionsSuperAttribute[$product->getId()][$itemId])) {
+                                    throw new \Exception(__('This product has existed in cart'));
+                                }
                             }
                         }
                     }
