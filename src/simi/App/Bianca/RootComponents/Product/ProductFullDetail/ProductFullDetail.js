@@ -517,7 +517,8 @@ class ProductFullDetail extends Component {
         const { addToCart, addToCartWithParams, addToCompare, reserveAction, productOptions, props, state, addToWishlist } = this;
         const { optionCodes, optionSelections, } = state;
         const storeConfig = Identify.getStoreConfig()
-        const delivery_returns = storeConfig && storeConfig.simiStoreConfig && storeConfig.simiStoreConfig.config && storeConfig.simiStoreConfig.config.delivery_returns || null;
+        const { config } = storeConfig && storeConfig.simiStoreConfig || null;
+        const { delivery_returns, preorder_deposit } = config;
         const product = prepareProduct(props.product);
         const { is_dummy_data, name, simiExtraField } = product;
         const short_desc = (product.short_description && product.short_description.html)?product.short_description.html:'';
@@ -557,7 +558,10 @@ class ProductFullDetail extends Component {
                             <div className="product-price">
                                 <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections}/>
                             </div>
-                            <div className="product-short-desc">{ReactHTMLParse(short_desc)}</div>
+                            <div className="product-short-desc">
+                                {ReactHTMLParse(short_desc)}
+                                {preorder_deposit && <p className="deposit">{Identify.__(`Deposit ${preorder_deposit}%`)}</p>}
+                            </div>
                             <div className="options">{productOptions}</div>
                             {
                                 is_dummy_data ?
