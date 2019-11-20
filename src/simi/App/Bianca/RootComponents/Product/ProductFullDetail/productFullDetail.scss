@@ -45,7 +45,6 @@ $color2: #727272;
                                 transform: none!important;
                                 display: flex;
                                 flex-direction: column;
-                                overflow-y: scroll;
                                 min-height: 103px;
                                 max-height: 593px;
                                 flex-wrap: nowrap;
@@ -54,6 +53,30 @@ $color2: #727272;
                                 flex-flow: wrap;
                                 margin-right: 16px;
                                 width: 100%;
+                                overflow-y: auto;
+                                /* width */
+                                &::-webkit-scrollbar {
+                                    width: 3px;
+                                }
+                                &::-webkit-scrollbar * {
+                                    background: transparent;
+                                }
+                                &::-webkit-scrollbar-track-piece {
+                                    background: transparent!important;
+                                }
+                                /* Track */
+                                &::-webkit-scrollbar-track {
+                                    background: #7272722b;
+                                }
+                                /* Handle */
+                                &::-webkit-scrollbar-thumb {
+                                    background: #10182080;
+                                    border-radius: 5px;
+                                }
+                                /* Handle on hover */
+                                &::-webkit-scrollbar-thumb:hover {
+                                    background: #101820db;
+                                }
                                 .thumb{
                                     margin: 0;
                                     margin-bottom: 16px;
@@ -160,6 +183,9 @@ $color2: #727272;
                     // text-align: justify;
                     margin-top: 24px;
                     max-width: 350px;
+                    .deposit{
+                        margin-top: 6px;
+                    }
                 }
                 .options{
                     .option-root{
@@ -547,6 +573,9 @@ $color2: #727272;
                     font-size: 16px;
                     line-height: 16px;
                 }
+            }
+            .reserve-error{
+                color: #b91c1c;
             }
         }
     }
