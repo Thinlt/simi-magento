@@ -14,7 +14,7 @@ import { productUrlSuffix } from 'src/simi/Helper/Url';
 
 const SuggestedProduct = props => {
     const handleClick = () => {
-        const { onNavigate } = this.props;
+        const { onNavigate } = props;
         if (typeof onNavigate === 'function') {
             onNavigate();
         }
