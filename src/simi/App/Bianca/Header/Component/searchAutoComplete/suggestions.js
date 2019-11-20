@@ -8,6 +8,7 @@ import defaultClasses from './suggestions.css';
 
 const Suggestions = props => {
     const { products, searchValue, setVisible, visible } = props;
+    // console.log(products)
     const { filters, items } = products;
     const classes = mergeClasses(defaultClasses, props.classes);
 
