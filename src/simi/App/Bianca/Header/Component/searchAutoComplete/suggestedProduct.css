@@ -24,3 +24,23 @@
     line-height: 19px;
     font-weight: 500;
 }
+.price{
+    
+}
+.price div:nth-child(1) div:nth-child(1){
+    margin-top: 8px;
+    margin-bottom: 12.56px;
+}
+.price span{
+    display: block;
+    height: 16px;
+}
+.price span span{
+    display: inline-block;
+    color: #101820;
+    font-family: Gotham;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 19px;
+    text-align: center;
+}
