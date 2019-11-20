@@ -184,7 +184,7 @@
                     </depends>
                 </field>
             </group>
-            <group id="pwa_header" translate="label" type="text" sortOrder="499" showInDefault="1" showInWebsite="1">
+            <group id="pwa_header" translate="label" type="text" sortOrder="499" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Header PWA Studio</label>
                 <field id="bianca_header_phone" translate="label" type="text" sortOrder="1499" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Phone number on header</label>
