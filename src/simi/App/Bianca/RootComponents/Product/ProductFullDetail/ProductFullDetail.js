@@ -342,9 +342,12 @@ class ProductFullDetail extends Component {
     get isMissingConfigurableOptions() {
         const { product } = this.props;
         const { configurable_options } = product;
-        const numProductOptions = configurable_options.length;
-        const numProductSelections = this.state.optionSelections.size;
-        return numProductSelections < numProductOptions;
+        if (configurable_options) {
+            const numProductOptions = configurable_options.length;
+            const numProductSelections = this.state.optionSelections.size;
+            return numProductSelections < numProductOptions;
+        }
+        return false;
     }
 
     get fallback() {
