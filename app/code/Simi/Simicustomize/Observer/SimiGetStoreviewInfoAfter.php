@@ -30,6 +30,7 @@ class SimiGetStoreviewInfoAfter implements ObserverInterface {
             //TODO: will be sync with Ocean system in the future
             $object->storeviewInfo['vendor_list'] = $this->vendorList->getVendorList(); //get all vendors
             $object->storeviewInfo['delivery_returns'] = $this->config->getValue('sales/policy/delivery_returns'); //get all vendors
+            $object->storeviewInfo['preorder_deposit'] = $this->config->getValue('sales/preorder/deposit_amount'); //get all vendors
         }
     }
 }
