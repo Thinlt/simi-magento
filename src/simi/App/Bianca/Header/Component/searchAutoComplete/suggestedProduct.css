@@ -24,18 +24,17 @@
     line-height: 19px;
     font-weight: 500;
 }
-.price{
-    
+.price {
 }
-.price div:nth-child(1) div:nth-child(1){
+.price div:nth-child(1) div:nth-child(1) {
     margin-top: 8px;
     margin-bottom: 12.56px;
 }
-.price span{
+.price span {
     display: block;
     height: 16px;
 }
-.price span span{
+.price span span {
     display: inline-block;
     color: #101820;
     font-family: Gotham;
@@ -43,4 +42,14 @@
     font-weight: 700;
     line-height: 19px;
     text-align: center;
+}
+.price span[class~='sale_off'] {
+    display: none !important;
+}
+.price div[class~='special'] span[class~='label'] {
+    display: none !important;
+}
+.price span[class ~= "old"] span{
+    text-decoration: line-through;
+    color: rgb(114, 114, 114) !important;
 }
