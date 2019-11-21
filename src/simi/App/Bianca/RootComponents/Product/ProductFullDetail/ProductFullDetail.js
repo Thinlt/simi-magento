@@ -474,11 +474,15 @@ class ProductFullDetail extends Component {
 
     breadcrumb = (product) => {
         const breadcrumbs = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, Constants.BREADCRUMBS);
-        let breadcrumbData = breadcrumbs;
-        if (breadcrumbData && breadcrumbData instanceof Array) {
-            breadcrumbData.push({name: product.name});
-        }
-        return <BreadCrumb breadcrumb={breadcrumbData} history={this.props.history}/>
+        // let breadcrumbData = breadcrumbs;
+        // if (breadcrumbData && breadcrumbData instanceof Array) {
+        //     breadcrumbData.push({name: product.name});
+        // }
+        return (
+            <BreadCrumb breadcrumb={breadcrumbs} history={this.props.history}>
+                {product.name}
+            </BreadCrumb>
+        );
     }
 
     tabItem = (props) => {

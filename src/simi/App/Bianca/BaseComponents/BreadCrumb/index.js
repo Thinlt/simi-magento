@@ -16,7 +16,7 @@ class Breadcrumb extends React.Component{
     }
 
     renderBreadcrumb = data => {
-        const {history} = this.props
+        const {history, children} = this.props
         if(data.length > 0){
             const size = data.length;
             const breadcrumb = data.map((item,key) => {
@@ -36,6 +36,16 @@ class Breadcrumb extends React.Component{
                     </React.Fragment>
                 )
             },this)
+            if (children) {
+                breadcrumb.push(
+                    <React.Fragment key={children}>
+                        <span className="breadcrumb-arrow">/ </span>
+                        <span role="presentation" className="breadcrumb-item">
+                            {children}
+                        </span>
+                    </React.Fragment>
+                );
+            }
             return breadcrumb
         }
     }
