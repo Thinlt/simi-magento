@@ -58,7 +58,7 @@ class Option extends Component {
 
 	render() {
 		const { handleSelectionChange, handleAskOption, props } = this;
-		const { attribute_code, label, values } = props;
+		const { attribute_code, label, values, attribute_id } = props;
 		if (attribute_code === 'size') {
 			return (
 				<div className="option-root">
@@ -77,6 +77,7 @@ class Option extends Component {
 									items={values}
 									onSelectionChange={handleSelectionChange}
 									attribute_code={attribute_code}
+									attribute_id={attribute_id}
 									defaultSelection={this.state.optionKey}
 								/>
 							</ListItemNested>

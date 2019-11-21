@@ -9,6 +9,7 @@ import ProductImage from './ProductImage';
 // import Quantity from './ProductQuantity';
 import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
+import * as Constants from 'src/simi/Config/Constants';
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import {prepareProduct} from 'src/simi/Helper/Product'
 import ProductPrice from '../Component/Productprice';
@@ -242,6 +243,7 @@ class ProductFullDetail extends Component {
         if (!this.props.isSignedIn) {
             // this.props.history.push(`/login.html?return=${this.props.location.pathname}`);
             this.props.history.push('/login.html');
+            return;
         }
         // get product option selected
         this.missingOption = false
@@ -297,6 +299,7 @@ class ProductFullDetail extends Component {
         }
         regData.customer_id = this.props.customerId;
         regData.customer_name = this.props.customerLastname ? this.props.customerFirstname : `${this.props.customerFirstname} ${this.props.customerLastname}`;
+        // regData.category_name = '';
         sendRequest('/rest/V1/simiconnector/reserve', (data) => {
             if (data && data === true) {
                 this.setState({reserveSubmited: true, reserveSuccess: true, reserveError: '', reserveSubmitting: false});
@@ -470,7 +473,12 @@ class ProductFullDetail extends Component {
     }
 
     breadcrumb = (product) => {
-        return <BreadCrumb breadcrumb={[{name:'Home',link:'/'},{name:product.name}]} history={this.props.history}/>
+        const breadcrumbs = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, Constants.BREADCRUMBS);
+        let breadcrumbData = breadcrumbs;
+        if (breadcrumbData && breadcrumbData instanceof Array) {
+            breadcrumbData.push({name: product.name});
+        }
+        return <BreadCrumb breadcrumb={breadcrumbData} history={this.props.history}/>
     }
 
     tabItem = (props) => {
@@ -520,8 +528,6 @@ class ProductFullDetail extends Component {
         const { config } = storeConfig && storeConfig.simiStoreConfig || null;
         const { delivery_returns, preorder_deposit } = config;
         const product = prepareProduct(props.product);
-        console.log(product)
-        console.log(config)
         const { is_dummy_data, name, simiExtraField } = product;
         const short_desc = (product.short_description && product.short_description.html)?product.short_description.html:'';
         // const hasReview = simiExtraField && simiExtraField.app_reviews && simiExtraField.app_reviews.number;

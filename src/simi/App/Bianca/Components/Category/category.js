@@ -87,7 +87,7 @@ const Category = props => {
 
                 //breadcrumb
                 const categoryTitle = data && data.category ? data.category.name : '';
-                const breadcrumb = [{name: "Home", link: '/'}];
+                const breadcrumb = [{name: Identify.__("Home"), link: '/'}];
                 if(data && data.category && data.category.breadcrumbs instanceof Array) {
                     data.category.breadcrumbs.forEach(item => {
                         breadcrumb.push({name: item.category_name, link: '/' + item.category_url_key + cateUrlSuffix()})
