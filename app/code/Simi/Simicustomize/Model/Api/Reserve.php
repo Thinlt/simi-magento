@@ -66,6 +66,7 @@ class Reserve extends \Simi\Simiconnector\Model\Api\Apiabstract implements \Simi
         if (isset($data['product_id']) && isset($data['storelocator_id']) && isset($data['customer_id'])) {
             $reserve->setData('product_id', $data['product_id']);
             $reserve->setData('product_name', $data['product_name']);
+            // $reserve->setData('category_name', $data['category_name']);
             $reserve->setData('storelocator_id', $data['storelocator_id']);
             $reserve->setData('store_name', $data['store_name']);
             $reserve->setData('customer_id', $data['customer_id']);
@@ -91,6 +92,9 @@ class Reserve extends \Simi\Simiconnector\Model\Api\Apiabstract implements \Simi
                         $attr = $_product->getResource()->getAttribute($code);
                         if ($attr->usesSource()) {
                             $optionText = $attr->getSource()->getOptionText($optionId);
+                            if (is_array($optionText)) {
+                                $optionText = implode(',', $optionText);
+                            }
                             $optionInfos[] = $attr->getAttributeCode().' '.$optionText;
                         }
                     }
@@ -112,7 +116,30 @@ class Reserve extends \Simi\Simiconnector\Model\Api\Apiabstract implements \Simi
                         $postObject->setData($reserve->getData());
                         $postObject->setData('customer_email', $customer->getEmail());
                         $postObject->setData('email', $customer->getEmail());
-                        
+
+                        //get store address from Storelocator
+                        $storeLocatorId = $reserve->getData('storelocator_id');
+                        $storeLocator = $this->simiObjectManager->get('\Simi\Simistorelocator\Model\Store')->load($storeLocatorId);
+                        $postObject->setData('store_address', $storeLocator->getAddress());
+                        // reservation date format
+                        $postObject->setData('reservation_date', $this->getFormatDate($reserve->getData('reservation_date')));
+
+                        //get first category
+                        $product = $this->simiObjectManager->get('\Magento\Catalog\Model\Product')->load($reserve->getData('product_id'));
+                        if ($product->getId()) {
+                            $categoryIds = $product->getCategoryIds();
+                            $categoryId = isset($categoryIds[0]) ? end($categoryIds) : false;
+                            if ($categoryId) {
+                                $categoryCollection = $this->simiObjectManager->get('\Magento\Catalog\Model\Category')->getCollection();
+                                $categoryCollection->addAttributeToFilter('entity_id', $categoryId);
+                                $category = $categoryCollection->getFirstItem();
+                                $category->load($category->getId());
+                                if ($category) {
+                                    $postObject->setData('category_name', $category->getName());
+                                }
+                            }
+                        }
+
                         $error = false;
                         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
                         
@@ -190,5 +217,9 @@ class Reserve extends \Simi\Simiconnector\Model\Api\Apiabstract implements \Simi
             }
         }
         return $date;
+    }
+
+    protected function getFormatDate($date){
+        return date('F d, Y', $this->date->gmtTimestamp($date));
     }
 }
