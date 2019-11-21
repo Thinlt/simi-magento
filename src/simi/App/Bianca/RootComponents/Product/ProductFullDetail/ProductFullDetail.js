@@ -474,10 +474,6 @@ class ProductFullDetail extends Component {
 
     breadcrumb = (product) => {
         const breadcrumbs = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, Constants.BREADCRUMBS);
-        // let breadcrumbData = breadcrumbs;
-        // if (breadcrumbData && breadcrumbData instanceof Array) {
-        //     breadcrumbData.push({name: product.name});
-        // }
         return (
             <BreadCrumb breadcrumb={breadcrumbs} history={this.props.history}>
                 {product.name}
@@ -748,5 +744,5 @@ const mapStateToProps = ({ user }) => {
         customerId: id
     };
 }
-// export default (withRouter)(ProductFullDetail);
+
 export default compose(connect(mapStateToProps), withRouter)(ProductFullDetail);
