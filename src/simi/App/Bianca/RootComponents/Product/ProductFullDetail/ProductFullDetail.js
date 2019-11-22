@@ -9,6 +9,7 @@ import ProductImage from './ProductImage';
 // import Quantity from './ProductQuantity';
 import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
+import * as Constants from 'src/simi/Config/Constants';
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import {prepareProduct} from 'src/simi/Helper/Product'
 import ProductPrice from '../Component/Productprice';
@@ -138,10 +139,10 @@ class ProductFullDetail extends Component {
                 this.missingOption = true
             }
         }
+        if (this.isMissingConfigurableOptions) {
+            this.missingOption = true
+        }
         if (optionSelections && optionSelections.size) { //configurable option
-            if (this.isMissingConfigurableOptions) {
-                this.missingOption = true
-            }
             const super_attribute = {}
             optionSelections.forEach((value, key) => {
                 super_attribute[String(key)] = String(value)
@@ -234,7 +235,7 @@ class ProductFullDetail extends Component {
 
     onCloseReserve = () => {
         this.reserveStoreId = null;
-        this.setState({openModal: false, reserveSuccess: false, reserveError: ''});
+        this.setState({openModal: false, reserveSubmited: false, reserveSuccess: false, reserveError: '', reserveMessage: ''});
     }
 
     reserveAction = () => {
@@ -242,6 +243,14 @@ class ProductFullDetail extends Component {
         if (!this.props.isSignedIn) {
             // this.props.history.push(`/login.html?return=${this.props.location.pathname}`);
             this.props.history.push('/login.html');
+            return;
+        }
+        // get product option selected
+        this.missingOption = false
+        this.prepareParams();
+        if (this.missingOption) {
+            showToastMessage(Identify.__('Please select the options required (*)'));
+            return
         }
         // try to fetch storelocations
         if (this.stores.length <= 0) {
@@ -290,11 +299,12 @@ class ProductFullDetail extends Component {
         }
         regData.customer_id = this.props.customerId;
         regData.customer_name = this.props.customerLastname ? this.props.customerFirstname : `${this.props.customerFirstname} ${this.props.customerLastname}`;
+        // regData.category_name = '';
         sendRequest('/rest/V1/simiconnector/reserve', (data) => {
             if (data && data === true) {
-                this.setState({reserveSuccess: true, reserveError: '', reserveSubmitting: false});
+                this.setState({reserveSubmited: true, reserveSuccess: true, reserveError: '', reserveSubmitting: false});
             } else {
-                this.setState({openModal: false, reserveSubmitting: false});
+                this.setState({openModal: true, reserveSubmited: true, reserveSuccess: false, reserveMessage: data.message, reserveError: '', reserveSubmitting: false});
             }
         }, 'POST', null, regData);
         this.setState({reserveSubmitting: true});
@@ -335,9 +345,12 @@ class ProductFullDetail extends Component {
     get isMissingConfigurableOptions() {
         const { product } = this.props;
         const { configurable_options } = product;
-        const numProductOptions = configurable_options.length;
-        const numProductSelections = this.state.optionSelections.size;
-        return numProductSelections < numProductOptions;
+        if (configurable_options) {
+            const numProductOptions = configurable_options.length;
+            const numProductSelections = this.state.optionSelections.size;
+            return numProductSelections < numProductOptions;
+        }
+        return false;
     }
 
     get fallback() {
@@ -460,7 +473,12 @@ class ProductFullDetail extends Component {
     }
 
     breadcrumb = (product) => {
-        return <BreadCrumb breadcrumb={[{name:'Home',link:'/'},{name:product.name}]} history={this.props.history}/>
+        const breadcrumbs = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, Constants.BREADCRUMBS);
+        return (
+            <BreadCrumb breadcrumb={breadcrumbs} history={this.props.history}>
+                {product.name}
+            </BreadCrumb>
+        );
     }
 
     tabItem = (props) => {
@@ -507,11 +525,12 @@ class ProductFullDetail extends Component {
         const { addToCart, addToCartWithParams, addToCompare, reserveAction, productOptions, props, state, addToWishlist } = this;
         const { optionCodes, optionSelections, } = state;
         const storeConfig = Identify.getStoreConfig()
-        const delivery_returns = storeConfig && storeConfig.simiStoreConfig && storeConfig.simiStoreConfig.config && storeConfig.simiStoreConfig.config.delivery_returns || null;
+        const { config } = storeConfig && storeConfig.simiStoreConfig || null;
+        const { delivery_returns, preorder_deposit } = config;
         const product = prepareProduct(props.product);
-        const { type_id, name, simiExtraField } = product;
+        const { is_dummy_data, name, simiExtraField } = product;
         const short_desc = (product.short_description && product.short_description.html)?product.short_description.html:'';
-        const hasReview = simiExtraField && simiExtraField.app_reviews && simiExtraField.app_reviews.number;
+        // const hasReview = simiExtraField && simiExtraField.app_reviews && simiExtraField.app_reviews.number;
         const {attribute_values: {pre_order, try_to_buy, reservable}} = simiExtraField;
         return (
             <div className="container product-detail-root">
@@ -547,43 +566,51 @@ class ProductFullDetail extends Component {
                             <div className="product-price">
                                 <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections}/>
                             </div>
-                            <div className="product-short-desc">{ReactHTMLParse(short_desc)}</div>
-                            <div className="options">{productOptions}</div>
-                            <div className="cart-actions">
-                                {/* {
-                                    type_id !== 'grouped' &&
-                                    <Quantity
-                                        initialValue={this.quantity}
-                                        onValueChange={this.setQuantity}
-                                    />
-                                } */}
-                                {
-                                    pre_order === '1' && try_to_buy !== '1' && reservable !== '1' ? 
-                                    <div className="cart-ctn">
-                                        <Colorbtn className="pre-order-btn btn btn__black" onClick={() => addToCartWithParams({pre_order: '1'})} text={Identify.__('Pre-order')}/>
-                                    </div>
-                                    :
-                                    <div className="cart-ctn">
-                                        <Colorbtn className="add-to-cart-btn btn btn__black" onClick={addToCart} text={Identify.__('Add to Cart')}/>
-                                    </div>
-                                }
-                                <div className="cart-ctn">
-                                    <Whitebtn className="buy-1-click-btn btn btn__white" onClick={() => addToCartWithParams({buy1click: '1'})} text={Identify.__('Buy with 1-click')}/>
-                                </div>
-                                {
-                                    reservable === '1' && 
-                                    <div className="cart-ctn">
-                                        <Whitebtn className="reserve-btn btn btn__white" onClick={reserveAction} text={Identify.__('Reserve')}/>
-                                    </div>
-                                }
-                                <div className="wishlist-actions action-icon">
-                                    <button onClick={addToWishlist} title={Identify.__('Add to Favourites')}><Favorite /></button>
-                                </div>
-                                <div className="compare-actions action-icon">
-                                    <button onClick={addToCompare} title={Identify.__('Compare')}><CompareIcon /></button>
-                                </div>
+                            <div className="product-short-desc">
+                                {ReactHTMLParse(short_desc)}
+                                {pre_order === '1' && preorder_deposit ? 
+                                    <p className="deposit">{Identify.__(`Deposit ${preorder_deposit}%`)}</p> 
+                                    : null }
                             </div>
-                            
+                            <div className="options">{productOptions}</div>
+                            {
+                                is_dummy_data ?
+                                <Loading /> :
+                                <div className="cart-actions">
+                                    {/* {
+                                        type_id !== 'grouped' &&
+                                        <Quantity
+                                            initialValue={this.quantity}
+                                            onValueChange={this.setQuantity}
+                                        />
+                                    } */}
+                                    {
+                                        pre_order === '1' && try_to_buy !== '1' && reservable !== '1' ? 
+                                        <div className="cart-ctn">
+                                            <Colorbtn className="pre-order-btn btn btn__black" onClick={() => addToCartWithParams({pre_order: '1'})} text={Identify.__('Pre-order')}/>
+                                        </div>
+                                        :
+                                        <div className="cart-ctn">
+                                            <Colorbtn className="add-to-cart-btn btn btn__black" onClick={addToCart} text={Identify.__('Add to Cart')}/>
+                                        </div>
+                                    }
+                                    <div className="cart-ctn">
+                                        <Whitebtn className="buy-1-click-btn btn btn__white" onClick={() => addToCartWithParams({buy1click: '1'})} text={Identify.__('Buy with 1-click')}/>
+                                    </div>
+                                    {
+                                        reservable === '1' && 
+                                        <div className="cart-ctn">
+                                            <Whitebtn className="reserve-btn btn btn__white" onClick={reserveAction} text={Identify.__('Reserve')}/>
+                                        </div>
+                                    }
+                                    <div className="wishlist-actions action-icon">
+                                        <button onClick={addToWishlist} title={Identify.__('Add to Favourites')}><Favorite /></button>
+                                    </div>
+                                    <div className="compare-actions action-icon">
+                                        <button onClick={addToCompare} title={Identify.__('Compare')}><CompareIcon /></button>
+                                    </div>
+                                </div>
+                            }
                             <div className="social-share"><SocialShare id={product.id} className="social-share-item" /></div>
                         </div>
                     </div>
@@ -633,10 +660,14 @@ class ProductFullDetail extends Component {
                             <p>{Identify.__('Please visit chosen store in next working day to try your item. Contact us if you have any question.')}</p>
                         </div>
                         {
-                            this.state.reserveSuccess ? 
-                            <div className="modal-body">
-                                <div className="reserve-success"><h3>{Identify.__('Thank you for your reservation!')}</h3></div>
-                            </div>
+                            this.state.reserveSubmited ? 
+                                this.state.reserveSuccess ? 
+                                <div className="modal-body">
+                                    <div className="reserve-success"><h3>{Identify.__('Thank you for your reservation!')}</h3></div>
+                                </div> :
+                                <div className="modal-body">
+                                    <div className="reserve-error error">{Identify.__(this.state.reserveMessage)}</div>
+                                </div>
                             :
                             <div className="modal-body">
                                 <div className="locations-select">
@@ -713,5 +744,5 @@ const mapStateToProps = ({ user }) => {
         customerId: id
     };
 }
-// export default (withRouter)(ProductFullDetail);
+
 export default compose(connect(mapStateToProps), withRouter)(ProductFullDetail);
