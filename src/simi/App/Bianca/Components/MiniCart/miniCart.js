@@ -369,7 +369,8 @@ class MiniCart extends Component {
             cart: { isOptionsDrawerOpen, isLoading },
             classes,
             isMiniCartMaskOpen,
-            isOpen
+            isOpen,
+            isCartEmpty
         } = props;
 
         const className = isOpen ? classes.root_open : classes.root;
@@ -378,14 +379,19 @@ class MiniCart extends Component {
 
         return (
             <aside className={`${className} minicart`}>
-                <div className={classes.header}>
-                    <h2 className={classes.title}>
-                        <span>{title}</span>
-                    </h2>
-                    <Trigger>
-                        <Icon src={CloseIcon} />
-                    </Trigger>
-                </div>
+                {isCartEmpty
+                ?
+                    <div className={classes.header}></div>
+                :
+                    <div className={classes.header}>
+                        <h2 className={classes.title}>
+                            <span>{title}</span>
+                        </h2>
+                        <Trigger>
+                            <Icon src={CloseIcon} />
+                        </Trigger>
+                    </div>
+                }
                 {isLoading ? <Loading /> : body}
                 <Mask isActive={isMiniCartMaskOpen} dismiss={cancelCheckout} />
             </aside>
