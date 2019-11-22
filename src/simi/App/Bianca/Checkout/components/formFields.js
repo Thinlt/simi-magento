@@ -2,6 +2,7 @@ import React, { useCallback, Fragment, useState } from 'react';
 import { Util } from '@magento/peregrine';
 import Checkbox from 'src/components/Checkbox';
 import Button from 'src/components/Button';
+import { Colorbtn } from 'src/simi/BaseComponents/Button'
 import Select from 'src/components/Select';
 import Identify from 'src/simi/Helper/Identify';
 import { checkExistingCustomer, simiSignIn } from 'src/simi/Model/Customer';
@@ -291,16 +292,15 @@ const FormFields = (props) => {
                         <div className='password'>
                             <div className={`address-field-label req`}>{Identify.__("Password")}</div>
                             <input id="password" type="password" name="password" className="isrequired"/>
-                            <span style={{ marginTop: 6, display: 'block' }}>{Identify.__('You already have an account with us. Sign in or continue as guest')}</span>
+                            <span className="existed-account-label">{Identify.__('You already have an account with us. Sign in or continue as guest')}</span>
                         </div>
                         <div className='btn_login_exist'>
-                            <Button
-                                className='button'
-                                style={{ marginTop: 10 }}
-                                type="button"
+                            <Colorbtn
+                                style={{ backgroundColor: '#101820', color: '#FFF' }}
+                                className="address-signin-button"
                                 onClick={() => handleSignIn()}
-                            >{Identify.__('Login')}</Button>
-                            <Link style={{ marginLeft: 5 }} to={forgotPasswordLocation}>{Identify.__('Forgot password?')}</Link>
+                                text={Identify.__('Login')} />
+                            <Link to={forgotPasswordLocation} className="address-forgot-pw-link">{Identify.__('Forgot password?')}</Link>
                         </div>
                     </Fragment>
                     }

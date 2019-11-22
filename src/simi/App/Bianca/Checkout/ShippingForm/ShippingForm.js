@@ -3,8 +3,7 @@ import React, {useEffect, useState, useMemo } from 'react';
 import { array, func, shape, string } from 'prop-types';
 import { formatLabelPrice } from 'src/simi/Helper/Pricing';
 import Identify from 'src/simi/Helper/Identify';
-// import FieldShippingMethod from 'src/simi/App/Bianca/Checkout/components/fieldShippingMethod';
-import Checkbox from 'src/simi/App/Bianca/BaseComponents/Checkbox'
+import Checkbox from '../../BaseComponents/Checkbox'
 import Loading from 'src/simi/BaseComponents/Loading/ReactLoading';
 import { request } from 'src/simi/Network/RestMagento';
 import { Util } from '@magento/peregrine';
