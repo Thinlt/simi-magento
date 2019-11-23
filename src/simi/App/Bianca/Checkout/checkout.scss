@@ -42,11 +42,15 @@
         background-color: white;
         border: 1px solid #101820;
         margin-bottom: 35px;
-        padding: 32px 24px !important;
+        padding: 22px 24px 32px !important;
+        .panel-icon button{
+            padding: 0;
+        }
     }
     .checkout-section-title {
         font-size: 18px;
         line-height: 18px;
+        padding-top: 15px;
         text-transform: uppercase;
         font-family: 'Gotham Medium';
         font-weight: 400;
@@ -89,6 +93,12 @@
             content: " *";
             color: #101820;
         }
+        .country, .region_code {
+            min-height: 89px;
+        }
+        .country > span, .region_code > span {
+            margin-bottom: 20px;
+        }
         
         input[type=text], input[type=email], input[type=tel], input[type=password] {
             background-color: #F2F2F2;
@@ -100,7 +110,13 @@
             line-height: 14px;
         }
         select {
-            border: none;
+            background-color: #F2F2F2;
+            padding: 17px 16px !important;
+            border: unset;
+            color: #727272;
+            font-size: 14px;
+            line-height: 14px;
+            height: unset;
         }
         .existed-account-label {
             display: block;
@@ -120,6 +136,47 @@
                 padding-top: 12px;
             }
         }
+        .save_in_address_book, .billing-same {
+            input[type=checkbox] {
+                border-radius: 0;
+                width: 24px;
+                height: 24px;
+            }
+            input[type=checkbox]:checked {
+                background-color: #101820;
+            }
+            .save_in_address_book_label, .addresses_same_label {
+                font-size: 12px;
+                line-height: 12px;
+                padding-top: 4px;
+                font-family: 'Gotham Book';
+            }
+            .save_in_address_book_icon, .addresses_same_icon {
+                grid-column: 1 / span 1;
+                grid-row: 1 / span 1;
+                height: 20px;
+                padding-top: 3px;
+                svg {
+                    color: white;
+                    z-index: 1;
+                }
+            }
+        }
+        .billing-same {
+            margin-bottom: 15px;
+        }
+    }
+    .footer button[type=submit] {
+        border-radius: 0;
+        background-color: #101820;
+        span {
+            padding-top: 4px;
+            text-transform: uppercase;
+            padding-top: 5px;
+        }
+    }
+    .footer button[type=submit]:hover {
+        background-color: #101820;
     }
     
     @media (min-width: 1024px) {
