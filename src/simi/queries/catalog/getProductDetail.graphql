@@ -48,6 +48,13 @@ query productDetail($urlKey: String, $onServer: Boolean!) {
             meta_title
             meta_keyword @include(if: $onServer)
             meta_description
+            categories {
+                id
+                name
+                path
+                url_key
+                url_path
+            }
         }
     }
   	simiProductDetailExtraField(filter: { url_key: { eq: $urlKey } })

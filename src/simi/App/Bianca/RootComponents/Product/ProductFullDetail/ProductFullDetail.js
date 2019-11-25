@@ -43,6 +43,7 @@ const GiftcardOptions = React.lazy(() => import('src/simi/App/Bianca/Components/
 const TrytobuyOptions = React.lazy(() => import('src/simi/App/Bianca/Components/Product/ProductFullDetail/Options/TrytobuyOptions'));
 
 import {addRecentViewedProducts} from '../../../Helper/Biancaproduct'
+import { productUrlSuffix } from 'src/simi/Helper/Url';
 
 require('./productFullDetail.scss');
 if (getOS() === 'MacOS') {
@@ -479,7 +480,16 @@ class ProductFullDetail extends Component {
     }
 
     breadcrumb = (product) => {
-        const breadcrumbs = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, Constants.BREADCRUMBS);
+        let breadcrumbs = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, Constants.BREADCRUMBS);
+        if (!breadcrumbs || breadcrumbs.length == 0) {
+            breadcrumbs = [{name: Identify.__("Home"), link: '/'}];
+            if (product && product.categories) {
+                let cate = product.categories.pop();
+                if (cate) {
+                    breadcrumbs.push({name: cate.name, link: cate.url_path+productUrlSuffix()});
+                }
+            }
+        }
         return (
             <BreadCrumb breadcrumb={breadcrumbs} history={this.props.history}>
                 {product.name}

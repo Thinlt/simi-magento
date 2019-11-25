@@ -50,6 +50,13 @@ query productDetail($sku: String, $onServer: Boolean!) {
             # everything else has `meta_keywords`.
             meta_keyword @include(if: $onServer)
             meta_description @include(if: $onServer)
+            categories {
+                id
+                name
+                path
+                url_key
+                url_path
+            }
         }
     }
   	simiProductDetailExtraField(filter:  { sku: { eq: $sku }})
