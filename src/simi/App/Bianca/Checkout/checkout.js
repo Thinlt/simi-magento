@@ -299,9 +299,11 @@ class Checkout extends Component {
                 </div>
                 <div className='checkout-col-3'>
                     <div className='col-3-content'>
-                        <OrderSummary parent={this} cart={cart} cartCurrencyCode={cartCurrencyCode}
-                            checkout={checkout} panelClassName='checkout-panel'/>
-                        {btnPlaceOrder}
+                        <OrderSummary parent={this} cart={cart}
+                            cartCurrencyCode={cartCurrencyCode}
+                            panelClassName='checkout-panel'
+                            btnPlaceOrder={btnPlaceOrder}
+                            />
                     </div>
                 </div>
             </div>

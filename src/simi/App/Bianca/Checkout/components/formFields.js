@@ -377,7 +377,11 @@ const FormFields = (props) => {
                         </div>
                         : null}
                     <div className='save_in_address_book'>
-                        <Checkbox field="save_in_address_book" label={Identify.__('Save in address book.')} />
+                        <Checkbox field="save_in_address_book" label={Identify.__('Save in address book.')}
+                            classes={{
+                                label: 'save_in_address_book_label',
+                                icon:'save_in_address_book_icon'
+                                }}/>
                     </div>
                     <div className='validation'>{validationMessage}</div>
                 </Fragment> : null}
@@ -386,7 +390,7 @@ const FormFields = (props) => {
     const viewSubmit = !usingSameAddress && (!isSignedIn || shippingNewForm || ((billingForm && storageBilling === 'new_address') || (!billingForm && storageShipping === 'new_address'))) ? (
         <div className='footer'>
             <Button
-                className='button'
+                className='button save-address-btn'
                 style={{ marginTop: 10, float: 'right' }}
                 type="submit"
                 priority="high"
@@ -415,6 +419,10 @@ const FormFields = (props) => {
                         {(billingForm && !is_virtual) && <Checkbox
                             fieldState={{value: usingSameAddress}}
                             field="addresses_same" label={Identify.__("Billing address same as shipping address")}
+                            classes={{
+                                label: 'addresses_same_label',
+                                icon:'addresses_same_icon'
+                                }}
                             onChange={() => toggleSameShippingAddress()} />}
                     </div>}
                 {viewFields}

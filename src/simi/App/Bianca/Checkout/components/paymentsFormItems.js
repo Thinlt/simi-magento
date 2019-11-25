@@ -175,7 +175,10 @@ const PaymentsFormItems = props => {
         <Fragment>
             <div className='body'>
                 <div className='payment-method-item'>
-                    <CustomRadioPayment initialValue={paymentCode} field="payment_method" key={thisInitialValue} onChange={() => selectPaymentMethod()}>
+                    <CustomRadioPayment 
+                        initialValue={paymentCode} field="payment_method" 
+                        key={thisInitialValue} onChange={() => selectPaymentMethod()}
+                        className='payment-method-radio'>
                         {renderMethod()}
                     </CustomRadioPayment>
                 </div>
