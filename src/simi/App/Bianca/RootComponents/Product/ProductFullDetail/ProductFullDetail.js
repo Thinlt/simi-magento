@@ -61,6 +61,7 @@ class ProductFullDetail extends Component {
         optionSelections: new Map(),
         openModal: false,
         reserveSuccess: false,
+        reserveModalMessage: false,
         reserveError: ''
     };
     quantity = 1;
@@ -238,6 +239,10 @@ class ProductFullDetail extends Component {
         this.setState({openModal: false, reserveSubmited: false, reserveSuccess: false, reserveError: '', reserveMessage: ''});
     }
 
+    onCloseReserveModalMessage = () => {
+        this.setState({reserveModalMessage: false});
+    }
+
     reserveAction = () => {
         // check user signedin
         if (!this.props.isSignedIn) {
@@ -249,7 +254,8 @@ class ProductFullDetail extends Component {
         this.missingOption = false
         this.prepareParams();
         if (this.missingOption) {
-            showToastMessage(Identify.__('Please select the options required (*)'));
+            this.setState({reserveModalMessage: true});
+            // showToastMessage(Identify.__('Please select the options required (*)'));
             return
         }
         // try to fetch storelocations
@@ -643,8 +649,19 @@ class ProductFullDetail extends Component {
                         </div> */}
                     </Tabs>
                 </div>
-                <LinkedProduct product={product} link_type="related" history={this.props.history}/>
+                {
+                    this.props.hideRelatedProduct !== true && 
+                    <LinkedProduct product={product} link_type="related" history={this.props.history}/>
+                }
                 {/* <LinkedProduct product={product} link_type="crosssell" history={this.props.history}/> */}
+                <Modal open={this.state.reserveModalMessage} onClose={this.onCloseReserveModalMessage}
+                    modalId={'reserve-modal-message'}
+                    closeIconId={'reserve-modal-close'}
+                    closeIconSize={16}
+                    closeIconSvgPath={<CloseIcon style={{fill: '#101820'}}/>}
+                >
+                    {Identify.__('Please select the options required (*)')}
+                </Modal>
                 <Modal open={this.state.openModal} onClose={this.onCloseReserve}
                     overlayId={'reserve-modal-overlay'}
                     modalId={'reserve-modal'}

@@ -5,9 +5,9 @@ import connectorGetProductDetailByUrl from 'src/simi/queries/catalog/getProductD
 import connectorGetProductDetailBySku from 'src/simi/queries/catalog/getProductDetailBySku.graphql'
 import { Simiquery } from 'src/simi/Network/Query' 
 import { saveDataToUrl, productUrlSuffix } from 'src/simi/Helper/Url';
-import Loading from 'src/simi/BaseComponents/Loading'
-import ProductFullDetail from '../../RootComponents/Product/ProductFullDetail'
-require('./index.scss')
+import Loading from 'src/simi/BaseComponents/Loading';
+import ProductFullDetail from 'src/simi/App/Bianca/RootComponents/Product/ProductFullDetail';
+require('./styles.scss');
 
 
 class QuickView extends React.Component {
@@ -66,7 +66,7 @@ class QuickView extends React.Component {
                         if (product) {
                             return (
                                 <ProductFullDetail
-                                    product={product}
+                                    product={product} hideRelatedProduct={true}
                                 />
                             );
                         }
@@ -76,13 +76,11 @@ class QuickView extends React.Component {
             );
         }
         return (
-            <div>
-                <Modal open={openModal} onClose={this.onCloseModal}>
-                    <div className="modal-quick-view">
-                        {dataModal(product)}
-                    </div>
-                </Modal>
-            </div>
+            <Modal modalId="modal-quick-view" overlayId="modal-quick-view-overlay" open={openModal} onClose={this.onCloseModal}>
+                <div className="modal-quick-view-inner">
+                    {dataModal(product)}
+                </div>
+            </Modal>
         )
     }
 }
