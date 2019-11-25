@@ -4,6 +4,7 @@ import { string, shape } from 'prop-types';
 import classify from 'src/classify';
 import Trigger from './trigger';
 import defaultClasses from './emptyMiniCart.css';
+import BasketIcon from '../../BaseComponents/Icon/Basket';
 
 class EmptyMiniCart extends Component {
     static propTypes = {
@@ -19,8 +20,9 @@ class EmptyMiniCart extends Component {
 
         return (
             <div className={classes.root}>
+                <BasketIcon style={{height: '30px', width: '30px'}}/>
                 <h3 className={classes.emptyTitle}>
-                    There are no items in your shopping cart
+                    YOUR CART IS EMPTY
                 </h3>
                 <Trigger>
                     <span className={classes.continue}>Continue Shopping</span>

@@ -8,17 +8,25 @@
 }
 
 .emptyTitle {
-    font-size: 1.5rem;
+    font-size: 24px;
     line-height: 1.25;
-    margin-bottom: 1.5rem;
+    margin-bottom: 92px;
+    font-weight: 500;
+    margin-top: 54px;
 }
 
 .continue {
     composes: root from '../../../../../components/Button/button.css';
     color: white;
-    background-color: rgb(var(--venia-teal));
+    font-weight: 500;
+    font-size: 16px;
+    background-color: #101820;
+    border-radius: 0;
+    height: 65px;
+    min-width: 478px;
+    width: auto;
 }
 
 .continue:hover {
-    color: rgb(var(--venia-teal));
+    cursor: pointer;
 }
