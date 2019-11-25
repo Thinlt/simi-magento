@@ -157,7 +157,6 @@ const PaymentsFormItems = props => {
                         }
                         if (parseInt(ite.simi_payment_data.show_type, 10) === 3){
                             // payment type 3
-                            frameCard = 'Coming soon!'
                         }
                     }
                 }
