@@ -91,6 +91,9 @@ $color2: #727272;
                                         width: 82px;
                                         max-height: 103px;
                                     }
+                                    &:last-child{
+                                        margin-bottom: 0px;
+                                    }
                                 }
                             }
                         }
@@ -116,6 +119,13 @@ $color2: #727272;
                     line-height: 32px;
                     // text-align: justify;
                     max-width: 365px;
+                    @media (max-width: 1199px){
+                        margin-top: 20px;
+                    }
+                    @media (max-width: 546px){
+                        max-width: 100%;
+                        margin-right: 14px;
+                    }
                 }
             }
             .main-actions{
@@ -133,6 +143,7 @@ $color2: #727272;
                             .price-configurable, .price-simple{
                                 .product-prices{
                                     display: flex;
+                                    flex-wrap: wrap;
                                     .price{
                                         font-size: 32px;
                                         line-height: 32px;
@@ -152,6 +163,9 @@ $color2: #727272;
                                             text-decoration: line-through;
                                             margin-left: 32px;
                                             padding-top: 0;
+                                            @media (max-width: 546px){
+                                                margin-left: 0px;
+                                            }
                                         }
                                         .label{display: none;}
                                         .sale_off{display: none;}
@@ -577,6 +591,22 @@ $color2: #727272;
             .reserve-error{
                 color: #b91c1c;
             }
+        }
+    }
+}
+#reserve-modal-message{
+    margin-top: 10%;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 20px;
+    padding-top: 20px;
+    padding-right: 30px;
+    #reserve-modal-close{
+        top: 6px;
+        right: 8px;
+        svg{
+            width: 12px;
+            height: 12px;
         }
     }
 }

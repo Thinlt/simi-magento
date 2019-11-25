@@ -15,7 +15,7 @@ const List = (props) => {
     });
 
     const handleFocus = (key) => {
-        setForcused(key);
+        setFocused(key);
     }
 
     const isSelected = (key) => key === selectedKey;

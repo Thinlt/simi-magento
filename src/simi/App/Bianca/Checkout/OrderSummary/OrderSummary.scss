@@ -1,0 +1,155 @@
+.checkout-bg  {
+    .order-summary {
+        .order-summary-content {
+            .rotate-180,
+            .arrow-down {
+                -webkit-transform: rotate(180deg);
+                -ms-transform: rotate(180deg);
+                transform: rotate(180deg);
+            }
+            .rotate-0{
+                -webkit-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            .checkout-section-title {
+                line-height: 48px;
+                font-size: 18px;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+            .order-items-header {
+                .item-count {
+                    display: flex;
+                    font-size: 16px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    justify-content: space-between;
+                }
+                .item-count > span {
+                    padding-top: 7px;
+                }
+            }
+            ul.items {
+                padding: 0;
+                margin-top: 35px;
+                border: none;
+            }
+            ul.items li.order-item {
+                display: flex;
+                margin-bottom: 30px;
+                justify-content: space-between;
+            }
+            li.order-item .item-image {
+                padding-bottom: 5px;
+            }
+            .item-info {
+                width: 60%;
+                max-width: 182px;
+            }
+            .item-name {
+                font-size: 14px;
+                font-weight: 200;
+                font-family: 'Gotham Book';
+            }
+            .cart-page-tapita .item-qty {
+                font-weight: 600;
+                margin-bottom: 12px;
+            }
+            .item-qty-price {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-top: 30px;
+                font-size: 14px;
+                font-family: 'Gotham';
+            }
+            .item-qty-price span.qty {
+                font-weight: 500;
+                white-space: nowrap;
+            }
+            .option-selected {
+                margin: 12px 0px 0px;
+                font-size: 12px;
+                color: #727272;
+                font-weight: 400;
+                font-family: 'Gotham Book';
+                display: flex;
+                flex-wrap: wrap;
+                .option-selected-item {
+                    width: 50%;
+                    .price {
+                        font-weight: 700;
+                    }
+                }
+            }
+
+            .cart-total {
+                margin-top: 32px;
+                font-size: 16px;
+                color: #101820;
+                font-family: 'Gotham Book';
+                .price {
+                    color: #101820 !important;
+                }
+                .label {
+                    font-size: 16px;
+                    color: #101820;
+                    padding: 0;
+                    line-height: 24px;
+                    font-weight: 400;
+                    white-space: unset;
+                    text-align: start;
+                }
+                .grand_total {
+                    font-size: 24px;
+                    text-transform: uppercase;
+                    .label {
+                        font-size: 24px;
+                    }
+                    .price {
+                        font-weight: 600;
+                    }
+                }
+            }
+
+            .checkout-bg-rtl .cart-total .label {
+                text-align: right;
+            }
+            .cart-total > div > div {
+                display: flex;
+                justify-content: space-between;
+                height: auto;
+                margin-bottom: 28px;
+            }
+
+            .shipping-address-detail .item-box {
+                padding-top: 20px;
+                padding-bottom: 20px;
+                border-bottom: 1px solid #f4f5f3;
+            }
+            .block-header {
+                font-size: 16px;
+                font-weight: 500;
+                padding-bottom: 10px;
+                text-transform: uppercase;
+            }
+            ul.address-item {
+                border-bottom: none;
+            }
+            ul.address-item li {
+                display: block;
+            }
+            .item-image img{
+                max-width: 80px;
+            }
+        }
+
+        @media (min-width: 1440px) {
+            .checkout-panel {
+                padding-left: 40px !important;
+                padding-right: 40px !important;
+            }
+        }
+    }
+}

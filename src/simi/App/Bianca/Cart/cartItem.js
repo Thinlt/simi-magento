@@ -34,7 +34,7 @@ const CartItem = props => {
             const option = options[i];
             optionText.push(
                 <div key={Identify.randomString(5)}>
-                    <b>{option.label}</b> : {ReactHTMLParse(option.value)}
+                    <span>{option.label}</span> : {ReactHTMLParse(option.value)}
                 </div>
             );
         }

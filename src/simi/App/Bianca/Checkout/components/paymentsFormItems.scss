@@ -1,0 +1,30 @@
+
+.checkout-panel {
+    .payment-method-item {
+        label {
+            grid-template-columns: auto;
+            margin-left: 0;
+            width: 100%;
+            justify-content: flex-start;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-bottom: 0px;
+            span {
+                font-size: 14px;
+                line-height: 14px;
+                font-family: 'Gotham Book';
+            }
+            input[type="radio"]:checked{
+                background-color: #101820;
+                border-color: #101820;
+                padding: 3px;
+            }
+        }
+        label:first-child {
+            margin-top: 0px;
+        }
+        input[type=checkbox], input[type=radio] {
+            margin-top: 0px;
+        }
+    }
+}

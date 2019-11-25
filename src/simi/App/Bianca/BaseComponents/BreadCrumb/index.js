@@ -2,24 +2,50 @@ import React from 'react'
 import ReactDom from 'react-dom'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
+import Identify from 'src/simi/Helper/Identify';
+import * as Constants from 'src/simi/Config/Constants';
 require('./style.scss');
 class Breadcrumb extends React.Component{
+
+    state = {}
+
+    static getDerivedStateFromProps(props, state){
+        const {breadcrumb} = props || [];
+        Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, Constants.BREADCRUMBS, breadcrumb);
+        return state;
+    }
+
     renderBreadcrumb = data => {
-        const {history} = this.props
+        const {history, children} = this.props
         if(data.length > 0){
             const size = data.length;
             const breadcrumb = data.map((item,key) => {
                 const action = size === key+1 ? ()=>{} : ()=>history.push(item.link)
                 const arrow = size === key+1 ? null : <span className="breadcrumb-arrow">/ </span>
+                let name = item.name.split(' ');
+                name = name.map((word) => {
+                    return word.charAt(0).toUpperCase() + word.toLowerCase().slice(1);
+                });
+                name = name.join(' ');
                 return (
                     <React.Fragment key={key}>
                         <span role="presentation" className="breadcrumb-item" onClick={()=>action()} onKeyUp={()=>action()}>
-                            {item.name}
+                            {name}
                         </span>
                         {arrow}
                     </React.Fragment>
                 )
             },this)
+            if (children) {
+                breadcrumb.push(
+                    <React.Fragment key={children}>
+                        <span className="breadcrumb-arrow">/ </span>
+                        <span role="presentation" className="breadcrumb-item">
+                            {children}
+                        </span>
+                    </React.Fragment>
+                );
+            }
             return breadcrumb
         }
     }

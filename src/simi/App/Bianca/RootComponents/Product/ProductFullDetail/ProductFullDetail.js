@@ -9,6 +9,7 @@ import ProductImage from './ProductImage';
 // import Quantity from './ProductQuantity';
 import isProductConfigurable from 'src/util/isProductConfigurable';
 import Identify from 'src/simi/Helper/Identify';
+import * as Constants from 'src/simi/Config/Constants';
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import {prepareProduct} from 'src/simi/Helper/Product'
 import ProductPrice from '../Component/Productprice';
@@ -42,6 +43,7 @@ const GiftcardOptions = React.lazy(() => import('src/simi/App/Bianca/Components/
 const TrytobuyOptions = React.lazy(() => import('src/simi/App/Bianca/Components/Product/ProductFullDetail/Options/TrytobuyOptions'));
 
 import {addRecentViewedProducts} from '../../../Helper/Biancaproduct'
+import { productUrlSuffix } from 'src/simi/Helper/Url';
 
 require('./productFullDetail.scss');
 if (getOS() === 'MacOS') {
@@ -60,6 +62,7 @@ class ProductFullDetail extends Component {
         optionSelections: new Map(),
         openModal: false,
         reserveSuccess: false,
+        reserveModalMessage: false,
         reserveError: ''
     };
     quantity = 1;
@@ -237,17 +240,23 @@ class ProductFullDetail extends Component {
         this.setState({openModal: false, reserveSubmited: false, reserveSuccess: false, reserveError: '', reserveMessage: ''});
     }
 
+    onCloseReserveModalMessage = () => {
+        this.setState({reserveModalMessage: false});
+    }
+
     reserveAction = () => {
         // check user signedin
         if (!this.props.isSignedIn) {
             // this.props.history.push(`/login.html?return=${this.props.location.pathname}`);
             this.props.history.push('/login.html');
+            return;
         }
         // get product option selected
         this.missingOption = false
         this.prepareParams();
         if (this.missingOption) {
-            showToastMessage(Identify.__('Please select the options required (*)'));
+            this.setState({reserveModalMessage: true});
+            // showToastMessage(Identify.__('Please select the options required (*)'));
             return
         }
         // try to fetch storelocations
@@ -297,6 +306,7 @@ class ProductFullDetail extends Component {
         }
         regData.customer_id = this.props.customerId;
         regData.customer_name = this.props.customerLastname ? this.props.customerFirstname : `${this.props.customerFirstname} ${this.props.customerLastname}`;
+        // regData.category_name = '';
         sendRequest('/rest/V1/simiconnector/reserve', (data) => {
             if (data && data === true) {
                 this.setState({reserveSubmited: true, reserveSuccess: true, reserveError: '', reserveSubmitting: false});
@@ -470,7 +480,21 @@ class ProductFullDetail extends Component {
     }
 
     breadcrumb = (product) => {
-        return <BreadCrumb breadcrumb={[{name:'Home',link:'/'},{name:product.name}]} history={this.props.history}/>
+        let breadcrumbs = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, Constants.BREADCRUMBS);
+        if (!breadcrumbs || breadcrumbs.length == 0) {
+            breadcrumbs = [{name: Identify.__("Home"), link: '/'}];
+            if (product && product.categories) {
+                let cate = product.categories.pop();
+                if (cate) {
+                    breadcrumbs.push({name: cate.name, link: cate.url_path+productUrlSuffix()});
+                }
+            }
+        }
+        return (
+            <BreadCrumb breadcrumb={breadcrumbs} history={this.props.history}>
+                {product.name}
+            </BreadCrumb>
+        );
     }
 
     tabItem = (props) => {
@@ -520,8 +544,6 @@ class ProductFullDetail extends Component {
         const { config } = storeConfig && storeConfig.simiStoreConfig || null;
         const { delivery_returns, preorder_deposit } = config;
         const product = prepareProduct(props.product);
-        console.log(product)
-        console.log(config)
         const { is_dummy_data, name, simiExtraField } = product;
         const short_desc = (product.short_description && product.short_description.html)?product.short_description.html:'';
         // const hasReview = simiExtraField && simiExtraField.app_reviews && simiExtraField.app_reviews.number;
@@ -637,8 +659,19 @@ class ProductFullDetail extends Component {
                         </div> */}
                     </Tabs>
                 </div>
-                <LinkedProduct product={product} link_type="related" history={this.props.history}/>
+                {
+                    this.props.hideRelatedProduct !== true && 
+                    <LinkedProduct product={product} link_type="related" history={this.props.history}/>
+                }
                 {/* <LinkedProduct product={product} link_type="crosssell" history={this.props.history}/> */}
+                <Modal open={this.state.reserveModalMessage} onClose={this.onCloseReserveModalMessage}
+                    modalId={'reserve-modal-message'}
+                    closeIconId={'reserve-modal-close'}
+                    closeIconSize={16}
+                    closeIconSvgPath={<CloseIcon style={{fill: '#101820'}}/>}
+                >
+                    {Identify.__('Please select the options required (*)')}
+                </Modal>
                 <Modal open={this.state.openModal} onClose={this.onCloseReserve}
                     overlayId={'reserve-modal-overlay'}
                     modalId={'reserve-modal'}
@@ -738,5 +771,5 @@ const mapStateToProps = ({ user }) => {
         customerId: id
     };
 }
-// export default (withRouter)(ProductFullDetail);
+
 export default compose(connect(mapStateToProps), withRouter)(ProductFullDetail);

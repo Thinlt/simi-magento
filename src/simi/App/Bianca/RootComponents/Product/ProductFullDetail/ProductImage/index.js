@@ -7,6 +7,7 @@ import isProductConfigurable from 'src/util/isProductConfigurable';
 import { resourceUrl } from 'src/simi/Helper/Url'
 import findMatchingVariant from 'src/util/findMatchingProductVariant';
 import { transparentPlaceholder } from 'src/shared/images';
+import PlayCircle from 'src/simi/App/Bianca/BaseComponents/Icon/PlayCircle';
 require('./style.scss')
 
 
@@ -71,13 +72,20 @@ class ProductImage extends React.Component {
         const width = $('.left-layout.product-media').width();
         return this.images.map(function (item) {
             const src = item.file
-            ? resourceUrl(item.file, { type: 'image-product', width: 640 })
-            : transparentPlaceholder
+                ? resourceUrl(item.file, { type: 'image-product', width: 640 })
+                : transparentPlaceholder
+            const noImage = item.file ? 'no-image' : null;
             return (
                 <div key={Identify.randomString(5)} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} className="carousel-image-container">
-                    <img width={width} src={src} height={width} alt={item.url}
-                         style={{objectFit: 'scale-down'}}
-                    />
+                    {
+                        item.video_content ? 
+                        <img className={`video-thumb ${noImage}`} width={width} src={src} height={width} alt={item.url}
+                                style={{objectFit: 'scale-down'}}
+                        /> :
+                        <img width={width} src={src} height={width} alt={item.url}
+                            style={{objectFit: 'scale-down'}}
+                        />
+                    }
                 </div>
             );
         })
