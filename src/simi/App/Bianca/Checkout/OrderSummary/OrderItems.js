@@ -4,17 +4,9 @@ import { resourceUrl, logoUrl } from 'src/simi/Helper/Url';
 import Identify from 'src/simi/Helper/Identify';
 import { configColor } from 'src/simi/Config';
 import { Price } from '@magento/peregrine';
-import Arrow from 'src/simi/BaseComponents/Icon/Arrowup';
-const $ = window.$;
 
 const OrderItems = (props) => {
     const { items, cartCurrencyCode } = props;
-
-    const handleToggleOption = (e) => {
-        const parent = $(e.currentTarget);
-        parent.next('.options-selected').slideToggle('fast');
-        parent.find('svg').toggleClass('rotate-0');
-    }
 
     return items && items.length ? items.map(o_item => {
         let itemsOption = '';
@@ -22,7 +14,7 @@ const OrderItems = (props) => {
         if (o_item.options.length > 0) {
             itemsOption = o_item.options.map((optionObject) => {
                 return (
-                    <div key={Identify.randomString()}>
+                    <div key={Identify.randomString()} className="option-selected-item">
                         <span className='option-title'>{optionObject.label}: </span>
                         <span className='option-value'>{optionObject.value}</span>
                     </div>
@@ -30,14 +22,8 @@ const OrderItems = (props) => {
             });
 
             optionElement = (
-                <div className='item-options'>
-                    <div className='show-label' onClick={(e) => handleToggleOption(e)} role="presentation">
-                        <span>{Identify.__('See details')}</span>
-                        <Arrow className='arrow-down' />
-                    </div>
-                    <div className={'options-selected'} style={{ display: 'none' }}>
-                        {itemsOption}
-                    </div>
+                <div className='option-selected'>
+                    {itemsOption}
                 </div>
             );
         }
@@ -57,13 +43,13 @@ const OrderItems = (props) => {
                         }
                         alt={o_item.name} />
                 </div>
-                <div className='item-info' style={{ width: '100%' }}>
+                <div className='item-info'>
                     <label className='item-name'>{o_item.name}</label>
+                    {optionElement}
                     <div className='item-qty-price'>
-                        <span className='qty'>{Identify.__("Qty")}: {o_item.qty}</span>
+                        <span className='qty'>{Identify.__("Quantity")}: {o_item.qty}</span>
                         <span className='price'><Price currencyCode={cartCurrencyCode} value={o_item.price} /></span>
                     </div>
-                    {optionElement}
                 </div>
             </li>
         );
