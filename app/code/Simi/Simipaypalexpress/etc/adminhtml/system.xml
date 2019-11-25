@@ -33,6 +33,7 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
+            <!--
             <group id="pwa_studio" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>PWA Studio Configuration</label>
                 <field id="success_callback" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -44,6 +45,7 @@
                     <comment>eg. http://yourpwastudio.com/paypal_express.html?paymentFaled=true</comment>
                 </field>
             </group>
+            -->
         </section>
     </system>
 </config>

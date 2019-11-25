@@ -90,20 +90,30 @@ class Ppexpressapis extends \Simi\Simiconnector\Model\Api\Apiabstract
                     $this->quote = $quoteModel;
                     $this->_initCheckout();
                     $this->checkout->returnFromPaypal($this->_initToken());
-                    if ($success_callback = $this->getStoreConfig('simipaypalexpress/pwa_studio/success_callback')) {
-                        $controller->getResponse()->setRedirect($success_callback . '&token=' . $controller->getRequest()->getParam('token'));
+                    if ($pwa_url = $this->getStoreConfig('simiconnector/general/pwa_studio_url')) {
+                        $pwa_url = $this->endsWith($pwa_url, '/')?$pwa_url:$pwa_url.'/';
+                        $controller->getResponse()->setRedirect($pwa_url . 'paypal_express.html?placeOrder=true&token=' . $controller->getRequest()->getParam('token'));
                     }
                 }
             }  else if (strpos($data['resourceid'], 'cancel')  !== false) { //for pwa-studio
                 $controller = $data['controller'];
-                $quoteId = explode('_', $data['resourceid']);
-                $quoteId = $quoteId[1];
-                if ($success_callback = $this->getStoreConfig('simipaypalexpress/pwa_studio/failure_callback')) {
-                    $controller->getResponse()->setRedirect($success_callback);
+                if ($pwa_url = $this->getStoreConfig('simiconnector/general/pwa_studio_url')) {
+                    $pwa_url = $this->endsWith($pwa_url, '/')?$pwa_url:$pwa_url.'/';
+                    $controller->getResponse()->setRedirect($pwa_url . 'paypal_express.html?paymentFaled=true');
                 }
             }
         }
         return $result;
+    }
+
+
+    function endsWith($string, $endString)
+    {
+        $len = strlen($endString);
+        if ($len == 0) {
+            return true;
+        }
+        return (substr($string, -$len) === $endString);
     }
 
     /*
