@@ -6,8 +6,8 @@
     background-position: top center;
     background-repeat: no-repeat;
 }
-.login-container {
-    max-width: 768px;
+.login-background .login-container {
+    max-width: 770px;
     margin-top: 15px;
     margin-left: auto;
     margin-right: auto;
@@ -40,46 +40,123 @@
     font-size: 24px;
     font-weight: 600;
 }
-.login-header.has-back-btn .login-header-title{
+.login-header.has-back-btn .login-header-title {
     width: 60%;
 }
 
-.login-container .login-tab{
-    display: flex;
-}
-
-.login-container .login-tab div{
-    max-width: 384px;
+.login-container .buyer-login {
     max-height: 60px;
     width: 100%;
     padding: 20px 0;
     text-align: center;
     font-size: 20px;
-    border-bottom: 1px solid;
     font-family: Gotham;
-}
-
-.login-container .login-tab .buyer-tab{
-    border-right: 1px solid
-}
-
-.login-tab div:hover{
+    border-left: 1px solid #727272;
+    border-right: 1px solid #727272;
+    box-sizing: border-box;
     background-color: #101820;
-    cursor: pointer;
-    color: #FFF;
+    color: #fff;
 }
 
-.login-tab .active{
-    background-color: #101820;
-    color: #FFF;
+.login-container .buyer-login span {
+    color: #fff;
+    font-family: 'Gotham Medium';
+    font-size: 20px;
+    width: 72px;
+    height: 20px;
+    margin: auto;
+    text-align: center;
 }
-
-.input{
+.userInput{
+    margin-bottom: 10px !important;
+}
+.input {
     min-height: 48px;
-    padding-left: 56px !important;
-    background-color: #F2F2F2;
+    padding-left: 16px !important;
+    background-color: #f2f2f2;
     min-width: 572px;
     width: 100%;
     border: unset;
-    margin-bottom: 24px;
+    margin-bottom: 24px !;
+}
+
+/* nam style css */
+.login-background .select-type {
+    padding: 0 98px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+.login-background .select-type .phone-type,
+.login-background .select-type .email-type {
+    width: 278px;
+    height: 48px;
+    background-color: #fff;
+    border: 1px solid #101820;
+    box-sizing: border-box;
+}
+.login-background .select-type .phone-type {
+    padding: 15px 101.5px;
+    cursor: pointer;
+    position: relative;
+}
+.login-background .select-type .email-type {
+    padding: 15px 104.5px;
+    cursor: pointer;
+    position: relative;
+}
+.login-background .select-type .phone-type .icon-phone {
+    display: inline-block;
+    color: #101820;
+    font-family: Linearicons;
+    font-size: 18px;
+    line-height: 18px;
+    text-align: center;
+}
+.login-background .select-type .phone-type .icon-phone::before{
+    content:"\e831";
+}
+.login-background .select-type .phone-type .title-phone {
+    display: inline-block;
+    color: #101820;
+    font-family: Gotham;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+    padding: 1px 0;
+    position: absolute;
+    top: 16px;
+    left: 126px;
+}
+.login-background .select-type .email-type .icon-email {
+    display: inline-block;
+    color: #101820;
+    font-family: Linearicons;
+    font-size: 18px;
+    line-height: 18px;
+    text-align: center;
+}
+.login-background .select-type .email-type .icon-email::before {
+    content:"\e697";
+}
+.login-background .select-type .email-type .title-email {
+    display: inline-block;
+    color: #101820;
+    font-family: Gotham;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+    position: absolute;
+    padding: 1px 0;
+    top: 16px;
+    left: 131px;
+}
+.login-background div[class ~="signInAction"] div[class *= "checkbox-item"]{
+    background-color: gold;
+    margin-top: unset !important;
+}
+.login-background div[class ~="signInAction"] div[class *= "checkbox-item-icon"]{
+    background-color: red;
+    width: 24px;
+    height: 24px;
 }

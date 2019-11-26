@@ -3,21 +3,24 @@ import defaultClasses from './login.css';
 import classify from 'src/classify';
 import Identify from 'src/simi/Helper/Identify';
 import SignIn from './SignIn';
-import VendorLogInForm from './VendorLogin'
+import VendorLogInForm from './VendorLogin';
 import CreateAccount from './CreateAccount';
 import ForgotPassword from './ForgotPassword';
 import { connect } from 'src/drivers';
 import { compose } from 'redux';
 import BackIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Back';
 import { withRouter } from 'react-router-dom';
-import TitleHelper from 'src/simi/Helper/TitleHelper'
+import TitleHelper from 'src/simi/Helper/TitleHelper';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
-import { simiSignIn as signinApi, vendorLogin } from 'src/simi/Model/Customer'
-import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
-import  * as Constants from 'src/simi/Config/Constants'
-import { Util } from '@magento/peregrine'
+import { simiSignIn as signinApi, vendorLogin } from 'src/simi/Model/Customer';
+import {
+    showFogLoading,
+    hideFogLoading
+} from 'src/simi/BaseComponents/Loading/GlobalLoading';
+import * as Constants from 'src/simi/Config/Constants';
+import { Util } from '@magento/peregrine';
 import { simiSignedIn } from 'src/simi/Redux/actions/simiactions';
-import {showToastMessage} from 'src/simi/Helper/Message';
+import { showToastMessage } from 'src/simi/Helper/Message';
 import VendorRegister from './VendorRegister';
 
 const { BrowserPersistence } = Util;
@@ -32,16 +35,19 @@ class Login extends Component {
     };
 
     stateForgot = () => {
-        const {history} = this.props;
+        const { history } = this.props;
 
-        return history.location && history.location.state && history.location.state.forgot;
-    }
+        return (
+            history.location &&
+            history.location.state &&
+            history.location.state.forgot
+        );
+    };
 
-    componentDidMount(){
-        if (this.stateForgot()){
-            this.setForgotPasswordForm()
+    componentDidMount() {
+        if (this.stateForgot()) {
+            this.setForgotPasswordForm();
         }
-
     }
 
     get signInForm() {
@@ -87,37 +93,31 @@ class Login extends Component {
         this.vendorRegister = className => {
             return (
                 <div className={className}>
-                    <VendorRegister
-                        onSignIn={this.onVendorLogin.bind(this)}
-                    />
+                    <VendorRegister onSignIn={this.onVendorLogin.bind(this)} />
                 </div>
-            )
-        }
+            );
+        };
         this.showVendorRegisterForm();
-    }
+    };
 
     setCreateAccountForm = () => {
         this.createAccount = className => {
             return (
                 <div className={className}>
-                    <CreateAccount
-                        onSignIn={this.onSignIn.bind(this)}
-                    />
+                    <CreateAccount onSignIn={this.onSignIn.bind(this)} />
                 </div>
             );
         };
         this.showCreateAccountForm();
     };
 
-    forgotPassword = () => {}
+    forgotPassword = () => {};
 
     setForgotPasswordForm = () => {
         this.forgotPassword = className => {
             return (
                 <div className={className}>
-                    <ForgotPassword
-                        onClose={this.closeForgotPassword}
-                    />
+                    <ForgotPassword onClose={this.closeForgotPassword} />
                 </div>
             );
         };
@@ -128,7 +128,7 @@ class Login extends Component {
         this.hideForgotPasswordForm();
     };
 
-    get vendorRegisterForm(){
+    get vendorRegisterForm() {
         const { isVendorRegisterOpen } = this.state;
         const { classes } = this.props;
         const isOpen = isVendorRegisterOpen;
@@ -162,7 +162,7 @@ class Login extends Component {
             isVendorLoginOpen: false,
             isVendorRegisterOpen: true
         }));
-    }
+    };
 
     showCreateAccountForm = () => {
         this.setState(() => ({
@@ -202,46 +202,68 @@ class Login extends Component {
             isVendorLoginOpen: true,
             isVendorRegisterOpen: false
         }));
-    }
+    };
 
     onSignIn(username, password) {
-        Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null)
-        signinApi(this.signinCallback.bind(this), { username, password })
-        showFogLoading()
-    };
-
-    onVendorLogin(username, password) {
-        Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null)
-        vendorLogin(this.vendorLoginCallback.bind(this), { username, password })
-        showFogLoading()
-    };
-
-    vendorLoginCallback = (data) => {
-        hideFogLoading()
-        console.log(data);
-        window.location.href = data.redirect_url
+        Identify.storeDataToStoreage(
+            Identify.LOCAL_STOREAGE,
+            Constants.SIMI_SESS_ID,
+            null
+        );
+        signinApi(this.signinCallback.bind(this), { username, password });
+        showFogLoading();
     }
 
-    signinCallback = (data) => {
-        hideFogLoading()
+    onVendorLogin(username, password) {
+        Identify.storeDataToStoreage(
+            Identify.LOCAL_STOREAGE,
+            Constants.SIMI_SESS_ID,
+            null
+        );
+        vendorLogin(this.vendorLoginCallback.bind(this), {
+            username,
+            password
+        });
+        showFogLoading();
+    }
+
+    vendorLoginCallback = data => {
+        hideFogLoading();
+        console.log(data);
+        window.location.href = data.redirect_url;
+    };
+
+    signinCallback = data => {
+        hideFogLoading();
         if (this.props.simiSignedIn) {
             if (data && !data.errors) {
                 storage.removeItem('cartId');
                 storage.removeItem('signin_token');
                 if (data.customer_access_token) {
-                    Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, data.customer_identity)
-                    setToken(data.customer_access_token)
-                    this.props.simiSignedIn(data.customer_access_token)
+                    Identify.storeDataToStoreage(
+                        Identify.LOCAL_STOREAGE,
+                        Constants.SIMI_SESS_ID,
+                        data.customer_identity
+                    );
+                    setToken(data.customer_access_token);
+                    this.props.simiSignedIn(data.customer_access_token);
                 } else {
-                    Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null)
-                    setToken(data)
-                    this.props.simiSignedIn(data)
+                    Identify.storeDataToStoreage(
+                        Identify.LOCAL_STOREAGE,
+                        Constants.SIMI_SESS_ID,
+                        null
+                    );
+                    setToken(data);
+                    this.props.simiSignedIn(data);
                 }
-            }
-            else
-                showToastMessage(Identify.__('The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.'))
+            } else
+                showToastMessage(
+                    Identify.__(
+                        'The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.'
+                    )
+                );
         }
-    }
+    };
 
     render() {
         const {
@@ -258,31 +280,36 @@ class Login extends Component {
             isCreateAccountOpen,
             isForgotPasswordOpen,
             isSignInOpen,
-            isVendorLoginOpen,
+            isVendorLoginOpen
         } = state;
 
-        const {
-            classes,
-            isSignedIn,
-            firstname,
-            history
-        } = props;
+        const { classes, isSignedIn, firstname, history } = props;
 
         if (isSignedIn) {
-            if (history.location.hasOwnProperty('pushTo') && history.location.pushTo){
-                const {pushTo} = history.location;
-                history.push(pushTo)
-            }else{
-                history.push('/')
+            if (
+                history.location.hasOwnProperty('pushTo') &&
+                history.location.pushTo
+            ) {
+                const { pushTo } = history.location;
+                history.push(pushTo);
+            } else {
+                history.push('/');
             }
 
-            const message = firstname?
-                Identify.__("Welcome %s Start shopping now").replace('%s', firstname):
-                Identify.__("You have succesfully logged in, Start shopping now")
+            const message = firstname
+                ? Identify.__('Welcome %s Start shopping now').replace(
+                      '%s',
+                      firstname
+                  )
+                : Identify.__(
+                      'You have succesfully logged in, Start shopping now'
+                  );
             if (this.props.toggleMessages)
-                this.props.toggleMessages([{type: 'success', message: message, auto_dismiss: true}])
+                this.props.toggleMessages([
+                    { type: 'success', message: message, auto_dismiss: true }
+                ]);
         }
-        const showBackBtn = isCreateAccountOpen || isForgotPasswordOpen
+        const showBackBtn = isCreateAccountOpen || isForgotPasswordOpen;
 
         // const title =
         //     isCreateAccountOpen
@@ -294,31 +321,29 @@ class Login extends Component {
         return (
             <React.Fragment>
                 {TitleHelper.renderMetaHeader({
-                    title:Identify.__('Customer Login')
+                    title: Identify.__('Customer Login')
                 })}
-                <div className={classes['login-background']} >
-                    <div className={classes['login-container']} >
-                        <div className={classes['login-tab']}>
-                            <div onClick={this.showLoginForm} className={`${classes['buyer-tab']} ${isSignInOpen ? classes["active"]: null}`}>
-                                <span>{Identify.__("Buyer".toUpperCase())}</span>
-                            </div>
-                            <div onClick={this.showVendorLoginForm} className={isVendorLoginOpen ? classes["active"]: null}>
-                                {Identify.__("Seller".toUpperCase())}
-                            </div>
+                <div className={classes['login-background']}>
+                    <div className={classes['login-container']}>
+                        <div className={`${classes['buyer-login']}`}>
+                            <span>{Identify.__('Buyer'.toUpperCase())}</span>
                         </div>
-                        <div className={`${classes['login-header']} ${showBackBtn&&classes['has-back-btn']}`}>
-                            {
-                                (showBackBtn) &&
-                                <div role="presentation"
-                                    className={classes['login-header-back']}
-                                    onClick={showLoginForm}
-                                    >
-                                    <BackIcon style={{width: 20, height: 20}}/>
-                                </div>
-                            }
-                            {/* <div className={classes['login-header-title']}>
-                                {title}
+                        {/* <div onClick={this.showVendorLoginForm} className={isVendorLoginOpen ? classes["active"]: null}>
+                                {Identify.__("Seller".toUpperCase())}
                             </div> */}
+                        <div className={classes['select-type']}>
+                            <div className={classes['phone-type']}>
+                                <span className={classes['icon-phone']} />
+                                <span className={classes['title-phone']}>
+                                    {Identify.__('Phone')}
+                                </span>
+                            </div>
+                            <div className={classes['email-type']}>
+                                <span className={classes['icon-email']} />
+                                <span className={classes['title-email']}>
+                                    {Identify.__('Email')}
+                                </span>
+                            </div>
                         </div>
                         {signInForm}
                         {vendorLogInForm}
@@ -341,7 +366,7 @@ const mapStateToProps = ({ user }) => {
         firstname,
         forgotPassword,
         isSignedIn,
-        lastname,
+        lastname
     };
 };
 
@@ -358,7 +383,6 @@ export default compose(
         mapDispatchToProps
     )
 )(Login);
-
 
 async function setToken(token) {
     // TODO: Get correct token expire time from API

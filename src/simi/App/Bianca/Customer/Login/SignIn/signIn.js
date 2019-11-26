@@ -46,7 +46,9 @@ class SignIn extends Component {
                     onSubmit={() => this.onSignIn()}
                 >
                 <div className='userInput'>
-                    <UserIcon className='userIcon' style={{width:'16px',height:'16px'}}/>
+                    <div className='title-input'>
+                        {Identify.__('EMAIL *')}
+                    </div>
                     <TextInput
                         classes={classes}
                         style={{paddingLeft:"56px"}}
@@ -58,7 +60,9 @@ class SignIn extends Component {
                     />
                 </div>
                 <div className='passwordInput'>
-                    <Key className='passwordIcon' style={{width:'16px',height:'16px'}}/>
+                    <div className='title-input'>
+                        {Identify.__('PASSWORD *')}
+                    </div>
                     <TextInput
                         classes={classes}
                         style={{paddingLeft:"56px"}}

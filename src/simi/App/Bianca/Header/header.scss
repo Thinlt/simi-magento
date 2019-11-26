@@ -673,13 +673,20 @@ body.fixed-scroll {
 .menu-my-account, .before-login, .menu-settings {
     position: absolute;
     z-index: 2;
-    margin-top: 8px;
+    margin-top: 9px;
 }
 .before-login{
     right: -16px;
 }
 .list-menu-account, .list-before-login, .list-menu-settings {
     background-color: #F2F2F2;
+}
+.list-before-login hr.hr-before-login{
+    border: 0.5px solid #E0E0E0;
+    box-sizing: border-box;
+    width: 138px;
+    margin-top : unset;
+    margin-bottom: unset;
 }
 .list-menu-settings > div {
     margin-left: 0 !important;
@@ -718,6 +725,9 @@ body.fixed-scroll {
     padding-top: 10.5px;
     padding-bottom: 23.5px;
     padding-left: 18.5px;
+    padding-right: 18.5px;
+    max-width: 143px;
+    box-sizing: content-box;
 }
 .menu-my-account .my-account-item {
     color: $textColor1;

@@ -98,9 +98,9 @@
         size: 16px;
     }
     
-    .input{
+    .root.sign-in-form .input{
         min-height: 48px;
-        padding-left: 56px !important;
+        padding-left: 16px !important;
         background-color: #F2F2F2;
         min-width: 572px;
         width: 100%;
@@ -109,7 +109,17 @@
     }
     
     .userInput{
-        margin-bottom: 20px;
+        margin-top: 36px;
+        margin-bottom: 10px !important;
+    }
+    .userInput .title-input,
+    .passwordInput .title-input{
+        color: #101820;
+        font-family: Gotham;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 14px;
+        margin-bottom: 8px;
     }
     
     .userInput p{
@@ -118,7 +128,8 @@
     
     
     .passwordInput{
-        margin-bottom: 24px;
+        margin-top: 24px;
+        margin-bottom: 10px !important;
     }
     
     .passwordInput p{
