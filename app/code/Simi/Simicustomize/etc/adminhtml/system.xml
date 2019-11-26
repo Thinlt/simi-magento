@@ -10,11 +10,15 @@
         <section id="sales">
             <group id="preorder" translate="label" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Pre-order Settings</label>
-                <field id="deposit_amount" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                <field id="deposit_amount" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1">
                     <label>Pre-order amount (%)</label>
                     <comment>Percent (%) amount to pre-pay of the product price.</comment>
                 </field>
-                <field id="emailTemplate" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                <field id="deposit_product_id" translate="label" type="text" sortOrder="199" showInDefault="1" showInWebsite="1">
+                    <label>Pre-order Deposit product Id</label>
+                    <comment>Id of deposit product.</comment>
+                </field>
+                <field id="emailTemplate" translate="label" type="text" sortOrder="299" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Email template</label>
                     <comment>Email template send to customer to pay #2 order.</comment>
                 </field>

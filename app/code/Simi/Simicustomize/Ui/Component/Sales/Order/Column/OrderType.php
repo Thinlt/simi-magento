@@ -28,7 +28,8 @@ class OrderType implements OptionSourceInterface
             $options = [
                 ['label' => __('No type'),      'value' => ''],
                 ['label' => __('Try to buy'),   'value' => 'try_to_buy'],
-                ['label' => __('Pre-order'),    'value' => 'pre_order'],
+                ['label' => __('Pre-order Waiting'),    'value' => 'pre_order'],
+                ['label' => __('Pre-order Paid'),    'value' => 'pre_order_paid'],
                 ['label' => __('Other'),        'value' => 'other'],
             ];
             array_walk($options, function (&$option) {
