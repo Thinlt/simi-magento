@@ -660,7 +660,7 @@ class ProductFullDetail extends Component {
                     </Tabs>
                 </div>
                 {
-                    this.props.hideRelatedProduct !== true && 
+                    (this.props.hideRelatedProduct !== true && product && product.product_links && product.product_links.length) &&
                     <LinkedProduct product={product} link_type="related" history={this.props.history}/>
                 }
                 {/* <LinkedProduct product={product} link_type="crosssell" history={this.props.history}/> */}
