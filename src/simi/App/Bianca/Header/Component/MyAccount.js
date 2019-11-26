@@ -30,7 +30,7 @@ class MyAccount extends React.Component{
         this.setState({ open: false });
     };
 
-    handleMenuAccount = link => {
+    handleClickItem = link => {
         this.handleLink(link)
         this.handleToggle()
     }
@@ -52,10 +52,10 @@ class MyAccount extends React.Component{
                             <div className={classes["menu-my-account"]}>
                                 <ClickAwayListener onClickAway={this.handleClose}>
                                 <div className={classes["list-menu-account"]}>
-                                    <MenuItem className={classes["my-account-item"]} onClick={()=>this.handleMenuAccount('/account.html')}>
+                                    <MenuItem className={classes["my-account-item"]} onClick={()=>this.handleClickItem('/account.html')}>
                                         {Identify.__('My Account')}
                                     </MenuItem>
-                                    <MenuItem className={classes["my-account-item"]} onClick={()=>this.handleMenuAccount('/logout.html')}>
+                                    <MenuItem className={classes["my-account-item"]} onClick={()=>this.handleClickItem('/logout.html')}>
                                         {Identify.__('Logout')}
                                     </MenuItem>
                                 </div>
@@ -66,14 +66,36 @@ class MyAccount extends React.Component{
             </Popper>
         )
     }
+    renderOption = ()=>{
+        const { open } = this.state;
+        const {classes} = this.props
+        return (
+            <Popper open={open} anchorEl={this.anchorEl}
+                    placement="bottom-start"
+                    transition disablePortal>
+                {({ TransitionProps }) => (
+                    <Grow
+                        {...TransitionProps}
+                        id="before-login-list-grow"
+                        style={{ transformOrigin:'center bottom' }}
+                    >
 
-    handleClickAccount = () =>{
-        const {isSignedIn} = this.props
-        if(isSignedIn){
-            this.handleToggle()
-        }else{
-            this.handleLink('/login.html')
-        }
+                            <div className={classes["before-login"]}>
+                                <ClickAwayListener onClickAway={this.handleClose}>
+                                <div className={classes["list-before-login"]}>
+                                    <MenuItem className={classes["before-login-item-1"]} onClick={()=>this.handleClickItem('/login.html')}>
+                                        {Identify.__('Login as Buyer')}
+                                    </MenuItem>
+                                    <MenuItem className={classes["before-login-item-2"]} onClick={()=>this.handleClickItem('/loginDesigner.html')}>
+                                        {Identify.__('Login as Designer')}
+                                    </MenuItem>
+                                </div>
+                                </ClickAwayListener>
+                            </div>
+                    </Grow>
+                )}
+            </Popper>
+        )
     }
 
     render() {
@@ -87,7 +109,7 @@ class MyAccount extends React.Component{
             <div style={{position:'relative'}}  ref={node => {
                 this.anchorEl = node;
             }}>
-                <div role="presentation" onClick={this.handleClickAccount}>
+                <div role="presentation" onClick={this.handleToggle}>
                     <div className={classes["item-icon"]} style={{display: 'flex', justifyContent: 'center'}}>
                         <User />
                     </div>
@@ -96,6 +118,7 @@ class MyAccount extends React.Component{
                         {account}
                     </div> */}
                 </div> 
+                {!isSignedIn && this.renderOption()}
                 {isSignedIn && this.renderMyAccount()}
             </div>
         );

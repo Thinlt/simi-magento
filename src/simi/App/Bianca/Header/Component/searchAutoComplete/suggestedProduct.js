@@ -1,5 +1,5 @@
 import React from 'react';
-import { func, number, shape, string } from 'prop-types';
+import { func, number, shape, string, bool } from 'prop-types';
 import Price from 'src/simi/App/Bianca/BaseComponents/Price';
 import classify from 'src/classify';
 import { Link } from 'src/drivers';
@@ -14,14 +14,13 @@ import { productUrlSuffix } from 'src/simi/Helper/Url';
 
 const SuggestedProduct = props => {
     const handleClick = () => {
-        const { onNavigate } = this.props;
+        const { onNavigate } = props;
         if (typeof onNavigate === 'function') {
             onNavigate();
         }
     }
     const logo_url = logoUrl()
-    const { classes, url_key, small_image, name, price, type_id, simiExtraField } = props;
-    // console.log(price)
+    const {classes, url_key, small_image, name, price, type_id, simiExtraField } = props;
     const uri = resourceUrl(`/${url_key}${productUrlSuffix()}`);
     const place_holder_img = <img alt={name} src={logo_url} style={{maxWidth: 60, maxHeight: 60}}/>
 
@@ -60,6 +59,7 @@ SuggestedProduct.propTypes = {
     name: string.isRequired,
     onNavigate: func,
     price: shape({
+        has_special_price: bool,
         maximalPrice: shape({
             amount: shape({
                 currency: string,

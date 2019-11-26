@@ -387,7 +387,7 @@ $errorFormBgColor: #ece2e2;
         margin-top: 35px !important;
     }
     .footer-app .footer-wrapper .footer-subscriber h3{
-        font-size: 15px !important;
+        font-size: 20px !important;
     }   
     .footer-app .footer-wrapper .footer-logo img{
         width: 100%;
@@ -396,6 +396,42 @@ $errorFormBgColor: #ece2e2;
     .showError{
         left: 45px;
         font-size: 8px;
+    }
+     /* footer social mobile*/
+     .footer-app.on-mobile .mobile-social{
+        padding-top: 134px;
+        background-color: #E4E4E4;
+        padding-bottom: 40px;
+    }
+    .footer-app.on-mobile .mobile-social .footer-mobile-social a:hover{
+        text-decoration: none;
+    }
+    .footer-app.on-mobile .mobile-social .footer-mobile-social{
+        display: flex;
+        justify-content: center;
+        padding-bottom: 40px;
+    }
+    .footer-app.on-mobile .mobile-social .footer-mobile-social .social-icon{
+        margin-right: 40px;
+        width: fit-content;
+        font-family: Simple-Line-Icons;
+        font-size: 20px;
+        line-height: 20px;
+        speak: none;
+        font-style: normal;
+        font-weight: 500;
+        font-variant: normal;
+        text-transform: none;
+        color: #101820;
+    }
+    .footer-app.on-mobile .mobile-social .footer-mobile-social .facebook-icon::before{
+        content: "\e00b";
+    }
+    .footer-app.on-mobile .mobile-social .footer-mobile-social .twitter-icon::before{
+        content: "\e009";
+    }
+    .footer-app.on-mobile .mobile-social .footer-mobile-social .instagram-icon::before{
+        content: "\e609";
     }
     
 }
@@ -420,6 +456,71 @@ $errorFormBgColor: #ece2e2;
 @media(max-width: 425px){
     .showError{
         font-size: 9px;
+    }
+}
+
+@media(max-width: 375px){
+    .footer-app .footer-wrapper .footer-subscriber{
+        margin-top: 28.39px !important;
+    }
+    .footer-app .footer-wrapper .footer-subscriber h3{
+        font-size: 20px !important;
+        line-height: 20px !important;
+        min-height: unset !important;
+        height: 20px !important;
+    }
+    .footer-app .footer-wrapper .footer-subscriber p{
+        margin-top: unset !important;
+    }
+    .footer-app .footer-wrapper .footer-subscriber .subscriber-form input{
+        margin-bottom: 4px !important;
+    }
+    .footer-app.on-mobile .list-item i[class *= "icons"]{
+        font-size: 12px !important;
+    }
+    .footer-app .footer-wrapper .list-item .footer-mobile ul li{
+        margin-top: 0px !important;
+    }
+    .footer-app .footer-wrapper .list-item .footer-mobile ul{
+        margin-top: 0px !important;
+    }
+    .footer-app.on-mobile .footer-wrapper .list-item .footer-mobile .MuiExpansionPanelDetails-root{
+        padding-top: 6px !important;
+        padding-left: 27px !important;
+        padding-bottom: 0 !important;
+    }
+    .footer-app .footer-wrapper .list-item .footer-mobile ul li:last-child{
+        margin-bottom: 0 !important;
+    }
+    .footer-mobile .MuiExpansionPanelSummary-root{
+        height: 14px !important;
+    }
+    .footer-app .footer-wrapper .download-icon .app-store img{
+        height: 29px;
+    }
+
+     /* footer social mobile*/
+    .footer-app.on-mobile .mobile-social{
+        padding-top: 134px;
+        background-color: #E4E4E4;
+    }
+    .footer-app.on-mobile .mobile-social .footer-mobile-social{
+        display: flex;
+        justify-content: center;
+        padding-bottom: 40px;
+    }
+    .footer-app.on-mobile .mobile-social .footer-mobile-social .social-icon{
+        margin-right: 20px;
+        width: fit-content;
+        font-family: Simple-Line-Icons;
+        font-size: 12px;
+        line-height: 12px;
+        speak: none;
+        font-style: normal;
+        font-weight: 500;
+        font-variant: normal;
+        text-transform: none;
+        color: #101820;
     }
 }
 
