@@ -885,3 +885,8 @@ body.fixed-scroll {
         margin-right: 1px !important;
     }
 }
+@media(max-width: 375px){
+    .header-wrapper .container-global-notice .notice-inner .notice-msg span{
+        font-size: 10px !important;
+    }
+}
