@@ -1,21 +1,26 @@
 .root {
-    align-items: center;
     display: grid;
     gap: 1rem;
     column-gap: 15px;
     grid-auto-flow: column;
-    grid-template-columns: 60px 1fr;
+    grid-template-columns: 82px 1fr;
+    width: 253px;
 }
 
 .image {
     align-items: center;
     display: inline-flex;
     justify-content: center;
-    padding: 2px;
-    width: 64px;
-    height: 64px;
-    border: solid #eaeaea 1px;
-    margin-bottom: 5px;
+    width: 82px;
+    height: 103px;
+    border: unset;
+}
+
+.image img{
+    width: 82px;
+    height: 103px;
+    max-width: unset !important;
+    max-height: unset !important;
 }
 
 .name {
@@ -23,6 +28,7 @@
     font-size: 14px;
     line-height: 19px;
     font-weight: 500;
+    display: inline-block;
 }
 .price {
 }
