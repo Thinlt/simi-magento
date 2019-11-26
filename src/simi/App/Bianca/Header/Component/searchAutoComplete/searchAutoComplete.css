@@ -16,8 +16,8 @@
 
 .root {
     background-color: white;
-    border: 1px solid rgb(var(--venia-border));
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    /* border: 1px solid rgb(var(--venia-border));
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2); */
     display: grid;
     font-size: 12px;
     gap: 0.75rem;
@@ -30,6 +30,7 @@
     z-index: 2;
     color: #101820;
     min-width: 302px;
+    margin-top: 20px;
 }
 
 .root_hidden {
