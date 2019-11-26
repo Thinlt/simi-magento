@@ -42,7 +42,6 @@
 
 .message {
     color: #101820;
-    padding: 3px 0px;
     padding-right: 18px;
     text-align: left;
     font-size: 14px;
@@ -59,17 +58,17 @@
 .suggestions {
     display: grid;
     gap: 0px;
-    margin-top: 17px;
+    margin-top: 0px;
 }
 
 .suggestions:empty {
     display: none;
 }
 .close-icon {
-    width: 22px;
-    height: 22px;
+    width: 16px;
+    height: 16px;
     display: inline-block;
     position: absolute;
     right: -2px;
-    top: -2px;
+    top: -5px;
 }

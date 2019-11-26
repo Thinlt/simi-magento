@@ -20,14 +20,13 @@ const SuggestedCategories = props => {
     const items = categories
         .slice(0, limit)
         .map(({ label, value_string: categoryId }) => (
-            <li key={categoryId} className={classes.item}>
+            <li key={categoryId} className={classes.item} >
                 <Link
                     className={classes.link}
                     to={getLocation(value, categoryId)}
                     onClick={handleClick}
                 >
-                    <strong className={classes.value}>{value}</strong>
-                    <span>{` in ${ReactHTMLParse(label)}`}</span>
+                    <span className={classes.value} >{value}</span> <span> in </span> <span style={{textTransform: 'capitalize'}}>{`${ReactHTMLParse(label.toLowerCase())}`}</span>
                 </Link>
             </li>
         ));
