@@ -2,7 +2,7 @@ import React from 'react'
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent'
 
 const Home = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Home"*/'src/simi/App/Bianca/RootComponents/CMS/Home')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "Home"*/'src/simi/App/Bianca/Home')} {...props}/>
 }
 
 const Checkout = (props) => {

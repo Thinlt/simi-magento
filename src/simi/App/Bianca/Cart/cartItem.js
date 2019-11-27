@@ -48,6 +48,19 @@ const CartItem = props => {
         props.updateCartItem(payload, item.item_id);
     }
 
+    const getVendorName = (vendorId) => {
+        const storeConfig = Identify.getStoreConfig()
+        const vendorList = storeConfig.simiStoreConfig.config.vendor_list;
+        const vendorName = vendorList.find(vendor => {
+            if(vendorId === 'default'){
+                return vendor.vendor_id === "SophiaNguyen"
+            }
+            return vendor.vendor_id === vendorId;
+        })
+
+        return vendorName.vendor_id;
+    }
+
     const itemInfo = (
         <div className='cart-item-info'>
             <div className='des-cart'>
@@ -61,6 +74,12 @@ const CartItem = props => {
                 </div>
                 {/* <div className='item-sku'>{Identify.__('Product code:')} {item.sku}</div> */}
                 <div className='item-options'>{optionText}</div>
+                {!props.isOpen
+                ?   
+                    <div className='designer-name'>{getVendorName(item.attribute_values.vendor_id)}</div>
+                :
+                    null
+                }
             </div>
         </div>
     )
