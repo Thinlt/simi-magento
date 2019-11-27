@@ -33,6 +33,15 @@ class SimiSystemRestModify implements ObserverInterface {
     private function _addDataToQuoteItem(&$contentArray) {
         if (isset($contentArray['items']) && is_array($contentArray['items'])) {
             foreach ($contentArray['items'] as $index => $item) {
+                //add quoteitem product extra data
+                $quoteItem = $this->simiObjectManager
+                    ->get('Magento\Quote\Model\Quote\Item')->load($item['item_id']);
+                if ($quoteItem->getId()) {
+                    $product = $this->simiObjectManager
+                        ->create('Magento\Catalog\Model\Product')
+                        ->load($quoteItem->getData('product_id'));
+                    $contentArray['items'][$index]['attribute_values'] = $product->toArray();
+                }
                 //modify option values for special products (preorder, trytobuy)
                 if (isset($item['options']) && is_string($item['options']) && $optionArray = json_decode($item['options'], true)) {
                     if (is_array($optionArray)) {

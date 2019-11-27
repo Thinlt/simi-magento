@@ -264,8 +264,6 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
                         $parameters['image_height']
                     );
 
-            $this->_calculateSpecialProductPrice($quoteitem, $entity);
-
             $info[]              = $quoteitem;
             $all_ids[]           = $entity->getId();
         }
@@ -445,6 +443,15 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
                 $item->setProduct($candidate);
                 $sku = $item->getData('sku');
                 $nameOfNewItem = $item->getProduct()->getData('name');
+                $imageOfNewItem = $this->simiObjectManager
+                    ->create('Simi\Simiconnector\Helper\Products')
+                    ->getImageProduct(
+                        $this->loadProductWithId($item->getProduct()->getId()),
+                        null
+                    );
+                $requestOfNewItem = $param;
+                if ($isPreOrder)
+                    unset($requestOfNewItem['pre_order']);
             }
             //if found sku, add deposit instead of original product
             if ($sku) {
@@ -501,6 +508,8 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
                                         'sku'=> $sku,
                                         'quantity' => 1,
                                         'name' => $nameOfNewItem,
+                                        'image' => $imageOfNewItem,
+                                        'request' => $requestOfNewItem
                                     );
                                 $param['options'] = array($custom_option['id'] => base64_encode(json_encode($preOrderProducts)));
                                 $product = $depositProduct;
@@ -512,7 +521,7 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
                 }
             }
         } catch (\Exception $e) {
-
+            var_dump($e->__toString());die;
         }
     }
 
@@ -540,20 +549,6 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
         }
         $this->getRequestInfoFilter()->filter($request);
         return $request;
-    }
-
-    protected function _calculateSpecialProductPrice($quoteitem, $entity) {
-        $depositProductId = $this->scopeConfig->getValue('sales/preorder/deposit_product_id');
-        if ($quoteitem['product_id'] == $depositProductId && $quoteitem['option'] && is_array($quoteitem['option'])) {
-            foreach ($quoteitem['option'] as $quoteitemOption) {
-                if ($quoteitemOption['option_title'] == self::PRE_ORDER_OPTION_TITLE) {
-                    $price = 100; //set your price here
-                    $entity->setCustomPrice($price);
-                    $entity->setOriginalCustomPrice($price);
-                    $entity->getProduct()->setIsSuperMode(true);
-                }
-            }
-        }
     }
 
 }
