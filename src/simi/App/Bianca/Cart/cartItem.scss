@@ -97,6 +97,15 @@
             width: 100%;
             padding-right: 46px;
             justify-content: space-between;
+            .item-name{
+                color: #101820;
+                font-weight: 500;
+            }
+            .designer-name{
+                color: #101820;
+                font-size: 14px;
+                font-weight: 600;
+            }
         }
 
         .sub-item.item-subtotal{

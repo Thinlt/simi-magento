@@ -345,7 +345,6 @@ class Cart extends Component {
             checkoutButton,
             couponCode,
             giftVoucher,
-            estimateShipAndTax
         } = this;
         const {
             cart: { isLoading },
