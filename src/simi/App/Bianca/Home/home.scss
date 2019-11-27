@@ -1,0 +1,137 @@
+$color1: #101820;
+.home-wrapper{
+    h3.title{
+        font-family: Didot;
+        font-size: 24px;
+        font-weight: 600;
+        text-align: center;
+        color: #000;
+        margin-top: 80px;
+        margin-bottom: 32px;
+    }
+    .banner-wrap{
+        .banner-homepage{
+            .home-container{
+                .carousel-slider{
+                    margin-top: 44px;
+                    .control-dots{
+                        position: relative;
+                        .dot{
+                            width: 10px;
+                            height: 10px;
+                            border: 1px solid $color1;
+                            box-shadow: none;
+                            margin: 0 7px;
+                            &.selected{
+                                background-color: $color1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .shop-by-brand-wrap{
+        h3.title{
+            margin-top: 70px;
+            margin-bottom: 32px;
+        }
+    }
+    .featured-products-wrap{
+        .default-home-product-list{
+            .product-list {
+                margin-top: 15px;
+                padding: 0;
+                width: 100%;
+                border-top: solid #eaeaea 1px;
+                .title {
+                    font-size: 20px;
+                    margin-bottom: 20px;
+                }
+                .linked-products {
+                    width: 100%;
+                }
+                .linked-product-item {
+                    min-width: 140px;
+                    display: inline-grid;
+                    padding: 5px;
+                    width: 25%;
+                }
+                @media (max-width: 1023px) {
+                    .linked-product-item {
+                        width: 50%;
+                    }
+                }
+                .product-horizotal .siminia-product-grid-item{
+                    @media (min-width: 1440px){
+                        width: 278px;
+                    }
+                    .siminia-product-des{
+                        margin: 0;
+                        flex-direction: column;
+                        border: 1px solid #808080;
+                    }
+                }
+            }
+        }
+    }
+    .popular-categories-wrap{
+        .home-container{
+            .home-cate-item{
+                margin: 64px auto;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around;
+                align-items: center;
+                .cate-img{
+                    max-width: 572px;
+                    flex: 1 1;
+                    cursor: pointer;
+                    text-align: center;
+                    img{
+                        width: 100%;
+                        height: auto;
+                    }
+                    @media (max-width: 1024px){
+                        width: auto;
+                        max-width: unset;
+                    }
+                }
+                &.full-width{
+                    max-width: unset;
+                    .cate-img{width: 100%;max-width: 100%;}
+                    .cate-title{display:none;}
+                    .cate-btn{display:none;}
+                }
+                .cate-title{
+                    font-family: Didot;
+                    font-size: 24px;
+                    line-height: 24px;
+                    font-weight: 600;
+                    color: $color1;
+                    max-width: 200px;
+                    flex: 0 1;
+                }
+                .cate-btn{
+                    flex: 0 1;
+                    margin: 10px;
+                    .btn{
+                        min-width: 145px;
+                        min-height: 36px;
+                        background-color: $color1;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-family: Gotham;
+                        font-weight: 500;
+                        font-size: 12px;
+                        line-height: 12px;
+                        color: #FFF;
+                        text-transform: uppercase;
+                        border-radius: unset;
+                    }
+                }
+            }
+        }
+    }
+}
