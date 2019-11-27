@@ -84,9 +84,10 @@ $color1: #101820;
                 justify-content: space-around;
                 align-items: center;
                 .cate-img{
-                    max-width: 572px;
-                    flex: 1 1;
                     cursor: pointer;
+                    max-width: 572px;
+                    flex: 1 0;
+                    flex-basis: 60%;
                     text-align: center;
                     img{
                         width: 100%;
@@ -95,13 +96,8 @@ $color1: #101820;
                     @media (max-width: 1024px){
                         width: auto;
                         max-width: unset;
+                        flex-basis: 100%;
                     }
-                }
-                &.full-width{
-                    max-width: unset;
-                    .cate-img{width: 100%;max-width: 100%;}
-                    .cate-title{display:none;}
-                    .cate-btn{display:none;}
                 }
                 .cate-title{
                     font-family: Didot;
@@ -111,15 +107,19 @@ $color1: #101820;
                     color: $color1;
                     max-width: 200px;
                     flex: 0 1;
+                    flex-basis: 20%;
                 }
                 .cate-btn{
                     flex: 0 1;
+                    flex-basis: 20%;
+                    text-align: center;
                     margin: 10px;
                     .btn{
                         min-width: 145px;
                         min-height: 36px;
                         background-color: $color1;
-                        display: flex;
+                        margin: 0 auto;
+                        display: inline-flex;
                         justify-content: center;
                         align-items: center;
                         font-family: Gotham;
@@ -130,6 +130,12 @@ $color1: #101820;
                         text-transform: uppercase;
                         border-radius: unset;
                     }
+                }
+                &.full-width{
+                    max-width: unset;
+                    .cate-img{width: 100%;max-width: 100%;}
+                    .cate-title{display:none;}
+                    .cate-btn{display:none;}
                 }
             }
         }
