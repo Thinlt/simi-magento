@@ -5,6 +5,7 @@ import { mergeClasses } from 'src/classify';
 import mapProduct from './mapProduct';
 import SuggestedProduct from './suggestedProduct';
 import defaultClasses from './suggestedProducts.css';
+import { prepareProduct } from 'src/simi/Helper/Product'
 
 const SuggestedProducts = props => {
     const { limit, onNavigate, products } = props;
@@ -13,7 +14,7 @@ const SuggestedProducts = props => {
     const items = products.slice(0, limit).map(product => (
         <li key={product.id} className={classes.item}>
             <SuggestedProduct
-                {...mapProduct(product)}
+                {...mapProduct(prepareProduct(product))}
                 onNavigate={onNavigate}
             />
         </li>

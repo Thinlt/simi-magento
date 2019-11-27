@@ -8,3 +8,28 @@
 .root:empty {
     display: none;
 }
+
+.root .item{
+
+}
+.root .link{
+
+}
+.root .value{
+    font-weight: bold;
+}
+.root li{
+    height: 14px;
+}
+
+.root li a strong{
+    display: inline-block;
+    height: 14px;
+    font-size: 14px;
+}
+
+.root li a span{
+    display: inline-block;
+    height: 14px;
+    font-size: 14px;
+}

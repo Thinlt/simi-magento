@@ -28,9 +28,6 @@ import CartItem from '../../Cart/cartItem';
 import Identify from 'src/simi/Helper/Identify';
 import { closeDrawer } from 'src/actions/app';
 import { Link } from 'react-router-dom';
-import Trigger from './trigger';
-import Icon from 'src/components/Icon';
-import CloseIcon from 'react-feather/dist/icons/x';
 import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon';
 import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
@@ -71,19 +68,19 @@ class MiniCart extends Component {
 
     constructor(...args) {
         super(...args);
-        this.state = {
-            focusItem: null
-        };
         this.wrapperMiniCart = React.createRef();
+
     }
 
-    // async componentDidMount() {
-    //     const { getCartDetails, getCountries } = this.props;
-    //     console.log('loaded')
-    //     // await getCartDetails();
-    //     // await getShippingMethods();
-    //     // await getCountries();
-    // }
+    handleClickOutside = (event) => {
+        if (this.wrapperMiniCart && this.wrapperMiniCart.current && !this.wrapperMiniCart.current.contains(event.target)) {
+            this.props.closeDrawer()
+        }
+    }
+
+    componentDidMount(){
+        document.addEventListener("mousedown", this.handleClickOutside);
+    }
 
     get cartId() {
         const { cart } = this.props;
@@ -211,7 +208,7 @@ class MiniCart extends Component {
         const { cart, toggleMessages, getCartDetails } = this.props;
         let giftCode = '';
         if (cart.totals.total_segments) {
-            let segment = cart.totals.total_segments.find(item => {
+            const segment = cart.totals.total_segments.find(item => {
                 if (
                     item.extension_attributes &&
                     item.extension_attributes.aw_giftcard_codes
@@ -220,7 +217,7 @@ class MiniCart extends Component {
                 return false;
             });
             if (segment) {
-                let aw_giftcard_codes = segment.extension_attributes
+                const aw_giftcard_codes = segment.extension_attributes
                     .aw_giftcard_codes[0]
                     ? segment.extension_attributes.aw_giftcard_codes[0]
                     : '';
@@ -291,7 +288,6 @@ class MiniCart extends Component {
             totalsSummary,
             couponCode,
             giftVoucher,
-            estimateShipAndTax,
             grandTotal
         } = this;
         const { classes, closeDrawer } = props;
@@ -322,23 +318,6 @@ class MiniCart extends Component {
             </div>
         );
     }
-
-    openOptionsDrawer = item => {
-        this.setState({
-            focusItem: item
-        });
-        this.props.openOptionsDrawer();
-    };
-
-    // closeDrawer = () => {
-    //     // const {target} = e;
-
-    //     // if(!this.wrapperMiniCart.current.contains(target)){
-    //     //     this.props.closeDrawer();
-    //     // }
-    //     this.props.closeDrawer();
-    //     // this.handleClick();
-    // };
 
     get miniCartInner() {
         const { checkout, productList, props } = this;
@@ -378,7 +357,7 @@ class MiniCart extends Component {
         const title = isOptionsDrawerOpen ? 'Edit Cart Item' : 'My Cart';
 
         return (
-            <aside className={`${className} minicart`}>
+            <aside className={`${className} minicart`} ref={this.wrapperMiniCart}>
                 {isCartEmpty
                 ?
                     <div className={classes.header}></div>
@@ -387,9 +366,6 @@ class MiniCart extends Component {
                         <h2 className={classes.title}>
                             <span>{title}</span>
                         </h2>
-                        <Trigger>
-                            <Icon src={CloseIcon} />
-                        </Trigger>
                     </div>
                 }
                 {isLoading ? <Loading /> : body}

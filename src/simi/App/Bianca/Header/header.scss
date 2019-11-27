@@ -670,17 +670,16 @@ body.fixed-scroll {
     text-align: center;
     white-space: nowrap;
 }
-.menu-my-account, .menu-settings {
+.menu-my-account, .before-login, .menu-settings {
     position: absolute;
-    background: #fff;
     z-index: 2;
-    border: 1px solid #f3f3f3;
-    box-shadow: 2px 2px 0 0 rgba(0,0,0,0.14);
     margin-top: 8px;
 }
-.list-menu-account, list-menu-settings {
-    padding-top: 4px;
-    padding-bottom: 4px;
+.before-login{
+    right: -16px;
+}
+.list-menu-account, .list-before-login, .list-menu-settings {
+    background-color: #F2F2F2;
 }
 .list-menu-settings > div {
     margin-left: 0 !important;
@@ -698,12 +697,36 @@ body.fixed-scroll {
     color: #333132 !important;
     font-size: 12px;
 }
-.menu-my-account .my-account-item {
-    font-size: 12px;
-    line-height: 20px;
-    padding: 4px 24px;
+.before-login .before-login-item-1{
+    color: $textColor1;
+    font-family: Gotham;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
     text-align: center;
-    justify-content: center;
+    padding-top: 23.5px;
+    padding-bottom: 14.5px;
+    padding-left: 18.5px;
+}
+.before-login .before-login-item-2{
+    color: $textColor1;
+    font-family: Gotham;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+    text-align: center;
+    padding-top: 10.5px;
+    padding-bottom: 23.5px;
+    padding-left: 18.5px;
+}
+.menu-my-account .my-account-item {
+    color: $textColor1;
+    font-family: Gotham;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+    text-align: center;
+    padding: 4px 24px;
 }
 .siminia-wrapper{
     -webkit-transition: all 0.2s ease-in;
@@ -801,6 +824,9 @@ body.fixed-scroll {
 }
 
 @media (max-width: 1023px) {
+    .header-wrapper.mobile .header-search .header-search-form .search-auto-complete-root{
+        top: 84px;
+    }
     .header-wrapper.mobile .container-header .header .header-logo{
         margin-left: unset;
     }
@@ -883,5 +909,10 @@ body.fixed-scroll {
     }
     .right-bar-item.cart {
         margin-right: 1px !important;
+    }
+}
+@media(max-width: 375px){
+    .header-wrapper .container-global-notice .notice-inner .notice-msg span{
+        font-size: 10px !important;
     }
 }

@@ -1,21 +1,26 @@
 .root {
-    align-items: center;
     display: grid;
     gap: 1rem;
     column-gap: 15px;
     grid-auto-flow: column;
-    grid-template-columns: 60px 1fr;
+    grid-template-columns: 82px 1fr;
+    width: 253px;
 }
 
 .image {
     align-items: center;
     display: inline-flex;
     justify-content: center;
-    padding: 2px;
-    width: 64px;
-    height: 64px;
-    border: solid #eaeaea 1px;
-    margin-bottom: 5px;
+    width: 82px;
+    height: 103px;
+    border: unset;
+}
+
+.image img{
+    width: 82px;
+    height: 103px;
+    max-width: unset !important;
+    max-height: unset !important;
 }
 
 .name {
@@ -23,19 +28,19 @@
     font-size: 14px;
     line-height: 19px;
     font-weight: 500;
+    display: inline-block;
 }
-.price{
-    
+.price {
 }
-.price div:nth-child(1) div:nth-child(1){
+.price div:nth-child(1) div:nth-child(1) {
     margin-top: 8px;
     margin-bottom: 12.56px;
 }
-.price span{
+.price span {
     display: block;
     height: 16px;
 }
-.price span span{
+.price span span {
     display: inline-block;
     color: #101820;
     font-family: Gotham;
@@ -43,4 +48,14 @@
     font-weight: 700;
     line-height: 19px;
     text-align: center;
+}
+.price span[class~='sale_off'] {
+    display: none !important;
+}
+.price div[class~='special'] span[class~='label'] {
+    display: none !important;
+}
+.price span[class ~= "old"] span{
+    text-decoration: line-through;
+    color: rgb(114, 114, 114) !important;
 }

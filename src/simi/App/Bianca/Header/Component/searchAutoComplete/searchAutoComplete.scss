@@ -3,12 +3,13 @@ $textColor: #101820;
 .search-auto-complete-root {
     font-family: Gotham;
     .icon-cross {
-        font-size: 22px;
+        font-size: 16px;
     }
     .suggested-products-list{
-        margin-top: 16px;
+        margin-top: 19px;
+        margin-left: -20px;
         > li{
-            margin-top: 24.44px;
+            margin-top: 24.4px;
             &:first-child{
                 margin-top: 0px;
             }
@@ -38,6 +39,14 @@ $textColor: #101820;
         font-weight: 600;
         line-height: 14px;
         color: $textColor;
-        margin-top: 8px;
+        margin-top: 0px;
+    }
+    .vendor span{
+        display: inline-block;
+        color: #101820;
+        font-family: Gotham;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 14px;
     }
 }

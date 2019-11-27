@@ -359,6 +359,21 @@ const Footer = (props) => {
 				</div>
 			</div>
 			{/* <Copyright isPhone={isPhone} classes={classes} /> */}
+			<div className={`mobile-social`}>
+					{!isPhone ? (<></>):(
+						<div className={`footer-mobile-social`}>
+								<a href={footer_facebook} target="__blank">
+									<div className={classes['facebook-icon social-icon']} ></div>
+								</a>
+								<a href={footer_twitter} target="__blank">
+									<div className={classes['twitter-icon social-icon']} ></div>
+								</a>
+								<a href={footer_instagram} target="__blank">
+									<div className={classes['instagram-icon social-icon']} ></div>
+								</a>
+						</div>
+					)}
+			</div>
 		</div>
 	);
 };
