@@ -511,8 +511,11 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
                                         'image' => $imageOfNewItem,
                                         'request' => $requestOfNewItem
                                     );
-                                $param['options'] = array($custom_option['id'] => base64_encode(json_encode($preOrderProducts)));
+                                $optionString = base64_encode(json_encode($preOrderProducts));
+                                $param['options'] = array($custom_option['id'] => $optionString);
                                 $product = $depositProduct;
+                                $registry = $this->simiObjectManager->get('\Magento\Framework\Registry');
+                                $registry->register('simi_pre_order_option', $optionString);
 
                                 break;
                             }

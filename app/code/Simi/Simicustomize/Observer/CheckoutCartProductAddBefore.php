@@ -22,12 +22,12 @@ class CheckoutCartProductAddBefore implements ObserverInterface {
     }
 
     public function execute(\Magento\Framework\Event\Observer $observer) {
-        $requestInfo = $observer->getEvent()->getData('info');
-        $session = $this->session;
-        $product = $observer->getEvent()->getData('product');
-        $this->_getQuote()->setIsPreorder(true);
-
-        //var_dump($product->getData('sku'));die;
+//        $requestInfo = $observer->getEvent()->getData('info');
+//        $session = $this->session;
+//        $product = $observer->getEvent()->getData('product');
+//        $this->_getQuote()->setIsPreorder(true);
+//
+//        //var_dump($product->getData('sku'));die;
     }
 
     protected function _getCart()

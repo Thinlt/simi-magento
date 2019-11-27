@@ -45,13 +45,24 @@ class SimiSystemRestModify implements ObserverInterface {
                 //modify option values for special products (preorder, trytobuy)
                 if (isset($item['options']) && is_string($item['options']) && $optionArray = json_decode($item['options'], true)) {
                     if (is_array($optionArray)) {
-                        $newOptionvalue = array();
+                        $systemProductOption = array();
+                        $newOptions = false;
                         foreach ($optionArray as $itemOption) {
                             if ($itemOption['label'] === \Simi\Simicustomize\Model\Api\Quoteitems::PRE_ORDER_OPTION_TITLE) {
-                                $newOptionvalue = json_decode(base64_decode($itemOption['full_view']), true);
+                                $systemProductOption = json_decode(base64_decode($itemOption['full_view']), true);
+                                $newOptions = $systemProductOption;
+                                foreach ($newOptions as $newOptionIndex => $newOption ) {
+                                    $newOptions[$newOptionIndex] = array(
+                                        'label' => $newOption['sku'],
+                                        'value' => $newOption['quantity'],
+                                        'full_view' => $newOption['name']
+                                    );
+                                }
                             }
                         }
-                        $contentArray['items'][$index]['simi_system_product_option'] = json_encode($newOptionvalue);
+                        $contentArray['items'][$index]['simi_system_product_option'] = json_encode($systemProductOption);
+                        if ($newOptions)
+                            $contentArray['items'][$index]['options'] = json_encode($newOptions);
                     }
                 }
             }
