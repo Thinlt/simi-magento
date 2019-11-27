@@ -126,5 +126,18 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 ]
             );
         }
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.5', '<')) {
+            // Customize simi home category
+            $connection->addColumn(
+                $setup->getTable('simiconnector_simicategory'),
+                'is_show_name',
+                [
+                    'type' => Table::TYPE_SMALLINT,
+                    'length' => '2',
+                    'nullable' => true,
+                    'comment' => 'Category name is shown yes/no'
+                ]
+            );
+        }
     }
 }

@@ -149,6 +149,17 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'values'   => $this->simiObjectManager->get('Simi\Simiconnector\Helper\Catetree')->getChildCatArray(),
         ]);
 
+        $fieldset->addField('is_show_name', 'select', [
+            'name'     => 'is_show_name',
+            'label'    => __('Category name is shown'),
+            'title'    => __('Category name is shown'),
+            'required' => true,
+            'values'   => array(
+                1 => __('Yes'),
+                0 => __('No'),
+            ),
+        ]);
+
         if (!isset($data['sort_order'])) {
             $data['sort_order'] = 1;
         }
@@ -178,6 +189,10 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
         );
 
         $this->_eventManager->dispatch('adminhtml_simicategory_edit_tab_main_prepare_form', ['form' => $form]);
+
+        if ($data['is_show_name'] == null || $data['is_show_name'] == '') {
+            $data['is_show_name'] = 1;
+        }
 
         $form->setValues($data);
         $this->setForm($form);

@@ -130,8 +130,8 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
         );
 
         $fieldset->addField('banner_name', 'image', ['name'     => 'banner_name',
-            'label'    => __('Image (width:640px, height:340px)'),
-            'title'    => __('Image (width:640px, height:340px)'),
+            'label'    => __('Image (width:1160px, height:775px)'),
+            'title'    => __('Image (width:1160px, height:775px)'),
             'required' => false,
             'disabled' => $isElementDisabled
         ]);
@@ -141,8 +141,8 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'image',
             [
             'name'     => 'banner_name_tablet',
-            'label'    => __('Tablet Image (width:640px, height:340px)'),
-            'title'    => __('Tablet Image (width:640px, height:340px)'),
+            'label'    => __('Tablet Image (width:1160px, height:775px)'),
+            'title'    => __('Tablet Image (width:1160px, height:775px)'),
             'required' => false,
             'disabled' => $isElementDisabled
                 ]

@@ -14,9 +14,6 @@ class SimiSimiconnectorGraphqlSimiProductListItemAfter implements ObserverInterf
         // $extraData = $observer->getExtraData();
         if (isset($object->productExtraData['attribute_values']['vendor_id'])) {
             if (class_exists('Vnecoms\Vendors\Model\Vendor')) {
-
-                // var_dump($object->productExtraData['attribute_values']['vendor_id']);//die;
-
                 $vendor = \Magento\Framework\App\ObjectManager::getInstance()
                     ->get(\Vnecoms\Vendors\Model\Vendor::class)
                     ->load($object->productExtraData['attribute_values']['vendor_id']);
