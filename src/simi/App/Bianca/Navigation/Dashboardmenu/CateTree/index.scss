@@ -8,9 +8,11 @@
 
 .left-cats-menu{
     margin-top: 62px;
+    margin-bottom: 5.5px;
     .MuiListItem-button{
         padding-left: unset;
         padding-right: 19px;
+        margin-bottom: 5px;
     }
     .icons{
         font-size: 12px;
@@ -28,5 +30,7 @@
 .menu-content{
     display: flex;
     align-items: center;
-    color: #101820;
+    color: #727272;
+    font-size: 12px;
+    font-weight: 500;
 }

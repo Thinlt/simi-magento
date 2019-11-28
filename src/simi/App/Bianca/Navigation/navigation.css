@@ -31,6 +31,7 @@
     transition-duration: 224ms;
     transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
     visibility: visible;
+    max-width: 292px;
 }
 
 /* keyframes */
