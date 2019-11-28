@@ -7,7 +7,9 @@ const Brands = props => {
 
     const slideSettings = {
         chevronWidth: 72,
-        showChevron: !isPhone
+        showChevron: true,
+        numberOfCards: isPhone ? 3 : 6,
+        slidesToScroll: isPhone ? 3 : 6,
     }
 
     data.forEach((item, index)=>{
