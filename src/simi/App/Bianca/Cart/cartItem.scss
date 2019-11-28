@@ -1,5 +1,8 @@
 .cart-siminia-item {
     font-size: 16px;
+    .cart-item-value, .item-edit, .item-delete {
+        font-weight: 500;
+    }
 }
 
 @media(min-width: 1024px) {

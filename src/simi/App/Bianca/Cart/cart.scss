@@ -48,6 +48,18 @@
     font-weight: 600;
 }
 
+.cart-page .body{
+    .summary-zone{
+        .summary .grandtotal, #go-checkout .siminia-btn{
+            font-weight: 500;
+        }
+    }
+
+    .cart-list-footer{
+        font-weight: 500;
+    }
+}
+
 @media (min-width: 1024px) {
     .cart-page{
         .body{
