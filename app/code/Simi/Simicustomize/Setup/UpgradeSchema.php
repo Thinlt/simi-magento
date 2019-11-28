@@ -40,5 +40,173 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 ]
             );
         }
+
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.9', '<')) {
+            /**
+             * Creating table simicategory
+             */
+            $table_key_name = $setup->getTable('simiconnector_newcollections');
+            $this->checkTableExist($setup, $table_key_name, 'simiconnector_newcollections');
+            $table_key = $setup->getConnection()->newTable(
+                $table_key_name
+            )->addColumn(
+                'newcollections_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+                'Cat Id'
+            )->addColumn(
+                'newcollections_name',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => true],
+                'Cat Name'
+            )
+            ->addColumn(
+                'newcollections_filename_0',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => true],
+                'File Name'
+            )->addColumn(
+                'newcollections_filename_0_tablet',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => true],
+                'File name tablet'
+            )
+            ->addColumn(
+                'newcollections_filename_1',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => true],
+                'File Name'
+            )->addColumn(
+                'newcollections_filename_1_tablet',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => true],
+                'File name tablet'
+            )
+            ->addColumn(
+                'newcollections_filename_2',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => true],
+                'File Name'
+            )->addColumn(
+                'newcollections_filename_2_tablet',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => true],
+                'File name tablet'
+            )
+            ->addColumn(
+                'newcollections_filename_3',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => true],
+                'File Name'
+            )->addColumn(
+                'newcollections_filename_3_tablet',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => true],
+                'File name tablet'
+            )
+            ->addColumn(
+                'category_id_0',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['nullable' => true, 'unsigned' => true],
+                'Category Id'
+            )
+            ->addColumn(
+                'category_id_1',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['nullable' => true, 'unsigned' => true],
+                'Category Id'
+            )
+            ->addColumn(
+                'category_id_2',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['nullable' => true, 'unsigned' => true],
+                'Category Id'
+            )
+            ->addColumn(
+                'category_id_3',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['nullable' => true, 'unsigned' => true],
+                'Category Id'
+            )
+            ->addColumn(
+                'status',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['nullable' => true, 'unsigned' => true],
+                'status'
+            )->addColumn(
+                'website_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['nullable' => true, 'unsigned' => true],
+                'Web Id'
+            )->addColumn(
+                'storeview_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => true],
+                'Storeview Id'
+            )->addColumn(
+                'sort_order',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['nullable' => true],
+                'Sort Order'
+            )->addColumn(
+                'matrix_width_percent',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => true],
+                'Width Percent'
+            )->addColumn(
+                'matrix_height_percent',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => true],
+                'Height Percent'
+            )->addColumn(
+                'matrix_width_percent_tablet',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => true],
+                'Width Percent Tab'
+            )->addColumn(
+                'matrix_height_percent_tablet',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => true],
+                'Height Percent Tab'
+            )->addColumn(
+                'matrix_row',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => true],
+                'Rownum'
+            );
+            $setup->getConnection()->createTable($table_key);
+            // end create table newcollections
+        }
+    }
+
+    public function checkTableExist($installer, $table_key_name, $table_name)
+    {
+        if ($installer->getConnection()->isTableExists($table_key_name) == true) {
+            $installer->getConnection()
+                    ->dropTable($installer->getConnection()->getTableName($table_name));
+        }
     }
 }
