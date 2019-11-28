@@ -4,17 +4,21 @@ import Scroller from "./Scroller";
 
 const Designers = props => {
     const { history, isPhone} = props;
-    const storeConfig = Identify.getStoreConfig() || [];
-    const {simiStoreConfig: {config: {brands: data}}} = storeConfig;
+    const storeConfig = Identify.getStoreConfig() || {};
+    const {simiStoreConfig} = storeConfig || {};
+    const {config} = simiStoreConfig || {};
+    const {brands: data} = config || {};
 
     const slideSettings = {
         chevronWidth: 72,
         showChevron: !isPhone
     }
 
-    data.forEach((item, index)=>{
-        item.url = `/shop-by-brand.html?option_id=${item.option_id}`;
-    });
+    if (data) {
+        data.forEach((item, index)=>{
+            item.url = `/shop-by-brand.html?option_id=${item.option_id}`;
+        });
+    }
 
     return (
         <div className="brand-slider">
