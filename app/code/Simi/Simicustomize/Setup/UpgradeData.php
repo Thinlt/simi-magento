@@ -220,25 +220,10 @@ class UpgradeData implements UpgradeDataInterface
             /** @var SalesSetup $salesSetup */
             $salesSetup = $this->salesSetupFactory->create(['setup' => $setup]);
             $salesSetup->addAttribute('order', 'order_type', ['type' => Table::TYPE_TEXT, 'length' => 100]);
-            $salesSetup->addAttribute('order', 'base_deposit_amount', ['type' => Table::TYPE_DECIMAL]);
-            $salesSetup->addAttribute('order', 'deposit_amount', ['type' => Table::TYPE_DECIMAL]);
         }
 
         if ($context->getVersion() && version_compare($context->getVersion(), '1.0.4', '<')) {
-            /** @var SalesSetup $salesSetup */
-            $salesSetup = $this->salesSetupFactory->create(['setup' => $setup]);
-            $salesSetup->addAttribute('order', 'base_remaining_amount', [
-                'type' => Table::TYPE_DECIMAL, 
-                'length' => '12,4', 
-                'nullable' => true, 
-                'comment' => 'Pre-order base_remaining_amount'
-            ]);
-            $salesSetup->addAttribute('order', 'remaining_amount', [
-                'type' => Table::TYPE_DECIMAL, 
-                'length' => '12,4', 
-                'nullable' => true, 
-                'comment' => 'Pre-order remaining_amount'
-            ]);
+
         }
     }
 }

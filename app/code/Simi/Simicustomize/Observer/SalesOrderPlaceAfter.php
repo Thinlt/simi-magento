@@ -22,13 +22,13 @@ class SalesOrderPlaceAfter implements ObserverInterface
     }
 
     public function execute(Observer $observer) {
-        $order = $observer->getEvent()->getOrder();
-        $coupon_code = $order->getCouponCode();
-        if ($coupon_code && $coupon_code == 'TRYTOBUY') {
-            $order->setStatus('try_to_buy');
-        }
-        if ($order->getOrderType() == 'pre_order') {
-            $order->setStatus('pre_order');
-        }
+//        $order = $observer->getEvent()->getOrder();
+//        $coupon_code = $order->getCouponCode();
+//        if ($coupon_code && $coupon_code == 'TRYTOBUY') {
+//            //$order->setStatus('try_to_buy');
+//        }
+//        if ($order->getOrderType() == 'pre_order') {
+//            //$order->setStatus('pre_order');
+//        }
     }
 }

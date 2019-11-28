@@ -17,6 +17,9 @@ class OrderType implements OptionSourceInterface
      */
     protected $options;
 
+    const ORDER_TYPE_PRE_ORDER_WAITING = 'pre_order_waiting';
+    const ORDER_TYPE_PRE_ORDER_PAID = 'pre_order_paid';
+
     /**
      * Get options
      *
@@ -28,8 +31,8 @@ class OrderType implements OptionSourceInterface
             $options = [
                 ['label' => __('No type'),      'value' => ''],
                 ['label' => __('Try to buy'),   'value' => 'try_to_buy'],
-                ['label' => __('Pre-order Waiting'),    'value' => 'pre_order'],
-                ['label' => __('Pre-order Paid'),    'value' => 'pre_order_paid'],
+                ['label' => __('Pre-order Waiting'),    'value' => self::ORDER_TYPE_PRE_ORDER_WAITING],
+                ['label' => __('Pre-order Paid'),    'value' => self::ORDER_TYPE_PRE_ORDER_PAID],
                 ['label' => __('Other'),        'value' => 'other'],
             ];
             array_walk($options, function (&$option) {

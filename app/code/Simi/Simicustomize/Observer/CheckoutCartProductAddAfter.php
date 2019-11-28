@@ -22,6 +22,17 @@ class CheckoutCartProductAddAfter implements ObserverInterface {
         $this->_calculateSpecialProductPrice($item);
     }
 
+    public function _getCart()
+    {
+        return $this->simiObjectManager->get('Magento\Checkout\Model\Cart');
+    }
+
+    public function _getQuote()
+    {
+        return $this->_getCart()->getQuote();
+    }
+
+
     protected function _calculateSpecialProductPrice($entity) {
         $depositProductId = $this->scopeConfig->getValue('sales/preorder/deposit_product_id');
         $depositPercent = $this->scopeConfig->getValue('sales/preorder/deposit_amount');
