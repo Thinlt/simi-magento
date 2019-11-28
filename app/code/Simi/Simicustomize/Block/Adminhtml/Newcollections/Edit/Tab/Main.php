@@ -257,7 +257,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
 
         $this->_eventManager->dispatch('adminhtml_newcollections_edit_tab_main_prepare_form', ['form' => $form]);
 
-        if ($data['is_show_name'] == null || $data['is_show_name'] == '') {
+        if (isset($data['is_show_name']) && $data['is_show_name'] == '') {
             $data['is_show_name'] = 1;
         }
 
