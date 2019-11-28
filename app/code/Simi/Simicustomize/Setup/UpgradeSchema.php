@@ -199,6 +199,18 @@ class UpgradeSchema implements UpgradeSchemaInterface
             );
             $setup->getConnection()->createTable($table_key);
             // end create table newcollections
+	    
+	    // Add quote_type to quote table
+            $connection->addColumn(
+                $setup->getTable('quote'),
+                'deposit_order_increment_id',
+                [
+                    'type' => Table::TYPE_TEXT,
+                    'length' => '12,4',
+                    'nullable' => true,
+                    'comment' => 'Deposit order Id'
+                ]
+            );
         }
     }
 

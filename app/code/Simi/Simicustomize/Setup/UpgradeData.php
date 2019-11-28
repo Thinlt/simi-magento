@@ -225,5 +225,13 @@ class UpgradeData implements UpgradeDataInterface
         if ($context->getVersion() && version_compare($context->getVersion(), '1.0.4', '<')) {
 
         }
+
+        /**
+         * Add pre_order deposit order increment id
+         */
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.9', '<')) {
+            $salesSetup = $this->salesSetupFactory->create(['setup' => $setup]);
+            $salesSetup->addAttribute('order', 'deposit_order_increment_id', ['type' => Table::TYPE_TEXT, 'length' => 100]);
+        }
     }
 }
