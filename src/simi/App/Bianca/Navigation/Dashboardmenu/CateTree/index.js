@@ -1,11 +1,7 @@
 import React from 'react';
 import Identify from 'src/simi/Helper/Identify';
-import { cateUrlSuffix } from 'src/simi/Helper/Url';
-import { configColor } from 'src/simi/Config';
-import CateIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/List';
 import ListItemNested from 'src/simi/App/Bianca/BaseComponents/MuiListItem/Nested';
 import MenuItem from 'src/simi/App/Bianca/BaseComponents/MenuItem';
-import SubCate from './Subcate';
 require('./index.scss');
 
 class CateTree extends React.Component {
@@ -24,15 +20,6 @@ class CateTree extends React.Component {
 
     openLocation = location => {
         this.props.handleMenuItem(location);
-    };
-
-    renderTitleMenu = title => {
-        const classes = this.props;
-        return (
-            <div className={classes['menu-cate-name-item']}>
-                {Identify.__(title)}
-            </div>
-        );
     };
 
     renderTreeItem(allCats) {
@@ -58,7 +45,10 @@ class CateTree extends React.Component {
 
     renderSubItem(allCats) {
         let menuRender = [];
-        menuRender = allCats.children.map(item => {
+        const sortedCats = allCats.children.sort((a,b)=>{
+            return a.position - b.position
+        })
+        menuRender = sortedCats.map(item => {
             const catesItem = {
                 ...item,
                 url: `/${item.url_path}.html`
@@ -103,13 +93,6 @@ class CateTree extends React.Component {
                 <div>{cate_name}</div>
             </div>
         );
-    };
-
-    handleToggleMenu = id => {
-        const { classes } = this.props;
-        const cate = $('.cate-' + id);
-        $('.sub-cate-' + id).slideToggle('fast');
-        cate.find(`.${classes['cate-icon']}`).toggleClass('hidden');
     };
 
     renderJs = () => {

@@ -138,6 +138,8 @@ class LeftMenuContent extends React.Component{
 
     renderSections() {
         const {classes, isSignedIn, leftMenuItems} = this.props
+        const storeConfig = Identify.getStoreConfig()
+        const {bianca_header_phone} = storeConfig.simiStoreConfig.config.base
         const storeViewOptions = <Storeview classes={classes} className="storeview"/>
         const currencyOptions = <Currency classes={classes} className="currency"/>
         if (!leftMenuItems)
@@ -161,7 +163,7 @@ class LeftMenuContent extends React.Component{
                         </div>
                     </div>
                     <div className="left-contact-us">
-                        <MenuItem title={Identify.__('CONTACT US 24/7: +99 336 7890')}
+                        <MenuItem title={Identify.__(`CONTACT US 24/7: ${bianca_header_phone}`)}
                             />
                     </div>
                     {/* <Setting parent={this} style={styles} classes={classes}/> */}
