@@ -8,7 +8,7 @@ require('./banner.scss');
 const Banner = props => {
     const { history, isPhone, data} = props;
     const {home} = data || {};
-    const {homebanners} = home || {};
+    const {homebanners} = home && home.homebanners || [];
     const bannerCount = data.length;
 
     const slideSettings = {
@@ -25,7 +25,7 @@ const Banner = props => {
     }
 
     const bannerData = [];
-    if (homebanners) {
+    if (homebanners instanceof Array) {
         homebanners.forEach((item, index) => {
             if (item.banner_name || item.banner_name_tablet) {
                 bannerData.push(
