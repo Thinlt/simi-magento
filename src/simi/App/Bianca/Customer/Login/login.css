@@ -14,7 +14,7 @@
     padding: 0px 0px 65px;
     border: 1px solid;
     background-color: white;
-    max-height: 591px;
+    min-height: 700px !important;
 }
 .signIn_closed {
     display: none;
@@ -151,12 +151,43 @@
     top: 16px;
     left: 131px;
 }
+.login-background div[class ~="signInAction"]{
+    margin-top: 40px;
+}
+.login-background div[class ~="signInAction"] button{
+    color: #101820;
+    font-family: "Gotham Medium";
+    font-size: 16px;
+    line-height: 16px;
+}
 .login-background div[class ~="signInAction"] div[class *= "checkbox-item"]{
-    background-color: gold;
     margin-top: unset !important;
 }
 .login-background div[class ~="signInAction"] div[class *= "checkbox-item-icon"]{
-    background-color: red;
     width: 24px;
     height: 24px;
+}
+.login-background div[class ~="signInAction"] div[class *= "checkbox-item-icon-inside"]{
+    margin-top: 4px !important;
+}
+.login-background div[class ~="signInAction"] span[class *= "checkbox-item-text"]{
+   margin: 5px 0;
+   min-width: 103px;
+}
+.login-background div[class ~="signInButtonCtn"]{
+    margin-top: 32px !important;
+}
+.login-background div[class ~="signInButtonCtn"] button{
+       font-size: 16px;
+       font-weight: 500 !important;
+       white-space: nowrap;
+       text-align: center;
+       padding-top: 16px !important;
+       cursor: pointer;
+       border: 0;
+       width: 100%;
+       min-width: 200px;
+       padding-bottom: 16px !important;
+       font-family: Gotham;
+       line-height: 16px !important;
 }
