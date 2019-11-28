@@ -87,6 +87,17 @@
     justify-content: space-between;
     margin-top: 25px;
 }
+.login-background .select-type .active{
+    background-color: #101820 !important;
+}
+.login-background .select-type .active .icon-phone,
+.login-background .select-type .active .title-phone{
+    color: #fff !important;
+}
+.login-background .select-type .active .icon-email,
+.login-background .select-type .active .title-email{
+    color: #fff !important;
+}
 .login-background .select-type .phone-type,
 .login-background .select-type .email-type {
     width: 278px;
@@ -190,4 +201,114 @@
        padding-bottom: 16px !important;
        font-family: Gotham;
        line-height: 16px !important;
+}
+
+.login-background .inactive{
+    display: none;
+}
+.login-background .active{
+    padding: 0 98px;
+    display: block;
+    justify-content: space-between;
+}
+.login-background .active .signInDivider{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+.login-background .active .signInDivider .hr{
+    border-top: 0.5px solid #727272;
+    border-bottom: 0.5px solid #727272;
+    margin: unset;
+    margin-top: 6px;
+    width: 211px;
+}
+.login-background .active .signInDivider .hr.left-hr{
+    margin-right: 12px;
+}
+.login-background .active .signInDivider .hr.right-hr{
+    margin-left: 12px;
+}
+.login-background .active .signInDivider .signInWidth{
+    color: #101820;
+    font-family: "Gotham Medium";
+    font-size: 14px;
+    font-weight: 500;
+    height: 14px;
+    text-transform: uppercase;
+}
+.login-background .active .socialMedia{
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+}
+.login-background .active .socialMedia .social-icon{
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid #101820;
+    box-sizing: border-box;
+    border-radius: 100%;
+    width: 36px;
+    height: 36px;
+    background-color: #fff;
+    margin: 0 8px;
+}
+.login-background .active .socialMedia .social-icon.special{
+   text-align: center;
+}
+.login-background .active .socialMedia .social-icon .icon{
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+    color: #101820;
+    font-family: simple-line-icons;
+    font-size: 24px;
+    line-height: 24px;
+    text-align: center;
+    padding: 5px;
+}
+.login-background .active .socialMedia .social-icon .icon.google{
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+    color: #101820;
+    font-family: Material-Design-Iconic-Font;
+    font-size: 24px;
+    letter-spacing: 0.17px;
+    line-height: 24px;
+    text-align: center;
+}
+.login-background .active .socialMedia .social-icon .facebook::before{
+    content: "\e00b";
+}
+.login-background .active .socialMedia .social-icon .twitter::before{
+    content: "\e009";
+}
+.login-background .active .socialMedia .social-icon .google::before{
+    content: '\f3f7';
+}
+.login-background .active .socialMedia .social-icon .linkedin::before{
+    content: "\e60a";
+}
+.login-background .active .socialMedia .social-icon .instagram::before{
+    content: "\e609";
+}
+.login-background .active .showCreateAccountButtonCtn{
+    display:flex;
+    margin-top: 60px;
+    box-sizing: content-box;
+    height: 48px;
+    width: 572px;
+    border: 1px solid #101820;
+    cursor: pointer;
+}
+.login-background .active .showCreateAccountButtonCtn .showCreateAccountButton{
+    display: inline-block;
+    width: 100%;
+    color: #101820;
+    font-family: Gotham;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+    text-transform: uppercase;
 }

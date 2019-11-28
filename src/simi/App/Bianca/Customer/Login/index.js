@@ -3,6 +3,7 @@ import defaultClasses from './login.css';
 import classify from 'src/classify';
 import Identify from 'src/simi/Helper/Identify';
 import SignIn from './SignIn';
+import PhoneLogin from './SignIn/Phone/PhoneLogin'
 import VendorLogInForm from './VendorLogin';
 import CreateAccount from './CreateAccount';
 import ForgotPassword from './ForgotPassword';
@@ -22,15 +23,19 @@ import { Util } from '@magento/peregrine';
 import { simiSignedIn } from 'src/simi/Redux/actions/simiactions';
 import { showToastMessage } from 'src/simi/Helper/Message';
 import VendorRegister from './VendorRegister';
+import Facebook from 'src/simi/BaseComponents/Icon/Facebook';
+import Instagram from 'src/simi/BaseComponents/Icon/Instagram';
+import Twitter from 'src/simi/BaseComponents/Icon/Twitter';
+import GooglePlus from 'src/simi/BaseComponents/Icon/TapitaIcons/GooglePlus';
 
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
 class Login extends Component {
     state = {
         isCreateAccountOpen: false,
-        isSignInOpen: true,
+        isEmailLogin: true,
         isForgotPasswordOpen: false,
-        isVendorLoginOpen: false,
+        isPhoneLogin: false,
         isVendorRegisterOpen: false
     };
 
@@ -50,17 +55,16 @@ class Login extends Component {
         }
     }
 
-    get signInForm() {
-        const { isSignInOpen } = this.state;
+    get emailLoginForm() {
+        const { isEmailLogin } = this.state;
         const { classes } = this.props;
-        const isOpen = isSignInOpen;
+        const isOpen = isEmailLogin;
         const className = isOpen ? classes.signIn_open : classes.signIn_closed;
 
         return (
             <div className={className}>
                 <SignIn
                     classes={classes}
-                    showCreateAccountForm={this.setCreateAccountForm}
                     onForgotPassword={this.setForgotPasswordForm}
                     onSignIn={this.onSignIn.bind(this)}
                 />
@@ -68,23 +72,74 @@ class Login extends Component {
         );
     }
 
-    get vendorLogInForm() {
-        const { isVendorLoginOpen } = this.state;
+    get phoneLoginForm() {
+        const { isPhoneLogin } = this.state;
         const { classes } = this.props;
-        const isOpen = isVendorLoginOpen;
+        const isOpen = isPhoneLogin;
         const className = isOpen ? classes.signIn_open : classes.signIn_closed;
 
         return (
             <div className={className}>
-                <VendorLogInForm
-                    classes={classes}
-                    showVendorRegisterForm={this.setVendorRegisterForm}
-                    onForgotPassword={this.setForgotPasswordForm}
-                    onSignIn={this.onVendorLogin.bind(this)}
-                />
+                <PhoneLogin />
             </div>
         );
     }
+
+    get socialAndCreateAccount (){
+        const {setCreateAccountForm} = this
+        const {isCreateAccountOpen, isForgotPasswordOpen} = this.state
+        const { classes } = this.props;
+        return(
+            <React.Fragment>
+                <div className={`${(isCreateAccountOpen||isForgotPasswordOpen) ? classes["inactive"] : classes["active"] }` }>
+                    <div className={`${classes['signInDivider']}`} >
+                        <hr className={`${classes['hr']} ${classes['left-hr']}`} />
+                        <div className={`${classes['signInWidth']}`}>{Identify.__("or sign in with".toUpperCase())}</div>
+                        <hr className={`${classes['hr']} ${classes['right-hr']}`} />
+                    </div>
+                    <div className={`${classes['socialMedia']}`}>
+                        <span className={`${classes['social-icon']}`} >
+                            <span className={`${classes['icon']} ${classes['facebook']}`}></span>
+                        </span>
+                        <span className={`${classes['social-icon']}`} >
+                            <span className={`${classes['icon']} ${classes['twitter']}`}></span>
+                        </span>
+                        <span className={`${classes['social-icon']} ${classes['special']}`} >
+                            <span className={`${classes['icon']} ${classes['google']}`}></span>
+                        </span>
+                        <span className={`${classes['social-icon']}`} >
+                            <span className={`${classes['icon']} ${classes['linkedin']}`}></span>
+                        </span>
+                        <span className={`${classes['social-icon']}`} >
+                            <span className={`${classes['icon']} ${classes['instagram']}`}></span>
+                        </span>
+                    </div>
+                    <div className={`${classes['showCreateAccountButtonCtn']}`} >
+                        <button priority="high" className={`${classes['showCreateAccountButton']}`} onClick={setCreateAccountForm} type="submit">
+                            {Identify.__('Create an Account')}
+                        </button>
+                    </div>
+                </div>
+            </React.Fragment>
+        )
+    }
+    // get vendorLogInForm() {
+    //     const { isPhoneLogin } = this.state;
+    //     const { classes } = this.props;
+    //     const isOpen = isPhoneLogin;
+    //     const className = isOpen ? classes.signIn_open : classes.signIn_closed;
+
+    //     return (
+    //         <div className={className}>
+    //             <VendorLogInForm
+    //                 classes={classes}
+    //                 showVendorRegisterForm={this.setVendorRegisterForm}
+    //                 onForgotPassword={this.setForgotPasswordForm}
+    //                 onSignIn={this.onVendorLogin.bind(this)}
+    //             />
+    //         </div>
+    //     );
+    // }
 
     vendorRegister = () => {};
     createAccount = () => {};
@@ -101,6 +156,7 @@ class Login extends Component {
     };
 
     setCreateAccountForm = () => {
+
         this.createAccount = className => {
             return (
                 <div className={className}>
@@ -157,9 +213,9 @@ class Login extends Component {
     showVendorRegisterForm = () => {
         this.setState(() => ({
             isCreateAccountOpen: false,
-            isSignInOpen: false,
+            isEmailLogin: false,
             isForgotPasswordOpen: false,
-            isVendorLoginOpen: false,
+            isPhoneLogin: false,
             isVendorRegisterOpen: true
         }));
     };
@@ -167,9 +223,9 @@ class Login extends Component {
     showCreateAccountForm = () => {
         this.setState(() => ({
             isCreateAccountOpen: true,
-            isSignInOpen: false,
+            isEmailLogin: false,
             isForgotPasswordOpen: false,
-            isVendorLoginOpen: false,
+            isPhoneLogin: false,
             isVendorRegisterOpen: false
         }));
     };
@@ -177,29 +233,29 @@ class Login extends Component {
     showForgotPasswordForm = () => {
         this.setState(() => ({
             isForgotPasswordOpen: true,
-            isSignInOpen: false,
+            isEmailLogin: false,
             isCreateAccountOpen: false,
-            isVendorLoginOpen: false,
+            isPhoneLogin: false,
             isVendorRegisterOpen: false
         }));
     };
 
-    showLoginForm = () => {
+    showEmailLoginForm = () => {
         this.setState(() => ({
             isForgotPasswordOpen: false,
-            isSignInOpen: true,
+            isEmailLogin: true,
             isCreateAccountOpen: false,
-            isVendorLoginOpen: false,
+            isPhoneLogin: false,
             isVendorRegisterOpen: false
         }));
     };
 
-    showVendorLoginForm = () => {
+    showPhoneLoginForm = () => {
         this.setState(() => ({
             isForgotPasswordOpen: false,
-            isSignInOpen: false,
+            isEmailLogin: false,
             isCreateAccountOpen: false,
-            isVendorLoginOpen: true,
+            isPhoneLogin: true,
             isVendorRegisterOpen: false
         }));
     };
@@ -268,10 +324,10 @@ class Login extends Component {
     render() {
         const {
             createAccountForm,
-            signInForm,
+            emailLoginForm,
             forgotPasswordForm,
-            showLoginForm,
-            vendorLogInForm,
+            phoneLoginForm,
+            socialAndCreateAccount,
             vendorRegisterForm,
             props,
             state
@@ -279,8 +335,8 @@ class Login extends Component {
         const {
             isCreateAccountOpen,
             isForgotPasswordOpen,
-            isSignInOpen,
-            isVendorLoginOpen
+            isEmailLogin,
+            isPhoneLogin
         } = state;
 
         const { classes, isSignedIn, firstname, history } = props;
@@ -311,13 +367,6 @@ class Login extends Component {
         }
         const showBackBtn = isCreateAccountOpen || isForgotPasswordOpen;
 
-        // const title =
-        //     isCreateAccountOpen
-        //         ? Identify.__('Create Account')
-        //         : isForgotPasswordOpen
-        //         ? Identify.__('Forgot password')
-        //         : Identify.__('Sign In')
-
         return (
             <React.Fragment>
                 {TitleHelper.renderMetaHeader({
@@ -328,25 +377,23 @@ class Login extends Component {
                         <div className={`${classes['buyer-login']}`}>
                             <span>{Identify.__('Buyer'.toUpperCase())}</span>
                         </div>
-                        {/* <div onClick={this.showVendorLoginForm} className={isVendorLoginOpen ? classes["active"]: null}>
-                                {Identify.__("Seller".toUpperCase())}
-                            </div> */}
-                        <div className={classes['select-type']}>
-                            <div className={classes['phone-type']}>
+                        <div className={`${(isCreateAccountOpen||isForgotPasswordOpen) ? classes["inactive"]: classes[""]} ${classes['select-type']}` }>
+                            <div onClick={this.showPhoneLoginForm} className={`${isPhoneLogin ? classes["active"]: null} ${classes['phone-type']}` }>
                                 <span className={classes['icon-phone']} />
                                 <span className={classes['title-phone']}>
                                     {Identify.__('Phone')}
                                 </span>
                             </div>
-                            <div className={classes['email-type']}>
+                            <div onClick={this.showEmailLoginForm} className={`${isEmailLogin ? classes["active"]: null} ${classes['email-type']}` }>
                                 <span className={classes['icon-email']} />
                                 <span className={classes['title-email']}>
                                     {Identify.__('Email')}
                                 </span>
                             </div>
                         </div>
-                        {signInForm}
-                        {vendorLogInForm}
+                        {emailLoginForm}
+                        {phoneLoginForm}
+                        {socialAndCreateAccount}
                         {createAccountForm}
                         {vendorRegisterForm}
                         {forgotPasswordForm}

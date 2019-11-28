@@ -9,10 +9,6 @@ import TitleHelper from 'src/simi/Helper/TitleHelper'
 import UserIcon from '../../../../../BaseComponents/Icon/User';
 import Key from '../../../../../BaseComponents/Icon/Key';
 import Checkbox from 'src/simi/BaseComponents/Checkbox';
-import Facebook from 'src/simi/BaseComponents/Icon/Facebook';
-import Instagram from 'src/simi/BaseComponents/Icon/Instagram';
-import Twitter from 'src/simi/BaseComponents/Icon/Twitter';
-import GooglePlus from 'src/simi/BaseComponents/Icon/TapitaIcons/GooglePlus';
 
 require("./signIn.scss")
 
@@ -92,21 +88,6 @@ class SignIn extends Component {
                         </button>
                     </div>
                 </Form>
-                <div className='signInDivider'>
-                    <span className='signInWith'>{Identify.__("or sign in with".toUpperCase())}</span>
-                </div>
-                <div className='socialMedia'>
-                    <Facebook className="social-icon"/>
-                    <Twitter className="social-icon"/>
-                    <GooglePlus className="social-icon"/>
-                    <Instagram className="social-icon"/>
-                    <Instagram className="social-icon"/>
-                </div>
-                <div className='showCreateAccountButtonCtn'>
-                    <button priority="high" className='showCreateAccountButton' onClick={this.showCreateAccountForm} type="submit">
-                        {Identify.__('Create an Account')}
-                    </button>
-                </div>
             </div>
         );
     }

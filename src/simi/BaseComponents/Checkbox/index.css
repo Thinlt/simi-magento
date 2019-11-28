@@ -33,7 +33,7 @@
     text-align: center;
     width: 16px;
     height: 16px;
-    background-color: green;
+    background-color: #fff;
     margin: 4px;
 }
 .checkbox-item.selected .checkbox-item-icon .checkbox-item-icon-inside::before {
