@@ -12,26 +12,12 @@ import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/
 import * as Constants from 'src/simi/Config/Constants'
 import LoadingImg from 'src/simi/BaseComponents/Loading/LoadingImg';
 import { smoothScrollToView } from 'src/simi/Helper/Behavior';
+import Icon from 'src/components/Icon';
+import ChevronDownIcon from 'react-feather/dist/icons/chevron-down';
+const arrow = <Icon src={ChevronDownIcon} size={18} />;
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
 require('./formFields.scss')
-
-const listAddress = (addresses) => {
-    let html = [];
-    if (addresses && addresses.length) {
-        html = addresses.map(address => {
-            const labelA = address.firstname + ' ' + address.lastname + ', ' + address.city + ', ' + address.region.region;
-            return { value: address.id, label: labelA };
-        });
-
-    }
-    const ctoSelect = { value: '', label: Identify.__('Please choose') };
-    html.unshift(ctoSelect);
-
-    const new_Address = { value: 'new_address', label: Identify.__('New Address') };
-    html.push(new_Address);
-    return html;
-}
 
 const listState = (states) => {
     let html = null;
@@ -264,17 +250,21 @@ const FormFields = (props) => {
     const isFieldShow = (field_id) => {
         return !configFields || (configFields && !configFields.hasOwnProperty(field_id)) || (configFields && configFields.hasOwnProperty(field_id) && configFields[field_id] !== false)
     }
-
-    const viewFields = (!usingSameAddress) ? (
+    const viewFields = (!usingSameAddress || is_virtual) ? (
         <Fragment>
             {isSignedIn && 
                 <div className='shipping_address'>
                     <div className={`address-field-label ${(!configFields || configFields.country_id_show === 'req') ? 'req' : ''}`}>{billingForm ? Identify.__("Select Billing") : Identify.__("Select Shipping")}</div>
-                    <select name="selected_address_field"
-                    defaultValue={billingForm ? initialBilling : initialShipping}
-                    onChange={() => handleChooseAddedAddress()}>
-                        {listOptionsAddress(addresses)}
-                    </select>
+                    <span className="selectSavedAddress">
+                        <span className="selectSavedAddressInput">
+                            <select name="selected_address_field"
+                            defaultValue={billingForm ? initialBilling : initialShipping}
+                            onBlur={() => handleChooseAddedAddress()}>
+                                {listOptionsAddress(addresses)}
+                            </select>
+                        </span>
+                        <span className="selectSavedAddressAfter">{arrow}</span>
+                    </span>
                 </div>
             }
             {!isSignedIn || shippingNewForm || ((billingForm && storageBilling === 'new_address') || (!billingForm && storageShipping === 'new_address')) ?
@@ -387,7 +377,11 @@ const FormFields = (props) => {
                 </Fragment> : null}
         </Fragment>
     ) : null;
-    const viewSubmit = !usingSameAddress && (!isSignedIn || shippingNewForm || ((billingForm && storageBilling === 'new_address') || (!billingForm && storageShipping === 'new_address'))) ? (
+    const viewSubmit = 
+        (
+            !usingSameAddress || is_virtual) && 
+            (!isSignedIn || shippingNewForm || ((billingForm && storageBilling === 'new_address') || (!billingForm && storageShipping === 'new_address'))
+        ) ? (
         <div className='footer'>
             <Button
                 className='button save-address-btn'
@@ -410,7 +404,6 @@ const FormFields = (props) => {
         }
         setUsingSameAddress(sameAsShippingAddress)
     }
-
     return (
         <React.Fragment>
             <div className='body form-fields-body'>

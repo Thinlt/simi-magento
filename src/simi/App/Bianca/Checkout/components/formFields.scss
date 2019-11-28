@@ -4,29 +4,37 @@
         > span {
             width: 100%;
         }
-
+    }
+    .selectSavedAddress {
+        display: inline-grid;
+        grid-auto-flow: column;
+        grid-template-areas: 'before input after';
+        grid-template-columns: auto 1fr auto;
+        height: 2.25rem;
+        margin-bottom: 30px;
+        
+        .selectSavedAddressInput {
+            align-items: center;
+            display: flex;
+            grid-column: before-start / after-end;
+            grid-row: input-start / input-end;
+        }
+        .selectSavedAddressAfter{
+            grid-area: after;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+            width: 2.25rem;
+        }
         select[name="selected_address_field"]{
-            border: 1px solid rgb(112, 112, 112);
-            border-radius: 2px;
-            color: rgb(33, 33, 33);
+            border: unset;
             display: inline-flex;
             flex: 0 0 100%;
-            font-size: 1rem;
-            height: 2.25rem;
             margin: 0;
-            padding: calc(0.375rem - 1px) calc(2.25rem - 1px) calc(0.375rem - 1px) calc(0.625rem - 1px);
             width: 100%;
             -webkit-appearance: button;
-            background: white url(https://d30y9cdsu7xlg0.cloudfront.net/png/221782-200.png);
-            background-position: 97% center;
-            background-repeat: no-repeat;
-            background-size: 18px;
-
-            &:focus {
-                outline: none;
-                border-color: rgb(0, 115, 120);
-                box-shadow: 0 0 0 2px rgb(212, 243, 238), 0 0 0.5rem 2px rgba(0, 115, 120, 0.2);
-            }
+            border-radius: 0px;
         }
     }
 }
