@@ -218,8 +218,8 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
 
         $fieldset->addField('is_show_name', 'select', [
             'name'     => 'is_show_name',
-            'label'    => __('Collections name is shown'),
-            'title'    => __('Collections name is shown'),
+            'label'    => __('Newollections name is shown'),
+            'title'    => __('Newollections name is shown'),
             'required' => true,
             'values'   => array(
                 1 => __('Yes'),
