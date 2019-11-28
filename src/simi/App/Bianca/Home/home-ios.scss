@@ -15,4 +15,11 @@ $color1: #101820;
             }
         }
     }
+    .shop-by-designers-wrap{
+        .brand-slider{
+            &.phone-view{
+                .title{margin-bottom: 14px;}
+            }
+        }
+    }
 }

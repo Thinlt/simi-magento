@@ -34,7 +34,7 @@ const Scroller = props => {
         rightChevron: <ChevronRight style={{width: '24px', height: '24px'}} />,
         outsideChevron: true,
         alwaysShowChevrons: false,
-        slidesToScroll: 7,
+        slidesToScroll: 6,
         disableSwipe: false,
         onStateChange: props.onStateChange ? props.onStateChange() : null,
         classes: { wrapper: "wrapper", itemsWrapper: 'items-wrapper', itemsInnerWrapper: 'items-inner-wrapper', itemWrapper: 'item-wrapper', rightChevronWrapper: 'right-chevron-wrapper', leftChevronWrapper: 'left-chevron-wrapper' },
