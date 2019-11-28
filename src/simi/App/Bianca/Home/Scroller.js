@@ -12,7 +12,7 @@ import ChevronRight from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronRight';
  * props.renderItem - render item component
  */
 const Scroller = props => {
-    const {history, isPhone, renderItem} = props;
+    const {history, isPhone, renderItem, lastItems} = props;
     const data = props.data;
     const [activeItemIndex, setActiveItemIndex] = useState(0);
 
@@ -56,12 +56,15 @@ const Scroller = props => {
         );
     });
 
+    console.log(lastItems)
+
     return (
         <div className={`scroller ${Identify.isRtl() ? 'scroller-rtl' : ''}`}>
             <div className={`container scroller-container`}>
                 <ItemsCarousel
                     {..._settings}>
                     {items}
+                    {lastItems}
                 </ItemsCarousel>
             </div>
         </div>

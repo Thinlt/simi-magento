@@ -1,5 +1,6 @@
 import React from 'react'
 import Identify from "src/simi/Helper/Identify";
+import {cateUrlSuffix} from 'src/simi/Helper/Url';
 import Scroller from "./Scroller";
 
 const Designers = props => {
@@ -19,7 +20,7 @@ const Designers = props => {
     let newData = [];
     if (data) {
         data.forEach((item, index)=>{
-            if (index < 4) {
+            if (index < 18) {
                 item.url = `/shop-by-desinger.html?id=${item.vendor_id}`;
                 item.image = item.logo;
                 newData.push(item);
@@ -28,10 +29,20 @@ const Designers = props => {
         });
     }
 
+    const actionViewAll = () => {
+        history.push('/designers' + cateUrlSuffix());
+    }
+
+    const lastItems = (
+        <div className="last-items">
+            <div className="btn" onClick={actionViewAll}><span>{Identify.__('View all')}</span></div>
+        </div>
+    );
+
     return (
         <div className={`brand-slider ${isPhone ? 'phone-view':''}`}>
             { data && <h3 className="title">{Identify.__('Shop By Designers')}</h3>}
-            <Scroller data={newData} history={history} slideSettings={slideSettings} isPhone={isPhone}/>
+            <Scroller data={newData} lastItems={lastItems} history={history} slideSettings={slideSettings} isPhone={isPhone}/>
         </div>
     );
 }

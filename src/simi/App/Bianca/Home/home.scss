@@ -1,5 +1,21 @@
 $color1: #101820;
 .home-wrapper{
+    .btn {
+        min-width: 145px;
+        min-height: 36px;
+        background-color: #101820;
+        margin: 0 auto;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Gotham;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 12px;
+        color: #FFF;
+        text-transform: uppercase;
+        border-radius: unset;
+    }
     h3.title{
         font-family: Didot;
         font-size: 24px;
@@ -237,6 +253,12 @@ $color1: #101820;
                                 object-fit: contain;
                             }
                         }
+                        .last-items{
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            height: 100%;
+                        }
                     }
                 }
             }
@@ -250,6 +272,11 @@ $color1: #101820;
                             .item{
                                 width: 104px;
                                 height: 104px;
+                            }
+                            .last-items{
+                                .btn{
+                                    min-width: 92px;
+                                }
                             }
                         }
                     }
