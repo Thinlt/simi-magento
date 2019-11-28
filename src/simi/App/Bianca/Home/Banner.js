@@ -6,8 +6,9 @@ import BannerItem from "./BannerItem";
 require('./banner.scss');
 
 const Banner = props => {
-    const { history, isPhone} = props;
-    const data = props.data.home.homebanners;
+    const { history, isPhone, data} = props;
+    const {home} = data || {};
+    const {homebanners} = home && home.homebanners || [];
     const bannerCount = data.length;
 
     const slideSettings = {
@@ -24,19 +25,20 @@ const Banner = props => {
     }
 
     const bannerData = [];
-    data.homebanners.forEach((item, index) => {
-        if (item.banner_name || item.banner_name_tablet) {
-            bannerData.push(
-                <div
-                    key={index}
-                    style={{cursor: 'pointer'}}
-                >
-                    <BannerItem item={item}  history={history} isPhone={isPhone}/>
-                </div>
-            )
-        }
-
-    })
+    if (homebanners instanceof Array) {
+        homebanners.forEach((item, index) => {
+            if (item.banner_name || item.banner_name_tablet) {
+                bannerData.push(
+                    <div
+                        key={index}
+                        style={{cursor: 'pointer'}}
+                    >
+                        <BannerItem item={item}  history={history} isPhone={isPhone}/>
+                    </div>
+                )
+            }
+        });
+    }
 
     return (
         <div className={`banner-homepage ${Identify.isRtl() ? 'banner-home-rtl' : ''}`}>

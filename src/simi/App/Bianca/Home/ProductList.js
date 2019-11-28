@@ -4,7 +4,8 @@ import Identify from 'src/simi/Helper/Identify';
 
 const ProductList = props => {
     const { homeData, history} = props;
-    const {home: {homeproductlists: {homeproductlists: productLists}}} = homeData;
+    const productLists = homeData && homeData.home && homeData.home.homeproductlists && homeData.home.homeproductlists.homeproductlists || null
+
     const renderListProduct = () => {
         if(productLists instanceof Array && productLists.length > 0) {
             const productListRendered = productLists.map((item, index) => {
