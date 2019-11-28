@@ -7,6 +7,7 @@
 namespace Simi\VendorMapping\Model\Api;
 
 use Simi\VendorMapping\Api\VendorListInterface;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 class VendorList implements VendorListInterface
 {
@@ -31,12 +32,37 @@ class VendorList implements VendorListInterface
      */
     protected $_request;
 
+    /**
+     * @var \Vnecoms\VendorsConfig\Helper\Data
+     */
+    protected $_configHelper;
+
+    /**
+     * @var \Magento\MediaStorage\Helper\File\Storage\Database
+     */
+    protected $_fileStorageDatabase;
+    
+    /**
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
+     */
+    protected $mediaDirectory;
+
+    protected $storeManager;
+
     public function __construct(
         \Vnecoms\Vendors\Model\ResourceModel\Vendor\Collection $collection,
-        \Magento\Framework\App\RequestInterface $request
+        \Magento\Framework\App\RequestInterface $request,
+        \Vnecoms\VendorsConfig\Helper\Data $configHelper,
+        \Magento\MediaStorage\Helper\File\Storage\Database $fileStorageDatabase,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\View\Element\Template\Context $context
     ){
         $this->_collection = $collection;
         $this->_request = $request;
+        $this->_configHelper = $configHelper;
+        $this->_fileStorageDatabase = $fileStorageDatabase;
+        $this->_mediaDirectory = $context->getFilesystem()->getDirectoryRead(DirectoryList::MEDIA);
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -61,8 +87,15 @@ class VendorList implements VendorListInterface
                     $this->_collection->addFieldToFilter('entity_id', array('FINSET', $vendor_ids));
                 }
             }
+            // $this->_collection->getSelect()->joinLeft(
+            //     ['vendor_config' => $this->_collection->getTable('ves_vendor_config')],
+            //     'vendor_config.vendor_id = e.entity_id AND vendor_config.store_id = 0 AND vendor_config.path = "general/store_information/logo"',
+            //     ['vendor_config.value AS logo']
+            // );
             foreach ($this->_collection as $vendor) {
-                $vendors[] = $vendor->toArray();
+                $vendorData = $vendor->toArray();
+                $vendorData['logo'] = $this->getLogoUrl($vendor->getId());
+                $vendors[] = $vendorData;
             }
         }
         if (!count($vendors)) {
@@ -94,5 +127,40 @@ class VendorList implements VendorListInterface
             }
             $this->_collection->setPageSize($offset + $limit);
         }
+    }
+
+    /**
+     * Get Seller Logo Image URL
+     *
+     * @param void
+     * @return string
+     */
+    protected function getLogoUrl($vendorId)
+    {
+        $scopeConfig = $this->_configHelper->getVendorConfig(
+            'general/store_information/logo',
+            $vendorId
+        );
+        $basePath = 'ves_vendors/logo/';
+        $path =  $basePath. $scopeConfig;
+        if ($scopeConfig && $this->checkIsFile($path)) {
+            return $this ->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA).$path;
+        }
+
+        return '';
+    }
+
+    /**
+     * If DB file storage is on - find there, otherwise - just file_exists
+     *
+     * @param string $filename relative file path
+     * @return bool
+     */
+    protected function checkIsFile($filename)
+    {
+        if ($this->_fileStorageDatabase->checkDbUsage() && !$this->_mediaDirectory->isFile($filename)) {
+            $this->_fileStorageDatabase->saveFileToFilesystem($filename);
+        }
+        return $this->_mediaDirectory->isFile($filename);
     }
 }
