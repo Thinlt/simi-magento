@@ -1,10 +1,38 @@
+import React from 'react'
 import Abstract from '../Base'
+import { Switch, Route } from 'react-router-dom';
 import router from "./RouterConfig";
 class AppRouter extends Abstract{
 
     renderLayout = ()=>{
         return(
             this.renderRoute(router)
+        )
+    }
+    renderRoute =(router = null)=>{
+        if(!router) return <div></div>
+        return (
+            <Switch>
+                <Route exact {...router.home}/>
+                <Route exact {...router.search_page}/>
+                <Route exact {...router.cart}/>
+                <Route exact {...router.product_detail}/>
+                <Route exact {...router.checkout}/>
+                <Route exact {...router.thankyou}/>
+                <Route exact {...router.account}/>
+                <Route exact {...router.address_book}/>
+                <Route exact {...router.oder_history}/>
+                <Route exact {...router.order_history_detail}/>
+                <Route exact {...router.newsletter}/>
+                <Route exact {...router.profile}/>
+                <Route exact {...router.wishlist}/>
+                <Route exact {...router.login}/>
+                <Route exact {...router.logout}/>
+                <Route exact {...router.contact}/>
+                <Route exact {...router.preorder2nd}/>
+                {/*this.renderPbRoute()*/}
+                <Route {...router.noMatch}/>
+            </Switch>
         )
     }
 
