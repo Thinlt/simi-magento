@@ -1,5 +1,21 @@
 $color1: #101820;
 .home-wrapper{
+    .btn {
+        min-width: 145px;
+        min-height: 36px;
+        background-color: #101820;
+        margin: 0 auto;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Gotham;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 12px;
+        color: #FFF;
+        text-transform: uppercase;
+        border-radius: unset;
+    }
     h3.title{
         font-family: Didot;
         font-size: 24px;
@@ -8,6 +24,9 @@ $color1: #101820;
         color: #000;
         margin-top: 80px;
         margin-bottom: 32px;
+        @media (max-width: 1023px){
+            font-size: 20px;
+        }
     }
     .banner-wrap{
         .banner-homepage{
@@ -108,6 +127,7 @@ $color1: #101820;
                     max-width: 200px;
                     flex: 0 1;
                     flex-basis: 20%;
+                    text-align: center;
                 }
                 .cate-btn{
                     flex: 0 1;
@@ -136,6 +156,152 @@ $color1: #101820;
                     .cate-img{width: 100%;max-width: 100%;}
                     .cate-title{display:none;}
                     .cate-btn{display:none;}
+                }
+            }
+        }
+    }
+    .new-collections-wrap{
+        .newcollections{
+            .collections-wrap{
+                .item{
+                    h3.title{
+                        margin-bottom: 20px;
+                    }
+                    .collections-images{
+                        img{
+                            width: 100%;
+                        }
+                        .img-row-2{
+                            display: flex;
+                            justify-content: space-between;
+                        }
+                        .img-1{
+                            max-width: 1160px;
+                            max-height: 775px;
+                            cursor: pointer;
+                        }
+                        .img-2{
+                            max-width: 572px;
+                            max-height: 382px;
+                            margin-top: 16px;
+                            margin-right: 8px;
+                            cursor: pointer;
+                        }
+                        .img-3{
+                            max-width: 572px;
+                            max-height: 382px;
+                            margin-top: 16px;
+                            margin-right: 8px;
+                            cursor: pointer;
+                        }
+                        .img-4{
+                            max-width: 572px;
+                            max-height: 780px;
+                            margin-top: 16px;
+                            margin-left: 8px;
+                            cursor: pointer;
+                        }
+                    }
+                    &.phone-view{
+                        img{
+                            width: 100%;
+                            height: 100%;
+                        }
+                        .img-row-2{
+                            .img-col-1{
+                                flex: 1 1 50%;
+                                align-items: stretch;
+                                display: flex;
+                                flex-direction: column;
+                                .img-2, .img-3{
+                                    flex: 1 1;
+                                }
+                            }
+                            .img-col-2{
+                                flex: 1 1 50%;
+                                align-items: stretch;
+                            }
+                        }
+                        .img-2,.img-3{
+                            margin-top: 12px;
+                            margin-right: 6px;
+                        }
+                        .img-4{
+                            margin-top: 0;
+                            margin-left: 6px;
+                            padding-top: 12px;
+                            height: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .shop-by-designers-wrap{
+        .brand-slider{
+            .title{
+            }
+            .scroller{
+                .items-wrapper{
+                    .item-wrapper{
+                        .item{
+                            width: 180px;
+                            height: 180px;
+                            .img-responsive{
+                                width: 100%;
+                                height: 100%;
+                                object-fit: contain;
+                            }
+                        }
+                        .last-items{
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            height: 100%;
+                        }
+                    }
+                }
+            }
+            &.phone-view{
+                .title{
+                    margin-bottom: 19px;
+                }
+                .scroller{
+                    .items-wrapper{
+                        .item-wrapper{
+                            .item{
+                                width: 104px;
+                                height: 104px;
+                            }
+                            .last-items{
+                                .btn{
+                                    min-width: 92px;
+                                }
+                            }
+                        }
+                    }
+                    .left-chevron-wrapper{
+                        position: absolute;
+                        top: -45px;
+                        left: 0;
+                        margin-right: -15px;
+                        height: 27px;
+                        .chevron-left{
+                            width: 16px!important;
+                            height: 16px!important;
+                        }
+                    }
+                    .right-chevron-wrapper{
+                        position: absolute;
+                        top: -45px;
+                        right: 0;
+                        margin-left: -15px;
+                        height: 27px;
+                        .chevron-right{
+                            width: 16px!important;
+                            height: 16px!important;
+                        }
+                    }
                 }
             }
         }

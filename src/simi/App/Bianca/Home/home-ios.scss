@@ -4,4 +4,22 @@ $color1: #101820;
         padding-top: 5px;
         margin-bottom: -5px;
     }
+    .new-collections-wrap{
+        .newcollections{
+            .collections-wrap{
+                .item{
+                    h3.title{
+                        margin-bottom: 15px;
+                    }
+                }
+            }
+        }
+    }
+    .shop-by-designers-wrap{
+        .brand-slider{
+            &.phone-view{
+                .title{margin-bottom: 14px;}
+            }
+        }
+    }
 }

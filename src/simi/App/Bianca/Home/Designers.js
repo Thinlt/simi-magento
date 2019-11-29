@@ -1,5 +1,6 @@
 import React from 'react'
 import Identify from "src/simi/Helper/Identify";
+import {cateUrlSuffix} from 'src/simi/Helper/Url';
 import Scroller from "./Scroller";
 
 const Designers = props => {
@@ -7,22 +8,41 @@ const Designers = props => {
     const storeConfig = Identify.getStoreConfig() || {};
     const {simiStoreConfig} = storeConfig || {};
     const {config} = simiStoreConfig || {};
-    const {brands: data} = config || {};
+    const {vendor_list: data} = config || {};
 
     const slideSettings = {
-        chevronWidth: 72,
-        showChevron: !isPhone
+        chevronWidth: isPhone ? 48 : 72,
+        showChevron: true,
+        numberOfCards: isPhone ? 3 : 6,
+        slidesToScroll: isPhone ? 3 : 6,
     }
 
+    let newData = [];
     if (data) {
         data.forEach((item, index)=>{
-            item.url = `/shop-by-brand.html?option_id=${item.option_id}`;
+            if (index < 18) {
+                item.url = `/shop-by-desinger.html?id=${item.vendor_id}`;
+                item.image = item.logo;
+                newData.push(item);
+            }
+            return false;
         });
     }
 
+    const actionViewAll = () => {
+        history.push('/designers' + cateUrlSuffix());
+    }
+
+    const lastItems = (
+        <div className="last-items">
+            <div className="btn" onClick={actionViewAll}><span>{Identify.__('View all')}</span></div>
+        </div>
+    );
+
     return (
-        <div className="brand-slider">
-            <Scroller data={data} history={history} slideSettings={slideSettings} isPhone={isPhone}/>
+        <div className={`brand-slider ${isPhone ? 'phone-view':''}`}>
+            { data && <h3 className="title">{Identify.__('Shop By Designers')}</h3>}
+            <Scroller data={newData} lastItems={lastItems} history={history} slideSettings={slideSettings} isPhone={isPhone}/>
         </div>
     );
 }

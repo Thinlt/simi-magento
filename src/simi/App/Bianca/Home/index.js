@@ -10,6 +10,8 @@ import Identify from 'src/simi/Helper/Identify';
 import * as Constants from 'src/simi/Config/Constants';
 import { getOS } from 'src/simi/App/Bianca/Helper';
 import Designers from './Designers';
+import Newcollections from './Newcollections';
+import Instagram from './Instagram';
 require('./home.scss');
 
 if (getOS() === 'MacOS') require('./home-ios.scss');
@@ -72,14 +74,14 @@ const Home = props => {
                 <HomeCat catData={data} history={history} isPhone={isPhone}/>
             </div>
             <div className="new-collections-wrap">
-                <h3 className="title">{Identify.__('New Collections')}</h3>
+                <Newcollections data={data} history={history} isPhone={isPhone}/>
             </div>
             <div className="shop-by-designers-wrap">
-                <h3 className="title">{Identify.__('Shop By Designers')}</h3>
                 <Designers history={history} isPhone={isPhone}/>
             </div>
             <div className="shop-our-instagram-wrap">
                 <h3 className="title">{Identify.__('Shop Our Instagram')}</h3>
+                <Instagram data={'simicart.official'} />
             </div>
         </div>
     );
