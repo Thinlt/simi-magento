@@ -16,6 +16,7 @@ import AddressBook from './Page/AddressBook';
 import Profile from './Page/Profile';
 import MyOrder from './Page/OrderHistory';
 import OrderDetail from './Page/OrderDetail';
+import MyGiftVouchers from './Page/MyGiftVouchers';
 
 class CustomerLayout extends React.Component{
 
@@ -81,7 +82,7 @@ class CustomerLayout extends React.Component{
                 sort_order : 50
             },
             {
-                title : 'Favourites',
+                title : 'Wishlist',
                 url : '/wishlist.html',
                 page : 'wishlist',
                 enable : true,
@@ -89,8 +90,8 @@ class CustomerLayout extends React.Component{
             },
             {
                 title : 'MY GIFT VOUCHERS',
-                url : '/account.html',
-                page : 'newsletter',
+                url : '/mygiftvouchers.html',
+                page : 'giftvoucher',
                 enable : true,
                 sort_order : 70
             },
@@ -209,6 +210,9 @@ class CustomerLayout extends React.Component{
             case 'wishlist':
                 content = <Wishlist history={this.props.history} />
                 break;
+            case 'giftvoucher':
+                content = <MyGiftVouchers history={this.props.history}/>
+                break;
             default :
                 content = 'customer dashboard 2'
         }
@@ -232,8 +236,6 @@ class CustomerLayout extends React.Component{
             history.push(this.pushTo);
             return ''
         }
-
-        console.log("aaaaa")
 
         const {firstname, lastname} = this.props
 

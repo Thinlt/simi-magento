@@ -115,6 +115,10 @@ const router = {
         path: '/wishlist.html',
         render : (location) => <Account {...location} page={`wishlist`}/>
     },
+    my_gift_vouchers: {
+        path: '/mygiftvouchers.html',
+        render : (location) => <Account {...location} page={`giftvoucher`}/>
+    },
     contact: {
         path: '/contact.html',
         render : location => <Contact {...location} page={`contact`}/>
