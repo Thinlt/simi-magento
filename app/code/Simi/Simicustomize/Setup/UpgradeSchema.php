@@ -212,6 +212,21 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 ]
             );
         }
+
+
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.12', '<')) {
+            // Add quote_type to quote table
+            $connection->addColumn(
+                $setup->getTable('quote'),
+                'preorder_deposit_discount',
+                [
+                    'type' => Table::TYPE_DECIMAL,
+                    'length' => '12,4',
+                    'nullable' => true,
+                    'comment' => 'Pre-order Deposit Discount'
+                ]
+            );
+        }
     }
 
     public function checkTableExist($installer, $table_key_name, $table_name)

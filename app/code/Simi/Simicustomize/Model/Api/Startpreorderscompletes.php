@@ -34,10 +34,6 @@ class Startpreorderscompletes extends \Simi\Simiconnector\Model\Api\Apiabstract
         $parameters = $data['params'];
         $controller = $data['controller'];
         $depositProductId = $this->scopeConfig->getValue('sales/preorder/deposit_product_id');
-        $pre_order_coupon_code = $this->scopeConfig->getValue('sales/preorder/pre_order_coupon_code');
-
-//        var_dump($this->_getQuote()->getId());
-//        var_dump($parameters);die;
         if (isset($parameters['depositOrderId']) && $parameters['depositOrderId']) {
             $orderModel =  $this->simiObjectManager->create('Magento\Sales\Model\Order')
                 ->loadByIncrementId($parameters['depositOrderId']);
@@ -91,17 +87,15 @@ class Startpreorderscompletes extends \Simi\Simiconnector\Model\Api\Apiabstract
                             ['product' => $product, 'request' => $controller->getRequest(),
                                 'response' => $controller->getResponse()]
                         );
-
-//                        var_dump($params);
-//                        var_dump($product->getId());
-//                        die;
                     }
                     $this->_getQuote()
                         ->setData('deposit_order_increment_id', $parameters['depositOrderId'])->save();
-                    $this->_getQuote()->collectTotals()->save();
+                    try {
+                        $this->_getQuote()->collectTotals()->save();
+                    } catch (\Exception $e) {
+
+                    }
                 }
-//                var_dump($orderData);
-//                var_dump($orderModel->getId());die;
                 $result['startpreorderscompletes'] = [$orderData];
             }
         }

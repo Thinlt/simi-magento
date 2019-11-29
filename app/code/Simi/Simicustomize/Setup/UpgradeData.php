@@ -233,5 +233,14 @@ class UpgradeData implements UpgradeDataInterface
             $salesSetup = $this->salesSetupFactory->create(['setup' => $setup]);
             $salesSetup->addAttribute('order', 'deposit_order_increment_id', ['type' => Table::TYPE_TEXT, 'length' => 100]);
         }
+        /**
+         * Add pre_order deposit order increment id
+         */
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.12', '<')) {
+            $salesSetup = $this->salesSetupFactory->create(['setup' => $setup]);
+            $salesSetup->addAttribute('order', 'preorder_deposit_discount', [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+                'length' => "12,4"]);
+        }
     }
 }

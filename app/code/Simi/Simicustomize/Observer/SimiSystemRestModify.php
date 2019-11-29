@@ -15,6 +15,7 @@ class SimiSystemRestModify implements ObserverInterface {
     }
 
     public function execute(\Magento\Framework\Event\Observer $observer) {
+        $this->simiObjectManager->get('\Simi\Simicustomize\Helper\SpecialOrder')->submitQuotFromRestToSession();
         $obj = $observer->getObject();
         $routeData = $observer->getData('routeData');
         $contentArray = $obj->getContentArray();
@@ -23,13 +24,44 @@ class SimiSystemRestModify implements ObserverInterface {
                 strpos($routeData['routePath'], 'V1/guest-carts/:cartId') !== false ||
                 strpos($routeData['routePath'], 'V1/carts/mine') !== false
             ) {
+                if (strpos($routeData['routePath'], '/totals') !== false) {
+                    $this->_addDataToTotal($contentArray);
+                }
                 $this->_addDataToQuoteItem($contentArray);
             }
         }
         $obj->setContentArray($contentArray);
     }
 
-    //modify quote item
+
+    public function _getCart()
+    {
+        return $this->simiObjectManager->get('Magento\Checkout\Model\Cart');
+    }
+
+    public function _getQuote()
+    {
+        return $this->_getCart()->getQuote();
+    }
+
+
+    private function _addDataToTotal(&$contentArray) {
+        if (isset($contentArray['total_segments']) && is_array($contentArray['total_segments'])) {
+            $newTotalSecments = array();
+            foreach ($contentArray['total_segments'] as $total_segment) {
+                $newTotalSecments[] = $total_segment;
+                if (isset($total_segment['code']) && $total_segment['code'] == 'subtotal') {
+                    $newTotalSecments[] = array(
+                            'code' => 'preorder_deposit_discount',
+                            'title' => 'Pre-order Deposit Discount',
+                            'value' => $this->_getQuote()->getPreorderDepositDiscount(),
+                        );
+                    }
+            }
+            $contentArray['total_segments'] = $newTotalSecments;
+        }
+    }
+
     private function _addDataToQuoteItem(&$contentArray) {
         if (isset($contentArray['items']) && is_array($contentArray['items'])) {
             foreach ($contentArray['items'] as $index => $item) {
