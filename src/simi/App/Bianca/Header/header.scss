@@ -520,6 +520,19 @@ $textColor3: #E4E4E4;
     }
 }
 
+@media(min-width: 1441px){
+    .app-nav{
+        .main-nav{
+            .nav-mega-item{
+                .mega-content{
+                    max-width: none !important;
+                    width: 100% !important
+                }
+            }
+        }
+    }
+}
+
 .mini-cart {
     position: relative;
 }
