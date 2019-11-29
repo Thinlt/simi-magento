@@ -69,4 +69,27 @@ class SpecialOrder extends \Magento\Framework\App\Helper\AbstractHelper
         }
         return false;
     }
+
+    public function getPreOrderProductsFromOrder($orderModel) {
+        $depositProductId = $this->scopeConfig->getValue('sales/preorder/deposit_product_id');
+        $preOrderProducts = false;
+        $orderData = $orderModel->toArray();
+        $orderApiModel = $this->simiObjectManager->get('Simi\Simiconnector\Model\Api\Orders');
+        $orderData['order_items']     = $orderApiModel->_getProductFromOrderHistoryDetail($orderModel);
+        foreach ($orderData['order_items'] as $order_item) {
+            if (
+                $order_item['product_id'] == $depositProductId &&
+                isset($order_item['product_options']['options']) && is_array($order_item['product_options']['options'])
+            ) {
+                foreach ($order_item['product_options']['options'] as $product_option) {
+                    if (isset($product_option['label']) && $product_option['label'] == \Simi\Simicustomize\Model\Api\Quoteitems::PRE_ORDER_OPTION_TITLE) {
+                        $preOrderProducts = json_decode(base64_decode($product_option['option_value']), true);
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+        return $preOrderProducts;
+    }
 }

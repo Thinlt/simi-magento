@@ -46,7 +46,8 @@ class SimiSystemRestModify implements ObserverInterface {
 
 
     private function _addDataToTotal(&$contentArray) {
-        if (isset($contentArray['total_segments']) && is_array($contentArray['total_segments'])) {
+        $depositDiscount = $this->_getQuote()->getPreorderDepositDiscount();
+        if ($depositDiscount && isset($contentArray['total_segments']) && is_array($contentArray['total_segments'])) {
             $newTotalSecments = array();
             foreach ($contentArray['total_segments'] as $total_segment) {
                 $newTotalSecments[] = $total_segment;
@@ -54,7 +55,7 @@ class SimiSystemRestModify implements ObserverInterface {
                     $newTotalSecments[] = array(
                             'code' => 'preorder_deposit_discount',
                             'title' => 'Pre-order Deposit Discount',
-                            'value' => $this->_getQuote()->getPreorderDepositDiscount(),
+                            'value' => $depositDiscount,
                         );
                     }
             }

@@ -33,32 +33,13 @@ class Startpreorderscompletes extends \Simi\Simiconnector\Model\Api\Apiabstract
         $data = $this->getData();
         $parameters = $data['params'];
         $controller = $data['controller'];
-        $depositProductId = $this->scopeConfig->getValue('sales/preorder/deposit_product_id');
         if (isset($parameters['depositOrderId']) && $parameters['depositOrderId']) {
             $orderModel =  $this->simiObjectManager->create('Magento\Sales\Model\Order')
                 ->loadByIncrementId($parameters['depositOrderId']);
             if ($orderModel && $orderModel->getId()) {
-                $preOrderProducts = false;
-                $orderData = $orderModel->toArray();
-                $orderApiModel = $this->simiObjectManager->get('Simi\Simiconnector\Model\Api\Orders');
                 $quoteApiModel = $this->simiObjectManager->get('Simi\Simiconnector\Model\Api\Quoteitems');
-                $orderData['order_items']     = $orderApiModel->_getProductFromOrderHistoryDetail($orderModel);
-                foreach ($orderData['order_items'] as $order_item) {
-                    //var_dump($order_item);
-                    if (
-                        $order_item['product_id'] == $depositProductId &&
-                        isset($order_item['product_options']['options']) && is_array($order_item['product_options']['options'])
-                    ) {
-                        foreach ($order_item['product_options']['options'] as $product_option) {
-                            if (isset($product_option['label']) && $product_option['label'] == \Simi\Simicustomize\Model\Api\Quoteitems::PRE_ORDER_OPTION_TITLE) {
-                                $preOrderProducts = json_decode(base64_decode($product_option['option_value']), true);
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
-
+                $preOrderProducts = $this->simiObjectManager->get('\Simi\Simicustomize\Helper\SpecialOrder')
+                    ->getPreOrderProductsFromOrder($orderModel);
                 if ($preOrderProducts && is_array($preOrderProducts)) {
                     $cart = $this->_getCart();
                     //removeCart
@@ -96,7 +77,7 @@ class Startpreorderscompletes extends \Simi\Simiconnector\Model\Api\Apiabstract
 
                     }
                 }
-                $result['startpreorderscompletes'] = [$orderData];
+                $result['startpreorderscompletes'] = array('status' => 'success');
             }
         }
         return $result;

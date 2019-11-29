@@ -22,11 +22,34 @@ class SalesModelServiceQuoteSubmitBefore implements ObserverInterface
         $this->scopeConfig = $this->simiObjectManager->get('\Magento\Framework\App\Config\ScopeConfigInterface');
     }
 
+    public function _getQuote()
+    {
+        return $this->simiObjectManager->get('Magento\Checkout\Model\Cart')->getQuote();
+    }
+
     public function execute(Observer $observer) {
         $order = $observer->getEvent()->getOrder();
-        $isPreOrder = $this->simiObjectManager->get('Simi\Simicustomize\Helper\SpecialOrder')->isQuotePreOrder();
+        $specialOrderHelper = $this->simiObjectManager->get('Simi\Simicustomize\Helper\SpecialOrder');
+        $specialOrderHelper->submitQuotFromRestToSession();
+        $quote = $this->_getQuote();
+        $isPreOrder = $specialOrderHelper->isQuotePreOrder();
         if ($isPreOrder) {
             $order->setOrderType(\Simi\Simicustomize\Ui\Component\Sales\Order\Column\OrderType::ORDER_TYPE_PRE_ORDER_WAITING);
+        }
+        if ($preOrderDepositAmount = $quote->getData('preorder_deposit_discount')) {
+            $order->setData('preorder_deposit_discount', $preOrderDepositAmount);
+            $order->setOrderType(\Simi\Simicustomize\Ui\Component\Sales\Order\Column\OrderType::ORDER_TYPE_PRE_ORDER_PAID);
+        }
+        if ($deposit_order_increment_id = $quote->getData('deposit_order_increment_id')) {
+            try {
+                $this->simiObjectManager->create('Magento\Sales\Model\Order')
+                    ->loadByIncrementId($deposit_order_increment_id)
+                    ->setOrderType(\Simi\Simicustomize\Ui\Component\Sales\Order\Column\OrderType::ORDER_TYPE_PRE_ORDER_PAID)
+                    ->save();
+            } catch (\Exception $e) {
+
+            }
+            $order->setData('deposit_order_increment_id' , $deposit_order_increment_id);
         }
     }
 }
