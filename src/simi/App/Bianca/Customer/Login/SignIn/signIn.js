@@ -9,10 +9,6 @@ import TitleHelper from 'src/simi/Helper/TitleHelper'
 import UserIcon from '../../../../../BaseComponents/Icon/User';
 import Key from '../../../../../BaseComponents/Icon/Key';
 import Checkbox from 'src/simi/BaseComponents/Checkbox';
-import Facebook from 'src/simi/BaseComponents/Icon/Facebook';
-import Instagram from 'src/simi/BaseComponents/Icon/Instagram';
-import Twitter from 'src/simi/BaseComponents/Icon/Twitter';
-import GooglePlus from 'src/simi/BaseComponents/Icon/TapitaIcons/GooglePlus';
 
 require("./signIn.scss")
 
@@ -46,7 +42,9 @@ class SignIn extends Component {
                     onSubmit={() => this.onSignIn()}
                 >
                 <div className='userInput'>
-                    <UserIcon className='userIcon' style={{width:'16px',height:'16px'}}/>
+                    <div className='title-input'>
+                        {Identify.__('EMAIL *')}
+                    </div>
                     <TextInput
                         classes={classes}
                         style={{paddingLeft:"56px"}}
@@ -58,7 +56,9 @@ class SignIn extends Component {
                     />
                 </div>
                 <div className='passwordInput'>
-                    <Key className='passwordIcon' style={{width:'16px',height:'16px'}}/>
+                    <div className='title-input'>
+                        {Identify.__('PASSWORD *')}
+                    </div>
                     <TextInput
                         classes={classes}
                         style={{paddingLeft:"56px"}}
@@ -88,21 +88,6 @@ class SignIn extends Component {
                         </button>
                     </div>
                 </Form>
-                <div className='signInDivider'>
-                    <span className='signInWith'>{Identify.__("or sign in with".toUpperCase())}</span>
-                </div>
-                <div className='socialMedia'>
-                    <Facebook className="social-icon"/>
-                    <Twitter className="social-icon"/>
-                    <GooglePlus className="social-icon"/>
-                    <Instagram className="social-icon"/>
-                    <Instagram className="social-icon"/>
-                </div>
-                <div className='showCreateAccountButtonCtn'>
-                    <button priority="high" className='showCreateAccountButton' onClick={this.showCreateAccountForm} type="submit">
-                        {Identify.__('Create an Account')}
-                    </button>
-                </div>
             </div>
         );
     }
