@@ -73,12 +73,15 @@ class ForgotPassword extends Component {
                 {TitleHelper.renderMetaHeader({
                     title:Identify.__('Forgot password')
                 })}
-                <p className={classes.instructions}>
-                    {Identify.__('Enter your email below to receive a password reset link')}
-                </p>
-                <ForgotPasswordForm
-                    onSubmit={this.handleFormSubmit}
-                />
+                <div className={classes["wrap"]}>
+                    <div className={classes["title"]}>{Identify.__("forgot password?".toUpperCase())}</div>
+                    <p className={classes.instructions}>
+                        {Identify.__('Enter your email address to reset your password.')}
+                    </p>
+                    <ForgotPasswordForm
+                        onSubmit={this.handleFormSubmit}
+                    />
+                </div>
             </Fragment>
         );
     }

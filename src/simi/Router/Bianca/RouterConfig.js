@@ -49,6 +49,9 @@ const NoMatch = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/Bianca/NoMatch')} {...props}/>
 }
 
+const PreorderSecondOrder = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "PreorderSecondOrder"*/'src/simi/App/Bianca/PreorderSecondOrder')} {...props}/>
+}
 
 const router = {
     home : {
@@ -126,6 +129,10 @@ const router = {
     contact: {
         path: '/paypal_express.html',
         render : location => <PaypalExpress {...location} page={`contact`}/>
+    },
+    preorder2nd: {
+        path: '/preorder_complete.html',
+        render : location => <PreorderSecondOrder {...location} page={`contact`}/>
     },
     noMatch: {
         component : location => <NoMatch {...location} />
