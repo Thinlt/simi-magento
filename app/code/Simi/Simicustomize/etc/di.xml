@@ -11,6 +11,7 @@
         <arguments>
             <argument name="columns" xsi:type="array">
                 <item name="order_type" xsi:type="string">sales_order.order_type</item>
+                <item name="deposit_order_increment_id" xsi:type="string">sales_order.deposit_order_increment_id</item>
             </argument>
         </arguments>
     </virtualType>
@@ -26,5 +27,9 @@
                 <item name="simi_reserve_data_source" xsi:type="string">SimiReserveGridDataProvider</item>
             </argument>
         </arguments>
+    </type>
+    <!-- change admin order detail product option -->
+    <type name="Magento\Sales\Block\Adminhtml\Items\Column\Name">
+        <plugin name="simi_cart_customize_plugin_sales_block_admin_item_col_name" type="Simi\Simicustomize\Plugin\Adminhtml\SalesBlockItemsColumnName" />
     </type>
 </config>

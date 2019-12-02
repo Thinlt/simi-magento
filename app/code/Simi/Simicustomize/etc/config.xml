@@ -9,6 +9,9 @@
     <default>
         <sales>
             <reserve>
+                <emailTemplate>send_email_reserve_template</emailTemplate>
+            </reserve>
+            <reserve>
                 <working_days>mon,tue,wed,thu,fri,sat</working_days>
                 <holiday></holiday>
                 <emailTemplate>send_email_reserve_template</emailTemplate>

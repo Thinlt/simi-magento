@@ -16,5 +16,11 @@
                 <visible>false</visible>
             </settings>
         </column>
+        <column name="deposit_order_increment_id">
+            <settings>
+                <label translate="true">Deposit Order Id</label>
+                <visible>false</visible>
+            </settings>
+        </column>
     </columns>
 </listing>

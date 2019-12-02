@@ -16,14 +16,17 @@ class View extends \Magento\Backend\Block\Widget\Container
     {
         $order = $this->getParentBlock()->getOrder();
 
-        if ($this->_isAllowedAction('Magento_Sales::emails') && $order->getBaseRemainingAmount() > 0) {
+        if (
+            $this->_isAllowedAction('Magento_Sales::emails') &&
+            $order->getData('order_type') == \Simi\Simicustomize\Ui\Component\Sales\Order\Column\OrderType::ORDER_TYPE_PRE_ORDER_WAITING
+        ) {
             $message = __('Are you sure you want to send an deposit order email to customer?');
             $this->addButton(
                 'preorder_deposit',
                 [
                     'label' => __('Send Pre-order Remaining Email'),
                     'class' => 'preorder-deposit',
-                    'onclick' => "confirmSetLocation('{$message}', '{$this->getPreorderDepositUrl()}')",
+                    'onclick' => "confirmSetLocation('{$message}', '{$this->getPreorderDepositUrl($order)}')",
                     // 'data_attribute' => [
                     //     'url' => $this->getPreorderDepositUrl(),
                     // ]
@@ -39,9 +42,10 @@ class View extends \Magento\Backend\Block\Widget\Container
      *
      * @return string
      */
-    public function getPreorderDepositUrl()
+    public function getPreorderDepositUrl($order)
     {
-        return $this->getUrl('simi/preorder/deposit');
+        return $this->getUrl('simicustomize/preorder/sendpreorderemail',
+            ['order_id' => $order->getId()]);
     }
 
     /**

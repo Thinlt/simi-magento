@@ -38,7 +38,6 @@ class SalesModelServiceQuoteSubmitBefore implements ObserverInterface
         }
         if ($preOrderDepositAmount = $quote->getData('preorder_deposit_discount')) {
             $order->setData('preorder_deposit_discount', $preOrderDepositAmount);
-            $order->setOrderType(\Simi\Simicustomize\Ui\Component\Sales\Order\Column\OrderType::ORDER_TYPE_PRE_ORDER_PAID);
         }
         if ($deposit_order_increment_id = $quote->getData('deposit_order_increment_id')) {
             try {
