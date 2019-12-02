@@ -24,7 +24,6 @@ $titleColor: #101820;
         height: 28px;
     }
     .vendor-and-price{
-        display: flex;
         margin-top: 15px;
     }
 
@@ -88,8 +87,8 @@ $titleColor: #101820;
      .prices-layout {
         font-size: 14px;
         line-height: 24px;
-        width: 50%;
         height: fit-content;
+        display: inline-block;
     }
     .product-prices{
         font-family: "Gotham Medium";
@@ -102,6 +101,13 @@ $titleColor: #101820;
     }
     .product-prices .special .sale_off {
         display: none;
+    }
+    /* deposit text */
+    .item-deposit {
+        font-size: 14px;
+        font-family: 'Gotham Book';
+        line-height: 14px;
+        margin-top: 8px;
     }
     .siminia-product-des {
         padding: 16px 24px;
@@ -169,6 +175,13 @@ $titleColor: #101820;
         color: $titleColor;
     }
 
+    @media(min-width: 1024px){
+        .siminia-product-des .cart-wishlish-compare .add-to-cart-btn{
+            width: 145px;
+            height: 36px;
+        }
+    }
+
     @media(min-width: 1440px){
         .siminia-product-des{
             min-height: 140px;
@@ -225,12 +238,11 @@ $titleColor: #101820;
     }
 
     .siminia-product-des .vendor-and-price .vendor {
-        width: 50%;
         color: $titleColor;
         font-family: "Gotham Medium";
         font-size: 14px;
         line-height: 14px;
-        text-align: end;
+        margin-top: 12px;
     }
 
     /* Button quick view */
@@ -287,6 +299,9 @@ $titleColor: #101820;
             font-family: 'Gotham';
             padding-top: 5px;
             font-weight: 500;
+        }
+        .add-to-compare-btn::before, .add-to-wishlist-btn::before {
+            font-size: 16px;
         }
         .siminia-product-grid-item .prices-layout {
             line-height: 14px;

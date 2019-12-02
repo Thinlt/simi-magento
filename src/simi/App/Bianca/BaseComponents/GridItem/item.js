@@ -47,12 +47,14 @@ class Griditem extends React.Component {
         })
     }
 
-    addToCart = () => {
+    addToCart = (pre_order = false) => {
         const {item} = this.props
         if (item && item.simiExtraField && item.simiExtraField.attribute_values) {
             const {attribute_values} = item.simiExtraField
             if ((!parseInt(attribute_values.has_options)) && attribute_values.type_id === 'simple') {
                 const params = {product: String(item.id), qty: '1'}
+                if (pre_order)
+                    params.pre_order = 1
                 showFogLoading()
                 simiAddToCart(this.addToCartCallBack, params)
                 return
@@ -69,7 +71,8 @@ class Griditem extends React.Component {
         if (data.errors) {
             showToastMessage(Identify.__('Problem occurred.'))
         } else {
-            console.log(data)
+            if (data.message)
+                showToastMessage(data.message)
         }
     }
 
@@ -102,10 +105,12 @@ class Griditem extends React.Component {
     }
 
     showBtnQuickView = (id) => {
+        if (!this.state.isPhone)
         $(`.view-item-${id}`).css('display', 'block')
         //$(`img.img-${id}`).css('object-fit','cover')
     }
     hideBtnQuickView = (id) => {
+        if (!this.state.isPhone)
         $(`.view-item-${id}`).css('display', 'none')
         //$(`img.img-${id}`).css('object-fit','contain')
     }
@@ -204,7 +209,40 @@ class Griditem extends React.Component {
                 </div>
             </div>
         )
+        
+        let depositText = ''
 
+        let addToCartBtn = (
+            <Colorbtn
+                style={{ backgroundColor: '#101820', color: '#FFF' }}
+                className="add-to-cart-btn"
+                onClick={() => addToCart(false)}
+                text={Identify.__('Add to Cart')} />
+        )
+        if (item.simiExtraField && item.simiExtraField.attribute_values) {
+            if (!parseInt(item.simiExtraField.attribute_values.is_salable)) {
+                addToCartBtn = (
+                    <Colorbtn
+                        style={{ backgroundColor: '#101820', color: '#FFF', opacity: 0.5 }}
+                        className="add-to-cart-btn"
+                        text={Identify.__('Out of stock')} />
+                )
+            } else if (parseInt(item.simiExtraField.attribute_values.pre_order)) {
+                addToCartBtn = (
+                    <Colorbtn
+                        style={{ backgroundColor: '#101820', color: '#FFF' }}
+                        className="add-to-cart-btn"
+                        onClick={() => addToCart(true)}
+                        text={Identify.__('Pre-order')} />
+                )
+                const storeConfig = Identify.getStoreConfig()
+                const { config } = storeConfig && storeConfig.simiStoreConfig || null;
+                const { preorder_deposit } = config;
+                if (preorder_deposit)
+                    depositText = (<p className="item-deposit">{Identify.__(`Deposit ${preorder_deposit}%`)}</p>)
+            }
+        }
+        
         return (
             <div
                 className="siminia-product-grid-item">
@@ -231,17 +269,14 @@ class Griditem extends React.Component {
                                     prices={price} type={type_id}
                                 />
                             </div>
+                            {depositText}
                             <div className="vendor">
                                 {this.renderVendorName(item)}
                             </div>
                         </div>
                     </div>
                     <div className="cart-wishlish-compare">
-                        <Colorbtn
-                            style={{ backgroundColor: '#101820', color: '#FFF' }}
-                            className="add-to-cart-btn"
-                            onClick={addToCart}
-                            text={Identify.__('Add to Cart')} />
+                        {addToCartBtn}
                         {!this.state.isPhone && this.wishlistCompareAction()}
                     </div>
                 </div>

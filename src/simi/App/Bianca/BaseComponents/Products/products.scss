@@ -12,7 +12,7 @@ $colorTitle: #101820;
 .products-gallery-root {
   .title {
     .categoryTitle {
-      margin-top: 24px;
+      margin-top: 32px;
       color: $colorTitle;
       font-family: "Gotham Medium";
       font-size: 24px;
@@ -238,11 +238,10 @@ Sort by
   font-weight: 500;
   line-height: 24px;
   text-align: center;
-  margin-top: 65px;
+  margin-top: 63px;
 }
 
 .products-gallery-root .recent-viewed-product .recent-viewed-slide {
-  margin-top: 31px;
   min-height: 540px;
 }
 @media (max-width: 1439px) {
@@ -281,12 +280,17 @@ Sort by
 }
 
 @media (max-width: 1023px) {
-  
-    .full-width-container {
-        width: 100vw;
-      }
-    .products-gallery-root .gallery {
+  .full-width-container {
+    width: 100vw;
+  }
+  .products-gallery-root .gallery {
     margin-top: 10px;
+  }
+  .description-area {
+      display: none;
+  }
+  .mobile-item-count {
+      display: none;
   }
   .top-sort-by .dir-item {
     padding: 10px 0px;
@@ -311,7 +315,11 @@ Sort by
     padding: 9px;
   }
   .products-gallery-root .product-list-container-siminia .listing-product {
-    padding-left: unset;
+    padding-left: 1px;
+    padding-right: 1px;
+    .gallery-items {
+        grid-gap: 11px;
+    }
   }
   .top-sort-by .sort-by-select .dropdownoption {
     max-width: 279px;
@@ -339,14 +347,33 @@ Sort by
   }
   .mobile-bottom-filter .mobile-bottom-btn {
     color: white;
-    margin-top: 2px;
+    font-size: 16px;
   }
   .mobile-bottom-filter .mobile-bottom-btn-title {
     margin-left: 5px;
     margin-right: 5px;
     text-transform: uppercase;
   }
-  div[class*="_modal_"] {
+  .products-mobile-sort-filter-modal {
     margin-top: 50px;
+    min-width: 303px;
+    padding-top: 21px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 9px;
+    button {
+        top: 20px;
+        right: 20px;
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+  }
+  .products-gallery-root .recent-viewed-product .recent-viewed-title {
+      margin-top: 45px;
+  }
+  .products-gallery-root .recent-viewed-product .recent-viewed-slide {
+    min-height: unset;
   }
 }

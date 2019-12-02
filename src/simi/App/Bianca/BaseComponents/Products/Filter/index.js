@@ -143,7 +143,7 @@ class Filter extends React.Component {
         const { props } = this
         const {filterData} = props
         
-        return  filterData ? 
+        return  (filterData && filterData.length) ? 
         (<div className="action-clear">
                 <div 
                     role="presentation"

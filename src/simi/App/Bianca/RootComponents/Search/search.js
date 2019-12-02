@@ -32,7 +32,7 @@ const Search = props => {
     const paramPageval = Identify.findGetParameter('page')
     const [currentPage, setCurrentPage] = useState(paramPageval?Number(paramPageval):1)
     let pageSize = Identify.findGetParameter('product_list_limit')
-    pageSize = pageSize?Number(pageSize):9
+    pageSize = pageSize?Number(pageSize):window.innerWidth < 1024?10:9
     sortByData = null
     const productListOrder = Identify.findGetParameter('product_list_order')
     const productListDir = Identify.findGetParameter('product_list_dir')
