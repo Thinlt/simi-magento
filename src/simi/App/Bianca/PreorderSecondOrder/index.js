@@ -13,7 +13,7 @@ const PreorderSecondOrder = props => {
         showToastMessage(Identify.__('Sorry, your deposit Order Id is not valid.'))
         history.push('/');   
     }
-    const customer_id =  Identify.findGetParameter('deposit_order_id')
+    const customer_id =  Identify.findGetParameter('customer_id')
     const customer_email =  Identify.findGetParameter('customer_email')
     const startPreorderCompleted = data => {
         if (data.errors && data.errors.length) {
