@@ -55,7 +55,7 @@ class SimiSystemRestModify implements ObserverInterface {
                     $newTotalSecments[] = array(
                             'code' => 'preorder_deposit_discount',
                             'title' => 'Pre-order Deposit Discount',
-                            'value' => $depositDiscount,
+                            'value' => (float)$depositDiscount,
                         );
                     }
             }
@@ -76,6 +76,7 @@ class SimiSystemRestModify implements ObserverInterface {
                     $contentArray['items'][$index]['attribute_values'] = $product->toArray();
                 }
                 //modify option values for special products (preorder, trytobuy)
+                try {
                 if (isset($item['options']) && is_string($item['options']) && $optionArray = json_decode($item['options'], true)) {
                     if (is_array($optionArray)) {
                         $systemProductOption = array();
@@ -90,14 +91,37 @@ class SimiSystemRestModify implements ObserverInterface {
                                         'value' => $newOption['quantity'],
                                         'full_view' => $newOption['name']
                                     );
+                                    $productModel = $this->simiObjectManager->create(\Magento\Catalog\Model\Product::class);
+                                    $productModel->load($productModel->getIdBySku($newOption['sku']));
+                                    $systemProductOption[$newOptionIndex]['product_final_price'] = $productModel->getFinalPrice();
+                                    $systemProductOption[$newOptionIndex]['product_name'] = $productModel->getName();
+                                    $systemProductOption[$newOptionIndex]['image'] = $this->simiObjectManager
+                                        ->create('Simi\Simiconnector\Helper\Products')
+                                        ->getImageProduct(
+                                            $productModel,
+                                            null
+                                        );
+                                    if (isset($newOption['request']['super_attribute']) && is_array($newOption['request']['super_attribute'])) {
+                                        $frontendOption = [];
+                                        foreach ($newOption['request']['super_attribute'] as $attributeid=>$attribute) {
+                                            $eavModel = $this->simiObjectManager->get('Magento\Catalog\Model\ResourceModel\Eav\Attribute')->load($attributeid);
+                                            $frontendOption[] = array(
+                                                'label'=>$eavModel->getFrontendLabel(),
+                                                'value' => $eavModel->getFrontend()->getValue($productModel)
+                                            );
+                                        }
+
+                                        $systemProductOption[$newOptionIndex]['frontend_option'] = $frontendOption;
+                                    }
                                 }
                             }
                         }
-                        $contentArray['items'][$index]['simi_system_product_option'] = json_encode($systemProductOption);
+
+                        $contentArray['items'][$index]['simi_pre_order_option'] = json_encode($systemProductOption);
                         if ($newOptions)
                             $contentArray['items'][$index]['options'] = json_encode($newOptions);
                     }
-                }
+                } }catch (\Exception $e) {var_dumP($e->__toString());die;}
             }
         }
     }

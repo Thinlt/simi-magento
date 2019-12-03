@@ -443,12 +443,6 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
                 $item->setProduct($candidate);
                 $sku = $item->getData('sku');
                 $nameOfNewItem = $item->getProduct()->getData('name');
-                $imageOfNewItem = $this->simiObjectManager
-                    ->create('Simi\Simiconnector\Helper\Products')
-                    ->getImageProduct(
-                        $this->loadProductWithId($item->getProduct()->getId()),
-                        null
-                    );
                 $requestOfNewItem = $param;
                 if ($isPreOrder)
                     unset($requestOfNewItem['pre_order']);
@@ -508,7 +502,6 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
                                         'sku'=> $sku,
                                         'quantity' => 1,
                                         'name' => $nameOfNewItem,
-                                        'image' => $imageOfNewItem,
                                         'request' => $requestOfNewItem
                                     );
                                 $optionString = base64_encode(json_encode($preOrderProducts));
