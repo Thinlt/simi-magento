@@ -415,109 +415,112 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
 
 
     protected function _prepareSpecialProduct(&$product, &$param) {
+        $depositProductId = $this->scopeConfig->getValue('sales/preorder/deposit_product_id');
         $isPreOrder = false;
         if (isset($param['pre_order']) && $param['pre_order']) {
             $isPreOrder = true;
         }
-        if (!$isPreOrder)
+        if (!$isPreOrder) {
+            foreach ($this->builderQuery as $quoteItem) {
+                if ($quoteItem->getProduct()->getId() == $depositProductId) {
+                    throw new \Simi\Simiconnector\Helper\SimiException(__('Your cart contains Pre-order product, please complete it before continue.'), 4);
+                }
+            }
             return;
+        }
 
         if (!$this->itemProcessor)
             $this->itemProcessor = $this->simiObjectManager->create('\Magento\Quote\Model\Quote\Item\Processor');
-        try {
-            //get child product sku from request options
-            $sku = false;
-            $request = $this->_getProductRequest($param);
-            $processMode = \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_FULL;
-            $cartCandidates = $product->getTypeInstance()->prepareForCartAdvanced($request, $product, $processMode);
-            if (!is_array($cartCandidates)) {
-                $cartCandidates = [$cartCandidates];
-            }
 
-            $parentItem = null;
-            $item = null;
-            foreach ($cartCandidates as $candidate) {
-                $stickWithinParent = $candidate->getParentProductId() ? $parentItem : null;
-                $candidate->setStickWithinParent($stickWithinParent);
-                $item = $this->itemProcessor->init($candidate, $request);
-                $item->setProduct($candidate);
-                $sku = $item->getData('sku');
-                $nameOfNewItem = $item->getProduct()->getData('name');
-                $requestOfNewItem = $param;
-                if ($isPreOrder)
-                    unset($requestOfNewItem['pre_order']);
-            }
-            //if found sku, add deposit instead of original product
-            if ($sku) {
-                $depositProductId = $this->scopeConfig->getValue('sales/preorder/deposit_product_id');
-                $storeId = $this->simiObjectManager
-                    ->create('Magento\Store\Model\StoreManagerInterface')->getStore()->getId();
-                $depositProduct =  $this->simiObjectManager
-                    ->create('Magento\Catalog\Api\ProductRepositoryInterface')->getById($depositProductId, false, $storeId);
-                if ($depositProduct && $depositProduct->getId()) {
-                    $app_options = $this->simiObjectManager
-                        ->get('\Simi\Simiconnector\Helper\Options')->getOptions($depositProduct);
-                    if ($app_options && isset($app_options['custom_options']) && is_array($app_options['custom_options'])) {
-                        foreach ($app_options['custom_options'] as $custom_option) {
-                            if (isset($custom_option['title']) && $custom_option['title'] === self::PRE_ORDER_OPTION_TITLE) {
-                                $preOrderProducts = false;
-                                //remove all cart items
-                                $quoteItems = $this->_getQuote()->getItemsCollection();
-                                foreach($quoteItems as $quoteItem)
-                                {
-                                    //cart already contains deposit product
-                                    if ($quoteItem->getData('product_id') == $depositProductId) {
-                                        $block   = $this->simiObjectManager->get('Magento\Checkout\Block\Cart\Item\Renderer');
-                                        $block->setItem($quoteItem);
-                                        $selectedDepositOptions = $this->simiObjectManager
-                                            ->get('Simi\Simiconnector\Helper\Checkout')->convertOptionsCart($block->getOptionList());
-                                        if ($selectedDepositOptions && is_array($selectedDepositOptions)) {
-                                            foreach ($selectedDepositOptions as $selectedDepositOption) {
-                                                if (isset($selectedDepositOption['option_title']) && $selectedDepositOption['option_title'] == self::PRE_ORDER_OPTION_TITLE) {
-                                                    $preOrderProducts = json_decode(base64_decode($selectedDepositOption['option_value']), true);
-                                                }
+        //get child product sku from request options
+        $sku = false;
+        $request = $this->_getProductRequest($param);
+        $processMode = \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_FULL;
+        $cartCandidates = $product->getTypeInstance()->prepareForCartAdvanced($request, $product, $processMode);
+        if (!is_array($cartCandidates)) {
+            $cartCandidates = [$cartCandidates];
+        }
+
+        $parentItem = null;
+        $item = null;
+        foreach ($cartCandidates as $candidate) {
+            $stickWithinParent = $candidate->getParentProductId() ? $parentItem : null;
+            $candidate->setStickWithinParent($stickWithinParent);
+            $item = $this->itemProcessor->init($candidate, $request);
+            $item->setProduct($candidate);
+            $sku = $item->getData('sku');
+            $nameOfNewItem = $item->getProduct()->getData('name');
+            $requestOfNewItem = $param;
+            if ($isPreOrder)
+                unset($requestOfNewItem['pre_order']);
+        }
+        //if found sku, add deposit instead of original product
+        if ($sku) {
+            $storeId = $this->simiObjectManager
+                ->create('Magento\Store\Model\StoreManagerInterface')->getStore()->getId();
+            $depositProduct =  $this->simiObjectManager
+                ->create('Magento\Catalog\Api\ProductRepositoryInterface')->getById($depositProductId, false, $storeId);
+            if ($depositProduct && $depositProduct->getId()) {
+                $app_options = $this->simiObjectManager
+                    ->get('\Simi\Simiconnector\Helper\Options')->getOptions($depositProduct);
+                if ($app_options && isset($app_options['custom_options']) && is_array($app_options['custom_options'])) {
+                    foreach ($app_options['custom_options'] as $custom_option) {
+                        if (isset($custom_option['title']) && $custom_option['title'] === self::PRE_ORDER_OPTION_TITLE) {
+                            $preOrderProducts = false;
+                            //remove all cart items
+                            $quoteItems = $this->_getQuote()->getItemsCollection();
+                            foreach($quoteItems as $quoteItem)
+                            {
+                                //cart already contains deposit product
+                                if ($quoteItem->getData('product_id') == $depositProductId) {
+                                    $block   = $this->simiObjectManager->get('Magento\Checkout\Block\Cart\Item\Renderer');
+                                    $block->setItem($quoteItem);
+                                    $selectedDepositOptions = $this->simiObjectManager
+                                        ->get('Simi\Simiconnector\Helper\Checkout')->convertOptionsCart($block->getOptionList());
+                                    if ($selectedDepositOptions && is_array($selectedDepositOptions)) {
+                                        foreach ($selectedDepositOptions as $selectedDepositOption) {
+                                            if (isset($selectedDepositOption['option_title']) && $selectedDepositOption['option_title'] == self::PRE_ORDER_OPTION_TITLE) {
+                                                $preOrderProducts = json_decode(base64_decode($selectedDepositOption['option_value']), true);
                                             }
                                         }
                                     }
-                                    $this->_getCart()->removeItem($quoteItem->getId())->save();
                                 }
-
-
-                                /*
-                                 * change request param to add deposit product instead of original product
-                                 */
-                                if (!$preOrderProducts)
-                                    $preOrderProducts = array();
-                                $updatedPreOrderProduct = false;
-                                //if  quote already exist, update the option
-                                foreach ($preOrderProducts as $preOrderPtIndex => $preOrderProduct) {
-                                    if ($preOrderProduct['sku'] == $sku) {
-                                        $preOrderProduct['quantity']++;
-                                        $preOrderProducts[$preOrderPtIndex] = $preOrderProduct;
-                                        $updatedPreOrderProduct = true;
-                                    }
-                                }
-                                if (!$updatedPreOrderProduct)
-                                    $preOrderProducts[] = array(
-                                        'sku'=> $sku,
-                                        'quantity' => 1,
-                                        'name' => $nameOfNewItem,
-                                        'request' => $requestOfNewItem
-                                    );
-                                $optionString = base64_encode(json_encode($preOrderProducts));
-                                $param['options'] = array($custom_option['id'] => $optionString);
-                                $product = $depositProduct;
-                                $registry = $this->simiObjectManager->get('\Magento\Framework\Registry');
-                                $registry->register('simi_pre_order_option', $optionString);
-
-                                break;
+                                $this->_getCart()->removeItem($quoteItem->getId())->save();
                             }
+
+
+                            /*
+                             * change request param to add deposit product instead of original product
+                             */
+                            if (!$preOrderProducts)
+                                $preOrderProducts = array();
+                            $updatedPreOrderProduct = false;
+                            //if  quote already exist, update the option
+                            foreach ($preOrderProducts as $preOrderPtIndex => $preOrderProduct) {
+                                if ($preOrderProduct['sku'] == $sku) {
+                                    $preOrderProduct['quantity']++;
+                                    $preOrderProducts[$preOrderPtIndex] = $preOrderProduct;
+                                    $updatedPreOrderProduct = true;
+                                }
+                            }
+                            if (!$updatedPreOrderProduct)
+                                $preOrderProducts[] = array(
+                                    'sku'=> $sku,
+                                    'quantity' => 1,
+                                    'name' => $nameOfNewItem,
+                                    'request' => $requestOfNewItem
+                                );
+                            $optionString = base64_encode(json_encode($preOrderProducts));
+                            $param['options'] = array($custom_option['id'] => $optionString);
+                            $product = $depositProduct;
+                            $registry = $this->simiObjectManager->get('\Magento\Framework\Registry');
+                            $registry->register('simi_pre_order_option', $optionString);
+
+                            break;
                         }
                     }
                 }
             }
-        } catch (\Exception $e) {
-            var_dump($e->__toString());die;
         }
     }
 
