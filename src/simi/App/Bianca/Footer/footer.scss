@@ -401,7 +401,7 @@ $errorFormBgColor: #ece2e2;
      .footer-app.on-mobile .mobile-social{
         padding-top: 134px;
         background-color: #E4E4E4;
-        padding-bottom: 40px;
+        padding-bottom: 47px;
     }
     .footer-app.on-mobile .mobile-social .footer-mobile-social a:hover{
         text-decoration: none;
@@ -409,7 +409,6 @@ $errorFormBgColor: #ece2e2;
     .footer-app.on-mobile .mobile-social .footer-mobile-social{
         display: flex;
         justify-content: center;
-        padding-bottom: 40px;
     }
     .footer-app.on-mobile .mobile-social .footer-mobile-social .social-icon{
         margin-right: 40px;
@@ -489,6 +488,11 @@ $errorFormBgColor: #ece2e2;
         padding-left: 27px !important;
         padding-bottom: 0 !important;
     }
+    .footer-app.on-mobile .footer-wrapper .list-item .footer-mobile.download-app .MuiExpansionPanelDetails-root{
+        padding-top: 0px !important;
+        padding-left: 0px !important;
+        padding-bottom: 0 !important;
+    }
     .footer-app .footer-wrapper .list-item .footer-mobile ul li:last-child{
         margin-bottom: 0 !important;
     }
@@ -501,13 +505,13 @@ $errorFormBgColor: #ece2e2;
 
      /* footer social mobile*/
     .footer-app.on-mobile .mobile-social{
-        padding-top: 134px;
+        padding-top: 20.17px;
         background-color: #E4E4E4;
+        padding-bottom: 47px;
     }
     .footer-app.on-mobile .mobile-social .footer-mobile-social{
         display: flex;
         justify-content: center;
-        padding-bottom: 40px;
     }
     .footer-app.on-mobile .mobile-social .footer-mobile-social .social-icon{
         margin-right: 20px;

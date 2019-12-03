@@ -11,6 +11,10 @@ import classes from './forgotPasswordForm.css';
 const ForgotPasswordForm  =  props => {
     const { onSubmit } = props;
 
+    // handleBack = () => {
+    //     this.props.history.push('/');
+    // };
+
     return (
         <Form
             className={classes.root}
@@ -22,6 +26,7 @@ const ForgotPasswordForm  =  props => {
                     field="email"
                     validate={isRequired}
                     validateOnBlur
+                    placeholder="Email"
                 />
             </Field>
             <div className={classes.buttonContainer}>
@@ -30,6 +35,9 @@ const ForgotPasswordForm  =  props => {
                     style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}>
                     {Identify.__('Submit')}
                 </button>
+            </div>
+            <div className={classes['back']}>
+                <span>{Identify.__('back'.toUpperCase())}</span>
             </div>
         </Form>
     )
