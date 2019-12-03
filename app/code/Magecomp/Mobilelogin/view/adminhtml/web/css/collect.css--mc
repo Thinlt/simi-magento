@@ -1,0 +1,17 @@
+.all-template-content {
+    float: left;
+    width: 100%;
+}
+.template-item {
+    border-bottom: 3px solid;
+    float: left;
+    padding-bottom: 15px;
+    width: 100%;
+}
+.template-item h2 {
+    margin: 10px 0;
+}
+.template-item > img {
+    float: left;
+    width: 100%;
+}

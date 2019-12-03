@@ -1,0 +1,17 @@
+<?php
+/** @var $block \Magento\Customer\Block\Account\AuthorizationLink */
+$dataPostParam = '';
+$customClass = "ajaxlogin-login";
+if ($block->isLoggedIn()) {
+	$dataPostParam = sprintf(" data-post='%s'", $block->getPostParams());
+	$customClass = "logoutajax";
+}
+?>
+<li class="authorization-link" data-label="<?php echo $block->escapeHtml(__('or')); ?>">
+    <a <?php /* @escapeNotVerified */ echo $block->getLinkAttributes(); ?><?php /* @escapeNotVerified */ echo $dataPostParam; ?> class="<?php echo $customClass ?>">
+        <?php echo $block->escapeHtml($block->getLabel());
+		?>
+    </a>
+</li>
+
+

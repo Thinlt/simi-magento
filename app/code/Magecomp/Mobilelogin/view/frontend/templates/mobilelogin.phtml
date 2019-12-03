@@ -1,0 +1,13 @@
+<?php
+if($block->isEnable() == 1){ ?>
+  <?php echo $this->getLayout()->createBlock("Magecomp\Mobilelogin\Block\Mobilelogin")->setTemplate("Magecomp_Mobilelogin::ajaxlogin.phtml")->toHtml();?>
+  <?php echo $this->getLayout()->createBlock("Magecomp\Mobilelogin\Block\Mobilelogin")->setTemplate("Magecomp_Mobilelogin::ajaxforgot.phtml")->toHtml(); ?>
+  <?php echo $this->getLayout()->createBlock("Magecomp\Mobilelogin\Block\Mobilelogin")->setTemplate("Magecomp_Mobilelogin::ajaxregister.phtml")->toHtml(); ?>
+<?php } ?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magecomp_Mobilelogin/js/script": {}
+        }
+    }
+</script>
