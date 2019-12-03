@@ -52,10 +52,11 @@ class MyAccount extends React.Component{
                             <div className={classes["menu-my-account"]}>
                                 <ClickAwayListener onClickAway={this.handleClose}>
                                 <div className={classes["list-menu-account"]}>
-                                    <MenuItem className={classes["my-account-item"]} onClick={()=>this.handleClickItem('/account.html')}>
+                                    <MenuItem className={classes["my-account-item-1"]} onClick={()=>this.handleClickItem('/account.html')}>
                                         {Identify.__('My Account')}
                                     </MenuItem>
-                                    <MenuItem className={classes["my-account-item"]} onClick={()=>this.handleClickItem('/logout.html')}>
+                                    <hr className={classes["hr-menu-account"]} />
+                                    <MenuItem className={classes["my-account-item-2"]} onClick={()=>this.handleClickItem('/logout.html')}>
                                         {Identify.__('Logout')}
                                     </MenuItem>
                                 </div>

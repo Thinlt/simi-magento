@@ -9,11 +9,10 @@ import Identify from 'src/simi/Helper/Identify'
 import classes from './forgotPasswordForm.css';
 
 const ForgotPasswordForm  =  props => {
-    const { onSubmit } = props;
-
-    // handleBack = () => {
-    //     this.props.history.push('/');
-    // };
+    const { history, onSubmit } = props;
+    const handleBack = () => {
+        history.push('/login.html');
+    };
 
     return (
         <Form
@@ -36,7 +35,10 @@ const ForgotPasswordForm  =  props => {
                     {Identify.__('Submit')}
                 </button>
             </div>
-            <div className={classes['back']}>
+            <div 
+                className={classes['back']}
+                onClick={handleBack}
+            >
                 <span>{Identify.__('back'.toUpperCase())}</span>
             </div>
         </Form>

@@ -15,7 +15,7 @@ import {showToastMessage} from 'src/simi/Helper/Message';
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
 
 const CreateAccount = props => {
-    const { createAccountError } = props;
+    const { history, createAccountError } = props;
     const errorMessage = createAccountError && (Object.keys(createAccountError).length !== 0) ? Identify.__('An error occurred. Please try again.'):null
     let registeringEmail = null
     let registeringPassword = null
@@ -58,7 +58,10 @@ const CreateAccount = props => {
             props.onSignIn(registeringEmail, registeringPassword)
         }
     }
-
+    
+    const handleBack = () => {
+        history.push('/login.html');
+    };
 
     return (
         <React.Fragment>
@@ -70,64 +73,81 @@ const CreateAccount = props => {
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
             >
-                <h3 className={classes.lead}>
-                    {`Check out faster, use multiple addresses, track
-                            orders and more by creating an account!`}
-                </h3>
-                <Field label="First Name" required={true}>
+                <div className={classes.lead1}>
+                    {Identify.__('create an account'.toUpperCase())}
+                </div>
+                <div className={classes.lead2}>
+                    {Identify.__('Please enter the following information to create your account.')}
+                </div>
+                <Field label="First Name *" required={true}>
                     <TextInput
+                        classes={classes}
                         field="customer.firstname"
                         autoComplete="given-name"
                         validate={validators.get('firstName')}
                         validateOnBlur
+                        placeholder="First name"
                     />
                 </Field>
-                <Field label="Last Name" required={true}>
+                <Field label="Last Name *" required={true}>
                     <TextInput
+                        classes={classes}
                         field="customer.lastname"
                         autoComplete="family-name"
                         validate={validators.get('lastName')}
                         validateOnBlur
+                        placeholder="Last name"
                     />
                 </Field>
-                <Field label="Email" required={true}>
+                <Field label="Email Address *" required={true}>
                     <TextInput
+                        classes={classes}
                         field="customer.email"
                         autoComplete="email"
                         validate={validators.get('email')}
                         validateOnBlur
+                        placeholder="Email"
                     />
                 </Field>
-                <Field label="Password">
+                <Field label="Password *">
                     <TextInput
+                        classes={classes}
                         field="password"
                         type="password"
                         autoComplete="new-password"
                         validate={validators.get('password')}
                         validateOnBlur
+                        placeholder="Password"
                     />
                 </Field>
-                <Field label="Confirm Password">
+                <Field label="Confirm Password *">
                     <TextInput
                         field="confirm"
                         type="password"
                         validate={validators.get('confirm')}
                         validateOnBlur
+                        placeholder="Password confirmation"
                     />
                 </Field>
-                <div className={classes.subscribe}>
+                {/* <div className={classes.subscribe}>
                     <Checkbox
                         field="subscribe"
                         label="Subscribe to news and updates"
                     />
-                </div>
+                </div> */}
                 <div className={classes.error}>{errorMessage}</div>
                 <div className={classes.actions}>
                     <button 
                         priority="high" className={classes.submitButton} type="submit" 
-                        style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}>
-                        {Identify.__('Submit')}
+                    >
+                        {Identify.__('Register')}
                     </button>
+                </div>
+                <div 
+                    className={classes['back']}
+                    onClick={handleBack}
+                >
+                    <span>{Identify.__('back'.toUpperCase())}</span>
                 </div>
             </Form>
         </React.Fragment>
