@@ -40,6 +40,7 @@ const CreateAccount = props => {
         showFogLoading()
         registeringEmail = values.customer.email
         registeringPassword = values.password
+        console.log(params);
         createAccount(registerDone, params)
     };
 
@@ -107,6 +108,15 @@ const CreateAccount = props => {
                         validate={validators.get('email')}
                         validateOnBlur
                         placeholder="Email"
+                    />
+                </Field>
+                <Field label="Phone Number *" required={true}>
+                    <TextInput
+                        classes={classes}
+                        field="customer.telephone"
+                        validate={validators.get('telephone')}
+                        validateOnBlur
+                        placeholder="Phone"
                     />
                 </Field>
                 <Field label="Password *">

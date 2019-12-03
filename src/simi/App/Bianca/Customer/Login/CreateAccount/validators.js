@@ -38,6 +38,9 @@ export const validators = new Map()
     .set('lastName', value => {
         return !(value || '').trim() ? 'A last name is required.' : undefined;
     })
+    .set('telephone', value => {
+        return !(value || '').trim() ? 'Telephone is required.' : undefined;
+    })
     .set('password', value => {
         if (!value || value.length < 8) {
             return 'A password must contain at least 8 characters.';

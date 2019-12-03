@@ -50,8 +50,6 @@
     width: 100%;
     padding: 20px 0;
     text-align: center;
-    font-size: 20px;
-    font-family: Gotham;
     border-left: 1px solid #727272;
     border-right: 1px solid #727272;
     box-sizing: border-box;
@@ -61,12 +59,16 @@
 
 .login-container .buyer-login span {
     color: #fff;
-    font-family: 'Gotham Medium';
     font-size: 20px;
+    line-height: 20px;
+    font-weight: 500;
+    font-family: Gotham;
     width: 72px;
     height: 20px;
     margin: auto;
     text-align: center;
+    display: inline-block;
+    margin-top: 2px;
 }
 .userInput{
     margin-bottom: 10px !important;
