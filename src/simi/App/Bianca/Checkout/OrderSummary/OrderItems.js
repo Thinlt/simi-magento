@@ -4,14 +4,22 @@ import { resourceUrl, logoUrl } from 'src/simi/Helper/Url';
 import Identify from 'src/simi/Helper/Identify';
 import { configColor } from 'src/simi/Config';
 import { Price } from '@magento/peregrine';
+import { isArray } from 'util';
+import Childproducts from './Childproducts'
 
 const OrderItems = (props) => {
-    const { items, cartCurrencyCode } = props;
-
+    const { cartCurrencyCode, totals, is_pre_order } = props;
+    let items = []
+    if (totals && totals.items)
+        items = totals.items
     return items && items.length ? items.map(o_item => {
         let itemsOption = '';
         let optionElement = ''
-        if (o_item.options.length > 0) {
+        o_item.options = (o_item.options)?(isArray(o_item.options)?o_item.options:JSON.parse(o_item.options)):[]
+        
+        if (o_item.simi_pre_order_option) {
+            optionElement = <Childproducts childProducts={o_item.simi_pre_order_option} cartCurrencyCode={cartCurrencyCode} />
+        } else if (o_item.options.length > 0) {
             itemsOption = o_item.options.map((optionObject) => {
                 return (
                     <div key={Identify.randomString()} className="option-selected-item">
@@ -45,12 +53,18 @@ const OrderItems = (props) => {
                 </div>
                 <div className='item-info'>
                     <label className='item-name'>{o_item.name}</label>
-                    {optionElement}
-                    <div className='item-qty-price'>
-                        <span className='qty'>{Identify.__("Quantity")}: {o_item.qty}</span>
-                        <span className='price'><Price currencyCode={cartCurrencyCode} value={o_item.price} /></span>
-                    </div>
+                    {
+                        !is_pre_order &&
+                        <React.Fragment>
+                            {optionElement}
+                            <div className='item-qty-price'>
+                                <span className='qty'>{Identify.__("Quantity")}: {o_item.qty}</span>
+                                <span className='price'><Price currencyCode={cartCurrencyCode} value={o_item.price} /></span>
+                            </div>
+                        </React.Fragment>
+                    }
                 </div>
+                {is_pre_order && optionElement}
             </li>
         );
     }) : null;

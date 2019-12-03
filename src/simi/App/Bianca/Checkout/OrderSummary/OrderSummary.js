@@ -5,6 +5,7 @@ import Arrow from 'src/simi/BaseComponents/Icon/Arrowup';
 import Total from 'src/simi/BaseComponents/Total';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import OrderItems from './OrderItems';
+import { isArray } from 'util';
 
 require('./OrderSummary.scss')
 const $ = window.$;
@@ -13,10 +14,17 @@ const OrderSummary = (props) => {
 
     const { cart, cartCurrencyCode, panelClassName, btnPlaceOrder } = props;
     const { details } = cart;
+    
+    let is_pre_order = false
+    if (cart.totals && cart.totals.items && isArray(cart.totals.items)) {
+        cart.totals.items.forEach(cartTotalItem => {
+            if (cartTotalItem.simi_pre_order_option)
+                is_pre_order = true
+        });
+    }
 
     const totalLabel = details && details.hasOwnProperty('items_count') && details.items_count + Identify.__(' items in cart');
-
-    const orderItem = useMemo(() => details && details.items && <OrderItems items={details.items} cartCurrencyCode={cartCurrencyCode} />, [details.items]);
+    const orderItem = useMemo(() => details && details.items && <OrderItems totals={cart.totals} cartCurrencyCode={cartCurrencyCode} is_pre_order={is_pre_order} />, [details.items]);
 
     const handleToggleItems = (e) => {
         const parent = $(e.currentTarget);
@@ -27,19 +35,27 @@ const OrderSummary = (props) => {
     const totalsSummary = (
         <Total data={cart.totals} currencyCode={cartCurrencyCode} />
     )
-
     const summaryItem = (
         <div className='order-review-container'>
             <div className='order-review item-box'>
-                <div className='order-items-header' key={Identify.randomString()} id="order-items-header" onClick={(e) => handleToggleItems(e)} role="presentation">
-                    <div className='item-count'>
-                        <span>{totalLabel} </span>
-                        <Arrow className={'expand_icon'} />
-                    </div>
-                </div>
-                <ul className='items'>
-                    {orderItem}
-                </ul>
+                {is_pre_order ? (
+                    <ul className='items pre-order-item'>
+                        {orderItem}
+                    </ul>
+                ) : (
+                    <React.Fragment>
+                        <div className='order-items-header' key={Identify.randomString()} id="order-items-header" onClick={(e) => handleToggleItems(e)} role="presentation">
+                            <div className='item-count'>
+                                <span>{totalLabel} </span>
+                                <Arrow className={'expand_icon'} />
+                            </div>
+                        </div>
+                        <ul className='items'>
+                            {orderItem}
+                        </ul>
+                    </React.Fragment>
+                    )
+                }
             </div>
         </div>
     )
