@@ -107,7 +107,7 @@ class Filter extends React.Component {
                 }, this);
             }
             return (
-                <div>{this.rowFilterAttributes}</div>
+                <div className="selectable-filter">{this.rowFilterAttributes}</div>
             );
         }
     }

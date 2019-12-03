@@ -79,10 +79,12 @@ const Home = props => {
             <div className="shop-by-designers-wrap">
                 <Designers history={history} isPhone={isPhone}/>
             </div>
+            {/*
             <div className="shop-our-instagram-wrap">
                 <h3 className="title">{Identify.__('Shop Our Instagram')}</h3>
                 <Instagram data={'simicart.official'} />
             </div>
+            */}
         </div>
     );
 }

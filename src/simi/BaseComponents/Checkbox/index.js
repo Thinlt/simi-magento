@@ -9,12 +9,12 @@ export const Checkbox = (props) => {
     return (
         <div 
             {...props}
-            className={`${classes['checkbox-item']} ${props.className} ${props.selected?classes['selected']:''}`}
+            className={`${classes['checkbox-item']} checkbox-item ${props.className} ${props.selected?`${classes['selected']} selected`:''}`}
         >
-            <div className={classes["checkbox-item-icon"]}>
-                <div className={classes["checkbox-item-icon-inside"]}></div>
+            <div className={`${classes["checkbox-item-icon"]} checkbox-item-icon`}>
+                <div className={`${classes["checkbox-item-icon-inside"]} checkbox-item-icon-inside`}></div>
             </div>
-            <span className={classes["checkbox-item-text"]}>
+            <span className={`${classes["checkbox-item-text"]} checkbox-item-text`}>
                 {Identify.__(props.label)}
             </span>
         </div>
