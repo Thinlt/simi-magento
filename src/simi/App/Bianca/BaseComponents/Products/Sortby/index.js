@@ -35,7 +35,12 @@ const Sortby = props => {
 
     selections = orders.map((item) => {
         let itemCheck = ''
-        const itemTitle = `${item.value} (${item.direction})`
+        const itemTitle = (
+            <React.Fragment>
+                {item.value} <span className={item.direction === 'asc'? 'icon-arrow-up' :'icon-arrow-down'}></span>
+            </React.Fragment>
+        )
+
         if (sortByData && sortByData[`${item.key}`] === item.direction.toUpperCase()) {
             itemCheck = (
                 <span className="is-selected">

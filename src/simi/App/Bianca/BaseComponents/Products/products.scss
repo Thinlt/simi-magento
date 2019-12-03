@@ -173,7 +173,7 @@ Sort by
   width: auto;
   justify-content: space-between;
   min-height: 30px;
-  padding: 3px 0px;
+  padding: 20px 0px 0px;
   font-family: Gotham;
   font-weight: 500;
   font-size: 14px;
@@ -292,14 +292,34 @@ Sort by
   .mobile-item-count {
       display: none;
   }
-  .top-sort-by .dir-item {
-    padding: 10px 0px;
-    display: flex;
-    justify-content: space-between;
-  }
   .top-sort-by .sort-by-select {
     min-height: 45px;
     margin-top: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+    .dir-item {
+        padding: 20px 0px;
+        display: flex;
+        justify-content: space-between;
+        .dir-title {
+            font-family: 'Gotham Book';
+            font-size: 14px;
+            font-weight: 400;
+            > span {
+                font-size: 12px;
+            }
+        }
+        .dir-check {
+            margin-top: 2px;
+            svg {
+                width: 14px !important;
+                height: 14px !important;
+            }
+        }
+    }
+    .dir-item:not(:last-child) {
+        border-bottom: solid 1px #F2F2F2;
+    }
   }
   .products-gallery-root .product-list-container-siminia {
     padding: 0;

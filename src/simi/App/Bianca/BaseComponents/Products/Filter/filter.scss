@@ -1,78 +1,97 @@
 $colorTitle: #101820;
 $colorBackgroundFilter: #f2f2f2;
 
-.filter-products .MuiListItem-root {
-    color: $colorTitle;
-    background-color: $colorBackgroundFilter;
-    padding-top: 17px;
-    padding-bottom: 13px;
-    margin-bottom: 8px;
-}
-.filter-products .MuiListItemText-root {
-    line-height: 14px;
-    margin-top: unset;
-    margin-bottom: unset;
-}
-.filter-products .MuiTypography-body1 {
-    display: block;
-    color: $colorTitle;
-    font-family: "Gotham Book";
-    font-size: 14px;
-    line-height: 18px;
-}
+.filter-products {
+    .active-filter .active-filter-item {  
+        .checkbox-item-icon {
+            width: 16px;
+            height: 16px;
+            margin-top: -1px;
+            .checkbox-item-icon-inside {
+                margin: 2px;
+                width: 12px;
+                height: 12px;
+                overflow: hidden;
+            }
+            .checkbox-item-icon-inside::before {
+                font-size: 12px;
+                line-height: 12px;
+                display: block;
+            }
+        }
+    }
+    .selectable-filter {
+        .checkbox-item-icon {
+            width: 16px;
+            height: 16px;
+            margin-top: -1px;
+        }
+    }
 
-.filter-products .icon-chevron-down,
-.filter-products .icon-chevron-up {
-  font-size: 16px;
-  margin-top: -1px;
-  margin-bottom: -1px;
-}
-
-.filter-products .title {
-  text-transform: uppercase;
-  color: #2d2d2d;
-  font-size: 16px;
-  font-weight: 600;
-}
-.filter-products .action-clear {
-  padding-left: 16px;
-  padding-top: 15px;;
-  padding-bottom: 15px;
-}
-.filter-products .filter-name {
-  line-height: 20px;
-  color: white;
-  font-size: 16px;
-  margin-bottom: 16px;
-  // margin-top: 24px;
-}
-
-.filter-products .filter-name-text {
-  font-size: 16px;
-  font-weight: 600;
-  font-size: 16px;
-}
-.filter-products .filter-item-text {
-  font-weight: 400;
-  line-height: 12px;
-}
-
-.filter-products .clear-filter {
-  font-size: 16px;
-  color: #101820;
-  padding: 0;
-  border: none;
-  height: 24px;
-  cursor: pointer;
-}
-
-.filter-products .clear-filter:hover {
-  color: rgb(11, 91, 40);
-}
-
-.filter-products .filter-item {
-  padding-left: 16px;
-  padding-bottom: 15px;
+    .MuiListItem-root {
+        color: $colorTitle;
+        background-color: $colorBackgroundFilter;
+        padding-top: 17px;
+        padding-bottom: 13px;
+        margin-bottom: 8px;
+    }
+    .MuiListItemText-root {
+        line-height: 14px;
+        margin-top: unset;
+        margin-bottom: unset;
+    }
+    .MuiTypography-body1 {
+        display: block;
+        color: $colorTitle;
+        font-family: "Gotham Book";
+        font-size: 14px;
+        line-height: 18px;
+    }
+    .icon-chevron-down,
+    .icon-chevron-up {
+        font-size: 16px;
+        margin-top: -1px;
+        margin-bottom: -1px;
+    }
+    .title {
+        text-transform: uppercase;
+        color: #2d2d2d;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .action-clear {
+        padding-left: 16px;
+        padding-top: 15px;;
+        padding-bottom: 15px;
+    }
+    .filter-name {
+        line-height: 20px;
+        color: white;
+        font-size: 16px;
+        margin-bottom: 16px;
+        // margin-top: 24px;
+    }  
+    .filter-name-text {
+        font-size: 16px;
+        font-weight: 600;
+        font-size: 16px;
+    }
+    .filter-item-text {
+        font-weight: 400;
+        line-height: 12px;
+    }
+    .clear-filter {
+        font-size: 16px;
+        color: #101820;
+        padding: 0;
+        border: none;
+        height: 24px;
+        cursor: pointer;
+    }
+    .filter-item {
+        padding-left: 16px;
+        padding-bottom: 15px;
+    }
 }
 
 @media (max-width: 1023px) {
@@ -80,25 +99,54 @@ $colorBackgroundFilter: #f2f2f2;
         margin-top: 16px;
     }
 
-    .filter-products .active-filter .active-filter-item {
-        border-bottom: 1px solid rgb(220, 220, 220);
-        padding: 16px 15px 15px 15px;
-    }
-    .filter-products .filter-name-text {
-        font-size: 14px;
-    }
-    .filter-products .filter-name {
-        color: #333132;
-        font-size: 14px;
-        line-height: 14px;
-    }
-
-    .filter-products .MuiListItem-root {
-        background-color: unset;
-        padding: 20px 15px;
-        font-size: 14px;
-        line-height: 14px;
-        margin-bottom: 1px;
+    .filter-products {
+        .active-filter .active-filter-item {
+            border-bottom: 1px solid rgb(220, 220, 220);
+            padding: 16px 15px 15px 15px;    
+            .checkbox-item-icon {
+                width: 16px;
+                height: 16px;
+                margin-top: -1px;
+                .checkbox-item-icon-inside {
+                    margin: 2px;
+                    width: 12px;
+                    height: 12px;
+                    overflow: hidden;
+                }
+                .checkbox-item-icon-inside::before {
+                    font-size: 12px;
+                    line-height: 12px;
+                    display: block;
+                }
+            }
+        }
+        .selectable-filter {
+            > div:not(:last-child) {
+                border-bottom: solid 1px #F2F2F2;
+            }
+            padding-left: 15px;
+            padding-right: 15px;
+            .checkbox-item-icon {
+                width: 16px;
+                height: 16px;
+                margin-top: -1px;
+            }
+        }
+        .filter-name-text {
+            font-size: 14px;
+        }
+        .filter-name {
+            color: #333132;
+            font-size: 14px;
+            line-height: 14px;
+        }
+        .MuiListItem-root {
+            background-color: unset;
+            padding: 20px 0px;
+            font-size: 14px;
+            line-height: 14px;
+            margin-bottom: 0px;
+        }
     }
 }
 

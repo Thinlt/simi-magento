@@ -1,5 +1,4 @@
 .left-all-cats{
-    padding-top: 7px;
     font-size: 14px;
     padding-left: 33px;
     font-family: Gotham;
@@ -13,6 +12,7 @@
         padding-left: unset;
         padding-right: 19px;
         margin-bottom: 5px;
+        height: 38px;
     }
     .icons{
         font-size: 12px;
@@ -23,6 +23,9 @@
         padding-left: 33px;
         padding-top: 13px;
         padding-bottom: 13px;
+        &:last-child{
+            padding-bottom: 5px;
+        }
     }
 }
 
