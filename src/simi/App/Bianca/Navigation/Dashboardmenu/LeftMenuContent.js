@@ -139,9 +139,10 @@ class LeftMenuContent extends React.Component{
     renderSections() {
         const {classes, isSignedIn, leftMenuItems} = this.props
         const storeConfig = Identify.getStoreConfig()
-        if (!storeConfig || storeConfig.simiStoreConfig)
-            return ''
-        const {bianca_header_phone} = storeConfig.simiStoreConfig.config.base
+        let bianca_header_phone = ''
+        if (storeConfig && storeConfig.simiStoreConfig && storeConfig.simiStoreConfig.config.base)
+            bianca_header_phone = storeConfig.simiStoreConfig.config.base.bianca_header_phone
+            
         const storeViewOptions = <Storeview classes={classes} className="storeview"/>
         const currencyOptions = <Currency classes={classes} className="currency"/>
         if (!leftMenuItems)
