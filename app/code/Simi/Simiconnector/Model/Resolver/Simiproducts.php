@@ -131,8 +131,8 @@ class Simiproducts implements ResolverInterface
                 ->addAttributeToFilter('sku', $sku)
                 ->getFirstItem();
             if ($productModel->getId()) {
-                // $productModel = $this->simiObjectManager->create('Magento\Catalog\Model\Product')
-                //     ->load($productModel->getId());
+                 $productModel = $this->simiObjectManager->create('Magento\Catalog\Model\Product')
+                     ->load($productModel->getId());
                 $this->productExtraData = array(
                     'attribute_values' => $productModel->toArray(),
                     'app_reviews' => $this->simiObjectManager
@@ -141,7 +141,7 @@ class Simiproducts implements ResolverInterface
                 );
                 $this->eventManager->dispatch(
                     'simi_simiconnector_graphql_simi_product_list_item_after',
-                    ['object' => $this, 'extraData' => $this->productExtraData]
+                    ['object' => $this, 'extraData' => $this->productExtraData, 'productModel' => $productModel]
                 );
                 $product['extraData'] = json_encode($this->productExtraData);
                 $products[$index] = $product;
