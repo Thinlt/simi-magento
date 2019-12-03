@@ -220,14 +220,7 @@ class Griditem extends React.Component {
                 text={Identify.__('Add to Cart')} />
         )
         if (item.simiExtraField && item.simiExtraField.attribute_values) {
-            if (!parseInt(item.simiExtraField.attribute_values.is_salable)) {
-                addToCartBtn = (
-                    <Colorbtn
-                        style={{ backgroundColor: '#101820', color: '#FFF', opacity: 0.5 }}
-                        className="add-to-cart-btn"
-                        text={Identify.__('Out of stock')} />
-                )
-            } else if (parseInt(item.simiExtraField.attribute_values.pre_order)) {
+            if (parseInt(item.simiExtraField.attribute_values.pre_order)) {
                 addToCartBtn = (
                     <Colorbtn
                         style={{ backgroundColor: '#101820', color: '#FFF' }}
@@ -240,6 +233,13 @@ class Griditem extends React.Component {
                 const { preorder_deposit } = config;
                 if (preorder_deposit)
                     depositText = (<p className="item-deposit">{Identify.__(`Deposit ${preorder_deposit}%`)}</p>)
+            } else if (!parseInt(item.simiExtraField.attribute_values.is_salable)) {
+                addToCartBtn = (
+                    <Colorbtn
+                        style={{ backgroundColor: '#101820', color: '#FFF', opacity: 0.5 }}
+                        className="add-to-cart-btn"
+                        text={Identify.__('Out of stock')} />
+                )
             }
         }
         
