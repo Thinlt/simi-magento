@@ -1,9 +1,9 @@
 .left-all-cats{
-    padding-top: 7px;
     font-size: 14px;
     padding-left: 33px;
     font-family: Gotham;
     font-weight: 500;
+    height: 38px;
 }
 
 .left-cats-menu{
@@ -23,6 +23,9 @@
         padding-left: 33px;
         padding-top: 13px;
         padding-bottom: 13px;
+        &:last-child{
+            padding-bottom: 5px;
+        }
     }
 }
 
