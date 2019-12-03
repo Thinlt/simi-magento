@@ -1,0 +1,35 @@
+.child-products-details {
+    width: 100%;
+    .child-product-item {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 24px;
+        .child-product-image {
+            img {
+                max-width: 82px;
+                max-height: 103px;
+            }
+        }
+        .child-product-info {
+            font-family: 'Gotham Book';
+            font-size: 14px;
+            max-width: 172px;
+            width: 80%;
+            .child-product-name {
+
+            }
+            .child-product-options {
+                font-size: 12px;
+                color: #727272;
+                margin-top: 12px;
+                display: flex;
+                flex-wrap: nowrap;
+                white-space: nowrap;
+                justify-content: space-between;
+                .child-product-option {
+                    width: 45%;
+                }
+            }
+        }
+    }
+}

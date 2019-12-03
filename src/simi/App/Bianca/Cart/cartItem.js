@@ -58,7 +58,7 @@ const CartItem = props => {
             return vendor.vendor_id === vendorId;
         })
 
-        return vendorName.vendor_id;
+        return (vendorName && vendorName.vendor_id)?vendorName.vendor_id:'';
     }
 
     const itemInfo = (

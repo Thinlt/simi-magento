@@ -60,13 +60,18 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                margin-top: 30px;
+                margin-top: 20px;
                 font-size: 14px;
-                font-family: 'Gotham';
+                font-family: 'Gotham Medium';
             }
             .item-qty-price span.qty {
-                font-weight: 500;
+                font-family: 'Gotham Book';
                 white-space: nowrap;
+            }
+            .item-qty-price .price {
+                color: #101820;
+                font-size: 16px;
+                margin-top: 10px;
             }
             .option-selected {
                 margin: 12px 0px 0px;
@@ -144,6 +149,29 @@
             }
             .item-image img{
                 max-width: 80px;
+            }
+        }
+        /*
+        pre order
+        */
+        ul.items.pre-order-item {
+            margin-top: 5px;
+            .order-item {
+                flex-wrap: wrap;
+            }
+            .item-image img{
+                width: 44px;
+                height: 44px;
+            }
+            .item-info {
+                width: 90%;
+                max-width: 238px;
+                .item-name {
+                    margin-top: 12px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    line-height: 16px;
+                }
             }
         }
 
