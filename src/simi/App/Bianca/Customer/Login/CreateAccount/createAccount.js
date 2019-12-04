@@ -109,6 +109,15 @@ const CreateAccount = props => {
                         placeholder="Email"
                     />
                 </Field>
+                <Field label="Phone Number *" required={true}>
+                    <TextInput
+                        classes={classes}
+                        field="customer.telephone"
+                        validate={validators.get('telephone')}
+                        validateOnBlur
+                        placeholder="Phone"
+                    />
+                </Field>
                 <Field label="Password *">
                     <TextInput
                         classes={classes}
