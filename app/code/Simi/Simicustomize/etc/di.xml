@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="\Simi\Simiconnector\Helper\Products" type="\Simi\Simicustomize\Override\Helper\Products" />
+    <preference for="\Simi\Simiconnector\Helper\Customer" type="\Simi\Simicustomize\Override\Helper\Customer" />
     <preference for="\Simi\Simicustomize\Api\ReserveInterface" type="\Simi\Simicustomize\Model\Api\Reserve" />
 
     <type name="Magento\Quote\Model\Quote\Item\Repository">

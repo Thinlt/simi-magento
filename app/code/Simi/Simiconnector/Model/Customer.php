@@ -260,7 +260,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
             ->setFirstname($data->firstname)
             ->setLastname($data->lastname)
             ->setEmail($data->email);
-        $this->simiObjectManager->get('Simi\Simiconnector\Helper\Customer')->applyDataToCustomer($customer, $data);
+        $this->simiObjectManager->get('Simi\Simicustomize\Override\Helper\Customer')->applyDataToCustomer($customer, $data);
 
         $password = null;
         if (isset($data->password) && $data->password) {

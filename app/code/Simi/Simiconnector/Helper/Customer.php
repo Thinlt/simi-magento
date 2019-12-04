@@ -131,9 +131,6 @@ class Customer extends Data
         if (isset($data->suffix) && $data->suffix) {
             $customer->setSuffix($data->suffix);
         }
-        if (isset($data->telephone) && $data->telephone) {
-            $customer->setCustomAttribute('mobilenumber',$data->telephone);
-        }
 //        if (!isset($data->password)) {
 //            $encodeMethod = 'md5';
 //            $data->password = 'simipassword'
