@@ -14,6 +14,7 @@ class PreorderDepositDiscount extends \Magento\Quote\Model\Quote\Address\Total\A
         $this->simiObjectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $this->_priceCurrency = $priceCurrency;
         $this->_checkOutSession = $this->simiObjectManager->create('Magento\Checkout\Model\Session');
+        $this->scopeConfig = $this->simiObjectManager->get('\Magento\Framework\App\Config\ScopeConfigInterface');
     }
 
     public function collect(
@@ -23,6 +24,26 @@ class PreorderDepositDiscount extends \Magento\Quote\Model\Quote\Address\Total\A
     )
     {
         parent::collect($quote, $shippingAssignment, $total);
+
+        //validate the quote if there're special and normal product at the same time
+        if (!$quote->getHasError()) {
+            $quoteItems = $quote->getItemsCollection()->getData();
+            $depositProductId = $this->scopeConfig->getValue('sales/preorder/deposit_product_id');
+            $hasPreOrderProduct = false;
+            $hasNormalProduct = false;
+            foreach ($quoteItems as $quoteItem) {
+                if ($quoteItem['product_id'] == $depositProductId)
+                    $hasPreOrderProduct = true;
+                else
+                    $hasNormalProduct = true;
+            }
+            if ($hasNormalProduct && $hasPreOrderProduct) {
+                $quote->setHasError(true);
+                $quote->addMessage(__('Your quote is not valid (contains special and normal products at once).'));
+            }
+        }
+
+        //add pre order deposit discount
         $quote->setPreorderDepositDiscount(0);
         if ($quote->getData('deposit_order_increment_id')) {
             $orderModel = $this->simiObjectManager->create('Magento\Sales\Model\Order')
