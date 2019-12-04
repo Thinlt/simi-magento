@@ -69,7 +69,11 @@ class Griditem extends React.Component {
     addToCartCallBack = (data) => {
         hideFogLoading()
         if (data.errors) {
-            showToastMessage(Identify.__('Problem occurred.'))
+            let message = ''
+            data.errors.map(value => {
+                message += value.message
+            })
+            showToastMessage(message?message:Identify.__('Problem occurred.'))
         } else {
             if (data.message)
                 showToastMessage(data.message)

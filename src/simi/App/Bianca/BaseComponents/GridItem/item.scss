@@ -24,7 +24,7 @@ $titleColor: #101820;
         height: 28px;
     }
     .vendor-and-price{
-        margin-top: 15px;
+        margin-top: 12px;
     }
 
     @media (min-width: 1440px) {
@@ -133,7 +133,7 @@ $titleColor: #101820;
         border: 1px solid $borderColor;
         box-sizing: border-box;
         .product-des-info {
-            min-height: 114px;
+            min-height: 111px;
         }
     }
     .siminia-product-des .cart-wishlish-compare {
@@ -232,8 +232,8 @@ $titleColor: #101820;
         font-family: "Gotham Book";
         font-size: 14px;
         line-height: 14px;
-        text-align: center;
-        margin-bottom: 15px;
+        text-align: start;
+        margin-bottom: 12px;
     }
 
 
