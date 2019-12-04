@@ -23,10 +23,6 @@ import { Util } from '@magento/peregrine';
 import { simiSignedIn } from 'src/simi/Redux/actions/simiactions';
 import { showToastMessage } from 'src/simi/Helper/Message';
 import VendorRegister from './VendorRegister';
-import Facebook from 'src/simi/BaseComponents/Icon/Facebook';
-import Instagram from 'src/simi/BaseComponents/Icon/Instagram';
-import Twitter from 'src/simi/BaseComponents/Icon/Twitter';
-import GooglePlus from 'src/simi/BaseComponents/Icon/TapitaIcons/GooglePlus';
 
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
@@ -157,10 +153,10 @@ class Login extends Component {
 
     setCreateAccountForm = () => {
 
-        this.createAccount = className => {
+        this.createAccount = (className, history) => {
             return (
                 <div className={className}>
-                    <CreateAccount onSignIn={this.onSignIn.bind(this)} />
+                    <CreateAccount onSignIn={this.onSignIn.bind(this)} history={history} />
                 </div>
             );
         };
@@ -170,10 +166,10 @@ class Login extends Component {
     forgotPassword = () => {};
 
     setForgotPasswordForm = () => {
-        this.forgotPassword = className => {
+        this.forgotPassword = (className, history) => {
             return (
                 <div className={className}>
-                    <ForgotPassword onClose={this.closeForgotPassword} />
+                    <ForgotPassword onClose={this.closeForgotPassword} history={history} />
                 </div>
             );
         };
@@ -183,6 +179,7 @@ class Login extends Component {
     closeForgotPassword = () => {
         this.hideForgotPasswordForm();
     };
+    hideForgotPasswordForm =()=>{};
 
     get vendorRegisterForm() {
         const { isVendorRegisterOpen } = this.state;
@@ -195,19 +192,19 @@ class Login extends Component {
 
     get createAccountForm() {
         const { isCreateAccountOpen } = this.state;
-        const { classes } = this.props;
+        const { history, classes } = this.props;
         const isOpen = isCreateAccountOpen;
         const className = isOpen ? classes.form_open : classes.form_closed;
 
-        return this.createAccount(className);
+        return this.createAccount(className, history);
     }
 
     get forgotPasswordForm() {
         const { isForgotPasswordOpen } = this.state;
-        const { classes } = this.props;
+        const { history, classes } = this.props;
         const isOpen = isForgotPasswordOpen;
         const className = isOpen ? classes.form_open : classes.form_closed;
-        return this.forgotPassword(className);
+        return this.forgotPassword(className, history);
     }
 
     showVendorRegisterForm = () => {

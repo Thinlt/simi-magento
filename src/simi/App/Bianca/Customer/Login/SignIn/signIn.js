@@ -4,7 +4,6 @@ import { Form } from 'informed';
 import TextInput from 'src/components/TextInput';
 import { isRequired } from 'src/util/formValidators';
 import Identify from 'src/simi/Helper/Identify'
-import {configColor} from 'src/simi/Config'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import UserIcon from '../../../../../BaseComponents/Icon/User';
 import Key from '../../../../../BaseComponents/Icon/Key';
@@ -83,7 +82,8 @@ class SignIn extends Component {
                     <div className='signInButtonCtn'>
                         <button 
                             priority="high" className='signInButton' type="submit" 
-                            style={{backgroundColor: '#101820', color: configColor.button_text_color}}>
+                            style={{backgroundColor: '#101820', color: '#fff'}}
+                        >
                             {Identify.__('Sign In'.toUpperCase())}
                         </button>
                     </div>

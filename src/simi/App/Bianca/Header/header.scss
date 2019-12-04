@@ -193,6 +193,10 @@ $textColor3: #E4E4E4;
                 }
                 .right-bar {
                     .customer-firstname{
+                        font-size: 14px;
+                        font-weight: 500;
+                        // color: green;
+                        font-family: Gotham;
                         position: absolute;
                         top: 18px;
                         left: -50%;
@@ -688,13 +692,15 @@ body.fixed-scroll {
     z-index: 2;
     margin-top: 9px;
 }
-.before-login{
+.before-login,
+.menu-my-account{
     right: -16px;
 }
 .list-menu-account, .list-before-login, .list-menu-settings {
     background-color: #F2F2F2;
 }
-.list-before-login hr.hr-before-login{
+.list-before-login hr.hr-before-login,
+.list-menu-account hr.hr-menu-account{
     border: 0.5px solid #E0E0E0;
     box-sizing: border-box;
     width: 138px;
@@ -717,7 +723,8 @@ body.fixed-scroll {
     color: #333132 !important;
     font-size: 12px;
 }
-.before-login .before-login-item-1{
+.before-login .before-login-item-1,
+.menu-my-account .my-account-item-1{
     color: $textColor1;
     font-family: Gotham;
     font-size: 16px;
@@ -728,7 +735,8 @@ body.fixed-scroll {
     padding-bottom: 14.5px;
     padding-left: 18.5px;
 }
-.before-login .before-login-item-2{
+.before-login .before-login-item-2,
+.menu-my-account .my-account-item-2{
     color: $textColor1;
     font-family: Gotham;
     font-size: 16px;

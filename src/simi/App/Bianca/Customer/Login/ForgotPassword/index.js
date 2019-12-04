@@ -16,8 +16,7 @@ class ForgotPassword extends Component {
     static propTypes = {
         classes: PropTypes.shape({
             instructions: PropTypes.string
-        }),
-        onClose: PropTypes.func.isRequired
+        })
     };
 
     handleFormSubmit = ({ email }) => {
@@ -55,7 +54,7 @@ class ForgotPassword extends Component {
     };
 
     render() {
-        const { email } = this.props;
+        const { history, email } = this.props;
         const {resetSubmited} = this.state
 
         if (resetSubmited) {
@@ -80,6 +79,7 @@ class ForgotPassword extends Component {
                     </p>
                     <ForgotPasswordForm
                         onSubmit={this.handleFormSubmit}
+                        history={history}
                     />
                 </div>
             </Fragment>
