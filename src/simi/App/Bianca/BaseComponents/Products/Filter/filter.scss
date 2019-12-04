@@ -49,7 +49,7 @@ $colorBackgroundFilter: #f2f2f2;
     }
     .icon-chevron-down,
     .icon-chevron-up {
-        font-size: 16px;
+        font-size: 12px;
         margin-top: -1px;
         margin-bottom: -1px;
     }
@@ -87,6 +87,7 @@ $colorBackgroundFilter: #f2f2f2;
         border: none;
         height: 24px;
         cursor: pointer;
+        margin-bottom: 25px;
     }
     .filter-item {
         padding-left: 16px;
