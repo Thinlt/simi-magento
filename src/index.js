@@ -7,6 +7,7 @@ import { Adapter } from 'src/drivers';
 import store from 'src/store';
 import app from 'src/actions/app';
 import App from 'src/simi';
+import {initializeUI,subscribeUser} from "src/simi/Helper/SimiServiceworker";
 import './index.css';
 
 const { BrowserPersistence } = Util;
@@ -30,6 +31,21 @@ const authLink = setContext((_, { headers }) => {
         }
     };
 });
+
+if (process.env.SERVICE_WORKER && 'serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker
+            .register(process.env.SERVICE_WORKER)
+            .then(registration => {
+                initializeUI(registration);
+                subscribeUser(registration);
+                console.log('Service worker registered: ', registration);
+            })
+            .catch(error => {
+                console.log('Service worker registration failed: ', error);
+            });
+    });
+}
 
 ReactDOM.render(
     <Adapter
