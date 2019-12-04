@@ -19,6 +19,7 @@ function urlB64ToUint8Array(base64String) {
 }
 
 export function initializeUI(swRegistration) {
+    checkVersionPwa()
     pushButton.addEventListener('click', function() {
         pushButton.disabled = true;
         if (isSubscribed) {
@@ -133,6 +134,53 @@ async function ConnectionApi(api,method = 'GET',params = null){
             console.error(error);
         });
     }
+}
+
+async function checkVersionPwa(){
+    var headers = new Headers({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        // 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+        // 'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
+        // 'Access-Control-Allow-Credentials': true,
+    });
+    var init = {cache: 'default', mode: 'cors',headers};
+    init['method'] = 'GET';
+    var api = window.SMCONFIGS.notification_api + "pwadevices/config"
+    var _request = new Request(api, init);
+    fetch(_request)
+        .then(function (response) {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Network response was not ok');
+        })
+        .then(function (data) {
+            if(data && data.pwa && data.pwa.hasOwnProperty('pwa_studio_client_ver_number') && data.pwa.pwa_studio_client_ver_number && localStorage){
+                let pwa_build_time = localStorage.getItem("CLIENT_VER");
+                if(!pwa_build_time || pwa_build_time === null){
+                    localStorage.setItem("CLIENT_VER",data.pwa.pwa_studio_client_ver_number);
+                }else{
+                    if(data.pwa.pwa_studio_client_ver_number !== pwa_build_time) {
+                        sessionStorage.clear();
+                        localStorage.setItem("CLIENT_VER",data.pwa.pwa_studio_client_ver_number);
+                        unregister();
+                        if(caches){
+                            caches.keys().then(function(names) {
+                                for (let name of names)
+                                    if(name.indexOf('sw-precache') >= 0){
+                                        caches.delete(name);
+                                    }
+                            });
+                            window.location.reload();
+                        }
+                    }
+                }
+            }
+        }).catch((error) => {
+        //alert(error.toString());
+        console.error(error);
+    });
 }
 
 export function unregister() {
