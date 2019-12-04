@@ -48,6 +48,7 @@ class VendorList implements VendorListInterface
     protected $mediaDirectory;
 
     protected $storeManager;
+    protected $vendorHelper;
 
     public function __construct(
         \Vnecoms\Vendors\Model\ResourceModel\Vendor\Collection $collection,
@@ -55,6 +56,7 @@ class VendorList implements VendorListInterface
         \Vnecoms\VendorsConfig\Helper\Data $configHelper,
         \Magento\MediaStorage\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Simi\Simicustomize\Helper\Vendor $vendorHelper,
         \Magento\Framework\View\Element\Template\Context $context
     ){
         $this->_collection = $collection;
@@ -63,6 +65,7 @@ class VendorList implements VendorListInterface
         $this->_fileStorageDatabase = $fileStorageDatabase;
         $this->_mediaDirectory = $context->getFilesystem()->getDirectoryRead(DirectoryList::MEDIA);
         $this->_storeManager = $storeManager;
+        $this->vendorHelper = $vendorHelper;
     }
 
     /**
@@ -95,6 +98,7 @@ class VendorList implements VendorListInterface
             foreach ($this->_collection as $vendor) {
                 $vendorData = $vendor->toArray();
                 $vendorData['logo'] = $this->getLogoUrl($vendor->getId());
+                $vendorData['profile'] = $this->vendorHelper->getProfile($vendor->getId());
                 $vendors[] = $vendorData;
             }
         }

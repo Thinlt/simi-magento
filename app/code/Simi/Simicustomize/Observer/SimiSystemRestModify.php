@@ -27,7 +27,12 @@ class SimiSystemRestModify implements ObserverInterface {
                 if (strpos($routeData['routePath'], '/totals') !== false) {
                     $this->_addDataToTotal($contentArray);
                 }
-                $this->_addDataToQuoteItem($contentArray);
+                if (isset($contentArray['totals']['items'])) {
+                    $totalData = $contentArray['totals'];
+                    $this->_addDataToQuoteItem($totalData);
+                    $contentArray['totals'] = $totalData;
+                } else
+                    $this->_addDataToQuoteItem($contentArray);
             }
         }
         $obj->setContentArray($contentArray);
@@ -76,7 +81,6 @@ class SimiSystemRestModify implements ObserverInterface {
                     $contentArray['items'][$index]['attribute_values'] = $product->toArray();
                 }
                 //modify option values for special products (preorder, trytobuy)
-                try {
                 if (isset($item['options']) && is_string($item['options']) && $optionArray = json_decode($item['options'], true)) {
                     if (is_array($optionArray)) {
                         $systemProductOption = array();
@@ -121,7 +125,7 @@ class SimiSystemRestModify implements ObserverInterface {
                         if ($newOptions)
                             $contentArray['items'][$index]['options'] = json_encode($newOptions);
                     }
-                } }catch (\Exception $e) {var_dumP($e->__toString());die;}
+                }
             }
         }
     }

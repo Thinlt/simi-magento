@@ -39,6 +39,11 @@ class SystemRestModify implements ObserverInterface
 		       }else{
 			       $this->_addDataToPayment($contentArray, $routeData);
 		       }
+               if (isset($contentArray['totals']['items'])) {
+                   $totalData = $contentArray['totals'];
+                   $this->_addDataToQuoteItem($totalData);
+                   $contentArray['totals'] = $totalData;
+               }
 	       } else if (
 		       strpos($routeData['routePath'], 'V1/guest-carts/:cartId') !== false ||
 		       strpos($routeData['routePath'], 'V1/carts/mine') !== false
