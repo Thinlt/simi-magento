@@ -5,9 +5,9 @@ import { Price } from '@magento/peregrine';
 require('./Childproducts.scss');
 
 const Childproducts = props => {
-    let {childProducts, cartCurrencyCode} = props
+    let {childProducts} = props
+    const {cartCurrencyCode} = props
     childProducts = JSON.parse(childProducts)
-    console.log(childProducts) 
     let child_products = []
     if (childProducts && childProducts.length) {
         child_products = childProducts.map((childProduct, index) => {

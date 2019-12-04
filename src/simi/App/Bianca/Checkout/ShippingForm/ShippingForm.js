@@ -1,52 +1,15 @@
-import React, {useEffect, useState, useMemo } from 'react';
+import React, {useState, useMemo } from 'react';
 // import { Form } from 'informed';
-import { array, func, shape, string } from 'prop-types';
+import { array, func, string } from 'prop-types';
 import { formatLabelPrice } from 'src/simi/Helper/Pricing';
 import Identify from 'src/simi/Helper/Identify';
 import Checkbox from '../../BaseComponents/Checkbox'
 import Loading from 'src/simi/BaseComponents/Loading/ReactLoading';
-import { request } from 'src/simi/Network/RestMagento';
 import { Util } from '@magento/peregrine';
+import Shippingproduct from './Shippingproduct'
 require('./ShippingForm.scss')
 
 const SHIPPING_METHOD_SELECTED = 'shipping_method_selected';
-
-/**
- * 
- * @param {vendor} ids 
- */
-const useLoadVendor = (availableVendorsMethods) => {
-    const [vendors, setVendors] = useState();
-    const getVendors = async function(vendorIds) {
-        const vendorApi = '/rest/V1/simiconnector/vendors';
-        const response = await request(vendorApi, {
-            method: 'POST',
-            body: JSON.stringify({
-                ids: vendorIds.join(',')
-            })
-        });
-        return response;
-    }
-    const loadVendorApi = async () => {
-        if (availableVendorsMethods && availableVendorsMethods.length && !vendors) {
-            let vendorIds = availableVendorsMethods.map((vendorMethods) => {
-                return vendorMethods.vendor_id;
-            });
-            let response = await getVendors(vendorIds);
-            if (response) {
-                setVendors(response);
-            }
-        }
-    };
-    useEffect(() => {
-        loadVendorApi();
-        return () => {
-            const controller = new AbortController();
-            controller.abort(); //cancel requesting
-        }
-    }, []);
-    return vendors;
-}
 
 const ShippingForm = (props) => {
     const { BrowserPersistence } = Util;
@@ -55,17 +18,24 @@ const ShippingForm = (props) => {
         availableShippingMethods,
         cancel,
         shippingMethod,
-        submit
+        submit,
+        cart
     } = props;
+
+    let vendors = false
+    const storeConfig = Identify.getStoreConfig()
+    if (storeConfig && storeConfig.simiStoreConfig && storeConfig.simiStoreConfig.config && storeConfig.simiStoreConfig.config.vendor_list) {
+        vendors = storeConfig.simiStoreConfig.config.vendor_list;
+    }
 
     // load method selected from storage
     const storedShippingMethod = storage.getItem('shippingMethod');
     // const initialValue = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, SHIPPING_METHOD_SELECTED);
-    let initialSelected = {}
+    const initialSelected = {}
     if (storedShippingMethod && storedShippingMethod.method_code) {
-        let selectedMethodsArray = storedShippingMethod.method_code.replace(/vflatrate_/g, '').split('|_|');
+        const selectedMethodsArray = storedShippingMethod.method_code.replace(/vflatrate_/g, '').split('|_|');
         for(let i = 0; i < selectedMethodsArray.length; i++){
-            let vendorIdRate = selectedMethodsArray[i].split('||');
+            const vendorIdRate = selectedMethodsArray[i].split('||');
             if (vendorIdRate[1] != undefined) {
                 initialSelected[vendorIdRate[1]] = selectedMethodsArray[i];
             }
@@ -74,7 +44,6 @@ const ShippingForm = (props) => {
     const [methodCodesSelected, setMethodCodesSelected] = useState(initialSelected);
     let availableVendorsMethods = [];
     const defaultMethod = { value: '', label: Identify.__('Please choose') }
-    const vendors = useLoadVendor(availableVendorsMethods);
 
     // convert availableShippingMethods to vendor shipping methods
     availableVendorsMethods = useMemo(() => {
@@ -82,16 +51,16 @@ const ShippingForm = (props) => {
             availableShippingMethods.map(
                 (shippingMethod) => {
                     // availableVendorsMethods
-                    let { carrier_code, carrier_title, method_code, method_title, price_incl_tax } = shippingMethod;
+                    const { carrier_code, carrier_title, method_code, method_title, price_incl_tax } = shippingMethod;
                     if (carrier_code === "vendor_multirate") {
                         return false
                     }
                     
                     if (method_code) {
-                        let methodCode = method_code.split('||');
+                        const methodCode = method_code.split('||');
                         if (methodCode[1] !== undefined){
                             let index;
-                            let vendorMethod = availableVendorsMethods.find((vendor, i) => {
+                            const vendorMethod = availableVendorsMethods.find((vendor, i) => {
                                 if (vendor.vendor_id === methodCode[1]) {
                                     index = i;
                                     return true;
@@ -130,12 +99,12 @@ const ShippingForm = (props) => {
     const handleSubmit2 = (selectedMethods) => {
         // get multi vendor shipping method
         let vendor_multirate = ''; //multiple rates code
-        let selecteds = Object.values(selectedMethods); //array
+        const selecteds = Object.values(selectedMethods); //array
         if (availableVendorsMethods && availableVendorsMethods.length === selecteds.length) {
             vendor_multirate = selecteds.join('|_|');
             // console.log('SELECTED SHIPPING CODE: ', vendor_multirate);
             // find method object available
-            let shippingMethod = availableShippingMethods.find(
+            const shippingMethod = availableShippingMethods.find(
                 ({ method_code, carrier_code }) => {
                     if (carrier_code !== "vendor_multirate") {
                         return false
@@ -178,7 +147,7 @@ const ShippingForm = (props) => {
         if (selecteds) {
             for(let venId in selecteds){
                 if (availableVendorsMethods && availableVendorsMethods.length) {
-                    let foundVendorMethod = availableVendorsMethods.find((vendorMethod) => {
+                    const foundVendorMethod = availableVendorsMethods.find((vendorMethod) => {
                         if (vendorMethod.vendor_id === venId) return true;
                         return false;
                     });
@@ -202,33 +171,40 @@ const ShippingForm = (props) => {
             <div className="shipping-body">
                 {
                     availableVendorsMethods.map((vendor, vendor_key) => {
-                        let {rates, carrier_title, vendor_id} = vendor;
+                        const {rates, carrier_title, vendor_id} = vendor;
                         rates.sort((a, b) => (a.order > b.order) ? 1 : -1); //sort
                         rates.unshift(defaultMethod);
                         let vendorName = carrier_title && vendor_id !== 'default' && Identify.__(`Vendor ${vendor_id}`) || Identify.__('Default');
+                        let designer = null
                         if(vendors){
-                            const vendor = vendors.find(({entity_id}) => parseInt(entity_id) === parseInt(vendor_id));
-                            vendorName = vendor ? (vendor.firstname + (vendor.lastname ? ` ${vendor.lastname}` : '')) : Identify.__('Default');
+                            designer = vendors.find(({entity_id}) => parseInt(entity_id) === parseInt(vendor_id));
+                            vendorName = designer ? 
+                                ((designer.profile && designer.profile.store_name) ? designer.profile.store_name : (designer.firstname + (designer.lastname ? ` ${designer.lastname}` : '')))
+                                : Identify.__('Default');
                         }
-                        return <div key={vendor_key}>
-                            <span>{vendorName}</span>
-                            {rates.map((rate) => {
-                                if(!rate.id){
-                                    return null;
-                                }
-                                let selected = (methodCodesSelected[vendor_id] === rate.value);
-                                return(
-                                    <Checkbox 
-                                        key={rate.id} 
-                                        label={rate.label} 
-                                        value={rate.value} 
-                                        onClick={() => methodSelecteHandle({vendor_id, method_code: rate.value})}
-                                        // onChange={(value) => handleSubmit(value)}
-                                        selected={selected}
-                                    />
-                                )
-                            })}
-                        </div>
+                        return (
+                            <div key={vendor_key} className="shipping-vendor">
+                                <span className="shipping-vendor-name">{vendorName}</span>
+                                <div className="items"><Shippingproduct designer={designer} cart={cart}/></div>
+                                {rates.map((rate) => {
+                                    if(!rate.id){
+                                        return null;
+                                    }
+                                    const selected = (methodCodesSelected[vendor_id] === rate.value);
+                                    return(
+                                        <Checkbox 
+                                            key={rate.id} 
+                                            label={rate.label} 
+                                            value={rate.value} 
+                                            onClick={() => methodSelecteHandle({vendor_id, method_code: rate.value})}
+                                            // onChange={(value) => handleSubmit(value)}
+                                            selected={selected}
+                                            className="select-shipping-checkbox"
+                                        />
+                                    )
+                                })}
+                            </div>
+                        )
                     })
                 }
             </div>

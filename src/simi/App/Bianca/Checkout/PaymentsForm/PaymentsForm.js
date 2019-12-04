@@ -27,7 +27,6 @@ const PaymentsForm = props => {
 
     return (
         <Form
-            className='root'
             initialValues={initialValues}
             onSubmit={handleSubmit}
         >

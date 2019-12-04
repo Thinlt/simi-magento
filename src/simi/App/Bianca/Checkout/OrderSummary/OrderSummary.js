@@ -18,8 +18,9 @@ const OrderSummary = (props) => {
     let is_pre_order = false
     if (cart.totals && cart.totals.items && isArray(cart.totals.items)) {
         cart.totals.items.forEach(cartTotalItem => {
-            if (cartTotalItem.simi_pre_order_option)
+            if (cartTotalItem.simi_pre_order_option && cartTotalItem.simi_pre_order_option!== '[]') {
                 is_pre_order = true
+            }
         });
     }
 

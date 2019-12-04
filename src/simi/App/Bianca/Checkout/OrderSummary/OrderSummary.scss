@@ -40,6 +40,9 @@
                 margin-bottom: 30px;
                 justify-content: space-between;
             }
+            .item-image img{
+                max-width: 80px;
+            }
             li.order-item .item-image {
                 padding-bottom: 5px;
             }
@@ -146,9 +149,6 @@
             }
             ul.address-item li {
                 display: block;
-            }
-            .item-image img{
-                max-width: 80px;
             }
         }
         /*

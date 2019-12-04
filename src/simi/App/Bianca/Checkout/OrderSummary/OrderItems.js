@@ -12,7 +12,7 @@ const OrderItems = (props) => {
     let items = []
     if (totals && totals.items)
         items = totals.items
-    return items && items.length ? items.map(o_item => {
+    return items && items.length ? items.map((o_item, o_index) => {
         let itemsOption = '';
         let optionElement = ''
         o_item.options = (o_item.options)?(isArray(o_item.options)?o_item.options:JSON.parse(o_item.options)):[]
@@ -20,9 +20,9 @@ const OrderItems = (props) => {
         if (o_item.simi_pre_order_option) {
             optionElement = <Childproducts childProducts={o_item.simi_pre_order_option} cartCurrencyCode={cartCurrencyCode} />
         } else if (o_item.options.length > 0) {
-            itemsOption = o_item.options.map((optionObject) => {
+            itemsOption = o_item.options.map((optionObject, optionObjectindex) => {
                 return (
-                    <div key={Identify.randomString()} className="option-selected-item">
+                    <div key={optionObjectindex} className="option-selected-item">
                         <span className='option-title'>{optionObject.label}: </span>
                         <span className='option-value'>{optionObject.value}</span>
                     </div>
@@ -38,7 +38,7 @@ const OrderItems = (props) => {
         const image = (o_item.image && o_item.image.file) ? o_item.image.file : o_item.simi_image
 
         return (
-            <li key={Identify.randomString()} className='order-item'>
+            <li key={o_index} className='order-item'>
                 <div className='item-image' style={{ borderColor: configColor.image_border_color }}>
                     <Image
                         src={

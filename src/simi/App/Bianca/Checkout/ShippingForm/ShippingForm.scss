@@ -1,0 +1,85 @@
+.shipping-form {
+  .shipping-vendor:not(:last-child) {
+    margin-bottom: 34px;
+  }
+  .shipping-vendor {
+    .shipping-vendor-name {
+      font-size: 16px;
+      line-height: 16px;
+      color: #101820;
+      margin-bottom: 18px;
+      margin-top: 10px;
+      display: block;
+    }
+    /* products on shipping */
+    .items {
+      padding: 0;
+      margin-bottom: 18px;
+      border: none;
+    }
+    .items .order-item {
+      display: flex;
+      margin-bottom: 30px;
+      justify-content: space-between;
+    }
+    .order-item .item-image {
+      padding-bottom: 5px;
+      img {
+        max-width: 80px;
+      }
+    }
+    .item-info {
+      width: 70%;
+      max-width: 213px;
+    }
+    .item-name {
+      font-size: 14px;
+      font-weight: 200;
+      font-family: "Gotham Book";
+    }
+    .cart-page-tapita .item-qty {
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .item-qty-price {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 14px;
+      font-family: "Gotham Medium";
+    }
+    .item-qty-price span.qty {
+      font-family: "Gotham Book";
+      white-space: nowrap;
+    }
+    .option-selected {
+      margin: 12px 0px 0px;
+      font-size: 12px;
+      color: #727272;
+      font-weight: 400;
+      font-family: "Gotham Book";
+      display: flex;
+      flex-wrap: wrap;
+      .option-selected-item {
+        width: 50%;
+        .price {
+          font-weight: 700;
+        }
+      }
+    }
+    .select-shipping-checkbox {
+      margin-top: -15px;
+      .checkbox-item-text {
+        color: #101820;
+        font-size: 14px;
+        line-height: 14px;
+        font-family: "Gotham Book";
+        padding-top: 2px;
+      }
+      .checkbox-item-icon {
+        margin-top: 0px;
+      }
+    }
+  }
+}
