@@ -12,10 +12,10 @@ require ('./style.scss')
 const Coupon = (props) => {
     const { value, toggleMessages, getCartDetails } = props;
     const [isCouponOpen, setOpen] = useState(false)
-    // console.log(isOpen)
+    const [coupon, setCoupon] = useState('')
+    
     let clearCoupon = false;
     const handleCoupon = (type = '') => {
-        let coupon = document.querySelector('#coupon_field').value;
         if (!coupon && type !== 'clear') {
             toggleMessages([{ type: 'error', message: 'Please enter coupon code', auto_dismiss: true }]);
             return null;
@@ -64,7 +64,7 @@ const Coupon = (props) => {
             }
         </div>
         <div className={`coupon-code-area-tablet ${isCouponOpen ? 'coupon-open': 'coupon-close'}`}>
-            <input id="coupon_field" type="text" placeholder={Identify.__('Coupon Code')} defaultValue={value} />
+            <input id="coupon_field" type="text" placeholder={Identify.__('Coupon Code')} defaultValue={value} onChange={(e)=> setCoupon(e.target.value)}/>
             {value && <button className='btn-clear-coupon' onClick={()=>handleCoupon('clear')}>
                         <Close style={{width:15,height:15}}/>
                     </button>   }

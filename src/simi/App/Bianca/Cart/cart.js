@@ -162,8 +162,22 @@ class Cart extends Component {
         const hasGrandtotal =
             cartId && cart.totals && 'grand_total' in cart.totals;
         const grandTotal = cart.totals.grand_total;
+        const hasDiscount = cartId && cart.totals && 'discount_amount' in cart.totals;
+        const discount = Math.abs(cart.totals.discount_amount);
         return (
             <div>
+                {hasDiscount ? 
+                    <div className="subtotal">
+                        <div className="subtotal-label">Discount {discount}%</div>
+                        <div>
+                            <Price
+                                currencyCode={cartCurrencyCode}
+                                value={discount}
+                            />
+                        </div>
+                    </div>
+                    : null
+                }
                 {hasSubtotal ? (
                     <div className="subtotal">
                         <div className="subtotal-label">Subtotal</div>

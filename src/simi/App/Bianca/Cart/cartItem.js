@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React, {useRef, useState} from 'react'
 import Identify from 'src/simi/Helper/Identify'
 import Deleteicon from 'src/simi/App/Bianca/BaseComponents/Icon/Trash'
 import EditIcon from 'src/simi/BaseComponents/Icon/Pencil'
@@ -10,6 +10,7 @@ import ReactHTMLParse from 'react-html-parser';
 require('./cartItem.scss')
 
 const CartItem = props => {
+    const [read, setReadOny] = useState(true)
     const inputQty = useRef(null)
     const { currencyCode, item, isPhone, itemTotal, handleLink } = props
     const tax_cart_display_price = 3; // 1 - exclude, 2 - include, 3 - both
@@ -97,20 +98,24 @@ const CartItem = props => {
             <div className="minicart-qty-title">{Identify.__('Quantity')}</div>
             <input
                 min={1}
+                readOnly={read}
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus={!read}
                 type="number"
                 pattern="[1-9]*"
                 defaultValue={item.qty}
                 ref={inputQty}
                 onBlur={(event) => {
+                    setReadOny(true)
                     if (parseInt(event.target.value, 10) !== parseInt(item.qty, 10))
                         updateCartItem(parseInt(event.target.value, 10))
                 }
                 }
                 onKeyUp={e => {
-                    if (e.keyCode === 13) {
-                        if (parseInt(event.target.value, 10) !== parseInt(item.qty, 10))
-                            updateCartItem(parseInt(event.target.value, 10))
-                    }
+                    // if (e.keyCode === 13) {
+                    //     if (parseInt(event.target.value, 10) !== parseInt(item.qty, 10))
+                    //         updateCartItem(parseInt(event.target.value, 10))
+                    // }
                 }}
             />
         </div>
@@ -122,6 +127,11 @@ const CartItem = props => {
             <div className='cart-item-value'>{subtotal}</div>
         </div>
     )
+
+    const focusOnInput = (callback) => {
+        setReadOny(false)
+        // callback();
+    }
 
     const location = `/product.html?sku=${item.simi_sku ? item.simi_sku : item.sku}`
     const image = (item.image && item.image.file) ? item.image.file : item.simi_image
@@ -163,8 +173,10 @@ const CartItem = props => {
                         role="button"
                         tabIndex="0"
                         className="item-edit"
-                        onClick={() => inputQty.current.focus()}
-                        onKeyUp={() => inputQty.current.focus()}
+                        onClick={() => {
+                            focusOnInput();
+                        }}
+                        onKeyUp={() => {}}
                     >
                         <EditIcon 
                             style={{width: '16px', height: '16px', marginRight: '8px' }}/>

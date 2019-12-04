@@ -33,6 +33,10 @@ import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { removeItemFromCart } from 'src/simi/Model/Cart';
 import Estimate from 'src/simi/App/Bianca/Cart/Components/Estimate';
+import {
+    showFogLoading,
+    hideFogLoading
+} from 'src/simi/BaseComponents/Loading/GlobalLoading';
 class MiniCart extends Component {
     static propTypes = {
         cancelCheckout: func.isRequired,
@@ -98,16 +102,18 @@ class MiniCart extends Component {
         );
     }
 
+
+
     removeFromCart(item) {
         if (confirm(Identify.__('Are you sure?')) === true) {
-            // <Loading/>
+            showFogLoading()
             removeItemFromCart(
                 () => {
                     this.props.getCartDetails();
                 },
                 item.item_id,
                 this.props.isSignedIn
-            );
+                );
         }
     }
 
@@ -158,15 +164,33 @@ class MiniCart extends Component {
         const { cartCurrencyCode, cartId } = this;
         const hasSubtotal = cartId && cart.totals && 'subtotal' in cart.totals;
         const totalPrice = cart.totals.subtotal;
-
-        return hasSubtotal ? (
-            <div className={classes.subtotal}>
-                <div className={classes.subtotalLabel}>Subtotal</div>
-                <div>
-                    <Price currencyCode={cartCurrencyCode} value={totalPrice} />
+        const hasDiscount = cartId && cart.totals && 'discount_amount' in cart.totals;
+        const discount = Math.abs(cart.totals.discount_amount);
+        return (
+            <div>
+                {hasDiscount ? 
+                    <div className={classes.subtotal}>
+                        <div className={classes.subtotalLabel}>Discount {discount}%</div>
+                        <div>
+                            <Price
+                                currencyCode={cartCurrencyCode}
+                                value={discount}
+                            />
+                        </div>
+                    </div>
+                    : null
+                }
+                {hasSubtotal ? (
+                <div className={classes.subtotal}>
+                    <div className={classes.subtotalLabel}>Subtotal</div>
+                    <div>
+                        <Price currencyCode={cartCurrencyCode} value={totalPrice} />
+                    </div>
                 </div>
+                ) : null}
             </div>
-        ) : null;
+        ) 
+        
     }
 
     get grandTotal() {
@@ -297,10 +321,10 @@ class MiniCart extends Component {
                 <h2 className={classes.titleSummary}>
                     <span>{Identify.__('Summary')}</span>
                 </h2>
-                {totalsSummary}
                 {couponCode}
                 {giftVoucher}
                 {/* {estimateShipAndTax} */}
+                {totalsSummary}
                 {grandTotal}
 
                 <div className={classes.minicartAction}>
@@ -356,6 +380,7 @@ class MiniCart extends Component {
         const body = isOptionsDrawerOpen ? productOptions : miniCartInner;
         const title = isOptionsDrawerOpen ? 'Edit Cart Item' : 'My Cart';
 
+        hideFogLoading()
         return (
             <aside className={`${className} minicart`} ref={this.wrapperMiniCart}>
                 {isCartEmpty
