@@ -327,13 +327,17 @@ $titleColor: #101820;
         .siminia-product-des .old {
             font-size: 10px;
         }
-        .siminia-product-des .vendor-and-price .vendor {
-            font-size: 10px;
-            line-height: 14px;
-            padding-top: 1px;
-            margin-top: 8px;
+        .siminia-product-des .vendor-and-price {
+            .old {
+                font-size: 10px;
+            }
+            .vendor {
+                font-size: 10px;
+                line-height: 14px;
+                padding-top: 1px;
+                margin-top: 8px;
+            }
         }
-
         .siminia-product-des {
             .product-des-info {
                 min-height: 76px;
