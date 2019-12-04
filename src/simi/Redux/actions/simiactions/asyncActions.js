@@ -3,13 +3,16 @@ import actions from './actions';
 import userActions from 'src/actions/user/actions';
 import checkoutActions from 'src/actions/checkout/actions';
 import checkoutReceiptActions from 'src/actions/checkoutReceipt';
+import cartActions from 'src/actions/cart/actions';
 import { getCartDetails, clearCartId, removeCart } from 'src/actions/cart';
 import { getUserDetails } from 'src/actions/user';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import Identify from 'src/simi/Helper/Identify';
 import { refresh } from 'src/util/router-helpers';
 
-const { request } = RestApi.Magento2;
+//const { request } = RestApi.Magento2;
+import { request } from 'src/simi/Network/RestMagento'
+
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
 
@@ -22,6 +25,7 @@ export const changeSampleValue = value => async dispatch => {
 export const simiSignedIn = response => async dispatch => {
     dispatch(userActions.signIn.receive(response));
     dispatch(getUserDetails()).then(() => dispatch(fullFillAddress()));
+    dispatch(removeCart());
     dispatch(getCartDetails({ forceRefresh: true }));
     // dispatch(fullFillAddress());
 }
@@ -30,14 +34,16 @@ export const simiSignOut = ({ history }) => async dispatch => {
 
     // Sign the user out in local storage and Redux.
     await clearToken();
-    await dispatch(userActions.signIn.reset());
+    dispatch(userActions.signIn.reset());
 
     // Now that we're signed out, forget the old (customer) cart
     // and fetch a new guest cart.
-    await dispatch(removeCart());
+    dispatch(removeCart());
     dispatch(getCartDetails({ forceRefresh: true }));
 
     // remove address
+    storage.removeItem('cartId');
+    storage.removeItem('signin_token');
     sessionStorage.removeItem("shipping_address");
     sessionStorage.removeItem("billing_address");
     await clearBillingAddress();
@@ -54,8 +60,7 @@ export const toggleMessages = value => async dispatch => {
 export const submitShippingAddress = payload =>
     async function thunk(dispatch, getState) {
         dispatch(checkoutActions.shippingAddress.submit(payload));
-
-        const { cart, directory } = getState();
+        const { cart, directory, user } = getState();
 
         const { cartId } = cart;
         if (!cartId) {
@@ -74,9 +79,20 @@ export const submitShippingAddress = payload =>
             );
             return null;
         }
-
+        dispatch(actions.changeCheckoutUpdating(true));
         await saveShippingAddress(address);
         dispatch(checkoutActions.shippingAddress.accept(address));
+
+        const guestEndpoint = `/rest/V1/guest-carts/${cartId}/estimate-shipping-methods`;
+        const authedEndpoint =
+            '/rest/V1/carts/mine/estimate-shipping-methods';
+        const endpoint = user.isSignedIn ? authedEndpoint : guestEndpoint;
+        const response = await request(endpoint, {
+            method: 'POST',
+            body: JSON.stringify({address})
+        });
+        dispatch(actions.changeCheckoutUpdating(false));
+        dispatch(checkoutActions.getShippingMethods.receive(response));
     };
 
 export const submitBillingAddress = payload =>
@@ -182,22 +198,28 @@ export const fullFillAddress = () => {
     }
 }
 
-export const submitOrder = () =>
+export const submitShippingMethod = payload =>
     async function thunk(dispatch, getState) {
-        dispatch(checkoutActions.order.submit());
+        dispatch(actions.changeCheckoutUpdating(true));
+        dispatch(checkoutActions.shippingMethod.submit(payload));
 
         const { cart, user } = getState();
         const { cartId } = cart;
+        const { isSignedIn } = user;
+
         if (!cartId) {
             throw new Error('Missing required information: cartId');
         }
 
-        let billing_address = await retrieveBillingAddress();
-        const paymentMethod = await retrievePaymentMethod();
-        const shipping_address = await retrieveShippingAddress();
-        const shipping_method = await retrieveShippingMethod();
+        const desiredShippingMethod = payload.formValues.shippingMethod;
+        await saveShippingMethod(desiredShippingMethod);
+        dispatch(checkoutActions.shippingMethod.accept(desiredShippingMethod));
 
-        if (billing_address.sameAsShippingAddress) {
+        // try to update shipping totals
+        let billing_address = await retrieveBillingAddress();
+        const shipping_address = await retrieveShippingAddress();
+
+        if (!billing_address || billing_address.sameAsShippingAddress) {
             billing_address = shipping_address;
         } else {
             const { email, firstname, lastname, telephone } = shipping_address;
@@ -211,26 +233,64 @@ export const submitOrder = () =>
             };
         }
 
-        try {
+        try{
             // POST to shipping-information to submit the shipping address and shipping method.
             const guestShippingEndpoint = `/rest/V1/guest-carts/${cartId}/shipping-information`;
             const authedShippingEndpoint =
                 '/rest/V1/carts/mine/shipping-information';
-            const shippingEndpoint = user.isSignedIn
+            const shippingEndpoint = isSignedIn
                 ? authedShippingEndpoint
                 : guestShippingEndpoint;
 
-            await request(shippingEndpoint, {
+            const response = await request(shippingEndpoint, {
                 method: 'POST',
                 body: JSON.stringify({
                     addressInformation: {
                         billing_address,
                         shipping_address,
-                        shipping_carrier_code: shipping_method.carrier_code,
-                        shipping_method_code: shipping_method.method_code
+                        shipping_carrier_code: desiredShippingMethod.carrier_code,
+                        shipping_method_code: desiredShippingMethod.method_code
                     }
                 })
             });
+
+            dispatch(cartActions.getDetails.receive({ paymentMethods: response.payment_methods, totals: response.totals }));
+        }catch(error){
+            dispatch(checkoutActions.shippingMethod.reject(error));
+        }
+        dispatch(actions.changeCheckoutUpdating(false));
+    };
+
+export const submitOrder = () =>
+    async function thunk(dispatch, getState) {
+        dispatch(checkoutActions.order.submit());
+
+        const { cart, user } = getState();
+        const { cartId } = cart;
+        if (!cartId) {
+            throw new Error('Missing required information: cartId');
+        }
+
+        let billing_address = await retrieveBillingAddress();
+        const paymentMethod = await retrievePaymentMethod();
+        const shipping_address = await retrieveShippingAddress();
+
+        if (!billing_address || billing_address.sameAsShippingAddress) {
+            billing_address = shipping_address;
+        } else {
+            if (shipping_address && shipping_address.email) {
+                const { email, firstname, lastname, telephone } = shipping_address;
+                billing_address = {
+                    email,
+                    firstname,
+                    lastname,
+                    telephone,
+                    ...billing_address
+                };
+            }
+        }
+
+        try {
 
             // POST to payment-information to submit the payment details and billing address,
             // Note: this endpoint also actually submits the order.
@@ -244,7 +304,7 @@ export const submitOrder = () =>
             const bodyData = {
                 billingAddress: billing_address,
                 cartId: cartId,
-                email: shipping_address.email,
+                email: billing_address.email,
                 paymentMethod: {
                     additional_data: {
                         payment_method_nonce: paymentMethod.data.nonce
@@ -253,6 +313,12 @@ export const submitOrder = () =>
                 }
             };
 
+            // for CC payment: Stripe
+            if (paymentMethod.data.hasOwnProperty('cc_token') && paymentMethod.data.cc_token){
+                bodyData.paymentMethod['additional_data'] = paymentMethod.data;
+            }
+
+            // for payment type Purchase Order
             if (paymentMethod.data.hasOwnProperty('purchaseorder') && paymentMethod.data.purchaseorder){
                 bodyData.paymentMethod['po_number'] = paymentMethod.data.purchaseorder;
             }
@@ -326,6 +392,10 @@ async function clearShippingAddress() {
 
 async function retrieveShippingMethod() {
     return storage.getItem('shippingMethod');
+}
+
+async function saveShippingMethod(method) {
+    return storage.setItem('shippingMethod', method);
 }
 
 async function clearShippingMethod() {

@@ -6,8 +6,9 @@ import PaymentsForm from './PaymentsForm/PaymentsForm';
 import ShippingForm from './ShippingForm/ShippingForm';
 import AddressItem from 'src/simi/BaseComponents/Address';
 import isObjectEmpty from 'src/util/isObjectEmpty';
-import defaultClass from './editableForm.css';
 import Identify from 'src/simi/Helper/Identify';
+
+require('./editableForm.scss')
 
 /**
  * The EditableForm component renders the actual edit forms for the sections
@@ -30,7 +31,10 @@ const EditableForm = props => {
         user,
         simiSignedIn,
         paymentCode,
-        toggleMessages
+        toggleMessages,
+        cartCurrencyCode,
+        cart,
+        is_virtual,
     } = props;
 
     const handleCancel = useCallback(() => {
@@ -89,6 +93,7 @@ const EditableForm = props => {
             return (
                 <Fragment>
                     <AddressForm
+                        id="shippingAddressForm"
                         cancel={handleCancel}
                         countries={countries}
                         isAddressInvalid={isAddressInvalid}
@@ -103,7 +108,7 @@ const EditableForm = props => {
                         toggleMessages={toggleMessages}
                     />
                     {shippingAddress && !isObjectEmpty(shippingAddress) ?
-                        <AddressItem classes={defaultClass} data={shippingAddress} /> : null}
+                        <AddressItem data={shippingAddress} /> : null}
                 </Fragment>
             );
         }
@@ -117,6 +122,7 @@ const EditableForm = props => {
             return (
                 <Fragment>
                     <AddressForm
+                        id="billingAddressForm"
                         cancel={handleCancel}
                         countries={countries}
                         isAddressInvalid={isAddressInvalid}
@@ -126,9 +132,10 @@ const EditableForm = props => {
                         submitting={submitting}
                         billingForm={true}
                         user={user}
+                        is_virtual={is_virtual}
                     />
                     {billingAddress && !isObjectEmpty(billingAddress) && !billingAddress.hasOwnProperty('sameAsShippingAddress') ?
-                        <AddressItem classes={defaultClass} data={billingAddress} /> : null}
+                        <AddressItem data={billingAddress} /> : null}
                 </Fragment>
 
             );
@@ -149,6 +156,8 @@ const EditableForm = props => {
                     submit={handleSubmitPaymentsForm}
                     submitting={submitting}
                     paymentMethods={paymentMethods}
+                    cart={cart}
+                    cartCurrencyCode={cartCurrencyCode}
                     key={Identify.randomString()}
                 />
             );

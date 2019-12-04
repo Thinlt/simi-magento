@@ -1,7 +1,10 @@
 import React from 'react'
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent'
-import CreateAccountPage from 'src/components/CreateAccountPage/index';
-import Home from 'src/simi/App/core/RootComponents/CMS/Home'
+import Account from 'src/simi/App/core/Customer/Account'
+
+const Home = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Home"*/'src/simi/App/core/RootComponents/CMS/Home')} {...props}/>
+}
 
 const Checkout = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/core/Checkout')} {...props}/>
@@ -13,10 +16,6 @@ const Thankyou = (props) => {
 
 const Login = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Login"*/'src/simi/App/core/Customer/Login')} {...props}/>
-}
-
-const Account = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Account"*/'src/simi/App/core/Customer/Account')} {...props}/>
 }
 
 const Cart = (props) => {
@@ -39,6 +38,10 @@ const Logout = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Logout"*/'src/simi/App/core/Customer/Logout')} {...props}/>
 }
 
+const PaypalExpress = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "PaypalExpress"*/'src/simi/App/core/Payment/Paypalexpress')} {...props}/>
+}
+
 const NoMatch = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/core/NoMatch')} {...props}/>
 }
@@ -52,10 +55,6 @@ const router = {
     search_page: {
         path: '/search.html',
         render : (props) => <Search {...props}/>
-    },
-    register: {
-        path: '/create-account',
-        render : (props) => <CreateAccountPage {...props}/>
     },
     cart : {
         path : '/cart.html',
@@ -116,6 +115,10 @@ const router = {
     contact: {
         path: '/contact.html',
         render : location => <Contact {...location} page={`contact`}/>
+    },
+    contact: {
+        path: '/paypal_express.html',
+        render : location => <PaypalExpress {...location} page={`contact`}/>
     },
     noMatch: {
         component : location => <NoMatch {...location} />

@@ -1,28 +1,31 @@
 import React from 'react'
 import ProductDetail from './ProductDetail';
+import Identify from 'src/simi/Helper/Identify';
 
 const ProductList = props => {
-    const {classes, homeData, history} = props;
+    const { homeData, history} = props;
     const renderListProduct = () => {
         if(
-            homeData.home.hasOwnProperty('homeproductlists')   
+            homeData.home.hasOwnProperty('homeproductlists')
             && homeData.home.homeproductlists.hasOwnProperty('homeproductlists')
             && homeData.home.homeproductlists.homeproductlists instanceof Array
             && homeData.home.homeproductlists.homeproductlists.length > 0
         ) {
-            
+
             const productList = homeData.home.homeproductlists.homeproductlists.map((item, index) => {
-                return (
-                    <div className={classes["default-productlist-item"]} key={index}>
-                        <div className={classes["default-productlist-title"]}>
-                            {item.list_title}
+                if (item.category_id)
+                    return (
+                        <div className="default-productlist-item" key={index}>
+                            <div className="default-productlist-title">
+                                {item.list_title}
+                            </div>
+                            <ProductDetail dataProduct={item} history={history}/>
                         </div>
-                        <ProductDetail dataProduct={item} classes={classes} history={history}/>
-                    </div>
-                )
+                    )
+                return ''
             });
             return (
-                <div className={classes["productlist-content"]}>
+                <div className="productlist-content">
                     {productList}
                 </div>
             )
@@ -30,7 +33,7 @@ const ProductList = props => {
     }
 
     return (
-        <div className={classes['default-home-product-list']}>
+        <div className={`default-home-product-list ${Identify.isRtl() ? 'default-home-pd-rtl' : ''}`}>
             <div className="container">
                 {renderListProduct()}
             </div>

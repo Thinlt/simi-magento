@@ -21,7 +21,6 @@ const themePaths = {
     src: path.resolve(__dirname, 'src'),
     output: path.resolve(__dirname, 'dist')
 };
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const rootComponentsDirs = ['./src/simi/App/core/RootComponents/'];
 const libs = [
     'apollo-cache-inmemory',
@@ -68,8 +67,7 @@ module.exports = async function(env) {
                 {
                     test: /\.scss$/,
                     use: [
-                        // fallback to style-loader in development
-                        process.env.NODE_ENV !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
+                        'style-loader',
                         "css-loader",
                         "sass-loader"
                     ]
@@ -84,7 +82,21 @@ module.exports = async function(env) {
                     ]
                 },
                 {
-                    include: [themePaths.src, /peregrine\/src\//],
+                    include: [themePaths.src, /peregrine\/lib\//],
+                    test: /\.(mjs|js)$/,
+                    use: [
+                        {
+                            loader: 'babel-loader',
+                            options: {
+                                cacheDirectory: true,
+                                envName: mode,
+                                rootMode: 'upward'
+                            }
+                        }
+                    ]
+                },
+                {
+                    include: [themePaths.src, /venia-ui\/lib\//],
                     test: /\.(mjs|js)$/,
                     use: [
                         {
@@ -129,12 +141,6 @@ module.exports = async function(env) {
             extensions : ['.js','.jxs','.scss']
         }),
         plugins: [
-            new MiniCssExtractPlugin({
-                // Options similar to the same options in webpackOptions.output
-                // both options are optional
-                filename: "[name].css",
-                chunkFilename: "[id].css"
-            }),
             // // This is necessary to emit hot updates (currently CSS only):
             new webpack.HotModuleReplacementPlugin(),
             await makeMagentoRootComponentsPlugin({

@@ -2,6 +2,7 @@ import React from 'react'
 import Identify from "src/simi/Helper/Identify"
 import { Switch, Route } from 'react-router-dom';
 import {PbPageHoc} from 'src/simi/BaseComponents/Pbpage';
+import {smoothScrollToView} from "src/simi/Helper/Behavior";
 
 class Abstract extends React.Component{
     render(){
@@ -15,6 +16,7 @@ class Abstract extends React.Component{
             //add rtl
             this.renderRTL(merchantConfig.simiStoreConfig)
         }
+        smoothScrollToView($('#root'))
         return (
             this.renderLayout()
         )
@@ -72,7 +74,6 @@ class Abstract extends React.Component{
             <Switch>
                 <Route exact {...router.home}/>
                 <Route exact {...router.search_page}/>
-                <Route exact {...router.register}/>
                 <Route exact {...router.cart}/>
                 <Route exact {...router.product_detail}/>
                 <Route exact {...router.checkout}/>
@@ -96,7 +97,7 @@ class Abstract extends React.Component{
 
     renderRTL = (simiStoreConfig)=>{
         //add rtl
-        if (simiStoreConfig.store && parseInt(simiStoreConfig.store.base.is_rtl, 10) === 1) {
+        if (simiStoreConfig.config && parseInt(simiStoreConfig.config.base.is_rtl, 10) === 1) {
             console.log('Is RTL');
         } else {
             try {

@@ -13,9 +13,26 @@ import TitleHelper from 'src/simi/Helper/TitleHelper'
 import {applySimiProductListItemExtraField} from 'src/simi/Helper/Product'
 import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
 import { cateUrlSuffix } from 'src/simi/Helper/Url';
+import { smoothScrollToView } from 'src/simi/Helper/Behavior';
 
 var sortByData = null
 var filterData = null
+
+const genPath = (item, id, pathArray) => {
+    if (item.id && item.id === id) {
+        return true
+    } else if (item.children && Array.isArray(item.children)) {
+        let hasTheOne = false
+        item.children.map(child => {
+            if (!hasTheOne) hasTheOne = genPath(child, id, pathArray)
+        })
+        if (hasTheOne) {
+            if (item.url_path) pathArray.unshift({name: item.name, link: '/' + item.url_path + cateUrlSuffix()})
+            return true
+        }
+    }
+    return false
+}
 
 const Category = props => {
     const { id } = props;
@@ -50,6 +67,7 @@ const Category = props => {
         variables.sort = sortByData
         
     const cateQuery = simicntrCategoryQuery
+    smoothScrollToView($('#root'))
     return (
         <Simiquery query={cateQuery} variables={variables}>
             {({ loading, error, data }) => {
@@ -62,18 +80,17 @@ const Category = props => {
                         data.products.filters = data.products.simi_filters
                 }
                 const categoryTitle = data && data.category ? data.category.name : '';
-                const breadcrumb = [{name: "Home", link: '/'}];
-                if(data && data.category && data.category.breadcrumbs instanceof Array) {
-                    data.category.breadcrumbs.forEach(item => {
-                        breadcrumb.push({name: item.category_name, link: '/' + item.category_url_key + cateUrlSuffix()})
-                    })
+                const pathArray = [];
+                const storeConfig = Identify.getStoreConfig();
+                if (storeConfig && storeConfig.simiRootCate && data.category.id) {
+                    genPath(storeConfig.simiRootCate, data.category.id, pathArray)
                 }
-                breadcrumb.push({name: data.category.name})
-                
+                pathArray.unshift({name: Identify.__("Home"), link: '/'})
+                pathArray.push({name: data.category.name, link: '#'})
 
                 return (
                     <div className="container">
-                        <BreadCrumb breadcrumb={breadcrumb} history={props.history}/>
+                        <BreadCrumb breadcrumb={pathArray}/>
                         {TitleHelper.renderMetaHeader({
                             title: data.category.meta_title?data.category.meta_title:data.category.name,
                             desc: data.category.meta_description

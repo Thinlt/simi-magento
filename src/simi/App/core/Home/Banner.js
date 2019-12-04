@@ -3,12 +3,12 @@ import {Carousel} from "react-responsive-carousel";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Identify from "src/simi/Helper/Identify";
 import BannerItem from "./BannerItem";
+require('./banner.scss');
 
 const Banner = props => {
-    const {classes, history, isPhone} = props;
+    const { history, isPhone} = props;
     const data = props.data.home.homebanners;
     const bannerCount = data.length;
-    const configs = Identify.getStoreConfig();
 
     const slideSettings = {
         autoPlay: true,
@@ -17,7 +17,7 @@ const Banner = props => {
         showIndicators: (bannerCount && bannerCount !== 1) || isPhone ? false : true,
         showStatus: false,
         infiniteLoop: true,
-        rtl: parseInt(configs.simiStoreConfig.config.base.is_rtl, 10) === 1,
+        rtl: Identify.isRtl() === true,
         lazyLoad: true,
         dynamicHeight : true,
         transitionTime : 500
@@ -31,16 +31,16 @@ const Banner = props => {
                     key={index}
                     style={{cursor: 'pointer'}}
                 >
-                    <BannerItem item={item} classes={classes} history={history} isPhone={isPhone}/>
+                    <BannerItem item={item}  history={history} isPhone={isPhone}/>
                 </div>
             )
         }
-        
+
     })
 
     return (
-        <div className={classes["banner-homepage"]}>
-            <div className="container">
+        <div className={`banner-homepage ${Identify.isRtl() ? 'banner-home-rtl' : ''}`}>
+            <div className={`container home-container`}>
                 <Carousel {...slideSettings}>
                     {bannerData}
                 </Carousel>
@@ -49,4 +49,4 @@ const Banner = props => {
     ) ;
 }
 
-export default Banner;  
+export default Banner;

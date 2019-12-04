@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bool } from 'prop-types';
 
 import Footer from '../Footer';
-import Header from 'src/simi/BaseComponents/Header'
+import Header from 'src/simi/App/core/Header'
 import Identify from 'src/simi/Helper/Identify'
 import {saveCategoriesToDict} from 'src/simi/Helper/Url'
 import Connection from 'src/simi/Network/SimiConnection'
@@ -35,12 +35,11 @@ class Main extends Component {
     }
 
     mainContent(storeConfig = null) {
-        const { children } = this.props
         return (
             <React.Fragment>
                 <Header storeConfig={storeConfig}/>
                 <div id="data-breadcrumb"/>
-                {storeConfig && <div className={classes.page} id="siminia-main-page">{children}</div>}
+                {storeConfig ? <div className={classes.page} id="siminia-main-page">{this.props.children}</div> : <LoadingComponent />}
                 <Footer />
             </React.Fragment>
         )

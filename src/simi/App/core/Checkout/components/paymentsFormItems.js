@@ -1,9 +1,8 @@
 import React, { useCallback, Fragment } from 'react';
 import { useFormState, asField, BasicRadioGroup } from 'informed';
-import { array, bool, func, shape, string } from 'prop-types';
+import { array, bool, func } from 'prop-types';
 import { isRequired } from 'src/util/formValidators';
 
-import defaultClasses from './paymentsFormItems.css';
 import Button from 'src/components/Button';
 import Radio from 'src/components/RadioGroup/radio';
 import TextInput from 'src/components/TextInput';
@@ -12,6 +11,7 @@ import isObjectEmpty from 'src/util/isObjectEmpty';
 import Identify from 'src/simi/Helper/Identify';
 import BraintreeDropin from './paymentMethods/braintreeDropin';
 import CCType from './paymentMethods/ccType';
+require('./paymentsFormItems.scss')
 
 /**
  * This component is meant to be nested within an `informed` form. It utilizes
@@ -23,13 +23,14 @@ const CustomRadioPayment = asField(({ fieldState, ...props }) => (
 
 const PaymentsFormItems = props => {
     const {
-        classes,
         setIsSubmitting,
         submit,
         isSubmitting,
         paymentMethods,
         initialValues,
-        paymentCode
+        paymentCode,
+        cart,
+        cartCurrencyCode
     } = props;
 
     // Currently form state toggles dirty from false to true because of how
@@ -58,9 +59,6 @@ const PaymentsFormItems = props => {
         selectablePaymentMethods = []
     }
 
-    // const ccPayment = { value: 'cc_type', label: 'Credit card' }
-    // selectablePaymentMethods.push(ccPayment);
-
     let thisInitialValue = null;
     if (initialValues && !isObjectEmpty(initialValues)) {
         if (initialValues.value) {
@@ -87,17 +85,15 @@ const PaymentsFormItems = props => {
 
         const p_method = formState.values['payment_method'];
         let parseData = {};
-        if (p_method === 'checkmo'
-            || p_method === 'free'
-            || p_method === 'cashondelivery'
-            || p_method === 'banktransfer') {
-            // payment type 0
+        if (paymentMethods && paymentMethods.length) {
+            if (!paymentMethods.hasOwnProperty('simi_payment_data') || (paymentMethods.hasOwnProperty('simi_payment_data') && !isObjectEmpty(paymentMethods.simi_payment_data) && parseInt(paymentMethods.simi_payment_data.show_type, 10) === 0)){
+                 // payment type 0
+                parseData = selectablePaymentMethods.find(
+                    ({ value }) => value === p_method
+                );
 
-            parseData = selectablePaymentMethods.find(
-                ({ value }) => value === p_method
-            );
-
-            handleSuccess(parseData)
+                handleSuccess(parseData)
+            }
         }
     }
 
@@ -112,28 +108,28 @@ const PaymentsFormItems = props => {
             handleSuccess(JSON.parse(JSON.stringify(values)));
         }
     }
-
+    
     const renderMethod = () => {
         let mt = null;
-        if (selectablePaymentMethods.length) {
-            mt = selectablePaymentMethods.map(ite => {
+        if (paymentMethods.length) {
+            mt = paymentMethods.map(ite => {
 
                 let frameCard = '';
 
-                if (formState.values['payment_method'] === ite.value) {
+                if (formState.values['payment_method'] === ite.code) {
 
-                    if (ite.value === 'purchaseorder') {
+                    if (ite.code === 'purchaseorder') {
                         frameCard = <Fragment>
                             <Field label={Identify.__("Purchase Order Number")} required>
                                 <TextInput
-                                    id={classes.purchaseorder}
+                                    id='purchaseorder'
                                     field="purchaseorder"
                                     validate={isRequired}
                                 />
 
                             </Field>
                             <Button
-                                className={classes.button}
+                                className='button'
                                 style={{ marginTop: 10, marginBottom: 20 }}
                                 type="submit"
                                 onClick={() => handleSavePO()}
@@ -141,12 +137,12 @@ const PaymentsFormItems = props => {
                         </Fragment>
                     }
 
-                    // label with option have card
-                    if (ite.value === 'braintree') {
+                    // brain tree default magento pwa-studio
+                    if (ite.code === 'braintree') {
                         frameCard = <Fragment>
                             <BraintreeDropin shouldRequestPaymentNonce={isSubmitting} onError={handleError} onSuccess={handleSuccess} />
                             <Button
-                                className={classes.button}
+                                className="button"
                                 style={{ marginTop: 10, marginBottom: 20 }}
                                 type="button"
                                 onClick={() => handleSubmit()}
@@ -154,13 +150,20 @@ const PaymentsFormItems = props => {
                         </Fragment>
                     }
 
-                    if (ite.value === 'cc_type') {
-                        frameCard = <CCType />
+                    if (ite.hasOwnProperty('simi_payment_data') && !isObjectEmpty(ite.simi_payment_data)) {
+                        if (parseInt(ite.simi_payment_data.show_type, 10) === 1){
+                            // payment type 1
+                            frameCard = <CCType onSuccess={handleSuccess} paymentContent={ite.simi_payment_data} cartCurrencyCode={cartCurrencyCode} cart={cart} payment_method={ite.code} />
+                        }
+                        if (parseInt(ite.simi_payment_data.show_type, 10) === 3){
+                            // payment type 3
+                            frameCard = 'Coming soon!'
+                        }
                     }
                 }
 
-                return <Fragment key={ite.value}>
-                    <Radio label={ite.label} value={ite.value} />
+                return <Fragment key={ite.code}>
+                    <Radio label={ite.title} value={ite.code} />
                     {frameCard}
                 </Fragment>
             });
@@ -170,8 +173,8 @@ const PaymentsFormItems = props => {
 
     return (
         <Fragment>
-            <div className={classes.body}>
-                <div className={defaultClasses['payment-method-item']}>
+            <div className='body'>
+                <div className='payment-method-item'>
                     <CustomRadioPayment initialValue={paymentCode} field="payment_method" key={thisInitialValue} onChange={() => selectPaymentMethod()}>
                         {renderMethod()}
                     </CustomRadioPayment>
@@ -184,18 +187,6 @@ const PaymentsFormItems = props => {
 
 PaymentsFormItems.propTypes = {
     cancel: func.isRequired,
-    classes: shape({
-        address_check: string,
-        body: string,
-        button: string,
-        braintree: string,
-        city: string,
-        footer: string,
-        heading: string,
-        postcode: string,
-        region_code: string,
-        street0: string
-    }),
     countries: array,
     isSubmitting: bool,
     setIsSubmitting: func.isRequired,

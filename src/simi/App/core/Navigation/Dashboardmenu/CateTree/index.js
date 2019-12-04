@@ -37,8 +37,9 @@ class CateTree extends React.Component {
         const {classes} = this.props
         if (data) {
             const obj =this;
+            data.children.sort((a, b)=> a.position - b.position)
             const categories = data.children.map(function (item,key) {
-                if (!item.name)
+                if (!item.name || !item.include_in_menu)
                     return ''
                 const cate_name = <div className={classes["root-menu"]} >{obj.renderTitleMenu(item.name)}</div>;
                 const hasChild = (item.children && item.children.length > 0)
@@ -112,13 +113,13 @@ class CateTree extends React.Component {
 
     render(){
         const {props} = this
-        const { classes} = props
+        const { classes, hideHeader } = props
 
         const storeConfig = Identify.getStoreConfig();
         if (!storeConfig || !storeConfig.simiRootCate)
             return <div></div>
         this.renderedOnce = true
-        const primarytext = (
+        const primarytext = hideHeader?'':(
             <div className={classes["menu-content"]} id="cate-tree">
                 <div className={classes["icon-menu"]}>
                     <CateIcon style={{fill:configColor.menu_icon_color, width: 18, height: 18}}/>
@@ -138,14 +139,8 @@ class CateTree extends React.Component {
                     <div style={{color:configColor.menu_text_color}}>
                         {primarytext}
                     </div>
-                    <div className={`${classes["cate-icon"]} hidden`}>
-                        <ExpandLess className={`${classes["cate-icon"]} hidden`} color={configColor.menu_text_color}/>
-                    </div>
-                    <div className={`${classes["cate-icon"]}`}>
-                        <ExpandMore className={classes['cate-icon']} color={configColor.menu_text_color}/>
-                    </div>
                 </div>
-                <div className="sub-cate-root" style={{display:'none'}}>
+                <div className="sub-cate-root">
                     {this.renderTreeMenu(storeConfig.simiRootCate)}
                 </div>
             </div>
