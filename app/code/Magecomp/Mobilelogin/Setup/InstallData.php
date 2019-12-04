@@ -24,7 +24,7 @@ class InstallData implements InstallDataInterface
             Customer::ENTITY,
             'mobilenumber',
             [
- 			'type' => 'varchar',
+            'type' => 'varchar',
             'label' => 'mobilenumber',
             'input' => 'text',
             'class' => '',
