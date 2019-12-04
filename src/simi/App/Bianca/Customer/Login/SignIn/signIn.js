@@ -26,6 +26,21 @@ class SignIn extends Component {
         signIn: func
     };
 
+    componentDidMount(){
+        var savedUser = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_email');
+        var savedPassword = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_password');
+        if(savedUser && savedPassword){
+            this.setState({isSeleted: true})
+             // Prepare decode password and fill username and password into form (remember me)
+            var crypto = require('crypto-js');
+            var bytes = crypto.AES.decrypt(savedPassword, '@_1_namronaldomessi_privatekey_$');
+            // Decode password to plaintext
+            var plaintextPassword = bytes.toString(crypto.enc.Utf8);
+            this.formApi.setValue('email', savedUser);
+            this.formApi.setValue('password', plaintextPassword);
+        }
+    }
+
     render() {
         const {isSeleted} = this.state;
         const {classes} = this.props;
@@ -99,6 +114,32 @@ class SignIn extends Component {
     onSignIn() {
         const username = this.formApi.getValue('email');
         const password = this.formApi.getValue('password');
+        
+        if(this.state.isSeleted === true){
+            // Import extension crypto to encode password
+            var crypto = require('crypto-js');
+            // Encode password
+            var hashedPassword = crypto.AES.encrypt(password, '@_1_namronaldomessi_privatekey_$').toString();
+            // Save username to local storage 
+            Identify.storeDataToStoreage(
+                Identify.LOCAL_STOREAGE,
+                'user_email',
+                username
+            );
+            // Save hashed password to local storage
+            Identify.storeDataToStoreage(
+                Identify.LOCAL_STOREAGE,
+                'user_password',
+                hashedPassword
+            );
+        }else{
+            var savedUser = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_email');
+            var savedPassword = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_password');
+            if(savedUser && savedPassword){
+                localStorage.removeItem('user_email');
+                localStorage.removeItem('user_password');
+            }
+        }
         this.props.onSignIn(username, password)
     }
 

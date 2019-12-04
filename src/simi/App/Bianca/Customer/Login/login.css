@@ -1,8 +1,8 @@
 .login-background {
     background-color: white;
     padding: 25px;
+    padding-bottom: unset;
     padding-top: 60px;
-    /* background-image: url('./login_bg_2.jpg'); */
     background-size: cover;
     background-position: top center;
     background-repeat: no-repeat;
@@ -12,8 +12,9 @@
     margin-top: 47px;
     margin-left: auto;
     margin-right: auto;
-    padding: 0px 0px 65px;
+    padding: 0px 0px 60px;
     border: 1px solid;
+    border-bottom: unset;
     background-color: white;
     /* min-height: 700px !important; */
 }
@@ -139,7 +140,7 @@
     line-height: 16px;
     padding: 1px 0;
     position: absolute;
-    top: 16px;
+    top: 14px;
     left: 126px;
 }
 .login-background .select-type .email-type .icon-email {
@@ -162,7 +163,7 @@
     line-height: 16px;
     position: absolute;
     padding: 1px 0;
-    top: 16px;
+    top: 14px;
     left: 131px;
 }
 .login-background div[class ~="signInAction"]{
@@ -223,7 +224,7 @@
     border-top: 0.5px solid #727272;
     border-bottom: 0.5px solid #727272;
     margin: unset;
-    margin-top: 6px;
+    margin-top: 7.5px;
     width: 211px;
 }
 .login-background .active .signInDivider .hr.left-hr{

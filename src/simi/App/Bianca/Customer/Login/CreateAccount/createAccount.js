@@ -40,7 +40,6 @@ const CreateAccount = props => {
         showFogLoading()
         registeringEmail = values.customer.email
         registeringPassword = values.password
-        console.log(params);
         createAccount(registerDone, params)
     };
 
