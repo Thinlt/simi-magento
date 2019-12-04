@@ -207,7 +207,6 @@ const AddressForm = props => {
         <form 
             id={formId}
             onSubmit={handleSubmit}
-            className='root'
             style={{ display: 'inline-block', width: '100%' }}
         >
             <FormFields {...formChildrenProps}/>

@@ -173,6 +173,7 @@ const EditableForm = props => {
                     shippingMethod={shippingMethod}
                     submit={handleSubmitShippingForm}
                     submitting={submitting}
+                    cart={cart}
                     key={Identify.randomString()}
                 />
             );
