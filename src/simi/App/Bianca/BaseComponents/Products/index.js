@@ -161,7 +161,7 @@ class Products extends React.Component {
                 <section className="gallery">
                     <Gallery data={items} pageSize={pageSize} history={history} location={location} />
                 </section>
-                <div className="product-grid-pagination" style={{marginBottom: 20}}>
+                <div className="product-grid-pagination" style={{marginBottom: 22}}>
                     <LoadMore 
                         updateSetPage={this.updateSetPage.bind(this)}
                         itemCount={data.products.total_count}

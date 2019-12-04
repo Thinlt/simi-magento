@@ -79,7 +79,8 @@ const Category = props => {
                     }
                     loadedData.vars = stringVar
                 }
-                data = loadedData
+                if (loadedData && loadedData.category && parseInt(loadedData.category.id) === parseInt(id))
+                    data = loadedData
 
                 if (!data || !data.category) {
                     return <LoadingSpiner />

@@ -42,7 +42,7 @@ export const logoUrl = () => {
 		}
 		return logoUrl;
 	}
-	return '/images/header_logo.jpg';
+	return '/images/logo.png';
 };
 export const logoAlt = () => {
 	const { storeConfig } = Identify.getStoreConfig() || { storeConfig: null };

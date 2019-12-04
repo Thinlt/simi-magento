@@ -32,17 +32,6 @@ const authLink = setContext((_, { headers }) => {
     };
 });
 
-ReactDOM.render(
-    <Adapter
-        apiBase={apiBase}
-        apollo={{ link: authLink.concat(Adapter.apolloLink(apiBase)) }}
-        store={store}
-    >
-        <App />
-    </Adapter>,
-    document.getElementById('root')
-);
-
 if (process.env.SERVICE_WORKER && 'serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker
@@ -57,6 +46,17 @@ if (process.env.SERVICE_WORKER && 'serviceWorker' in navigator) {
             });
     });
 }
+
+ReactDOM.render(
+    <Adapter
+        apiBase={apiBase}
+        apollo={{ link: authLink.concat(Adapter.apolloLink(apiBase)) }}
+        store={store}
+    >
+        <App />
+    </Adapter>,
+    document.getElementById('root')
+);
 
 window.addEventListener('online', () => {
     store.dispatch(app.setOnline());
