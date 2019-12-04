@@ -3,14 +3,13 @@ import { configColor } from 'src/simi/Config';
 import { resourceUrl, logoUrl } from 'src/simi/Helper/Url';
 import Image from 'src/simi/BaseComponents/Image';
 import { isArray } from 'util';
-import Identify from 'src/Simi/Helper/Identify'
+import Identify from 'src/simi/Helper/Identify';
 
 const Shippingproduct = props => {
     const {cart, designer} = props
     console.log(props)
     if (cart && cart.totals && cart.totals.items) {
         return cart.totals.items.map((item, index) => {
-            console.log('in!')
             if (item.attribute_values && parseInt(item.attribute_values.vendor_id) === parseInt(designer.entity_id)) {
                 let itemsOption = '';
                 let optionElement = ''
