@@ -34,13 +34,10 @@ const PreorderSecondOrder = props => {
                 pushTo: props.location.pathname + props.location.search
             };
             history.push(location);
-        } else if (
-            user && user.currentUser &&
-            (!user.currentUser.email || (user.currentUser.email && (user.currentUser.email !== customer_email)))
-        ) {
+        } else if (user && user.currentUser && user.currentUser.email && user.currentUser.email !== customer_email) {
             showToastMessage(Identify.__('Sorry. Your account does not match Pre-order deposit information, please signout and open this page again'))
             history.push({pathname: '/'});
-        } else {
+        } else if (user && user.currentUser && user.currentUser.email && user.currentUser.email === customer_email) {
             startpreorderscomplete(startPreorderCompleted, deposit_order_id, cartId)
         }
     } else { //no need to signin first
