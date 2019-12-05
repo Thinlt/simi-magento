@@ -48,7 +48,10 @@ class PreorderDepositDiscount extends \Magento\Quote\Model\Quote\Address\Total\A
         if ($quote->getData('deposit_order_increment_id')) {
             $orderModel = $this->simiObjectManager->create('Magento\Sales\Model\Order')
                 ->loadByIncrementId($quote->getData('deposit_order_increment_id'));
-            if ($orderModel && $orderModel->getId()) {
+            if (
+                $orderModel && $orderModel->getId() &&
+                $orderModel->getOrderType() == \Simi\Simicustomize\Ui\Component\Sales\Order\Column\OrderType::ORDER_TYPE_PRE_ORDER_WAITING
+            ) {
                 if ($this->validatePreOrderQuote($quote, $orderModel)) {
                     $baseDiscount = $orderModel->getData('base_grand_total');
                     $label = __('Pre-order Deposit Discount');
