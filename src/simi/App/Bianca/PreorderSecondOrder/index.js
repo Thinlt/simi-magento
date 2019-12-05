@@ -4,7 +4,8 @@ import Loading from 'src/simi/BaseComponents/Loading'
 import Identify from 'src/simi/Helper/Identify'
 import {showToastMessage} from 'src/simi/Helper/Message';
 import {startpreorderscomplete} from 'src/simi/Model/Preorder'
-import { simiSignOut } from 'src/simi/Redux/actions/simiactions';
+
+var startingPreorder = false
 
 const PreorderSecondOrder = props => {
     console.log(props)
@@ -38,11 +39,18 @@ const PreorderSecondOrder = props => {
             showToastMessage(Identify.__('Sorry. Your account does not match Pre-order deposit information, please signout and open this page again'))
             history.push({pathname: '/'});
         } else if (user && user.currentUser && user.currentUser.email && user.currentUser.email === customer_email) {
-            startpreorderscomplete(startPreorderCompleted, deposit_order_id, cartId)
+            if (!startingPreorder) {
+                startingPreorder = true
+                startpreorderscomplete(startPreorderCompleted, deposit_order_id, cartId)
+            }
         }
     } else { //no need to signin first
-        if (isSignedIn || cartId)
-            startpreorderscomplete(startPreorderCompleted, deposit_order_id, cartId)
+        if (isSignedIn || cartId) {
+            if (!startingPreorder) {
+                startingPreorder = true
+                startpreorderscomplete(startPreorderCompleted, deposit_order_id, cartId)
+            }
+        }
     }
     return <Loading />
 };
