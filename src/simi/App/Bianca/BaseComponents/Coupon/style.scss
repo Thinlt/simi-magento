@@ -20,11 +20,14 @@
 }
 .cart-coupon-form {
     font-size: 16px;
-    margin-top: 28px
+    margin-top: 32px
 }
 
 .cart-coupon-form .coupon-code-title {
     font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
     svg{
         vertical-align: middle
     }
@@ -53,7 +56,7 @@
 }
 
 .cart-coupon-form .coupon-code-area-tablet input {
-    height: 45px;
+    height: 48px;
     width: 330px;
     background-color: #F2F2F2;
     padding: 10px 25px 11px 16px;
@@ -62,7 +65,8 @@
 
 #submit-coupon {
     background-color: #101820 !important;
-    color: #FFF !important
+    color: #FFF !important;
+    height: 48px;
 }
 
 @media (min-width: 1024px) {

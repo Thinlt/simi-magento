@@ -165,7 +165,7 @@ class MiniCart extends Component {
         const hasSubtotal = cartId && cart.totals && 'subtotal' in cart.totals;
         const totalPrice = cart.totals.subtotal;
         const hasDiscount = cartId && cart.totals && 'discount_amount' in cart.totals;
-        const discount = Math.abs(cart.totals.discount_amount);
+        const discount = (Math.abs(cart.totals.discount_amount)/totalPrice) * 100;
         return (
             <div>
                 {hasDiscount ? 

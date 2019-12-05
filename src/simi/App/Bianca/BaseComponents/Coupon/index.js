@@ -57,11 +57,13 @@ const Coupon = (props) => {
     return (
     <div className='coupon-code'>
         <div role="button" className="coupon-code-title" tabIndex="0" onClick={() => setOpen(!isCouponOpen)} onKeyUp={() => setOpen(!isCouponOpen)}>
-            {Identify.__('Add a Coupon Code')}
-            {isCouponOpen
-            ? <ArrowUp/>
-            : <ArrowDown/>
-            }
+            <div>{Identify.__('Add a Coupon Code')}</div>
+            <div>
+                {isCouponOpen
+                    ? <ArrowUp/>
+                    : <ArrowDown/>
+                }
+            </div>
         </div>
         <div className={`coupon-code-area-tablet ${isCouponOpen ? 'coupon-open': 'coupon-close'}`}>
             <input id="coupon_field" type="text" placeholder={Identify.__('Coupon Code')} defaultValue={value} onChange={(e)=> setCoupon(e.target.value)}/>

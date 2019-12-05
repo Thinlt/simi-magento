@@ -25,6 +25,9 @@
     margin-top: 28px;
     .gift-voucher-title {
         font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
         svg{
             vertical-align: middle
         }

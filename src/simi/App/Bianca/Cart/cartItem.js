@@ -31,6 +31,7 @@ const CartItem = props => {
     const optionText = [];
     if (item.options) {
         const options = item.options;
+        console.log(options)
         for (const i in options) {
             const option = options[i];
             optionText.push(
@@ -74,7 +75,7 @@ const CartItem = props => {
                     <div className="item-name">{item.name}</div>
                 </div>
                 {/* <div className='item-sku'>{Identify.__('Product code:')} {item.sku}</div> */}
-                <div className='item-options'>{optionText}</div>
+                <div className='item-options'>{optionText.reverse()}</div>
                 {!props.isOpen
                 ?   
                     <div className='designer-name'>{getVendorName(item.attribute_values.vendor_id)}</div>

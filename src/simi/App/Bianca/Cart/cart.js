@@ -163,7 +163,7 @@ class Cart extends Component {
             cartId && cart.totals && 'grand_total' in cart.totals;
         const grandTotal = cart.totals.grand_total;
         const hasDiscount = cartId && cart.totals && 'discount_amount' in cart.totals;
-        const discount = Math.abs(cart.totals.discount_amount);
+        const discount = (Math.abs(cart.totals.discount_amount)/totalPrice) * 100;
         return (
             <div>
                 {hasDiscount ? 
@@ -402,7 +402,7 @@ class Cart extends Component {
                 <div className="body">
                     {productList}
                     <div className="summary-zone">
-                        <div>{Identify.__('Summary')}</div>
+                        <div>{Identify.__('Summary'.toUpperCase())}</div>
                         {couponCode}
                         {giftVoucher}
                         {/* {estimateShipAndTax} */}
