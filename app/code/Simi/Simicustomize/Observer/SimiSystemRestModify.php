@@ -53,18 +53,18 @@ class SimiSystemRestModify implements ObserverInterface {
     private function _addDataToTotal(&$contentArray) {
         $depositDiscount = $this->_getQuote()->getPreorderDepositDiscount();
         if ($depositDiscount && isset($contentArray['total_segments']) && is_array($contentArray['total_segments'])) {
-            $newTotalSecments = array();
+            $newTotalSegments = array();
             foreach ($contentArray['total_segments'] as $total_segment) {
-                $newTotalSecments[] = $total_segment;
+                $newTotalSegments[] = $total_segment;
                 if (isset($total_segment['code']) && $total_segment['code'] == 'subtotal') {
-                    $newTotalSecments[] = array(
+                    $newTotalSegments[] = array(
                             'code' => 'preorder_deposit_discount',
                             'title' => 'Pre-order Deposit Discount',
                             'value' => (float)$depositDiscount,
                         );
                     }
             }
-            $contentArray['total_segments'] = $newTotalSecments;
+            $contentArray['total_segments'] = $newTotalSegments;
         }
     }
 
@@ -85,8 +85,14 @@ class SimiSystemRestModify implements ObserverInterface {
                     if (is_array($optionArray)) {
                         $systemProductOption = array();
                         $newOptions = false;
+                        $extraFieldIndex = false;
                         foreach ($optionArray as $itemOption) {
-                            if ($itemOption['label'] === \Simi\Simicustomize\Model\Api\Quoteitems::PRE_ORDER_OPTION_TITLE) {
+                            if ($itemOption['label'] === \Simi\Simicustomize\Model\Api\Quoteitems::TRY_TO_BUY_OPTION_TITLE) {
+                                $extraFieldIndex = 'simi_trytobuy_option';
+                            } else if ($itemOption['label'] === \Simi\Simicustomize\Model\Api\Quoteitems::PRE_ORDER_OPTION_TITLE) {
+                                $extraFieldIndex = 'simi_pre_order_option';
+                            }
+                            if ($extraFieldIndex) {
                                 $systemProductOption = json_decode(base64_decode($itemOption['full_view']), true);
                                 $newOptions = $systemProductOption;
                                 foreach ($newOptions as $newOptionIndex => $newOption ) {
@@ -99,12 +105,23 @@ class SimiSystemRestModify implements ObserverInterface {
                                     $productModel->load($productModel->getIdBySku($newOption['sku']));
                                     $systemProductOption[$newOptionIndex]['product_final_price'] = $productModel->getFinalPrice();
                                     $systemProductOption[$newOptionIndex]['product_name'] = $productModel->getName();
-                                    $systemProductOption[$newOptionIndex]['image'] = $this->simiObjectManager
+
+                                    //to get image
+                                    $imageProductModel = $productModel;
+                                    $media_gallery = $imageProductModel->getMediaGallery();
+                                    if ($media_gallery && isset($media_gallery['images']) && is_array($media_gallery['images']) && !count($media_gallery['images'])) {
+                                        $product = $this->simiObjectManager
+                                            ->create('Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable')
+                                            ->getParentIdsByChild($productModel->getId());
+                                        if($product && isset($product[0])){
+                                            $imageProductModel = $this->simiObjectManager->create(\Magento\Catalog\Model\Product::class)->load($product[0]);
+                                        }
+                                    }
+
+                                    $systemProductOption[$newOptionIndex]['image'] =  $this->simiObjectManager
                                         ->create('Simi\Simiconnector\Helper\Products')
-                                        ->getImageProduct(
-                                            $productModel,
-                                            null
-                                        );
+                                        ->getImageProduct($imageProductModel);
+
                                     if (isset($newOption['request']['super_attribute']) && is_array($newOption['request']['super_attribute'])) {
                                         $frontendOption = [];
                                         foreach ($newOption['request']['super_attribute'] as $attributeid=>$attribute) {
@@ -118,10 +135,11 @@ class SimiSystemRestModify implements ObserverInterface {
                                         $systemProductOption[$newOptionIndex]['frontend_option'] = $frontendOption;
                                     }
                                 }
+                                break;
                             }
                         }
+                        $contentArray['items'][$index][$extraFieldIndex] = json_encode($systemProductOption);
 
-                        $contentArray['items'][$index]['simi_pre_order_option'] = json_encode($systemProductOption);
                         if ($newOptions)
                             $contentArray['items'][$index]['options'] = json_encode($newOptions);
                     }

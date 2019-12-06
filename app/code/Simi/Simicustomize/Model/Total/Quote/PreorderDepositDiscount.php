@@ -64,6 +64,8 @@ class PreorderDepositDiscount extends \Magento\Quote\Model\Quote\Address\Total\A
                         $total->setGrandTotal($total->getGrandTotal() - $discount);
                     $total->setDiscountDescription($label);
                     $quote->setPreorderDepositDiscount(-$discount);
+                } else {
+                    $quote->setData('deposit_order_increment_id', null);
                 }
             }
         }
@@ -82,6 +84,7 @@ class PreorderDepositDiscount extends \Magento\Quote\Model\Quote\Address\Total\A
         $passed = true;
         if ($preOrderProducts && is_array($preOrderProducts)) {
             foreach ($preOrderProducts as $preOrderProduct) {
+                $passed = false;
                 foreach ($quoteItems as $quoteItem) {
                     if ($preOrderProduct['sku'] == $quoteItem['sku']) {
                         $passed = ((int)$preOrderProduct['quantity'] == (int)$quoteItem['qty']);

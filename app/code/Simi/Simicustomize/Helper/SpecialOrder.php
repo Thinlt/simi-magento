@@ -92,4 +92,24 @@ class SpecialOrder extends \Magento\Framework\App\Helper\AbstractHelper
         }
         return $preOrderProducts;
     }
+
+
+
+    public function isQuoteTryToBuy($quote = null)
+    {
+        if (!$quote) {
+            $this->submitQuotFromRestToSession();
+            $quote = $this->_getQuote();
+        }
+
+        $tryToBuyProductId = $this->scopeConfig->getValue('sales/trytobuy/trytobuy_product_id');
+        $quoteItems = $quote->getItemsCollection();
+        foreach($quoteItems as $quoteItem) {
+            if ($quoteItem && $quoteItem->getProduct() && $quoteItem->getProduct()->getId() == $tryToBuyProductId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
