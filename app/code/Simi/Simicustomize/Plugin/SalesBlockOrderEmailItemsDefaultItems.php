@@ -1,8 +1,8 @@
 <?php
-namespace Simi\Simicustomize\Plugin\Adminhtml;
+namespace Simi\Simicustomize\Plugin;
 
 
-class SalesBlockItemsColumnName
+class SalesBlockOrderEmailItemsDefaultItems
 {
     /**
      * Quote repository.
@@ -19,8 +19,8 @@ class SalesBlockItemsColumnName
     /**
      * Plugin change option display for pre-order/try-to-buy item
      */
-    public function afterGetOrderOptions(
-        \Magento\Sales\Block\Adminhtml\Items\Column\Name $repository,
+    public function afterGetItemOptions(
+        \Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder $repository,
         $result
     ){
         if ($result && is_array($result)) {

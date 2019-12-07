@@ -33,4 +33,7 @@
     <type name="Magento\Sales\Block\Adminhtml\Items\Column\Name">
         <plugin name="simi_cart_customize_plugin_sales_block_admin_item_col_name" type="Simi\Simicustomize\Plugin\Adminhtml\SalesBlockItemsColumnName" />
     </type>
+    <type name="Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder">
+        <plugin name="simi_cart_customize_plugin_sales_block_order_email_items_defaultitems" type="Simi\Simicustomize\Plugin\SalesBlockOrderEmailItemsDefaultItems" />
+    </type>
 </config>
