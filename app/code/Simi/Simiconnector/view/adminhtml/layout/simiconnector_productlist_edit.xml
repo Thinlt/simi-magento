@@ -17,10 +17,10 @@
                     <argument name="name" xsi:type="string">main_section</argument>
                     <argument name="block" xsi:type="string">productlist_edit_tab_main</argument>
                 </action>
-                <action method="addTab">
+                <!-- <action method="addTab">
                     <argument name="name" xsi:type="string">matrix_section</argument>
                     <argument name="block" xsi:type="string">productlist_edit_tab_matrix</argument>
-                </action>
+                </action> -->
             </block>
         </referenceContainer>
 

@@ -134,8 +134,8 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'image',
             [
                 'name'     => 'newcollections_filename_0',
-                'label'    => __('Image (width:1160px, height:775px)'),
-                'title'    => __('Image (width:1160px, height:775px)'),
+                'label'    => __('Image 1 (width:1160px, height:775px)'),
+                'title'    => __('Image 1 (width:1160px, height:775px)'),
                 'disabled' => $isElementDisabled
             ]
         );
@@ -153,8 +153,8 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
 
         $fieldset->addField('category_id_0', 'select', [
             'name'     => 'category_id_0',
-            'label'    => __('Category'),
-            'title'    => __('Category'),
+            'label'    => __('Category 1'),
+            'title'    => __('Category 1'),
             'required' => true,
             'values'   => $this->simiObjectManager->get('Simi\Simiconnector\Helper\Catetree')->getChildCatArray(),
         ]);
@@ -164,16 +164,16 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'image',
             [
                 'name'     => 'newcollections_filename_1',
-                'label'    => __('Image (width:572px, height:382px)'),
-                'title'    => __('Image (width:572px, height:382px)'),
+                'label'    => __('Image 2 (width:572px, height:382px)'),
+                'title'    => __('Image 2 (width:572px, height:382px)'),
                 'disabled' => $isElementDisabled
             ]
         );
 
         $fieldset->addField('category_id_1', 'select', [
             'name'     => 'category_id_1',
-            'label'    => __('Category'),
-            'title'    => __('Category'),
+            'label'    => __('Category 2'),
+            'title'    => __('Category 2'),
             'required' => true,
             'values'   => $this->simiObjectManager->get('Simi\Simiconnector\Helper\Catetree')->getChildCatArray(),
         ]);
@@ -183,16 +183,16 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'image',
             [
                 'name'     => 'newcollections_filename_2',
-                'label'    => __('Image (width:572px, height:382px)'),
-                'title'    => __('Image (width:572px, height:382px)'),
+                'label'    => __('Image 3 (width:572px, height:382px)'),
+                'title'    => __('Image 3 (width:572px, height:382px)'),
                 'disabled' => $isElementDisabled
             ]
         );
 
         $fieldset->addField('category_id_2', 'select', [
             'name'     => 'category_id_2',
-            'label'    => __('Category'),
-            'title'    => __('Category'),
+            'label'    => __('Category 3'),
+            'title'    => __('Category 3'),
             'required' => true,
             'values'   => $this->simiObjectManager->get('Simi\Simiconnector\Helper\Catetree')->getChildCatArray(),
         ]);
@@ -202,29 +202,18 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'image',
             [
                 'name'     => 'newcollections_filename_3',
-                'label'    => __('Image (width:572px, height:780px)'),
-                'title'    => __('Image (width:572px, height:780px)'),
+                'label'    => __('Image 4 (width:572px, height:780px)'),
+                'title'    => __('Image 4 (width:572px, height:780px)'),
                 'disabled' => $isElementDisabled
             ]
         );
 
         $fieldset->addField('category_id_3', 'select', [
             'name'     => 'category_id_3',
-            'label'    => __('Category'),
-            'title'    => __('Category'),
+            'label'    => __('Category 4'),
+            'title'    => __('Category 4'),
             'required' => true,
             'values'   => $this->simiObjectManager->get('Simi\Simiconnector\Helper\Catetree')->getChildCatArray(),
-        ]);
-
-        $fieldset->addField('is_show_name', 'select', [
-            'name'     => 'is_show_name',
-            'label'    => __('Newollections name is shown'),
-            'title'    => __('Newollections name is shown'),
-            'required' => true,
-            'values'   => array(
-                1 => __('Yes'),
-                0 => __('No'),
-            ),
         ]);
 
         if (!isset($data['sort_order'])) {
@@ -256,10 +245,6 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
         );
 
         $this->_eventManager->dispatch('adminhtml_newcollections_edit_tab_main_prepare_form', ['form' => $form]);
-
-        if (isset($data['is_show_name']) && $data['is_show_name'] == '') {
-            $data['is_show_name'] = 1;
-        }
 
         $form->setValues($data);
         $this->setForm($form);

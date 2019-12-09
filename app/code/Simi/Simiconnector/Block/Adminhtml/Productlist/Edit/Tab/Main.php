@@ -132,27 +132,27 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
                 ]
         );
 
-        $fieldset->addField(
-            'list_image',
-            'image',
-            [
-            'name'     => 'list_image',
-            'label'    => __('Product List Image'),
-            'title'    => __('Product List Image'),
-            'disabled' => $isElementDisabled
-                ]
-        );
+        // $fieldset->addField(
+        //     'list_image',
+        //     'image',
+        //     [
+        //     'name'     => 'list_image',
+        //     'label'    => __('Product List Image'),
+        //     'title'    => __('Product List Image'),
+        //     'disabled' => $isElementDisabled
+        //         ]
+        // );
 
-        $fieldset->addField(
-            'list_image_tablet',
-            'image',
-            [
-            'name'     => 'list_image_tablet',
-            'label'    => __('Product List Tablet Image'),
-            'title'    => __('Product List Tablet Image'),
-            'disabled' => $isElementDisabled
-                ]
-        );
+        // $fieldset->addField(
+        //     'list_image_tablet',
+        //     'image',
+        //     [
+        //     'name'     => 'list_image_tablet',
+        //     'label'    => __('Product List Tablet Image'),
+        //     'title'    => __('Product List Tablet Image'),
+        //     'disabled' => $isElementDisabled
+        //         ]
+        // );
 
         if (!isset($data['sort_order'])) {
             $data['sort_order'] = 1;
