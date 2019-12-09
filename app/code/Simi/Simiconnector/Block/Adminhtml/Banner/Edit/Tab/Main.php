@@ -141,8 +141,8 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'image',
             [
             'name'     => 'banner_name_tablet',
-            'label'    => __('Tablet Image (width:1160px, height:775px)'),
-            'title'    => __('Tablet Image (width:1160px, height:775px)'),
+            'label'    => __('Mobile Image (width:343px, height:230px)'),
+            'title'    => __('Mobile Image (width:343px, height:230px)'),
             'required' => false,
             'disabled' => $isElementDisabled
                 ]
