@@ -56,35 +56,33 @@ const Home = props => {
 
     return (
         <div className="home-wrapper">
-            <div className="banner-wrap">
+            <div className={`banner-wrap ${isPhone ? 'mobile':''}`}>
                 <Banner data={data} history={history} isPhone={isPhone} />
             </div>
             {
                 brands && 
-                <div className="shop-by-brand-wrap">
+                <div className={`shop-by-brand-wrap ${isPhone ? 'mobile':''}`}>
                     <h3 className="title">{Identify.__('Shop By Brands')}</h3>
                     <Brands data={brands} history={history} isPhone={isPhone}/>
                 </div>
             }
-            <div className="featured-products-wrap">
+            <div className={`featured-products-wrap ${isPhone ? 'mobile':''}`}>
                 <ProductList homeData={data} history={history}/>
             </div>
-            <div className="popular-categories-wrap">
+            <div className={`popular-categories-wrap ${isPhone ? 'mobile':''}`}>
                 <h3 className="title">{Identify.__('Popular Categories')}</h3>
                 <HomeCat catData={data} history={history} isPhone={isPhone}/>
             </div>
-            <div className="new-collections-wrap">
+            <div className={`new-collections-wrap ${isPhone ? 'mobile':''}`}>
                 <Newcollections data={data} history={history} isPhone={isPhone}/>
             </div>
-            <div className="shop-by-designers-wrap">
+            <div className={`shop-by-designers-wrap ${isPhone ? 'mobile':''}`}>
                 <Designers history={history} isPhone={isPhone}/>
             </div>
-            {/*
-            <div className="shop-our-instagram-wrap">
+            {/* <div className={`shop-our-instagram-wrap ${isPhone ? 'mobile':''}`}>
                 <h3 className="title">{Identify.__('Shop Our Instagram')}</h3>
-                <Instagram data={'simicart.official'} />
-            </div>
-            */}
+                <Instagram data={'biancaandreescu_'} history={history} isPhone={isPhone}/>
+            </div> */}
         </div>
     );
 }

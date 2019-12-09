@@ -4,12 +4,14 @@ import Identify from "src/simi/Helper/Identify";
 import ScrollerItem from "./ScrollerItem";
 import ChevronLeft from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronLeft';
 import ChevronRight from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronRight';
+import { forEach } from 'iterall';
 /**
  * @param {*} props 
  * props.data - data items
  * props.filter - filter items function - return true | false
  * props.slideSetting - Slide setting
  * props.renderItem - render item component
+ * props.lastItems - to add more items to slider
  */
 const Scroller = props => {
     const {history, isPhone, renderItem, lastItems} = props;
@@ -51,12 +53,16 @@ const Scroller = props => {
     }).map((item, index) => {
         return (
             <div key={index} style={{cursor: 'pointer'}}>
-                <ScrollerItem item={item} history={history} isPhone={isPhone} renderItem={renderItem}/>
+                <ScrollerItem item={item} history={history} isPhone={isPhone} renderItem={renderItem} index={index}/>
             </div>
         );
     });
 
-    console.log(lastItems)
+    if (lastItems && lastItems instanceof Array) {
+        lastItems.forEach(item => {
+            items.push(item);
+        });
+    }
 
     return (
         <div className={`scroller ${Identify.isRtl() ? 'scroller-rtl' : ''}`}>
@@ -64,11 +70,10 @@ const Scroller = props => {
                 <ItemsCarousel
                     {..._settings}>
                     {items}
-                    {lastItems}
                 </ItemsCarousel>
             </div>
         </div>
-    ) ;
+    );
 }
 
 export default Scroller;

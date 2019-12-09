@@ -31,7 +31,7 @@ const responsive = {
     },
     mobile: {
       breakpoint: { max: 588, min: 0 },
-      items: 1,
+      items: 2,
       chevronWidth: 20,
       iconWidth: 16
     },
@@ -127,6 +127,7 @@ const ProductSlider = props => {
                 chevronWidth={chevWidth}
                 leftChevron={<ChevronLeft className="chevron-left" style={{width: `${iconWidth}px`, height: `${iconWidth}px`}} />}
                 rightChevron={<ChevronRight className="chevron-right" style={{width: `${iconWidth}px`, height: `${iconWidth}px`}} />}
+                classes={{ wrapper: "wrapper", itemsWrapper: 'items-wrapper', itemsInnerWrapper: 'items-inner-wrapper', itemWrapper: 'item-wrapper', rightChevronWrapper: 'right-chevron-wrapper', leftChevronWrapper: 'left-chevron-wrapper' }}
             >
                 {products}
             </ItemsCarousel>
