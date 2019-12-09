@@ -6,8 +6,8 @@ const Brands = props => {
     const { history, isPhone, data} = props;
 
     const slideSettings = {
-        chevronWidth: 72,
         showChevron: true,
+        chevronWidth: isPhone ? 36 : 72,
         numberOfCards: isPhone ? 3 : 6,
         slidesToScroll: isPhone ? 3 : 6,
     }

@@ -15,7 +15,7 @@ const Banner = props => {
         autoPlay: false,
         showArrows: false,
         showThumbs: false,
-        showIndicators: (bannerCount && bannerCount !== 1) || isPhone ? false : true,
+        showIndicators: (bannerCount && bannerCount === 1) ? false : true,
         showStatus: false,
         infiniteLoop: true,
         rtl: Identify.isRtl() === true,

@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ScrollerItem = props => {
-    const { history, isPhone, renderItem, item } = props;
+    const { history, isPhone, renderItem, item, index } = props;
     const {title, image, image_tablet, url} = item || {};
 
     const handleClick = (e) => {
@@ -11,6 +11,10 @@ const ScrollerItem = props => {
         e.preventDefault();
     }
 
+    if (renderItem) {
+        return renderItem(item, index);
+    }
+
     let img = '';
     if(isPhone && image_tablet) {
         img = image_tablet;
@@ -18,10 +22,6 @@ const ScrollerItem = props => {
         img = image
     }
     if(!img) return null
-
-    if (renderItem) {
-        <renderItem {...props}/>
-    }
 
     return (
         <div className="item" onClick={handleClick}>
