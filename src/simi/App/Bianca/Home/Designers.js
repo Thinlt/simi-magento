@@ -20,7 +20,7 @@ const Designers = props => {
     let newData = [];
     if (data) {
         data.forEach((item, index)=>{
-            if (index < 18) {
+            if (index < 18 && item.logo) {
                 item.url = `/shop-by-desinger.html?id=${item.vendor_id}`;
                 item.image = item.logo;
                 newData.push(item);
