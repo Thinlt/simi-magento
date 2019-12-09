@@ -24,6 +24,8 @@ $color1: #101820;
         color: #000;
         margin-top: 80px;
         margin-bottom: 32px;
+        line-height: 24px;
+        height: 20px;
         @media (max-width: 1023px){
             font-size: 20px;
         }
@@ -35,6 +37,8 @@ $color1: #101820;
                     margin-top: 44px;
                     .control-dots{
                         position: relative;
+                        line-height: 10px;
+                        margin: 20px 0;
                         .dot{
                             width: 10px;
                             height: 10px;
@@ -89,7 +93,7 @@ $color1: #101820;
     .featured-products-wrap{
         .default-home-product-list{
             .product-list {
-                margin-top: 15px;
+                margin-top: 32px;
                 padding: 0;
                 width: 100%;
                 .title {
@@ -141,23 +145,26 @@ $color1: #101820;
     }
     .popular-categories-wrap{
         .home-container{
+            padding-top: 32px;
             .home-cate-item{
                 margin: 64px auto;
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: space-around;
                 align-items: center;
+                &:first-child{margin-top: 0px;}
+                &:last-child{margin-bottom: 0px;}
                 .cate-img{
                     cursor: pointer;
                     max-width: 572px;
-                    flex: 1 0;
                     flex-basis: 60%;
                     text-align: center;
+                    flex: 1 1;
                     img{
                         width: 100%;
                         height: auto;
                     }
-                    @media (max-width: 1024px){
+                    @media (max-width: 1023px){
                         width: auto;
                         max-width: unset;
                         flex-basis: 100%;
@@ -204,13 +211,46 @@ $color1: #101820;
                 }
             }
         }
+        &.mobile{
+            .home-container{
+                padding-top: 0px;
+                .home-cate-item{
+                    position: relative;
+                    display: flex;
+                    align-items: flex-end;
+                    margin-top: 20px;
+                    margin-bottom: 0px;
+                    .cate-title{
+                        width: 170px;
+                        min-height: 40px;
+                        background-color: #101820;
+                        color: #fff;
+                        font-size: 16px;
+                        line-height: 16px;
+                        text-align: center;
+                        line-height: 20px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        position: absolute;
+                        bottom: 40px;
+                        .--text{
+                            height: 9px;
+                        }
+                    }
+                    .cate-btn{
+                        display: none;
+                    }
+                }
+            }
+        }
     }
     .new-collections-wrap{
         .newcollections{
             .collections-wrap{
                 .item{
                     .collections-images{
-                        margin-top: 32px;
+                        margin-top: 25px;
                         img{
                             width: 100%;
                         }
