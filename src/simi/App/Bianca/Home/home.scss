@@ -217,32 +217,53 @@ $color1: #101820;
                         .img-row-2{
                             display: flex;
                             justify-content: space-between;
+                            .img-col-1{
+                                flex: 1 1 50%;
+                                align-items: stretch;
+                            }
+                            .img-col-2{
+                                flex: 1 1 50%;
+                                align-items: stretch;
+                            }
                         }
                         .img-1{
-                            max-width: 1160px;
-                            max-height: 775px;
+                            // max-width: 1160px;
+                            // max-height: 775px;
                             cursor: pointer;
                         }
                         .img-2{
-                            max-width: 572px;
-                            max-height: 382px;
+                            // max-width: 572px;
+                            // max-height: 382px;
                             margin-top: 16px;
                             margin-right: 8px;
                             cursor: pointer;
                         }
                         .img-3{
-                            max-width: 572px;
-                            max-height: 382px;
+                            // max-width: 572px;
+                            // max-height: 382px;
                             margin-top: 16px;
                             margin-right: 8px;
                             cursor: pointer;
                         }
                         .img-4{
-                            max-width: 572px;
-                            max-height: 780px;
+                            // max-width: 572px;
+                            // max-height: 780px;
                             margin-top: 16px;
                             margin-left: 8px;
                             cursor: pointer;
+                        }
+                        @media (min-width: 1920px){
+                            .img-row-2{
+                                .img-2{
+                                    margin-top: 20px;
+                                }
+                                .img-3{
+                                    margin-top: 20px;
+                                }
+                                .img-4{
+                                    margin-top: 20px;
+                                }
+                            }
                         }
                     }
                     &.phone-view{
