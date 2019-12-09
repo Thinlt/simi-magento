@@ -124,8 +124,8 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'image',
             [
             'name'     => 'simicategory_filename',
-            'label'    => __('Image (width:1160px, height:775px)'),
-            'title'    => __('Image (width:1160px, height:775px)'),
+            'label'    => __('Image'),
+            'title'    => __('Image'),
             'disabled' => $isElementDisabled
                 ]
         );
@@ -135,8 +135,8 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'image',
             [
             'name'     => 'simicategory_filename_tablet',
-            'label'    => __('Mobile Image (width:343px, height:230px)'),
-            'title'    => __('Mobile Image (width:343px, height:230px)'),
+            'label'    => __('Mobile Image (width:343px)'),
+            'title'    => __('Mobile Image (width:343px)'),
             'disabled' => $isElementDisabled
                 ]
         );
