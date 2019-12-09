@@ -1,14 +1,15 @@
 import React from 'react'
 import {cateUrlSuffix} from 'src/simi/Helper/Url';
 import Identify from "src/simi/Helper/Identify";
+import {smoothScrollToView} from 'src/simi/Helper/Behavior';
 
 const HomeCatItem = props => {
     const {item, history, isPhone} = props;
     const isFull = item.is_show_name !== '1';
 
     const action = (e) => {
-        if (item.url_path)
-            history.push(item.url_path + cateUrlSuffix());
+        if (item.url_path) history.push(item.url_path + cateUrlSuffix());
+        smoothScrollToView($('#siminia-main-page'));
     }
 
     if(!item.simicategory_filename && !item.simicategory_filename_tablet) {

@@ -55,7 +55,7 @@ const ProductSlider = props => {
         runQuery({
             variables: {
                 id: Number(dataProduct.category_id),
-                pageSize: Number(8),
+                pageSize: Number(20),
                 currentPage: Number(1),
                 stringId: String(dataProduct.category_id)
             }
