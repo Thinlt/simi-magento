@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Copyright © 2016 Simi. All rights reserved.
+ * Copyright © 2019 Simi. All rights reserved.
  */
 
-namespace Simi\Simiconnector\Model\Api;
+namespace Simi\Simicustomize\Model\Api;
 
-class Customers extends Apiabstract
+class Customers extends \Simi\Simiconnector\Model\Api\Customers
 {
-
-    public $DEFAULT_ORDER = 'entity_id';
-    public $RETURN_MESSAGE;
-
+    /**
+     * Override this function to implement sociallogin
+     */
     public function setBuilderQuery()
     {
         $data = $this->getData();
@@ -57,13 +56,15 @@ class Customers extends Apiabstract
                         throw new \Simi\Simiconnector\Helper\SimiException(__('Login Failed'), 4);
                     }
                     break;
-                    /*
+
                 case 'sociallogin':
-                    $this->builderQuery = $this->simiObjectManager->get('Simi\Simiconnector\Model\Customer')
+                    $this->builderQuery = $this->simiObjectManager->get('Simi\Simicustomize\Model\Customer')
                         ->socialLogin($data);
+                    $this->builderQuery = $this->simiObjectManager
+                        ->get('Magento\Customer\Model\Session')->getCustomer();
                     $this->builderQuery->setData('wishlist_count', $this->getWishlistCount());
                     break;
-                */
+
                 case 'logout':
                     $lastCustomerId     = $this->simiObjectManager->get('Magento\Customer\Model\Session')
                         ->getCustomer()->getId();
@@ -91,101 +92,51 @@ class Customers extends Apiabstract
     }
 
     /*
-     * Register
-     */
-
-    public function store()
-    {
-        $data                  = $this->getData();
-        if ($data['resourceid'] !== "sociallogin") {
-            $customer              = $this->simiObjectManager->get('Simi\Simiconnector\Model\Customer')->register($data);
-            $this->builderQuery    = $customer;
-            $this->RETURN_MESSAGE = __("Thank you for registering with "
-                . $this->storeManager->getStore()->getName() . " store");
-        }
-        return $this->show();
-    }
-
-    /*
-     * Update Profile
-     */
-
-    public function update()
-    {
-        $data                  = $this->getData();
-        $customer              = $this->simiObjectManager
-            ->get('Simi\Simiconnector\Model\Customer')->updateProfile($data);
-        $this->builderQuery    = $customer;
-        $this->RETURN_MESSAGE = __('The account information has been saved.');
-        return $this->show();
-    }
-
-    /*
      * Add Message
      */
 
     public function getDetail($info)
     {
         $data = $this->getData();
-        $resultArray            = parent::getDetail($info);
-        if ($this->RETURN_MESSAGE)
-            $resultArray['message'] = [$this->RETURN_MESSAGE];
+        if ($data['resourceid'] !== 'sociallogin') {
+            $resultArray            = parent::getDetail($info);
+            if ($this->RETURN_MESSAGE)
+                $resultArray['message'] = [$this->RETURN_MESSAGE];
 
-        if (isset($resultArray['customer']) && isset($resultArray['customer']['email'])) {
-            if (
-                $this->simiObjectManager->get('\Magento\Newsletter\Model\Subscriber') &&
-                $this->simiObjectManager->get('\Magento\Newsletter\Model\Subscriber')
-                ->loadByEmail($resultArray['customer']['email'])->isSubscribed()
-            ) {
-                $resultArray['customer']['news_letter'] = '1';
-            } else {
-                $resultArray['customer']['news_letter'] = '0';
+            if (isset($resultArray['customer']) && isset($resultArray['customer']['email'])) {
+                if (
+                    $this->simiObjectManager->get('\Magento\Newsletter\Model\Subscriber') &&
+                    $this->simiObjectManager->get('\Magento\Newsletter\Model\Subscriber')
+                    ->loadByEmail($resultArray['customer']['email'])->isSubscribed()
+                ) {
+                    $resultArray['customer']['news_letter'] = '1';
+                } else {
+                    $resultArray['customer']['news_letter'] = '0';
+                }
+                $hash = $this->simiObjectManager
+                    ->get('Simi\Simiconnector\Helper\Customer')
+                    ->getToken($data);
+                $resultArray['customer']['simi_hash'] = $hash;
             }
-            $hash = $this->simiObjectManager
-                ->get('Simi\Simiconnector\Helper\Customer')
-                ->getToken($data);
-            $resultArray['customer']['simi_hash'] = $hash;
+
+            return $resultArray;
+        } else {
+            if (isset($info['email'])) {
+                if (
+                    $this->simiObjectManager->get('\Magento\Newsletter\Model\Subscriber') &&
+                    $this->simiObjectManager->get('\Magento\Newsletter\Model\Subscriber')
+                    ->loadByEmail($info['email'])->isSubscribed()
+                ) {
+                    $info['news_letter'] = '1';
+                } else {
+                    $info['news_letter'] = '0';
+                }
+                $hash = $this->simiObjectManager
+                    ->get('Simi\Simiconnector\Helper\Customer')
+                    ->getToken($data);
+                $info['simi_hash'] = $hash;
+            }
+            return ['customer' => $this->modifyFields($info)];
         }
-
-        return $resultArray;
-    }
-
-    /*
-     * Get Wishlist count
-     */
-
-    public function getWishlistCount()
-    {
-        $customer = $this->simiObjectManager->get('Magento\Customer\Model\Session')->getCustomer();
-        if ($customer && $customer->getId()) {
-            return (int) $this->simiObjectManager
-                ->get('Magento\Wishlist\Model\Wishlist')->loadByCustomerId($customer->getId(), true)
-                ->getItemCollection()->getSize();
-        }
-        return 0;
-    }
-
-    /**
-     * Reset password
-     * @var string $newpw
-     * @var string $resetPasswordToken
-     */
-    public function createPassword($newpw, $resetPasswordToken)
-    {
-        $newPassword = (string) $newpw;
-        if (iconv_strlen($newPassword) <= 0) {
-            throw new \Simi\Simiconnector\Helper\SimiException(__('Please enter a new password.'));
-        }
-
-        $this->simiObjectManager
-            ->get('Magento\Customer\Model\AccountManagement')
-            ->resetPassword(
-                '',
-                $resetPasswordToken,
-                $newPassword
-            );
-        $this->simiObjectManager
-            ->create('Magento\Customer\Model\Session')
-            ->unsRpToken();
     }
 }

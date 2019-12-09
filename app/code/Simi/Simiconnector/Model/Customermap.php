@@ -29,8 +29,7 @@ class Customermap extends AbstractModel
         Registry $registry,
         CustomermapRM $resource,
         Collection $resourceCollection
-    )
-    {
+    ) {
 
 
         $this->simiObjectManager = $simiObjectManager;
@@ -55,9 +54,9 @@ class Customermap extends AbstractModel
 
     public function createCustomer($params)
     {
-        $email = isset($params['email'])?$params['email']:$params['uid'].$params['providerId'].'@simisocial.com';
-        $firstName = isset($params['firstname'])?$params['firstname']:' ';
-        $lastName = isset($params['lastname'])?$params['lastname']:' ';
+        $email = isset($params['email']) ? $params['email'] : $params['uid'] . $params['providerId'] . '@simisocial.com';
+        $firstName = isset($params['firstname']) ? $params['firstname'] : __('Firstname');
+        $lastName = isset($params['lastname']) && strlen($params['lastname']) != 0 ? $params['lastname'] : __('Lastname');
         $existedCustomer = $this->simiObjectManager->create('Magento\Customer\Model\Customer')->getCollection()
             ->addFieldToFilter('email', $email)
             ->getFirstItem();
@@ -95,8 +94,9 @@ class Customermap extends AbstractModel
      */
     public function getCustomer($params)
     {
-        $providerId = $params['providerId'];
-        $uid = $params['uid'];
+        $providerId = $params->providerId;
+        $uid = $params->uid;
+
         $customerMap = $this->getCollection()
             ->addFieldToFilter('provider_id', array('eq' => $providerId))
             ->addFieldToFilter('social_user_id', array('eq' => $uid))
@@ -104,6 +104,7 @@ class Customermap extends AbstractModel
         if ($customerMap->getId()) {
             return $this->simiObjectManager->create('Magento\Customer\Model\Customer')->load($customerMap->getCustomerId());
         } else {
+            $params = json_decode(json_encode($params), true);
             return $this->createCustomer($params);
         }
     }

@@ -8,6 +8,12 @@
             <resource ref="anonymous"/>
         </resources>
     </route>
+    <route url="/V1/simiconnector/:resource/:resource_id" method="POST">
+        <service class="Simi\Simiconnector\Api\SimiconnectorapiInterface" method="hasId"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
     <route url="/V1/simiconnector/:resource" method="GET">
         <service class="Simi\Simiconnector\Api\SimiconnectorapiInterface" method="noId"/>
         <resources>
