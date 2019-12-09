@@ -40,7 +40,7 @@ class Homes extends \Simi\Simiconnector\Model\Api\Apiabstract
         /*
          * Get Banners
          */
-        $banners = $this->simiObjectManager->get('Simi\Simiconnector\Model\Api\Homebanners');
+        $banners = $this->simiObjectManager->get('Simi\Simicustomize\Model\Api\Homebanners');
         $banners->builderQuery = $banners->getCollection();
         $banners->setPluralKey('homebanners');
         $banners = $banners->index();
@@ -48,8 +48,7 @@ class Homes extends \Simi\Simiconnector\Model\Api\Apiabstract
         /*
          * Get Categories
          */
-
-        $categories = $this->simiObjectManager->get('Simi\Simiconnector\Model\Api\Homecategories');
+        $categories = $this->simiObjectManager->get('Simi\Simicustomize\Model\Api\Homecategories');
         $categories->setData($this->getData());
         $categories->builderQuery = $categories->getCollection();
         $categories->setPluralKey('homecategories');
