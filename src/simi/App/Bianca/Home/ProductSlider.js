@@ -23,14 +23,20 @@ const responsive = {
       chevronWidth: 72,
       iconWidth: 24
     },
+    desktopSmall: {
+      breakpoint: { max: 1176, min: 1024 },
+      items: 2,
+      chevronWidth: 72,
+      iconWidth: 24
+    },
     tablet: {
-      breakpoint: { max: 1176, min: 588 },
+      breakpoint: { max: 1024, min: 587 },
       items: 2,
       chevronWidth: 20,
       iconWidth: 16
     },
     mobile: {
-      breakpoint: { max: 588, min: 0 },
+      breakpoint: { max: 587, min: 0 },
       items: 2,
       chevronWidth: 20,
       iconWidth: 16
@@ -45,13 +51,11 @@ const ProductSlider = props => {
     const {data} = queryResult
     const {runQuery} = queryApi
   
-    console.log(width)
-
     useEffect(() => {
         runQuery({
             variables: {
                 id: Number(dataProduct.category_id),
-                pageSize: Number(8),
+                pageSize: Number(20),
                 currentPage: Number(1),
                 stringId: String(dataProduct.category_id)
             }
@@ -92,7 +96,7 @@ const ProductSlider = props => {
     const _responseSize = Object.values(responsive);
     const breakPoint = _responseSize.find((itemSize) => {
         if (itemSize.breakpoint) {
-            if (width > itemSize.breakpoint.min && width <= itemSize.breakpoint.max) {
+            if (width >= itemSize.breakpoint.min && width < itemSize.breakpoint.max) {
                 return true;
             }
         }

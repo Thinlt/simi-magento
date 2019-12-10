@@ -1,5 +1,5 @@
 import React from 'react'
-import Identify from "src/simi/Helper/Identify";
+// import Identify from "src/simi/Helper/Identify";
 import Scroller from "./Scroller";
 
 const Brands = props => {
@@ -9,7 +9,7 @@ const Brands = props => {
         showChevron: true,
         chevronWidth: isPhone ? 36 : 72,
         numberOfCards: isPhone ? 3 : 6,
-        slidesToScroll: isPhone ? 3 : 6,
+        slidesToScroll: isPhone ? 1 : 2,
     }
 
     data.forEach((item, index)=>{
@@ -18,7 +18,7 @@ const Brands = props => {
 
     return (
         <div className="brand-slider">
-            <Scroller data={data} history={history} slideSettings={slideSettings} isPhone={isPhone}/>
+            <Scroller data={data} slideSettings={slideSettings} history={history} isPhone={isPhone}/>
         </div>
     );
 }
