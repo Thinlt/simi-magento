@@ -178,7 +178,7 @@ class Cart extends Component {
             cartId && cart.totals && 'grand_total' in cart.totals;
         const grandTotal = cart.totals.grand_total;
         const hasDiscount =
-            cartId && cart.totals && 'discount_amount' in cart.totals;
+            cartId && cart.totals.discount_amount;
         const discount =
             (Math.abs(cart.totals.discount_amount) / totalPrice) * 100;
         return (
