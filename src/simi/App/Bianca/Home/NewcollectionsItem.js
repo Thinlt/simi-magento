@@ -1,12 +1,14 @@
 import React from 'react'
 import {cateUrlSuffix} from 'src/simi/Helper/Url';
 import Identify from "src/simi/Helper/Identify";
+import {smoothScrollToView} from 'src/simi/Helper/Behavior';
 
 const NewcollectionsItem = props => {
     const {item, history, isPhone} = props;
 
     const action = (url) => {
         if (url) history.push(url + cateUrlSuffix());
+        smoothScrollToView($('#siminia-main-page'));
     }
 
     return (

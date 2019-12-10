@@ -45,7 +45,7 @@ const LinkedProducts = props => {
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const {width} = useWindowSize();
     const link_type = props.link_type?props.link_type:'related'
-    const maxItem = 8 //max 10 items
+    const maxItem = 20 //max 10 items
     const handleLink = (link) => {
         history.push(link)
     }
