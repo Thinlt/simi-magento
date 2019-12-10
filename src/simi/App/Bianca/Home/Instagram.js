@@ -27,7 +27,8 @@ const Instagram = (props) => {
     }, []);
 
     const actionViewAll = () => {
-        window.location.href = `https://www.instagram.com/${name}`;
+        const {data} = props;
+        window.location.href = `https://www.instagram.com/${data}`;
     }
 
     const nodeItem = (ins) => {
