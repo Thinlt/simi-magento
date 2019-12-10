@@ -53,7 +53,7 @@ if (getOS() === 'MacOS') {
 class ProductFullDetail extends Component {  
     constructor(props) {
         super(props)
-        if (props.product)
+        if (props.product && props.product.small_image)
             addRecentViewedProducts(props.product)
     }
 
