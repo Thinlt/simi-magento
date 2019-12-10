@@ -315,7 +315,12 @@ $color1: #101820;
                                     margin-top: 20px;
                                 }
                                 .img-4{
-                                    margin-top: 20px;
+                                    height: 100%;
+                                    margin-top: 0px;
+                                    padding-top: 20px;
+                                    img{
+                                        height: 100%;
+                                    }
                                 }
                             }
                         }
