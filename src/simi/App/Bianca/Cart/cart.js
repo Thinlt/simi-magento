@@ -55,9 +55,8 @@ class Cart extends Component {
     componentDidMount() {
         showFogLoading();
         this.setIsPhone();
-        const { getCartDetails, getCountries } = this.props;
+        const { getCartDetails } = this.props;
         getCartDetails();
-        getCountries();
     }
 
     get cartId() {
