@@ -78,6 +78,17 @@ $color1: #101820;
         }
         .brand-slider{
             margin-top: 32px;
+            .scroller-container{
+                .items-wrapper{
+                    .item-wrapper{
+                        .item{
+                            img{
+                                margin: 0 auto;
+                            }
+                        }
+                    }
+                }
+            }
         }
         &.mobile{
             .brand-slider{
@@ -126,6 +137,7 @@ $color1: #101820;
                     }
                 }
                 .product-horizotal .siminia-product-grid-item{
+                    margin: 0 auto;
                     @media (min-width: 1440px){
                         width: 278px;
                     }
