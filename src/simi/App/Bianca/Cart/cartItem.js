@@ -83,7 +83,7 @@ const CartItem = props => {
                 <div className='item-options'>{optionText.reverse()}</div>
                 {!props.isOpen
                 ?   
-                    <div className='designer-name'>{getVendorName(item.attribute_values.vendor_id)}</div>
+                    <div className='designer-name'>{item.attribute_values && getVendorName(item.attribute_values.vendor_id)}</div>
                 :
                     null
                 }
