@@ -58,6 +58,15 @@ $color1: #101820;
                 .home-container{
                     .carousel-slider{
                         margin-top: 20px;
+                        .control-dots{
+                            margin-top: 4px;
+                            margin-bottom: 0px;
+                            line-height: 5px;
+                            .dot{
+                                width: 5px;
+                                height: 5px;
+                            }
+                        }
                     }
                 }
             }
@@ -66,19 +75,21 @@ $color1: #101820;
     .shop-by-brand-wrap{
         h3.title{
             margin-top: 70px;
-            margin-bottom: 32px;
+        }
+        .brand-slider{
+            margin-top: 32px;
         }
         &.mobile{
             .brand-slider{
-                margin-top: 13px;
+                margin-top: 18px;
                 .scroller{
                     .left-chevron-wrapper{
-                        top: -80px;
-                        left: -8px;
+                        top: -77px;
+                        left: -9px;
                     }
                     .right-chevron-wrapper{
-                        top: -80px;
-                        right: -8px;
+                        top: -77px;
+                        right: -9px;
                     }
                     .left-chevron-wrapper, .right-chevron-wrapper{
                         svg{
@@ -128,16 +139,19 @@ $color1: #101820;
         }
         &.mobile{
             .default-home-product-list{
-                .product-list{
-                    .left-chevron-wrapper{
-                        height: 32px;
-                        top: -50px;
-                        left: -3px;
-                    }
-                    .right-chevron-wrapper{
-                        height: 32px;
-                        top: -50px;
-                        right: -3px;
+                .default-productlist-item{
+                    position: relative;
+                    .product-list{
+                        .left-chevron-wrapper{
+                            height: 32px;
+                            top: -55px;
+                            left: 0px;
+                        }
+                        .right-chevron-wrapper{
+                            height: 32px;
+                            top: -55px;
+                            right: 0px;
+                        }
                     }
                 }
             }
@@ -301,7 +315,12 @@ $color1: #101820;
                                     margin-top: 20px;
                                 }
                                 .img-4{
-                                    margin-top: 20px;
+                                    height: 100%;
+                                    margin-top: 0px;
+                                    padding-top: 20px;
+                                    img{
+                                        height: 100%;
+                                    }
                                 }
                             }
                         }
@@ -344,8 +363,6 @@ $color1: #101820;
     }
     .shop-by-designers-wrap{
         .brand-slider{
-            .title{
-            }
             .scroller{
                 .items-wrapper{
                     .item-wrapper{
@@ -367,11 +384,14 @@ $color1: #101820;
                     }
                 }
             }
-            &.phone-view{
-                .title{
-                    margin-bottom: 19px;
+        }
+        &.mobile{
+            .brand-slider{
+                h3.title{
+                    margin-top: 42px;
                 }
                 .scroller{
+                    margin-top: 19px;
                     .items-wrapper{
                         .item-wrapper{
                             .item{
@@ -387,9 +407,8 @@ $color1: #101820;
                     }
                     .left-chevron-wrapper{
                         position: absolute;
-                        top: -45px;
+                        top: -39px;
                         left: 0;
-                        margin-right: -15px;
                         height: 27px;
                         .chevron-left{
                             width: 16px!important;
@@ -398,9 +417,8 @@ $color1: #101820;
                     }
                     .right-chevron-wrapper{
                         position: absolute;
-                        top: -45px;
+                        top: -39px;
                         right: 0;
-                        margin-left: -15px;
                         height: 27px;
                         .chevron-right{
                             width: 16px!important;
@@ -419,6 +437,7 @@ $color1: #101820;
             .block-inner{
                 display: flex;
                 flex-direction: row;
+                justify-content: center;
                 .ins-item{
                     margin: 0 8px;
                     width: 166px;
@@ -449,28 +468,34 @@ $color1: #101820;
         }
         &.mobile{
             .instagram-block{
-                margin-top: 15px;
-                padding-bottom: 126px;
+                margin-top: 23px;
+                padding-bottom: 196px;
                 .block-inner{
+                    overflow: hidden;
                     .ins-item{
-                        margin: 0 6px;
-                        width: 65px;
-                        height: 80px;
+                        margin: 0 7.5px;
+                        width: 140px;
+                        height: 175px;
                         &:first-child{
                             margin-left: 0px;
                         }
                         &:last-child{
                             margin-right: 0px;
+                            margin-right: -70px;
+                            @media screen and (min-width: 376px){
+                                margin-right: 0px;
+                            }
                         }
                     }
                 }
                 .view-all{
                     .btn{
-                        margin-top: 12px;
-                        min-width: 107px;
-                        min-height: 29px;
-                        font-size: 10px;
-                        line-height: 10px;
+                        margin-top: 16px;
+                        min-width: 136px;
+                        min-height: 38px;
+                        font-size: 12px;
+                        line-height: 12px;
+                        span{margin-top: 3px;}
                     }
                 }
             }
@@ -480,7 +505,6 @@ $color1: #101820;
     .mobile{
         h3.title{
             margin-top: 30px;
-            margin-bottom: 0px;
         }
     }
 }
