@@ -12,7 +12,7 @@ require ('./style.scss')
 const Coupon = (props) => {
     const { value, toggleMessages, getCartDetails } = props;
     const [isCouponOpen, setOpen] = useState(false)
-    const [coupon, setCoupon] = useState('')
+    let [coupon, setCoupon] = useState('')
     
     let clearCoupon = false;
     const handleCoupon = (type = '') => {
@@ -57,18 +57,20 @@ const Coupon = (props) => {
     return (
     <div className='coupon-code'>
         <div role="button" className="coupon-code-title" tabIndex="0" onClick={() => setOpen(!isCouponOpen)} onKeyUp={() => setOpen(!isCouponOpen)}>
-            {Identify.__('Add a Coupon Code')}
-            {isCouponOpen
-            ? <ArrowUp/>
-            : <ArrowDown/>
-            }
+            <div>{Identify.__('Add a Coupon Code')}</div>
+            <div>
+                {isCouponOpen
+                    ? <ArrowUp/>
+                    : <ArrowDown/>
+                }
+            </div>
         </div>
         <div className={`coupon-code-area-tablet ${isCouponOpen ? 'coupon-open': 'coupon-close'}`}>
             <input id="coupon_field" type="text" placeholder={Identify.__('Coupon Code')} defaultValue={value} onChange={(e)=> setCoupon(e.target.value)}/>
-            {value && <button className='btn-clear-coupon' onClick={()=>handleCoupon('clear')}>
-                        <Close style={{width:15,height:15}}/>
-                    </button>   }
-            <Whitebtn id="submit-coupon" className={`${Identify.isRtl() ? "submit-coupon-rtl" : 'submit-coupon'}`} onClick={() => handleCoupon()} text={Identify.__('Apply')} />
+            {value 
+            ? <Whitebtn id="submit-coupon" className={`${Identify.isRtl() ? "submit-coupon-rtl" : 'submit-coupon'}`} onClick={() => handleCoupon('clear')} text={Identify.__('Cancel')} />
+            : <Whitebtn id="submit-coupon" className={`${Identify.isRtl() ? "submit-coupon-rtl" : 'submit-coupon'}`} onClick={() => handleCoupon()} text={Identify.__('Apply')} />          
+            }
         </div>
     </div>
     )

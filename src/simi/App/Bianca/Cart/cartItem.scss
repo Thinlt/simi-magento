@@ -1,7 +1,11 @@
 .cart-siminia-item {
     font-size: 16px;
     .cart-item-value, .item-edit, .item-delete {
-        font-weight: 500;
+        font-weight: 600;
+    }
+
+    .item-options{
+        color: #727272;
     }
 }
 
@@ -113,7 +117,7 @@
             justify-content: space-between;
             .item-name{
                 color: #101820;
-                font-weight: 500;
+                font-weight: 600;
             }
             .designer-name{
                 color: #101820;
@@ -273,8 +277,8 @@
 
     .cart-siminia-item .item-qty input{ 
         margin: 0 auto;
-        width: 40px;
-        height: 30px;
+        width: 48px;
+        height: 36px;
     }
 }
 @media(max-width: 1023px) {

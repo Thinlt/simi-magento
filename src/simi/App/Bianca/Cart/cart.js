@@ -31,6 +31,7 @@ import Estimate from 'src/simi/App/Bianca/Cart/Components/Estimate';
 
 require('./cart.scss');
 
+const $ = window.$;
 class Cart extends Component {
     constructor(...args) {
         super(...args);
@@ -55,9 +56,23 @@ class Cart extends Component {
     componentDidMount() {
         showFogLoading();
         this.setIsPhone();
-        const { getCartDetails, getCountries } = this.props;
+        const { getCartDetails } = this.props;
         getCartDetails();
-        getCountries();
+
+        $(
+            '.header-wrapper .container-global-notice, .app-nav,.header .header-search, .header .right-bar'
+        ).css('display', 'none');
+        $('.sub-container').css('height', '70px');
+        $('.container-header').css('background-color','#E4E4E4')
+        $('.header').css({'height':'70px', 'min-height':'70px', 'padding-top':'0px'})
+        $('.header img').css({'width':'154.26','height':'43.61px'})
+        $('.header-logo').css('margin-top','0px')
+    }
+
+    componentWillUnmount() {
+        $(
+            '.header-wrapper .container-global-notice, .container-header ,.app-nav,.header .header-search, .header .right-bar,.sub-container, .header,.header img, .header-logo'
+        ).removeAttr('style');
     }
 
     get cartId() {
@@ -162,13 +177,17 @@ class Cart extends Component {
         const hasGrandtotal =
             cartId && cart.totals && 'grand_total' in cart.totals;
         const grandTotal = cart.totals.grand_total;
-        const hasDiscount = cartId && cart.totals && 'discount_amount' in cart.totals;
-        const discount = Math.abs(cart.totals.discount_amount);
+        const hasDiscount =
+            cartId && cart.totals.discount_amount;
+        const discount =
+            (Math.abs(cart.totals.discount_amount) / totalPrice) * 100;
         return (
             <div>
-                {hasDiscount ? 
+                {hasDiscount ? (
                     <div className="subtotal">
-                        <div className="subtotal-label">Discount {discount}%</div>
+                        <div className="subtotal-label">
+                            Discount {discount}%
+                        </div>
                         <div>
                             <Price
                                 currencyCode={cartCurrencyCode}
@@ -176,8 +195,7 @@ class Cart extends Component {
                             />
                         </div>
                     </div>
-                    : null
-                }
+                ) : null}
                 {hasSubtotal ? (
                     <div className="subtotal">
                         <div className="subtotal-label">Subtotal</div>
@@ -358,7 +376,7 @@ class Cart extends Component {
             total,
             checkoutButton,
             couponCode,
-            giftVoucher,
+            giftVoucher
         } = this;
         const {
             cart: { isLoading },
@@ -402,7 +420,7 @@ class Cart extends Component {
                 <div className="body">
                     {productList}
                     <div className="summary-zone">
-                        <div>{Identify.__('Summary')}</div>
+                        <div>{Identify.__('Summary'.toUpperCase())}</div>
                         {couponCode}
                         {giftVoucher}
                         {/* {estimateShipAndTax} */}

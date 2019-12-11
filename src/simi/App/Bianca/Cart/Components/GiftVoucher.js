@@ -58,11 +58,13 @@ const GiftVoucher = (props) => {
             tabIndex="0" 
             onClick={() => setOpen(!isOpen)} 
             onKeyDown={() => setOpen(!isOpen)}>
-                {Identify.__('Add a Gift Voucher')}
+                <div>{Identify.__('Add a Gift Voucher')}</div>
+                <div>
                 {isOpen
                 ? <ArrowUp/>
                 : <ArrowDown/>
                 }
+                </div>
         </div>
         <div className={`gift-voucher-area-tablet ${isOpen ? 'voucher-open': 'voucher-close'}`}>
             <input id="voucher_field" type="text" placeholder={Identify.__('Enter Gift Code')} defaultValue={giftCode} />
