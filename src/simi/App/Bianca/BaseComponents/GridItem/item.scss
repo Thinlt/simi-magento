@@ -1,5 +1,6 @@
 $borderColor: #808080;
 $titleColor: #101820;
+$borderMobileColor: #A7A7A7;
 
 
 .siminia-product-grid-item {
@@ -53,15 +54,14 @@ $titleColor: #101820;
         position: relative;
         overflow: hidden;
         margin: 0 auto;
-    }
-
-    .siminia-product-image img {
-        height: 100%;
-        width: 100%;
-        -o-object-fit: contain;
-        vertical-align: top;
-        object-fit: contain;
-        border: solid 1px #eeeeee;
+        img {
+            height: 100%;
+            width: 100%;
+            -o-object-fit: contain;
+            vertical-align: top;
+            object-fit: contain;
+            border: solid 1px #eeeeee;
+        }
     }
 
     @media(min-width: 1440px){
@@ -89,36 +89,36 @@ $titleColor: #101820;
         line-height: 24px;
         height: fit-content;
         display: inline-block;
-    }
-
-    .product-prices {
-        font-family: "Gotham";
-        font-size: 14px;
-        line-height: 14px;
-        text-align: start;
-        display: flex;
-        .label {
-            display: none;
-        }
-        .regular {
-            display: inline-block;
-            font-weight: 600;
-        }
-        .special {
-            margin-left: 10px;
-            display: inline-block;
-            .sale_off {
+        .product-prices {
+            font-family: "Gotham";
+            font-size: 14px;
+            line-height: 14px;
+            text-align: start;
+            display: flex;
+            .label {
                 display: none;
             }
-            .old {
-                color: #727272;
-                text-decoration: line-through;
-                font-size: 14px;
-                font-weight: 500;
-                float: left;
+            .regular {
+                display: inline-block;
+                font-weight: 600;
+            }
+            .special {
+                margin-left: 10px;
+                display: inline-block;
+                .sale_off {
+                    display: none;
+                }
+                .old {
+                    color: #727272;
+                    text-decoration: line-through;
+                    font-size: 14px;
+                    font-weight: 500;
+                    float: left;
+                }
             }
         }
     }
+
     /* deposit text */
     .item-deposit {
         font-size: 14px;
@@ -135,63 +135,97 @@ $titleColor: #101820;
         .product-des-info {
             min-height: 111px;
         }
-    }
-    .siminia-product-des .cart-wishlish-compare {
-        margin-top: 16px;
-        display: flex;
-    }
-    .cart-wishlish-compare .add-to-cart-btn{
-        max-width: 70%;
-        padding-top: 12px;
-        color: #FFF;
-        font-family: "Gotham Book";
-        font-size: 12px;
-        letter-spacing: 0.09px;
-        line-height: 12px;
-        text-align: center;
-        text-transform: uppercase;
-        margin-right: 13px;
-    }
-    .cart-wishlish-compare .wishlistAction{
-        margin: auto 12px;
-        cursor: pointer;
-    }
-    .cart-wishlish-compare .wishlistAction .add-to-wishlist-btn{
-        font-family: Linearicons;
-        font-size: 16px;
-        speak: none;
-        font-style: normal;
-        font-weight: 500;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 16px;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        border: none;
-        color: $titleColor;
-    }
-    .cart-wishlish-compare .wishlistAction .added-item {
-        color: #B91C1C;
-    }
-    .cart-wishlish-compare .compareAction{
-        margin: auto 0px auto 12px;
-        cursor: pointer;
-    }
-    .cart-wishlish-compare .compareAction .add-to-compare-btn{
-        font-family: Linearicons;
-        font-size: 16px;
-        speak: none;
-        font-style: normal;
-        font-weight: 500;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 16px;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        border: none;
-        color: $titleColor;
-    }
+        .cart-wishlish-compare {
+            margin-top: 16px;
+            display: flex;
 
+            .add-to-cart-btn{
+                max-width: 70%;
+                padding-top: 12px;
+                color: #FFF;
+                font-family: "Gotham Book";
+                font-size: 12px;
+                letter-spacing: 0.09px;
+                line-height: 12px;
+                text-align: center;
+                text-transform: uppercase;
+                margin-right: 13px;
+            }
+            .wishlistAction{
+                margin: auto 12px;
+                cursor: pointer;
+
+                .add-to-wishlist-btn{
+                    font-family: Linearicons;
+                    font-size: 16px;
+                    speak: none;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-variant: normal;
+                    text-transform: none;
+                    line-height: 16px;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                    border: none;
+                    color: $titleColor;
+                }
+                .added-item {
+                    color: #B91C1C;
+                }
+            }
+        }
+        .compareAction{
+            margin: auto 0px auto 12px;
+            cursor: pointer;
+            .add-to-compare-btn{
+                font-family: Linearicons;
+                font-size: 16px;
+                speak: none;
+                font-style: normal;
+                font-weight: 500;
+                font-variant: normal;
+                text-transform: none;
+                line-height: 16px;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                border: none;
+                color: $titleColor;
+            }
+        }
+        .product-name.small {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            color: $titleColor;
+            font-family: "Gotham Book";
+            font-size: 14px;
+            line-height: 14px;
+            text-align: start;
+            margin-bottom: 12px;
+        }
+
+        .special-price .sale_off {
+            display: block;
+        }
+        .special-price-label {
+            margin-left: 8px !important;
+        }
+        .incl-tax-label {
+            margin-left: 8px;
+        }
+        .product-short-description {
+            display: inline-block;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+        .vendor-and-price .vendor {
+            color: $titleColor;
+            font-family: "Gotham Medium";
+            font-size: 14px;
+            line-height: 14px;
+            margin-top: 12px;
+        }
+    }
+    
     @media(min-width: 1024px){
         .siminia-product-des .cart-wishlish-compare .add-to-cart-btn{
             width: 145px;
@@ -213,42 +247,6 @@ $titleColor: #101820;
         .siminia-product-des .cart-wishlish-compare .add-to-cart-btn{
             width: 215px;
         }
-    }
-
-    .special-price .sale_off {
-        display: block;
-    }
-    .special-price-label {
-        margin-left: 8px !important;
-    }
-    .incl-tax-label {
-        margin-left: 8px;
-    }
-
-    .siminia-product-des .product-name.small {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        color: $titleColor;
-        font-family: "Gotham Book";
-        font-size: 14px;
-        line-height: 14px;
-        text-align: start;
-        margin-bottom: 12px;
-    }
-
-
-    .siminia-product-des .product-short-description {
-        display: inline-block;
-        font-size: 12px;
-        margin-bottom: 10px;
-    }
-
-    .siminia-product-des .vendor-and-price .vendor {
-        color: $titleColor;
-        font-family: "Gotham Medium";
-        font-size: 14px;
-        line-height: 14px;
-        margin-top: 12px;
     }
 
     /* Button quick view */
@@ -275,10 +273,15 @@ $titleColor: #101820;
     phone
     */
    @media (max-width: 1023px) {
-
-        .siminia-product-image {
-            width: 100%;
-            min-height: 208px;
+        .grid-item-image {
+            .siminia-product-image {
+                width: 100%;
+                min-height: 208px;
+                img {
+                    border: solid 1px $borderMobileColor;
+                    border-bottom: none;
+                }
+            }
         }
         
         .wishlistAction{
@@ -292,56 +295,70 @@ $titleColor: #101820;
             bottom: 10px;
             right: 12px;
         }
-        .siminia-product-des .cart-wishlish-compare {
-            margin-top: 0px;
-        }
-        .siminia-product-des .cart-wishlish-compare .add-to-cart-btn {
-            margin-right: 0px;
-            width: 100%;
-            max-width: 100%;
-            height: 22px;
-            font-size: 8px;
-            padding-top: 6px;
-            font-family: 'Gotham';
-            padding-top: 5px;
-            font-weight: 500;
-        }
-        .add-to-compare-btn::before, .add-to-wishlist-btn::before {
-            font-size: 16px;
-        }
-        .siminia-product-grid-item .prices-layout {
-            line-height: 14px;
-        }
-        .product-prices{
-            font-family: "Gotham Book";
-            font-size: 10px;
-            line-height: 14px;
-        }
-        .item-deposit {
-            margin-top: 8px;
-            font-size: 10px;
-        }
-        .siminia-product-des .product-name.small {
-            font-size: 10px;
-        }
-        .siminia-product-des .old {
-            font-size: 10px;
-        }
-        .siminia-product-des .vendor-and-price {
+        .siminia-product-des {
+            border: 1px solid $borderMobileColor;
+            border-top: none;
+            .cart-wishlish-compare {
+                margin-top: 10px;
+            }
+            .cart-wishlish-compare .add-to-cart-btn {
+                margin-right: 0px;
+                width: 100%;
+                max-width: 100%;
+                height: 28px;
+                font-size: 12px;
+                font-family: 'Gotham';
+                padding-top: 8px;
+                font-weight: 500;
+            }
+
+            .product-name.small {
+                font-size: 14px;
+            }
             .old {
                 font-size: 10px;
             }
-            .vendor {
-                font-size: 10px;
-                line-height: 14px;
-                padding-top: 1px;
-                margin-top: 8px;
+            .vendor-and-price {
+                margin-top: 15px;
+
+                .siminia-product-grid-item .prices-layout {
+                    line-height: 14px;
+                }
+                .product-prices{
+                    font-family: "Gotham Book";
+                    font-size: 14px;
+                    line-height: 14px;
+                    display: block;
+                    .special {
+                        display: block;
+                        margin-left: 0px;
+                        margin-top: 8px;
+                        font-size: 12px;
+                        line-height: 12px;
+                    }
+                    .old {
+                        font-size: 12px;
+                    }
+                } 
+                .item-deposit {
+                    margin-top: 12px;
+                    font-size: 12px;
+                }
+                .vendor {
+                    font-size: 14px;
+                    line-height: 14px;
+                    padding-top: 1px;
+                    margin-top: 10px;
+                }
+            }
+            .product-des-info {
+                min-height: unset;
             }
         }
-        .siminia-product-des {
-            .product-des-info {
-                min-height: 76px;
-            }
+        
+
+        .add-to-compare-btn::before, .add-to-wishlist-btn::before {
+            font-size: 16px;
         }
     }
 

@@ -19,9 +19,14 @@ import {showToastMessage} from 'src/simi/Helper/Message';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
 import { withRouter } from 'react-router-dom';
+import { getOS } from 'src/simi/App/Bianca/Helper';
 
 const $ = window.$;
 require('./item.scss')
+if (getOS() === 'MacOS') {
+    require('./item-macos.scss')
+}
+
 
 
 class Griditem extends React.Component {
@@ -251,7 +256,7 @@ class Griditem extends React.Component {
             <div
                 className="siminia-product-grid-item">
                 <QuickView openModal={this.state.openModal} closeModal={this.closeModal} product={item} />
-                <div style={{position: 'relative'}}>
+                <div style={{position: 'relative'}} className="grid-item-image">
                     {
                         props.lazyImage ?
                             (<LazyLoad placeholder={<img alt={name} src={logo_url} style={{ maxWidth: 60, maxHeight: 60 }} />}>
