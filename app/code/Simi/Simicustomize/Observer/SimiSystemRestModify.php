@@ -79,6 +79,7 @@ class SimiSystemRestModify implements ObserverInterface {
                         ->create('Magento\Catalog\Model\Product')
                         ->load($quoteItem->getData('product_id'));
                     $contentArray['items'][$index]['attribute_values'] = $product->toArray();
+                    $contentArray['items'][$index]['is_buy_service'] = $quoteItem->getData('is_buy_service');
                 }
                 //modify option values for special products (preorder, trytobuy)
                 if (isset($item['options']) && is_string($item['options']) && $optionArray = json_decode($item['options'], true)) {

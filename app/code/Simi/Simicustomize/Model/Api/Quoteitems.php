@@ -41,6 +41,24 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
             $this->removed_items = [$data['resourceid']];
             $this->RETURN_MESSAGE = __('Item has been moved to Wishlist');
         }
+
+        //buy service
+        if (isset($data['resourceid']) &&
+            $data['resourceid'] && isset($data['params']) &&
+            (
+                isset($data['params']['add_buy_service']) ||
+                isset($data['params']['remove_buy_service'])
+            )
+        ) {
+            if (isset($data['params']['add_buy_service'])) {
+                $this->_addBuyService($data['resourceid']);
+                $this->RETURN_MESSAGE = __('Item has been added Service');
+            } else {
+                $this->_removeBuyService($data['resourceid']);
+                $this->RETURN_MESSAGE = __('Item has been removed Service');
+            }
+        }
+
         $this->builderQuery = $quote->getItemsCollection();
     }
 
@@ -623,6 +641,29 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
         }
         $this->getRequestInfoFilter()->filter($request);
         return $request;
+    }
+
+
+    /*
+     * Buy Service
+     */
+    protected function _addBuyService($itemId) {
+        $cart = $this->_getCart();
+        $item = $cart->getQuote()->getItemById($itemId);
+        if (!$item || !$item->getId()) {
+            throw new \Simi\Simiconnector\Helper\SimiException(__('Requested cart item doesn\'t exist'), 4);
+        }
+        $item->setIsBuyService(1)->save();
+        //die('!!!');
+    }
+
+    protected function _removeBuyService($itemId) {
+        $cart = $this->_getCart();
+        $item = $cart->getQuote()->getItemById($itemId);
+        if (!$item || !$item->getId()) {
+            throw new \Simi\Simiconnector\Helper\SimiException(__('Requested cart item doesn\'t exist'), 4);
+        }
+        $item->setData('is_buy_service', 0)->save();
     }
 
 }

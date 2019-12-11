@@ -2,6 +2,7 @@
     <section name="quote">
         <group name="totals">
             <item name="preorder_deposit_discount" instance="Simi\Simicustomize\Model\Total\Quote\PreorderDepositDiscount" sort_order="420"/>
+            <item name="service_support_fee" instance="Simi\Simicustomize\Model\Total\Quote\ServiceSupportFee" sort_order="421"/>
         </group>
     </section>
 </config>

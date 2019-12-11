@@ -242,5 +242,14 @@ class UpgradeData implements UpgradeDataInterface
                 'type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
                 'length' => "12,4"]);
         }
+        /**
+         * Add service support fee to order
+         */
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.13', '<')) {
+            $salesSetup = $this->salesSetupFactory->create(['setup' => $setup]);
+            $salesSetup->addAttribute('order', 'service_support_fee', [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+                'length' => "12,4"]);
+        }
     }
 }

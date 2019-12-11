@@ -227,6 +227,38 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 ]
             );
         }
+
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.13', '<')) {
+            $connection->addColumn(
+                $setup->getTable('quote_item'), 'is_buy_service', [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+                    'length' => '5',
+                    [],
+                    'comment' => 'Item is purchased with Service',
+                ]
+            );
+
+            $connection->addColumn(
+                $setup->getTable('sales_order_item'), 'is_buy_service', [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+                    'length' => '5',
+                    [],
+                    'comment' => 'Item is purchased with Service',
+                ]
+            );
+
+            // Add quote_type to quote table
+            $connection->addColumn(
+                $setup->getTable('quote'),
+                'service_support_fee',
+                [
+                    'type' => Table::TYPE_DECIMAL,
+                    'length' => '12,4',
+                    'nullable' => true,
+                    'comment' => 'Service support fee'
+                ]
+            );
+        }
     }
 
     public function checkTableExist($installer, $table_key_name, $table_name)

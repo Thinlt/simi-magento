@@ -27,15 +27,15 @@ class QuoteItemRepository
     /**
      * Plugin allow qty = 1 when try to buy update item to cart
      */
-    public function beforeSave(
-        \Magento\Quote\Model\Quote\Item\Repository $repository,
-        $cartItem
-    ){
-        $cartId = $cartItem->getQuoteId();
-        $quote = $this->quoteRepository->getActive($cartId);
-        if ($quote->getCouponCode() == 'TRYTOBUY' && (int)$cartItem->getQty() > 1) {
-            $cartItem->setQty(1);
-        }
-        return [$cartItem];
-    }
+//    public function beforeSave(
+//        \Magento\Quote\Model\Quote\Item\Repository $repository,
+//        $cartItem
+//    ){
+//        $cartId = $cartItem->getQuoteId();
+//        $quote = $this->quoteRepository->getActive($cartId);
+//        if ($quote->getCouponCode() == 'TRYTOBUY' && (int)$cartItem->getQty() > 1) {
+//            $cartItem->setQty(1);
+//        }
+//        return [$cartItem];
+//    }
 }

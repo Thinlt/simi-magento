@@ -51,6 +51,13 @@
                     <label>Content</label>
                 </field>
             </group>
+            <group id="service_support" translate="label" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Service Support</label>
+                <field id="service_support_fee" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Service Support Fee</label>
+                    <comment>Service Support Fee (base currency)</comment>
+                </field>
+            </group>
         </section>
     </system>
 </config>
