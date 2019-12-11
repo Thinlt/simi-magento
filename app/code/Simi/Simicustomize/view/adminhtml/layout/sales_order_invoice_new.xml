@@ -8,8 +8,8 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="invoice_totals">
-            <block class="Simi\Simicustomize\Block\Adminhtml\Order\Totals\PreorderDeposit" name="preorder_deposit" template="Simi_Simicustomize::order/totals/preorder_deposit.phtml"/>
-            <block class="Simi\Simicustomize\Block\Adminhtml\Order\Totals\PreorderRemaining" name="preorder_remaining" template="Simi_Simicustomize::order/totals/preorder_deposit.phtml"/>
+            <block class="Simi\Simicustomize\Block\Adminhtml\Order\Totals\PreorderDepositDiscount" name="preorder_deposit_discount" template="Simi_Simicustomize::order/totals/preorder_deposit_discount.phtml"/>
+            <block class="Simi\Simicustomize\Block\Adminhtml\Order\Totals\ServiceSupportFee" name="service_support_fee" template="Simi_Simicustomize::order/totals/service_support_fee.phtml"/>
         </referenceContainer>
     </body>
 </page>

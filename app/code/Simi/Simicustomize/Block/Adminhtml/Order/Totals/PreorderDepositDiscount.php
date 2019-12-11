@@ -11,38 +11,38 @@ namespace Simi\Simicustomize\Block\Adminhtml\Order\Totals;
  * @api
  * @author      SimiCart Team <support@simicart.com>
  */
-class PreorderRemaining extends \Magento\Framework\View\Element\Template
+class PreorderDepositDiscount extends \Magento\Framework\View\Element\Template
 {
     /**
      * Initialize all order totals with Pre-order reposit
      *
-     * @return \Simi\Simicustomize\Block\Adminhtml\Order\Totals\PreorderRemaining
+     * @return \Simi\Simicustomize\Block\Adminhtml\Order\Totals\PreorderDeposit
      */
     public function initTotals()
     {
         $parent = $this->getParentBlock();
         $order = $parent->getOrder();
-        if ($order->getOrderType() == 'pre_order') {
+        if ($order->getOrderType() == 'pre_order' && $this->getValue()) {
             $depositAmount = new \Magento\Framework\DataObject([
-                'code' => 'preorder_remaining',
+                'code' => 'preorder_deposit',
                 // 'block_name' => $this->getNameInLayout(),
                 'label' => $this->getLabel(),
                 'value' => $this->getValue(),
                 'area' => '',
             ]);
-            $this->getParentBlock()->addTotal($depositAmount, 'preorder_deposit');
+            $this->getParentBlock()->addTotal($depositAmount, 'paid');
         }
         return $this;
     }
 
     public function getLabel(){
-        return __(\Simi\Simicustomize\Model\Total\Quote\Preorder::LABEL);
+        return __(\Simi\Simicustomize\Model\Total\Quote\Preorder::LABEL_DEPOSIT);
     }
 
     public function getValue(){
         /** @var $parent \Magento\Sales\Block\Adminhtml\Order\Invoice\Totals */
         $parent = $this->getParentBlock();
         $order = $parent->getOrder();
-        return $order->getBaseRemainingAmount();
+        return max($order->getBaseDepositAmount(), 0);
     }
 }

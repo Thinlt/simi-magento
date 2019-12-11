@@ -11,8 +11,8 @@
             <block class="Simi\Simicustomize\Block\Adminhtml\Order\View" name="simi_simicustomize_sales_order_view_button" />
         </referenceBlock>
         <referenceBlock name="order_totals">
-            <block class="Simi\Simicustomize\Block\Adminhtml\Order\Totals\PreorderDeposit" name="preorder_deposit" template="Simi_Simicustomize::order/totals/preorder_deposit.phtml"/>
-            <block class="Simi\Simicustomize\Block\Adminhtml\Order\Totals\PreorderRemaining" name="preorder_remaining" template="Simi_Simicustomize::order/totals/preorder_deposit.phtml"/>
+            <block class="Simi\Simicustomize\Block\Adminhtml\Order\Totals\PreorderDepositDiscount" name="preorder_deposit_discount" template="Simi_Simicustomize::order/totals/preorder_deposit_discount.phtml"/>
+            <block class="Simi\Simicustomize\Block\Adminhtml\Order\Totals\ServiceSupportFee" name="service_support_fee" template="Simi_Simicustomize::order/totals/service_support_fee.phtml"/>
         </referenceBlock>
     </body>
 </page>

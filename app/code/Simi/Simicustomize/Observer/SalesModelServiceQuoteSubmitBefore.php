@@ -50,5 +50,9 @@ class SalesModelServiceQuoteSubmitBefore implements ObserverInterface
             }
             $order->setData('deposit_order_increment_id' , $deposit_order_increment_id);
         }
+
+        if ($service_support_fee = $quote->getData('service_support_fee')) {
+            $order->setData('service_support_fee' , $service_support_fee);
+        }
     }
 }

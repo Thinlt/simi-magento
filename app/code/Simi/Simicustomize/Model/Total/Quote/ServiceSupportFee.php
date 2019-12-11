@@ -24,7 +24,7 @@ class ServiceSupportFee extends \Magento\Quote\Model\Quote\Address\Total\Abstrac
     )
     {
         parent::collect($quote, $shippingAssignment, $total);
-        $quote->setData('service_support_fee', 0);
+        $quote->setServiceSupportFee(0);
 
         $baseServiceSupportFee = $this->scopeConfig->getValue('sales/service_support/service_support_fee');
         if ($baseServiceSupportFee) {
@@ -44,7 +44,7 @@ class ServiceSupportFee extends \Magento\Quote\Model\Quote\Address\Total\Abstrac
                     $total->setBaseGrandTotal($total->getBaseGrandTotal() + $baseServiceSupportFee);
                 if ($total->getGrandTotal())
                     $total->setGrandTotal($total->getGrandTotal() + $serviceSupportFee);
-                $quote->setData('service_support_fee', $serviceSupportFee);
+                $quote->setServiceSupportFee($serviceSupportFee);
             }
         }
         return $this;
