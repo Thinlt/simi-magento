@@ -123,7 +123,8 @@ class Checkout extends Component {
         const { cartDetail } = this;
         const { cart } = props;
         const { cartId, isLoading } = cart;
-        const cartLoading = (!cartDetail && cartId && !isLoading && (!cart.details || !cart.details.item))
+        const cartLoading = (!cartDetail && cartId && (!cart.details || !cart.details.item)) || isLoading
+        
         if (!cartDetail || cartLoading)
             return true
         if (props.checkout && props.checkout.submitting)
@@ -225,7 +226,7 @@ class Checkout extends Component {
             invalidAddressMessage, isAddressInvalid, is_virtual, paymentCode, paymentData, paymentMethods,
             ready: this.isCheckoutReady(checkout),
             shippingAddress, shippingMethod, shippingTitle, simiSignedIn, submitShippingAddress, submitOrder, submitPaymentMethod,
-            submitBillingAddress, submitShippingMethod, submitting, toggleMessages, user,
+            submitBillingAddress, submitShippingMethod, submitting, toggleMessages, user, getCartDetails
         };
 
         let cpValue = "";

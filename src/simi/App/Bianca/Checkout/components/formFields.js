@@ -259,6 +259,7 @@ const FormFields = (props) => {
                         <span className="selectSavedAddressInput">
                             <select name="selected_address_field"
                             defaultValue={billingForm ? initialBilling : initialShipping}
+                            onChange={() => handleChooseAddedAddress()}
                             onBlur={() => handleChooseAddedAddress()}>
                                 {listOptionsAddress(addresses)}
                             </select>
