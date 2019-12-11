@@ -78,18 +78,31 @@ $color1: #101820;
         }
         .brand-slider{
             margin-top: 32px;
+            .scroller-container{
+                .items-wrapper{
+                    .item-wrapper{
+                        .item{
+                            img{
+                                margin: 0 auto;
+                            }
+                        }
+                    }
+                }
+            }
         }
         &.mobile{
             .brand-slider{
                 margin-top: 18px;
                 .scroller{
                     .left-chevron-wrapper{
-                        top: -77px;
+                        top: -40px;
                         left: -9px;
+                        height: 30px;
                     }
                     .right-chevron-wrapper{
-                        top: -77px;
+                        top: -40px;
                         right: -9px;
+                        height: 30px;
                     }
                     .left-chevron-wrapper, .right-chevron-wrapper{
                         svg{
@@ -126,6 +139,7 @@ $color1: #101820;
                     }
                 }
                 .product-horizotal .siminia-product-grid-item{
+                    margin: 0 auto;
                     @media (min-width: 1440px){
                         width: 278px;
                     }
