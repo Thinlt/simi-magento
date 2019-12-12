@@ -4,5 +4,8 @@
         <route id="simicustomize" frontName="simicustomize">
             <module name="Simi_Simicustomize" before="Magento_Backend"/>
         </route>
+        <route id="simi" frontName="simi">
+            <module name="Simi_Simicustomize" before="Magento_Backend"/>
+        </route>
     </router>
 </config>

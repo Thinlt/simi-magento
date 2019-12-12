@@ -3,6 +3,7 @@
     <preference for="\Simi\Simiconnector\Helper\Products" type="\Simi\Simicustomize\Override\Helper\Products" />
     <preference for="\Simi\Simiconnector\Helper\Customer" type="\Simi\Simicustomize\Override\Helper\Customer" />
     <preference for="\Simi\Simicustomize\Api\ReserveInterface" type="\Simi\Simicustomize\Model\Api\Reserve" />
+    <preference for="\Simi\Simicustomize\Api\ContactInterface" type="\Simi\Simicustomize\Model\Api\Contact" />
 
     <type name="Magento\Quote\Model\Quote\Item\Repository">
         <plugin name="simi_cart_plugin_quote_item_repository" type="Simi\Simicustomize\Plugin\QuoteItemRepository" />
@@ -22,10 +23,17 @@
             <argument name="resourceModel" xsi:type="string">Simi\Simicustomize\Model\ResourceModel\Reserve</argument>
         </arguments>
     </virtualType>
+    <virtualType name="SimiContactGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">simi_contact</argument>
+            <argument name="resourceModel" xsi:type="string">Simi\Simicustomize\Model\ResourceModel\Contact</argument>
+        </arguments>
+    </virtualType>
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
                 <item name="simi_reserve_data_source" xsi:type="string">SimiReserveGridDataProvider</item>
+                <item name="simi_contact_data_source" xsi:type="string">SimiContactGridDataProvider</item>
             </argument>
         </arguments>
     </type>

@@ -74,6 +74,10 @@ class SimiGetStoreviewInfoAfter implements ObserverInterface {
                     ];
                 }
             }
+            $object->storeviewInfo['livechat'] = array(
+                'enabled' => $this->config->getValue('simiconnector/customchat/enable'),
+                'license' => $this->config->getValue('simiconnector/customchat/license'),
+            );
         }
     }
 }

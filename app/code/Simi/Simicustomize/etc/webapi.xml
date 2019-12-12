@@ -7,4 +7,10 @@
             <resource ref="anonymous"/>
         </resources>
     </route>
+    <route url="/V1/simiconnector/contact" method="POST">
+        <service class="Simi\Simicustomize\Api\ContactInterface" method="index"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
 </routes>
