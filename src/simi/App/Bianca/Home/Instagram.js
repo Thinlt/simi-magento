@@ -53,7 +53,8 @@ const Instagram = (props) => {
                 if (edges.length) {
                     let instagramData = [];
                     instagramData = edges.map((ins, index) => {
-                        const limit = isPhone ? 3 : 8;
+                        // const limit = isPhone ? 3 : 8;
+                        const limit = 8;
                         if (index < limit) {
                             return renderInsItem(nodeItem(ins), index);
                         }
