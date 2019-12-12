@@ -164,8 +164,7 @@ const EditableForm = props => {
         }
 
         case 'shippingMethod': {
-            const { availableShippingMethods, shippingMethod } = props;
-
+            const { availableShippingMethods, shippingMethod, getCartDetails } = props;
             return (
                 <ShippingForm
                     availableShippingMethods={availableShippingMethods}
@@ -173,6 +172,7 @@ const EditableForm = props => {
                     shippingMethod={shippingMethod}
                     submit={handleSubmitShippingForm}
                     submitting={submitting}
+                    getCartDetails={getCartDetails}
                     cart={cart}
                     key={Identify.randomString()}
                 />
@@ -202,7 +202,8 @@ EditableForm.propTypes = {
         countries: array
     }),
     paymentMethods: array,
-    user: object
+    user: object,
+    getCartDetails: func.isRequired,
 };
 
 export default EditableForm;
