@@ -1,9 +1,18 @@
 import React, {useEffect, useState} from 'react'
 import Identify from "src/simi/Helper/Identify";
+import Scroller from "./Scroller";
 
 const Instagram = (props) => {
     const {history, isPhone} = props;
     const [insData, setInsData] = useState();
+
+    const slideSettings = {
+        chevronWidth: isPhone ? 16 : 72,
+        showChevron: true,
+        numberOfCards: isPhone ? 3 : 6,
+        slidesToScroll: 3,
+        gutter: isPhone ? 12.5 : 16
+    }
 
     const getUserInstagram = async (name) => {
         let response = await fetch(`https://www.instagram.com/${name}/?__a=1`);
@@ -37,9 +46,9 @@ const Instagram = (props) => {
     }
 
     const renderInsItem = (item, index) => {
-        return <div className="ins-item" key={index}>
+        return <div className="item ins-item" key={index}>
             <a href={`https://www.instagram.com/p/${item.shortcode}`} target="_blank" rel="noopener noreferrer">
-                <img src={item.thumbnail_src} alt={item.accessibility_caption} />
+                <img className="img-responsive" src={item.thumbnail_src} alt={item.accessibility_caption} />
             </a>
         </div>
     }
@@ -54,7 +63,7 @@ const Instagram = (props) => {
                     let instagramData = [];
                     instagramData = edges.map((ins, index) => {
                         // const limit = isPhone ? 3 : 8;
-                        const limit = 8;
+                        const limit = 18;
                         if (index < limit) {
                             return renderInsItem(nodeItem(ins), index);
                         }
@@ -67,14 +76,29 @@ const Instagram = (props) => {
         return html;
     }
 
+    const lastItems = (
+        <div className="last-items">
+            <div className="btn" onClick={actionViewAll}><span>{Identify.__('View all')}</span></div>
+        </div>
+    );
+
     return (
-        <div className="instagram-block">
-            <div className="block-inner">
+        <div className={`instagram-slider ${isPhone ? 'phone-view':''}`}>
+            <h3 className="title">{Identify.__('Shop Our Instagram')}</h3>
+            <Scroller lastItems={lastItems} history={history} slideSettings={slideSettings} isPhone={isPhone}>
                 {renderInsView()}
-            </div>
+            </Scroller>
             <div className="view-all">
                 <div className="btn" onClick={actionViewAll}><span>{Identify.__('View all')}</span></div>
             </div>
+            {/* <div className="instagram-block">
+                <div className="block-inner">
+                    {renderInsView()}
+                </div>
+                <div className="view-all">
+                    <div className="btn" onClick={actionViewAll}><span>{Identify.__('View all')}</span></div>
+                </div>
+            </div> */}
         </div>
     );
 }

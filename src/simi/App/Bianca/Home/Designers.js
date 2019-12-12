@@ -11,10 +11,11 @@ const Designers = props => {
     const {vendor_list: data} = config || {};
 
     const slideSettings = {
-        chevronWidth: isPhone ? 48 : 72,
+        chevronWidth: isPhone ? 16 : 72,
         showChevron: true,
         numberOfCards: isPhone ? 3 : 6,
-        slidesToScroll: isPhone ? 3 : 6,
+        slidesToScroll: 3,
+        gutter: isPhone ? 12.5 : 16
     }
 
     let newData = [];
