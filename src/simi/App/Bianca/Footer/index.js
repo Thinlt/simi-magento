@@ -4,19 +4,20 @@ import React, { useState, useEffect } from 'react';
 // import Newsletter from './Newsletter';
 import Identify from 'src/simi/Helper/Identify';
 // import {Link} from 'react-router-dom';
-import Copyright from './Copyright';
+// import Copyright from './Copyright';
 import Expansion from 'src/simi/App/Bianca/BaseComponents/Expansion';
 import classes from './ProxyClasses';
 import { Link } from 'src/drivers';
-import { logoUrl, logoAlt } from 'src/simi/App/Bianca/Helper/Url';
+// import { logoUrl, logoAlt } from 'src/simi/App/Bianca/Helper/Url';
 import { footerLogoUrl, footerLogoAlt } from 'src/simi/App/Bianca/Helper/Url';
 import Subscriber from './Subscriber';
+import Chats from 'src/simi/App/Bianca/BaseComponents/Chats';
 
 require('./footer.scss');
 
 const Footer = (props) => {
 	// const {classes} = props;
-	const [ isPhone, setIsPhone ] = useState(window.innerWidth < 1024);
+	const [isPhone, setIsPhone] = useState(window.innerWidth < 1024);
 	const $ = window.$;
 	const [ expanded, setExpanded ] = useState(null);
 	const pagec1 = 1;
@@ -191,190 +192,193 @@ const Footer = (props) => {
 	});
 
 	return (
-		<div className={classes['footer-app'] + (isPhone ? ' on-mobile' : '')}>
-			<div className={classes['footer-wrapper']}>
-				<div className={`container`}>
-					<div className={`row`}>
-						<div className={`col-md-4 col-md-offset-4`}>
-							<div className="footer-logo">
-								<Link to="/">
-									<img src={footerLogoUrl()} alt={footerLogoAlt()} />
-								</Link>
+		<React.Fragment>
+			<div className={classes['footer-app'] + (isPhone ? ' on-mobile' : '')}>
+				<div className={classes['footer-wrapper']}>
+					<div className={`container`}>
+						<div className={`row`}>
+							<div className={`col-md-4 col-md-offset-4`}>
+								<div className="footer-logo">
+									<Link to="/">
+										<img src={footerLogoUrl()} alt={footerLogoAlt()} />
+									</Link>
+								</div>
+							</div>
+						</div>
+						<div className={`row`}>
+							<div className={`col-md-4 col-md-offset-4`}>
+								<div className="footer-subscriber">
+									<h3>subscribe newsletter</h3>
+									<p>{Identify.__(bianca_subcribe_description)}</p>
+									<Subscriber />
+								</div>
 							</div>
 						</div>
 					</div>
-					<div className={`row`}>
-						<div className={`col-md-4 col-md-offset-4`}>
-							<div className="footer-subscriber">
-								<h3>subscribe newsletter</h3>
-								<p>{Identify.__(bianca_subcribe_description)}</p>
-								<Subscriber />
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className={`container list-item`}>
-					<div className={`row`}>
-						<div className={`col-md-3`}>
-							{!isPhone ? (
-								<React.Fragment>
-									<span className={classes['footer--title']}>{Identify.__('Contact Us')}</span>
-									<ul>
-										{contactUs.map((page, index) => {
-											return (
-												<li key={index} className="contact_us">
-													<Link to={page.link}>{page.title}</Link>
-												</li>
-											);
-										})}
-										<li>
-											<div className={classes['social-icon']}>
-												<a href={footer_facebook} target="__blank">
-													<div className={classes['facebook-icon']} ></div>
-												</a>
-												<a href={footer_instagram} target="__blank">
-													<div className={classes['instagram-icon']} ></div>
-												</a>
-												<a href={footer_twitter} target="__blank">
-													<div className={classes['twitter-icon']} ></div>
-												</a>
-												<a href={footer_linkedin} target="__blank">
-													<div className={classes['linkedin-icon']} ></div>
-												</a>
-												<a href={footer_google} target="__blank">
-													<div className={classes['google-icon']} ></div>
-												</a>
-											</div>
-										</li>
-									</ul>
-								</React.Fragment>
-							) : (
-								<div className={`footer-mobile`}>
-									<Expansion
-										id={`expan-1`}
-										title={Identify.__('Contact Us')}
-										icon_color="#FFFFFF"
-										handleExpand={(expanId) => handleExpand(expanId)}
-										expanded={expanded}
-										content={listPages(contactUs)}
-									/>
-								</div>
-							)}
-						</div>
-
-						<div className={`col-md-3`}>
-							{!isPhone ? (
-								<React.Fragment>
-									<span className={classes['footer--title']}>{Identify.__('Customer Services')}</span>
-									{listServices(services)}
-								</React.Fragment>
-							) : (
-								<div className={`footer-mobile`}>
-									<Expansion
-										id={`expan-2`}
-										title={Identify.__('Customer Services')}
-										content={listServices(services)}
-										icon_color="#FFFFFF"
-										handleExpand={(expanId) => handleExpand(expanId)}
-										expanded={expanded}
-									/>
-								</div>
-							)}
-						</div>
-
-						<div className={`col-md-3`}>
-							{!isPhone ? (
-								<React.Fragment>
-									<span className={classes['footer--title']}>{Identify.__('Information')}</span>
-									{listInfos(informations)}
-								</React.Fragment>
-							) : (
-								<div className={`footer-mobile`}>
-									<Expansion
-										id={`expan-3`}
-										title={Identify.__('Information')}
-										icon_color="#FFFFFF"
-										handleExpand={(expanId) => handleExpand(expanId)}
-										expanded={expanded}
-										content={listInfos(informations)}
-									/>
-								</div>
-							)}
-						</div>
-
-						<div className={`col-md-3`}>
-							{!isPhone ? (
-								<React.Fragment>
-									<span className={classes['footer--title']}>{Identify.__('our app')}</span>
-									<ul>
-										<li>
-											<div className={classes['download-icon']}>
-												<div className="google-play">
-													<a href={bianca_android_app} target="__blank">
-														<img src="/images/google-play.png" alt="google-play" />
-													</a>
-												</div>
-												<div className="app-store">
-													<a href={bianca_ios_app} target="__blank">
-														<img src="/images/app-store.png" alt="app-store" />
-													</a>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</React.Fragment>
-							) : (
-								<div className={`footer-mobile download-app`}>
-									<Expansion
-										id={`expan-4`}
-										title={Identify.__('Our app')}
-										icon_color="#FFFFFF"
-										handleExpand={(expanId) => handleExpand(expanId)}
-										expanded={expanded}
-										content={
-											<React.Fragment>
-												<ul>
-													<li>
-														<div className={classes['download-icon']}>
-															<div className="google-play">
-																<a href={bianca_android_app} target="__blank">
-																	<img src="/images/google-play.png" alt="google-play" />
-																</a>
-															</div>
-															<div className="app-store">
-																<a href={bianca_ios_app} target="__blank">
-																	<img src="/images/app-store.png" alt="app-store" />
-																</a>
-															</div>
-														</div>
+					<div className={`container list-item`}>
+						<div className={`row`}>
+							<div className={`col-md-3`}>
+								{!isPhone ? (
+									<React.Fragment>
+										<span className={classes['footer--title']}>{Identify.__('Contact Us')}</span>
+										<ul>
+											{contactUs.map((page, index) => {
+												return (
+													<li key={index} className="contact_us">
+														<Link to={page.link}>{page.title}</Link>
 													</li>
-												</ul>
-											</React.Fragment>
-										}
-									/>
-								</div>
-							)}
+												);
+											})}
+											<li>
+												<div className={classes['social-icon']}>
+													<a href={footer_facebook} target="__blank">
+														<div className={classes['facebook-icon']} ></div>
+													</a>
+													<a href={footer_instagram} target="__blank">
+														<div className={classes['instagram-icon']} ></div>
+													</a>
+													<a href={footer_twitter} target="__blank">
+														<div className={classes['twitter-icon']} ></div>
+													</a>
+													<a href={footer_linkedin} target="__blank">
+														<div className={classes['linkedin-icon']} ></div>
+													</a>
+													<a href={footer_google} target="__blank">
+														<div className={classes['google-icon']} ></div>
+													</a>
+												</div>
+											</li>
+										</ul>
+									</React.Fragment>
+								) : (
+									<div className={`footer-mobile`}>
+										<Expansion
+											id={`expan-1`}
+											title={Identify.__('Contact Us')}
+											icon_color="#FFFFFF"
+											handleExpand={(expanId) => handleExpand(expanId)}
+											expanded={expanded}
+											content={listPages(contactUs)}
+										/>
+									</div>
+								)}
+							</div>
+
+							<div className={`col-md-3`}>
+								{!isPhone ? (
+									<React.Fragment>
+										<span className={classes['footer--title']}>{Identify.__('Customer Services')}</span>
+										{listServices(services)}
+									</React.Fragment>
+								) : (
+									<div className={`footer-mobile`}>
+										<Expansion
+											id={`expan-2`}
+											title={Identify.__('Customer Services')}
+											content={listServices(services)}
+											icon_color="#FFFFFF"
+											handleExpand={(expanId) => handleExpand(expanId)}
+											expanded={expanded}
+										/>
+									</div>
+								)}
+							</div>
+
+							<div className={`col-md-3`}>
+								{!isPhone ? (
+									<React.Fragment>
+										<span className={classes['footer--title']}>{Identify.__('Information')}</span>
+										{listInfos(informations)}
+									</React.Fragment>
+								) : (
+									<div className={`footer-mobile`}>
+										<Expansion
+											id={`expan-3`}
+											title={Identify.__('Information')}
+											icon_color="#FFFFFF"
+											handleExpand={(expanId) => handleExpand(expanId)}
+											expanded={expanded}
+											content={listInfos(informations)}
+										/>
+									</div>
+								)}
+							</div>
+
+							<div className={`col-md-3`}>
+								{!isPhone ? (
+									<React.Fragment>
+										<span className={classes['footer--title']}>{Identify.__('our app')}</span>
+										<ul>
+											<li>
+												<div className={classes['download-icon']}>
+													<div className="google-play">
+														<a href={bianca_android_app} target="__blank">
+															<img src="/images/google-play.png" alt="google-play" />
+														</a>
+													</div>
+													<div className="app-store">
+														<a href={bianca_ios_app} target="__blank">
+															<img src="/images/app-store.png" alt="app-store" />
+														</a>
+													</div>
+												</div>
+											</li>
+										</ul>
+									</React.Fragment>
+								) : (
+									<div className={`footer-mobile download-app`}>
+										<Expansion
+											id={`expan-4`}
+											title={Identify.__('Our app')}
+											icon_color="#FFFFFF"
+											handleExpand={(expanId) => handleExpand(expanId)}
+											expanded={expanded}
+											content={
+												<React.Fragment>
+													<ul>
+														<li>
+															<div className={classes['download-icon']}>
+																<div className="google-play">
+																	<a href={bianca_android_app} target="__blank">
+																		<img src="/images/google-play.png" alt="google-play" />
+																	</a>
+																</div>
+																<div className="app-store">
+																	<a href={bianca_ios_app} target="__blank">
+																		<img src="/images/app-store.png" alt="app-store" />
+																	</a>
+																</div>
+															</div>
+														</li>
+													</ul>
+												</React.Fragment>
+											}
+										/>
+									</div>
+								)}
+							</div>
 						</div>
 					</div>
 				</div>
+				{/* <Copyright isPhone={isPhone} classes={classes} /> */}
+				<div className={`mobile-social`}>
+						{!isPhone ? (<></>):(
+							<div className={`footer-mobile-social`}>
+									<a href={footer_facebook} target="__blank">
+										<div className={classes['facebook-icon social-icon']} ></div>
+									</a>
+									<a href={footer_twitter} target="__blank">
+										<div className={classes['twitter-icon social-icon']} ></div>
+									</a>
+									<a href={footer_instagram} target="__blank">
+										<div className={classes['instagram-icon social-icon']} ></div>
+									</a>
+							</div>
+						)}
+				</div>
 			</div>
-			{/* <Copyright isPhone={isPhone} classes={classes} /> */}
-			<div className={`mobile-social`}>
-					{!isPhone ? (<></>):(
-						<div className={`footer-mobile-social`}>
-								<a href={footer_facebook} target="__blank">
-									<div className={classes['facebook-icon social-icon']} ></div>
-								</a>
-								<a href={footer_twitter} target="__blank">
-									<div className={classes['twitter-icon social-icon']} ></div>
-								</a>
-								<a href={footer_instagram} target="__blank">
-									<div className={classes['instagram-icon social-icon']} ></div>
-								</a>
-						</div>
-					)}
-			</div>
-		</div>
+			<Chats history={history} isPhone={isPhone}/>
+		</React.Fragment>
 	);
 };
 export default Footer;

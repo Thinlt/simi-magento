@@ -1,0 +1,244 @@
+$color1: #101820;
+.chats-block{
+    .icons-inner{
+        .chat-icons{
+            background-color: $color1;
+            width: 56px;
+            height: 56px;
+            -webkit-border-radius: 50px;
+            -moz-border-radius: 50px;
+            border-radius: 50px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            -moz-box-shadow: 0 2px 4px 0 #BDBDBD;
+            -webkit-box-shadow: 0 2px 4px 0 #BDBDBD;
+            box-shadow: 0 2px 4px 0 #BDBDBD;
+            position: fixed;
+            bottom: 35px;
+            z-index: 9999;
+            cursor: pointer;
+        }
+        .contact{
+            left: 44px;
+        }
+        .whatsapp{
+            right: 150px;
+        }
+        .livechat{
+            right: 44px;
+        }
+    }
+    &.mobile{
+        .icons-inner{
+            .chat-icons{
+                width: 44px;
+                height: 44px;
+                bottom: 46px;
+                svg{
+                    width: 17px;
+                    height: 17px;
+                }
+                &.contact{
+                    left: 16px;
+                }
+                &.whatsapp{
+                    right: 86px;
+                    svg{
+                        width: 17px;
+                        height: 20px;
+                    }
+                }
+                &.livechat{
+                    right: 16px;
+                    svg{
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+            }
+        }
+    }
+}
+#chat-widget-container{visibility: hidden;}
+#contact-modal{
+    width: 100%;
+    max-width: 604px;
+    min-height: 494px;
+    padding: 24px 32px 32px 32px;
+    #contact-modal-close{
+        top: 24px;
+        right: 32px;
+    }
+    .contact-wrap{
+        h3.title{
+            margin-top: 8px;
+            font-size: 24px;
+            line-height: 24px;
+            font-weight: 600;
+            color: $color1;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        .header-text{
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            color: $color1;
+            font-family: 'Gotham Book';
+            font-size: 18px;
+            line-height: 18px;
+            margin: 0 auto;
+            margin-top: 20px;
+            max-width: 407px;
+        }
+        .contact-form{
+            select{cursor: pointer;}
+            .form-row{
+                max-width: 376px;
+                margin: 0 auto;
+                margin-top: 20px;
+                &:first-child{
+                    margin-top: 32px;
+                }
+                >label{
+                    font-size: 10px;
+                    line-height: 10px;
+                    text-transform: uppercase;
+                    color: #101820;
+                    font-weight: 600;
+                    margin-bottom: 8px;
+                }
+                &.time{
+                    .contact-input{
+                        position: relative;
+                        padding: 10px 16px;
+                        display: flex;
+                        align-items: center;
+                        &:before{
+                            position: absolute;
+                            right: 16px;
+                            color: $color1;
+                            content: "\e93a";
+                            font-size: 14px;
+                            font-family: 'Linearicons', 'Simple Linearicons';
+                            font-style: normal;
+                            font-weight: normal;
+                            font-variant: normal;
+                            text-transform: none;
+                            font-feature-settings: "liga";
+                            z-index: 9;
+                        }
+                        select{
+                            width: 100%;
+                            -webkit-appearance: none;
+                            -webkit-border-radius: unset;
+                            -moz-border-radius: unset;
+                            border-radius: unset;
+                            color: $color1;
+                            border: none;
+                            background: transparent;
+                            z-index: 99;
+                        }
+                    }
+                }
+                input.contact-input, select.contact-input{
+                    padding: 10px 16px;
+                }
+            }
+            .contact-input{
+                background-color: #f2f2f2;
+                color: #727272;
+                font-size: 14px;
+                font-weight: 500;
+                height: 48px;
+                max-width: 376px;
+                display: flex;
+                flex-direction: row;
+                position: relative;
+                width: 100%;
+                border: none;
+                &.invalid{
+                    border: 1px solid #b91c1c;
+                }
+            }
+            .phone-input{
+                display: flex;
+                flex-direction: row;
+                position: relative;
+                .arrow-down{
+                    height: 100%;
+                    display: inline-flex;
+                    align-items: center;
+                    position: absolute;
+                    z-index: 9;
+                    left: 18px;
+                    top: 0;
+                    margin: 0;
+                    &:before{
+                        color: $color1;
+                        content: "\e93a";
+                        font-size: 14px;
+                        font-family: 'Linearicons', 'Simple Linearicons';
+                        font-style: normal;
+                        font-weight: normal;
+                        font-variant: normal;
+                        text-transform: none;
+                        font-feature-settings: "liga";
+                    }
+                }
+                .phone-code{
+                    width: 52px;
+                    height: 100%;
+                    background: transparent;
+                    color: transparent;
+                    border-radius: 0px;
+                    -webkit-appearance: none;
+                    border: none;
+                    display: inline-block;
+                    position: absolute;
+                    z-index: 99;
+                }
+                input{
+                    border: none;
+                    margin: 0px;
+                    padding: 0px;
+                    padding-left: 52px;
+                    width: 100%;
+                    background: transparent;
+                }
+            }
+            .form-btn{
+                text-align: center;
+                margin-top: 32px;
+                .btn{
+                    background-color: #101820;
+                    color: #fff;
+                    font-size: 16px;
+                    font-family: 'Gotham Medium';
+                    text-transform: uppercase;
+                    border-radius: 0px;
+                    max-width: 180px;
+                    min-height: 48px;
+                    width: 100%;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+        }
+        .message{
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            color: $color1;
+            font-family: 'Gotham Book';
+            font-size: 18px;
+            line-height: 18px;
+            margin: 0 auto;
+            margin-top: 20px;
+            max-width: 407px;
+        }
+    }
+}

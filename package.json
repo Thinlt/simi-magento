@@ -74,7 +74,9 @@
     "redux": "~4.0.1",
     "redux-actions": "~2.6.4",
     "redux-thunk": "~2.3.0",
-    "uuid": "~3.3.2"
+    "uuid": "~3.3.2",
+    "react-livechat": "~1.1.1",
+    "react-phone-code": "~0.0.4"
   },
   "devDependencies": {
     "@babel/core": "~7.3.4",

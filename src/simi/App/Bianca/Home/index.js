@@ -12,6 +12,7 @@ import { getOS } from 'src/simi/App/Bianca/Helper';
 import Designers from './Designers';
 import Newcollections from './Newcollections';
 import Instagram from './Instagram';
+// import Chats from 'src/simi/App/Bianca/BaseComponents/Chats';
 require('./home.scss');
 
 if (getOS() === 'MacOS') require('./home-ios.scss');
@@ -21,10 +22,10 @@ const Home = props => {
     const [isPhone, setIsPhone] = useState(window.innerWidth < 1024)
     const simiSessId = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID)
     const cached_home = simiSessId?Identify.ApiDataStorage(`home_lite_${simiSessId}`):null
-    const storeConfig = Identify.getStoreConfig() || [];
-    const {simiStoreConfig: {config: {brands: brands}}} = storeConfig;
-
-    const [data, setHomeData] = useState(cached_home)
+    const storeConfig = Identify.getStoreConfig() || {};
+    const config = storeConfig.simiStoreConfig && storeConfig.simiStoreConfig.config || {};
+    const {brands} = config || [];
+    const [data, setHomeData] = useState(cached_home);
 
     const resizePhone = () => {
         window.onresize = function () {
@@ -83,6 +84,9 @@ const Home = props => {
                 <h3 className="title">{Identify.__('Shop Our Instagram')}</h3>
                 <Instagram data={'biancaandreescu_'} history={history} isPhone={isPhone}/>
             </div>
+            {/* <div className={`home-chats ${isPhone ? 'mobile':''}`}>
+                <Chats data={instant_contact} history={history} isPhone={isPhone}/>
+            </div> */}
         </div>
     );
 }
