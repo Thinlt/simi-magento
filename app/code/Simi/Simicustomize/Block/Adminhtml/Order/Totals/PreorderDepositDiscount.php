@@ -37,6 +37,6 @@ class PreorderDepositDiscount extends \Magento\Framework\View\Element\Template
     }
 
     public function getLabel(){
-        return __(\Simi\Simicustomize\Model\Total\Quote\Preorder::LABEL_DEPOSIT);
+        return __('Pre-order Deposit Discount');
     }
 }
