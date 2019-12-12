@@ -4,7 +4,7 @@ import Identify from "src/simi/Helper/Identify";
 import ScrollerItem from "./ScrollerItem";
 import ChevronLeft from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronLeft';
 import ChevronRight from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronRight';
-import { forEach } from 'iterall';
+
 /**
  * @param {*} props 
  * props.data - data items
@@ -60,8 +60,7 @@ const Scroller = props => {
             );
         });
     }
-    
-    console.log(props.children)
+
     if (props.children && props.children instanceof Array) {
         props.children.forEach((item)=>{
             items.push(item);
