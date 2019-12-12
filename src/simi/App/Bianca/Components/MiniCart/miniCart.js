@@ -7,17 +7,8 @@ import classify from 'src/classify';
 import {
     getCartDetails,
     updateItemInCart,
-    openOptionsDrawer,
-    closeOptionsDrawer
 } from 'src/actions/cart';
-import {
-    submitShippingMethod,
-    editOrder,
-    getShippingMethods
-} from 'src/actions/checkout';
 import { cancelCheckout } from 'src/actions/checkout';
-import { getCountries } from 'src/actions/directory';
-import { submitShippingAddress } from 'src/simi/Redux/actions/simiactions';
 import CheckoutButton from 'src/components/Checkout/checkoutButton';
 import EmptyMiniCart from './emptyMiniCart';
 import Mask from './mask';
@@ -32,7 +23,6 @@ import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon';
 import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { removeItemFromCart } from 'src/simi/Model/Cart';
-import Estimate from 'src/simi/App/Bianca/Cart/Components/Estimate';
 import {
     showFogLoading,
     hideFogLoading
@@ -64,8 +54,6 @@ class MiniCart extends Component {
         }),
         isCartEmpty: bool,
         updateItemInCart: func,
-        openOptionsDrawer: func.isRequired,
-        closeOptionsDrawer: func.isRequired,
         isMiniCartMaskOpen: bool,
         closeDrawer: func.isRequired
     };
@@ -73,7 +61,9 @@ class MiniCart extends Component {
     constructor(...args) {
         super(...args);
         this.wrapperMiniCart = React.createRef();
-
+        this.state = {
+            data: ''
+        }
     }
 
     handleClickOutside = (event) => {
@@ -84,6 +74,7 @@ class MiniCart extends Component {
 
     componentDidMount(){
         document.addEventListener("mousedown", this.handleClickOutside);
+        this.props.getCartDetails();
     }
 
     get cartId() {
@@ -102,7 +93,14 @@ class MiniCart extends Component {
         );
     }
 
-
+    updateItemCart = (item,quantity) => {
+        showFogLoading()
+        const payload = {
+            item,
+            quantity
+        };
+        this.props.updateItemInCart(payload, item.item_id)
+    }
 
     removeFromCart(item) {
         if (confirm(Identify.__('Are you sure?')) === true) {
@@ -118,7 +116,7 @@ class MiniCart extends Component {
     }
 
     get productList() {
-        const { cart, isOpen, updateItemInCart } = this.props;
+        const { cart, isOpen } = this.props;
 
         const { cartCurrencyCode, cartId } = this;
 
@@ -140,7 +138,7 @@ class MiniCart extends Component {
                         <CartItem
                             key={Identify.randomString(5)}
                             removeFromCart={this.removeFromCart.bind(this)}
-                            updateCartItem={updateItemInCart}
+                            updateCartItem={this.updateItemCart}
                             currencyCode={cartCurrencyCode}
                             item={item}
                             itemTotal={itemTotal}
@@ -265,38 +263,6 @@ class MiniCart extends Component {
         );
     }
 
-    get estimateShipAndTax() {
-        const {
-            cart,
-            toggleMessages,
-            getCartDetails,
-            submitShippingMethod,
-            editOrder,
-            availableShippingMethods,
-            getShippingMethods,
-            shippingAddress,
-            submitShippingAddress,
-            countries
-        } = this.props;
-        const childCPProps = {
-            toggleMessages,
-            getCartDetails,
-            cart,
-            submitShippingMethod,
-            editOrder,
-            availableShippingMethods,
-            getShippingMethods,
-            shippingAddress,
-            submitShippingAddress,
-            countries
-        };
-        return (
-            <div className={`estimate-form`}>
-                <Estimate {...childCPProps} />
-            </div>
-        );
-    }
-
     get placeholderButton() {
         const { classes } = this.props;
         return (
@@ -323,7 +289,6 @@ class MiniCart extends Component {
                 </h2>
                 {couponCode}
                 {giftVoucher}
-                {/* {estimateShipAndTax} */}
                 {totalsSummary}
                 {grandTotal}
 
@@ -346,6 +311,10 @@ class MiniCart extends Component {
     get miniCartInner() {
         const { checkout, productList, props } = this;
         const { classes, isCartEmpty, isMiniCartMaskOpen } = props;
+
+        if(this.props.drawer === 'cart'){
+            console.log(this.props)
+        }
 
         if (isCartEmpty) {
             return <EmptyMiniCart />;
@@ -394,6 +363,7 @@ class MiniCart extends Component {
                     </div>
                 }
                 {isLoading ? <Loading /> : body}
+                {/* {body} */}
                 <Mask isActive={isMiniCartMaskOpen} dismiss={cancelCheckout} />
             </aside>
         );
@@ -401,18 +371,15 @@ class MiniCart extends Component {
 }
 
 const mapStateToProps = state => {
-    const { cart, user, checkout, directory } = state;
+    const { cart, user, app } = state;
     const { isSignedIn } = user;
-    const { availableShippingMethods, shippingAddress } = checkout;
-    const { countries } = directory
+    const { drawer } = app 
     return {
         cart,
+        drawer,
         isCartEmpty: isEmptyCartVisible(state),
         isMiniCartMaskOpen: isMiniCartMaskOpen(state),
         isSignedIn,
-        availableShippingMethods,
-        shippingAddress,
-        countries
     };
 };
 
@@ -420,16 +387,9 @@ const mapDispatchToProps = {
     getCartDetails,
     updateItemInCart,
     removeItemFromCart,
-    openOptionsDrawer,
-    closeOptionsDrawer,
     cancelCheckout,
     closeDrawer,
     toggleMessages,
-    submitShippingMethod,
-    editOrder,
-    getShippingMethods,
-    getCountries,
-    submitShippingAddress
 };
 
 export default compose(

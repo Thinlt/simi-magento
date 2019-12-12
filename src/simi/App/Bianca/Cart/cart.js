@@ -27,7 +27,6 @@ import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { removeItemFromCart } from 'src/simi/Model/Cart';
 import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon';
 import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher';
-import Estimate from 'src/simi/App/Bianca/Cart/Components/Estimate';
 
 require('./cart.scss');
 
@@ -337,38 +336,6 @@ class Cart extends Component {
         );
     }
 
-    get estimateShipAndTax() {
-        const {
-            cart,
-            countries,
-            shippingAddress,
-            toggleMessages,
-            getCartDetails,
-            submitShippingMethod,
-            editOrder,
-            availableShippingMethods,
-            getShippingMethods,
-            submitShippingAddress
-        } = this.props;
-        const childCPProps = {
-            toggleMessages,
-            getCartDetails,
-            cart,
-            submitShippingMethod,
-            editOrder,
-            availableShippingMethods,
-            getShippingMethods,
-            countries,
-            submitShippingAddress,
-            shippingAddress
-        };
-        return (
-            <div className={`estimate-form`}>
-                <Estimate {...childCPProps} />
-            </div>
-        );
-    }
-
     get miniCartInner() {
         const {
             productList,
@@ -421,11 +388,15 @@ class Cart extends Component {
                     {productList}
                     <div className="summary-zone">
                         <div>{Identify.__('Summary'.toUpperCase())}</div>
-                        {couponCode}
-                        {giftVoucher}
-                        {/* {estimateShipAndTax} */}
-                        {total}
-                        {checkoutButton}
+                        {isLoading ? <Loading/>
+                        :
+                            <div>
+                                {couponCode}
+                                {giftVoucher}
+                                {total}
+                                {checkoutButton}
+                            </div>
+                        }
                     </div>
                 </div>
 
@@ -460,17 +431,12 @@ Cart.propTypes = {
 };
 
 const mapStateToProps = state => {
-    const { cart, user, checkout, directory } = state;
+    const { cart, user} = state;
     const { isSignedIn } = user;
-    const { availableShippingMethods, shippingAddress } = checkout;
-    const { countries } = directory;
     return {
         cart,
         isCartEmpty: isEmptyCartVisible(state),
         isSignedIn,
-        availableShippingMethods,
-        countries,
-        shippingAddress
     };
 };
 
@@ -478,11 +444,7 @@ const mapDispatchToProps = {
     getCartDetails,
     toggleMessages,
     updateItemInCart,
-    submitShippingMethod,
     editOrder,
-    getShippingMethods,
-    getCountries,
-    submitShippingAddress
 };
 
 export default connect(

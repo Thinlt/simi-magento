@@ -45,16 +45,6 @@ const CartItem = props => {
         }
     }
 
-    const updateCartItem = (quantity) => {
-        showFogLoading()
-
-        const payload = {
-            item: item,
-            quantity: quantity
-        };
-        props.updateCartItem(payload, item.item_id);
-    }
-
     const getVendorName = (vendorId) => {
         const storeConfig = Identify.getStoreConfig()
         const vendorList = storeConfig.simiStoreConfig.config.vendor_list;
@@ -114,7 +104,7 @@ const CartItem = props => {
                 onBlur={(event) => {
                     setReadOny(true)
                     if (parseInt(event.target.value, 10) !== parseInt(item.qty, 10)){
-                        updateCartItem(parseInt(event.target.value, 10))
+                        props.updateCartItem(item,parseInt(event.target.value, 10))
                     }
                 }
                 }
