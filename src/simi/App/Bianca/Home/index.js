@@ -12,7 +12,7 @@ import { getOS } from 'src/simi/App/Bianca/Helper';
 import Designers from './Designers';
 import Newcollections from './Newcollections';
 import Instagram from './Instagram';
-import Chats from 'src/simi/App/Bianca/BaseComponents/Chats';
+// import Chats from 'src/simi/App/Bianca/BaseComponents/Chats';
 require('./home.scss');
 
 if (getOS() === 'MacOS') require('./home-ios.scss');
@@ -25,9 +25,7 @@ const Home = props => {
     const storeConfig = Identify.getStoreConfig() || {};
     const config = storeConfig.simiStoreConfig && storeConfig.simiStoreConfig.config || {};
     const {brands} = config || [];
-    const {instant_contact} = config || {};
-
-    const [data, setHomeData] = useState(cached_home)
+    const [data, setHomeData] = useState(cached_home);
 
     const resizePhone = () => {
         window.onresize = function () {
@@ -86,9 +84,9 @@ const Home = props => {
                 <h3 className="title">{Identify.__('Shop Our Instagram')}</h3>
                 <Instagram data={'biancaandreescu_'} history={history} isPhone={isPhone}/>
             </div>
-            <div className={`home-chats ${isPhone ? 'mobile':''}`}>
+            {/* <div className={`home-chats ${isPhone ? 'mobile':''}`}>
                 <Chats data={instant_contact} history={history} isPhone={isPhone}/>
-            </div>
+            </div> */}
         </div>
     );
 }
