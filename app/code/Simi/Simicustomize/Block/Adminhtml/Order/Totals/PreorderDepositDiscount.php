@@ -22,12 +22,13 @@ class PreorderDepositDiscount extends \Magento\Framework\View\Element\Template
     {
         $parent = $this->getParentBlock();
         $order = $parent->getOrder();
-        if ($order->getOrderType() == 'pre_order' && $this->getValue()) {
+        $depositDiscount = $order->getPreorderDepositDiscount();
+        if ($depositDiscount) {
             $depositAmount = new \Magento\Framework\DataObject([
                 'code' => 'preorder_deposit',
                 // 'block_name' => $this->getNameInLayout(),
                 'label' => $this->getLabel(),
-                'value' => $this->getValue(),
+                'value' => $depositDiscount,
                 'area' => '',
             ]);
             $this->getParentBlock()->addTotal($depositAmount, 'paid');
@@ -37,12 +38,5 @@ class PreorderDepositDiscount extends \Magento\Framework\View\Element\Template
 
     public function getLabel(){
         return __(\Simi\Simicustomize\Model\Total\Quote\Preorder::LABEL_DEPOSIT);
-    }
-
-    public function getValue(){
-        /** @var $parent \Magento\Sales\Block\Adminhtml\Order\Invoice\Totals */
-        $parent = $this->getParentBlock();
-        $order = $parent->getOrder();
-        return max($order->getBaseDepositAmount(), 0);
     }
 }
