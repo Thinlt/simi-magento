@@ -101,7 +101,7 @@ class Contact extends \Simi\Simiconnector\Model\Api\Apiabstract implements \Simi
                         $transport = $this->transportBuilder
                             ->setTemplateIdentifier($this->config->getValue('contact/email/email_template', $storeScope))
                             ->setTemplateOptions([
-                                'area' => \Magento\Framework\App\Area::AREA_ADMINHTML, // this is using frontend area to get the template file
+                                'area' => \Magento\Framework\App\Area::AREA_FRONTEND, // this is using frontend area to get the template file
                                 'store' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
                             ])
                             ->setTemplateVars(['data' => $postObject])
