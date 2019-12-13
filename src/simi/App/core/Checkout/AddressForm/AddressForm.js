@@ -56,6 +56,7 @@ const AddressForm = props => {
         billingAddressSaved,
         submitBilling,
         is_virtual,
+        user
     } = props;
 
     const formId = props.id?props.id:Identify.randomString()
@@ -165,6 +166,8 @@ const AddressForm = props => {
                         submitValues.street.push(value)
                     } else if (name === 'emailaddress') { 
                         submitValues['email'] = value
+                    } else if (name === 'save_in_address_book') { 
+                        submitValues[name] = (inputField.is(":checked")) ? 1 : 0
                     } else {
                         submitValues[name] = value
                     }
@@ -176,11 +179,16 @@ const AddressForm = props => {
         if (submitValues.hasOwnProperty('addresses_same')) delete submitValues.addresses_same
         if (submitValues.hasOwnProperty('selected_address_field')) delete submitValues.selected_address_field
         if (submitValues.hasOwnProperty('password')) delete submitValues.password
-        if (submitValues.save_in_address_book) {
+        
+        if (parseInt(submitValues.save_in_address_book) && !submitValues.id) {
             submitValues.save_in_address_book = 1;
         } else {
             submitValues.save_in_address_book = 0;
         }
+        
+        if (!submitValues.email && user && user.currentUser && user.currentUser.email)
+            submitValues.email = user.currentUser.email;
+
         submit(JSON.parse(JSON.stringify(submitValues)));
         if (!billingForm && !billingAddressSaved) {
             handleSubmitBillingSameFollowShipping();
