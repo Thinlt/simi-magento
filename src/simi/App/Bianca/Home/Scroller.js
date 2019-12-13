@@ -4,7 +4,7 @@ import Identify from "src/simi/Helper/Identify";
 import ScrollerItem from "./ScrollerItem";
 import ChevronLeft from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronLeft';
 import ChevronRight from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronRight';
-import { forEach } from 'iterall';
+
 /**
  * @param {*} props 
  * props.data - data items
@@ -48,15 +48,24 @@ const Scroller = props => {
         rightChevron: showChevron === false ? null : slideSettings.rightChevron,
     }
 
-    let items = data.filter((item) => {
-        if (props.filter) return props.filter(item); else return true;
-    }).map((item, index) => {
-        return (
-            <div key={index} style={{cursor: 'pointer'}}>
-                <ScrollerItem item={item} history={history} isPhone={isPhone} renderItem={renderItem} index={index}/>
-            </div>
-        );
-    });
+    let items = [];
+    if(data){
+        items = data.filter((item) => {
+            if (props.filter) return props.filter(item); else return true;
+        }).map((item, index) => {
+            return (
+                <div key={index} style={{cursor: 'pointer'}}>
+                    <ScrollerItem item={item} history={history} isPhone={isPhone} renderItem={renderItem} index={index}/>
+                </div>
+            );
+        });
+    }
+
+    if (props.children && props.children instanceof Array) {
+        props.children.forEach((item)=>{
+            items.push(item);
+        });
+    }
 
     if (lastItems && lastItems instanceof Array) {
         lastItems.forEach(item => {

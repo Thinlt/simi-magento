@@ -23,6 +23,7 @@ import { Util } from '@magento/peregrine';
 import { simiSignedIn } from 'src/simi/Redux/actions/simiactions';
 import { showToastMessage } from 'src/simi/Helper/Message';
 import VendorRegister from './VendorRegister';
+import Loading from 'src/simi/BaseComponents/Loading'
 
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
@@ -336,33 +337,37 @@ class Login extends Component {
             isPhoneLogin
         } = state;
 
-        const { classes, isSignedIn, firstname, history } = props;
+        const { classes, isSignedIn, firstname, history, isGettingDetails } = props;
 
         if (isSignedIn) {
-            if (
-                history.location.hasOwnProperty('pushTo') &&
-                history.location.pushTo
-            ) {
-                const { pushTo } = history.location;
-                history.push(pushTo);
-            } else {
-                history.push('/');
-            }
+            if (firstname) { //only redirect while logged in and have profile (firstname, lastname, address...)
+                if (
+                    history.location.hasOwnProperty('pushTo') &&
+                    history.location.pushTo
+                ) {
+                    const { pushTo } = history.location;
+                    history.push(pushTo);
+                } else {
+                    history.push('/');
+                }
 
-            const message = firstname
-                ? Identify.__('Welcome %s Start shopping now').replace(
-                      '%s',
-                      firstname
-                  )
-                : Identify.__(
-                      'You have succesfully logged in, Start shopping now'
-                  );
-            if (this.props.toggleMessages)
-                this.props.toggleMessages([
-                    { type: 'success', message: message, auto_dismiss: true }
-                ]);
+                const message = firstname
+                    ? Identify.__('Welcome %s Start shopping now').replace(
+                        '%s',
+                        firstname
+                    )
+                    : Identify.__(
+                        'You have succesfully logged in, Start shopping now'
+                    );
+                if (this.props.toggleMessages)
+                    this.props.toggleMessages([
+                        { type: 'success', message: message, auto_dismiss: true }
+                    ]);
+            } else if (isGettingDetails) {
+                return <Loading />
+            }
         }
-        const showBackBtn = isCreateAccountOpen || isForgotPasswordOpen;
+        //const showBackBtn = isCreateAccountOpen || isForgotPasswordOpen;
 
         return (
             <React.Fragment>
@@ -375,13 +380,13 @@ class Login extends Component {
                             <span>{Identify.__('Buyer'.toUpperCase())}</span>
                         </div>
                         <div className={`${(isCreateAccountOpen||isForgotPasswordOpen) ? classes["inactive"]: classes[""]} ${classes['select-type']}` }>
-                            <div onClick={this.showPhoneLoginForm} className={`${isPhoneLogin ? classes["active"]: null} ${classes['phone-type']}` }>
+                            <div role="presentation" onClick={this.showPhoneLoginForm} className={`${isPhoneLogin ? classes["active"]: null} ${classes['phone-type']}` }>
                                 <span className={classes['icon-phone']} />
                                 <span className={classes['title-phone']}>
                                     {Identify.__('Phone')}
                                 </span>
                             </div>
-                            <div onClick={this.showEmailLoginForm} className={`${isEmailLogin ? classes["active"]: null} ${classes['email-type']}` }>
+                            <div role="presentation" onClick={this.showEmailLoginForm} className={`${isEmailLogin ? classes["active"]: null} ${classes['email-type']}` }>
                                 <span className={classes['icon-email']} />
                                 <span className={classes['title-email']}>
                                     {Identify.__('Email')}
@@ -402,7 +407,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = ({ user }) => {
-    const { currentUser, isSignedIn, forgotPassword } = user;
+    const { currentUser, isSignedIn, forgotPassword, isGettingDetails } = user;
     const { firstname, email, lastname } = currentUser;
 
     return {
@@ -410,7 +415,8 @@ const mapStateToProps = ({ user }) => {
         firstname,
         forgotPassword,
         isSignedIn,
-        lastname
+        lastname,
+        isGettingDetails
     };
 };
 
