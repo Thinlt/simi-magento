@@ -45,9 +45,8 @@ const Home = props => {
 
     const setData = (data) => {
         if(!data.errors) {
-            if (simiSessId)
-                Identify.ApiDataStorage(`home_lite_${simiSessId}`,'update', data)
-            setHomeData(data)
+            Identify.ApiDataStorage(`home_lite`,'update', data);
+            setHomeData(data);
         }
     }
 
