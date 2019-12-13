@@ -53,15 +53,15 @@ export const createCart = () =>
             // @see https://github.com/magento/magento2/issues/2991
             // This workaround is in place until that issue is resolved.
             // Robert comment this
-            // if (user.isSignedIn) {
-            //     await request('/rest/V1/carts/mine/billing-address', {
-            //         method: 'POST',
-            //         body: JSON.stringify({
-            //             address: {},
-            //             cartId
-            //         })
-            //     });
-            // }
+            if (user.isSignedIn) {
+                await request('/rest/V1/carts/mine/billing-address', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        address: {},
+                        cartId
+                    })
+                });
+            }
 
             dispatch(actions.getCart.receive(cartId));
         } catch (error) {

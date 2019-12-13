@@ -25,7 +25,14 @@ const Shippingproduct = props => {
     
     if (cart && cart.totals && cart.totals.items && designer) {
         return cart.totals.items.map((item, index) => {
-            if (item.attribute_values && parseInt(item.attribute_values.vendor_id) === parseInt(designer.entity_id)) {
+            
+            if (
+                item.attribute_values && 
+                (
+                    (parseInt(item.attribute_values.vendor_id) === parseInt(designer.entity_id)) ||
+                    (item.attribute_values.vendor_id === designer.entity_id)
+                )
+            ) {
                 let itemsOption = '';
                 let optionElement = ''
                 item.options = (item.options)?(isArray(item.options)?item.options:JSON.parse(item.options)):[]

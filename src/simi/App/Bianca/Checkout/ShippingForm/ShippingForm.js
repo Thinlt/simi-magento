@@ -176,11 +176,14 @@ const ShippingForm = (props) => {
                         rates.unshift(defaultMethod);
                         let vendorName = carrier_title && vendor_id !== 'default' && Identify.__(`Vendor ${vendor_id}`) || Identify.__('Default');
                         let designer = null
-                        if(vendors){
-                            designer = vendors.find(({entity_id}) => parseInt(entity_id) === parseInt(vendor_id));
-                            vendorName = designer ? 
-                                ((designer.profile && designer.profile.store_name) ? designer.profile.store_name : (designer.firstname + (designer.lastname ? ` ${designer.lastname}` : '')))
-                                : Identify.__('Default');
+                        if(vendors)
+                            designer = vendors.find(({entity_id}) => parseInt(entity_id) === parseInt(vendor_id))
+
+                        if (!designer) {
+                            designer = {entity_id: 'default'}
+                            vendorName = Identify.__('Default');
+                        } else {
+                            vendorName = ((designer.profile && designer.profile.store_name) ? designer.profile.store_name : (designer.firstname + (designer.lastname ? ` ${designer.lastname}` : '')))
                         }
                         return (
                             <div key={vendor_key} className="shipping-vendor">
