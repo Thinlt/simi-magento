@@ -11,6 +11,7 @@ import isObjectEmpty from 'src/util/isObjectEmpty';
 import Identify from 'src/simi/Helper/Identify';
 import BraintreeDropin from './paymentMethods/braintreeDropin';
 import CCType from './paymentMethods/ccType';
+import PayfortCC from './paymentMethods/PayfortCC'
 require('./paymentsFormItems.scss')
 
 /**
@@ -82,7 +83,7 @@ const PaymentsFormItems = props => {
     );
 
     const selectPaymentMethod = () => {
-
+        sessionStorage.removeItem('selected_payment_payfortcc');
         const p_method = formState.values['payment_method'];
         let parseData = {};
         if (paymentMethods && paymentMethods.length) {
@@ -91,8 +92,26 @@ const PaymentsFormItems = props => {
                 parseData = selectablePaymentMethods.find(
                     ({ value }) => value === p_method
                 );
-
-                handleSuccess(parseData)
+                if (parseData) {
+                    const paymentChooseFull = paymentMethods.find(
+                        ({ code }) => code === parseData.value
+                    );
+                    if (!paymentChooseFull.hasOwnProperty('simi_payment_data') || (paymentChooseFull.hasOwnProperty('simi_payment_data') && !isObjectEmpty(paymentChooseFull.simi_payment_data) && parseInt(paymentChooseFull.simi_payment_data.show_type, 10) === 0)) {
+                        // payment type 0
+                        handleSuccess(parseData)
+                    }
+    
+                    if (
+                        paymentChooseFull.code && paymentChooseFull.code === 'payfort_fort_cc' &&
+                        paymentChooseFull.hasOwnProperty('simi_payment_data') &&
+                        !isObjectEmpty(paymentChooseFull.simi_payment_data) &&
+                        parseInt(paymentChooseFull.simi_payment_data.show_type, 10) === 1)
+                    {
+                        //payfort cc
+                        Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'selected_payment_payfortcc', paymentChooseFull);
+                        handleSuccess(parseData)
+                    }
+                }
             }
         }
     }
@@ -151,11 +170,14 @@ const PaymentsFormItems = props => {
                     }
 
                     if (ite.hasOwnProperty('simi_payment_data') && !isObjectEmpty(ite.simi_payment_data)) {
-                        if (parseInt(ite.simi_payment_data.show_type, 10) === 1){
+                        //customize
+                        if (parseInt(ite.simi_payment_data.show_type, 10) === 1 && ite.code === 'payfort_fort_cc') {
+                            // payment type 1 payfort css
+                            frameCard = <PayfortCC paymentContent={ite.simi_payment_data} cartCurrencyCode={cartCurrencyCode} cart={cart} payment_method={ite.code} />
+                        } else  if (parseInt(ite.simi_payment_data.show_type, 10) === 1){
                             // payment type 1
                             frameCard = <CCType onSuccess={handleSuccess} paymentContent={ite.simi_payment_data} cartCurrencyCode={cartCurrencyCode} cart={cart} payment_method={ite.code} />
-                        }
-                        if (parseInt(ite.simi_payment_data.show_type, 10) === 3){
+                        } else if (parseInt(ite.simi_payment_data.show_type, 10) === 3){
                             // payment type 3
                         }
                     }

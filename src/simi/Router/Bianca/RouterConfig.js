@@ -53,6 +53,10 @@ const PreorderSecondOrder = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "PreorderSecondOrder"*/'src/simi/App/Bianca/PreorderSecondOrder')} {...props}/>
 }
 
+const Webviews = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Payfort"*/'src/simi/App/Bianca/Payment/Webviews')} {...props}/>
+}
+
 const router = {
     home : {
         path: '/',
@@ -133,6 +137,10 @@ const router = {
     preorder2nd: {
         path: '/preorder_complete.html',
         render : location => <PreorderSecondOrder {...location} page={`contact`}/>
+    },
+    webview: {
+        path: '/payment_webview.html',
+        render : location => <Webviews {...location} />
     },
     noMatch: {
         component : location => <NoMatch {...location} />
