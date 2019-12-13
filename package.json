@@ -76,7 +76,8 @@
     "redux-thunk": "~2.3.0",
     "uuid": "~3.3.2",
     "react-livechat": "~1.1.1",
-    "react-phone-code": "~0.0.4"
+    "react-phone-code": "~0.0.4",
+    "react-owl-carousel2": "~0.3.0"
   },
   "devDependencies": {
     "@babel/core": "~7.3.4",

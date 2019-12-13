@@ -568,24 +568,51 @@ $color1: #101820;
         //new style instagram update
         .instagram-slider{
             padding-bottom: 100px;
-            .scroller{
-                margin-top: 32px;
-                .items-wrapper{
-                    .item-wrapper{
-                        .item{
-                            width: 180px;
-                            height: 180px;
-                            .img-responsive{
-                                width: 100%;
-                                height: 100%;
-                                object-fit: contain;
+            .instagram-container{
+                .carousel-block{
+                    padding: 0px .5px;
+                    // width: 1159px;
+                    .owl-carousel{
+                        margin-top: 32px;
+                        .owl-stage-outer{
+                            .owl-stage{
+                                padding-left: 0px!important;
+                            }
+                            .owl-item{
+                                // width: 166px!important;
+                                .item{
+                                    width: 166px;
+                                    height: 208px;
+                                    .img-responsive{
+                                        width: 100%;
+                                        height: 100%;
+                                        object-fit: cover;
+                                    }
+                                }
                             }
                         }
-                        .last-items{
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            height: 100%;
+                        .owl-nav{
+                            .owl-prev{
+                                width: 24px;
+                                height: 24px;
+                                position: absolute;
+                                margin-top: -12px;
+                                top: 50%;
+                                left: -41px;
+                            }
+                            .owl-next{
+                                width: 24px;
+                                height: 24px;
+                                position: absolute;
+                                margin-top: -12px;
+                                top: 50%;
+                                right: -41px;
+                            }
+                            .owl-prev, .owl-next{
+                                svg{
+                                    fill: $color1!important;
+                                }
+                            }
                         }
                     }
                 }
@@ -603,39 +630,29 @@ $color1: #101820;
                 h3.title{
                     margin-top: 42px;
                 }
-                .scroller{
-                    margin-top: 20px;
-                    .items-wrapper{
-                        .item-wrapper{
-                            .item{
-                                width: 106px;
-                                height: 106px;
-                            }
-                            .last-items{
-                                .btn{
-                                    min-width: 92px;
+                .instagram-container{
+                    padding-left: 5px;
+                    padding-right: 0px;
+                    .carousel-block{
+                        padding: 0px 2.5px;
+                        margin-left: 2.5px;
+                        .owl-carousel{
+                            margin-top: 20px;
+                            .owl-stage-outer{
+                                .owl-stage{
+                                    padding-left: 0px!important;
+                                }
+                                .owl-item{
+                                    width: 140px!important;
+                                    .item{
+                                        width: 140px;
+                                        height: 175px;
+                                    }
                                 }
                             }
-                        }
-                    }
-                    .left-chevron-wrapper{
-                        position: absolute;
-                        top: -39px;
-                        left: 0;
-                        height: 27px;
-                        .chevron-left{
-                            width: 16px!important;
-                            height: 16px!important;
-                        }
-                    }
-                    .right-chevron-wrapper{
-                        position: absolute;
-                        top: -39px;
-                        right: 0;
-                        height: 27px;
-                        .chevron-right{
-                            width: 16px!important;
-                            height: 16px!important;
+                            .owl-nav{
+                                display: none;
+                            }
                         }
                     }
                 }
@@ -649,6 +666,7 @@ $color1: #101820;
                         span{margin-top: 3px;}
                     }
                 }
+                
             }
         }
     }
