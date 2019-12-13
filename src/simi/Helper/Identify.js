@@ -234,11 +234,15 @@ class Identify {
             if (address.hasOwnProperty('region_code')) {
                 const { region_code } = address;
                 region = regions.find(({ code }) => code === region_code);
+                if (!region)
+                    region = { region: region_code, region_code: region_code, region_id: region_code };
             } else if (address.hasOwnProperty('region') && !isObjectEmpty(address.region)) {
                 const region_list = address.region;
                 const { region_code } = region_list;
                 if (region_code) {
                     region = regions.find(({ code }) => code === region_code);
+                    if (!region)
+                        region = { region: region_code, region_code: region_code, region_id: region_code };
                 } else {
                     region = { region: "Mississippi", region_code: "MS", region_id: 35 };
                 }
