@@ -5,7 +5,7 @@ import OwlCarousel from 'react-owl-carousel2';
 import {sendRequest} from 'src/simi/Network/RestMagento';
 
 const Instagram = (props) => {
-    const {history, isPhone, data} = props;
+    const {history, isPhone} = props;
     const [insData, setInsData] = useState();
 
     useEffect(() => {
