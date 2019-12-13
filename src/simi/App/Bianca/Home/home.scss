@@ -94,13 +94,15 @@ $color1: #101820;
             margin-top: 60px;
         }
         .brand-slider{
-            margin-top: 32px;
-            .scroller-container{
-                .items-wrapper{
-                    .item-wrapper{
-                        .item{
-                            img{
-                                margin: 0 auto;
+            .scroller{
+                margin-top: 32px;
+                .scroller-container{
+                    .items-wrapper{
+                        .item-wrapper{
+                            .item{
+                                img{
+                                    margin: 0 auto;
+                                }
                             }
                         }
                     }
