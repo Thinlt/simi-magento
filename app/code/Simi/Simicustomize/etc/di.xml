@@ -4,6 +4,7 @@
     <preference for="\Simi\Simiconnector\Helper\Customer" type="\Simi\Simicustomize\Override\Helper\Customer" />
     <preference for="\Simi\Simicustomize\Api\ReserveInterface" type="\Simi\Simicustomize\Model\Api\Reserve" />
     <preference for="\Simi\Simicustomize\Api\ContactInterface" type="\Simi\Simicustomize\Model\Api\Contact" />
+    <preference for="\Simi\Simicustomize\Api\ProxyInstagramInterface" type="\Simi\Simicustomize\Model\Api\ProxyInstagram" />
 
     <type name="Magento\Quote\Model\Quote\Item\Repository">
         <plugin name="simi_cart_plugin_quote_item_repository" type="Simi\Simicustomize\Plugin\QuoteItemRepository" />

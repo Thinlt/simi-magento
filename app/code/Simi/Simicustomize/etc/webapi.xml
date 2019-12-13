@@ -13,4 +13,10 @@
             <resource ref="anonymous"/>
         </resources>
     </route>
+    <route url="/V1/simiconnector/proxy/instagram" method="GET">
+        <service class="Simi\Simicustomize\Api\ProxyInstagramInterface" method="index"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
 </routes>
