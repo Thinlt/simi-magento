@@ -29,7 +29,7 @@ class SimiconnectorAddPaymentMethod implements ObserverInterface {
     public function execute(\Magento\Framework\Event\Observer $observer) {
         $object = $observer->getObject();
         $object->addPaymentMethod('payfort_fort_sadad', 3);
-        $object->addPaymentMethod('payfort_fort_cc', 3);
+        $object->addPaymentMethod('payfort_fort_cc', 1);
         return;
     }
 
