@@ -14,7 +14,7 @@ const Instagram = (props) => {
         if (data && data[0]) {
             return data[0];
         }
-        return '';
+        return {};
     }
 
     useEffect(() => {
