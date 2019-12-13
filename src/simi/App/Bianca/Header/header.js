@@ -103,7 +103,7 @@ class Header extends React.Component {
 		return (
 			<div className={'right-bar'}>
 				<div className={'right-bar-item'} id="cart">
-					<CartTrigger classes={classes} />
+					<CartTrigger classes={classes}/>
 				</div>
 				{this.renderWishList(isSignedIn)}
 				<div className={'right-bar-item'} id="my-account">
@@ -149,7 +149,7 @@ class Header extends React.Component {
 									<SearchFormTrigger searchTrigger={this.searchTrigger} />
 								</div>
 								<div className={'right-bar-item cart'}>
-									<CartTrigger />
+									<CartTrigger isPhone={this.state.isPhone}/>
 								</div>
 							</div>
 						</div>

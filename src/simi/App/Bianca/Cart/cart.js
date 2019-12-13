@@ -3,13 +3,9 @@ import { connect } from 'src/drivers';
 import { bool, object, shape, string } from 'prop-types';
 import { getCartDetails, updateItemInCart } from 'src/actions/cart';
 import {
-    submitShippingMethod,
     editOrder,
-    getShippingMethods
 } from 'src/actions/checkout';
 import { isEmptyCartVisible } from 'src/selectors/cart';
-import { getCountries } from 'src/actions/directory';
-import { submitShippingAddress } from 'src/simi/Redux/actions/simiactions';
 import BreadCrumb from 'src/simi/BaseComponents/BreadCrumb';
 import Loading from 'src/simi/BaseComponents/Loading';
 
@@ -66,6 +62,7 @@ class Cart extends Component {
         $('.header').css({'height':'70px', 'min-height':'70px', 'padding-top':'0px'})
         $('.header img').css({'width':'154.26','height':'43.61px'})
         $('.header-logo').css('margin-top','0px')
+        $('.mobile .header-logo img').removeAttr('style')
     }
 
     componentWillUnmount() {

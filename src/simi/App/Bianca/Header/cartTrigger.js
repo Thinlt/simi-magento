@@ -6,7 +6,8 @@ import { toggleCart } from 'src/simi/Redux/actions/simiactions';
 import CartCounter from './cartCounter';
 import Basket from "src/simi/App/Bianca/BaseComponents/Icon/Basket";
 import classify from 'src/classify';
-import defaultClasses from './cartTrigger.css'
+import defaultClasses from './cartTrigger.css';
+import { Link, resourceUrl } from 'src/drivers';
 // import Identify from 'src/simi/Helper/Identify'
 
 
@@ -47,28 +48,35 @@ export class Trigger extends Component {
         const {
             classes,
             toggleCart,
-            cart: { details }
+            cart: { details },
+            isPhone
         } = this.props;
+        console.log(isPhone)
         const { cartIcon } = this;
         const itemsQty = details.items_qty;
         return (
-            // <Link 
-            //     to={resourceUrl('/cart.html')}
-            //     className={classes.root}
-            //     aria-label="Open cart page"
-            //     onClick={toggleCart}
-            // >
-            //     {cartIcon}
-            //     <CartCounter counter={itemsQty ? itemsQty : 0} />
-            // </Link>
-            <button
-                className='cart-trigger-root'
-                aria-label="Toggle mini cart"
-                onClick={toggleCart}
-            >
-                {cartIcon}
-                <CartCounter counter={itemsQty ? itemsQty : 0} />
-            </button>
+            <div>
+                {isPhone
+                ?
+                    <Link 
+                        to={resourceUrl('/cart.html')}
+                        className='cart-trigger-root'
+                        aria-label="Open cart page"
+                    >
+                        {cartIcon}
+                        <CartCounter counter={itemsQty ? itemsQty : 0} />
+                    </Link>
+                :
+                    <button
+                        className='cart-trigger-root'
+                        aria-label="Toggle mini cart"
+                        onClick={toggleCart}
+                    >
+                        {cartIcon}
+                        <CartCounter counter={itemsQty ? itemsQty : 0} />
+                    </button>
+                }
+            </div>
         )
     }
 }
