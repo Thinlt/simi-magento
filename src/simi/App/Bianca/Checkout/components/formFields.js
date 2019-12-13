@@ -44,7 +44,7 @@ const renderRegionField = (selectedCountry, initialCountry, countries, configFie
                 (country.available_regions && Array.isArray(regions) && regions.length) ?
                 <Select
                     initialValue={initialValues.region_code}
-                    key={Identify.randomString(3)}
+                    key={Identify.randomString(3) + initialValues.region_code}
                     field="region_code" items={listState(regions)}
                     isrequired={(!configFields || (configFields && configFields.hasOwnProperty('region_id_show') && configFields.region_id_show === 'req')) ? 'isrequired' : ''}
                 /> :
