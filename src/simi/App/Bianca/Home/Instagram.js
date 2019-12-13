@@ -11,12 +11,35 @@ const Instagram = (props) => {
     useEffect(() => {
         const {data} = props;
         if (data) {
-            sendRequest(`/rest/V1/simiconnector/proxy/instagram/?path=${data}/?__a=1`, (resData) => {
-                if (resData) {
-                    Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'instagram', resData);
-                    setInsData(resData);
-                }
-            }, 'GET');
+            // sendRequest(`/rest/V1/simiconnector/proxy/instagram/?path=${data}/?__a=1`, (resData) => {
+            //     if (resData) {
+            //         Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'instagram', resData);
+            //         setInsData(resData);
+            //     }
+            // }, 'GET');
+            let endPoint = `/rest/V1/simiconnector/proxy/instagram/?path=${data}/?__a=1`;
+            fetch(endPoint)
+                .then(function (response) {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                })
+                .then(function (_resdata) {
+                    let result;
+                    if (_resdata) {
+                        if (Array.isArray(_resdata) && _resdata.length === 1 && _resdata[0]){
+                            result = _resdata[0]
+                        } else {
+                            result = _resdata
+                        }
+                        Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'instagram', result);
+                        setInsData(result);
+                    } else {
+                        result =  {'errors' : [{'code' : 0, 'message' : Identify.__('Network response was not ok'), 'endpoint': endPoint}]}
+                    }
+                }).catch((error) => {
+                    console.warn(error);
+                });
         } else {
             const instagramStored = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'instagram');
             if (instagramStored) {
