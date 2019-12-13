@@ -30,6 +30,21 @@ $color1: #101820;
             font-size: 20px;
         }
     }
+    // fix all
+    @media screen and (max-width: 1090px){
+        .scroller-container, .product-horizotal{
+            .wrapper{
+                .right-chevron-wrapper{
+                    width: 24px;
+                    right: -34px;
+                }
+                .left-chevron-wrapper{
+                    width: 24px;
+                    left: -34px;
+                }
+            }
+        }
+    }
     .banner-wrap{
         .banner-homepage{
             .home-container{
@@ -56,12 +71,14 @@ $color1: #101820;
         &.mobile{
             .banner-homepage{
                 .home-container{
+                    padding-right: 16px;
+                    padding-left: 16px;
                     .carousel-slider{
                         margin-top: 20px;
                         .control-dots{
                             margin-top: 4px;
                             margin-bottom: 0px;
-                            line-height: 5px;
+                            line-height: 2px;
                             .dot{
                                 width: 5px;
                                 height: 5px;
@@ -92,22 +109,38 @@ $color1: #101820;
         }
         &.mobile{
             .brand-slider{
-                margin-top: 18px;
                 .scroller{
-                    .left-chevron-wrapper{
-                        top: -40px;
-                        left: -9px;
-                        height: 30px;
-                    }
-                    .right-chevron-wrapper{
-                        top: -40px;
-                        right: -9px;
-                        height: 30px;
-                    }
-                    .left-chevron-wrapper, .right-chevron-wrapper{
-                        svg{
-                            width: 16px!important;
-                            height: 16px!important;
+                    margin-top: 19px;
+                    .scroller-container{
+                        .wrapper{
+                            position: relative;
+                            .items-wrapper{
+                                .item-wrapper{
+                                    &:last-child{
+                                        margin-right: 0px;
+                                    }
+                                    .item{
+                                        width: 106px;
+                                        height: 106px;
+                                    }
+                                }
+                            }
+                            .left-chevron-wrapper{
+                                height: 32px;
+                                top: -42px;
+                                left: 0px;
+                            }
+                            .right-chevron-wrapper{
+                                height: 32px;
+                                top: -42px;
+                                right: 0px;
+                            }
+                            .left-chevron-wrapper, .right-chevron-wrapper{
+                                svg{
+                                    width: 16px!important;
+                                    height: 16px!important;
+                                }
+                            }
                         }
                     }
                 }
@@ -156,15 +189,23 @@ $color1: #101820;
                 .default-productlist-item{
                     position: relative;
                     .product-list{
-                        .left-chevron-wrapper{
-                            height: 32px;
-                            top: -55px;
-                            left: 0px;
-                        }
-                        .right-chevron-wrapper{
-                            height: 32px;
-                            top: -55px;
-                            right: 0px;
+                        margin-top: 19px;
+                        position: initial;
+                        .product-horizotal{
+                            position: initial;
+                            .wrapper{
+                                position: initial;
+                                .left-chevron-wrapper{
+                                    height: 32px;
+                                    top: -8px;
+                                    left: 0px;
+                                }
+                                .right-chevron-wrapper{
+                                    height: 32px;
+                                    top: -8px;
+                                    right: 0px;
+                                }
+                            }
                         }
                     }
                 }
@@ -178,16 +219,15 @@ $color1: #101820;
                 margin: 64px auto;
                 display: flex;
                 flex-wrap: wrap;
-                justify-content: space-around;
+                justify-content: center;
                 align-items: center;
                 &:first-child{margin-top: 0px;}
                 &:last-child{margin-bottom: 0px;}
                 .cate-img{
                     cursor: pointer;
                     max-width: 572px;
-                    flex-basis: 60%;
                     text-align: center;
-                    flex: 1 1;
+                    flex: 1 1 60%;
                     img{
                         width: 100%;
                         height: auto;
@@ -204,16 +244,13 @@ $color1: #101820;
                     line-height: 24px;
                     font-weight: 600;
                     color: $color1;
-                    max-width: 200px;
-                    flex: 0 1;
-                    flex-basis: 20%;
+                    // max-width: 200px;
+                    flex: 1 1 20%;
                     text-align: center;
                 }
                 .cate-btn{
-                    flex: 0 1;
-                    flex-basis: 20%;
+                    flex: 1 1 20%;
                     text-align: center;
-                    margin: 10px;
                     .btn{
                         min-width: 145px;
                         min-height: 36px;
@@ -339,36 +376,47 @@ $color1: #101820;
                             }
                         }
                     }
-                    &.phone-view{
-                        margin-top: 20px;
-                        img{
-                            width: 100%;
-                            height: 100%;
+                }
+            }
+        }
+        &.mobile{
+            .newcollections{
+                .collections-wrap{
+                    .item{
+                        h3.title{
+                            margin-top: 42px;
                         }
-                        .img-row-2{
-                            .img-col-1{
-                                flex: 1 1 50%;
-                                align-items: stretch;
-                                display: flex;
-                                flex-direction: column;
-                                .img-2, .img-3{
-                                    flex: 1 1;
+                        .collections-images{
+                            margin-top: 20px;
+                            img{
+                                width: 100%;
+                                height: 100%;
+                            }
+                            .img-row-2{
+                                .img-col-1{
+                                    flex: 1 1 50%;
+                                    align-items: stretch;
+                                    display: flex;
+                                    flex-direction: column;
+                                    .img-2, .img-3{
+                                        flex: 1 1;
+                                    }
+                                }
+                                .img-col-2{
+                                    flex: 1 1 50%;
+                                    align-items: stretch;
                                 }
                             }
-                            .img-col-2{
-                                flex: 1 1 50%;
-                                align-items: stretch;
+                            .img-2,.img-3{
+                                margin-top: 12px;
+                                margin-right: 6px;
                             }
-                        }
-                        .img-2,.img-3{
-                            margin-top: 12px;
-                            margin-right: 6px;
-                        }
-                        .img-4{
-                            margin-top: 0;
-                            margin-left: 6px;
-                            padding-top: 12px;
-                            height: 100%;
+                            .img-4{
+                                margin-top: 0;
+                                margin-left: 6px;
+                                padding-top: 12px;
+                                height: 100%;
+                            }
                         }
                     }
                 }
@@ -405,12 +453,12 @@ $color1: #101820;
                     margin-top: 42px;
                 }
                 .scroller{
-                    margin-top: 19px;
+                    margin-top: 20px;
                     .items-wrapper{
                         .item-wrapper{
                             .item{
-                                width: 104px;
-                                height: 104px;
+                                width: 106px;
+                                height: 106px;
                             }
                             .last-items{
                                 .btn{
@@ -444,6 +492,9 @@ $color1: #101820;
         }
     }
     .shop-our-instagram-wrap{
+        h3.title{
+            margin-top: 17px;
+        }
         .instagram-block{
             width: 100%;
             margin-top: 27px;
@@ -481,24 +532,110 @@ $color1: #101820;
             }
         }
         &.mobile{
+            h3.title{
+                margin-top: 42px;
+            }
             .instagram-block{
                 margin-top: 23px;
                 padding-bottom: 196px;
+                overflow-x: hidden;
+                max-width: 100%;
                 .block-inner{
-                    overflow: hidden;
+                    justify-content: flex-start;
+                    overflow: initial;
+                    margin-right: -70px;
                     .ins-item{
-                        margin: 0 7.5px;
+                        margin: 0 2.5px;
+                        border-left: 5px solid transparent;
+                        border-right: 5px solid transparent;
                         width: 140px;
+                        min-width: 140px;
                         height: 175px;
-                        &:first-child{
-                            margin-left: 0px;
-                        }
-                        &:last-child{
-                            margin-right: 0px;
-                            margin-right: -70px;
-                            @media screen and (min-width: 376px){
-                                margin-right: 0px;
+                    }
+                }
+                .view-all{
+                    .btn{
+                        margin-top: 16px;
+                        min-width: 136px;
+                        min-height: 38px;
+                        font-size: 12px;
+                        line-height: 12px;
+                        span{margin-top: 3px;}
+                    }
+                }
+            }
+        }
+        //new style instagram update
+        .instagram-slider{
+            padding-bottom: 100px;
+            .scroller{
+                margin-top: 32px;
+                .items-wrapper{
+                    .item-wrapper{
+                        .item{
+                            width: 180px;
+                            height: 180px;
+                            .img-responsive{
+                                width: 100%;
+                                height: 100%;
+                                object-fit: contain;
                             }
+                        }
+                        .last-items{
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            height: 100%;
+                        }
+                    }
+                }
+            }
+            .view-all{
+                text-align: center;
+                .btn{
+                    margin-top: 32px;
+                }
+            }
+        }
+        &.mobile{
+            .instagram-slider{
+                padding-bottom: 106px;
+                h3.title{
+                    margin-top: 42px;
+                }
+                .scroller{
+                    margin-top: 20px;
+                    .items-wrapper{
+                        .item-wrapper{
+                            .item{
+                                width: 106px;
+                                height: 106px;
+                            }
+                            .last-items{
+                                .btn{
+                                    min-width: 92px;
+                                }
+                            }
+                        }
+                    }
+                    .left-chevron-wrapper{
+                        position: absolute;
+                        top: -39px;
+                        left: 0;
+                        height: 27px;
+                        .chevron-left{
+                            width: 16px!important;
+                            height: 16px!important;
+                        }
+                    }
+                    .right-chevron-wrapper{
+                        position: absolute;
+                        top: -39px;
+                        right: 0;
+                        height: 27px;
+                        .chevron-right{
+                            width: 16px!important;
+                            height: 16px!important;
                         }
                     }
                 }

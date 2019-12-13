@@ -63,7 +63,6 @@ const Home = props => {
             {
                 brands && 
                 <div className={`shop-by-brand-wrap ${isPhone ? 'mobile':''}`}>
-                    <h3 className="title">{Identify.__('Shop By Brands')}</h3>
                     <Brands data={brands} history={history} isPhone={isPhone}/>
                 </div>
             }
@@ -81,7 +80,6 @@ const Home = props => {
                 <Designers history={history} isPhone={isPhone}/>
             </div>
             <div className={`shop-our-instagram-wrap ${isPhone ? 'mobile':''}`}>
-                <h3 className="title">{Identify.__('Shop Our Instagram')}</h3>
                 <Instagram data={'biancaandreescu_'} history={history} isPhone={isPhone}/>
             </div>
             {/* <div className={`home-chats ${isPhone ? 'mobile':''}`}>
