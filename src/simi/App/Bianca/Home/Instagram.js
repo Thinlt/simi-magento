@@ -2,28 +2,21 @@ import React, {useEffect, useState} from 'react'
 import Identify from "src/simi/Helper/Identify";
 // import Scroller from "./Scroller";
 import OwlCarousel from 'react-owl-carousel2';
+import {sendRequest} from 'src/simi/Network/RestMagento';
 
 const Instagram = (props) => {
-    const {history, isPhone} = props;
+    const {history, isPhone, data} = props;
     const [insData, setInsData] = useState();
-
-    const getUserInstagram = async (name) => {
-        // let response = await fetch(`/instagram/${name}/?__a=1`);
-        let response = await fetch(`/rest/V1/simiconnector/proxy/instagram/?path=${name}/?__a=1`);
-        let data = await response.json();
-        return data;
-    }
 
     useEffect(() => {
         const {data} = props;
         if (data) {
-            getUserInstagram(data).then(res => {
-                if (res && res[0]) {
-                    let data = res[0];
-                    Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'instagram', data);
-                    setInsData(data);
+            sendRequest(`/rest/V1/simiconnector/proxy/instagram/?path=${data}/?__a=1`, (resData) => {
+                if (resData) {
+                    Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'instagram', resData);
+                    setInsData(resData);
                 }
-            });
+            }, 'GET');
         } else {
             const instagramStored = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'instagram');
             if (instagramStored) {
