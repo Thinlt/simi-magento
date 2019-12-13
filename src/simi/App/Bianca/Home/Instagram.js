@@ -11,18 +11,18 @@ const Instagram = (props) => {
         // let response = await fetch(`/instagram/${name}/?__a=1`);
         let response = await fetch(`/rest/V1/simiconnector/proxy/instagram/?path=${name}/?__a=1`);
         let data = await response.json();
-        if (data && data[0]) {
-            return data[0];
-        }
-        return {};
+        return data;
     }
 
     useEffect(() => {
         const {data} = props;
         if (data) {
             getUserInstagram(data).then(res => {
-                Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'instagram', res);
-                setInsData(res);
+                if (res && res[0]) {
+                    let data = res[0];
+                    Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'instagram', data);
+                    setInsData(data);
+                }
             });
         } else {
             const instagramStored = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'instagram');
