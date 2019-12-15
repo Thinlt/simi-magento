@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Identify from "src/simi/Helper/Identify";
 import { getOS } from 'src/simi/App/Bianca/Helper';
 import IconTelephone from "src/simi/App/Bianca/BaseComponents/Icon/Telephone";
@@ -9,6 +9,7 @@ import Modal from 'react-responsive-modal';
 import CloseIcon from 'src/simi/App/Bianca/BaseComponents/Icon/Close';
 import PhoneCode from 'react-phone-code';
 import {sendRequest} from 'src/simi/Network/RestMagento';
+import Loading from 'src/simi/BaseComponents/Loading';
 
 require('./style.scss');
 if (getOS() === 'MacOS') require('./style-ios.scss');
@@ -21,12 +22,15 @@ const Chats = (props) => {
     const [openContactModal, setOpenContactModal] = useState(false);
     const [contactPhone, setContactPhone] = useState('');
     const [contactPhoneCode, setContactPhoneCode] = useState('');
+    const [submittingContact, setSubmittingContact] = useState(false);
     const [submitedContactResult, setSubmitedContactResult] = useState();
     const storeConfig = Identify.getStoreConfig() || {};
     const config = storeConfig.simiStoreConfig && storeConfig.simiStoreConfig.config || {};
-    const {instant_contact, livechat} = config || {};
+    const {contact_us, instant_contact, livechat} = config || {};
     const data = instant_contact;
     const livechatLicense = livechat && livechat.license || '';
+
+    const contact_times = contact_us && contact_us.times && contact_us.times.split(',') || [];
 
     const contactAction = () => {
         setOpenContactModal(true);
@@ -114,6 +118,7 @@ const Chats = (props) => {
             error = true;
         }
         if (error) return;
+        setSubmittingContact(true);
         sendRequest('/rest/V1/simiconnector/contact', (data) => {
             if (data && data === true) {
                 // setOpenContactModal(false);
@@ -121,18 +126,25 @@ const Chats = (props) => {
             } else {
                 setSubmitedContactResult(false);
             }
+            setSubmittingContact(false);
         }, 'POST', null, reqData);
     }
 
     return (
         <div className={`chats-block ${isPhone ? 'mobile':''}`}>
             <div className="icons-inner">
-                <div className="chat-icons contact" onClick={contactAction}>
-                    <IconTelephone style={{width: '24px', height: '24px', fill: '#fff'}}/>
-                </div>
-                <div className="chat-icons whatsapp" onClick={whatsappAction}>
-                    <IconWhatsapp style={{width: '24px', height: '24px', fill: '#fff'}}/>
-                </div>
+                {
+                    contact_us && contact_us.enabled && contact_us.enabled === '1' &&
+                    <div className="chat-icons contact" onClick={contactAction}>
+                        <IconTelephone style={{width: '24px', height: '24px', fill: '#fff'}}/>
+                    </div>
+                }
+                {
+                    data && data.phone &&
+                    <div className="chat-icons whatsapp" onClick={whatsappAction}>
+                        <IconWhatsapp style={{width: '24px', height: '24px', fill: '#fff'}}/>
+                    </div>
+                }
                 {
                     livechat && livechat.enabled === '1' &&
                     <div className="chat-icons livechat" onClick={livechatAction}>
@@ -190,13 +202,20 @@ const Chats = (props) => {
                                 <label htmlFor="contact-time">{Identify.__('Time')}</label>
                                 <div className="contact-input time-input">
                                     <select id="contact-time" name="time">
-                                        <option value="now">{Identify.__('Now')}</option>
-                                        <option value="next">{Identify.__('Next day')}</option>
+                                        {
+                                            contact_us && contact_us.enabled && contact_us.enabled === '1' && contact_us.times &&
+                                            contact_times.map((time, index) => {
+                                                return <option value={time.trim()} key={index}>{Identify.__(time.trim())}</option>
+                                            })
+                                        }
                                     </select>
                                 </div>
                             </div>
                             <div className="form-btn">
+                            {
+                                submittingContact === true ? <Loading /> :
                                 <div className="btn" onClick={submitContactForm}><span>{Identify.__('Submit')}</span></div>
+                            }
                             </div>
                         </div>
 
