@@ -1,7 +1,22 @@
-.cc-msg-error {
+.container-cc_form {
+  padding: 15px 5px;
+  font-family: "Gotham";
+  font-weight: 500;
+  font-size: 14px;
+  .cc-msg-error {
     color: red;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1rem;
     padding: 0.375rem 0.125rem 0.125rem;
+  }
+  label {
+    font-family: "Gotham";
+    margin-bottom: 5px;
+    margin-top: 5px;
+    font-weight: 500;
+  }
+  input {
+    margin-top: 5px;
+  }
 }
