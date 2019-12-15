@@ -11,35 +11,49 @@ const Instagram = (props) => {
     useEffect(() => {
         const {data} = props;
         if (data) {
+            let response = await fetch('/rest/V1/simiconnector/proxy/instagram/?path='+data+'/?__a=1', 'GET');
+            if (response.ok) { // if HTTP-status is 200-299
+                // get the response body (the method explained below)
+                let resData = await response.json();
+                if (Array.isArray(resData) && resData[0]){
+                    resData = resData[0];
+                }
+                Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'instagram', resData);
+                setInsData(resData);
+            } else {
+                console.warn("HTTP-Error: " + response.status);
+            }
+
             // sendRequest(`/rest/V1/simiconnector/proxy/instagram/?path=${data}/?__a=1`, (resData) => {
             //     if (resData) {
             //         Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'instagram', resData);
             //         setInsData(resData);
             //     }
             // }, 'GET');
-            let endPoint = `/rest/V1/simiconnector/proxy/instagram/?path=${data}/?__a=1`;
-            fetch(endPoint)
-                .then(function (response) {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                })
-                .then(function (_resdata) {
-                    let result;
-                    if (_resdata) {
-                        if (Array.isArray(_resdata) && _resdata.length === 1 && _resdata[0]){
-                            result = _resdata[0]
-                        } else {
-                            result = _resdata
-                        }
-                        Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'instagram', result);
-                        setInsData(result);
-                    } else {
-                        result =  {'errors' : [{'code' : 0, 'message' : Identify.__('Network response was not ok'), 'endpoint': endPoint}]}
-                    }
-                }).catch((error) => {
-                    console.warn(error);
-                });
+
+            // let endPoint = `/rest/V1/simiconnector/proxy/instagram/?path=${data}/?__a=1`;
+            // fetch(endPoint)
+            //     .then(function (response) {
+            //         if (response.ok) {
+            //             return response.json();
+            //         }
+            //     })
+            //     .then(function (_resdata) {
+            //         let result;
+            //         if (_resdata) {
+            //             if (Array.isArray(_resdata) && _resdata[0]){
+            //                 result = _resdata[0];
+            //             } else {
+            //                 result = _resdata;
+            //             }
+            //             Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'instagram', result);
+            //             setInsData(result);
+            //         } else {
+            //             result =  {'errors' : [{'code' : 0, 'message' : Identify.__('Network response was not ok'), 'endpoint': endPoint}]}
+            //         }
+            //     }).catch((error) => {
+            //         console.warn(error);
+            //     });
         } else {
             const instagramStored = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'instagram');
             if (instagramStored) {
