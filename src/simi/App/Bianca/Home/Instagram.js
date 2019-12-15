@@ -8,21 +8,28 @@ const Instagram = (props) => {
     const {history, isPhone} = props;
     const [insData, setInsData] = useState();
 
+    const getUserInstagram = async (name) => {
+        let response = await fetch(`/rest/V1/simiconnector/proxy/instagram/?path=${name}/?__a=1`);
+        if (response.ok) { // if HTTP-status is 200-299
+            // get the response body (the method explained below)
+            let resData = await response.json();
+            if (Array.isArray(resData) && resData[0]){
+                resData = resData[0];
+            }
+            return resData;
+        } else {
+            console.warn("HTTP-Error: " + response.status);
+        }
+        return false;
+    }
+
     useEffect(() => {
         const {data} = props;
         if (data) {
-            let response = await fetch('/rest/V1/simiconnector/proxy/instagram/?path='+data+'/?__a=1', 'GET');
-            if (response.ok) { // if HTTP-status is 200-299
-                // get the response body (the method explained below)
-                let resData = await response.json();
-                if (Array.isArray(resData) && resData[0]){
-                    resData = resData[0];
-                }
+            getUserInstagram(data).then(resData => {
                 Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'instagram', resData);
                 setInsData(resData);
-            } else {
-                console.warn("HTTP-Error: " + response.status);
-            }
+            });
 
             // sendRequest(`/rest/V1/simiconnector/proxy/instagram/?path=${data}/?__a=1`, (resData) => {
             //     if (resData) {
@@ -84,7 +91,7 @@ const Instagram = (props) => {
 
     const renderInsView = () => {
         let html = null;
-        if (insData) {
+        if (insData && insData.graphql) {
             const { user } = insData.graphql;
             if (user && !user.is_private) {
                 const { edges } = user.edge_owner_to_timeline_media;
