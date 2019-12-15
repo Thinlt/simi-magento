@@ -23,6 +23,7 @@ class ProxyInstagram implements \Simi\Simicustomize\Api\ContactInterface
         $proxy = $this->simiObjectManager->get('\Simi\Simicustomize\Model\Proxy');
         $path = $this->request->getParam('path');
         $url = 'https://www.instagram.com/'.$path;
-        return ['data' => json_decode($proxy->query($url), true)];
+        die($proxy->query($url));
+        // return ['data' => $proxy->query($url)];
     }
 }
