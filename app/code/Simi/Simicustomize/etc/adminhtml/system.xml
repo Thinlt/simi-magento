@@ -67,6 +67,25 @@
                         <field id="*/*/enable">1</field>
                     </depends>
                 </field>
+                <field id="head_script" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="body_script" showInDefault="0" showInWebsite="0" showInStore="0" />
+            </group>
+            <group id="instant_contact">
+                <label>Whatsapp Configuration</label>
+                <field id="email" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="message" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="website" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="style" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="icon_color" showInDefault="0" showInWebsite="0" showInStore="0" />
+            </group>
+        </section>
+        <section id="contact">
+            <group id="time" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Time Options</label>
+                <field id="times" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Contact Time</label>
+                    <comment>Times. Seperate phone numbers with comma. Ex: Now,Next day</comment>
+                </field>
             </group>
         </section>
     </system>
