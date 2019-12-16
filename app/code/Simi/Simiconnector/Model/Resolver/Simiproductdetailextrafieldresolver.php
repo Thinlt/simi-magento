@@ -78,7 +78,7 @@ class Simiproductdetailextrafieldresolver implements ResolverInterface
                     ->get('\Simi\Simiconnector\Helper\Price')->getProductTierPricesLabel($productModel);
 
                 $this->extraFields = array(
-                    'attribute_values' => $productModel->toArray(),
+                    'attribute_values' => $productModel->load($productId)->toArray(),
                     'app_options' => $options,
                     'app_reviews' => $app_reviews,
                     'additional'  => $_additional,
