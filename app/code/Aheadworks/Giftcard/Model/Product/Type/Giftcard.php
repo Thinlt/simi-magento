@@ -418,9 +418,11 @@ class Giftcard extends AbstractType
             return $result;
         }
         try {
+            $processMode = \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_LITE;
             $this->validateBuyRequest($buyRequest, $product, $processMode);
             $amount = $this->getAmount($buyRequest, $product);
-            $this->validateAmount($buyRequest, $product, $processMode, $amount);
+            $fullMode = \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_FULL;
+            $this->validateAmount($buyRequest, $product, $fullMode, $amount);
         } catch (LocalizedException $e) {
             return $e->getMessage();
         } catch (\Exception $e) {
