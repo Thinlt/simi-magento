@@ -3,13 +3,9 @@ import { connect } from 'src/drivers';
 import { bool, object, shape, string } from 'prop-types';
 import { getCartDetails, updateItemInCart } from 'src/actions/cart';
 import {
-    submitShippingMethod,
     editOrder,
-    getShippingMethods
 } from 'src/actions/checkout';
 import { isEmptyCartVisible } from 'src/selectors/cart';
-import { getCountries } from 'src/actions/directory';
-import { submitShippingAddress } from 'src/simi/Redux/actions/simiactions';
 import BreadCrumb from 'src/simi/BaseComponents/BreadCrumb';
 import Loading from 'src/simi/BaseComponents/Loading';
 
@@ -27,7 +23,6 @@ import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { removeItemFromCart } from 'src/simi/Model/Cart';
 import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon';
 import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher';
-import Estimate from 'src/simi/App/Bianca/Cart/Components/Estimate';
 
 require('./cart.scss');
 
@@ -67,6 +62,7 @@ class Cart extends Component {
         $('.header').css({'height':'70px', 'min-height':'70px', 'padding-top':'0px'})
         $('.header img').css({'width':'154.26','height':'43.61px'})
         $('.header-logo').css('margin-top','0px')
+        $('.mobile .header-logo img').removeAttr('style')
     }
 
     componentWillUnmount() {
@@ -337,38 +333,6 @@ class Cart extends Component {
         );
     }
 
-    get estimateShipAndTax() {
-        const {
-            cart,
-            countries,
-            shippingAddress,
-            toggleMessages,
-            getCartDetails,
-            submitShippingMethod,
-            editOrder,
-            availableShippingMethods,
-            getShippingMethods,
-            submitShippingAddress
-        } = this.props;
-        const childCPProps = {
-            toggleMessages,
-            getCartDetails,
-            cart,
-            submitShippingMethod,
-            editOrder,
-            availableShippingMethods,
-            getShippingMethods,
-            countries,
-            submitShippingAddress,
-            shippingAddress
-        };
-        return (
-            <div className={`estimate-form`}>
-                <Estimate {...childCPProps} />
-            </div>
-        );
-    }
-
     get miniCartInner() {
         const {
             productList,
@@ -421,11 +385,15 @@ class Cart extends Component {
                     {productList}
                     <div className="summary-zone">
                         <div>{Identify.__('Summary'.toUpperCase())}</div>
-                        {couponCode}
-                        {giftVoucher}
-                        {/* {estimateShipAndTax} */}
-                        {total}
-                        {checkoutButton}
+                        {isLoading ? <Loading/>
+                        :
+                            <div>
+                                {couponCode}
+                                {giftVoucher}
+                                {total}
+                                {checkoutButton}
+                            </div>
+                        }
                     </div>
                 </div>
 
@@ -460,17 +428,12 @@ Cart.propTypes = {
 };
 
 const mapStateToProps = state => {
-    const { cart, user, checkout, directory } = state;
+    const { cart, user} = state;
     const { isSignedIn } = user;
-    const { availableShippingMethods, shippingAddress } = checkout;
-    const { countries } = directory;
     return {
         cart,
         isCartEmpty: isEmptyCartVisible(state),
         isSignedIn,
-        availableShippingMethods,
-        countries,
-        shippingAddress
     };
 };
 
@@ -478,11 +441,7 @@ const mapDispatchToProps = {
     getCartDetails,
     toggleMessages,
     updateItemInCart,
-    submitShippingMethod,
     editOrder,
-    getShippingMethods,
-    getCountries,
-    submitShippingAddress
 };
 
 export default connect(
