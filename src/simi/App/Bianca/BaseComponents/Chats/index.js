@@ -190,7 +190,7 @@ const Chats = (props) => {
                 closeIconSize={16}
                 closeIconSvgPath={<CloseIcon style={{fill: '#101820'}}/>}
             >
-                <div className="contact-wrap">
+                <div className={`contact-wrap ${isPhone ? 'mobile':''}`}>
                     <h3 className="title"><span>{Identify.__('Instant Contact')}</span></h3>
                     <span className="header-text">{Identify.__('Please, specify your phone number and when it will be convenient for you to take a call.')}</span>
                     {

@@ -62,199 +62,253 @@ $color1: #101820;
     }
 }
 #chat-widget-container{visibility: hidden;}
-#contact-modal{
-    width: 100%;
-    max-width: 604px;
-    min-height: 494px;
-    padding: 24px 32px 32px 32px;
-    #contact-modal-close{
-        top: 24px;
-        right: 32px;
+#contact-modal-overlay{
+    @media screen and (max-width: 375px){
+        padding: 16px;
     }
-    .contact-wrap{
-        h3.title{
-            margin-top: 8px;
-            font-size: 24px;
-            line-height: 24px;
-            font-weight: 600;
-            color: $color1;
-            text-transform: uppercase;
-            text-align: center;
+    #contact-modal{
+        width: 100%;
+        max-width: 604px;
+        min-height: 494px;
+        padding: 24px 32px 32px 32px;
+        @media screen and (max-width: 1023px){
+            padding: 15px 20px 32px 20px;
         }
-        .header-text{
-            display: flex;
-            justify-content: center;
-            text-align: center;
-            color: $color1;
-            font-family: 'Gotham Book';
-            font-size: 18px;
-            line-height: 18px;
-            margin: 0 auto;
-            margin-top: 20px;
-            max-width: 407px;
+        @media screen and (max-width: 375px){
+            margin-top: 20%;
         }
-        .contact-form{
-            select{cursor: pointer;}
-            .form-row{
-                max-width: 376px;
+        #contact-modal-close{
+            top: 24px;
+            right: 32px;
+            @media screen and (max-width: 375px){
+                top: 15px;
+                right: 21.17px;
+            }
+        }
+        .contact-wrap{
+            h3.title{
+                margin-top: 8px;
+                font-size: 24px;
+                line-height: 24px;
+                font-weight: 600;
+                color: $color1;
+                text-transform: uppercase;
+                text-align: center;
+            }
+            .header-text{
+                display: flex;
+                justify-content: center;
+                text-align: center;
+                color: $color1;
+                font-family: 'Gotham Book';
+                font-size: 18px;
+                line-height: 18px;
                 margin: 0 auto;
                 margin-top: 20px;
-                &:first-child{
-                    margin-top: 32px;
-                }
-                >label{
-                    font-size: 10px;
-                    line-height: 10px;
-                    text-transform: uppercase;
-                    color: #101820;
-                    font-weight: 600;
-                    margin-bottom: 8px;
-                }
-                &.time{
-                    .contact-input{
-                        position: relative;
-                        display: flex;
-                        align-items: center;
-                        &:before{
-                            position: absolute;
-                            right: 16px;
-                            color: $color1;
-                            content: "\e93a";
-                            font-size: 14px;
-                            font-family: 'Linearicons', 'Simple Linearicons';
-                            font-style: normal;
-                            font-weight: normal;
-                            font-variant: normal;
-                            text-transform: none;
-                            font-feature-settings: "liga";
-                            z-index: 9;
-                        }
-                        select{
-                            width: 100%;
-                            -webkit-appearance: none;
-                            -webkit-border-radius: unset;
-                            -moz-border-radius: unset;
-                            border-radius: unset;
-                            color: $color1;
-                            border: none;
-                            background: transparent;
-                            z-index: 99;
-                        }
-                        .input-display{
-                            padding: 10px 16px;
-                            width: 100%;
+                max-width: 407px;
+            }
+            .contact-form{
+                select{cursor: pointer;}
+                .form-row{
+                    max-width: 376px;
+                    margin: 0 auto;
+                    margin-top: 20px;
+                    &:first-child{
+                        margin-top: 32px;
+                    }
+                    >label{
+                        font-size: 10px;
+                        line-height: 10px;
+                        text-transform: uppercase;
+                        color: #101820;
+                        font-weight: 600;
+                        margin-bottom: 8px;
+                    }
+                    &.time{
+                        .contact-input{
+                            position: relative;
+                            display: flex;
+                            align-items: center;
+                            &:before{
+                                position: absolute;
+                                right: 16px;
+                                color: $color1;
+                                content: "\e93a";
+                                font-size: 14px;
+                                font-family: 'Linearicons', 'Simple Linearicons';
+                                font-style: normal;
+                                font-weight: normal;
+                                font-variant: normal;
+                                text-transform: none;
+                                font-feature-settings: "liga";
+                                z-index: 9;
+                            }
+                            select{
+                                width: 100%;
+                                -webkit-appearance: none;
+                                -webkit-border-radius: unset;
+                                -moz-border-radius: unset;
+                                border-radius: unset;
+                                color: $color1;
+                                border: none;
+                                background: transparent;
+                                z-index: 99;
+                            }
+                            .input-display{
+                                padding: 10px 16px;
+                                width: 100%;
+                            }
                         }
                     }
+                    input.contact-input, select.contact-input{
+                        padding: 10px 16px;
+                    }
                 }
-                input.contact-input, select.contact-input{
-                    padding: 10px 16px;
-                }
-            }
-            .contact-input{
-                background-color: #f2f2f2;
-                color: #727272;
-                font-size: 14px;
-                font-weight: 500;
-                height: 48px;
-                max-width: 376px;
-                display: flex;
-                flex-direction: row;
-                position: relative;
-                width: 100%;
-                border: none;
-                &.invalid{
-                    border: 1px solid #b91c1c;
-                }
-                &.phone-input{
+                .contact-input{
+                    background-color: #f2f2f2;
+                    color: #727272;
+                    font-size: 14px;
+                    font-weight: 500;
+                    height: 48px;
+                    max-width: 376px;
                     display: flex;
                     flex-direction: row;
                     position: relative;
-                    .arrow-down{
-                        width: 52px;
-                        height: 100%;
-                        display: inline-flex;
-                        justify-content: center;
-                        align-items: center;
-                        position: absolute;
-                        z-index: 9;
-                        // left: 18px;
-                        top: 0;
-                        margin: 0;
-                        &:before{
-                            color: $color1;
-                            content: "\e93a";
-                            font-size: 14px;
-                            font-family: 'Linearicons', 'Simple Linearicons';
-                            font-style: normal;
-                            font-weight: normal;
-                            font-variant: normal;
-                            text-transform: none;
-                            font-feature-settings: "liga";
-                        }
-                    }
-                    input{
-                        border: none;
-                        margin: 0px;
-                        padding: 0px;
-                        padding-left: 52px;
-                        width: 100%;
-                        background: transparent;
-                    }
-                    .input-select{
-                        position: absolute;
-                        background: #fff;
-                        z-index: 999;
-                        top: 48px;
-                        display: flex;
-                        flex-direction: column;
-                        width: 100%;
-                        overflow-y: auto;
-                        max-height: 200px;
-                        box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
-                        .input-option{
-                            padding: 5px 17px;
-                            background-color: #f2f2f2;
-                            color: $color1;
-                            &:hover{
-                                background-color: #e4e4e4;
-                            }
-                            &.selected{
-                                background-color: #bdbdbd;
-                            }
-                        }
-                    }
-                }
-            }
-            .form-btn{
-                text-align: center;
-                margin-top: 32px;
-                .btn{
-                    background-color: #101820;
-                    color: #fff;
-                    font-size: 16px;
-                    font-family: 'Gotham Medium';
-                    text-transform: uppercase;
-                    border-radius: 0px;
-                    max-width: 180px;
-                    min-height: 48px;
                     width: 100%;
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
+                    border: none;
+                    &.invalid{
+                        border: 1px solid #b91c1c;
+                    }
+                    &.phone-input{
+                        display: flex;
+                        flex-direction: row;
+                        position: relative;
+                        .arrow-down{
+                            width: 52px;
+                            height: 100%;
+                            display: inline-flex;
+                            justify-content: center;
+                            align-items: center;
+                            position: absolute;
+                            z-index: 9;
+                            // left: 18px;
+                            top: 0;
+                            margin: 0;
+                            &:before{
+                                color: $color1;
+                                content: "\e93a";
+                                font-size: 14px;
+                                font-family: 'Linearicons', 'Simple Linearicons';
+                                font-style: normal;
+                                font-weight: normal;
+                                font-variant: normal;
+                                text-transform: none;
+                                font-feature-settings: "liga";
+                            }
+                        }
+                        input{
+                            border: none;
+                            margin: 0px;
+                            padding: 0px;
+                            padding-left: 52px;
+                            width: 100%;
+                            background: transparent;
+                        }
+                        .input-select{
+                            position: absolute;
+                            background: #fff;
+                            z-index: 999;
+                            top: 48px;
+                            display: flex;
+                            flex-direction: column;
+                            width: 100%;
+                            overflow-y: auto;
+                            max-height: 200px;
+                            box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
+                            .input-option{
+                                padding: 5px 17px;
+                                background-color: #f2f2f2;
+                                color: $color1;
+                                &:hover{
+                                    background-color: #e4e4e4;
+                                }
+                                &.selected{
+                                    background-color: #bdbdbd;
+                                }
+                            }
+                        }
+                    }
+                }
+                .form-btn{
+                    text-align: center;
+                    margin-top: 32px;
+                    .btn{
+                        background-color: #101820;
+                        color: #fff;
+                        font-size: 16px;
+                        font-family: 'Gotham Medium';
+                        text-transform: uppercase;
+                        border-radius: 0px;
+                        max-width: 180px;
+                        min-height: 48px;
+                        width: 100%;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
                 }
             }
-        }
-        .message{
-            display: flex;
-            justify-content: center;
-            text-align: center;
-            color: $color1;
-            font-family: 'Gotham Book';
-            font-size: 18px;
-            line-height: 18px;
-            margin: 0 auto;
-            margin-top: 20px;
-            max-width: 407px;
+            .message{
+                display: flex;
+                justify-content: center;
+                text-align: center;
+                color: $color1;
+                font-family: 'Gotham Book';
+                font-size: 18px;
+                line-height: 18px;
+                margin: 0 auto;
+                margin-top: 20px;
+                max-width: 407px;
+            }
+            &.mobile{
+                h3.title{
+                    font-size: 16px;
+                    line-height: 16px;
+                    margin-top: 41px;
+                    padding-top: 0px;
+                    margin-bottom: 0px;
+                }
+                .header-text{
+                    max-width: 250.54px;
+                    font-size: 14px;
+                    line-height: 14px;
+                }
+                .contact-form{
+                    .form-row{
+                        &:first-child{
+                            margin-top: 40px;
+                        }
+                        >label{
+                            font-size: 14px;
+                            line-height: 14px;
+                            padding-top: 0px;
+                            margin-bottom: 0px;
+                        }
+                        .contact-input{
+                            height: 40px;
+                            margin-top: 8px;
+                            font-family: 'Gotham Book';
+                        }
+                    }
+                    .form-btn{
+                        margin-top: 60px;
+                        .btn{
+                            max-width: 190.56px;
+                            min-height: 40px;
+                        }
+                    }
+                }
+            }
         }
     }
 }

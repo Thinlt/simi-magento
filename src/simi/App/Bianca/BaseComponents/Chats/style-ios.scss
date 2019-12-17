@@ -21,5 +21,26 @@
                 }
             }
         }
+        &.mobile{
+            h3.title{
+                padding-top: 3px;
+                margin-bottom: -8px;
+            }
+            .header-text{
+                max-width: 250.54px;
+                font-size: 14px;
+                line-height: 14px;
+            }
+            .contact-form{
+                .form-row{
+                    >label{
+                        padding-top: 3px;
+                        margin-bottom: -3px;
+                        height: 14px;
+                        padding-bottom: 0px;
+                    }
+                }
+            }
+        }
     }
 }
