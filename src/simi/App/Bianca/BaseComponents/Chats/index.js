@@ -72,7 +72,6 @@ const Chats = (props) => {
     }
 
     const onChangeContactTime = (code) => {
-        console.log(code)
         setContactTime(code);
     }
 
@@ -226,7 +225,7 @@ const Chats = (props) => {
                                     contact_us && contact_us.enabled && contact_us.enabled === '1' && contact_us.times &&
                                     <Select items={timeItems} onChange={onChangeContactTime} triggerRef={TriggerTimesSelectRef} display={true}
                                         placeholder={timeItems[0] ? timeItems[0].label : ''} 
-                                        hiddenSelect={{name: 'time', id: 'contact-time', defaultValue: timeItems[0] ? timeItems[0].value : ''}}/>
+                                        hiddenInput={{name: 'time', id: 'contact-time', defaultValue: timeItems[0] ? timeItems[0].value : ''}}/>
                                 }
                                 </div>
                             </div>

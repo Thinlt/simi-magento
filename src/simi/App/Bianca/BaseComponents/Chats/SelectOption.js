@@ -3,7 +3,7 @@ import Identify from "src/simi/Helper/Identify";
 require('./SelectOption.scss');
 
 const Select = (props) => {
-    const {items, isOpen, onChange, triggerRef, defaultValue, placeholder, className, display, hiddenSelect} = props;
+    const {items, isOpen, onChange, triggerRef, defaultValue, placeholder, className, display, hiddenInput} = props;
     const [isOpenDropDown, setIsOpenDropDown] = useState(isOpen || false);
     const [selected, setSelected] = useState(defaultValue);
     const [itemSelected, setItemSelected] = useState(null);
@@ -78,10 +78,10 @@ const Select = (props) => {
             <div className={`${className ? className:'simi-simple-input-select'}`} ref={InputSelectRef}>{Options}</div>
         }
         {
-            hiddenSelect && typeof hiddenSelect === 'Object' ?
-            <select {...hiddenSelect}/> :
-            hiddenSelect === true ?
-            <select style={{display: "none"}} name="input-select" /> : null
+            hiddenInput && typeof hiddenInput === 'object' ?
+            <input type="hidden" {...hiddenInput} defaultValue={selected} /> :
+            hiddenInput === true ?
+            <input type="hidden" style={{display: "none"}} name="input-select" defaultValue={selected} /> : null
         }
         </React.Fragment>
     );
