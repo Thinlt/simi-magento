@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import OrderHistory from 'src/simi/App/core/Customer/Account/Components/Orders/OrderList';
+import OrderHistory from 'src/simi/App/Bianca/Customer/Account/Components/Orders/OrderList';
 import Identify from "src/simi/Helper/Identify";
 import Loading from "src/simi/BaseComponents/Loading";
 import { simiUseQuery } from 'src/simi/Network/Query'

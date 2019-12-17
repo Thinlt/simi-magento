@@ -23,12 +23,11 @@ const OrderList = props => {
             // { title: Identify.__("Ship to"), width: "33.40%" },
             { title: Identify.__("Total"), width: "12.06%" },
             { title: Identify.__("Status"), width: "12.58%" },
-            { title: Identify.__(""), width: "12.27%" },
-            { title: Identify.__(""), width: "12.27%" }
+            { title: Identify.__("Action"), width: "12.27%" },
         ];
     // const limit = 2;
     const currentPage = 1;
-
+    console.log(data)
     const processData = (data) => {
         if(data){
             hideFogLoading();
@@ -38,6 +37,7 @@ const OrderList = props => {
 
     const renderOrderItem = (item, index) => {
         let date = Date.parse(item.created_at);
+        console.log(item)
         date = new Date(date);
         let m = date.getMonth() + 1;
         m = m < 10 ? "0" + m : m;
@@ -68,12 +68,12 @@ const OrderList = props => {
                 <td data-title="">
                     <Link className="view-order" to={location}>{Identify.__('View order')}</Link>
                 </td>
-                <td data-title="">
+                {/* <td data-title="">
                     <div aria-hidden onClick={()=>{
                         showFogLoading();
                         getReOrder(item.increment_id,processData)
                     }} className="view-order">{Identify.__('Re-order')}</div>
-                </td>
+                </td> */}
             </tr>
         )
     }

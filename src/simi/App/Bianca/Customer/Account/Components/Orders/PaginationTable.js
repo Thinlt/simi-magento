@@ -136,7 +136,8 @@ class PaginationTable extends Pagination {
                      display : 'flex',
                      alignItems : 'center',
                      justifyContent : 'space-between',
-                     clear: 'both'
+                     clear: 'both',
+                     fontWeight:'500'
                  }}
             >
                 <div style={{display:"flex", alignItems:"center"}}>

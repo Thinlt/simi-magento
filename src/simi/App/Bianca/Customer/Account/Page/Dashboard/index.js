@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Identify from "src/simi/Helper/Identify";
 import {Link} from 'react-router-dom'
 import { Whitebtn } from 'src/simi/BaseComponents/Button';
-import OrderHistory from 'src/simi/App/core/Customer/Account/Components/Orders/OrderList';
+import OrderHistory from 'src/simi/App/Bianca/Customer/Account/Components/Orders/OrderList';
 import Loading from "src/simi/BaseComponents/Loading";
 import { simiUseQuery } from 'src/simi/Network/Query' 
 import getCustomerInfoQuery from 'src/simi/queries/getCustomerInfo.graphql'
