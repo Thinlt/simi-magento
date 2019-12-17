@@ -45,12 +45,12 @@ const Select = (props) => {
     }
 
     useEffect(() => {
-        if (triggerRef) {
+        if (triggerRef && triggerRef.current) {
             triggerRef.current.addEventListener('mousedown', onClickTriggerRef, false)
         }
         document.addEventListener('mousedown', onClickOutside, false)
         return () => {
-            if (triggerRef) {
+            if (triggerRef && triggerRef.current) {
                 triggerRef.current.removeEventListener('mousedown', onClickTriggerRef, false)
             }
             document.removeEventListener('mousedown', onClickOutside, false)
