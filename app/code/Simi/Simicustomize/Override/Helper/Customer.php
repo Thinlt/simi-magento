@@ -90,4 +90,22 @@ class Customer extends \Simi\Simiconnector\Helper\Customer
     {
         $this->_getSession()->setCustomerAsLoggedIn($customer);
     }
+
+    public function loginByEmailAndPass($username, $password)
+    {
+        $websiteId = $this->storeManager->getStore()->getWebsiteId();
+        $customer  = $this->simiObjectManager->get('Magento\Customer\Model\Customer')
+            ->setWebsiteId($websiteId);
+        if ($this->validateSimiPass($username, $password)) {
+            $customer = $this->getCustomerByEmail($username);
+            if ($customer->getId()) {
+                $this->loginByCustomer($customer);
+                return true;
+            }
+        } elseif ($customer->authenticate($username, $password)) {
+            $this->loginByCustomer($customer);
+            return true;
+        }
+        return false;
+    }
 }

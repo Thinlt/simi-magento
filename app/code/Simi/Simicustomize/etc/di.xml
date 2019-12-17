@@ -7,7 +7,7 @@
     <preference for="\Simi\Simicustomize\Api\ReserveInterface" type="\Simi\Simicustomize\Model\Api\Reserve" />
     <preference for="\Simi\Simicustomize\Api\ContactInterface" type="\Simi\Simicustomize\Model\Api\Contact" />
     <preference for="\Simi\Simicustomize\Api\ProxyInstagramInterface" type="\Simi\Simicustomize\Model\Api\ProxyInstagram" />
-
+    <preference for="Magento\Customer\Controller\Account\Confirm" type="Simi\Simicustomize\Controller\Account\Confirm" />
     <type name="Magento\Quote\Model\Quote\Item\Repository">
         <plugin name="simi_cart_plugin_quote_item_repository" type="Simi\Simicustomize\Plugin\QuoteItemRepository" />
     </type>

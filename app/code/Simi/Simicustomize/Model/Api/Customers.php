@@ -48,7 +48,7 @@ class Customers extends \Simi\Simiconnector\Model\Api\Customers
                     $this->builderQuery->setData('wishlist_count', $this->getWishlistCount());
                     break;
                 case 'login':
-                    if ($this->simiObjectManager->get('Simi\Simiconnector\Model\Customer')->login($data)) {
+                    if ($this->simiObjectManager->get('Simi\Simicustomize\Model\Customer')->login($data)) {
                         $this->builderQuery = $this->simiObjectManager
                             ->get('Magento\Customer\Model\Session')->getCustomer();
                         $this->builderQuery->setData('wishlist_count', $this->getWishlistCount());

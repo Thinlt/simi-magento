@@ -8,6 +8,13 @@ namespace Simi\Simicustomize\Model;
 
 class Customer extends \Simi\Simiconnector\Model\Customer
 {
+
+    public function login($data)
+    {   
+        return $this->simiObjectManager->get('Simi\Simicustomize\Override\Helper\Customer')
+            ->loginByEmailAndPass($data['params']['email'], $data['params']['password']);
+    }
+
     /*
      * Social Login (post method)
      * @param 
@@ -45,6 +52,7 @@ class Customer extends \Simi\Simiconnector\Model\Customer
                 $data->lastname = __('Lastname');
             }
             $customer = $this->_createCustomer($data);
+            throw new \Simi\Simiconnector\Helper\SimiException(__('Please check your mailbox to active your account !.'), 4);
         }
     }
 }
