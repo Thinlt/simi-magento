@@ -3,7 +3,6 @@ import Identify from "src/simi/Helper/Identify";
 // import Scroller from "./Scroller";
 import OwlCarousel from 'react-owl-carousel2';
 // import {sendRequest} from 'src/simi/Network/RestMagento';
-
 const Instagram = (props) => {
     const {history, isPhone} = props;
     const [insData, setInsData] = useState();
@@ -94,8 +93,9 @@ const Instagram = (props) => {
     const right = '<svg class="chevron-right" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" style="display: inline-block; color: rgba(255, 255, 255, 0.87); fill: rgb(0, 0, 0); height: 24px; width: 24px; user-select: none; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;"><path d="M5 20c-0.128 0-0.256-0.049-0.354-0.146-0.195-0.195-0.195-0.512 0-0.707l8.646-8.646-8.646-8.646c-0.195-0.195-0.195-0.512 0-0.707s0.512-0.195 0.707 0l9 9c0.195 0.195 0.195 0.512 0 0.707l-9 9c-0.098 0.098-0.226 0.146-0.354 0.146z"></path></svg>';
 
     const options = {
-        stagePadding: isPhone ? 35 : 41.5,
-        // items: 1,
+        // stagePadding: isPhone ? 35 : 41.5,
+        autoWidth: true,
+        mergeFit: false,
         margin: isPhone ? 15 : 16,
         nav: true,
         autoplay: false,
