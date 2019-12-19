@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo, useRef} from 'react';
 import Identify from "src/simi/Helper/Identify";
 import { getOS } from 'src/simi/App/Bianca/Helper';
 import IconTelephone from "src/simi/App/Bianca/BaseComponents/Icon/Telephone";
@@ -7,9 +7,11 @@ import IconBubble from "src/simi/App/Bianca/BaseComponents/Icon/Bubble";
 import LiveChat from 'react-livechat';
 import Modal from 'react-responsive-modal';
 import CloseIcon from 'src/simi/App/Bianca/BaseComponents/Icon/Close';
-import PhoneCode from 'react-phone-code';
 import {sendRequest} from 'src/simi/Network/RestMagento';
 import Loading from 'src/simi/BaseComponents/Loading';
+import PhoneCodes from './PhoneData';
+import Select from './SelectOption';
+import { BrowserRouter, Route, Link } from "react-router-dom";
 
 require('./style.scss');
 if (getOS() === 'MacOS') require('./style-ios.scss');
@@ -21,9 +23,12 @@ const Chats = (props) => {
     const [liveChatRef, setLiveChatRef] = useState();
     const [openContactModal, setOpenContactModal] = useState(false);
     const [contactPhone, setContactPhone] = useState('');
-    const [contactPhoneCode, setContactPhoneCode] = useState('');
+    const [contactPhoneCode, setContactPhoneCode] = useState(PhoneCodes.KW.code);
+    const [contactTime, setContactTime] = useState('');
     const [submittingContact, setSubmittingContact] = useState(false);
     const [submitedContactResult, setSubmitedContactResult] = useState();
+    const TriggerPhoneSelectRef = useRef(null);
+    const TriggerTimesSelectRef = useRef(null);
     const storeConfig = Identify.getStoreConfig() || {};
     const config = storeConfig.simiStoreConfig && storeConfig.simiStoreConfig.config || {};
     const {contact_us, instant_contact, livechat} = config || {};
@@ -67,6 +72,10 @@ const Chats = (props) => {
         setContactPhoneCode(code);
     }
 
+    const onChangeContactTime = (code) => {
+        setContactTime(code);
+    }
+
     const whatsappAction = () => {
         let {phone} = data;
         let phoneNum;
@@ -76,8 +85,10 @@ const Chats = (props) => {
             phoneNum = phone[0];
         }
         if (phoneNum) {
-            window.location.href = 'http://api.whatsapp.com/send?phone=' + phoneNum.split('-').join('').split(' ').join('').match(/(\(.*?\))?\d+/)[0].match(/\d+/g).join('');
+            return 'http://api.whatsapp.com/send?phone=' + phoneNum.split('-').join('').split(' ').join('').match(/(\(.*?\))?\d+/)[0].match(/\d+/g).join('');
+            // window.location.href = 'http://api.whatsapp.com/send?phone=' + phoneNum.split('-').join('').split(' ').join('').match(/(\(.*?\))?\d+/)[0].match(/\d+/g).join('');
         }
+        return '';
     }
 
     const livechatAction = () => {
@@ -130,6 +141,24 @@ const Chats = (props) => {
         }, 'POST', null, reqData);
     }
 
+    const phoneItems = useMemo(() => {
+        let items = []
+        Object.values(PhoneCodes).forEach((item, index) => {
+            items.push({
+                label: `${Identify.__(item.name)} (${item.code})`,
+                value: item.code
+            });
+        });
+        return items;
+    } , [PhoneCodes]);
+
+    const timeItems = contact_times.map((time) => {
+        return {
+            label: Identify.__(time.trim()),
+            value: time.trim()
+        }
+    })
+
     return (
         <div className={`chats-block ${isPhone ? 'mobile':''}`}>
             <div className="icons-inner">
@@ -141,9 +170,11 @@ const Chats = (props) => {
                 }
                 {
                     data && data.phone &&
-                    <div className="chat-icons whatsapp" onClick={whatsappAction}>
-                        <IconWhatsapp style={{width: '24px', height: '24px', fill: '#fff'}}/>
-                    </div>
+                    <a href={whatsappAction()} target="_blank" alt="Whatsapp">
+                        <div className="chat-icons whatsapp">
+                            <IconWhatsapp style={{width: '24px', height: '24px', fill: '#fff'}}/>
+                        </div>
+                    </a>
                 }
                 {
                     livechat && livechat.enabled === '1' &&
@@ -164,8 +195,8 @@ const Chats = (props) => {
                 closeIconSize={16}
                 closeIconSvgPath={<CloseIcon style={{fill: '#101820'}}/>}
             >
-                <div className="contact-wrap">
-                    <h3 className="title"><span>{Identify.__('Instant Order')}</span></h3>
+                <div className={`contact-wrap ${isPhone ? 'mobile':''}`}>
+                    <h3 className="title"><span>{Identify.__('Instant Contact')}</span></h3>
                     <span className="header-text">{Identify.__('Please, specify your phone number and when it will be convenient for you to take a call.')}</span>
                     {
                         submitedContactResult === true ?
@@ -183,32 +214,24 @@ const Chats = (props) => {
                             <div className="form-row phone">
                                 <label htmlFor="contact-phone">{Identify.__('Phone Number')}</label>
                                 <div className="contact-input phone-input">
-                                    <label className="arrow-down" htmlFor="phone-code"></label>
-                                    <PhoneCode
-                                        onSelect={onChangeContactPhoneCode} // required
-                                        showFirst={['KW', 'US']}
-                                        defaultValue='KW'
-                                        id='phone-code'
-                                        name='phone-code'
-                                        className='phone-code'
-                                        optionClassName='phone-code-option'
-                                    />
-                                    <input name="contact-phone" onChange={onChangeContactPhone} 
+                                    <label className="arrow-down" htmlFor="contact-phone" ref={TriggerPhoneSelectRef}></label>
+                                    <input id='contact-phone' name="contact-phone" type="tel" onChange={onChangeContactPhone} 
                                         value={contactPhone} 
                                         placeholder={contactPhoneCode}/>
+                                    {
+                                        <Select items={phoneItems} onChange={onChangeContactPhoneCode} triggerRef={TriggerPhoneSelectRef}/>
+                                    }
                                 </div>
                             </div>
                             <div className="form-row time">
                                 <label htmlFor="contact-time">{Identify.__('Time')}</label>
-                                <div className="contact-input time-input">
-                                    <select id="contact-time" name="time">
-                                        {
-                                            contact_us && contact_us.enabled && contact_us.enabled === '1' && contact_us.times &&
-                                            contact_times.map((time, index) => {
-                                                return <option value={time.trim()} key={index}>{Identify.__(time.trim())}</option>
-                                            })
-                                        }
-                                    </select>
+                                <div className="contact-input time-input" ref={TriggerTimesSelectRef}>
+                                {
+                                    contact_us && contact_us.enabled && contact_us.enabled === '1' && contact_us.times &&
+                                    <Select items={timeItems} onChange={onChangeContactTime} triggerRef={TriggerTimesSelectRef} display={true}
+                                        placeholder={timeItems[0] ? timeItems[0].label : ''} 
+                                        hiddenInput={{name: 'time', id: 'contact-time', defaultValue: timeItems[0] ? timeItems[0].value : ''}}/>
+                                }
                                 </div>
                             </div>
                             <div className="form-btn">
@@ -218,7 +241,6 @@ const Chats = (props) => {
                             }
                             </div>
                         </div>
-
                     }
                 </div>
             </Modal>

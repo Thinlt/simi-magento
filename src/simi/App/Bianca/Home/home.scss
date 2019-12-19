@@ -581,7 +581,9 @@ $color1: #101820;
                                 padding-left: 0px!important;
                             }
                             .owl-item{
-                                // width: 166px!important;
+                                &:last-child{
+                                    margin-right: 0px!important;
+                                }
                                 .item{
                                     width: 166px;
                                     height: 208px;
@@ -609,6 +611,9 @@ $color1: #101820;
                                 margin-top: -12px;
                                 top: 50%;
                                 right: -41px;
+                            }
+                            .disabled{
+                                display: none;
                             }
                             .owl-prev, .owl-next{
                                 svg{
