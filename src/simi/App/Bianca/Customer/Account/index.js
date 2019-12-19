@@ -120,11 +120,6 @@ class CustomerLayout extends React.Component{
         return menuConfig
     }
 
-    handleToggleMenu = ()=>{
-        $('list-menu-item').slideToggle('fast')
-        $('menu-toggle').find('svg').toggleClass('hidden')
-    }
-
     handleLink = (link) => {
         this.props.history.push(link)
     }
@@ -160,15 +155,15 @@ class CustomerLayout extends React.Component{
         },this)
         return(
             <div className="dashboard-menu">
-                <div className="menu-header">
-                    {/* <div className="welcome-customer">
+                {/* <div className="menu-header">
+                    <div className="welcome-customer">
                         {Identify.__("Welcome %s").replace('%s', firstname + ' ' + lastname)}
-                    </div> */}
+                    </div>
                     <div role="presentation" className="menu-toggle" onClick={()=>this.handleToggleMenu()}>
                         <MenuIcon color={`#fff`} style={{width:30,height:30, marginTop: 1}}/>
                         <CloseIcon className={`hidden`} color={`#fff`} style={{width:16,height:16, marginTop:7, marginLeft: 9, marginRight: 5}}/>
                     </div>
-                </div>
+                </div> */}
                 <div className="list-menu-item">
                     <MenuList className='list-menu-item-content'>
                         {menu}
