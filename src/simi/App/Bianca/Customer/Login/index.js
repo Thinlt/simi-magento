@@ -3,7 +3,7 @@ import defaultClasses from './login.css';
 import classify from 'src/classify';
 import Identify from 'src/simi/Helper/Identify';
 import SignIn from './SignIn';
-import PhoneLogin from './SignIn/Phone/PhoneLogin'
+import PhoneLogin from './SignIn/Phone/PhoneLogin';
 import VendorLogInForm from './VendorLogin';
 import CreateAccount from './CreateAccount';
 import ForgotPassword from './ForgotPassword';
@@ -14,427 +14,483 @@ import { withRouter } from 'react-router-dom';
 import TitleHelper from 'src/simi/Helper/TitleHelper';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { simiSignIn as signinApi, vendorLogin } from 'src/simi/Model/Customer';
-import {
-    showFogLoading,
-    hideFogLoading
-} from 'src/simi/BaseComponents/Loading/GlobalLoading';
+import { socialLogin as socialLoginApi } from 'src/simi/Model/Customer';
+import { checkExistingCustomer } from 'src/simi/Model/Customer';
+import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import * as Constants from 'src/simi/Config/Constants';
 import { Util } from '@magento/peregrine';
 import { simiSignedIn } from 'src/simi/Redux/actions/simiactions';
 import { showToastMessage } from 'src/simi/Helper/Message';
 import VendorRegister from './VendorRegister';
-import Loading from 'src/simi/BaseComponents/Loading'
+import firebase, { auth } from 'firebase';
+import firebaseApp from './SocialLogin/base';
+import { async } from 'q';
 
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
 class Login extends Component {
-    state = {
-        isCreateAccountOpen: false,
-        isEmailLogin: true,
-        isForgotPasswordOpen: false,
-        isPhoneLogin: false,
-        isVendorRegisterOpen: false
-    };
+	constructor(props) {
+		super(props);
+	}
 
-    stateForgot = () => {
-        const { history } = this.props;
+	state = {
+		isCreateAccountOpen: false,
+		isEmailLogin: true,
+		isForgotPasswordOpen: false,
+		isPhoneLogin: false,
+		isVendorRegisterOpen: false,
+		socialEmail: null,
+		socialPass: null
+	};
 
-        return (
-            history.location &&
-            history.location.state &&
-            history.location.state.forgot
-        );
-    };
+	stateForgot = () => {
+		const { history } = this.props;
 
-    componentDidMount() {
-        if (this.stateForgot()) {
-            this.setForgotPasswordForm();
-        }
-    }
+		return history.location && history.location.state && history.location.state.forgot;
+	};
 
-    get emailLoginForm() {
-        const { isEmailLogin } = this.state;
-        const { classes } = this.props;
-        const isOpen = isEmailLogin;
-        const className = isOpen ? classes.signIn_open : classes.signIn_closed;
+	componentDidMount() {
+		if (this.stateForgot()) {
+			this.setForgotPasswordForm();
+		}
+	}
 
-        return (
-            <div className={className}>
-                <SignIn
-                    classes={classes}
-                    onForgotPassword={this.setForgotPasswordForm}
-                    onSignIn={this.onSignIn.bind(this)}
-                />
-            </div>
-        );
-    }
+	get emailLoginForm() {
+		const { isEmailLogin } = this.state;
+		const { classes } = this.props;
+		const isOpen = isEmailLogin;
+		const className = isOpen ? classes.signIn_open : classes.signIn_closed;
 
-    get phoneLoginForm() {
-        const { isPhoneLogin } = this.state;
-        const { classes } = this.props;
-        const isOpen = isPhoneLogin;
-        const className = isOpen ? classes.signIn_open : classes.signIn_closed;
+		return (
+			<div className={className}>
+				<SignIn
+					classes={classes}
+					onForgotPassword={this.setForgotPasswordForm}
+					onSignIn={this.onSignIn.bind(this)}
+				/>
+			</div>
+		);
+	}
 
-        return (
-            <div className={className}>
-                <PhoneLogin />
-            </div>
-        );
-    }
+	get phoneLoginForm() {
+		const { isPhoneLogin } = this.state;
+		const { classes } = this.props;
+		const isOpen = isPhoneLogin;
+		const className = isOpen ? classes.signIn_open : classes.signIn_closed;
 
-    get socialAndCreateAccount (){
-        const {setCreateAccountForm} = this
-        const {isCreateAccountOpen, isForgotPasswordOpen} = this.state
-        const { classes } = this.props;
-        return(
-            <React.Fragment>
-                <div className={`${(isCreateAccountOpen||isForgotPasswordOpen) ? classes["inactive"] : classes["active"] }` }>
-                    <div className={`${classes['signInDivider']}`} >
-                        <hr className={`${classes['hr']} ${classes['left-hr']}`} />
-                        <div className={`${classes['signInWidth']}`}>{Identify.__("or sign in with".toUpperCase())}</div>
-                        <hr className={`${classes['hr']} ${classes['right-hr']}`} />
-                    </div>
-                    <div className={`${classes['socialMedia']}`}>
-                        <span className={`${classes['social-icon']}`} >
-                            <span className={`${classes['icon']} ${classes['facebook']}`}></span>
-                        </span>
-                        <span className={`${classes['social-icon']}`} >
-                            <span className={`${classes['icon']} ${classes['twitter']}`}></span>
-                        </span>
-                        <span className={`${classes['social-icon']} ${classes['special']}`} >
-                            <span className={`${classes['icon']} ${classes['google']}`}></span>
-                        </span>
-                        <span className={`${classes['social-icon']}`} >
-                            <span className={`${classes['icon']} ${classes['linkedin']}`}></span>
-                        </span>
-                        <span className={`${classes['social-icon']}`} >
-                            <span className={`${classes['icon']} ${classes['instagram']}`}></span>
-                        </span>
-                    </div>
-                    <div className={`${classes['showCreateAccountButtonCtn']}`} >
-                        <button priority="high" className={`${classes['showCreateAccountButton']}`} onClick={setCreateAccountForm} type="submit">
-                            {Identify.__('Create an Account')}
-                        </button>
-                    </div>
-                </div>
-            </React.Fragment>
-        )
-    }
-    // get vendorLogInForm() {
-    //     const { isPhoneLogin } = this.state;
-    //     const { classes } = this.props;
-    //     const isOpen = isPhoneLogin;
-    //     const className = isOpen ? classes.signIn_open : classes.signIn_closed;
+		return (
+			<div className={className}>
+				<PhoneLogin />
+			</div>
+		);
+	}
 
-    //     return (
-    //         <div className={className}>
-    //             <VendorLogInForm
-    //                 classes={classes}
-    //                 showVendorRegisterForm={this.setVendorRegisterForm}
-    //                 onForgotPassword={this.setForgotPasswordForm}
-    //                 onSignIn={this.onVendorLogin.bind(this)}
-    //             />
-    //         </div>
-    //     );
-    // }
+	authHandler = async (authData) => {
+		var user = authData.user;
+		var providerId = authData.additionalUserInfo.providerId;
+		var profile = authData.additionalUserInfo.profile;
+		var email = profile.email ? profile.email : null;
+		var password = null;
+		var firstname = null;
+		var lastname = null;
+		var telephone = null;
+		if (providerId === 'facebook.com') {
+			password = user.uid;
+			firstname = profile.first_name;
+			lastname = profile.last_name;
+			telephone = user.phoneNumber ? user.phoneNumber : '';
+		}
 
-    vendorRegister = () => {};
-    createAccount = () => {};
+		if (providerId === 'google.com') {
+			password = user.uid;
+			firstname = profile.given_name;
+			lastname = profile.family_name;
+			telephone = user.phoneNumber ? user.phoneNumber : '';
+		}
+		if (providerId === 'twitter.com') {
+			password = user.uid;
+			firstname = profile.name;
+			lastname = '';
+			telephone = user.phoneNumber ? user.phoneNumber : '';
+		}
 
-    setVendorRegisterForm = () => {
-        this.vendorRegister = className => {
-            return (
-                <div className={className}>
-                    <VendorRegister onSignIn={this.onVendorLogin.bind(this)} />
-                </div>
-            );
-        };
-        this.showVendorRegisterForm();
-    };
+		const accountInfo = {
+			uid: user.uid,
+			providerId: providerId,
+			email: email,
+			password: password,
+			firstname: firstname,
+			lastname: lastname,
+			telephone: telephone
+		};
+		this.setState({
+			socialEmail: accountInfo.email,
+			socialPass: accountInfo.password
+		});
 
-    setCreateAccountForm = () => {
+		if (accountInfo) {
+			Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null);
+			socialLoginApi(this.verifyDone, accountInfo);
+			showFogLoading();
+		}
+	};
 
-        this.createAccount = (className, history) => {
-            return (
-                <div className={className}>
-                    <CreateAccount onSignIn={this.onSignIn.bind(this)} history={history} />
-                </div>
-            );
-        };
-        this.showCreateAccountForm();
-    };
+	verifyDone = (data) => {
+		hideFogLoading();
+		if (data.errors) {
+			let errorMsg = '';
+			if (data.errors.length) {
+				data.errors.map((error) => {
+					errorMsg += error.message;
+				});
+				showToastMessage(errorMsg);
+			}
+		} else {
+			this.onSignIn(this.state.socialEmail, this.state.socialPass);
+		}
+	};
 
-    forgotPassword = () => {};
+	authenticate = (provider) => {
+		const authProvider = new firebase.auth[`${provider}AuthProvider`]();
+		firebaseApp.auth().signInWithPopup(authProvider).then(this.authHandler);
+	};
 
-    setForgotPasswordForm = () => {
-        this.forgotPassword = (className, history) => {
-            return (
-                <div className={className}>
-                    <ForgotPassword onClose={this.closeForgotPassword} history={history} />
-                </div>
-            );
-        };
-        this.showForgotPasswordForm();
-    };
+	get socialAndCreateAccount() {
+		const { setCreateAccountForm } = this;
+		const { isCreateAccountOpen, isForgotPasswordOpen } = this.state;
+		const { classes } = this.props;
+		return (
+			<React.Fragment>
+				<div
+					className={`${isCreateAccountOpen || isForgotPasswordOpen
+						? classes['inactive']
+						: classes['active']}`}
+				>
+					<div className={`${classes['signInDivider']}`}>
+						<hr className={`${classes['hr']} ${classes['left-hr']}`} />
+						<div className={`${classes['signInWidth']}`}>
+							{Identify.__('or sign in with'.toUpperCase())}
+						</div>
+						<hr className={`${classes['hr']} ${classes['right-hr']}`} />
+					</div>
+					<div className={`${classes['socialMedia']}`}>
+						<span className={`${classes['social-icon']}`} onClick={() => this.authenticate('Facebook')}>
+							<span className={`${classes['icon']} ${classes['facebook']}`} />
+						</span>
+						<span className={`${classes['social-icon']}`} onClick={() => this.authenticate('Twitter')}>
+							<span className={`${classes['icon']} ${classes['twitter']}`} />
+						</span>
+						<span
+							className={`${classes['social-icon']} ${classes['special']}`}
+							onClick={() => this.authenticate('Google')}
+						>
+							<span className={`${classes['icon']} ${classes['google']}`} />
+						</span>
+						<span className={`${classes['social-icon']}`} onClick={() => this.authenticate('LinkedIn')}>
+							<span className={`${classes['icon']} ${classes['linkedin']}`} />
+						</span>
+						<span className={`${classes['social-icon']}`} onClick={() => this.authenticate('Instagram')}>
+							<span className={`${classes['icon']} ${classes['instagram']}`} />
+						</span>
+					</div>
+					<div className={`${classes['showCreateAccountButtonCtn']}`}>
+						<button
+							priority="high"
+							className={`${classes['showCreateAccountButton']}`}
+							onClick={setCreateAccountForm}
+							type="submit"
+						>
+							{Identify.__('Create an Account')}
+						</button>
+					</div>
+				</div>
+			</React.Fragment>
+		);
+	}
+	// get vendorLogInForm() {
+	//     const { isPhoneLogin } = this.state;
+	//     const { classes } = this.props;
+	//     const isOpen = isPhoneLogin;
+	//     const className = isOpen ? classes.signIn_open : classes.signIn_closed;
 
-    closeForgotPassword = () => {
-        this.hideForgotPasswordForm();
-    };
-    hideForgotPasswordForm =()=>{};
+	//     return (
+	//         <div className={className}>
+	//             <VendorLogInForm
+	//                 classes={classes}
+	//                 showVendorRegisterForm={this.setVendorRegisterForm}
+	//                 onForgotPassword={this.setForgotPasswordForm}
+	//                 onSignIn={this.onVendorLogin.bind(this)}
+	//             />
+	//         </div>
+	//     );
+	// }
 
-    get vendorRegisterForm() {
-        const { isVendorRegisterOpen } = this.state;
-        const { classes } = this.props;
-        const isOpen = isVendorRegisterOpen;
-        const className = isOpen ? classes.form_open : classes.form_closed;
+	vendorRegister = () => {};
+	createAccount = () => {};
 
-        return this.vendorRegister(className);
-    }
+	setVendorRegisterForm = () => {
+		this.vendorRegister = (className) => {
+			return (
+				<div className={className}>
+					<VendorRegister onSignIn={this.onVendorLogin.bind(this)} />
+				</div>
+			);
+		};
+		this.showVendorRegisterForm();
+	};
 
-    get createAccountForm() {
-        const { isCreateAccountOpen } = this.state;
-        const { history, classes } = this.props;
-        const isOpen = isCreateAccountOpen;
-        const className = isOpen ? classes.form_open : classes.form_closed;
+	setCreateAccountForm = () => {
+		this.createAccount = (className, history) => {
+			return (
+				<div className={className}>
+					<CreateAccount onSignIn={this.onSignIn.bind(this)} history={history} />
+				</div>
+			);
+		};
+		this.showCreateAccountForm();
+	};
 
-        return this.createAccount(className, history);
-    }
+	forgotPassword = () => {};
 
-    get forgotPasswordForm() {
-        const { isForgotPasswordOpen } = this.state;
-        const { history, classes } = this.props;
-        const isOpen = isForgotPasswordOpen;
-        const className = isOpen ? classes.form_open : classes.form_closed;
-        return this.forgotPassword(className, history);
-    }
+	setForgotPasswordForm = () => {
+		this.forgotPassword = (className, history) => {
+			return (
+				<div className={className}>
+					<ForgotPassword onClose={this.closeForgotPassword} history={history} />
+				</div>
+			);
+		};
+		this.showForgotPasswordForm();
+	};
 
-    showVendorRegisterForm = () => {
-        this.setState(() => ({
-            isCreateAccountOpen: false,
-            isEmailLogin: false,
-            isForgotPasswordOpen: false,
-            isPhoneLogin: false,
-            isVendorRegisterOpen: true
-        }));
-    };
+	closeForgotPassword = () => {
+		this.hideForgotPasswordForm();
+	};
+	hideForgotPasswordForm = () => {};
 
-    showCreateAccountForm = () => {
-        this.setState(() => ({
-            isCreateAccountOpen: true,
-            isEmailLogin: false,
-            isForgotPasswordOpen: false,
-            isPhoneLogin: false,
-            isVendorRegisterOpen: false
-        }));
-    };
+	get vendorRegisterForm() {
+		const { isVendorRegisterOpen } = this.state;
+		const { classes } = this.props;
+		const isOpen = isVendorRegisterOpen;
+		const className = isOpen ? classes.form_open : classes.form_closed;
 
-    showForgotPasswordForm = () => {
-        this.setState(() => ({
-            isForgotPasswordOpen: true,
-            isEmailLogin: false,
-            isCreateAccountOpen: false,
-            isPhoneLogin: false,
-            isVendorRegisterOpen: false
-        }));
-    };
+		return this.vendorRegister(className);
+	}
 
-    showEmailLoginForm = () => {
-        this.setState(() => ({
-            isForgotPasswordOpen: false,
-            isEmailLogin: true,
-            isCreateAccountOpen: false,
-            isPhoneLogin: false,
-            isVendorRegisterOpen: false
-        }));
-    };
+	get createAccountForm() {
+		const { isCreateAccountOpen } = this.state;
+		const { history, classes } = this.props;
+		const isOpen = isCreateAccountOpen;
+		const className = isOpen ? classes.form_open : classes.form_closed;
 
-    showPhoneLoginForm = () => {
-        this.setState(() => ({
-            isForgotPasswordOpen: false,
-            isEmailLogin: false,
-            isCreateAccountOpen: false,
-            isPhoneLogin: true,
-            isVendorRegisterOpen: false
-        }));
-    };
+		return this.createAccount(className, history);
+	}
 
-    onSignIn(username, password) {
-        Identify.storeDataToStoreage(
-            Identify.LOCAL_STOREAGE,
-            Constants.SIMI_SESS_ID,
-            null
-        );
-        signinApi(this.signinCallback.bind(this), { username, password });
-        showFogLoading();
-    }
+	get forgotPasswordForm() {
+		const { isForgotPasswordOpen } = this.state;
+		const { history, classes } = this.props;
+		const isOpen = isForgotPasswordOpen;
+		const className = isOpen ? classes.form_open : classes.form_closed;
+		return this.forgotPassword(className, history);
+	}
 
-    onVendorLogin(username, password) {
-        Identify.storeDataToStoreage(
-            Identify.LOCAL_STOREAGE,
-            Constants.SIMI_SESS_ID,
-            null
-        );
-        vendorLogin(this.vendorLoginCallback.bind(this), {
-            username,
-            password
-        });
-        showFogLoading();
-    }
+	showVendorRegisterForm = () => {
+		this.setState(() => ({
+			isCreateAccountOpen: false,
+			isEmailLogin: false,
+			isForgotPasswordOpen: false,
+			isPhoneLogin: false,
+			isVendorRegisterOpen: true
+		}));
+	};
 
-    vendorLoginCallback = data => {
-        hideFogLoading();
-        console.log(data);
-        window.location.href = data.redirect_url;
-    };
+	showCreateAccountForm = () => {
+		this.setState(() => ({
+			isCreateAccountOpen: true,
+			isEmailLogin: false,
+			isForgotPasswordOpen: false,
+			isPhoneLogin: false,
+			isVendorRegisterOpen: false
+		}));
+	};
 
-    signinCallback = data => {
-        hideFogLoading();
-        if (this.props.simiSignedIn) {
-            if (data && !data.errors) {
-                storage.removeItem('cartId');
-                storage.removeItem('signin_token');
-                if (data.customer_access_token) {
-                    Identify.storeDataToStoreage(
-                        Identify.LOCAL_STOREAGE,
-                        Constants.SIMI_SESS_ID,
-                        data.customer_identity
-                    );
-                    setToken(data.customer_access_token);
-                    this.props.simiSignedIn(data.customer_access_token);
-                } else {
-                    Identify.storeDataToStoreage(
-                        Identify.LOCAL_STOREAGE,
-                        Constants.SIMI_SESS_ID,
-                        null
-                    );
-                    setToken(data);
-                    this.props.simiSignedIn(data);
-                }
-            } else
-                showToastMessage(
-                    Identify.__(
-                        'The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.'
-                    )
-                );
-        }
-    };
+	showForgotPasswordForm = () => {
+		this.setState(() => ({
+			isForgotPasswordOpen: true,
+			isEmailLogin: false,
+			isCreateAccountOpen: false,
+			isPhoneLogin: false,
+			isVendorRegisterOpen: false
+		}));
+	};
 
-    render() {
-        const {
-            createAccountForm,
-            emailLoginForm,
-            forgotPasswordForm,
-            phoneLoginForm,
-            socialAndCreateAccount,
-            vendorRegisterForm,
-            props,
-            state
-        } = this;
-        const {
-            isCreateAccountOpen,
-            isForgotPasswordOpen,
-            isEmailLogin,
-            isPhoneLogin
-        } = state;
+	showEmailLoginForm = () => {
+		this.setState(() => ({
+			isForgotPasswordOpen: false,
+			isEmailLogin: true,
+			isCreateAccountOpen: false,
+			isPhoneLogin: false,
+			isVendorRegisterOpen: false
+		}));
+	};
 
-        const { classes, isSignedIn, firstname, history, isGettingDetails } = props;
+	showPhoneLoginForm = () => {
+		this.setState(() => ({
+			isForgotPasswordOpen: false,
+			isEmailLogin: false,
+			isCreateAccountOpen: false,
+			isPhoneLogin: true,
+			isVendorRegisterOpen: false
+		}));
+	};
 
-        if (isSignedIn) {
-            if (firstname) { //only redirect while logged in and have profile (firstname, lastname, address...)
-                if (
-                    history.location.hasOwnProperty('pushTo') &&
-                    history.location.pushTo
-                ) {
-                    const { pushTo } = history.location;
-                    history.push(pushTo);
-                } else {
-                    history.push('/');
-                }
+	onSignIn(username, password) {
+		Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null);
+		signinApi(this.signinCallback.bind(this), { username, password });
+		showFogLoading();
+	}
 
-                const message = firstname
-                    ? Identify.__('Welcome %s Start shopping now').replace(
-                        '%s',
-                        firstname
-                    )
-                    : Identify.__(
-                        'You have succesfully logged in, Start shopping now'
-                    );
-                if (this.props.toggleMessages)
-                    this.props.toggleMessages([
-                        { type: 'success', message: message, auto_dismiss: true }
-                    ]);
-            } else if (isGettingDetails) {
-                return <Loading />
-            }
-        }
-        //const showBackBtn = isCreateAccountOpen || isForgotPasswordOpen;
+	onVendorLogin(username, password) {
+		Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null);
+		vendorLogin(this.vendorLoginCallback.bind(this), {
+			username,
+			password
+		});
+		showFogLoading();
+	}
 
-        return (
-            <React.Fragment>
-                {TitleHelper.renderMetaHeader({
-                    title: Identify.__('Customer Login')
-                })}
-                <div className={classes['login-background']}>
-                    <div className={classes['login-container']}>
-                        <div className={`${classes['buyer-login']}`}>
-                            <span>{Identify.__('Buyer'.toUpperCase())}</span>
-                        </div>
-                        <div className={`${(isCreateAccountOpen||isForgotPasswordOpen) ? classes["inactive"]: classes[""]} ${classes['select-type']}` }>
-                            <div role="presentation" onClick={this.showPhoneLoginForm} className={`${isPhoneLogin ? classes["active"]: null} ${classes['phone-type']}` }>
-                                <span className={classes['icon-phone']} />
-                                <span className={classes['title-phone']}>
-                                    {Identify.__('Phone')}
-                                </span>
-                            </div>
-                            <div role="presentation" onClick={this.showEmailLoginForm} className={`${isEmailLogin ? classes["active"]: null} ${classes['email-type']}` }>
-                                <span className={classes['icon-email']} />
-                                <span className={classes['title-email']}>
-                                    {Identify.__('Email')}
-                                </span>
-                            </div>
-                        </div>
-                        {emailLoginForm}
-                        {phoneLoginForm}
-                        {socialAndCreateAccount}
-                        {createAccountForm}
-                        {vendorRegisterForm}
-                        {forgotPasswordForm}
-                    </div>
-                </div>
-            </React.Fragment>
-        );
-    }
+	vendorLoginCallback = (data) => {
+		hideFogLoading();
+		console.log(data);
+		window.location.href = data.redirect_url;
+	};
+
+	signinCallback = (data) => {
+		hideFogLoading();
+		if (this.props.simiSignedIn) {
+			if (data && !data.errors) {
+				storage.removeItem('cartId');
+				storage.removeItem('signin_token');
+				if (data.customer_access_token) {
+					Identify.storeDataToStoreage(
+						Identify.LOCAL_STOREAGE,
+						Constants.SIMI_SESS_ID,
+						data.customer_identity
+					);
+					setToken(data.customer_access_token);
+					this.props.simiSignedIn(data.customer_access_token);
+				}
+			} else {
+				let errorMsg = '';
+				if (data.errors.length) {
+					data.errors.map((error) => {
+						if (error.endpoint == 'rest/V1/integration/customer/token') {
+							errorMsg = 'Your account does not exist or is not actived !';
+						}else{
+							errorMsg += error.message
+						}
+					});
+					showToastMessage(errorMsg);
+				}
+			}
+		}
+	};
+
+	render() {
+		const {
+			createAccountForm,
+			emailLoginForm,
+			forgotPasswordForm,
+			phoneLoginForm,
+			socialAndCreateAccount,
+			vendorRegisterForm,
+			props,
+			state
+		} = this;
+		const { isCreateAccountOpen, isForgotPasswordOpen, isEmailLogin, isPhoneLogin } = state;
+
+		const { classes, isSignedIn, firstname, history } = props;
+
+		if (isSignedIn) {
+			if (history.location.hasOwnProperty('pushTo') && history.location.pushTo) {
+				const { pushTo } = history.location;
+				history.push(pushTo);
+			} else {
+				history.push('/');
+			}
+
+			const message = firstname
+				? Identify.__('Welcome %s Start shopping now').replace('%s', firstname)
+				: Identify.__('You have succesfully logged in, Start shopping now');
+			if (this.props.toggleMessages)
+				this.props.toggleMessages([ { type: 'success', message: message, auto_dismiss: true } ]);
+		}
+		const showBackBtn = isCreateAccountOpen || isForgotPasswordOpen;
+
+		return (
+			<React.Fragment>
+				{TitleHelper.renderMetaHeader({
+					title: Identify.__('Customer Login')
+				})}
+				<div className={classes['login-background']}>
+					<div className={classes['login-container']}>
+						<div className={`${classes['buyer-login']}`}>
+							<span>{Identify.__('Buyer'.toUpperCase())}</span>
+						</div>
+						<div
+							className={`${isCreateAccountOpen || isForgotPasswordOpen
+								? classes['inactive']
+								: classes['']} ${classes['select-type']}`}
+						>
+							<div
+								onClick={this.showPhoneLoginForm}
+								className={`${isPhoneLogin ? classes['active'] : null} ${classes['phone-type']}`}
+							>
+								<span className={classes['icon-phone']} />
+								<span className={classes['title-phone']}>{Identify.__('Phone')}</span>
+							</div>
+							<div
+								onClick={this.showEmailLoginForm}
+								className={`${isEmailLogin ? classes['active'] : null} ${classes['email-type']}`}
+							>
+								<span className={classes['icon-email']} />
+								<span className={classes['title-email']}>{Identify.__('Email')}</span>
+							</div>
+						</div>
+						{emailLoginForm}
+						{phoneLoginForm}
+						{socialAndCreateAccount}
+						{createAccountForm}
+						{vendorRegisterForm}
+						{forgotPasswordForm}
+					</div>
+				</div>
+			</React.Fragment>
+		);
+	}
 }
 
 const mapStateToProps = ({ user }) => {
-    const { currentUser, isSignedIn, forgotPassword, isGettingDetails } = user;
-    const { firstname, email, lastname } = currentUser;
+	const { currentUser, isSignedIn, forgotPassword } = user;
+	const { firstname, email, lastname } = currentUser;
 
-    return {
-        email,
-        firstname,
-        forgotPassword,
-        isSignedIn,
-        lastname,
-        isGettingDetails
-    };
+	return {
+		email,
+		firstname,
+		forgotPassword,
+		isSignedIn,
+		lastname
+	};
 };
 
 const mapDispatchToProps = {
-    toggleMessages,
-    simiSignedIn
+	toggleMessages,
+	simiSignedIn
 };
 
-export default compose(
-    classify(defaultClasses),
-    withRouter,
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )
-)(Login);
+export default compose(classify(defaultClasses), withRouter, connect(mapStateToProps, mapDispatchToProps))(Login);
 
 async function setToken(token) {
-    // TODO: Get correct token expire time from API
-    return storage.setItem('signin_token', token, 3600);
+	// TODO: Get correct token expire time from API
+	return storage.setItem('signin_token', token, 3600);
 }
