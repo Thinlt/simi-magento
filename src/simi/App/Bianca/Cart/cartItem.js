@@ -5,7 +5,11 @@ import EditIcon from 'src/simi/BaseComponents/Icon/Pencil'
 import Image from 'src/simi/BaseComponents/Image'
 import { configColor } from 'src/simi/Config'
 import { Price } from '@magento/peregrine'
-import { resourceUrl, logoUrl } from 'src/simi/Helper/Url'
+import { resourceUrl, logoUrl } from 'src/simi/Helper/Url';
+import {
+    showFogLoading,
+    hideFogLoading
+} from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import ReactHTMLParse from 'react-html-parser';
 require('./cartItem.scss')
 
@@ -41,14 +45,6 @@ const CartItem = props => {
         }
     }
 
-    const updateCartItem = (quantity) => {
-        const payload = {
-            item: item,
-            quantity: quantity
-        };
-        props.updateCartItem(payload, item.item_id);
-    }
-
     const getVendorName = (vendorId) => {
         const storeConfig = Identify.getStoreConfig()
         const vendorList = storeConfig.simiStoreConfig.config.vendor_list;
@@ -74,10 +70,10 @@ const CartItem = props => {
                     <div className="item-name">{item.name}</div>
                 </div>
                 {/* <div className='item-sku'>{Identify.__('Product code:')} {item.sku}</div> */}
-                <div className='item-options'>{optionText}</div>
+                <div className='item-options'>{optionText.reverse()}</div>
                 {!props.isOpen
                 ?   
-                    <div className='designer-name'>{getVendorName(item.attribute_values.vendor_id)}</div>
+                    <div className='designer-name'>{item.attribute_values && getVendorName(item.attribute_values.vendor_id)}</div>
                 :
                     null
                 }
@@ -107,8 +103,9 @@ const CartItem = props => {
                 ref={inputQty}
                 onBlur={(event) => {
                     setReadOny(true)
-                    if (parseInt(event.target.value, 10) !== parseInt(item.qty, 10))
-                        updateCartItem(parseInt(event.target.value, 10))
+                    if (parseInt(event.target.value, 10) !== parseInt(item.qty, 10)){
+                        props.updateCartItem(item,parseInt(event.target.value, 10))
+                    }
                 }
                 }
                 onKeyUp={e => {
@@ -135,6 +132,7 @@ const CartItem = props => {
 
     const location = `/product.html?sku=${item.simi_sku ? item.simi_sku : item.sku}`
     const image = (item.image && item.image.file) ? item.image.file : item.simi_image
+    hideFogLoading()
     return (
         <div key={Identify.randomString(5)} className='cart-siminia-item'>
             

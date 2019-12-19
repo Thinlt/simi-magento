@@ -14,7 +14,7 @@
     /* products on shipping */
     .items {
       padding: 0;
-      margin-bottom: 18px;
+      margin-bottom: 30px;
       border: none;
     }
     .items .order-item {
@@ -29,7 +29,7 @@
       }
     }
     .item-info {
-      width: 70%;
+      width: 60%;
       max-width: 213px;
     }
     .item-name {
@@ -68,8 +68,39 @@
         }
       }
     }
+    .service_support_checkbox {
+      > label {
+        margin: 0px;
+        margin-top: 20px;
+
+        input[type="checkbox"] {
+          border-radius: 0;
+          width: 24px;
+          height: 24px;
+          margin-top: 0px;
+        }
+        input[type="checkbox"]:checked {
+          background-color: #101820;
+        }
+        .service_support_label {
+          font-size: 14px;
+          line-height: 14px;
+          padding-top: 6px;
+          font-family: "Gotham Book";
+        }
+        .service_support_icon {
+          grid-column: 1 / span 1;
+          grid-row: 1 / span 1;
+          height: 20px;
+          padding-top: 3px;
+          svg {
+            color: white;
+            z-index: 1;
+          }
+        }
+      }
+    }
     .select-shipping-checkbox {
-      margin-top: -15px;
       .checkbox-item-text {
         color: #101820;
         font-size: 14px;

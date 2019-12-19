@@ -123,7 +123,8 @@ class Checkout extends Component {
         const { cartDetail } = this;
         const { cart } = props;
         const { cartId, isLoading } = cart;
-        const cartLoading = (!cartDetail && cartId && !isLoading && (!cart.details || !cart.details.item))
+        const cartLoading = (!cartDetail && cartId && (!cart.details || !cart.details.item)) || isLoading
+        
         if (!cartDetail || cartLoading)
             return true
         if (props.checkout && props.checkout.submitting)
@@ -225,7 +226,7 @@ class Checkout extends Component {
             invalidAddressMessage, isAddressInvalid, is_virtual, paymentCode, paymentData, paymentMethods,
             ready: this.isCheckoutReady(checkout),
             shippingAddress, shippingMethod, shippingTitle, simiSignedIn, submitShippingAddress, submitOrder, submitPaymentMethod,
-            submitBillingAddress, submitShippingMethod, submitting, toggleMessages, user,
+            submitBillingAddress, submitShippingMethod, submitting, toggleMessages, user, getCartDetails
         };
 
         let cpValue = "";
@@ -242,13 +243,19 @@ class Checkout extends Component {
         if (checkout.step && checkout.step === 'receipt') {
             sessionStorage.removeItem('cc_card_data');
             sessionStorage.removeItem('cc_3DSecure_stripe');
-            const locate = {
-                pathname: '/thankyou.html',
-                state: {
-                    isUserSignedIn: userSignedIn
-                }
-            };
-            this.handleLink(locate);
+            // from payment type 3
+            if (Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'selected_payment_payfortcc')) {
+                sessionStorage.removeItem('selected_payment_payfortcc');
+                history.push('/payment_webview.html');
+            } else {
+                    const locate = {
+                    pathname: '/thankyou.html',
+                    state: {
+                        isUserSignedIn: userSignedIn
+                    }
+                };
+                this.handleLink(locate);
+            }
         }
 
         return <Fragment>

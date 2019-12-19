@@ -56,12 +56,13 @@
     }
 
     .cart-list-footer{
-        font-weight: 500;
+        font-weight: 600;
     }
 }
 
 @media (min-width: 1024px) {
     .cart-page{
+        margin-bottom: 334px;
         .body{
             display: flex;
             justify-content: space-between;
@@ -81,16 +82,13 @@
     .cart-header .cart-title {
         text-align: left;
         font-size: 28px;
+        text-transform: uppercase;
+        height: 24px;
+        margin-bottom: 32px;
     }
 
     .cart-header .cart-title div {
-        margin-top: 8px;
-        margin-left: 5px;
-    }
-
-    .cart-header .cart-title svg {
-        width: 50px !important;
-        height: 50px !important;
+       height: inherit;
     }
 }
 @media (max-width: 1023px) {
@@ -147,7 +145,7 @@
             .summary-zone{
                 margin: 47px 0 0;
                 border: 1px solid;
-                padding: 32px 43px 61px 40px;
+                padding: 32px 43px 58px 40px;
                 max-width: 376px;
                 width: 100%;
             }
@@ -184,7 +182,6 @@
 
     .cart-item-header {
         display: flex;
-        margin-top: 35px;
         height: 50px;
         font-weight: 600;
         font-size: 16px;
@@ -195,7 +192,8 @@
     .cart-item-header > div {
         padding: 12px 18px;
         border-bottom: 1px solid #808080;
-
+        font-size: 14px;
+        font-weight: 500;
         &:first-child{
             padding-left: 37px;
         }
@@ -205,11 +203,6 @@
             padding-right: 46px;
         }
     }
-}
-
-
-.cart-coupon-form {
-    font-size: 16px;
 }
  
 .cart-coupon-form .coupon-code-title {
@@ -230,7 +223,6 @@
 }
 
 .coupon-code {
-    max-width: 444px;
     margin-left: auto;
     margin-top: 20px;
 }

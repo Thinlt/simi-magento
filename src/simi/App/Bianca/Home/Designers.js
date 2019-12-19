@@ -11,16 +11,17 @@ const Designers = props => {
     const {vendor_list: data} = config || {};
 
     const slideSettings = {
-        chevronWidth: isPhone ? 48 : 72,
+        chevronWidth: isPhone ? 16 : 72,
         showChevron: true,
         numberOfCards: isPhone ? 3 : 6,
-        slidesToScroll: isPhone ? 3 : 6,
+        slidesToScroll: 3,
+        gutter: isPhone ? 12.5 : 16
     }
 
     let newData = [];
     if (data) {
         data.forEach((item, index)=>{
-            if (index < 18) {
+            if (index < 18 && item.logo) {
                 item.url = `/shop-by-desinger.html?id=${item.vendor_id}`;
                 item.image = item.logo;
                 newData.push(item);

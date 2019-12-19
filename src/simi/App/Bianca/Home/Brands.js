@@ -6,10 +6,11 @@ const Brands = props => {
     const { history, isPhone, data} = props;
 
     const slideSettings = {
-        chevronWidth: 72,
         showChevron: true,
+        chevronWidth: isPhone ? 36 : 72,
         numberOfCards: isPhone ? 3 : 6,
-        slidesToScroll: isPhone ? 3 : 6,
+        slidesToScroll: isPhone ? 1 : 2,
+        gutter: isPhone ? 12.5 : 16
     }
 
     data.forEach((item, index)=>{
@@ -18,7 +19,8 @@ const Brands = props => {
 
     return (
         <div className="brand-slider">
-            <Scroller data={data} history={history} slideSettings={slideSettings} isPhone={isPhone}/>
+            <h3 className="title">{Identify.__('Shop By Brands')}</h3>
+            <Scroller data={data} slideSettings={slideSettings} history={history} isPhone={isPhone}/>
         </div>
     );
 }

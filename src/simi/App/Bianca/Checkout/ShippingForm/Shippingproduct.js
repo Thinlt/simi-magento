@@ -4,13 +4,35 @@ import { resourceUrl, logoUrl } from 'src/simi/Helper/Url';
 import Image from 'src/simi/BaseComponents/Image';
 import { isArray } from 'util';
 import Identify from 'src/simi/Helper/Identify';
+import Checkbox from 'src/components/Checkbox';
+import { switchServiceSupport } from 'src/simi/Model/Servicesupport'
+import { showFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
+
 
 const Shippingproduct = props => {
-    const {cart, designer} = props
-    console.log(props)
-    if (cart && cart.totals && cart.totals.items) {
+    const {cart, designer, getCartDetails} = props
+    
+    const switchedServiceCallback = () => {
+        getCartDetails()
+    }
+
+    const toggleServiceSupport = (item) => {
+        if (cart && cart.cartId && getCartDetails) {
+            showFogLoading()
+            switchServiceSupport(switchedServiceCallback, item.item_id, cart.cartId, parseInt(item.is_buy_service) !== 1)
+        }
+    }
+    
+    if (cart && cart.totals && cart.totals.items && designer) {
         return cart.totals.items.map((item, index) => {
-            if (item.attribute_values && parseInt(item.attribute_values.vendor_id) === parseInt(designer.entity_id)) {
+            
+            if (
+                item.attribute_values && 
+                (
+                    (parseInt(item.attribute_values.vendor_id) === parseInt(designer.entity_id)) ||
+                    (item.attribute_values.vendor_id === designer.entity_id)
+                )
+            ) {
                 let itemsOption = '';
                 let optionElement = ''
                 item.options = (item.options)?(isArray(item.options)?item.options:JSON.parse(item.options)):[]
@@ -51,6 +73,18 @@ const Shippingproduct = props => {
                                 {optionElement}
                                 <div className='item-qty-price'>
                                     <span className='qty'>{Identify.__("Quantity")}: {item.qty}</span>
+                                </div>
+                                <div className="service_support_checkbox">
+                                    <Checkbox
+                                        fieldState={{value: parseInt(item.is_buy_service) === 1}}
+                                        field="service_support"
+                                        label={Identify.__("Service support")}
+                                        classes={{
+                                            label: 'service_support_label',
+                                            icon:'service_support_icon'
+                                        }}
+                                        onChange={() => toggleServiceSupport(item)}
+                                    />
                                 </div>
                             </div>
                     </div>

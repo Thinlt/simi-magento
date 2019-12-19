@@ -17,7 +17,7 @@ const ShippingForm = (props) => {
     const {
         availableShippingMethods,
         cancel,
-        shippingMethod,
+        getCartDetails,
         submit,
         cart
     } = props;
@@ -176,16 +176,19 @@ const ShippingForm = (props) => {
                         rates.unshift(defaultMethod);
                         let vendorName = carrier_title && vendor_id !== 'default' && Identify.__(`Vendor ${vendor_id}`) || Identify.__('Default');
                         let designer = null
-                        if(vendors){
-                            designer = vendors.find(({entity_id}) => parseInt(entity_id) === parseInt(vendor_id));
-                            vendorName = designer ? 
-                                ((designer.profile && designer.profile.store_name) ? designer.profile.store_name : (designer.firstname + (designer.lastname ? ` ${designer.lastname}` : '')))
-                                : Identify.__('Default');
+                        if(vendors)
+                            designer = vendors.find(({entity_id}) => parseInt(entity_id) === parseInt(vendor_id))
+
+                        if (!designer) {
+                            designer = {entity_id: 'default'}
+                            vendorName = Identify.__('Default');
+                        } else {
+                            vendorName = ((designer.profile && designer.profile.store_name) ? designer.profile.store_name : (designer.firstname + (designer.lastname ? ` ${designer.lastname}` : '')))
                         }
                         return (
                             <div key={vendor_key} className="shipping-vendor">
                                 <span className="shipping-vendor-name">{vendorName}</span>
-                                <div className="items"><Shippingproduct designer={designer} cart={cart}/></div>
+                                <div className="items"><Shippingproduct designer={designer} cart={cart} getCartDetails={getCartDetails}/></div>
                                 {rates.map((rate) => {
                                     if(!rate.id){
                                         return null;
@@ -200,6 +203,10 @@ const ShippingForm = (props) => {
                                             // onChange={(value) => handleSubmit(value)}
                                             selected={selected}
                                             className="select-shipping-checkbox"
+                                            classes={{
+                                                label: 'select_shipping_checkbox_label',
+                                                icon: 'select_shipping_checkbox_icon'
+                                            }}
                                         />
                                     )
                                 })}

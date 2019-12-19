@@ -1,128 +1,141 @@
-import React from 'react'
-import { Carousel } from "react-responsive-carousel";
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import React, {useEffect, useState} from 'react'
 import Identify from "src/simi/Helper/Identify";
+// import Scroller from "./Scroller";
+import OwlCarousel from 'react-owl-carousel2';
+// import {sendRequest} from 'src/simi/Network/RestMagento';
 
-class Instagram extends React.Component {
+const Instagram = (props) => {
+    const {history, isPhone} = props;
+    const [insData, setInsData] = useState();
 
-    state = {
-        insData: null
-    }
-
-    constructor(props) {
-        super(props);
-    }
-
-    getUserInstagram = async (name) => {
-        let response = await fetch(`https://www.instagram.com/${name}/?__a=1`);
-        let data = await response.json();
-        return data;
-    }
-
-    componentWillMount() {
-        const checkDT = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'instagram');
-        if (checkDT) {
-            this.setState({ insData: checkDT });
+    const getUserInstagram = async (name) => {
+        let response = await fetch(`/rest/V1/simiconnector/proxy/instagram/?path=${name}/?__a=1`);
+        if (response.ok) { // if HTTP-status is 200-299
+            // get the response body (the method explained below)
+            let resData = await response.json();
+            if (Array.isArray(resData) && resData[0]){
+                resData = resData[0];
+            }
+            return resData;
+        } else {
+            console.warn("HTTP-Error: " + response.status);
         }
+        return false;
     }
 
-    componentDidMount() {
-        if (this.props.data && !this.state.insData) {
-            const propData = this.props.data;
-            this.getUserInstagram(propData).then(res => {
-                this.setState({ insData: res });
-                Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'instagram', res);
+    useEffect(() => {
+        const {data} = props;
+        if (data) {
+            // sendRequest(`/rest/V1/simiconnector/proxy/instagram/?path=${data}/?__a=1`, (resData) => {
+            //     if (resData) {
+            //         Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'instagram', resData);
+            //         setInsData(resData);
+            //     }
+            // }, 'GET');
+            
+            getUserInstagram(data).then(resData => {
+                Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'instagram', resData);
+                setInsData(resData);
             });
-        }
-    }
-
-    renderInsItem = (ins) => {
-        const { node } = ins;
-        return <div className="ins-item" key={node.id}>
-            <a href={`https://www.instagram.com/p/${node.shortcode}`} target="_blank" rel="noopener noreferrer">
-                <img src={node.thumbnail_src} alt={node.accessibility_caption} />
-            </a>
-        </div>
-    }
-
-    renderInsView = () => {
-        let html = null;
-        const { isPhone, insData } = this.state;
-
-        if (insData) {
-            const { user } = insData.graphql;
-            const containerStyle = isPhone ? { marginTop: 16 } : { marginTop: 32 };
-            if (user && !user.is_private) {
-                let slideSettings = {
-                    autoPlay: false,
-                    showArrows: !isPhone,
-                    emulateTouch: true,
-                    showThumbs: false,
-                    showIndicators: false,
-                    showStatus: false,
-                    infiniteLoop: false,
-                    rtl: Identify.isRtl(),
-                    lazyLoad: true,
-                    dynamicHeight: true,
-                    transitionTime: 500,
-                };
-                if (isPhone) {
-                    slideSettings['centerMode'] = true;
-                    slideSettings['selectedItem'] = 1;
-                    slideSettings['centerSlidePercentage'] = 47.13333333;
-                }
-
-                const { edges } = user.edge_owner_to_timeline_media;
-                if (edges.length) {
-                    let instagramData = [];
-                    if (!isPhone) {
-                        const totalSlide = Math.ceil(edges.length / 5);
-
-                        for (let i = 0; i < totalSlide; i++) {
-                            let start = 5 * i;
-                            let end = 5 * (i + 1);
-                            let itemSL = edges.slice(start, end).map((item, key) => {
-                                return this.renderInsItem(item);
-                            });
-                            let slide = <div className="ins-data-container" key={Identify.randomString('key')}>
-                                {itemSL}
-                            </div>;
-                            instagramData.push(slide);
-                        }
-                    } else {
-                        instagramData = edges.map(ins => {
-                            return this.renderInsItem(ins);
-                        });
-                    }
-
-                    html = <div className="container" style={containerStyle}>
-                        <div className="row">
-                            <Carousel {...slideSettings}>
-                                {instagramData}
-                            </Carousel>
-                        </div>
-                    </div>
-                }
+        } else {
+            const instagramStored = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'instagram');
+            if (instagramStored) {
+                setInsData(instagramStored);
             }
         }
+    }, []);
 
-        return html;
+    const actionViewAll = () => {
+        const {data} = props;
+        window.location.href = `https://www.instagram.com/${data}`;
     }
 
-    render() {
-        const { data } = this.props;
-        if (!data) {
-            return null;
-        }
+    const nodeItem = (ins) => {
+        const { node } = ins;
+        return node;
+    }
 
+    const renderInsItem = (item, index) => {
         return (
-            <div className="instagram-block-homepage">
-                <div className="text-center">
-                    <span className="hash-title">{data}</span>
-                </div>
-                {this.renderInsView()}
+            <div className="item" key={index}>
+                <a href={`https://www.instagram.com/p/${item.shortcode}`} target="_blank" rel="noopener noreferrer">
+                    <img className="img-responsive" src={item.thumbnail_src} alt={item.accessibility_caption} />
+                </a>
             </div>
         );
     }
+
+    const renderInsView = () => {
+        let html = null;
+        if (insData && insData.graphql) {
+            const { user } = insData.graphql;
+            if (user && !user.is_private) {
+                const { edges } = user.edge_owner_to_timeline_media;
+                if (edges.length) {
+                    let instagramData = [];
+                    instagramData = edges.map((ins, index) => {
+                        // const limit = isPhone ? 3 : 8;
+                        const limit = 18;
+                        if (index < limit) {
+                            return renderInsItem(nodeItem(ins), index);
+                        }
+                        return null;
+                    });
+                    html = instagramData;
+                }
+            }
+        }
+        return html;
+    }
+
+    const items = renderInsView();
+
+    const left = '<svg class="chevron-left" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" style="display: inline-block; color: rgba(255, 255, 255, 0.87); fill: rgb(0, 0, 0); height: 24px; width: 24px; user-select: none; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;"><path d="M14 20c0.128 0 0.256-0.049 0.354-0.146 0.195-0.195 0.195-0.512 0-0.707l-8.646-8.646 8.646-8.646c0.195-0.195 0.195-0.512 0-0.707s-0.512-0.195-0.707 0l-9 9c-0.195 0.195-0.195 0.512 0 0.707l9 9c0.098 0.098 0.226 0.146 0.354 0.146z"></path></svg>';
+    const right = '<svg class="chevron-right" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" style="display: inline-block; color: rgba(255, 255, 255, 0.87); fill: rgb(0, 0, 0); height: 24px; width: 24px; user-select: none; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;"><path d="M5 20c-0.128 0-0.256-0.049-0.354-0.146-0.195-0.195-0.195-0.512 0-0.707l8.646-8.646-8.646-8.646c-0.195-0.195-0.195-0.512 0-0.707s0.512-0.195 0.707 0l9 9c0.195 0.195 0.195 0.512 0 0.707l-9 9c-0.098 0.098-0.226 0.146-0.354 0.146z"></path></svg>';
+
+    const options = {
+        stagePadding: isPhone ? 35 : 41.5,
+        // items: 1,
+        margin: isPhone ? 15 : 16,
+        nav: true,
+        autoplay: false,
+        navText: [left, right],
+        responsive:{
+            0:{
+                items:1
+            },
+            375:{
+                items:2
+            },
+            1024:{
+                items:5
+            },
+            1366:{
+                items:6
+            },
+            1600:{
+                items:7
+            }
+        }
+    };
+
+    return (
+        <div className={`instagram-slider ${isPhone ? 'phone-view':''}`}>
+            <h3 className="title">{Identify.__('Shop Our Instagram')}</h3>
+            <div className="container instagram-container">
+                <div className="carousel-block">
+                    { items && 
+                        <OwlCarousel options={options}>
+                            {items}
+                        </OwlCarousel>
+                    }
+                </div>
+            </div>
+            
+            <div className="view-all">
+                <div className="btn" onClick={actionViewAll}><span>{Identify.__('View all')}</span></div>
+            </div>
+        </div>
+    );
 }
 export default Instagram

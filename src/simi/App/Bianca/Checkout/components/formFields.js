@@ -44,7 +44,7 @@ const renderRegionField = (selectedCountry, initialCountry, countries, configFie
                 (country.available_regions && Array.isArray(regions) && regions.length) ?
                 <Select
                     initialValue={initialValues.region_code}
-                    key={Identify.randomString(3)}
+                    key={Identify.randomString(3) + initialValues.region_code}
                     field="region_code" items={listState(regions)}
                     isrequired={(!configFields || (configFields && configFields.hasOwnProperty('region_id_show') && configFields.region_id_show === 'req')) ? 'isrequired' : ''}
                 /> :
@@ -112,7 +112,7 @@ const FormFields = (props) => {
 
     const handleChooseAddedAddress = () => {
         const selected_address_field = $(`#${formId} select[name=selected_address_field]`).val()
-        if (selected_address_field !== 'new_address') {
+        if (selected_address_field !== 'new_address' && addresses) {
             setShippingNewForm(false);
             const shippingFilter = addresses.find(
                 ({ id }) => id === parseInt(selected_address_field, 10)
@@ -127,6 +127,7 @@ const FormFields = (props) => {
                         Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'shipping_address', shippingFilter.id);
                     }
                 }
+                shippingFilter.save_in_address_book = 0
                 handleSubmit(shippingFilter);
                 if (!billingForm && !billingAddressSaved) {
                     handleSubmitBillingSameFollowShipping();
@@ -239,6 +240,10 @@ const FormFields = (props) => {
                 const labelA = address.firstname + ' ' + address.lastname + ', ' + address.city + ', ' + address.region.region;
                 return <option value={address.id} key={idx}>{labelA}</option>
             });
+        } else {
+            const signin_token = storage.getItem('signin_token')
+            if (signin_token) //logged in but not loaded addresses
+                simiSignedIn(signin_token)
         }
         return <Fragment>
             <option value="">{Identify.__('Please choose')}</option>
@@ -259,6 +264,7 @@ const FormFields = (props) => {
                         <span className="selectSavedAddressInput">
                             <select name="selected_address_field"
                             defaultValue={billingForm ? initialBilling : initialShipping}
+                            onChange={() => handleChooseAddedAddress()}
                             onBlur={() => handleChooseAddedAddress()}>
                                 {listOptionsAddress(addresses)}
                             </select>

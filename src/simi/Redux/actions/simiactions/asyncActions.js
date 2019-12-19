@@ -9,6 +9,7 @@ import { getUserDetails } from 'src/actions/user';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import Identify from 'src/simi/Helper/Identify';
 import { refresh } from 'src/util/router-helpers';
+import { toggleDrawer } from 'src/actions/app';
 
 //const { request } = RestApi.Magento2;
 import { request } from 'src/simi/Network/RestMagento'
@@ -196,6 +197,27 @@ export const fullFillAddress = () => {
 
     }
 }
+
+export const toggleCart = () =>
+    async function thunk(dispatch, getState) {
+        const { app, cart } = getState();
+
+        // ensure state slices are present
+        if (!app || !cart) {
+            return;
+        }
+
+        // if the cart drawer is open, close it
+        if (app.drawer === 'cart') {
+            return dispatch(closeDrawer());
+        }
+
+        // otherwise open the cart and load its contents
+        await Promise.all([
+            dispatch(toggleDrawer('cart')),
+        ]);
+    };
+
 
 export const submitShippingMethod = payload =>
     async function thunk(dispatch, getState) {
