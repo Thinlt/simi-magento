@@ -78,6 +78,28 @@
                 <field id="style" showInDefault="0" showInWebsite="0" showInStore="0" />
                 <field id="icon_color" showInDefault="0" showInWebsite="0" showInStore="0" />
             </group>
+            <group id="sizeguide" translate="label" type="text" sortOrder="1500" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Size Guide Configuration</label>
+                <field id="image_file" type="image" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Upload image</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">sizeguide</upload_dir>
+                    <base_url type="media" scope_info="1">sizeguide</base_url>
+                    <comment>width: 768px</comment>
+                </field>
+                <field id="image_file_mobile" type="image" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Upload image (mobile)</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">sizeguide_mobile</upload_dir>
+                    <base_url type="media" scope_info="1">sizeguide_mobile</base_url>
+                    <comment>width: 300px</comment>
+                </field>
+                <field id="email_template" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Template</label>
+                    <source_model>Simi\Simicustomize\Model\Config\Source\Email\Template</source_model>
+                    <comment>Send email to admin.</comment>
+                </field>
+            </group>
         </section>
         <section id="contact">
             <group id="time" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">

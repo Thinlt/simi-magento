@@ -4,6 +4,7 @@ namespace Simi\Simicustomize\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Simi\VendorMapping\Api\VendorListInterface;
+use Magento\Framework\UrlInterface;
 
 class SimiGetStoreviewInfoAfter implements ObserverInterface {
     public $simiObjectManager;
@@ -18,6 +19,11 @@ class SimiGetStoreviewInfoAfter implements ObserverInterface {
     */
     protected $config;
 
+    /**
+     * @var UrlInterface
+     */
+    private $urlBuilder;
+
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $simiObjectManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
@@ -25,7 +31,8 @@ class SimiGetStoreviewInfoAfter implements ObserverInterface {
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Swatches\Helper\Media $swatchMediaHelper,
-        VendorListInterface $vendorList
+        VendorListInterface $vendorList,
+        UrlInterface $urlBuilder
     ) {
         $this->simiObjectManager = $simiObjectManager;
         $this->vendorList = $vendorList;
@@ -34,6 +41,7 @@ class SimiGetStoreviewInfoAfter implements ObserverInterface {
         $this->eavConfig = $eavConfig;
         $this->storeManager = $storeManager;
         $this->swatchMediaHelper = $swatchMediaHelper;
+        $this->urlBuilder = $urlBuilder;
     }
 
     public function execute(\Magento\Framework\Event\Observer $observer) {
@@ -81,6 +89,18 @@ class SimiGetStoreviewInfoAfter implements ObserverInterface {
             $object->storeviewInfo['contact_us'] = array(
                 'enabled' => $this->config->getValue('contact/contact/enabled'),
                 'times' => $this->config->getValue('contact/time/times'),
+            );
+            $sizeGuideFile = $this->config->getValue('simiconnector/sizeguide/image_file');
+            $sizeGuideFileMobile = $this->config->getValue('simiconnector/sizeguide/image_file_mobile');
+            $object->storeviewInfo['size_guide'] = array(
+                'image_file' => array(
+                    'src' => $this->urlBuilder->getBaseUrl().UrlInterface::URL_TYPE_MEDIA.'/sizeguide/'.$sizeGuideFile,
+                    'path' => '/'.UrlInterface::URL_TYPE_MEDIA.'/sizeguide/'.$sizeGuideFile
+                ),
+                'image_file_mobile' => array(
+                    'src' => $this->urlBuilder->getBaseUrl().UrlInterface::URL_TYPE_MEDIA.'/sizeguide_mobile/'.$sizeGuideFileMobile,
+                    'path' => '/'.UrlInterface::URL_TYPE_MEDIA.'/sizeguide_mobile/'.$sizeGuideFileMobile
+                ),
             );
         }
     }

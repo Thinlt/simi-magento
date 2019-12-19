@@ -6,6 +6,7 @@
     <preference for="\Simi\Simiconnector\Model\Customer" type="\Simi\Simicustomize\Model\Customer" />
     <preference for="\Simi\Simicustomize\Api\ReserveInterface" type="\Simi\Simicustomize\Model\Api\Reserve" />
     <preference for="\Simi\Simicustomize\Api\ContactInterface" type="\Simi\Simicustomize\Model\Api\Contact" />
+    <preference for="\Simi\Simicustomize\Api\SizechartInterface" type="\Simi\Simicustomize\Model\Api\Sizechart" />
     <preference for="\Simi\Simicustomize\Api\ProxyInstagramInterface" type="\Simi\Simicustomize\Model\Api\ProxyInstagram" />
     <preference for="Magento\Customer\Controller\Account\Confirm" type="Simi\Simicustomize\Controller\Account\Confirm" />
     <type name="Magento\Quote\Model\Quote\Item\Repository">
@@ -26,6 +27,12 @@
             <argument name="resourceModel" xsi:type="string">Simi\Simicustomize\Model\ResourceModel\Reserve</argument>
         </arguments>
     </virtualType>
+    <virtualType name="SimiSizechartGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">simi_size_chart</argument>
+            <argument name="resourceModel" xsi:type="string">Simi\Simicustomize\Model\ResourceModel\Sizechart</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="SimiContactGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
             <argument name="mainTable" xsi:type="string">simi_contact</argument>
@@ -36,6 +43,7 @@
         <arguments>
             <argument name="collections" xsi:type="array">
                 <item name="simi_reserve_data_source" xsi:type="string">SimiReserveGridDataProvider</item>
+                <item name="simi_sizechart_data_source" xsi:type="string">SimiSizechartGridDataProvider</item>
                 <item name="simi_contact_data_source" xsi:type="string">SimiContactGridDataProvider</item>
             </argument>
         </arguments>
