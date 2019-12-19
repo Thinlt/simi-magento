@@ -28,12 +28,13 @@ class Customers extends \Simi\Simiconnector\Model\Api\Customers
                     );
                     break;
                 case 'createpassword':
-                    if (!isset($data['params']['password']))
+                    $data = (object) $data['contents'];
+                    if (!isset($data->password))
                         throw new \Simi\Simiconnector\Helper\SimiException(__('Missing new password'), 4);
-                    if (!isset($data['params']['rptoken']))
+                    if (!isset($data->rptoken))
                         throw new \Simi\Simiconnector\Helper\SimiException(__('Missing reset password token'), 4);
-                    $newPW = $data['params']['password'];
-                    $resetPasswordToken = $data['params']['rptoken'];
+                    $newPW = $data->password;
+                    $resetPasswordToken = $data->rptoken;
                     $this->simiObjectManager
                         ->get('Magento\Customer\Model\Session')
                         ->setRpToken($resetPasswordToken);
