@@ -18,6 +18,11 @@
     background-color: white;
     /* min-height: 700px !important; */
 }
+.login-background .smallSize{
+    max-width: 572px;
+    border: unset;
+}
+
 .signIn_closed {
     display: none;
 }

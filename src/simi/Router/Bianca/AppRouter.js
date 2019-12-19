@@ -28,6 +28,7 @@ class AppRouter extends Abstract{
                 <Route exact {...router.wishlist}/>
                 <Route exact {...router.login}/>
                 <Route exact {...router.logout}/>
+                <Route exact {...router.customer_reset_password}/>
                 <Route exact {...router.contact}/>
                 <Route exact {...router.preorder2nd}/>
                 <Route exact {...router.webview}/>

@@ -1,10 +1,15 @@
 .text {
-    padding: 0.5rem 1.5rem;
-    font-size: 0.875rem;
-    font-weight: 300;
-    line-height: 1.25rem;
-    text-align: center;
-    margin-bottom: 2rem;
+    height: 81px;
+    width: 572px;
+    background-color: rgba(71,200,89,0.33);
+    padding: 21px 47px 20px 47px !important;
+    color: #078018;
+    font-family: Gotham;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    text-align: left;
+    margin-bottom: 173px;
     overflow-wrap: break-word;
 }
 
@@ -14,7 +19,9 @@
 }
 
 .submitButton {
-    padding: 5px 15px;
+    display: flex;
+    justify-content: center;
+    min-height: 48px;
     font-size: 16px;
     font-weight: 600;
     white-space: nowrap;
@@ -29,4 +36,10 @@
 
 .submitButton:hover {
     opacity: 0.8;
+}
+.continue{
+    display: block;
+    text-transform: uppercase;
+    height: fit-content;
+    margin-top: 6px;
 }

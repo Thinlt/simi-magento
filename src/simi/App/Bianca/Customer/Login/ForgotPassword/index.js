@@ -37,6 +37,9 @@ class ForgotPassword extends Component {
             }
             this.successMessage = text
             this.setState({ resetSubmited: true})
+            if(this.props.hideBuyer){
+                this.props.hideBuyer();
+            }
         } else {
             let messages = ''
             data.errors.map(value => {
@@ -51,6 +54,9 @@ class ForgotPassword extends Component {
         this.setState({resetSubmited: false})
         if (this.props.onClose)
             this.props.onClose();
+        if (this.props.showBuyer){
+            this.props.showBuyer()
+        }
     };
 
     render() {
