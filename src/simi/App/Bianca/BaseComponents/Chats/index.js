@@ -11,6 +11,7 @@ import {sendRequest} from 'src/simi/Network/RestMagento';
 import Loading from 'src/simi/BaseComponents/Loading';
 import PhoneCodes from './PhoneData';
 import Select from './SelectOption';
+import { BrowserRouter, Route, Link } from "react-router-dom";
 
 require('./style.scss');
 if (getOS() === 'MacOS') require('./style-ios.scss');
@@ -84,8 +85,10 @@ const Chats = (props) => {
             phoneNum = phone[0];
         }
         if (phoneNum) {
-            window.location.href = 'http://api.whatsapp.com/send?phone=' + phoneNum.split('-').join('').split(' ').join('').match(/(\(.*?\))?\d+/)[0].match(/\d+/g).join('');
+            return 'http://api.whatsapp.com/send?phone=' + phoneNum.split('-').join('').split(' ').join('').match(/(\(.*?\))?\d+/)[0].match(/\d+/g).join('');
+            // window.location.href = 'http://api.whatsapp.com/send?phone=' + phoneNum.split('-').join('').split(' ').join('').match(/(\(.*?\))?\d+/)[0].match(/\d+/g).join('');
         }
+        return '';
     }
 
     const livechatAction = () => {
@@ -167,9 +170,11 @@ const Chats = (props) => {
                 }
                 {
                     data && data.phone &&
-                    <div className="chat-icons whatsapp" onClick={whatsappAction}>
-                        <IconWhatsapp style={{width: '24px', height: '24px', fill: '#fff'}}/>
-                    </div>
+                    <a href={whatsappAction()} target="_blank" alt="Whatsapp">
+                        <div className="chat-icons whatsapp">
+                            <IconWhatsapp style={{width: '24px', height: '24px', fill: '#fff'}}/>
+                        </div>
+                    </a>
                 }
                 {
                     livechat && livechat.enabled === '1' &&

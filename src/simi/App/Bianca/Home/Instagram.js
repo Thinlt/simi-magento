@@ -46,7 +46,7 @@ const Instagram = (props) => {
 
     const actionViewAll = () => {
         const {data} = props;
-        window.location.href = `https://www.instagram.com/${data}`;
+        return `https://www.instagram.com/${data}`;
     }
 
     const nodeItem = (ins) => {
@@ -133,7 +133,9 @@ const Instagram = (props) => {
             </div>
             
             <div className="view-all">
-                <div className="btn" onClick={actionViewAll}><span>{Identify.__('View all')}</span></div>
+                <a href={actionViewAll()} target="_blank" alt="view all">
+                    <div className="btn" onClick={actionViewAll}><span>{Identify.__('View all')}</span></div>
+                </a>
             </div>
         </div>
     );

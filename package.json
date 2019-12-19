@@ -48,6 +48,7 @@
     "apollo-link-http": "~1.5.11",
     "braintree-web-drop-in": "~1.16.0",
     "crypto-js": "~3.1.9-1",
+    "firebase": "~7.5.0",
     "graphql-cli": "~3.0.11",
     "graphql-cli-validate-magento-pwa-queries": "~1.0.0",
     "graphql-tag": "~2.10.1",
