@@ -1,0 +1,32 @@
+#size_guide-modal-overlay{
+    #size_guide-modal{
+        .size-guide{
+            ._text_ios{
+                margin-top: 5px;
+                margin-bottom: -10px;
+                display: inline-block;
+                vertical-align: bottom;
+            }
+            .title h3{
+                &._text_ios{
+                    margin-top: 4px;
+                    margin-bottom: -12px;
+                }
+            }
+            .form-your-size .form .form-row{
+                ._text_ios{
+                    margin-top: 3px;
+                    margin-bottom: -3px;
+                }
+            }
+            &.mobile{
+                .form-your-size .form .form-submit{
+                    ._text_ios{
+                        margin-top: 2px;
+                        margin-bottom: -6px;
+                    }
+                }
+            }
+        }
+    }
+}

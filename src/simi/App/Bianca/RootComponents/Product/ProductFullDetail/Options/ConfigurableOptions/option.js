@@ -48,8 +48,8 @@ class Option extends Component {
 	};
 
 	handleAskOption = () => {
-		const { attribute_id, onAskOption } = this.props;
-		onAskOption(attribute_id);
+		const { attribute_id, attribute_code, onAskOption } = this.props;
+		onAskOption(attribute_id, attribute_code);
 	}
 
 	createRefListItem = (obj) => {
