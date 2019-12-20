@@ -1,0 +1,126 @@
+.forgot-password-customer {
+  max-width: 770px;
+  margin-top: 107px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0px 0px 60px;
+  border: 1px solid;
+  border-bottom: unset;
+  background-color: white;
+}
+.forgot-password-customer .title {
+  max-height: 60px;
+  width: 100%;
+  padding: 20px 0;
+  text-align: center;
+  border-left: 1px solid #727272;
+  border-right: 1px solid #727272;
+  box-sizing: border-box;
+  background-color: #101820;
+  color: #fff;
+}
+.forgot-password-customer .title span {
+  color: #fff;
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 500;
+  font-family: Gotham;
+  width: 72px;
+  height: 20px;
+  margin: auto;
+  text-align: center;
+  display: inline-block;
+  margin-top: 0px;
+}
+.forgot-password-customer .wrap {
+  padding: 0 97px;
+  margin-top: 50px;
+}
+.forgot-password-customer .title-form {
+  color: #101820;
+  font-family: Gotham;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 18px;
+}
+.forgot-password-customer .description-form {
+  color: #727272;
+  font-family: Gotham;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 14px;
+  margin-top: 10px;
+}
+.forgot-password-customer .form {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: stretch;
+  margin-top: 35px;
+}
+.forgot-password-customer .title-input {
+  color: #101820;
+  font-family: Gotham;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 14px;
+  text-transform: uppercase !important;
+  padding-bottom: 8px;
+}
+.forgot-password-customer input {
+  min-height: 48px;
+  padding-left: 16px !important;
+  background-color: #f2f2f2;
+  min-width: 572px;
+  width: 100%;
+  border: unset;
+  outline: none;
+}
+.forgot-password-customer input:focus {
+  border-color: unset;
+  box-shadow: unset;
+  outline: none;
+}
+.forgot-password-customer .newPassword p,
+.forgot-password-customer .confirmPassword p {
+  padding-top: 20px;
+}
+.forgot-password-customer .confirmPassword {
+  margin-top: 30px;
+}
+.forgot-password-customer .resetPassword {
+  margin-top: 46px;
+}
+.forgot-password-customer .resetPassword button {
+  font-size: 16px;
+  font-weight: 500 !important;
+  white-space: nowrap;
+  text-align: center;
+  padding-top: 16px !important;
+  cursor: pointer;
+  border: 0;
+  width: 100%;
+  min-width: 200px;
+  padding-bottom: 16px !important;
+  font-family: Gotham;
+  line-height: 16px !important;
+}
+.forgot-password-customer .resetPassword button:hover {
+  opacity: 0.8;
+}
+.forgot-password-customer .back {
+  display: inline-block;
+  width: fit-content;
+  border-bottom: 1px solid #101820;
+  position: absolute;
+  top: 312px;
+  left: 139px;
+  cursor: pointer;
+  height: 18px;
+  width: 53px;
+  color: #101820;
+  font-family: Gotham;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 18px;
+  display: inline-block;
+}

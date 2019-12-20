@@ -14,12 +14,12 @@ const FormSubmissionSuccessful = props => {
         <div>
             <p className={classes.text}>{textMessage}</p>
             <div className={classes.buttonContainer}>
-                <button 
+                <div 
                     onClick={onContinue}
                     className={classes.submitButton}
                     style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}>
-                    {Identify.__('Continue Shopping')}
-                </button>
+                    <span className={classes.continue}>{Identify.__('Continue Shopping')}</span>
+                </div>
             </div>
         </div>
     );

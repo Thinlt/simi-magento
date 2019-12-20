@@ -40,7 +40,8 @@ class Login extends Component {
 		isPhoneLogin: false,
 		isVendorRegisterOpen: false,
 		socialEmail: null,
-		socialPass: null
+		socialPass: null,
+		forgotPassSuccess: 'block'
 	};
 
 	stateForgot = () => {
@@ -256,12 +257,19 @@ class Login extends Component {
 		this.forgotPassword = (className, history) => {
 			return (
 				<div className={className}>
-					<ForgotPassword onClose={this.closeForgotPassword} history={history} />
+					<ForgotPassword hideBuyer={this.hideBuyer} showBuyer={this.showBuyer} onClose={this.closeForgotPassword} history={history} />
 				</div>
 			);
 		};
 		this.showForgotPasswordForm();
 	};
+
+	hideBuyer = () => {
+		this.setState({forgotPassSuccess: 'none'})
+	}
+	showBuyer = () =>{
+		this.setState({forgotPassSuccess: 'block'})
+	}
 
 	closeForgotPassword = () => {
 		this.hideForgotPasswordForm();
@@ -433,8 +441,11 @@ class Login extends Component {
 					title: Identify.__('Customer Login')
 				})}
 				<div className={classes['login-background']}>
-					<div className={classes['login-container']}>
-						<div className={`${classes['buyer-login']}`}>
+					<div className={` ${this.state.forgotPassSuccess == "none" 
+						? classes['smallSize'] : classes['']
+					} ${classes['login-container']}`}						
+					>
+						<div className={`${classes['buyer-login']}`} style={{display:`${this.state.forgotPassSuccess}`}}>
 							<span>{Identify.__('Buyer'.toUpperCase())}</span>
 						</div>
 						<div

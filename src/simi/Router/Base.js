@@ -88,6 +88,7 @@ class Abstract extends React.Component{
                 <Route exact {...router.my_gift_vouchers}/>
                 <Route exact {...router.login}/>
                 <Route exact {...router.logout}/>
+                <Route exact {...router.customer_reset_password}/>
                 <Route exact {...router.contact}/>
                 {this.renderPbRoute()}
                 <Route {...router.noMatch}/>
