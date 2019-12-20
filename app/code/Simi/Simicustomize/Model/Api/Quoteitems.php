@@ -450,6 +450,18 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
                     throw new \Simi\Simiconnector\Helper\SimiException(__('Your cart contains Pre-order product, please complete it to continue.'), 4);
                 }
             }
+        } else {
+            // report error when adding pre-order product with existing normal product in the cart
+            $hasPreorderItem = false;
+            foreach ($this->builderQuery as $quoteItem) {
+                if ($quoteItem->getProduct()->getId() == $depositProductId) {
+                    $hasPreorderItem = true;
+                    break;
+                }
+            }
+            if (!$hasPreorderItem && $this->builderQuery->getSize()) {
+                throw new \Simi\Simiconnector\Helper\SimiException(__('Pre-order products can not be added to the same cart with regular products. Please checkout with existing products in cart first.'), 4);
+            }
         }
 
         if (!$isTryToBuy) {
