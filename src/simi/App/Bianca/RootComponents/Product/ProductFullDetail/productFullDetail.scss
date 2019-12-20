@@ -615,3 +615,38 @@ $color2: #727272;
         }
     }
 }
+#error-modal-overlay{
+    background: #f2f2f280;
+    #error-modal{
+        max-width: 604px;
+        min-height: 68px;
+        top: 50%;
+        margin-top: -34px;
+        padding: 14px 16px;
+        background-color: #B91C1C;
+        color: #FFF;
+        .error-wrap{
+            display: inline-flex;
+            .message{
+                font-family: 'Gotham Book';
+                font-size: 12px;
+                line-height: 20px;
+            }
+            .go-checkout-text{
+                font-family: 'Gotham Medium';
+                font-size: 16px;
+                line-height: 16px;
+                min-width: 153px;
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                a,a:hover,a:active,a:focus,a:visited{
+                    outline: none;
+                    text-decoration: none;
+                    color: inherit;
+                }
+            }
+        }
+    }
+}
