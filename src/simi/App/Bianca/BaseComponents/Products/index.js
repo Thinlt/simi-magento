@@ -8,6 +8,7 @@ import Loading from 'src/simi/BaseComponents/Loading'
 import ReactHTMLParse from 'react-html-parser'
 import RecentViewed from './recentViewed'
 import Modal from 'react-responsive-modal'
+import CompareProduct from '../CompareProducts/index'
 require('./products.scss')
 
 const $ = window.$;
@@ -19,6 +20,7 @@ class Products extends React.Component {
         this.state = ({
             isPhone: isPhone,
             openMobileModel : false,
+            openCompareModal: false
         })
         this.setIsPhone()
     }
@@ -48,15 +50,50 @@ class Products extends React.Component {
         }
     }
 
+    showModalCompare = () => {
+        this.setState({
+            openCompareModal : true
+        })
+    }
+
+    closeCompareModal = () =>{
+        this.setState({
+            openCompareModal : false
+        })
+    }
+
+    renderCompareList(){
+        const storeageData = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE,'compare_product');
+        if(storeageData){
+            return (
+                <div>
+                    <span className="compare-list">COMPARE</span>
+                    <div 
+                    role="presentation"
+                    className={``}
+                    onClick={() => this.showModalCompare()}
+                    >
+                        <div className="">
+                            {Identify.__('Show compare list')}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+    }
+
     renderLeftNavigation = () => {
         const shopby = [];
         const filter = this.renderFilter();
+        const compareList = this.renderCompareList();
+        const compareStoreage = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE,'compare_product')
         if (filter) {
             shopby.push(
                 <div 
                     key="siminia-left-navigation-filter" 
                     className="left-navigation" >
                     {filter}
+                    {compareStoreage ? compareList : null}
                 </div>
             );
         }
@@ -159,6 +196,7 @@ class Products extends React.Component {
                     </div>
                 }
                 <section className="gallery">
+                    <CompareProduct openModal={this.state.openCompareModal} closeModal={this.closeCompareModal}/>
                     <Gallery data={items} pageSize={pageSize} history={history} location={location} />
                 </section>
                 <div className="product-grid-pagination" style={{marginBottom: 22}}>

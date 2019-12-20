@@ -161,7 +161,7 @@ const ProfileForm = props => {
             case 'email':
                 return (
                     <React.Fragment>
-                        {/* <h4 className={classes["title"]}>{Identify.__("Change Email")}</h4>
+                        <h4 className="title">{Identify.__("Change Email")}</h4>
                         <TextBox
                             label={Identify.__("Email")}
                             name="new_email"
@@ -174,10 +174,10 @@ const ProfileForm = props => {
                             label={Identify.__("Current Password")}
                             name="old_password"
                             type="password"
-                            className={`${classes["required"]} required`}
+                            className='required'
                             onChange={e => handleOnChange(e)}
-                        /> */}
-                        <div className='email-not-edit'>{Identify.__('Email cannot be edit')}</div>
+                        />
+                        {/* <div className='email-not-edit'>{Identify.__('Email cannot be edit')}</div> */}
                     </React.Fragment>
                 );
             case 'password': 

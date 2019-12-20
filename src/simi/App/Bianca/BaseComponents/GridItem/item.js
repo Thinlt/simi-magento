@@ -110,7 +110,25 @@ class Griditem extends React.Component {
     }
 
     addToCompare = () => {
-        console.log("add to compare")
+        const { item } = this.props;
+        const storeageData = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE,'compare_product');
+        let compareProducts;
+        if(storeageData){
+            compareProducts = storeageData;
+            const result = compareProducts.find(product => product.id === item.id)
+            if(result){
+                showToastMessage(Identify.__('Product has already added'.toUpperCase()))
+            } else {
+                compareProducts.push(item);
+                Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
+                showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
+            }
+        } else {
+            compareProducts = [];
+            compareProducts.push(item);
+            Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
+            showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
+        }
     }
 
     showBtnQuickView = (id) => {

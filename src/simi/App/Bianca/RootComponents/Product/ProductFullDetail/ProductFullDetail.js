@@ -246,14 +246,24 @@ class ProductFullDetail extends Component {
     }
 
     addToCompare = () => {
-        const {product, isSignedIn, history} = this.props
-        if (!isSignedIn) {
-            history.push('/login.html')
-        } else if (product && product.id) {
-            this.missingOption = false
-            const params = this.prepareParams()
-            showFogLoading()
-            simiAddToWishlist(this.addToWishlistCallBack, params)
+        const { product } = this.props;
+        const storeageData = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE,'compare_product');
+        let compareProducts;
+        if(storeageData){
+            compareProducts = storeageData;
+            const result = compareProducts.find(item => item.id === product.id)
+            if(result){
+                showToastMessage(Identify.__('Product has already added'.toUpperCase()))
+            } else {
+                compareProducts.push(item);
+                Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
+                showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
+            }
+        } else {
+            compareProducts = [];
+            compareProducts.push(item);
+            Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
+            showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
         }
     }
 
