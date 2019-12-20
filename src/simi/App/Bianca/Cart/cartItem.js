@@ -49,12 +49,11 @@ const CartItem = props => {
         const storeConfig = Identify.getStoreConfig()
         const vendorList = storeConfig.simiStoreConfig.config.vendor_list;
         const vendorName = vendorList.find(vendor => {
-            if(vendorId === 'default'){
-                return vendor.vendor_id === "SophiaNguyen"
-            }
-            return vendor.vendor_id === vendorId;
+            // if(vendorId === 'default'){
+            //     return vendor.vendor_id === "SophiaNguyen"
+            // }
+            return vendor.entity_id === vendorId; //entity_id is Vendor ID in vendor model
         })
-
         return (vendorName && vendorName.vendor_id)?vendorName.vendor_id:'';
     }
 
