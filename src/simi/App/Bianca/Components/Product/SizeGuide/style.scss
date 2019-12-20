@@ -1,0 +1,191 @@
+$color1: #101820;
+$color2: #727272;
+$color3: #f2f2f2;
+#size_guide-modal-overlay{
+    background-color: #e4e4e480;
+    h3,h4,p{
+        margin: 0;
+        padding: 0;
+        font-size: inherit;
+        font-weight: inherit;
+    }
+    #size_guide-modal{
+        max-width: 964px!important;
+        // padding: 24px 32px;
+        padding: 1.8% 3.4%;
+        width: 100%;
+        @media screen and (max-width: 1023px){
+            max-width: 564px !important;
+        }
+        #size_guide-modal-close{
+            top: 24px;
+            right: 32px;
+            @media screen and (max-width: 375px){
+                top: 15px;
+                right: 21.17px;
+            }
+        }
+        .size-guide{
+            color: $color1;
+            padding: 0 5.797%;
+            max-height: 541px;
+            overflow-y: auto;
+            .title{
+                font-family: 'Gotham Medium';
+                font-size: 24px;
+                line-height: 18px;
+                text-align: center;
+                h3{
+                    text-transform: uppercase;
+                }
+            }
+            .header{
+                font-family: 'Gotham';
+                font-weight: 500;
+                font-size: 18px;
+                line-height: 18px;
+                text-align: center;
+                margin-top: 20px;
+            }
+            .form-your-size{
+                margin-top: 42px;
+                .form{
+                    max-width: 768px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    .form-row{
+                        margin-top: 18px;
+                        margin-right: 16px;
+                        display: inline-flex;
+                        flex-direction: column;
+                        flex: 1 0;
+                        span{
+                            font-family: 'Gotham Medium';
+                            font-size: 10px;
+                            line-height: 10px;
+                            text-transform: uppercase;
+                        }
+                        input{
+                            font-family: 'Gotham Book';
+                            font-size: 14px;
+                            line-height: 14px;
+                            color: $color1;
+                            &:placeholder,&:-moz-placeholder,&:-webkit-input-placeholder{
+                                color: $color2;
+                            }
+                            background-color: $color3;
+                            width: 100%;
+                            max-width: 180px;
+                            min-height: 48px;
+                            padding: 17px 16px;
+                            margin-top: 8px;
+                            border: none;
+                            outline: none;
+                            &.error{
+                                border: 1px solid #b91c1c;
+                            }
+                        }
+                    }
+                    .form-submit{
+                        margin-top: 18px;
+                        padding-top: 18px;
+                        flex: 1 0;
+                        .btn{
+                            background-color: $color1;
+                            color: #fff;
+                            font-size: 16px;
+                            font-family: 'Gotham Medium';
+                            text-transform: uppercase;
+                            border-radius: 0px;
+                            width: 100%;
+                            max-width: 180px;
+                            min-height: 48px;
+                            display: inline-flex;
+                            align-items: center;
+                            justify-content: center;
+                            cursor: pointer;
+                            span{
+                                text-transform: uppercase;
+                            }
+                            &.disabled{
+                                background-color: $color2;
+                            }
+                        }
+                    }
+                }
+            }
+            .size-chart{
+                margin-top: 44px;
+                .chart-title{
+                    font-family: 'Gotham Medium';
+                    font-size: 16px;
+                    line-height: 16px;
+                    h4{
+                        text-transform: uppercase;
+                    }
+                }
+                .chart-table{
+                    margin-top: 25px;
+                    .img-responsive{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                    }
+                }
+            }
+            &.mobile{
+                max-height: 544px;
+                padding: 0 2%;
+                .title{
+                    font-size: 22px;
+                    line-height: 18px;
+                    margin-top: .5rem;
+                }
+                .header{
+                    font-size: 14px;
+                    line-height: 14px;
+                }
+                .form-your-size{
+                    margin-top: 20px;
+                    .form{
+                        flex-direction: column;
+                        .form-row{
+                            margin-top: 10px;
+                            margin-right: 0px;
+                            input{
+                                margin-top: 4px;
+                                max-width: 100%;
+                                min-height: 38px;
+                                padding: 10px 14px;
+                            }
+                        }
+                        .form-submit{
+                            padding-top: 0px;
+                            text-align: center;
+                            .btn{
+                                font-size: 14px;
+                                min-height: 38px;
+                            }
+                        }
+                    }
+                }
+                .size-chart{
+                    margin-top: 22px;
+                    .chart-title{
+                        font-size: 14px;
+                        line-height: 14px;
+                    }
+                }
+            }
+            .success{
+                color: #47c859;
+                font-size: 14px;
+            }
+            .error{
+                color: #b91c1c;
+                font-size: 14px;
+            }
+        }
+    }
+}

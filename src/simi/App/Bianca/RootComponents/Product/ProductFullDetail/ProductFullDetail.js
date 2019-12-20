@@ -44,6 +44,7 @@ const TrytobuyOptions = React.lazy(() => import('src/simi/App/Bianca/Components/
 
 import {addRecentViewedProducts} from '../../../Helper/Biancaproduct'
 import { productUrlSuffix } from 'src/simi/Helper/Url';
+import SizeGuide from 'src/simi/App/Bianca/Components/Product/SizeGuide';
 
 require('./productFullDetail.scss');
 if (getOS() === 'MacOS') {
@@ -63,14 +64,20 @@ class ProductFullDetail extends Component {
         openModal: false,
         reserveSuccess: false,
         reserveModalMessage: false,
-        reserveError: ''
+        reserveError: '',
+        isOpenSizeGuide: false
     };
     quantity = 1;
     stores = []; // Storelocators
     reserveStoreId = '';
 
     componentDidMount(){
+        smoothScrollToView($('#siminia-main-page'));
         this.getStoreLocations();
+        //get user detail when missing (from refreshing) - fix error
+        if (this.props.isSignedIn && !this.props.customerId && this.props.getUserDetails){
+            this.props.getUserDetails();
+        }
     }
 
     getStoreLocations = (callback) => {
@@ -327,6 +334,14 @@ class ProductFullDetail extends Component {
         this.setState({reserveSubmitting: true});
     }
 
+    onSizeGuideClick = (optionId, code) => {
+        this.setState({isOpenSizeGuide: true});
+    }
+
+    onCloseSizeGuide = () => {
+        this.setState({isOpenSizeGuide: false});
+    }
+
     showError(data) {
         if (data.errors.length) {
             const errors = data.errors.map(error => {
@@ -428,6 +443,7 @@ class ProductFullDetail extends Component {
                     <ConfigurableOptions
                         options={configurable_options}
                         onSelectionChange={handleConfigurableSelectionChange}
+                        onSizeGuideClick={this.onSizeGuideClick}
                     />
                 }
                 {
@@ -540,10 +556,6 @@ class ProductFullDetail extends Component {
             }
         }
         return null
-    }
-
-    componentDidMount(){
-        smoothScrollToView($('#siminia-main-page'));
     }
     
     render() {
@@ -736,6 +748,14 @@ class ProductFullDetail extends Component {
                         }
                     </div>
                 </Modal>
+                <SizeGuide isPopup={this.state.isOpenSizeGuide} onClose={this.onCloseSizeGuide} 
+                    product={product} 
+                    isSignedIn={this.props.isSignedIn} 
+                    customerId={this.props.customerId} 
+                    customerFirstname={this.props.customerFirstname} 
+                    customerLastname={this.props.customerLastname}
+                    history={this.props.history}
+                />
             </div>
         );
     }

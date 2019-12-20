@@ -21,8 +21,11 @@ class Options extends Component {
         }
     };
 
-    handleAskOption = (optionId) => {
-        console.log('ask option ', optionId)
+    handleAskOption = (optionId, code) => {
+        const {onSizeGuideClick} = this.props;
+        if (code === 'size' && onSizeGuideClick && typeof onSizeGuideClick === 'function') {
+            onSizeGuideClick(optionId, code);
+        }
     }
 
     render() {
