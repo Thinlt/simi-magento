@@ -360,6 +360,7 @@ class Proxy
                 exit(0);
             }
         }
+        ob_end_clean();
         $contentType = "";
         if (isset($responseInfo["content_type"])) $contentType = $responseInfo["content_type"];
         //This is presumably a web page, so attempt to proxify the DOM.

@@ -192,6 +192,19 @@
                     <comment>Example: https://app.apple.com/...</comment>
                 </field>
             </group>
+            <group id="instagram" translate="label" type="text" sortOrder="1310" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Instagram Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="userid" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>User ID</label>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+            </group>
         </section>
         <section id="contact">
             <group id="time" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
