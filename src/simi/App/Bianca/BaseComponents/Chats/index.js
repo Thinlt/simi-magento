@@ -11,7 +11,6 @@ import {sendRequest} from 'src/simi/Network/RestMagento';
 import Loading from 'src/simi/BaseComponents/Loading';
 import PhoneCodes from './PhoneData';
 import Select from './SelectOption';
-import { BrowserRouter, Route, Link } from "react-router-dom";
 
 require('./style.scss');
 if (getOS() === 'MacOS') require('./style-ios.scss');
@@ -28,7 +27,6 @@ const Chats = (props) => {
     const [submittingContact, setSubmittingContact] = useState(false);
     const [submitedContactResult, setSubmitedContactResult] = useState();
     const TriggerPhoneSelectRef = useRef(null);
-    const TriggerTimesSelectRef = useRef(null);
     const storeConfig = Identify.getStoreConfig() || {};
     const config = storeConfig.simiStoreConfig && storeConfig.simiStoreConfig.config || {};
     const {contact_us, instant_contact, livechat} = config || {};
@@ -217,22 +215,25 @@ const Chats = (props) => {
                                     <label className="arrow-down" htmlFor="contact-phone" ref={TriggerPhoneSelectRef}></label>
                                     <input id='contact-phone' name="contact-phone" type="tel" onChange={onChangeContactPhone} 
                                         value={contactPhone} 
-                                        placeholder={contactPhoneCode}/>
+                                        placeholder={contactPhoneCode} />
                                     {
-                                        <Select items={phoneItems} onChange={onChangeContactPhoneCode} triggerRef={TriggerPhoneSelectRef}/>
+                                        <Select items={phoneItems} onChange={onChangeContactPhoneCode}
+                                            triggerRef={TriggerPhoneSelectRef}
+                                        />
                                     }
                                 </div>
                             </div>
                             <div className="form-row time">
                                 <label htmlFor="contact-time">{Identify.__('Time')}</label>
-                                <div className="contact-input time-input" ref={TriggerTimesSelectRef}>
                                 {
                                     contact_us && contact_us.enabled && contact_us.enabled === '1' && contact_us.times &&
-                                    <Select items={timeItems} onChange={onChangeContactTime} triggerRef={TriggerTimesSelectRef} display={true}
+                                    <Select className="contact-input time-input" 
+                                        items={timeItems} onChange={onChangeContactTime} 
+                                        showSelected={true}
                                         placeholder={timeItems[0] ? timeItems[0].label : ''} 
-                                        hiddenInput={{name: 'time', id: 'contact-time', defaultValue: timeItems[0] ? timeItems[0].value : ''}}/>
+                                        hiddenInput={{name: 'time', id: 'contact-time', defaultValue: timeItems[0] ? timeItems[0].value : ''}}
+                                    />
                                 }
-                                </div>
                             </div>
                             <div className="form-btn">
                             {
