@@ -1,0 +1,45 @@
+.text {
+    height: 81px;
+    width: 572px;
+    background-color: rgba(71,200,89,0.33);
+    padding: 21px 47px 20px 47px !important;
+    color: #078018;
+    font-family: Gotham;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    text-align: left;
+    margin-bottom: 173px;
+    overflow-wrap: break-word;
+}
+
+.buttonContainer {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.submitButton {
+    display: flex;
+    justify-content: center;
+    min-height: 48px;
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+    text-align: center;
+    padding-top: 10px;
+    cursor: pointer;
+    border: 0;
+    width: 100%;
+    min-width: 200px;
+    padding-bottom: 10px;
+}
+
+.submitButton:hover {
+    opacity: 0.8;
+}
+.continue{
+    display: block;
+    text-transform: uppercase;
+    height: fit-content;
+    margin-top: 6px;
+}

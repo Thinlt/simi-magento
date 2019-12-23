@@ -4,24 +4,20 @@ import classify from 'src/classify';
 import Identify from 'src/simi/Helper/Identify';
 import SignIn from './SignIn';
 import PhoneLogin from './SignIn/Phone/PhoneLogin';
-import VendorLogInForm from './VendorLogin';
 import CreateAccount from './CreateAccount';
 import ForgotPassword from './ForgotPassword';
 import { connect } from 'src/drivers';
 import { compose } from 'redux';
-import BackIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Back';
 import { withRouter } from 'react-router-dom';
 import TitleHelper from 'src/simi/Helper/TitleHelper';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
-import { simiSignIn as signinApi, vendorLogin } from 'src/simi/Model/Customer';
+import { simiSignIn as signinApi } from 'src/simi/Model/Customer';
 import { socialLogin as socialLoginApi } from 'src/simi/Model/Customer';
-import { checkExistingCustomer } from 'src/simi/Model/Customer';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import * as Constants from 'src/simi/Config/Constants';
 import { Util } from '@magento/peregrine';
 import { simiSignedIn } from 'src/simi/Redux/actions/simiactions';
 import { showToastMessage } from 'src/simi/Helper/Message';
-import VendorRegister from './VendorRegister';
 import firebase, { auth } from 'firebase';
 import firebaseApp from './SocialLogin/base';
 import { async } from 'q';
@@ -38,7 +34,6 @@ class Login extends Component {
 		isEmailLogin: true,
 		isForgotPasswordOpen: false,
 		isPhoneLogin: false,
-		isVendorRegisterOpen: false,
 		socialEmail: null,
 		socialPass: null,
 		forgotPassSuccess: 'block'
@@ -208,37 +203,8 @@ class Login extends Component {
 			</React.Fragment>
 		);
 	}
-	// get vendorLogInForm() {
-	//     const { isPhoneLogin } = this.state;
-	//     const { classes } = this.props;
-	//     const isOpen = isPhoneLogin;
-	//     const className = isOpen ? classes.signIn_open : classes.signIn_closed;
 
-	//     return (
-	//         <div className={className}>
-	//             <VendorLogInForm
-	//                 classes={classes}
-	//                 showVendorRegisterForm={this.setVendorRegisterForm}
-	//                 onForgotPassword={this.setForgotPasswordForm}
-	//                 onSignIn={this.onVendorLogin.bind(this)}
-	//             />
-	//         </div>
-	//     );
-	// }
-
-	vendorRegister = () => {};
 	createAccount = () => {};
-
-	setVendorRegisterForm = () => {
-		this.vendorRegister = (className) => {
-			return (
-				<div className={className}>
-					<VendorRegister onSignIn={this.onVendorLogin.bind(this)} />
-				</div>
-			);
-		};
-		this.showVendorRegisterForm();
-	};
 
 	setCreateAccountForm = () => {
 		this.createAccount = (className, history) => {
@@ -276,15 +242,6 @@ class Login extends Component {
 	};
 	hideForgotPasswordForm = () => {};
 
-	get vendorRegisterForm() {
-		const { isVendorRegisterOpen } = this.state;
-		const { classes } = this.props;
-		const isOpen = isVendorRegisterOpen;
-		const className = isOpen ? classes.form_open : classes.form_closed;
-
-		return this.vendorRegister(className);
-	}
-
 	get createAccountForm() {
 		const { isCreateAccountOpen } = this.state;
 		const { history, classes } = this.props;
@@ -302,23 +259,13 @@ class Login extends Component {
 		return this.forgotPassword(className, history);
 	}
 
-	showVendorRegisterForm = () => {
-		this.setState(() => ({
-			isCreateAccountOpen: false,
-			isEmailLogin: false,
-			isForgotPasswordOpen: false,
-			isPhoneLogin: false,
-			isVendorRegisterOpen: true
-		}));
-	};
 
 	showCreateAccountForm = () => {
 		this.setState(() => ({
 			isCreateAccountOpen: true,
 			isEmailLogin: false,
 			isForgotPasswordOpen: false,
-			isPhoneLogin: false,
-			isVendorRegisterOpen: false
+			isPhoneLogin: false
 		}));
 	};
 
@@ -327,8 +274,7 @@ class Login extends Component {
 			isForgotPasswordOpen: true,
 			isEmailLogin: false,
 			isCreateAccountOpen: false,
-			isPhoneLogin: false,
-			isVendorRegisterOpen: false
+			isPhoneLogin: false
 		}));
 	};
 
@@ -337,8 +283,7 @@ class Login extends Component {
 			isForgotPasswordOpen: false,
 			isEmailLogin: true,
 			isCreateAccountOpen: false,
-			isPhoneLogin: false,
-			isVendorRegisterOpen: false
+			isPhoneLogin: false
 		}));
 	};
 
@@ -347,8 +292,7 @@ class Login extends Component {
 			isForgotPasswordOpen: false,
 			isEmailLogin: false,
 			isCreateAccountOpen: false,
-			isPhoneLogin: true,
-			isVendorRegisterOpen: false
+			isPhoneLogin: true
 		}));
 	};
 
@@ -357,21 +301,6 @@ class Login extends Component {
 		signinApi(this.signinCallback.bind(this), { username, password });
 		showFogLoading();
 	}
-
-	onVendorLogin(username, password) {
-		Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null);
-		vendorLogin(this.vendorLoginCallback.bind(this), {
-			username,
-			password
-		});
-		showFogLoading();
-	}
-
-	vendorLoginCallback = (data) => {
-		hideFogLoading();
-		console.log(data);
-		window.location.href = data.redirect_url;
-	};
 
 	signinCallback = (data) => {
 		hideFogLoading();
@@ -411,7 +340,6 @@ class Login extends Component {
 			forgotPasswordForm,
 			phoneLoginForm,
 			socialAndCreateAccount,
-			vendorRegisterForm,
 			props,
 			state
 		} = this;
@@ -472,7 +400,6 @@ class Login extends Component {
 						{phoneLoginForm}
 						{socialAndCreateAccount}
 						{createAccountForm}
-						{vendorRegisterForm}
 						{forgotPasswordForm}
 					</div>
 				</div>
