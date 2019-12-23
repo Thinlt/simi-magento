@@ -12,7 +12,6 @@ use Vnecoms\Vendors\Controller\Seller\RegisterPost;
 class VendorRegister extends RegisterPost implements VendorRegisterInterface
 {
     public function registerPost(){
-
         if (!$this->_vendorHelper->moduleEnabled()) {
             return [[
                 'status' => 'error',
@@ -28,7 +27,7 @@ class VendorRegister extends RegisterPost implements VendorRegisterInterface
         }
         
         $vendorData = $this->getRequest()->getPost();
-
+        
         if (!isset($vendorData['username'])) {
             try{
                 $requestBody = $this->getRequest()->getContent();

@@ -30,7 +30,6 @@ class VendorLogin extends LoginPost implements VendorLoginInterface
     
         if ($this->getRequest()->isPost()) {
             $login = $this->getRequest()->getPost();
-
             if (!isset($login['username'])) {
                 try{
                     $requestBody = $this->getRequest()->getContent();
@@ -100,7 +99,7 @@ class VendorLogin extends LoginPost implements VendorLoginInterface
                         ]
                     ];
                 } catch (AuthenticationException $e) {
-                    $message = __('Invalid login or password.');
+                    $message = __('Invalid login or wrong password.');
                     $this->session->setUsername($login['username']);
                     return [
                         [
@@ -111,7 +110,6 @@ class VendorLogin extends LoginPost implements VendorLoginInterface
                         ]
                     ];
                 } catch (LocalizedException $e) {
-                    $message = $e->getMessage();
                     $this->session->setUsername($login['username']);
                     return [
                         [
@@ -123,6 +121,8 @@ class VendorLogin extends LoginPost implements VendorLoginInterface
                     ];
                 } catch (\Exception $e) {
                     // PA DSS violation: throwing or logging an exception here can disclose customer password
+                    echo $e->getMessage();
+                    die();
                     return [
                         [
                             'status' => 'error',

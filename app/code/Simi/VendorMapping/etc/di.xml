@@ -45,6 +45,8 @@
         </arguments>
     </type>
 
+    <preference for="Simi\VendorMapping\Api\VendorRegisterInterface"
+                type="Simi\VendorMapping\Model\Api\VendorRegister" />
     <preference for="Simi\VendorMapping\Api\VendorLoginInterface"
                 type="Simi\VendorMapping\Model\Api\VendorLogin" />
     <preference for="Simi\VendorMapping\Api\VendorLogoutInterface"
