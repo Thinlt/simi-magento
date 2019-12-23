@@ -4,4 +4,18 @@ $color1: #101820;
         padding-top: 4px;
         margin-bottom: -4px;
     }
+    .popular-categories-wrap{
+        &.mobile{
+            .home-container{
+                .home-cate-item{
+                    .cate-title{
+                        .--text{
+                            height: 12px;
+                            line-height: unset;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
