@@ -171,6 +171,8 @@
 .account-information-area .checkbox-item .checkbox-item-icon,
 .account-information-area .checkbox-item.selected .checkbox-item-icon {
     margin-top: 0;
+    width: 24px;
+    height: 24px;
 }
 .account-information-area button.save-profile {
     margin: 24px 0 16px;
@@ -755,6 +757,10 @@
     }
     .account-information-area .checkbox-item {
         margin-top: 16px;
+        .checkbox-item-icon{
+            width: 24px;
+            height: 24px;
+        }
     }
     .account-information-area button.save-profile {
         margin-top: 7px;

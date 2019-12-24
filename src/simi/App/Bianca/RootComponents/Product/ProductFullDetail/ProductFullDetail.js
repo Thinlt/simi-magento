@@ -65,11 +65,14 @@ class ProductFullDetail extends Component {
         reserveSuccess: false,
         reserveModalMessage: false,
         reserveError: '',
-        isOpenSizeGuide: false
+        isOpenSizeGuide: false,
+        isErrorPreorder: false,
+        isPreorder: false
     };
     quantity = 1;
     stores = []; // Storelocators
     reserveStoreId = '';
+    isPreorder = false;
 
     componentDidMount(){
         smoothScrollToView($('#siminia-main-page'));
@@ -181,6 +184,10 @@ class ProductFullDetail extends Component {
         }
     };
 
+    preorderAction = () => {
+        this.addToCartWithParams({pre_order: '1'})
+    }
+
     addToCartWithParams = (data = {}) => {
         const { product } = this.props;
         if (product && product.id) {
@@ -192,6 +199,11 @@ class ProductFullDetail extends Component {
             }
             showFogLoading()
             simiAddToCart(this.addToCartCallBack, params)
+            if (params.pre_order && params.pre_order === '1') {
+                this.isPreorder = true;
+            } else {
+                this.isPreorder = false;
+            }
         }
     };
 
@@ -199,6 +211,9 @@ class ProductFullDetail extends Component {
         hideFogLoading()
         if (data.errors) {
             this.showError(data)
+            if (this.isPreorder) {
+                this.setState({isErrorPreorder: true});
+            }
         } else {
             this.showSuccess(data)
             this.props.updateItemInCart()
@@ -231,15 +246,29 @@ class ProductFullDetail extends Component {
     }
 
     addToCompare = () => {
-        const {product, isSignedIn, history} = this.props
-        if (!isSignedIn) {
-            history.push('/login.html')
-        } else if (product && product.id) {
-            this.missingOption = false
-            const params = this.prepareParams()
-            showFogLoading()
-            simiAddToWishlist(this.addToWishlistCallBack, params)
+        const { product } = this.props;
+        const storeageData = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE,'compare_product');
+        let compareProducts;
+        if(storeageData){
+            compareProducts = storeageData;
+            const result = compareProducts.find(item => item.id === product.id)
+            if(result){
+                showToastMessage(Identify.__('Product has already added'.toUpperCase()))
+            } else {
+                compareProducts.push(item);
+                Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
+                showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
+            }
+        } else {
+            compareProducts = [];
+            compareProducts.push(item);
+            Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
+            showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
         }
+    }
+
+    onCloseErrorPopup = () => {
+        this.setState({isErrorPreorder: false});
     }
 
     onCloseReserve = () => {
@@ -615,7 +644,7 @@ class ProductFullDetail extends Component {
                                     {
                                         pre_order === '1' && try_to_buy !== '1' && reservable !== '1' ? 
                                         <div className="cart-ctn">
-                                            <Colorbtn className="pre-order-btn btn btn__black" onClick={() => addToCartWithParams({pre_order: '1'})} text={Identify.__('Pre-order')}/>
+                                            <Colorbtn className="pre-order-btn btn btn__black" onClick={this.preorderAction} text={Identify.__('Pre-order')}/>
                                         </div>
                                         :
                                         <div className="cart-ctn">
@@ -746,6 +775,25 @@ class ProductFullDetail extends Component {
                     customerLastname={this.props.customerLastname}
                     history={this.props.history}
                 />
+                {
+                    this.state.isErrorPreorder && 
+                    <Modal open={this.state.isErrorPreorder} onClose={this.onCloseErrorPopup}
+                        overlayId={'error-modal-overlay'}
+                        modalId={'error-modal'}
+                        closeIconSvgPath={''}
+                        >
+                        <div className="error-wrap">
+                            <div className="message">
+                                {Identify.__('Pre-order products can not be added to the same cart with regular products. Please checkout with existing products in cart first.')}
+                            </div>
+                            <div className="go-checkout-text">
+                                <a href="/checkout.html" alt="Go to Checkout">
+                                    {Identify.__('GO TO CHECKOUT')}
+                                </a>
+                            </div>
+                        </div>
+                    </Modal>
+                }
             </div>
         );
     }

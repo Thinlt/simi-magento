@@ -27,7 +27,6 @@ const OrderList = props => {
         ];
     // const limit = 2;
     const currentPage = 1;
-    console.log(data)
     const processData = (data) => {
         if(data){
             hideFogLoading();
@@ -37,7 +36,6 @@ const OrderList = props => {
 
     const renderOrderItem = (item, index) => {
         let date = Date.parse(item.created_at);
-        console.log(item)
         date = new Date(date);
         let m = date.getMonth() + 1;
         m = m < 10 ? "0" + m : m;

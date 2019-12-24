@@ -20,11 +20,11 @@ if (getOS() === 'MacOS') require('./home-ios.scss');
 const Home = props => {
     const {history} = props;
     const [isPhone, setIsPhone] = useState(window.innerWidth < 1024)
-    const simiSessId = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID)
-    const cached_home = simiSessId?Identify.ApiDataStorage(`home_lite_${simiSessId}`):null
+    // const simiSessId = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID)
+    const cached_home = Identify.ApiDataStorage(`home_lite`)
     const storeConfig = Identify.getStoreConfig() || {};
     const config = storeConfig.simiStoreConfig && storeConfig.simiStoreConfig.config || {};
-    const {brands} = config || [];
+    const {brands, instagram} = config || [];
     const [data, setHomeData] = useState(cached_home);
 
     const resizePhone = () => {
@@ -78,9 +78,12 @@ const Home = props => {
             <div className={`shop-by-designers-wrap ${isPhone ? 'mobile':''}`}>
                 <Designers history={history} isPhone={isPhone}/>
             </div>
-            <div className={`shop-our-instagram-wrap ${isPhone ? 'mobile':''}`}>
-                <Instagram data={'biancaandreescu_'} history={history} isPhone={isPhone}/>
-            </div>
+            {
+                instagram && instagram.enabled === '1' && instagram.userid &&
+                <div className={`shop-our-instagram-wrap ${isPhone ? 'mobile':''}`}>
+                    <Instagram data={instagram.userid} history={history} isPhone={isPhone}/>
+                </div>
+            }
             {/* <div className={`home-chats ${isPhone ? 'mobile':''}`}>
                 <Chats data={instant_contact} history={history} isPhone={isPhone}/>
             </div> */}

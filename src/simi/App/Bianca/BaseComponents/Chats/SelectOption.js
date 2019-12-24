@@ -1,89 +1,102 @@
-import React, {useState, useMemo, useEffect, useRef} from 'react';
+import React from 'react';
 import Identify from "src/simi/Helper/Identify";
 require('./SelectOption.scss');
 
-const Select = (props) => {
-    const {items, isOpen, onChange, triggerRef, defaultValue, placeholder, className, display, hiddenInput} = props;
-    const [isOpenDropDown, setIsOpenDropDown] = useState(isOpen || false);
-    const [selected, setSelected] = useState(defaultValue);
-    const [itemSelected, setItemSelected] = useState(null);
-    const InputSelectRef = useRef(null);
-    // const RandomId = Identify.randomString(3);
-
-
-    useEffect(() => {
-        setIsOpenDropDown(isOpen || false);
-        setSelected(defaultValue);
-    }, [isOpen, defaultValue]);
-
-    const onChangeValue = (item, event) => {
-        event.stopPropagation();
-        if (onChange) {
-            onChange(item.value);
-        }
-        setSelected(item.value);
-        setItemSelected(item);
-        setIsOpenDropDown(false);
+class Select extends React.Component {
+    state = {
+        isOpen: false,
+        selected: {value: '', label: ''},
+        ...this.props
+    }
+    
+    constructor(props){
+        super(props);
+        this.selectId = Identify.randomString(2);
+        this.isClickToggle = false;
     }
 
-    const onClickOutside = (event) => {
-        if (InputSelectRef && InputSelectRef.current && !InputSelectRef.current.contains(event.target)) {
-            if (triggerRef){
-                if(triggerRef.current && !triggerRef.current.contains(event.target)) {
-                    setIsOpenDropDown(false);
-                }
-                return;
-            }
-            setIsOpenDropDown(false);
+    onClickItem = (item) => {
+        if (this.props.onChange) {
+            this.props.onChange(item.value);
         }
+        this.setState({selected: item});
     }
 
-    const onClickTriggerRef = (event) => {
+    onClickTriggerRef = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const {triggerRef} = this.props;
         if (triggerRef){
-            setIsOpenDropDown(!isOpenDropDown);
+            this.setState((state) => ({isOpen: !state.isOpen}));
         }
     }
 
-    useEffect(() => {
-        if (triggerRef && triggerRef.current) {
-            triggerRef.current.addEventListener('mousedown', onClickTriggerRef, false)
-        }
-        document.addEventListener('mousedown', onClickOutside, false)
-        return () => {
-            if (triggerRef && triggerRef.current) {
-                triggerRef.current.removeEventListener('mousedown', onClickTriggerRef, false)
-            }
-            document.removeEventListener('mousedown', onClickOutside, false)
-        }
-    }, []);
-
-    const Options = useMemo(() => {
-        let _items = []
-        Object.values(items).forEach((item, index) => {
-            _items.push(<span className={`input-option ${selected === item.value ? 'selected':''}`} 
-                onClick={(e) => onChangeValue(item, e)} key={index}>{item.label}</span>
-            );
+    onToggle = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.isClickToggle = true;
+        this.setState((state) => {
+            return {isOpen: !state.isOpen};
         });
-        return _items;
-    } , [items, isOpen, defaultValue]);
+    }
 
-    return (
-        <React.Fragment>
-        {
-            display && 
-            <div className="input-display">{itemSelected ? itemSelected.label : placeholder}</div>
+    onClickOutside = (e) => {
+        if (!this.isClickToggle) {
+            this.setState({isOpen: false});
         }
-        {
-            isOpenDropDown && 
-            <div className={`${className ? className:'simi-simple-input-select'}`} ref={InputSelectRef}>{Options}</div>
+        this.isClickToggle = false;
+    }
+
+    componentDidMount(){
+        const {triggerRef} = this.props;
+        document.addEventListener("click", this.onClickOutside);
+        if (triggerRef && triggerRef.current) {
+            triggerRef.current.addEventListener('click', this.onClickTriggerRef)
         }
-        {
-            hiddenInput && typeof hiddenInput === 'object' ?
-            <input type="hidden" {...hiddenInput} defaultValue={selected} /> :
-            hiddenInput === true ?
-            <input type="hidden" style={{display: "none"}} name="input-select" defaultValue={selected} /> : null
+    }
+
+    componentWillUnmount(){
+        const {triggerRef} = this.props;
+        document.removeEventListener("click", this.onClickOutside);
+        if (triggerRef && triggerRef.current) {
+            triggerRef.current.removeEventListener('click', this.onClickTriggerRef)
         }
-        </React.Fragment>
-    );
+    }
+
+    options = () => {
+        const {selected} = this.state;
+        let _items = []
+        if (this.props.items){
+            Object.values(this.props.items).forEach((item, index) => {
+                _items.push(<span className={`input-option ${selected.value === item.value ? 'selected':''}`} 
+                    onClick={(e) => this.onClickItem(item)} key={index}>{item.label}</span>
+                );
+            });
+        }
+        return _items;
+    };
+
+    render(){
+        const {selected, isOpen} = this.state;
+        const {showSelected, className, hiddenInput} = this.props;
+        const placeholder = this.props.placeholder || Identify.__('Please select');
+        return (
+            <div className={className} onClick={(e) => this.onToggle(e)}>
+            {
+                showSelected && <div className="input-display">{selected ? selected.label : placeholder}</div>
+            }
+            {
+                isOpen && <div className={"simi-simple-input-select"}>{this.options()}</div>
+            }
+            {
+                hiddenInput && typeof hiddenInput === 'object' ?
+                    <input type="hidden" {...hiddenInput} defaultValue={selected && selected.value || ''} /> :
+                hiddenInput === true ?
+                    <input type="hidden" style={{display: "none"}} name="input-select" defaultValue={selected && selected.value || ''} /> : null
+            }
+            </div>
+        );
+    }
+
 }
 export default Select

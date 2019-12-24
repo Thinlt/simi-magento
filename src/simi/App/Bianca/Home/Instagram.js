@@ -8,7 +8,7 @@ const Instagram = (props) => {
     const [insData, setInsData] = useState();
 
     const getUserInstagram = async (name) => {
-        let response = await fetch(`/rest/V1/simiconnector/proxy/instagram/?path=${name}/?__a=1`);
+        let response = await fetch(`/rest/V1/simiconnector/proxy/instagram/?path=${name}`);
         if (response.ok) { // if HTTP-status is 200-299
             // get the response body (the method explained below)
             let resData = await response.json();
@@ -66,9 +66,9 @@ const Instagram = (props) => {
 
     const renderInsView = () => {
         let html = null;
-        if (insData && insData.graphql) {
-            const { user } = insData.graphql;
-            if (user && !user.is_private) {
+        if (insData && ((insData.graphql && insData.graphql.user) || insData.data && insData.data.user)) {
+            const user = insData.data.user || insData.graphql.user;
+            if (user && user.edge_owner_to_timeline_media) {
                 const { edges } = user.edge_owner_to_timeline_media;
                 if (edges.length) {
                     let instagramData = [];

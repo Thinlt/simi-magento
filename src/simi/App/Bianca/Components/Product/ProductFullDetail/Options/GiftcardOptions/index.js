@@ -38,7 +38,7 @@ class GiftcardOptions extends OptionBase {
         this.awGcRecipientEmailRef = React.createRef();
         this.awGcRecipientPhoneRef = React.createRef();
         this.required = ['aw_gc_amount', 'aw_gc_custom_amount', 'aw_gc_recipient_name', 'aw_gc_recipient_email', 'aw_gc_sender_name', 
-            'aw_gc_sender_email', 'aw_gc_template', 'aw_gc_delivery_method', 'aw_gc_delivery_date', 'aw_gc_delivery_date_timezone'];
+            'aw_gc_sender_email', 'aw_gc_delivery_method', 'aw_gc_delivery_date', 'aw_gc_delivery_date_timezone'];
         this.isCheckOptionRequired = false;
 
         if(this.extraField instanceof Object && this.extraField.hasOwnProperty('attribute_values')){
@@ -335,7 +335,7 @@ class GiftcardOptions extends OptionBase {
                             {
                                 isSendToFriend && 
                                 <React.Fragment>
-                                    <div className="option-row option-templates">
+                                    {/* <div className="option-row option-templates">
                                         <label>{Identify.__('Select a template *')}</label>
                                         <input type="hidden" name="aw_gc_template" value={this.state.aw_gc_template} ref={this.awGcTemplateRef} />
                                         <ul>
@@ -351,7 +351,7 @@ class GiftcardOptions extends OptionBase {
                                                 }, this)
                                             }
                                         </ul>
-                                    </div>
+                                    </div> */}
                                     <div className="option-row option-sender-name">
                                         <label>{Identify.__('Sender name *')}</label>
                                         <input type="text" name="aw_gc_sender_name" ref={this.awGcSenderNameRef} placeholder={Identify.__("Sender name")} />

@@ -1,0 +1,29 @@
+#modal-compare{
+    width: 100%;
+    max-width: 1280px;
+    min-height: 1273px;
+    // max-height: px;
+    overflow: auto;
+    margin-top: 10%;
+    padding: 16px 12px;
+}
+
+.compare-table{
+    display: flex;
+    .empty-header{
+        height: 483px;
+    }
+    .list-compare-item{
+        display: flex;
+    }
+    .compare-item{
+        max-width: 212px;
+        text-align: center;
+        img{
+            max-width: 190px;
+        }
+        .compare-remove-btn{
+            height: 66px;
+        }
+    }
+}

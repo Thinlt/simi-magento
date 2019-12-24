@@ -4,6 +4,8 @@ import { getOS } from 'src/simi/App/Bianca/Helper';
 import IconTelephone from "src/simi/App/Bianca/BaseComponents/Icon/Telephone";
 import IconWhatsapp from "src/simi/App/Bianca/BaseComponents/Icon/Whatsapp";
 import IconBubble from "src/simi/App/Bianca/BaseComponents/Icon/Bubble";
+import IconBubble2 from "src/simi/App/Bianca/BaseComponents/Icon/Bubble2";
+import IconCross from "src/simi/App/Bianca/BaseComponents/Icon/Cross";
 import LiveChat from 'react-livechat';
 import Modal from 'react-responsive-modal';
 import CloseIcon from 'src/simi/App/Bianca/BaseComponents/Icon/Close';
@@ -11,7 +13,6 @@ import {sendRequest} from 'src/simi/Network/RestMagento';
 import Loading from 'src/simi/BaseComponents/Loading';
 import PhoneCodes from './PhoneData';
 import Select from './SelectOption';
-import { BrowserRouter, Route, Link } from "react-router-dom";
 
 require('./style.scss');
 if (getOS() === 'MacOS') require('./style-ios.scss');
@@ -28,7 +29,6 @@ const Chats = (props) => {
     const [submittingContact, setSubmittingContact] = useState(false);
     const [submitedContactResult, setSubmitedContactResult] = useState();
     const TriggerPhoneSelectRef = useRef(null);
-    const TriggerTimesSelectRef = useRef(null);
     const storeConfig = Identify.getStoreConfig() || {};
     const config = storeConfig.simiStoreConfig && storeConfig.simiStoreConfig.config || {};
     const {contact_us, instant_contact, livechat} = config || {};
@@ -113,6 +113,19 @@ const Chats = (props) => {
         }
     }
 
+    const onChatOpen = (e) => {
+        if (!$('.chats-menu').hasClass('open')) {
+            $('.chats-menu').addClass('open');
+        } else {
+            $('.chats-menu').removeClass('open');
+        }
+        if (!$('.chats-group').hasClass('closed')) {
+            $('.chats-group').addClass('closed').removeClass('open');
+        } else {
+            $('.chats-group').removeClass('closed').addClass('open');
+        }
+    }
+
     const submitContactForm = () => {
         let reqData = {
             'name': $('#contact-name').val(),
@@ -162,31 +175,44 @@ const Chats = (props) => {
     return (
         <div className={`chats-block ${isPhone ? 'mobile':''}`}>
             <div className="icons-inner">
+                <div className="chats-group closed">
                 {
                     contact_us && contact_us.enabled && contact_us.enabled === '1' &&
-                    <div className="chat-icons contact" onClick={contactAction}>
+                    <div className="chat-icons contact bubbleIcons d3" onClick={contactAction}>
                         <IconTelephone style={{width: '24px', height: '24px', fill: '#fff'}}/>
                     </div>
                 }
                 {
                     data && data.phone &&
-                    <a href={whatsappAction()} target="_blank" alt="Whatsapp">
-                        <div className="chat-icons whatsapp">
+                    <a href={whatsappAction()} alt="Whatsapp" target="_blank" rel="nofollow">
+                        <div className="chat-icons whatsapp bubbleIcons d2">
                             <IconWhatsapp style={{width: '24px', height: '24px', fill: '#fff'}}/>
                         </div>
                     </a>
                 }
                 {
                     livechat && livechat.enabled === '1' &&
-                    <div className="chat-icons livechat" onClick={livechatAction}>
-                        <IconBubble style={{width: '20px', height: '20px', fill: '#fff'}}/>
+                    <a href={`https://direct.lc.chat/${livechatLicense}/`} alt="Live chat" target="_blank" rel="nofollow">
+                        <div className="chat-icons livechat bubbleIcons d1" onClick={livechatAction}>
+                            <IconBubble style={{width: '20px', height: '20px', fill: '#fff'}}/>
+                        </div>
+                    </a>
+                }
+                </div>
+                {
+                    ((livechat && livechat.enabled === '1') || 
+                    (contact_us && contact_us.enabled && contact_us.enabled === '1') || 
+                    (data && data.phone)) &&
+                    <div className="chat-icons chats-menu" onClick={onChatOpen}>
+                        <IconBubble2 style={{width: '20px', height: '20px', fill: '#fff'}}/>
+                        <IconCross style={{width: '20px', height: '20px', fill: '#fff'}}/>
                     </div>
                 }
             </div>
-            {
+            {/* {
                 livechat && livechat.enabled === '1' && livechatLicense &&
                 <LiveChat className={`${liveChatRef ? 'livechat-active':'livechat-disabled'}`} license={parseInt(livechatLicense)} onChatLoaded={onChatLoaded} onChatWindowMinimized={(e) => onChatWindowMinimized(e)} />
-            }
+            } */}
 
             <Modal open={openContactModal} onClose={onCloseContact}
                 overlayId={'contact-modal-overlay'}
@@ -217,22 +243,25 @@ const Chats = (props) => {
                                     <label className="arrow-down" htmlFor="contact-phone" ref={TriggerPhoneSelectRef}></label>
                                     <input id='contact-phone' name="contact-phone" type="tel" onChange={onChangeContactPhone} 
                                         value={contactPhone} 
-                                        placeholder={contactPhoneCode}/>
+                                        placeholder={contactPhoneCode} />
                                     {
-                                        <Select items={phoneItems} onChange={onChangeContactPhoneCode} triggerRef={TriggerPhoneSelectRef}/>
+                                        <Select items={phoneItems} onChange={onChangeContactPhoneCode}
+                                            triggerRef={TriggerPhoneSelectRef}
+                                        />
                                     }
                                 </div>
                             </div>
                             <div className="form-row time">
                                 <label htmlFor="contact-time">{Identify.__('Time')}</label>
-                                <div className="contact-input time-input" ref={TriggerTimesSelectRef}>
                                 {
                                     contact_us && contact_us.enabled && contact_us.enabled === '1' && contact_us.times &&
-                                    <Select items={timeItems} onChange={onChangeContactTime} triggerRef={TriggerTimesSelectRef} display={true}
+                                    <Select className="contact-input time-input" 
+                                        items={timeItems} onChange={onChangeContactTime} 
+                                        showSelected={true}
                                         placeholder={timeItems[0] ? timeItems[0].label : ''} 
-                                        hiddenInput={{name: 'time', id: 'contact-time', defaultValue: timeItems[0] ? timeItems[0].value : ''}}/>
+                                        hiddenInput={{name: 'time', id: 'contact-time', defaultValue: timeItems[0] ? timeItems[0].value : ''}}
+                                    />
                                 }
-                                </div>
                             </div>
                             <div className="form-btn">
                             {

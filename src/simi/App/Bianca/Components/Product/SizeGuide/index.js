@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Identify from "src/simi/Helper/Identify";
 import Modal from 'react-responsive-modal';
 import CloseIcon from 'src/simi/App/Bianca/BaseComponents/Icon/Close';
@@ -118,9 +118,9 @@ const SizeGuide = (props) => {
                             size_guide && size_guide.image_file && size_guide.image_file.path &&
                             (
                                 isPhone && size_guide.image_file_mobile && size_guide.image_file_mobile.path ?
-                                <img className="img-responsive" src={size_guide.image_file_mobile.path} alt="Size guide"/>
+                                <img className="img-responsive" src={`${window.SMCONFIGS.media_url_prefix}${size_guide.image_file_mobile.path}`} alt="Size guide"/>
                                 :
-                                <img className="img-responsive" src={size_guide.image_file.path} alt="Size guide"/>
+                                <img className="img-responsive" src={`${window.SMCONFIGS.media_url_prefix}${size_guide.image_file_mobile.path}`} alt="Size guide"/>
                             )
                         }
                         {/* <div className="chart-t-row row-header">
