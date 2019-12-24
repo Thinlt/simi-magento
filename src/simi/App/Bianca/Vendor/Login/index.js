@@ -10,7 +10,8 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import TitleHelper from 'src/simi/Helper/TitleHelper';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
-import { simiSignIn as signinApi, vendorLogin } from 'src/simi/Model/Customer';
+import { smoothScrollToView } from 'src/simi/Helper/Behavior';
+import { vendorLogin } from 'src/simi/Model/Customer';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import * as Constants from 'src/simi/Config/Constants';
 import { Util } from '@magento/peregrine';
@@ -48,20 +49,20 @@ class Login extends Component {
 
 	get emailLoginForm() {
 		const { isEmailLogin } = this.state;
-	    const { classes } = this.props;
-	    const isOpen = isEmailLogin;
-	    const className = isOpen ? classes.signIn_open : classes.signIn_closed;
+		const { classes } = this.props;
+		const isOpen = isEmailLogin;
+		const className = isOpen ? classes.signIn_open : classes.signIn_closed;
 
-	    return (
-	        <div className={className}>
-	            <VendorLogInForm
-	                classes={classes}
-	                showVendorRegisterForm={this.setVendorRegisterForm}
-	                onForgotPassword={this.setForgotPasswordForm}
-	                onSignIn={this.onVendorLogin.bind(this)}
-	            />
-	        </div>
-	    );
+		return (
+			<div className={className}>
+				<VendorLogInForm
+					classes={classes}
+					showVendorRegisterForm={this.setVendorRegisterForm}
+					onForgotPassword={this.setForgotPasswordForm}
+					onSignIn={this.onVendorLogin.bind(this)}
+				/>
+			</div>
+		);
 	}
 
 	get phoneLoginForm() {
@@ -80,7 +81,7 @@ class Login extends Component {
 	get createAccount() {
 		const { setVendorRegisterForm } = this;
 		const { isVendorRegisterOpen, isForgotPasswordOpen } = this.state;
-		const { classes } = this.props;
+		const { history, classes } = this.props;
 		return (
 			<React.Fragment>
 				<div
@@ -106,10 +107,10 @@ class Login extends Component {
 	vendorRegister = () => {};
 
 	setVendorRegisterForm = () => {
-		this.vendorRegister = (className) => {
+		this.vendorRegister = (className, history) => {
 			return (
 				<div className={className}>
-					<VendorRegister onSignIn={this.onVendorLogin.bind(this)} />
+					<VendorRegister onSignIn={this.onVendorLogin.bind(this)} history={history} />
 				</div>
 			);
 		};
@@ -123,8 +124,8 @@ class Login extends Component {
 			return (
 				<div className={className}>
 					<ForgotPassword
-						hideBuyer={this.hideBuyer}
-						showBuyer={this.showBuyer}
+						hideDesigner={this.hideDesigner}
+						showDesigner={this.showDesigner}
 						onClose={this.closeForgotPassword}
 						history={history}
 					/>
@@ -134,10 +135,10 @@ class Login extends Component {
 		this.showForgotPasswordForm();
 	};
 
-	hideBuyer = () => {
+	hideDesigner = () => {
 		this.setState({ forgotPassSuccess: 'none' });
 	};
-	showBuyer = () => {
+	showDesigner = () => {
 		this.setState({ forgotPassSuccess: 'block' });
 	};
 
@@ -148,13 +149,12 @@ class Login extends Component {
 
 	get vendorRegisterForm() {
 		const { isVendorRegisterOpen } = this.state;
-		const { classes } = this.props;
+		const { history, classes } = this.props;
 		const isOpen = isVendorRegisterOpen;
 		const className = isOpen ? classes.form_open : classes.form_closed;
 
-		return this.vendorRegister(className);
+		return this.vendorRegister(className, history);
 	}
-
 
 	get forgotPasswordForm() {
 		const { isForgotPasswordOpen } = this.state;
@@ -202,19 +202,29 @@ class Login extends Component {
 
 	onVendorLogin(username, password) {
 		Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null);
-		vendorLogin(this.vendorLoginCallback.bind(this), {
-			username,
-			password
-		});
+		vendorLogin(this.vendorLoginCallback.bind(this), { username, password });
 		showFogLoading();
 	}
 
 	vendorLoginCallback = (data) => {
 		hideFogLoading();
 		console.log(data);
-		window.location.href = data.redirect_url;
+		if (data.errors) {
+			let errorMsg = '';
+			if (data.errors.length) {
+				data.errors.map((error) => {
+					errorMsg += error.message;
+				});
+				showToastMessage(errorMsg);
+			}
+		} else {
+			smoothScrollToView($('#id-message'));
+			let message = Identify.__('You have succesfully logged in !');
+			if (this.props.toggleMessages)
+				this.props.toggleMessages([ { type: 'success', message: message, auto_dismiss: true } ]);
+			window.location.href = data.redirect_url;
+		}
 	};
-
 
 	render() {
 		const {

@@ -37,8 +37,8 @@ class ForgotPassword extends Component {
             }
             this.successMessage = text
             this.setState({ resetSubmited: true})
-            if(this.props.hideBuyer){
-                this.props.hideBuyer();
+            if(this.props.hideDesigner){
+                this.props.hideDesigner();
             }
         } else {
             let messages = ''
@@ -54,8 +54,8 @@ class ForgotPassword extends Component {
         this.setState({resetSubmited: false})
         if (this.props.onClose)
             this.props.onClose();
-        if (this.props.showBuyer){
-            this.props.showBuyer()
+        if (this.props.showDesigner){
+            this.props.showDesigner()
         }
     };
 

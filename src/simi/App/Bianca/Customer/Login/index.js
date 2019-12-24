@@ -182,12 +182,12 @@ class Login extends Component {
 						>
 							<span className={`${classes['icon']} ${classes['google']}`} />
 						</span>
-						<span className={`${classes['social-icon']}`} onClick={() => this.authenticate('LinkedIn')}>
+						{/* <span className={`${classes['social-icon']}`} onClick={() => this.authenticate('LinkedIn')}>
 							<span className={`${classes['icon']} ${classes['linkedin']}`} />
 						</span>
 						<span className={`${classes['social-icon']}`} onClick={() => this.authenticate('Instagram')}>
 							<span className={`${classes['icon']} ${classes['instagram']}`} />
-						</span>
+						</span> */}
 					</div>
 					<div className={`${classes['showCreateAccountButtonCtn']}`}>
 						<button
@@ -322,7 +322,7 @@ class Login extends Component {
 				if (data.errors.length) {
 					data.errors.map((error) => {
 						if (error.endpoint == 'rest/V1/integration/customer/token') {
-							errorMsg = 'Your account does not exist or is not actived !';
+							errorMsg = 'Wrong password, does not exist account or account is not actived !';
 						}else{
 							errorMsg += error.message
 						}

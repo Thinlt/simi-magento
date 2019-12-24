@@ -1,45 +1,117 @@
 .root {
-    display: grid;
-    gap: 0.5rem;
-    justify-items: stretch;
-    padding: 0 1.5rem;
+	display: grid;
+	gap: 0.5rem;
+	justify-items: stretch;
+	padding: 0 98px;
 }
 
 .actions {
-    display: grid;
-    justify-items: center;
-    margin-top: 1rem;
-    padding: 1rem 0;
+	display: grid;
+	justify-items: center;
+	margin-top: 1rem;
+	padding: 1rem 0;
 }
 
 .error {
-    color: red;
-    text-align: center;
+	color: red;
+	text-align: center;
 }
 
 .lead {
-    margin: 1rem 0;
-    text-align: center;
+	margin: 1rem 0;
+	text-align: center;
 }
 
 .subscribe {
-    margin-left: -0.5rem;
+	margin-left: -0.5rem;
 }
 
 .submitButton {
-    padding: 5px 15px;
-    font-size: 16px;
-    font-weight: 600;
-    white-space: nowrap;
-    text-align: center;
-    padding-top: 10px;
-    cursor: pointer;
-    border: 0;
-    width: 100%;
-    min-width: 200px;
-    padding-bottom: 10px;
+	padding: 5px 15px;
+	font-size: 16px;
+	font-weight: 600;
+	white-space: nowrap;
+	text-align: center;
+	padding-top: 10px;
+	cursor: pointer;
+	border: 0;
+	width: 100%;
+	min-width: 200px;
+	padding-bottom: 10px;
 }
 
 .submitButton:hover {
-    opacity: 0.8;
+	opacity: 0.8;
+}
+
+.root .back {
+	width: fit-content;
+	border-bottom: 1px solid #101820;
+	position: absolute;
+	top: 312px;
+	left: 139px;
+	cursor: pointer;
+}
+.root .back span {
+	height: 18px;
+	width: 53px;
+	color: #101820;
+	font-family: Gotham;
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 18px;
+	display: inline-block;
+}
+
+.root div[class *= "field-root"] {
+	margin-top: 35px;
+}
+.root div[class *= "field-root"] span[class *= "label"] {
+	color: #101820;
+	font-family: Gotham;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 14px;
+	text-transform: uppercase;
+	padding: unset;
+	padding-top: 0;
+	padding-bottom: 8px;
+}
+
+.root div[class *= "field-root"] span[class *= "requiredSymbol"] {
+	display: none;
+}
+
+.root div[class *= "field-root"] input {
+	min-height: 48px;
+	padding-left: 16px !important;
+	background-color: #f2f2f2;
+	min-width: 572px;
+	width: 100%;
+	border: unset;
+}
+.root div[class *= "field-root"] input:focus {
+	box-shadow: none;
+	border-color: unset;
+}
+.root div[class *= "field-root"] p {
+	padding-top: 20px;
+	position: relative;
+}
+.actions button {
+	font-size: 16px;
+	font-weight: 500 !important;
+	white-space: nowrap;
+	text-align: center;
+	padding-top: 16px !important;
+	cursor: pointer;
+	border: 0;
+	width: 100%;
+	min-width: 200px;
+	padding-bottom: 16px !important;
+	font-family: Gotham;
+	line-height: 16px !important;
+	text-transform: uppercase;
+	background-color: #101820;
+	color: #fff;
 }

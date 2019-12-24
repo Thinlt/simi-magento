@@ -11,7 +11,7 @@ import classes from './forgotPasswordForm.css';
 const ForgotPasswordForm  =  props => {
     const { history, onSubmit } = props;
     const handleBack = () => {
-        history.push('/login.html');
+        history.push('/designer_login.html');
     };
 
     return (
