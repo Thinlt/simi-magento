@@ -5,7 +5,7 @@
                   instance="Simi\Simicustompayment\Observer\SimiconnectorAddPaymentMethod" />
     </event>
     <event name="simi_simiconnector_model_server_initialize">
-        <observer name="Paypal_Mobile_Simi_Simiconnector_Model_Server_Initialize" 
+        <observer name="SimiCustomPayment_Simi_Simiconnector_Model_Server_Initialize"
                   instance="Simi\Simicustompayment\Observer\SimiconnectorModelServerInitialize" />
     </event>
     <!-- <event name="simi_simiconnector_model_api_orders_onepage_store_after">

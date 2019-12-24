@@ -27,7 +27,12 @@ class SimiconnectorModelServerInitialize implements ObserverInterface {
     public function execute(\Magento\Framework\Event\Observer $observer) {
         $object = $observer->getObject();
         $data = $object->getData();
-        if(isset($data['resource']) && ($data['resource'] == "customizepayments")){
+        if(isset($data['resource']) && (
+                ($data['resource'] == "customizepayments") ||
+                ($data['resource'] == "payfortredirects") ||
+                ($data['resource'] == "payfortplaceoderafters")
+            )
+        ){
             $data['module'] = "simicustompayment";
             $object->setData($data);
         }

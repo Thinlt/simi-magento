@@ -10,8 +10,14 @@ class MerchantPageCancel extends \Payfort\Fort\Controller\Checkout
         $this->_checkoutSession->restoreQuote();
         
         $message = __('You have canceled the payment.');
-        $this->messageManager->addError( $message );            
-        $returnUrl = $this->getHelper()->getUrl('checkout/cart');
+        $this->messageManager->addError( $message );
+
+        /*simicustomize*/
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $customizeHelper = $objectManager->get('Simi\Simicustomize\Helper\Data');
+        $storeBase = $customizeHelper->getStoreConfig('simiconnector/general/pwa_studio_url');
+        $returnUrl = $storeBase.'cart.html?payment=false';
+
         $this->getResponse()->setRedirect($returnUrl);
     }
 }
