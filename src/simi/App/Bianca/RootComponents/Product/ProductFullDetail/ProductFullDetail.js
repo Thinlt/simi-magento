@@ -301,8 +301,7 @@ class ProductFullDetail extends Component {
     reserveAction = () => {
         // check user signedin
         if (!this.props.isSignedIn) {
-            // this.props.history.push(`/login.html?return=${this.props.location.pathname}`);
-            this.props.history.push('/login.html');
+            this.props.history.push({pathname: '/login.html', pushTo: this.props.history.location.pathname});
             return;
         }
         // get product option selected

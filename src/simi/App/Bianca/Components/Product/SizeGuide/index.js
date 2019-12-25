@@ -23,7 +23,7 @@ const SizeGuide = (props) => {
 
     const submitForm = () => {
         if (!isSignedIn) {
-            history && history.push(`/login.html?return=${history.location.pathname}`);
+            history && history.push({pathname: '/login.html', pushTo: history.location.pathname});
             return;
         }
         let postData = {
