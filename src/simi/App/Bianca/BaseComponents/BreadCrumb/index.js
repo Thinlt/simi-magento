@@ -10,7 +10,14 @@ class Breadcrumb extends React.Component{
     state = {}
 
     static getDerivedStateFromProps(props, state){
-        const {breadcrumb} = props || [];
+        const {breadcrumb, location} = props || [];
+        // fix bug product detail breadcrumb back link to category
+        if (breadcrumb && breadcrumb.length) {
+            let last = breadcrumb[breadcrumb.length-1];
+            if (last && !last.link) {
+                last.link = location.pathname;
+            }
+        }
         Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, Constants.BREADCRUMBS, breadcrumb);
         return state;
     }
@@ -20,7 +27,8 @@ class Breadcrumb extends React.Component{
         if(data.length > 0){
             const size = data.length;
             const breadcrumb = data.map((item,key) => {
-                const action = size === key+1 ? ()=>{} : ()=>history.push(item.link)
+                // const action = size === key+1 ? ()=>{} : ()=>history.push(item.link)
+                const action = item.link ? ()=>history.push(item.link) : ()=>{} //fix for last breadcrumb has link
                 const arrow = size === key+1 ? null : <span className="breadcrumb-arrow">/ </span>
                 let name = item.name.split(' ');
                 name = name.map((word) => {
