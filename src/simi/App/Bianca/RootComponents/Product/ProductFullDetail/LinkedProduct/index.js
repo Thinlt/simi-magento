@@ -27,16 +27,18 @@ const responsive = {
       iconWidth: 48
     },
     tablet: {
-      breakpoint: { max: 1176, min: 588 },
-      items: 2,
+      breakpoint: { max: 1176, min: 639 },
+      items: 3,
       chevronWidth: 20,
-      iconWidth: 16
+      iconWidth: 16,
+      gutter: 16
     },
     mobile: {
-      breakpoint: { max: 588, min: 0 },
-      items: 1,
+      breakpoint: { max: 639, min: 0 },
+      items: 2,
       chevronWidth: 20,
-      iconWidth: 16
+      iconWidth: 16,
+      gutter: 11
     },
 };
 
@@ -101,11 +103,12 @@ const LinkedProducts = props => {
         }
         return false;
     });
-    let numberCards = 4, chevWidth = 72, iconWidth = 24; // default values
+    let numberCards = 4, chevWidth = 72, iconWidth = 24, gutter=16; // default values
     if (breakPoint.items) {
         numberCards = breakPoint.items;
         chevWidth = breakPoint.chevronWidth;
         iconWidth = breakPoint.iconWidth;
+        if (breakPoint.gutter) gutter = breakPoint.gutter;
     }
 
     return (
@@ -120,7 +123,7 @@ const LinkedProducts = props => {
             <div className="linked-products">
                 <ItemsCarousel
                     infiniteLoop={false}
-                    gutter={16} //Space between cards.
+                    gutter={gutter} //Space between cards.
                     firstAndLastGutter={false}
                     activePosition={'center'}
                     chevronWidth={chevWidth}
@@ -134,6 +137,7 @@ const LinkedProducts = props => {
                     requestToChangeActive={setActiveItemIndex}
                     leftChevron={<ChevronLeft className="chevron-left" style={{width: `${iconWidth}px`}} />}
                     rightChevron={<ChevronRight className="chevron-right" style={{width: `${iconWidth}px`}} />}
+                    classes={{ wrapper: "wrapper", itemsWrapper: 'items-wrapper', itemsInnerWrapper: 'items-inner-wrapper', itemWrapper: 'item-wrapper', rightChevronWrapper: 'right-chevron-wrapper', leftChevronWrapper: 'left-chevron-wrapper' }}
                 >
                     {linkedProducts}
                 </ItemsCarousel>

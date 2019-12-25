@@ -7,7 +7,7 @@ import isProductConfigurable from 'src/util/isProductConfigurable';
 import { resourceUrl } from 'src/simi/Helper/Url'
 import findMatchingVariant from 'src/util/findMatchingProductVariant';
 import { transparentPlaceholder } from 'src/shared/images';
-import PlayCircle from 'src/simi/App/Bianca/BaseComponents/Icon/PlayCircle';
+// import PlayCircle from 'src/simi/App/Bianca/BaseComponents/Icon/PlayCircle';
 require('./style.scss')
 
 

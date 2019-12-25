@@ -167,15 +167,18 @@ $color1: #101820;
                     padding: 5px;
                     width: 25%;
                 }
-                @media (max-width: 1023px) {
+                @media screen and (max-width: 1023px) {
                     .linked-product-item {
                         width: 50%;
                     }
                 }
                 .product-horizotal .siminia-product-grid-item{
                     margin: 0 auto;
-                    @media (min-width: 1440px){
+                    @media screen and (min-width: 1440px){
                         width: 278px;
+                    }
+                    @media screen and (min-width: 1920px){
+                        width: 262px;
                     }
                     .siminia-product-des{
                         margin: 0;
@@ -312,6 +315,10 @@ $color1: #101820;
                     }
                     .cate-btn{
                         display: none;
+                    }
+                    &.full-width{
+                        .cate-title{display:none;}
+                        .cate-btn{display:none;}
                     }
                 }
             }
