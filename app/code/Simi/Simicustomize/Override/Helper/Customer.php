@@ -2,6 +2,8 @@
 
 namespace Simi\Simicustomize\Override\Helper;
 
+use Exception;
+
 class Customer extends \Simi\Simiconnector\Helper\Customer
 {
 
@@ -107,5 +109,46 @@ class Customer extends \Simi\Simiconnector\Helper\Customer
             return true;
         }
         return false;
+    }
+
+    /*
+     * Create Customer
+     * @param
+     * $data - Object with at least:
+     * $data->firstname
+     * $data->lastname
+     * $data->email
+     * $data->password
+     */
+
+    public function createCustomer($data)
+    {
+        $data = (object) $data;
+        $customer = $this->simiObjectManager->get('Magento\Customer\Api\Data\CustomerInterface')
+            ->setFirstname($data->firstname)
+            ->setLastname($data->lastname)
+            ->setEmail($data->email);
+        $subData = (object) $data->vendor_data;
+        if (isset($subData->telephone) && $subData->telephone) {
+            $customer->setCustomAttribute('mobilenumber', $subData->telephone);
+        }
+        $this->simiObjectManager->get('Simi\Simicustomize\Override\Helper\Customer')->applyDataToCustomer($customer, $data);
+
+        $password = null;
+        if (isset($data->password) && $data->password) {
+            $password = $data->password;
+        }
+        $accountManagement = $this->simiObjectManager->get('Magento\Customer\Api\AccountManagementInterface');
+
+        $customer = $accountManagement->createAccount($customer, $password, '');
+
+        $subscriberFactory = $this->simiObjectManager->get('Magento\Newsletter\Model\SubscriberFactory');
+        if (isset($data->news_letter) && ($data->news_letter == '1')) {
+            $subscriberFactory->create()->subscribeCustomerById($customer->getId());
+        } else {
+            $subscriberFactory->create()->unsubscribeCustomerById($customer->getId());
+        }
+        $customer = $this->simiObjectManager->create('Magento\Customer\Model\Customer')->load($customer->getId());
+        return $customer;
     }
 }
