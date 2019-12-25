@@ -115,6 +115,7 @@ $colorRed: #b91c1c;
                                     margin: 0;
                                     margin-bottom: 16px;
                                     width: 88px;
+                                    height: 103px;
                                     box-sizing: border-box;
                                     padding: 0px;
                                     border: 1px solid #fff;
@@ -124,6 +125,8 @@ $colorRed: #b91c1c;
                                     > img{
                                         width: 82px;
                                         max-height: 103px;
+                                        height: 100%;
+                                        object-fit: cover!important;
                                     }
                                     &:last-child{
                                         margin-bottom: 0px;
