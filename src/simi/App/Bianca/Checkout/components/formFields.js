@@ -242,7 +242,7 @@ const FormFields = (props) => {
             });
         } else {
             const signin_token = storage.getItem('signin_token')
-            if (signin_token) //logged in but not loaded addresses
+            if (signin_token && simiSignedIn) //logged in but not loaded addresses
                 simiSignedIn(signin_token)
         }
         return <Fragment>

@@ -20,6 +20,9 @@ import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
 import { withRouter } from 'react-router-dom';
 import { getOS } from 'src/simi/App/Bianca/Helper';
+import { getCartDetails } from 'src/actions/cart';
+import { connect } from 'src/drivers';
+import { compose } from 'redux';
 
 const $ = window.$;
 require('./item.scss')
@@ -82,6 +85,7 @@ class Griditem extends React.Component {
         } else {
             if (data.message)
                 showToastMessage(data.message)
+            this.props.getCartDetails()
         }
     }
 
@@ -256,7 +260,7 @@ class Griditem extends React.Component {
                         text={Identify.__('Pre-order')} />
                 )
                 const storeConfig = Identify.getStoreConfig()
-                const { config } = storeConfig && storeConfig.simiStoreConfig || null;
+                const { config } = storeConfig && storeConfig.simiStoreConfig || {};
                 const { preorder_deposit } = config;
                 if (preorder_deposit)
                     depositText = (<p className="item-deposit">{Identify.__(`Deposit ${preorder_deposit}%`)}</p>)
@@ -319,4 +323,13 @@ Griditem.contextTypes = {
     lazyImage: PropTypes.bool,
 }
 
-export default (withRouter)(Griditem);
+
+const mapDispatchToProps = {
+    getCartDetails
+};
+
+export default compose(connect(
+    null,
+    mapDispatchToProps
+), withRouter)
+(Griditem);

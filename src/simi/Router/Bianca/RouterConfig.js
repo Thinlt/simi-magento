@@ -10,7 +10,7 @@ const Checkout = (props) => {
 }
 
 const Thankyou = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Thankyou"*/'src/simi/App/core/Checkout/Thankyou')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "BiancaThankyou"*/'src/simi/App/Bianca/Checkout/Thankyou')} {...props}/>
 }
 
 const Login = (props) => {

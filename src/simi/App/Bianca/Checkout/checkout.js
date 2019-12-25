@@ -152,7 +152,7 @@ class Checkout extends Component {
 
 
     placeOrder = () => {
-        const { submitOrder, checkout, toggleMessages, history } = this.props;
+        const { submitOrder, checkout, toggleMessages, history, cart } = this.props;
         const { paymentData, shippingAddress, shippingMethod, billingAddress } = checkout;
         const {is_virtual} = this
 
@@ -178,6 +178,8 @@ class Checkout extends Component {
                 return;
             }
         }
+        //save to show on thank you page
+        Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'last_order_info', { cart });
         if (paymentData && paymentData.value === 'paypal_express')
             history.push('/paypal_express.html')
         else {

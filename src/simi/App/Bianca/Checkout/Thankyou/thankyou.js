@@ -1,19 +1,30 @@
 import React from 'react';
 import {  func, shape, string } from 'prop-types';
-import Button from 'src/components/Button';
 import { getOrderInformation, getAccountInformation } from 'src/selectors/checkoutReceipt';
 import { connect } from 'src/drivers';
 import actions from 'src/actions/checkoutReceipt';
 import { hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import Identify from 'src/simi/Helper/Identify';
 import TitleHelper from 'src/simi/Helper/TitleHelper'
+import { Colorbtn } from 'src/simi/BaseComponents/Button'
 
 require('./thankyou.scss')
 
 const Thankyou = props => {
     hideFogLoading()
     const {  history, order } = props;
+    const padOrderId = (order && order.id) ? Identify.PadWithZeroes(order.id, 9) : Identify.findGetParameter('order_increment_id')
+    const last_order_info = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'last_order_info');
+    let isPreOrder = false
+    try {
+        const items = last_order_info.cart.totals.items
+        items.map(item => {
+            if(item.simi_pre_order_option)
+                isPreOrder = true
+        })
+    } catch (err) {
 
+    }
 
     const hasOrderId = () => {
         return (order && order.id) ||  Identify.findGetParameter('order_increment_id');
@@ -24,7 +35,6 @@ const Thankyou = props => {
             history.push('/');
             return;
         }
-        const padOrderId = (order && order.id) ? Identify.PadWithZeroes(order.id, 9) : Identify.findGetParameter('order_increment_id')
         const orderId = '/orderdetails.html/' + padOrderId;
         const orderLocate = {
             pathname: orderId,
@@ -38,18 +48,30 @@ const Thankyou = props => {
     }
 
     return (
-        <div className="container" style={{ marginTop: 40 }}>
+        <div className="container thankyou-container" style={{ marginTop: 40 }}>
             {TitleHelper.renderMetaHeader({
                 title:Identify.__('Thank you for your purchase!')
             })}
             <div className="root">
                 <div className="body">
                     <h2 className='header'>{Identify.__('Thank you for your purchase!')}</h2>
-                    <div className='textBlock'>{Identify.__('You will receive an order confirmation email with order status and other details.')}</div>
-                    <div className='textBlock'>{Identify.__('You can also visit your account page for more information.')}</div>
-                    <Button onClick={handleViewOrderDetails}>
-                        {Identify.__('View Order Details')}
-                    </Button>
+                    <div  className="email-sending-message">
+                        {padOrderId && <div className="order-number">{Identify.__('Order your number is #@').replace('@', padOrderId)}</div>}
+                        {isPreOrder && <div className="order-preorder-note">{Identify.__('Please be aware that this is a preorder. You will be informed once they become available.')}</div>}
+                        {Identify.__("We'll email you an order confirmation with details and tracking info.")}
+                    </div>
+                    <div className="order-actions">
+                        <Colorbtn 
+                            onClick={handleViewOrderDetails}
+                            style={{ backgroundColor: '#101820', color: '#FFF' }}
+                            className="view-order-details"
+                            text={Identify.__('View Order Details')} />
+                        <Colorbtn 
+                            onClick={()=>history.push('/')}
+                            style={{ backgroundColor: '#101820', color: '#FFF' }}
+                            className="continue-shopping"
+                            text={Identify.__('Continue shopping')} />
+                    </div>
                 </div>
             </div>
         </div>
