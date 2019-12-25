@@ -7,3 +7,9 @@ export const paypalExpressStart = (callBack, getParams) => {
 export const paypalPlaceOrder = (callBack, getParams) => {
     sendRequest(`/rest/V1/simiconnector/ppexpressapis/placeOrder`, callBack, 'GET', getParams)
 }
+
+
+export const callUrlWebview = (callBack, postData) => {
+    // sendRequest(`/rest/V1/simiconnector/payfortplaceoderafters/start`, callBack, 'GET', getParams)
+    sendRequest('rest/V1/simiconnector/payfortplaceoderafters', callBack, 'POST',{}, postData)
+}
