@@ -33,6 +33,8 @@ import {sendRequest} from 'src/simi/Network/RestMagento';
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
 import { getOS } from 'src/simi/App/Bianca/Helper';
+import CompareProduct from 'src/simi/App/Bianca/BaseComponents/CompareProducts'
+
 
 const ConfigurableOptions = React.lazy(() => import('./Options/ConfigurableOptions'));
 const CustomOptions = React.lazy(() => import('./Options/CustomOptions'));
@@ -67,7 +69,8 @@ class ProductFullDetail extends Component {
         reserveError: '',
         isOpenSizeGuide: false,
         isErrorPreorder: false,
-        isPreorder: false
+        isPreorder: false,
+        openCompareModal: false
     };
     quantity = 1;
     stores = []; // Storelocators
@@ -245,6 +248,18 @@ class ProductFullDetail extends Component {
         }
     }
 
+    showModalCompare = () => {
+        this.setState({
+            openCompareModal : true
+        })
+    }
+
+    closeCompareModal = () =>{
+        this.setState({
+            openCompareModal : false
+        })
+    }
+
     addToCompare = () => {
         const { product } = this.props;
         const storeageData = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE,'compare_product');
@@ -255,13 +270,13 @@ class ProductFullDetail extends Component {
             if(result){
                 showToastMessage(Identify.__('Product has already added'.toUpperCase()))
             } else {
-                compareProducts.push(item);
+                compareProducts.push(product);
                 Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
                 showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
             }
         } else {
             compareProducts = [];
-            compareProducts.push(item);
+            compareProducts.push(product);
             Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
             showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
         }
@@ -664,7 +679,11 @@ class ProductFullDetail extends Component {
                                         <button onClick={addToWishlist} title={Identify.__('Add to Favourites')}><Favorite /></button>
                                     </div>
                                     <div className="compare-actions action-icon">
-                                        <button onClick={addToCompare} title={Identify.__('Compare')}><CompareIcon /></button>
+                                        <button onClick={()=>{
+                                            addToCompare();
+                                            this.showModalCompare()
+                                        }} title={Identify.__('Compare')}><CompareIcon /></button>
+                                    <CompareProduct openModal={this.state.openCompareModal} closeModal={this.closeCompareModal}/>
                                     </div>
                                 </div>
                             }
