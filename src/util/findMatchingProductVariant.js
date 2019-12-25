@@ -13,9 +13,6 @@ const findMatchingVariant = ({ variants, optionCodes, optionSelections }) => {
             // if any option selection fails to match any standard attribute
             // and also fails to match any custom attribute
             // then this isn't the correct variant
-            if (code === 'size') { //fix bug change option is size and change image
-                return true;
-            }
             if (!matchesStandardAttribute && !matchesCustomAttribute) {
                 return false;
             }

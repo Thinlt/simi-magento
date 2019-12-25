@@ -5,7 +5,7 @@ import ImageLightbox from "./ImageLightbox";
 import memoize from 'memoize-one';
 import isProductConfigurable from 'src/util/isProductConfigurable';
 import { resourceUrl } from 'src/simi/Helper/Url'
-import findMatchingVariant from 'src/util/findMatchingProductVariant';
+// import findMatchingVariant from 'src/util/findMatchingProductVariant';
 import { transparentPlaceholder } from 'src/shared/images';
 // import PlayCircle from 'src/simi/App/Bianca/BaseComponents/Icon/PlayCircle';
 require('./style.scss')
@@ -109,6 +109,33 @@ class ProductImage extends React.Component {
             })
     );
 
+    findMatchingVariant = ({ variants, optionCodes, optionSelections }) => {
+        const findCode = 'color';
+        let codeValue = '';
+        for (const [id, value] of optionSelections) {
+            const code = optionCodes.get(id);
+            if (code === findCode) { //fix bug change option is size and change image
+                codeValue = value;
+                break;
+            }
+        }
+        let productItem;
+        if(codeValue){
+            variants.forEach((item) => {
+                const { attributes, product } = item;
+                const attrCodeValues = (attributes || []).reduce(
+                    (map, { code, value_index }) => new Map(map).set(code, value_index),
+                    new Map()
+                );
+                if(attrCodeValues && attrCodeValues.size && attrCodeValues.get(findCode) === codeValue){
+                    productItem = item;
+                    return false;
+                }
+            });
+        }
+        return productItem;
+    };
+
     mediaGalleryEntries = () => {
         const { props } = this;
         const { optionCodes, optionSelections, product } = props;
@@ -126,7 +153,7 @@ class ProductImage extends React.Component {
             return media_gallery_entries;
         }
 
-        const item = findMatchingVariant({
+        const item = this.findMatchingVariant({
             optionCodes,
             optionSelections,
             variants
