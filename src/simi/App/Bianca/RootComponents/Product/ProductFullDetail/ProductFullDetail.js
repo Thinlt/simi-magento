@@ -70,6 +70,7 @@ class ProductFullDetail extends Component {
         isOpenSizeGuide: false,
         isErrorPreorder: false,
         isPreorder: false,
+        openCompareModal: false,
         isPhone: window.innerWidth < 1024
     };
 
@@ -671,7 +672,11 @@ class ProductFullDetail extends Component {
                             }
                             {isPhone &&
                                 <div className="compare-actions action-icon">
-                                    <button onClick={addToCompare} title={Identify.__('Compare')}><CompareIcon /></button>
+                                    <button onClick={()=>{
+                                        addToCompare();
+                                        this.showModalCompare()
+                                    }} title={Identify.__('Compare')}><CompareIcon /></button>
+                                    <CompareProduct openModal={this.state.openCompareModal} closeModal={this.closeCompareModal}/>
                                 </div>
                             }
                         </div>
@@ -731,7 +736,11 @@ class ProductFullDetail extends Component {
                                     }
                                     {!isPhone &&
                                         <div className="compare-actions action-icon">
-                                            <button onClick={addToCompare} title={Identify.__('Compare')}><CompareIcon /></button>
+                                            <button onClick={()=>{
+                                                addToCompare();
+                                                this.showModalCompare()
+                                            }} title={Identify.__('Compare')}><CompareIcon /></button>
+                                            <CompareProduct openModal={this.state.openCompareModal} closeModal={this.closeCompareModal}/>
                                         </div>
                                     }
                                 </div>
