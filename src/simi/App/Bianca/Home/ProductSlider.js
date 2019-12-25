@@ -12,13 +12,13 @@ import useWindowSize from 'src/simi/App/Bianca/Hooks';
 
 const responsive = {
     superLargeDesktop: {
-      breakpoint: { max: 4000, min: 1921 },
+      breakpoint: { max: 4000, min: 1920 },
       items: 5,
       chevronWidth: 72,
       iconWidth: 24
     },
     desktop: {
-      breakpoint: { max: 1921, min: 1176 },
+      breakpoint: { max: 1920, min: 1176 },
       items: 4,
       chevronWidth: 72,
       iconWidth: 24

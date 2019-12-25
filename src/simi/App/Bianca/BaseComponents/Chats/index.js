@@ -223,7 +223,9 @@ const Chats = (props) => {
             >
                 <div className={`contact-wrap ${isPhone ? 'mobile':''}`}>
                     <h3 className="title"><span>{Identify.__('Instant Contact')}</span></h3>
-                    <span className="header-text">{Identify.__('Please, specify your phone number and when it will be convenient for you to take a call.')}</span>
+                    { submitedContactResult !== true && 
+                        <span className="header-text">{Identify.__('Please, specify your phone number and when it will be convenient for you to take a call.')}</span>
+                    }
                     {
                         submitedContactResult === true ?
                             <div className="message success">{Identify.__('Thank you for submitting the information! We will contact you soon.')}</div>

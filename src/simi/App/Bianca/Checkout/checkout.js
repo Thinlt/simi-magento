@@ -214,7 +214,7 @@ class Checkout extends Component {
     get checkoutInner() {
         const { props, cartCurrencyCode, btnPlaceOrder, userSignedIn, pageTitle, is_virtual } = this;
         const { cart, checkout, directory, editOrder, submitShippingMethod, submitShippingAddress, submitOrder, submitPaymentMethod,
-            submitBillingAddress, user, simiSignedIn, toggleMessages, getCartDetails } = props;
+            submitBillingAddress, user, simiSignedIn, toggleMessages, getCartDetails, history } = props;
         const { shippingAddress, submitting, availableShippingMethods, shippingMethod, billingAddress, paymentData, paymentCode,
             invalidAddressMessage, isAddressInvalid, shippingTitle, editing } = checkout;
         const { paymentMethods } = cart;

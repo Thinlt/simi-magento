@@ -49,6 +49,16 @@ class Cart extends Component {
     }
 
     componentDidMount() {
+        const {props} = this
+        if (this.props && this.props.location && this.props.location.search && this.props.location.search.indexOf('payment=false') !== -1) {
+            if (!this.toggledErrMessOnce) {
+                this.toggledErrMessOnce = true
+                if (props.toggleMessages){
+                    props.toggleMessages([{ type: 'error', message: Identify.__('An error occurred while making the transaction. Please try again.'), auto_dismiss: false }])
+                }
+            }
+        }
+        
         showFogLoading();
         this.setIsPhone();
         const { getCartDetails } = this.props;
