@@ -22,7 +22,7 @@ class Gallery extends Component {
     };
 
     render() {
-        const { classes, data, pageSize, history } = this.props;
+        const { classes, data, pageSize, history, openCompareModal } = this.props;
         const hasData = Array.isArray(data) && data.length;
         const items = hasData ? data : emptyData;
         
@@ -30,7 +30,7 @@ class Gallery extends Component {
             <div className="gallery-root">
                 {!hasData && <Loading />}
                 <div className="gallery-items">
-                    <GalleryItems items={items} pageSize={pageSize} history={history}/>
+                    <GalleryItems openCompareModal={openCompareModal} items={items} pageSize={pageSize} history={history}/>
                 </div>
             </div>
         );

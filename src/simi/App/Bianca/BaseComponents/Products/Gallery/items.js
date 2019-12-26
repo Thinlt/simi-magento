@@ -32,14 +32,14 @@ class GalleryItems extends Component {
     }
 
     render() {
-        const { items } = this.props;
+        const { items, openCompareModal } = this.props;
 
         if (items === emptyData) {
             return ''
         }
 
         return items.map(item => (
-            <GridItem key={item.id} item={this.mapGalleryItem(item)} handleLink={this.handleLink.bind(this)} />
+            <GridItem key={item.id} openCompareModal={openCompareModal} item={this.mapGalleryItem(item)} handleLink={this.handleLink.bind(this)} />
         ));
     }
 }
