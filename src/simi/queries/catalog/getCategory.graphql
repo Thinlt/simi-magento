@@ -1,5 +1,4 @@
 #import "../Fragments/SimiPrice"
-#import "../Fragments/ConfigurableOptions"
 query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, $sort: ProductSortInput, $simiFilter: String) {
     category(id: $id) {
         product_count
