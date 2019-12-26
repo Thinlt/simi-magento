@@ -429,11 +429,12 @@ class ProductFullDetail extends Component {
     }
 
     handleConfigurableSelectionChange = (optionId, selection) => {
+        let value = Array.from(selection).pop();
+        if (value instanceof Array) {
+            value = value[0];
+        }
         this.setState(({ optionSelections }) => ({
-            optionSelections: new Map(optionSelections).set(
-                optionId,
-                Array.from(selection).pop()
-            )
+            optionSelections: new Map(optionSelections).set(optionId, value)
         }));
     };
 
@@ -454,9 +455,8 @@ class ProductFullDetail extends Component {
 
     get productOptions() {
         const { fallback, handleConfigurableSelectionChange, props } = this;
-        const { configurable_options, simiExtraField, type_id, is_dummy_data } = props.product;
+        const { configurable_options, simiExtraField, type_id, is_dummy_data, variants } = props.product;
         const {attribute_values: {pre_order, try_to_buy, reservable}} = simiExtraField;
-
         // map color options in simiExtraField to configurable_options
         if (simiExtraField && simiExtraField.app_options && simiExtraField.app_options.configurable_options && simiExtraField.app_options.configurable_options.attributes) {
             let optionColors = Object.values(simiExtraField.app_options.configurable_options.attributes);
@@ -504,7 +504,9 @@ class ProductFullDetail extends Component {
                 {
                     isConfigurable &&
                     <ConfigurableOptions
+                        variants={variants}
                         options={configurable_options}
+                        optionSelections={this.state.optionSelections}
                         onSelectionChange={handleConfigurableSelectionChange}
                         onSizeGuideClick={this.onSizeGuideClick}
                     />
