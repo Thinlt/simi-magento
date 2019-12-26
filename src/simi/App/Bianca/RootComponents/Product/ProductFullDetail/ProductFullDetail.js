@@ -209,6 +209,11 @@ class ProductFullDetail extends Component {
         this.addToCartWithParams({pre_order: '1'})
     }
 
+    buy1ClickAction = (cartParams) => {
+        this.addToCartWithParams(cartParams);
+        this.isBuy1Click = true;
+    }
+
     addToCartWithParams = (data = {}) => {
         const { product } = this.props;
         if (product && product.id) {
@@ -220,10 +225,13 @@ class ProductFullDetail extends Component {
             }
             showFogLoading()
             simiAddToCart(this.addToCartCallBack, params)
-            if (params.pre_order && params.pre_order === '1') {
+            this.isPreorder = false;
+            this.isBuy1Click = false;
+            if (params.pre_order && parseInt(params.pre_order) === 1) {
                 this.isPreorder = true;
-            } else {
-                this.isPreorder = false;
+            }
+            if (params.buy1click && parseInt(params.buy1click) === 1) {
+                this.isBuy1Click = true;
             }
         }
     };
@@ -236,6 +244,10 @@ class ProductFullDetail extends Component {
                 this.setState({isErrorPreorder: true});
             }
         } else {
+            if (this.isBuy1Click) {
+                this.props.history.push('/checkout.html');
+                return;
+            }
             this.showSuccess(data)
             this.props.updateItemInCart()
         }
@@ -664,7 +676,7 @@ class ProductFullDetail extends Component {
                             {parseInt(is_salable) === 0 && parseInt(pre_order) !== 1 && 
                                 <div className="out-of-stock"><span>{Identify.__('Out of stock')}</span></div>
                             }
-                            {isPhone && parseInt(is_salable) === 1  && 
+                            {isPhone && (parseInt(pre_order) === 1 || parseInt(is_salable) === 1) && 
                                 <div className="wishlist-actions action-icon">
                                     <button onClick={addToWishlist} title={Identify.__('Add to Favourites')}><Favorite /></button>
                                 </div>
@@ -718,9 +730,12 @@ class ProductFullDetail extends Component {
                                     <div className="cart-ctn">
                                         {addToCartBtn}
                                     </div>
-                                    {parseInt(is_salable) === 1 && 
+                                    {(parseInt(is_salable) === 1 || parseInt(pre_order) === 1) &&
                                         <div className="cart-ctn">
-                                            <Whitebtn className="buy-1-click-btn btn btn__white" onClick={() => addToCartWithParams({buy1click: '1'})} text={Identify.__('Buy with 1-click')}/>
+                                            <Whitebtn className="buy-1-click-btn btn btn__white" 
+                                                onClick={() => this.buy1ClickAction({buy1click: '1', pre_order: parseInt(pre_order)})} 
+                                                text={Identify.__('Buy with 1-click')}
+                                            />
                                         </div>
                                     }
                                     {parseInt(is_salable) === 1 && reservable === '1' && 
