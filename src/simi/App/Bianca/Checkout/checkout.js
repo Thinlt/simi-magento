@@ -179,7 +179,7 @@ class Checkout extends Component {
             }
         }
         //save to show on thank you page
-        Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'last_order_info', { cart });
+        Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, 'last_cart_info', { cart });
         if (paymentData && paymentData.value === 'paypal_express')
             history.push('/paypal_express.html')
         else {

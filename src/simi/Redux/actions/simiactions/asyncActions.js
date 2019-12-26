@@ -362,6 +362,9 @@ export const submitOrder = () =>
             // await clearShippingAddress();
             await clearShippingMethod();
 
+            //simi save last order id
+            Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, 'last_order_info', response)
+
             dispatch(checkoutActions.order.accept(response));
         } catch (error) {
             dispatch(checkoutActions.order.reject(error));

@@ -1,23 +1,26 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {  func, shape, string } from 'prop-types';
 import { getOrderInformation, getAccountInformation } from 'src/selectors/checkoutReceipt';
 import { connect } from 'src/drivers';
 import actions from 'src/actions/checkoutReceipt';
-import { hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import Identify from 'src/simi/Helper/Identify';
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import { Colorbtn } from 'src/simi/BaseComponents/Button'
+import {getOrderDetail} from 'src/simi/Model/Orders'
+import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 
 require('./thankyou.scss')
 
 const Thankyou = props => {
-    hideFogLoading()
     const {  history, order } = props;
-    const padOrderId = (order && order.id) ? Identify.PadWithZeroes(order.id, 9) : Identify.findGetParameter('order_increment_id')
-    const last_order_info = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'last_order_info');
+    let padOrderId = (order && order.id) ? Identify.PadWithZeroes(order.id, 9) : Identify.findGetParameter('order_increment_id')
+    const last_cart_info = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'last_cart_info');
+    const last_order_info = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'last_order_info');
+    const [orderIncIdFromAPI, setOrderIncFromAPI] = useState(false)
+
     let isPreOrder = false
     try {
-        const items = last_order_info.cart.totals.items
+        const items = last_cart_info.cart.totals.items
         items.map(item => {
             if(item.simi_pre_order_option)
                 isPreOrder = true
@@ -26,8 +29,21 @@ const Thankyou = props => {
 
     }
 
+    if (!padOrderId && last_order_info) {
+        if (orderIncIdFromAPI)
+            padOrderId = orderIncIdFromAPI
+        else {
+            showFogLoading()
+            getOrderDetail(last_order_info, (orderData) => {
+                hideFogLoading()
+                if (orderData && orderData.order && orderData.order.increment_id)
+                    setOrderIncFromAPI(orderData.order.increment_id)
+            })
+        }
+    }
+
     const hasOrderId = () => {
-        return (order && order.id) ||  Identify.findGetParameter('order_increment_id');
+        return (order && order.id) ||  Identify.findGetParameter('order_increment_id') || last_order_info;
     }
 
     const handleViewOrderDetails = () => {
