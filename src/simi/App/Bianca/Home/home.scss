@@ -113,6 +113,8 @@ $color1: #101820;
                 .scroller{
                     margin-top: 19px;
                     .scroller-container{
+                        padding-right: 16px;
+                        padding-left: 16px;
                         .wrapper{
                             position: relative;
                             .items-wrapper{
@@ -183,13 +185,17 @@ $color1: #101820;
                     .siminia-product-des{
                         margin: 0;
                         flex-direction: column;
-                        border: 1px solid #808080;
+                        // border: 1px solid #808080;
                     }
                 }
             }
         }
         &.mobile{
             .default-home-product-list{
+                .container{
+                    padding-right: 16px;
+                    padding-left: 16px;
+                }
                 .default-productlist-item{
                     position: relative;
                     .product-list{
@@ -198,6 +204,13 @@ $color1: #101820;
                         .product-horizotal{
                             position: initial;
                             .wrapper{
+                                .item-wrapper{
+                                    .siminia-product-grid-item{
+                                        .siminia-product-des{
+                                            padding: 8px 9px 10px 9px;
+                                        }
+                                    }
+                                }
                                 position: initial;
                                 .left-chevron-wrapper{
                                     height: 32px;

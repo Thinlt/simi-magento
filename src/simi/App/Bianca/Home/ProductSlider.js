@@ -39,7 +39,8 @@ const responsive = {
       breakpoint: { max: 587, min: 0 },
       items: 2,
       chevronWidth: 20,
-      iconWidth: 16
+      iconWidth: 16,
+      gutter: 11
     },
 };
 
@@ -49,10 +50,9 @@ const ProductSlider = props => {
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const {width} = useWindowSize();
     const {data} = queryResult
-    const {runQuery} = queryApi
   
     useEffect(() => {
-        runQuery({
+        queryApi.runQuery({
             variables: {
                 id: Number(dataProduct.category_id),
                 pageSize: Number(20),
@@ -102,11 +102,12 @@ const ProductSlider = props => {
         }
         return false;
     });
-    let numberCards = 4, chevWidth = 72, iconWidth = 24; // default values
+    let numberCards = 4, chevWidth = 72, iconWidth = 24, gutter=16; // default values
     if (breakPoint.items) {
         numberCards = breakPoint.items;
         chevWidth = breakPoint.chevronWidth;
         iconWidth = breakPoint.iconWidth;
+        if (breakPoint.gutter) gutter = breakPoint.gutter;
     }
 
     const renderProductGrid = (items) => {
@@ -118,7 +119,7 @@ const ProductSlider = props => {
         return (
             <ItemsCarousel
                 infiniteLoop={false}
-                gutter={16} //Space between cards.
+                gutter={gutter} //Space between cards.
                 firstAndLastGutter={false}
                 activePosition={'center'}
                 disableSwipe={false}
