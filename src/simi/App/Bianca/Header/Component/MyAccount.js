@@ -88,7 +88,7 @@ class MyAccount extends React.Component{
                                         {Identify.__('Login as Buyer')}
                                     </MenuItem>
                                     <hr className={classes["hr-before-login"]} />
-                                    <MenuItem className={classes["before-login-item-2"]} onClick={()=>this.handleClickItem('/loginDesigner.html')}>
+                                    <MenuItem className={classes["before-login-item-2"]} onClick={()=>this.handleClickItem('/designer_login.html')}>
                                         {Identify.__('Login as Designer')}
                                     </MenuItem>
                                 </div>

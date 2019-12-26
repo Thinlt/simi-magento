@@ -17,6 +17,10 @@ const Login = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Login"*/'src/simi/App/Bianca/Customer/Login')} {...props}/>
 }
 
+const VendorLogin = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Login"*/'src/simi/App/Bianca/Vendor/Login')} {...props}/>
+}
+
 const Logout = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Logout"*/'src/simi/App/Bianca/Customer/Logout')} {...props}/>
 }
@@ -93,6 +97,10 @@ const router = {
     login : {
         path: '/login.html',
         render : (location) => <Login {...location}/>
+    },
+    vendor_login : {
+        path: '/designer_login.html',
+        render : (location) => <VendorLogin {...location}/>
     },
     customer_reset_password : {
         path : '/resetPassword.html',
