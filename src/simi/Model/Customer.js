@@ -35,5 +35,5 @@ export const vendorLogin = (callBack, postData) => {
 }
 
 export const vendorRegister = (callBack, vendorInfo) => {
-    sendRequest('/rest/V1/simiconnector/customers', callBack, "POST", {},vendorInfo)
+    sendRequest('/rest/V1/simiconnector/vendor/register', callBack, 'POST', {},vendorInfo)
 }
