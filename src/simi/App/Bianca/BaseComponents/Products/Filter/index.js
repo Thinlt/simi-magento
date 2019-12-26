@@ -98,7 +98,8 @@ class Filter extends React.Component {
                                 <div 
                                     id={`filter-option-items-${item.request_var}`} 
                                     className="filter-option-items">
-                                    {this.renderFilterItemsOptions(item)}
+                                    {/* {this.renderFilterItemsOptions(item)} */}
+                                    {filterOptions}
                                 </div>
                             </ListItemNested>
                         )
@@ -117,6 +118,7 @@ class Filter extends React.Component {
         let options= [];
         if(item){
             if(item.filter_items !== null){
+                console.log(item.filter_items)
                 options = item.filter_items.map(function (optionItem) {
                     const name = <span className="filter-item-text">
                         {$("<div/>").html(Identify.__(optionItem.label)).text()}
