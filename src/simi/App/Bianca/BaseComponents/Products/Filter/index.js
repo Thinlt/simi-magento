@@ -98,7 +98,8 @@ class Filter extends React.Component {
                                 <div 
                                     id={`filter-option-items-${item.request_var}`} 
                                     className="filter-option-items">
-                                    {this.renderFilterItemsOptions(item)}
+                                    {/* {this.renderFilterItemsOptions(item)} */}
+                                    {filterOptions}
                                 </div>
                             </ListItemNested>
                         )

@@ -114,7 +114,7 @@ class Griditem extends React.Component {
     }
 
     addToCompare = () => {
-        const { item } = this.props;
+        const { item, openCompareModal } = this.props;
         const storeageData = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE,'compare_product');
         let compareProducts;
         if(storeageData){
@@ -168,6 +168,7 @@ class Griditem extends React.Component {
 
     wishlistCompareAction = () => {
         const { addToWishlist, addToCompare } = this
+        const { openCompareModal } = this.props
         return (
             <React.Fragment>
                 <div className="wishlistAction">
@@ -186,7 +187,10 @@ class Griditem extends React.Component {
                         <span
                             role="presentation"
                             className="add-to-compare-btn icon-bench-press"
-                            onClick={addToCompare}
+                            onClick={()=>{
+                                addToCompare();
+                                openCompareModal()
+                            }}
                         >
                         </span>
                     </div>

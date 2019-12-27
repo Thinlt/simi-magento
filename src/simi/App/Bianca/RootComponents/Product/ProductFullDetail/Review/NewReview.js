@@ -56,7 +56,7 @@ const NewReview = props => {
         const detail = $('#new-rv-detail').val()
         const { isSignedIn, history, firstname, lastname } = props
         if (!isSignedIn) {
-            history.push('/login.html')
+            history.push({pathname: '/login.html', pushTo: history.location.pathname})
             return
         }
         const nickname = lastname ? `${firstname} ${lastname}` : `${firstname}`;

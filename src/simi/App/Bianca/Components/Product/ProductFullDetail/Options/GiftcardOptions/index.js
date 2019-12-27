@@ -47,9 +47,7 @@ class GiftcardOptions extends OptionBase {
                 this.state.aw_gc_amount = options.aw_gc_amounts[0].price;
             }
         }
-    }
 
-    componentWillMount() {
         const aw_gc_timezones = this.extraField.aw_gc_timezones || null;
         if (aw_gc_timezones) {
             for (const key in aw_gc_timezones) {
@@ -58,10 +56,22 @@ class GiftcardOptions extends OptionBase {
                 );
             }
         }
-        this.updatePrices(this.state.aw_gc_amount);
     }
 
+    // componentWillMount() {
+    //     const aw_gc_timezones = this.extraField.aw_gc_timezones || null;
+    //     if (aw_gc_timezones) {
+    //         for (const key in aw_gc_timezones) {
+    //             this.timezoneOption.push(
+    //                 <MenuItem value={aw_gc_timezones[key].value} key={key}>{Identify.__(aw_gc_timezones[key].label)}</MenuItem>
+    //             );
+    //         }
+    //     }
+    //     this.updatePrices(this.state.aw_gc_amount);
+    // }
+
     componentDidMount() {
+        this.updatePrices(this.state.aw_gc_amount);
         this.props.myRef(this);
     }
 

@@ -33,6 +33,8 @@ import {sendRequest} from 'src/simi/Network/RestMagento';
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
 import { getOS } from 'src/simi/App/Bianca/Helper';
+import CompareProduct from 'src/simi/App/Bianca/BaseComponents/CompareProducts'
+
 
 const ConfigurableOptions = React.lazy(() => import('./Options/ConfigurableOptions'));
 const CustomOptions = React.lazy(() => import('./Options/CustomOptions'));
@@ -68,6 +70,7 @@ class ProductFullDetail extends Component {
         isOpenSizeGuide: false,
         isErrorPreorder: false,
         isPreorder: false,
+        openCompareModal: false,
         isPhone: window.innerWidth < 1024
     };
 
@@ -206,6 +209,11 @@ class ProductFullDetail extends Component {
         this.addToCartWithParams({pre_order: '1'})
     }
 
+    buy1ClickAction = (cartParams) => {
+        this.addToCartWithParams(cartParams);
+        this.isBuy1Click = true;
+    }
+
     addToCartWithParams = (data = {}) => {
         const { product } = this.props;
         if (product && product.id) {
@@ -217,10 +225,13 @@ class ProductFullDetail extends Component {
             }
             showFogLoading()
             simiAddToCart(this.addToCartCallBack, params)
-            if (params.pre_order && params.pre_order === '1') {
+            this.isPreorder = false;
+            this.isBuy1Click = false;
+            if (params.pre_order && parseInt(params.pre_order) === 1) {
                 this.isPreorder = true;
-            } else {
-                this.isPreorder = false;
+            }
+            if (params.buy1click && parseInt(params.buy1click) === 1) {
+                this.isBuy1Click = true;
             }
         }
     };
@@ -233,6 +244,10 @@ class ProductFullDetail extends Component {
                 this.setState({isErrorPreorder: true});
             }
         } else {
+            if (this.isBuy1Click) {
+                this.props.history.push('/checkout.html');
+                return;
+            }
             this.showSuccess(data)
             this.props.updateItemInCart()
         }
@@ -263,6 +278,18 @@ class ProductFullDetail extends Component {
         }
     }
 
+    showModalCompare = () => {
+        this.setState({
+            openCompareModal : true
+        })
+    }
+
+    closeCompareModal = () =>{
+        this.setState({
+            openCompareModal : false
+        })
+    }
+
     addToCompare = () => {
         const { product } = this.props;
         const storeageData = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE,'compare_product');
@@ -273,13 +300,13 @@ class ProductFullDetail extends Component {
             if(result){
                 showToastMessage(Identify.__('Product has already added'.toUpperCase()))
             } else {
-                compareProducts.push(item);
+                compareProducts.push(product);
                 Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
                 showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
             }
         } else {
             compareProducts = [];
-            compareProducts.push(item);
+            compareProducts.push(product);
             Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
             showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
         }
@@ -402,11 +429,12 @@ class ProductFullDetail extends Component {
     }
 
     handleConfigurableSelectionChange = (optionId, selection) => {
+        let value = Array.from(selection).pop();
+        if (value instanceof Array) {
+            value = value[0];
+        }
         this.setState(({ optionSelections }) => ({
-            optionSelections: new Map(optionSelections).set(
-                optionId,
-                Array.from(selection).pop()
-            )
+            optionSelections: new Map(optionSelections).set(optionId, value)
         }));
     };
 
@@ -427,9 +455,8 @@ class ProductFullDetail extends Component {
 
     get productOptions() {
         const { fallback, handleConfigurableSelectionChange, props } = this;
-        const { configurable_options, simiExtraField, type_id, is_dummy_data } = props.product;
+        const { configurable_options, simiExtraField, type_id, is_dummy_data, variants } = props.product;
         const {attribute_values: {pre_order, try_to_buy, reservable}} = simiExtraField;
-
         // map color options in simiExtraField to configurable_options
         if (simiExtraField && simiExtraField.app_options && simiExtraField.app_options.configurable_options && simiExtraField.app_options.configurable_options.attributes) {
             let optionColors = Object.values(simiExtraField.app_options.configurable_options.attributes);
@@ -477,7 +504,9 @@ class ProductFullDetail extends Component {
                 {
                     isConfigurable &&
                     <ConfigurableOptions
+                        variants={variants}
                         options={configurable_options}
+                        optionSelections={this.state.optionSelections}
                         onSelectionChange={handleConfigurableSelectionChange}
                         onSizeGuideClick={this.onSizeGuideClick}
                     />
@@ -649,14 +678,18 @@ class ProductFullDetail extends Component {
                             {parseInt(is_salable) === 0 && parseInt(pre_order) !== 1 && 
                                 <div className="out-of-stock"><span>{Identify.__('Out of stock')}</span></div>
                             }
-                            {isPhone && parseInt(is_salable) === 1  && 
+                            {isPhone && (parseInt(pre_order) === 1 || parseInt(is_salable) === 1) && 
                                 <div className="wishlist-actions action-icon">
                                     <button onClick={addToWishlist} title={Identify.__('Add to Favourites')}><Favorite /></button>
                                 </div>
                             }
                             {isPhone &&
                                 <div className="compare-actions action-icon">
-                                    <button onClick={addToCompare} title={Identify.__('Compare')}><CompareIcon /></button>
+                                    <button onClick={()=>{
+                                        addToCompare();
+                                        this.showModalCompare()
+                                    }} title={Identify.__('Compare')}><CompareIcon /></button>
+                                    <CompareProduct openModal={this.state.openCompareModal} closeModal={this.closeCompareModal}/>
                                 </div>
                             }
                         </div>
@@ -699,9 +732,12 @@ class ProductFullDetail extends Component {
                                     <div className="cart-ctn">
                                         {addToCartBtn}
                                     </div>
-                                    {parseInt(is_salable) === 1 && 
+                                    {(parseInt(is_salable) === 1 || parseInt(pre_order) === 1) &&
                                         <div className="cart-ctn">
-                                            <Whitebtn className="buy-1-click-btn btn btn__white" onClick={() => addToCartWithParams({buy1click: '1'})} text={Identify.__('Buy with 1-click')}/>
+                                            <Whitebtn className="buy-1-click-btn btn btn__white" 
+                                                onClick={() => this.buy1ClickAction({buy1click: '1', pre_order: parseInt(pre_order)})} 
+                                                text={Identify.__('Buy with 1-click')}
+                                            />
                                         </div>
                                     }
                                     {parseInt(is_salable) === 1 && reservable === '1' && 
@@ -716,7 +752,11 @@ class ProductFullDetail extends Component {
                                     }
                                     {!isPhone &&
                                         <div className="compare-actions action-icon">
-                                            <button onClick={addToCompare} title={Identify.__('Compare')}><CompareIcon /></button>
+                                            <button onClick={()=>{
+                                                addToCompare();
+                                                this.showModalCompare()
+                                            }} title={Identify.__('Compare')}><CompareIcon /></button>
+                                            <CompareProduct openModal={this.state.openCompareModal} closeModal={this.closeCompareModal}/>
                                         </div>
                                     }
                                 </div>
