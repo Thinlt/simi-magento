@@ -21,6 +21,7 @@ import SearchFormTrigger from './Component/SearchFormTrigger';
 import MiniCart from 'src/simi/App/Bianca/Components/MiniCart';
 import { connect } from 'src/drivers';
 import { compose } from 'redux';
+import CompareProduct from 'src/simi/App/Bianca/BaseComponents/CompareProducts'
 require('./header.scss');
 
 const SearchForm = React.lazy(() => import('./Component/SearchForm'));
@@ -30,7 +31,10 @@ class Header extends React.Component {
 		super(props);
 		this._mounted = true;
 		const isPhone = window.innerWidth < 1024;
-		this.state = { isPhone };
+		this.state = { 
+			isPhone,
+			openCompareModal:false,
+		};
 		// this.classes = mergeClasses(defaultClasses, this.props.classes)
 		this.classes = Object.assign(ProxyClasses, this.props.classes);
 	}
@@ -60,6 +64,18 @@ class Header extends React.Component {
 	componentDidMount() {
 		this.setIsPhone();
 	}
+
+	showModalCompare = () => {
+        this.setState({
+            openCompareModal : true
+		})
+    }
+
+    closeCompareModal = () =>{
+        this.setState({
+            openCompareModal : false
+        })
+    }
 
 	renderLogo = () => {
 		// const {isPhone} = this.state;
@@ -99,13 +115,31 @@ class Header extends React.Component {
 	};
 
 	renderRightBar = (isSignedIn) => {
+		const { history } = this.props
 		const { classes } = this;
+		const compareData = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'compare_product')
 		return (
 			<div className={'right-bar'}>
 				<div className={'right-bar-item'} id="cart">
 					<CartTrigger classes={classes}/>
 				</div>
 				{this.renderWishList(isSignedIn)}
+				{compareData 
+				?
+					<div className={'right-bar-item'} id="my-account">
+						<div className="compare">
+							<span
+								role="presentation"
+								className="add-to-compare-btn icon-bench-press"
+								onClick={this.showModalCompare}
+							>
+                        	</span>
+							<CompareProduct history={history} openModal={this.state.openCompareModal} closeModal={this.closeCompareModal}/>
+                    	</div>
+
+					</div>
+				:	null
+				}
 				<div className={'right-bar-item'} id="my-account">
 					<MyAccount classes={classes} />
 				</div>
