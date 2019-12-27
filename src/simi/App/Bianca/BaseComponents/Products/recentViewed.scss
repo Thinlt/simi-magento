@@ -1,7 +1,8 @@
 .recent-product-ctn {
-    margin-top: 2px;
+    margin-top: 15px;
     padding: 1.5rem;
     width: 100%;
+    border-top: solid #eaeaea 1px;
     margin-bottom: 25px;
     .title {
         font-size: 20px;
@@ -17,7 +18,6 @@
         width: 25%;
     }
     @media (max-width: 1023px) {
-        padding-bottom: 0px;
         .recent-product-item {
             width: 50%;
         }
