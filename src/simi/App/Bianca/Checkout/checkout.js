@@ -27,6 +27,7 @@ import { toggleMessages, simiSignedIn } from 'src/simi/Redux/actions/simiactions
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import { smoothScrollToView } from 'src/simi/Helper/Behavior';
 import Coupon from 'src/simi/BaseComponents/Coupon';
+import ApplyGiftcard from 'src/simi/App/Bianca/BaseComponents/Giftcard/ApplyGiftcard';
 
 class Checkout extends Component {
     constructor(...args) {
@@ -176,8 +177,15 @@ class Checkout extends Component {
                 smoothScrollToView($("#id-message"));
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a payment method'), auto_dismiss: true }])
                 return;
+            } else if (paymentData.value === 'payfort_fort_cc') {
+                if (!Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'payfort_cc_card_data')) {
+                    smoothScrollToView($("#id-message"));
+                    toggleMessages([{ type: 'error', message: Identify.__('Please fill your card information'), auto_dismiss: true }])
+                    return
+                }
             }
         }
+        
         //save to show on thank you page
         Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, 'last_cart_info', { cart });
         if (paymentData && paymentData.value === 'paypal_express')
@@ -300,6 +308,14 @@ class Checkout extends Component {
                     <Panel title={<div className='checkout-section-title'>{Identify.__('Coupon Code')}</div>}
                         className='checkout-panel'
                         renderContent={<Coupon {...childCPProps} />}
+                        isToggle={true}
+                        expanded={false}
+                        headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                    />
+
+                    <Panel title={<div className='checkout-section-title'>{Identify.__('Add a Gift Voucher')}</div>}
+                        className='checkout-panel'
+                        renderContent={<ApplyGiftcard getCartDetails={getCartDetails} cart={cart} toggleMessages={toggleMessages} userSignedIn={userSignedIn} />}
                         isToggle={true}
                         expanded={false}
                         headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}

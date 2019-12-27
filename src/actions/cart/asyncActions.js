@@ -10,6 +10,8 @@ import { request } from 'src/simi/Network/RestMagento'
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
 
+let applyingBillingAdd = false
+
 export const createCart = () =>
     async function thunk(dispatch, getState) {
         const { cart, user } = getState();
@@ -53,7 +55,8 @@ export const createCart = () =>
             // @see https://github.com/magento/magento2/issues/2991
             // This workaround is in place until that issue is resolved.
             // Robert comment this
-            if (user.isSignedIn) {
+            if (user.isSignedIn && !applyingBillingAdd) {
+                applyingBillingAdd = true
                 await request('/rest/V1/carts/mine/billing-address', {
                     method: 'POST',
                     body: JSON.stringify({
@@ -61,15 +64,18 @@ export const createCart = () =>
                         cartId
                     })
                 });
+                applyingBillingAdd = false
             }
 
             dispatch(actions.getCart.receive(cartId));
         } catch (error) {
             dispatch(actions.getCart.receive(error));
             //cody logout + reload while getting cart failed (token outdated)
-            // storage.removeItem('signin_token');
-            // clearCartId();
-            // window.location.reload();
+            if (!cartId) {
+                storage.removeItem('signin_token');
+                clearCartId();
+                window.location.reload();
+            }
             //end cody changing
         }
     };
