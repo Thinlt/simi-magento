@@ -68,7 +68,7 @@ class Products extends \Simi\Simiconnector\Helper\Products
             $options = $attribute->getSource()->getAllOptions();
         $filters = [];
         foreach ($options as $option) {
-            if ($option['value'] && isset($attributeOptions[$option['value']])
+            if (isset($option['value']) && isset($attributeOptions[$option['value']])
                 && $attributeOptions[$option['value']]) {
                 $option['count'] = $attributeOptions[$option['value']];
                 $filters[]       = $option;
