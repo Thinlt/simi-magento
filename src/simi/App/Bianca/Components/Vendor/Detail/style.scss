@@ -1,0 +1,129 @@
+$color1: #101820;
+$color2: #727272;
+.vendor-detail{
+    color: $color1;
+    .vendor-header{
+        margin-top: 68px;
+        .container{
+            display: flex;
+            justify-content: center;
+            .cont-left{
+                max-width: 278px;
+                float: left;
+                margin-right: 16px;
+                .store-info{
+                    text-align: center;
+                    padding: 19px;
+                    border: 1px solid #101820;
+                    max-width: 278px;
+                    min-height: 322px;
+                    .logo{
+                        display: block;
+                        margin: 0 auto;
+                        width: 52px;
+                        height: 52px;
+                        border: 1px solid $color1;
+                        -webkit-border-radius: 52px;
+                        -moz-border-radius: 52px;
+                        border-radius: 52px;
+                        overflow: hidden;
+                        img{
+                            width: 100%;
+                            height: auto;
+                            min-height: 100%;
+                            object-fit: contain;
+                        }
+                    }
+                    .name{
+                        font-family: 'Gotham Book';
+                        font-weight: 600;
+                        font-size: 20px;
+                        line-height: 20px;
+                        margin-top: 12px;
+                    }
+                    .location{
+                        font-family: 'Gotham Book';
+                        font-size: 14px;
+                        line-height: 14px;
+                        text-transform: uppercase;
+                        margin-top: 10px;
+                    }
+                    .description{
+                        font-family: 'Gotham Book';
+                        font-size: 14px;
+                        line-height: 24px;
+                        margin-top: 20px;
+                    }
+                    .reviews{
+                        display: block;
+                        height: 14px;
+                        margin-top: 20px;
+                    }
+                    .phone{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-family: 'Gotham Book';
+                        font-size: 14px;
+                        line-height: 14px;
+                        margin-top: 20px;
+                        svg{
+                            fill: $color1!important;
+                            margin-right: 16px;
+                        }
+                    }
+                    .email{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-family: 'Gotham Book';
+                        font-size: 14px;
+                        line-height: 14px;
+                        margin-top: 20px;
+                        svg{
+                            fill: $color1!important;
+                            margin-right: 16px;
+                        }
+                    }
+                }
+            }
+            .cont-right{
+                max-width: 866px;
+                float: right;
+                .banner-info{
+                    max-width: 866px;
+                    min-height: 322px;
+                    img{
+                        width: 100%;
+                        height: auto;
+                        min-height: 100%;
+                        object-fit: contain;
+                    }
+                }
+            }
+        }
+    }
+    &.mobile{
+        .vendor-header{
+            margin-top: 10px;
+            .container{
+                flex-direction: column-reverse;
+                padding-right: 15px;
+                padding-left: 15px;
+                .cont-left{
+                    margin-right: 0px;
+                    max-width: unset;
+                    .store-info{
+                        border: none;
+                        margin: 0 auto;
+                    }
+                }
+                .cont-right{
+                    .banner-info{
+                        min-height: auto;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,28 @@
+$color1: #101820;
+$color2: #727272;
+.vendor-detail {
+    .reviews{
+        color: $color1;
+        font-size: 14px;
+        line-height: 14px;
+        font-weight: 500;
+        font-family: 'Gotham Book';
+        display: flex;
+        align-items: center;
+        padding: 0;
+        .review-rate{
+            margin-top: 0;
+            height: 14px;
+            display: inline-flex;
+            margin-top: 0px!important;
+            .rate-star{
+                margin-top: 2px;
+            }
+            .review-count{
+                font-size: 14px;
+                line-height: 14px;
+                margin-left: 16px;
+            }
+        }
+    }
+}

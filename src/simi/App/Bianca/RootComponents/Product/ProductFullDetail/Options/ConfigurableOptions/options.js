@@ -54,7 +54,7 @@ class Options extends Component {
     render() {
         const { handleSelectionChange, handleAskOption } = this;
         const { optionSelections } = this.props;
-        const options = this.mapOptionInStock();
+        const options = this.mapOptionInStock(); //TODO: implement out-of-stock for color option
 
         return options.map(option => (
             <Option
