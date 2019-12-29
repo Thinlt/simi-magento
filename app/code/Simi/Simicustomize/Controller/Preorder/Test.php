@@ -8,6 +8,12 @@ namespace Simi\Simicustomize\Controller\Preorder;
 use Magento\Quote\Api\Data\PaymentInterface;
 use Magento\Quote\Api\Data\AddressInterface;
 use Magento\Framework\App\ObjectManager;
+use Simi\Simiconnector\Model\Resolver\Products\DataProvider\Product;
+use Magento\Framework\Api\SearchCriteriaInterface;
+
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Review\Model\RatingFactory;
+use Magento\Review\Model\ResourceModel\Review\CollectionFactory;
 
 class Start extends \Magento\Framework\App\Action\Action
 {
@@ -42,6 +48,13 @@ class Start extends \Magento\Framework\App\Action\Action
      */
     protected $paymentMethodManagement;
 
+    protected $product;
+    protected $searchCriteria;
+
+    protected $_storeManager;
+    protected $_ratingFactory;
+    protected $_reviewFactory;
+
     /**
      * @param \Magento\Framework\App\Action\Context $context
      */
@@ -52,7 +65,12 @@ class Start extends \Magento\Framework\App\Action\Action
         \Magento\Framework\Serialize\Serializer\Json $serializer = null,
         \Magento\Sales\Model\Order $order,
         PaymentInterface $paymentMethod,
-        AddressInterface $billingAddress
+        AddressInterface $billingAddress,
+        Product $product,
+        SearchCriteriaInterface $searchCriteria,
+        StoreManagerInterface $storeManager,
+        RatingFactory $ratingFactory,
+        CollectionFactory $reviewFactory
     ){
         parent::__construct($context);
         $this->paymentMethodManagement = $paymentMethodManagement;
@@ -62,6 +80,12 @@ class Start extends \Magento\Framework\App\Action\Action
         $this->serializer = $serializer ?: \Magento\Framework\App\ObjectManager::getInstance()
             ->get(\Magento\Framework\Serialize\Serializer\Json::class);
         $this->order = $order;
+        $this->product = $product;
+        $this->searchCriteria = $searchCriteria;
+
+        $this->_storeManager = $storeManager;
+        $this->_ratingFactory = $ratingFactory;
+        $this->_reviewFactory = $reviewFactory;
     }
 
     /**
@@ -70,6 +94,13 @@ class Start extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
+        $searchResults = $this->product->getList([
+            'currentPage' => 1,
+            'pageSize' => 9,
+            'simiFilter' => '{"vendor_id":"2"}'
+        ], $this->searchCriteria);
 
+        $products = $searchResults->getItems();
+        // var_dump($products[8]->getId());die;
     }
 }

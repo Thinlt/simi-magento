@@ -44,5 +44,17 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 ]
             );
         }
+        if ($context->getVersion() && version_compare($context->getVersion(), '0.1.2', '<')) {
+            $connection->addColumn(
+                $setup->getTable('review'),
+                'vendor_id', 
+                [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                    null,
+                    ['unsigned' => true, 'nullable' => true],
+                    'comment' => 'Vnecoms vendor entity_id',
+                ]
+            );
+        }
     }
 }

@@ -52,5 +52,6 @@
     <preference for="Simi\VendorMapping\Api\VendorLogoutInterface"
                 type="Simi\VendorMapping\Model\Api\VendorLogout" />
     <preference for="Simi\VendorMapping\Api\VendorListInterface" type="Simi\VendorMapping\Model\Api\VendorList" />
+    <preference for="Simi\VendorMapping\Api\VendorInterface" type="Simi\VendorMapping\Model\Api\Vendor" />
 
 </config>
