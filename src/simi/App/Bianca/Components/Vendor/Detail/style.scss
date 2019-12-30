@@ -1,5 +1,6 @@
 $color1: #101820;
 $color2: #727272;
+$color3: #F2F2F2;
 .vendor-detail{
     color: $color1;
     .vendor-header{
@@ -8,6 +9,7 @@ $color2: #727272;
             display: flex;
             justify-content: center;
             .cont-left{
+                width: 100%;
                 max-width: 278px;
                 float: left;
                 margin-right: 16px;
@@ -88,6 +90,7 @@ $color2: #727272;
                 }
             }
             .cont-right{
+                width: 100%;
                 max-width: 866px;
                 float: right;
                 .banner-info{
@@ -98,6 +101,65 @@ $color2: #727272;
                         height: auto;
                         min-height: 100%;
                         object-fit: cover;
+                    }
+                }
+            }
+        }
+    }
+    .vendor-body{
+        margin-top: 32px;
+        .container{
+            .cont-left{
+                width: 100%;
+                max-width: 278px;
+                float: left;
+                margin-right: 16px;
+                .menu-items{
+                    .item{
+                        max-width: 287px;
+                        min-height: 48px;
+                        font-family: 'Gotham Book';
+                        font-size: 14px;
+                        line-height: 14px;
+                        text-transform: uppercase;
+                        text-align: center;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background-color: $color3;
+                        margin-top: 8px;
+                        &:first-child{
+                            margin-top: 0px;
+                        }
+                        &:hover{
+                            cursor: pointer;
+                        }
+                        &.active{
+                            color: #FFF;
+                            background-color: $color1;
+                        }
+                    }
+                }
+            }
+            .cont-right{
+                max-width: 866px;
+                float: right;
+                .container{
+                    width: 100%;
+                    padding-left: 0px;
+                    padding-right: 0px;
+                    margin: 0px;
+                    .products-gallery-root{
+                        .product-list-container-siminia{
+                            margin-top: 0px;
+                            padding: 0;
+                            .listing-product{
+                                padding: 0;
+                                .gallery{
+                                    margin-top: 55px;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -123,6 +185,90 @@ $color2: #727272;
                         min-height: auto;
                     }
                 }
+            }
+        }
+        .vendor-body{
+            .container{
+                .cont-left{
+                    float: unset;
+                    margin-right: auto;
+                    margin: 0 auto;
+                    .menu-items{
+                        .item{
+                        }
+                    }
+                }
+                .cont-right{
+                    .container{
+                        .products-gallery-root{
+                            .product-list-container-siminia{
+                                .listing-product{
+                                    .top-sort-by{
+                                        margin-top: 30px;
+                                        min-height: 16px;
+                                        .sort-by-select{
+                                            padding-left: 0px;
+                                            padding-right: 0px;
+                                            margin-top: 0px;
+                                            min-height: unset;
+                                            .dropdownoption{
+                                                border: none;
+                                                background-color: #FFF;
+                                                padding: 0px;
+                                                max-width: 144px;
+                                                height: auto;
+                                                min-height: unset;
+                                                .dropdownoption-title{
+                                                    max-height: unset;
+                                                    .dropdown-title{
+                                                        text-transform: uppercase;
+                                                        line-height: 16px;
+                                                        font-family: 'Gotham Medium';
+                                                        .icon-arrow-up{
+                                                            margin-top: -4px;
+                                                            vertical-align: middle;
+                                                            display: inline-block;
+                                                            &:before{
+                                                                content: '\e9ba';
+                                                                transform: rotateX(180deg);
+                                                                display: inline-block;
+                                                            }
+                                                        }
+                                                        .icon-arrow-down{
+                                                            margin-top: -4px;
+                                                            vertical-align: middle;
+                                                            display: inline-block;
+                                                            &:before{
+                                                                content: '\e9ba';
+                                                            }
+                                                        }
+                                                    }
+                                                    .icons{
+                                                        display: none!important;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        .items-count{
+                                            margin: 0px;
+                                            font-size: 12px;
+                                            line-height: 12px;
+                                            height: auto;
+                                        }
+                                    }
+                                    .gallery{
+                                        margin-top: 21px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        &.MacOS{
+            .top-sort-by{
+                padding-top: 2px;
             }
         }
     }

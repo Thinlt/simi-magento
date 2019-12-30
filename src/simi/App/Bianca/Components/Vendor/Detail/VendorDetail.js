@@ -5,7 +5,9 @@ import Identify from "src/simi/Helper/Identify";
 import { TopReview } from './Review';
 import { getOS } from 'src/simi/App/Bianca/Helper';
 import IconPhone from 'src/simi/App/Bianca/BaseComponents/Icon/Telephone';
-import EnvelopeOpen from 'src/simi/App/Bianca/BaseComponents/Icon/EnvelopeOpen';
+import IconEnvelopeOpen from 'src/simi/App/Bianca/BaseComponents/Icon/EnvelopeOpen';
+import IconSortAmount from 'src/simi/App/Bianca/BaseComponents/Icon/SortAmount';
+import AllProduct from './AllProducts';
 
 require('./style.scss');
 // if (getOS() === 'MacOS') require('./home-ios.scss');
@@ -16,14 +18,28 @@ class VendorDetail extends React.Component {
 
     constructor(props){
         super(props);
-        console.log(props)
         this.state = {isPhone: window.innerWidth < 1024}
+
+        const {vendorId} = props;
+        const storeConfig = Identify.getStoreConfig() || {};
+        const {config} = storeConfig && storeConfig.simiStoreConfig || {};
+        const {vendor_list} = config || {};
+        if (vendor_list && vendor_list instanceof Array) {
+            let vendor = vendor_list.find((item) => {
+                if (item.vendor_id === vendorId) return true;
+                return false;
+            });
+            if (vendor) {
+                this.state.id = vendor.entity_id;
+            } else {
+                this.state.id = vendorId;
+            }
+        }
     }
 
     componentDidMount(){
-        const { vendorId } = this.props;
-        if (vendorId) {
-            sendRequest(`/rest/V1/simiconnector/vendors/${vendorId}`, (data) => {
+        if (this.state.id) {
+            sendRequest(`/rest/V1/simiconnector/vendors/${this.state.id}`, (data) => {
                 if (data) {
                     this.setState({
                         data: data
@@ -66,7 +82,7 @@ class VendorDetail extends React.Component {
                                     <TopReview reviews={reviews}/>
                                 </div>
                                 <div className="phone"><IconPhone /><span>{Identify.__(phone_number)}</span></div>
-                                <div className="email"><EnvelopeOpen /><span>{Identify.__(data.email)}</span></div>
+                                <div className="email"><IconEnvelopeOpen /><span>{Identify.__(data.email)}</span></div>
                             </div>
                         </div>
                         <div className="cont-right">
@@ -78,8 +94,25 @@ class VendorDetail extends React.Component {
                 </div>
                 <div className="vendor-body">
                     <div className="container">
-                        <div className="cont-left"></div>
-                        <div className="cont-right"></div>
+                        <div className="cont-left">
+                            <div className="menu-items">
+                                <div className="item active">
+                                    <span>{Identify.__('All Products')}</span>
+                                </div>
+                                <div className="item">
+                                    <span>{Identify.__('Reviews')}</span>
+                                </div>
+                                <div className="item">
+                                    <span>{Identify.__('Abount Store')}</span>
+                                </div>
+                                <div className="item">
+                                    <span>{Identify.__('FAQs')}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="cont-right">
+                            <AllProduct vendorId={this.state.id}/>
+                        </div>
                     </div>
                 </div>
 
