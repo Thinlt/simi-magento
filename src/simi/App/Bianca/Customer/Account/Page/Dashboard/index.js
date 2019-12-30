@@ -120,7 +120,11 @@ const Dashboard = props => {
                                 {Identify.__("Contact information")}
                             </div>
                             <p className="desc email">{customer.email}</p>
-                            <Link className="edit-link" to={{ pathname: '/profile.html', state: {profile_edit: 'password'} }}>{Identify.__("Change password")}</Link>
+                                <div  className="edit-link">
+                                    <Link to={{ pathname: '/profile.html', state: {profile_edit: 'password'} }}>
+                                    {Identify.__("Change password")}
+                                    </Link>
+                                </div>
                         </div>
                         <Link to="/profile.html">
                             <div className="edit-information">

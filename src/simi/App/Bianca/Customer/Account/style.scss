@@ -1,10 +1,9 @@
 .customer-dashboard {
-    padding-top: 40px;
+    padding-top: 93px;
     padding-bottom: 86px;
 }
 .dashboard-layout {
     display: flex;
-    margin-top: 30px;
 }
 .dashboard-menu {
     min-width: 278px;
@@ -14,7 +13,7 @@
     line-height: 24px;
     font-weight: bold;
     color: #101820;
-    font-family: Gotham;
+    font-family: Gotham Medium;
     margin-bottom: 24px;
 }
 .menu-header .menu-logout {
@@ -30,7 +29,7 @@
 }
 .list-menu-item .customer-menu-item {
     font-size: 14px;
-    line-height: 24px;
+    line-height: 14px;
     background: #F2F2F2;
     color: #101820;
     font-weight: 500;
@@ -38,7 +37,8 @@
     display: flex;
     justify-content: center;
     text-transform: uppercase;
-    font-family: Gotham;
+    font-family: Gotham Book;
+    height: 48px;
 }
 .customer-menu-item.active {
     background: #101820;
@@ -109,10 +109,11 @@
     display: none;
 }
 .customer-page-title {
-    font-size: 21px;
-    line-height: 29px;
+    font-size: 20px;
+    line-height: 20px;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 20px;
+    font-family: Gotham Medium;
 }
 .customer-page-content {
     padding: 24px;
@@ -204,6 +205,7 @@
 }
 .default-address .address-book__container .col-address-book {
     max-width: 207px;
+
 }
 .default-address .address-book__container .col-address-book:not(:first-child) {
     margin-left: 100px;
@@ -279,6 +281,10 @@
 .table-siminia > thead > tr > th {
     background: #E4E4E4;
     color: #101820;
+    font-family: Gotham Medium;
+    font-size: 16px;
+    line-height: 16px;
+    height: 48px;
 }
 .table-siminia > tbody > tr > td,
 .table-siminia > tbody > tr > th,
@@ -286,7 +292,7 @@
 .table-siminia > tfoot > tr > th,
 .table-siminia > thead > tr > td,
 .table-siminia > thead > tr > th {
-    padding: 8px 21px;
+    padding: 16px 24px;
 }
 .table-siminia > tbody > tr > td.order-status{
     text-transform: capitalize;
@@ -295,6 +301,7 @@
     font-size: 14px;
     font-weight: 500;
     color: #101820;
+    height: 48px;
 }
 .table-siminia.table-striped > tbody > tr:nth-of-type(odd) {
     background: #fff;
@@ -318,7 +325,7 @@
 }
 .dashboard-acc-information {
     clear: both;
-    margin-top: 40px;
+    margin-top: 32px;
     display: inline-block;
     width: 100%;
 }
@@ -344,26 +351,39 @@
 }
 .dash-column-box .box-title {
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 16px;
+    font-size: 16px;
+    line-height: 16px;
+    font-family: Gotham Medium;
 }
 .dash-column-box .desc {
     margin-bottom: 8px;
-    font-weight: 500;
+    font-family: Gotham Book;
+    font-size: 14px;
+    line-height: 14px;
 }
 .dash-column-box .edit-link {
     color: #101820;
     cursor: pointer;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     max-width: 218px;
     width: 100%;
     height: 44px;
     background-color: #F2F2F2;
     font-size: 14px;
-    font-family: Gotham;
     text-align: center;
-    line-height: 44px;
+    line-height: 14px;
     font-weight: 500;
     text-transform: uppercase;
+
+    a{
+        font-size: 14px;
+        font-family: Gotham Medium;
+        line-height: 14px;
+        height: 0px;
+    }
 }
 .dash-column-box .edit-information {
     width: 100px;
@@ -373,7 +393,10 @@
     display: flex;
     justify-content: center;
     padding-top: 24px;
-    font-weight: 500;
+    font-family: Gotham Medium;
+    font-size: 12px;
+    line-height: 12px;
+    align-items: flex-end;
 }
 
 .dash-column-box .edit-information{
@@ -388,7 +411,14 @@
     .address-book__container{
         .col-address-book{
             font-weight: 500;
+            font-size: 14px;
+            font-family: Gotham Book;
+            line-height: 24px;
         }
+    }
+
+    .customer-page-title{
+        max-width: 768px;
     }
 }
 .dashboard-address-book .customer-page-title .view-all {
@@ -396,6 +426,9 @@
     margin-left: 24px;
     float: right;
     font-weight: 500;
+    font-family: Gotham Medium;
+    font-size: 14px;
+    line-height: 14px;
 }
 .dashboard-address-book .dash-column-box {
     min-height: auto;
@@ -876,7 +909,7 @@
         margin-top: 16px;
     }
     .customer-dashboard.dashboard .customer-page-title{
-        margin-bottom: 8px;
+        margin-bottom: 20px;
     }
     .acc-information,
     .address-book__container{

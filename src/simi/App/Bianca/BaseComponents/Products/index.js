@@ -173,7 +173,7 @@ class Products extends React.Component {
                     </div>
                 }
                 <section className="gallery">
-                    <CompareProduct openModal={this.state.openCompareModal} closeModal={this.closeCompareModal}/>
+                    <CompareProduct history={history} openModal={this.state.openCompareModal} closeModal={this.closeCompareModal}/>
                     <Gallery openCompareModal={this.showModalCompare} data={items} pageSize={pageSize} history={history} location={location} />
                 </section>
                 <div className="product-grid-pagination" style={{marginBottom: 22}}>
