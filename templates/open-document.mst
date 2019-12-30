@@ -32,6 +32,19 @@
     <link href="https://fonts.googleapis.com/css?family=Muli:300" rel="stylesheet">
 
     <link rel="preconnect" href="{{env.MAGENTO_BACKEND_URL}}">
+
+    <script type="text/javascript">
+        window.addEventListener('error', function(e) {
+            console.log(e)
+            if (e && e.target && e.target.src && (typeof e.target.src === 'string') {
+                if (e.target.src.indexOf('vendor~client') !== -1) { //version is outdated - old client file not found
+                    window.location.reload()
+                }
+            }
+        }, true);
+    </script>
+
+
     {{#bundles.prefetch}}
     <link rel="prefetch script" href="{{.}}">
     {{/bundles.prefetch}}

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import Identify from 'src/simi/Helper/Identify';
 import CardHelper from 'src/simi/Helper/Card';
-import Button from 'src/components/Button';
+import { Colorbtn } from 'src/simi/BaseComponents/Button';
 require('./payfortcc.scss');
 const $ = window.$;
 
@@ -168,12 +168,13 @@ const PayfortCC = (props) => {
             </div>
             {errorMsg && <div className="cc-msg-error">{errorMsg}</div>}
             {successMsg && <div className="cc-msg-success">{successMsg}</div>}
-            <Button
-                className={'submitCC'}
+            <Colorbtn
+                className="submitCC"
                 style={{ marginTop: 10, marginBottom: 20 }}
                 type="button"
                 onClick={() => submitCC()}
-            >{Identify.__('Use Card')}</Button>
+                text={Identify.__('Use Card')}
+            />
         </div>
     );
 }

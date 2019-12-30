@@ -53,7 +53,7 @@ const Coupon = props => {
         if (clearCoupon) {
             setClearCoupon(false)
             success = true;
-            document.getElementById('coupon_field').defaultValue = ''
+            setCoupon('')
         }
         if (text)
             toggleMessages([
@@ -85,7 +85,7 @@ const Coupon = props => {
                 }`}
             >
                 <input
-                    id="coupon_field"
+                    className="coupon_field"
                     type="text"
                     placeholder={Identify.__('Coupon Code')}
                     defaultValue={value}
@@ -93,23 +93,13 @@ const Coupon = props => {
                 />
                 {value ? (
                     <Whitebtn
-                        id="submit-coupon"
-                        className={`${
-                            Identify.isRtl()
-                                ? 'submit-coupon-rtl'
-                                : 'submit-coupon'
-                        }`}
+                        className={`submit-coupon ${ Identify.isRtl() && 'submit-coupon-rtl' }`}
                         onClick={() => handleCoupon('clear')}
                         text={Identify.__('Cancel')}
                     />
                 ) : (
                     <Whitebtn
-                        id="submit-coupon"
-                        className={`${
-                            Identify.isRtl()
-                                ? 'submit-coupon-rtl'
-                                : 'submit-coupon'
-                        }`}
+                        className={`submit-coupon ${ Identify.isRtl() && 'submit-coupon-rtl' }`}
                         onClick={() => handleCoupon()}
                         text={Identify.__('Apply')}
                     />
