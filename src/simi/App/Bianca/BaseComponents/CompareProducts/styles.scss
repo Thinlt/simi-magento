@@ -40,14 +40,15 @@
         }
 
         .compare-add-to-cart{
-            height: 36px;
-            line-height: 36px;
+            height: 36px !important;
+            line-height: 12px;
             margin: auto;
             border: 1px solid;
             background: #101820;
             color: #FFF;
             max-width: 148px;
             margin-bottom: 39px;
+            font-size: 12px;
         }
 
         .compare-img{
@@ -90,6 +91,7 @@
     }
 
     .td {
+        max-width: 213px;
         min-width: 212px;
         display: table-cell;
         border: #E4E4E4 solid 1px;
