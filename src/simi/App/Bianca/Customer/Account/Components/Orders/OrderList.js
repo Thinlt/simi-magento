@@ -91,7 +91,7 @@ const OrderList = props => {
                 ) : (
                     <PaginationTable
                         renderItem={renderOrderItem}
-                        data={showForDashboard ? listOrder.slice(0, 3) : listOrder}
+                        data={showForDashboard ? listOrder.slice(0, 5) : listOrder}
                         cols={cols}
                         showPageNumber={!showForDashboard}
                         limit={typeof(limit) === 'string' ? parseInt(limit): limit}

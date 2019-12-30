@@ -1,23 +1,137 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-responsive-modal';
 import Identify from 'src/simi/Helper/Identify';
 import ReactHTMLParse from 'react-html-parser';
-import Deleteicon from 'src/simi/App/Bianca/BaseComponents/Icon/Trash'
+import Deleteicon from 'src/simi/App/Bianca/BaseComponents/Icon/Trash';
+import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
+import { getProductDetail } from 'src/simi/Model/Product';
+import { Colorbtn } from 'src/simi/BaseComponents/Button';
+import {showToastMessage} from 'src/simi/Helper/Message';
+import { productUrlSuffix } from 'src/simi/Helper/Url';
 
 require('./styles.scss');
 
 const CompareProduct = props => {
     const { openModal, closeModal } = props;
-    const listItem = Identify.getDataFromStoreage(
+    const [hasRemoved, setHasRemoved] = useState(false);
+    let listItem = Identify.getDataFromStoreage(
         Identify.LOCAL_STOREAGE,
         'compare_product'
     );
 
+    const apiCallBack = (data) => {
+        const itemToUpdate = listItem.find((item)=>{
+            if(item.id === parseInt(data.product.entity_id)){
+                item["configurable_options"] = data.product.app_options.configurable_options.attributes;
+                return item;
+            }
+        })
+
+        const indexObj = listItem.findIndex((item)=>{
+           return item.id === parseInt(data.product.entity_id)
+        })
+        if(indexObj !== -1){
+            listItem[indexObj] = itemToUpdate
+        }
+        
+        Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product',listItem)
+        listItem = Identify.getDataFromStoreage(
+            Identify.LOCAL_STOREAGE,
+            'compare_product'
+        );
+    }
+
+    if(openModal){
+        listItem.map(item => {
+            if(item.type_id === 'configurable'){
+                getProductDetail(apiCallBack, item.id);
+            }
+        })
+    }
+    useEffect(()=>{
+        setHasRemoved(false);
+    },[hasRemoved])
+
+    const removeItem = (itemId) => {
+        const itemToRemove = listItem.findIndex(item=>itemId === item.id);
+        setHasRemoved(true)
+
+        if(itemToRemove !== -1){
+            
+            listItem.splice(itemToRemove,1)
+            Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product',listItem)
+            listItem = Identify.getDataFromStoreage(
+                Identify.LOCAL_STOREAGE,
+                'compare_product'
+            );
+            
+        }
+    }
+
     const renderImgItem = () => {
         const imgItem = listItem.map(item => {
+            const addToCart = (pre_order = false) => {
+                if (item && item.simiExtraField && item.simiExtraField.attribute_values) {
+                    const {attribute_values} = item.simiExtraField
+                    if ((!parseInt(attribute_values.has_options)) && attribute_values.type_id === 'simple') {
+                        const params = {product: String(item.id), qty: '1'}
+                        if (pre_order)
+                            params.pre_order = 1
+                        // showFogLoading()
+                        simiAddToCart(addToCartCallBack, params)
+                        return
+                    }
+                }
+                const { url_key } = item
+                const { history } = props
+                const product_url = `/${url_key}${productUrlSuffix()}`
+                history.push(product_url)
+                closeModal()
+            }
+        
+            const addToCartCallBack = (data) => {
+                // hideFogLoading()
+                if (data.errors) {
+                    let message = ''
+                    data.errors.map(value => {
+                        message += value.message
+                    })
+                    showToastMessage(message?message:Identify.__('Problem occurred.'))
+                } else {
+                    if (data.message)
+                        showToastMessage(data.message)
+                    this.props.getCartDetails()
+                }
+            }
+
+            let addToCartBtn = (
+                <Colorbtn
+                    style={{ backgroundColor: '#101820', color: '#FFF' }}
+                    className="compare-add-to-cart"
+                    onClick={() => addToCart(false)}
+                    text={Identify.__('Add to Cart')} />
+            )
+            if (item.simiExtraField && item.simiExtraField.attribute_values) {
+                if (parseInt(item.simiExtraField.attribute_values.pre_order)) {
+                    addToCartBtn = (
+                        <Colorbtn
+                            style={{ backgroundColor: '#101820', color: '#FFF' }}
+                            className="compare-add-to-cart"
+                            onClick={() => addToCart(true)}
+                            text={Identify.__('Pre-order')} />
+                    )
+                } else if (!parseInt(item.simiExtraField.attribute_values.is_salable)) {
+                    addToCartBtn = (
+                        <Colorbtn
+                            style={{ backgroundColor: '#101820', color: '#FFF', opacity: 0.5 }}
+                            className="compare-add-to-cart"
+                            text={Identify.__('Out of stock')} />
+                    )
+                }
+            }
             return(
                 <div key={item.id} className="td compare-img">
-                        <div className="compare-remove-btn">
+                        <div className="compare-remove-btn" onClick={() => removeItem(item.id)}>
                             <Deleteicon
                                 style={{ width: '16px', height: '16px', marginRight: '8px', color:'#727272' }} />
                             {Identify.__('Remove')}
@@ -31,8 +145,8 @@ const CompareProduct = props => {
                             {item.price.regularPrice.amount.value}
                             <span className="vendor-name">{item.simiExtraField.attribute_values.vendor_name}</span>
                         </div>
-                    
-                        <div className="compare-add-to-cart">Add to cart</div>
+                        {addToCartBtn}
+                        {/* <div className="compare-add-to-cart">Add to cart</div> */}
                 
                 </div>
         )})
@@ -98,18 +212,18 @@ const CompareProduct = props => {
         return weight;
     }
 
+    
+
     const renderColor = () => {
         const colors = listItem.map(item => {
             let itemColors;
 
             if(item.configurable_options){
-                const colorObj = item.configurable_options.find(obj => {
-                    return obj.attribute_code === 'color';
-                })
+                const colorObj = item.configurable_options['93']
 
                 if(colorObj){
-                    itemColors = colorObj.values.map(obj=>{
-                        return obj.default_label;
+                    itemColors = colorObj.options.map(obj=>{
+                        return obj.label;
                     }).join(', ')
                 }
 
@@ -133,13 +247,11 @@ const CompareProduct = props => {
             let itemSize;
 
             if(item.configurable_options){
-                const sizeObj = item.configurable_options.find(obj => {
-                    return obj.attribute_code === 'size';
-                })
+                const sizeObj = item.configurable_options['141']
 
                 if(sizeObj){
-                    itemSize = sizeObj.values.map(obj=>{
-                        return obj.default_label;
+                    itemSize = sizeObj.options.map(obj=>{
+                        return obj.label;
                     }).join(', ')
                 }
 
@@ -206,7 +318,6 @@ const CompareProduct = props => {
             </React.Fragment>
         );
     };
-
     return (
         <Modal
             modalId="modal-compare"
@@ -215,6 +326,7 @@ const CompareProduct = props => {
             onClose={closeModal}
         >
             <div className="title">{Identify.__("COMPARE PRODUCTS")}</div>
+            
             <div className="modal-compare-inner">{renderList()}</div>
         </Modal>
     );
