@@ -33,8 +33,9 @@ class VendorDetail extends React.Component {
                 }
             }, 'GET', null, null);
         }
-        window.onresize = function () {
+        window.onresize = () => {
             const isPhone = window.innerWidth < 1024;
+            console.log(isPhone)
             this.setState({isPhone: isPhone});
         }
     }
