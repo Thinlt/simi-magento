@@ -6,11 +6,14 @@ import { TopReview } from './Review';
 import { getOS } from 'src/simi/App/Bianca/Helper';
 import IconPhone from 'src/simi/App/Bianca/BaseComponents/Icon/Telephone';
 import IconEnvelopeOpen from 'src/simi/App/Bianca/BaseComponents/Icon/EnvelopeOpen';
-import IconSortAmount from 'src/simi/App/Bianca/BaseComponents/Icon/SortAmount';
+// import IconSortAmount from 'src/simi/App/Bianca/BaseComponents/Icon/SortAmount';
 import AllProduct from './AllProducts';
+import {smoothScrollToView} from 'src/simi/Helper/Behavior';
 
 require('./style.scss');
 // if (getOS() === 'MacOS') require('./home-ios.scss');
+
+const $ = window.$;
 
 class VendorDetail extends React.Component {
 
@@ -35,6 +38,7 @@ class VendorDetail extends React.Component {
                 this.state.id = vendorId;
             }
         }
+        this.state.contentRight = this.renderAllProducts();
     }
 
     componentDidMount(){
@@ -51,13 +55,48 @@ class VendorDetail extends React.Component {
         }
         window.onresize = () => {
             const isPhone = window.innerWidth < 1024;
-            console.log(isPhone)
             this.setState({isPhone: isPhone});
         }
     }
 
+    renderAllProducts = () => {
+        return <AllProduct vendorId={this.state.id} isPhone={this.state.isPhone}/>
+    }
+
+    renderReviews = () => {
+        return "reviews"
+    }
+
+    renderAbout = () => {
+        return "about"
+    }
+
+    renderFaqs = () => {
+        return "faqs"
+    }
+
+    activeContent = (name) => {
+        switch(name){
+            case "products":
+                this.setState({contentRight: this.renderAllProducts()});
+                break;
+            case "reviews":
+                this.setState({contentRight: this.renderReviews()});
+                break;
+            case "about":
+                this.setState({contentRight: this.renderAbout()});
+                break;
+            case "faqs":
+                this.setState({contentRight: this.renderFaqs()});
+                break;
+            default:
+                this.setState({contentRight: this.renderAllProducts()});
+        }
+        smoothScrollToView($('.vendor-body .cont-right'));
+    }
+
     render(){
-        const {data} = this.state;
+        const {data, contentRight} = this.state;
         if (!data) return <Loading />
 
         let name = data.firstname || null;
@@ -96,22 +135,22 @@ class VendorDetail extends React.Component {
                     <div className="container">
                         <div className="cont-left">
                             <div className="menu-items">
-                                <div className="item active">
+                                <div className="item active" onClick={() => this.activeContent('products')}>
                                     <span>{Identify.__('All Products')}</span>
                                 </div>
-                                <div className="item">
+                                <div className="item" onClick={() => this.activeContent('reviews')}>
                                     <span>{Identify.__('Reviews')}</span>
                                 </div>
-                                <div className="item">
-                                    <span>{Identify.__('Abount Store')}</span>
+                                <div className="item" onClick={() => this.activeContent('about')}>
+                                    <span>{Identify.__('About Store')}</span>
                                 </div>
-                                <div className="item">
+                                <div className="item" onClick={() => this.activeContent('faqs')}>
                                     <span>{Identify.__('FAQs')}</span>
                                 </div>
                             </div>
                         </div>
                         <div className="cont-right">
-                            <AllProduct vendorId={this.state.id}/>
+                            {contentRight}
                         </div>
                     </div>
                 </div>

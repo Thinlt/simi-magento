@@ -87,6 +87,7 @@ const AllProducts = props => {
                 return (
                     <div className="container">
                         <Products
+                            isPhone={props.isPhone}
                             history={props.history}
                             location={props.location}
                             currentPage={currentPage}

@@ -46,5 +46,5 @@
 
 
     {{#bundles.prefetch}}
-    <link rel="prefetch script" href="{{.}}">
+    <link rel="prefetch script" href="/{{.}}">
     {{/bundles.prefetch}}

@@ -16,23 +16,10 @@ const $ = window.$;
 class Products extends React.Component {
     constructor(props) {
         super(props)
-        const isPhone = window.innerWidth < 1024 
         this.state = ({
-            isPhone: isPhone,
+            isPhone: props.isPhone,
             openMobileModel : false,
             openCompareModal: false
-        })
-        this.setIsPhone()
-    }
-
-    setIsPhone(){
-        const obj = this;
-        $(window).resize(function () {
-            const width = window.innerWidth;
-            const isPhone = width < 1024;
-            if(obj.state.isPhone !== isPhone){
-                obj.setState({isPhone})
-            }
         })
     }
 
@@ -87,7 +74,7 @@ class Products extends React.Component {
 
     renderList = () => {
         const {props} = this
-        const { data, pageSize, history, location, sortByData, currentPage } = props;
+        const { data, pageSize, history, location, sortByData, currentPage, isPhone } = props;
         const items = data ? data.products.items : null;
         if (!data)
             return <Loading />
@@ -96,7 +83,7 @@ class Products extends React.Component {
         return (
             <React.Fragment>
                 <div className="top-sort-by">
-                    <Sortby parent={this} sortByData={sortByData}/>
+                    <Sortby parent={this} sortByData={sortByData} isPhone={isPhone}/>
                     {this.renderItemCount(data)}
                 </div>
                 <section className="gallery">

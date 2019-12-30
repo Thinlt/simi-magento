@@ -7,11 +7,9 @@ import { withRouter } from 'react-router-dom';
 
 
 const Sortby = props => {
-    const { history, location, sortByData } = props;
+    const { history, location, sortByData, isPhone } = props;
     const { search } = location;
     let dropdownItem = null
-    const width = window.innerWidth;
-    const isPhone = width < 1024;
 
     const changedSortBy = (item) => {
         if (dropdownItem)
@@ -22,8 +20,7 @@ const Sortby = props => {
         history.push({ search: queryParams.toString() });
     }
 
-    parent = props.parent
-    let selections = []
+    let selections = [];
     const orders = [
         {"key":"name","value":"Name","direction":"asc"},
         {"key":"name","value":"Name","direction":"desc"},
@@ -31,13 +28,13 @@ const Sortby = props => {
         {"key":"price","value":"Price","direction":"desc"},
     ];
 
-    let sortByTitle = Identify.__('Sort by');
+    let sortByTitle = isPhone ? <React.Fragment>{Identify.__('Sort')} <span className={'icon-arrow-down'}></span></React.Fragment> : Identify.__('Sort by');
 
     selections = orders.map((item) => {
         let itemCheck = ''
         const itemTitle = (
             <React.Fragment>
-                {item.value} <span className={item.direction === 'asc'? 'icon-arrow-up' :'icon-arrow-down'}></span>
+                {Identify.__(item.value)} <span className={item.direction === 'asc'? 'icon-arrow-up' :'icon-arrow-down'}></span>
             </React.Fragment>
         )
 
@@ -71,7 +68,7 @@ const Sortby = props => {
             {
                 selections.length === 0 ?
                 <span></span> : 
-                <div className="sort-by-select">
+                <div className={`sort-by-select ${sortByData ? 'sorting':''}`}>
                     <Dropdownoption 
                         title={sortByTitle}
                         ref={(item)=> {dropdownItem = item}}

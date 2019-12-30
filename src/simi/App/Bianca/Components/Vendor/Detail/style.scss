@@ -170,8 +170,8 @@ $color3: #F2F2F2;
             margin-top: 10px;
             .container{
                 flex-direction: column-reverse;
-                padding-right: 15px;
-                padding-left: 15px;
+                padding-right: 16px;
+                padding-left: 16px;
                 .cont-left{
                     margin-right: 0px;
                     max-width: unset;
@@ -188,11 +188,15 @@ $color3: #F2F2F2;
             }
         }
         .vendor-body{
+            margin-top: 11px;
             .container{
+                padding-right: 16px;
+                padding-left: 16px;
                 .cont-left{
                     float: unset;
                     margin-right: auto;
                     margin: 0 auto;
+                    max-width: 249px;
                     .menu-items{
                         .item{
                         }
@@ -218,33 +222,51 @@ $color3: #F2F2F2;
                                                 max-width: 144px;
                                                 height: auto;
                                                 min-height: unset;
+                                                .icon-arrow-up{
+                                                    margin-top: -4px;
+                                                    vertical-align: middle;
+                                                    display: inline-block;
+                                                    &:before{
+                                                        content: '\e9ba';
+                                                        transform: rotateX(180deg);
+                                                        display: inline-block;
+                                                    }
+                                                }
+                                                .icon-arrow-down{
+                                                    margin-top: -4px;
+                                                    vertical-align: middle;
+                                                    display: inline-block;
+                                                    &:before{
+                                                        content: '\e9ba';
+                                                    }
+                                                }
                                                 .dropdownoption-title{
                                                     max-height: unset;
                                                     .dropdown-title{
                                                         text-transform: uppercase;
                                                         line-height: 16px;
                                                         font-family: 'Gotham Medium';
-                                                        .icon-arrow-up{
-                                                            margin-top: -4px;
-                                                            vertical-align: middle;
-                                                            display: inline-block;
-                                                            &:before{
-                                                                content: '\e9ba';
-                                                                transform: rotateX(180deg);
-                                                                display: inline-block;
-                                                            }
-                                                        }
-                                                        .icon-arrow-down{
-                                                            margin-top: -4px;
-                                                            vertical-align: middle;
-                                                            display: inline-block;
-                                                            &:before{
-                                                                content: '\e9ba';
-                                                            }
-                                                        }
                                                     }
                                                     .icons{
                                                         display: none!important;
+                                                    }
+                                                }
+                                                .dropdownoption-inner{
+                                                    -moz-box-shadow: 0 2px 4px 0 #BDBDBD;
+                                                    -webkit-box-shadow: 0 2px 4px 0 #BDBDBD;
+                                                    box-shadow: 0 2px 4px 0 #BDBDBD;
+                                                    .dir-item{
+                                                        padding: 8px 10px 8px 20px;
+                                                        .dir-title{
+                                                            display: inline-flex;
+                                                            justify-content: space-between;
+                                                            align-items: center;
+                                                            width: 100%;
+                                                        }
+                                                        .dir-check{
+                                                            position: absolute;
+                                                            left: 3px;
+                                                        }
                                                     }
                                                 }
                                             }
