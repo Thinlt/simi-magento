@@ -15,7 +15,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Magento\Review\Model\RatingFactory;
 use Magento\Review\Model\ResourceModel\Review\CollectionFactory;
 
-class Start extends \Magento\Framework\App\Action\Action
+class Test extends \Magento\Framework\App\Action\Action
 {
     /**
      * Payment map payment_code with url path
@@ -102,5 +102,6 @@ class Start extends \Magento\Framework\App\Action\Action
 
         $products = $searchResults->getItems();
         // var_dump($products[8]->getId());die;
+        echo '<pre>'; var_dump($products);die;
     }
 }
