@@ -14,9 +14,7 @@ class Pagination extends React.Component {
     }
     
     render() {
-        const { itemCount } = this.state;
-        const { items } = this.props;
-        console.log(this.props)
+        const { items, itemCount } = this.props;
         if (itemCount > 0) {
             if(items.length < itemCount) {
                 return (
