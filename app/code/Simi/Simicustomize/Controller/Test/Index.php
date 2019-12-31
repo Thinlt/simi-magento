@@ -11,15 +11,15 @@ class Index extends \Magento\Framework\App\Action\Action
 
     public function __construct(
         Context $context,
-        \Vnecoms\Vendors\Model\VendorFactory $vendorFactory
+        \Magento\Customer\Model\CustomerFactory $customerFactory
     ) {
         parent::__construct($context);
-        $this->vendorFactory = $vendorFactory;
+        $this->customerFactory = $customerFactory;
     }
 
     public function execute()
     {
-        $resultPage = $this->vendorFactory->create();
+        $resultPage = $this->customerFactory->create();
         $collection = $resultPage->getCollection(); //Get Collection of module data
         var_dump($collection->getData());
     }
