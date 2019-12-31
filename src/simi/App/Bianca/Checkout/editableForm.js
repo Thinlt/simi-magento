@@ -84,7 +84,7 @@ const EditableForm = props => {
 
     switch (editing) {
         case 'address': {
-            const {billingAddress} = props;
+            const {billingAddress, beginCheckout} = props;
             let { shippingAddress } = props;
             if (!shippingAddress) {
                 shippingAddress = undefined;
@@ -106,6 +106,7 @@ const EditableForm = props => {
                         user={user}
                         simiSignedIn={simiSignedIn}
                         toggleMessages={toggleMessages}
+                        beginCheckout={beginCheckout}
                     />
                     {shippingAddress && !isObjectEmpty(shippingAddress) ?
                         <AddressItem data={shippingAddress} /> : null}

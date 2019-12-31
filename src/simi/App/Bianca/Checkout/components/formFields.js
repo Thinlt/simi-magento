@@ -72,7 +72,8 @@ const FormFields = (props) => {
         configFields,
         handleFormReset,
         is_virtual,
-        initialValues
+        initialValues,
+        beginCheckout
     } = props;
 
     const { isSignedIn, currentUser } = user;
@@ -183,6 +184,7 @@ const FormFields = (props) => {
     const handleActionSignIn = useCallback(
         (value) => {
             simiSignedIn(value);
+            beginCheckout()
         },
         [simiSignedIn]
     )
@@ -248,7 +250,7 @@ const FormFields = (props) => {
                 simiSignedIn(signin_token)
         }
         return <Fragment>
-            {html && <option value="">{Identify.__('Please choose')}</option>}
+            {/*html && <option value="">{Identify.__('Please choose')}</option>*/}
             {html}
             <option value="new_address">{Identify.__('New Address')}</option>
         </Fragment>;
@@ -286,7 +288,7 @@ const FormFields = (props) => {
                             />
                             {handlingEmail && <LoadingImg divStyle={{ marginTop: 5 }} />}
                         </div>}
-                    {existCustomer && <Fragment>
+                    {(!isSignedIn && existCustomer) && <Fragment>
                         <div className='password'>
                             <div className={`address-field-label req`}>{Identify.__("Password")}</div>
                             <input id="password" type="password" name="password" className="isrequired"/>

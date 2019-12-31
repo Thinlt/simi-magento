@@ -243,9 +243,9 @@ class Checkout extends Component {
     }
 
     get checkoutInner() {
-        const { props, cartCurrencyCode, btnPlaceOrder, userSignedIn, pageTitle, is_virtual } = this;
+        const { props, cartCurrencyCode, btnPlaceOrder, userSignedIn, pageTitle, is_virtual, } = this;
         const { cart, checkout, directory, editOrder, submitShippingMethod, submitShippingAddress, submitOrder, submitPaymentMethod,
-            submitBillingAddress, user, simiSignedIn, toggleMessages, getCartDetails, history } = props;
+            submitBillingAddress, user, simiSignedIn, toggleMessages, getCartDetails, history, beginCheckout } = props;
         const { shippingAddress, submitting, availableShippingMethods, shippingMethod, billingAddress, paymentData, paymentCode,
             invalidAddressMessage, isAddressInvalid, shippingTitle, editing } = checkout;
         const { paymentMethods } = cart;
@@ -295,7 +295,7 @@ class Checkout extends Component {
                 <div className='checkout-col-1'>
                     {!is_virtual && <Panel title={<div className='checkout-section-title'>{Identify.__('Shipping Address')}</div>}
                         className='checkout-panel'
-                        renderContent={<EditableForm {...stepProps} editing='address' />}
+                        renderContent={<EditableForm {...stepProps} beginCheckout={beginCheckout} editing='address' />}
                         isToggle={true}
                         expanded={true}
                         headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
@@ -357,6 +357,7 @@ class Checkout extends Component {
     }
 
     render() {
+        console.log(this.props)
         return (
             <div className={`checkout-bg ${Identify.isRtl() ? 'checkout-bg-rtl' : ''}`}>
                 <div className="container">
