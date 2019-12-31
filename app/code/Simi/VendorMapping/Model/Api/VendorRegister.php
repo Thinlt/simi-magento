@@ -73,11 +73,6 @@ class VendorRegister extends RegisterPost implements VendorRegisterInterface
                                     'status' => 'error',
                                     'message' => __('There is already an account with this email address !')
                                 ]];
-                            } else {
-                                return [[
-                                    'status' => 'error',
-                                    'message' => __('Not valid !')
-                                ]];
                             }
                         }
                     }
@@ -88,7 +83,15 @@ class VendorRegister extends RegisterPost implements VendorRegisterInterface
                     $vendor->setData('city', $vendorData['vendor_data']['city']);
                     $vendor->setData('region', $vendorData['vendor_data']['region']);
                     $vendor->setData('telephone', $vendorData['vendor_data']['telephone']);
-
+                    if (isset($vendorData['vendor_data']['website'])) {
+                        $vendor->setData('website', $vendorData['vendor_data']['website']);
+                    }
+                    if (isset($vendorData['vendor_data']['facebook'])) {
+                        $vendor->setData('facebook', $vendorData['vendor_data']['facebook']);
+                    }
+                    if (isset($vendorData['vendor_data']['website'])) {
+                        $vendor->setData('instagram', $vendorData['vendor_data']['instagram']);
+                    }
                     /*Add new customer credit account*/
                     $credit = $simiObjectManager->create('Vnecoms\Credit\Model\Credit');
                     $credit->load($customer->getId(), 'customer_id');
@@ -101,10 +104,10 @@ class VendorRegister extends RegisterPost implements VendorRegisterInterface
 
                     if ($this->_vendorHelper->isRequiredVendorApproval()) {
                         $vendor->setStatus(Vendor::STATUS_PENDING);
-                        $message = __("Your seller account has been created and awaiting for approval.");
+                        $message = __("Your seller account has been created and awaiting for approval. <br />You may be need to check mailbox to activate your account. ");
                     } else {
                         $vendor->setStatus(Vendor::STATUS_APPROVED);
-                        $message = __("Your seller account has been created.");
+                        $message = __("Your seller account has been created.<br /> You may be need to check mailbox to activate your account.");
                     }
 
                     $errors = $vendor->validate();

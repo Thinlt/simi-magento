@@ -11,7 +11,8 @@ use Vnecoms\Vendors\Controller\Seller\LoginPost;
 
 class VendorLogin extends LoginPost implements VendorLoginInterface
 {
-    public function loginPost(){
+    public function loginPost()
+    {
 
         if ($this->session->isLoggedIn()) {
             $helper = $this->_objectManager->get('Vnecoms\Vendors\Helper\Data');
@@ -19,22 +20,22 @@ class VendorLogin extends LoginPost implements VendorLoginInterface
             return [
                 [
                     'status' => 'success',
-                    'is_login' => '1', 
+                    'is_login' => '1',
                     'sessionId' => $this->session->getSessionId(),
                     // 'vendor_url' => $redirectUrl,
-                    'redirect_url' => $redirectUrl.'?simiSessId='.$this->session->getSessionId(),
+                    'redirect_url' => $redirectUrl . '?simiSessId=' . $this->session->getSessionId(),
                     // 'redirect_path' => 'vendors/simivendor/vendors',
                 ]
             ];
         }
-    
+
         if ($this->getRequest()->isPost()) {
             $login = $this->getRequest()->getPost();
             if (!isset($login['username'])) {
-                try{
+                try {
                     $requestBody = $this->getRequest()->getContent();
                     $login = json_decode($requestBody, true);
-                }catch(\Exception $e){
+                } catch (\Exception $e) {
                     return [
                         [
                             'status' => 'error',
@@ -47,28 +48,56 @@ class VendorLogin extends LoginPost implements VendorLoginInterface
 
             if (!empty($login['username']) && !empty($login['password'])) {
                 try {
-                    $customer = $this->customerAccountManagement->authenticate($login['username'], $login['password']);
-                    $this->session->setCustomerDataAsLoggedIn($customer);
-                    $this->session->regenerateId();
-                    if ($this->getCookieManager()->getCookie('mage-cache-sessid')) {
-                        $metadata = $this->getCookieMetadataFactory()->createCookieMetadata();
-                        $metadata->setPath('/');
-                        $this->getCookieManager()->deleteCookie('mage-cache-sessid', $metadata);
+                    // get customer by username (email)
+                    $simiObjectManager = $this->_objectManager;
+                    $helperCustomer = $simiObjectManager->create('Simi\Simicustomize\Override\Helper\Customer');
+                    $customer = $helperCustomer->getCustomerByEmail($login['username']);
+                    var_dump($customer->getData()->getId()); die();
+                    if (!$customer->getId()) {
+                        echo 'co'; die();
+                        $message = __("Do not exist account !");
+                        return [
+                            [
+                                'status' => 'error',
+                                'is_login' => '0',
+                                'message' => $message
+                            ]
+                        ];
+                    } else {
+                        echo 'khong'; die();
+                        if ($customer->getConfirmation() && $this->isConfirmationRequired($customer)) {
+                            $message = __("This account isn't confirmed. Verify and try again.");
+                            return [
+                                [
+                                    'status' => 'error',
+                                    'is_login' => '0',
+                                    'message' => $message
+                                ]
+                            ];
+                        }
+                        $customer = $this->customerAccountManagement->authenticate($login['username'], $login['password']);
+                        $this->session->setCustomerDataAsLoggedIn($customer);
+                        $this->session->regenerateId();
+                        if ($this->getCookieManager()->getCookie('mage-cache-sessid')) {
+                            $metadata = $this->getCookieMetadataFactory()->createCookieMetadata();
+                            $metadata->setPath('/');
+                            $this->getCookieManager()->deleteCookie('mage-cache-sessid', $metadata);
+                        }
+                        $helper = $this->_objectManager->get('Vnecoms\Vendors\Helper\Data');
+                        $redirectUrl = $helper->getHomePageUrl();
+                        // URL is checked to be internal in $this->_redirect->success()
+                        return [
+                            [
+                                'status' => 'success',
+                                'is_login' => '1',
+                                'sessionId' => $this->session->getSessionId(),
+                                // 'vendor_url' => $redirectUrl,
+                                'redirect_url' => $redirectUrl . '?simiSessId=' . $this->session->getSessionId(),
+                                // 'redirect_path' => 'vendors/simivendor/vendors',
+                                'message' => __('Login is successful.'),
+                            ]
+                        ];
                     }
-                    $helper = $this->_objectManager->get('Vnecoms\Vendors\Helper\Data');
-                    $redirectUrl = $helper->getHomePageUrl();
-                    // URL is checked to be internal in $this->_redirect->success()
-                    return [
-                        [
-                            'status' => 'success',
-                            'is_login' => '1',
-                            'sessionId' => $this->session->getSessionId(),
-                            // 'vendor_url' => $redirectUrl,
-                            'redirect_url' => $redirectUrl.'?simiSessId='.$this->session->getSessionId(),
-                            // 'redirect_path' => 'vendors/simivendor/vendors',
-                            'message' => __('Login is successful.'),
-                        ]
-                    ];
                 } catch (EmailNotConfirmedException $e) {
                     $value = $this->customerUrl->getEmailConfirmationUrl($login['username']);
                     $message = __(

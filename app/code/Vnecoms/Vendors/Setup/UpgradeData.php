@@ -1,20 +1,17 @@
 <?php
+
 /**
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace Vnecoms\Vendors\Setup;
 
-use Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface;
 use Magento\Framework\Setup\UpgradeDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Eav\Setup\EavSetup;
-use Magento\Eav\Setup\EavSetupFactory;
-use Vnecoms\Vendors\Model\Vendor;
-use Vnecoms\Vendors\Setup\VendorSetupFactory;
-use Magento\Eav\Model\Entity\Attribute\Set as AttributeSet;
-use Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
+
 
 /**
  * Upgrade Data script
@@ -23,74 +20,64 @@ use Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
 class UpgradeData implements UpgradeDataInterface
 {
     /**
-     * Vendor setup factory
-     *
-     * @var VendorSetupFactory
+     * @var EavSetup
      */
-    private $vendorSetupFactory;
+    private $eavSetup;
 
     /**
-     * EAV setup factory
-     *
-     * @var EavSetupFactory
-     */
-    private $eavSetupFactory;
-
-
-
-    private $attributeSetFactory;
-    /**
-     * Init
-     *
-     * @param CategorySetupFactory $categorySetupFactory
-     * @param EavSetupFactory $eavSetupFactory
+     * @param EavSetup $eavSetup
+     * @param QuoteSetupFactory $setupFactory
+     * @param SalesSetupFactory $salesSetupFactory
      */
     public function __construct(
-        VendorSetupFactory $vendorSetupFactory,
-        EavSetupFactory $eavSetupFactory,
-        AttributeSetFactory $attributeSetFactory
+        EavSetup $eavSetup
     ) {
-    
-        $this->vendorSetupFactory = $vendorSetupFactory;
-        $this->eavSetupFactory = $eavSetupFactory;
-        $this->attributeSetFactory = $attributeSetFactory;
+        $this->eavSetup = $eavSetup;
     }
 
     /**
-     * {@inheritdoc}
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * Upgrades data for a module
+     *
+     * @param ModuleDataSetupInterface $setup
+     * @param ModuleContextInterface $context
+     * @return void
      */
     public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
     {
-        $setup->startSetup();
-        $ticketSetup = $this->vendorSetupFactory->create(['setup' => $setup]);
-        if ($context->getVersion()
-            && version_compare($context->getVersion(), '2.1.2') < 0
-        ) {
-            $ticketSetup->addAttribute(
-                'vendor',
-                'flag_notify_email',
-                [
-                    'label' => 'Flag Notify Email',
-                    'type' => 'varchar',
-                    'input' => 'text',
-                    'required' => true,
-                    'sort_order' => 70,
-                    'position' => 40,
-                    'default'=>0
-                ]
-            );
-        }
-        $setup->endSetup();
-    }
+        if ($context->getVersion() && version_compare($context->getVersion(), '2.2.2', '<')) {
 
-    /**
-     * Create page
-     *
-     * @return Page
-     */
-    public function createSpam()
-    {
-        return $this->spamFactory->create();
+            $attributes = [
+                'website' => [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'nullable' => true,
+                    'length' =>  255,
+                    'comment' => 'Website Url',
+                    'label' => 'Website'
+                ],
+                'facebook' => [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'nullable' => true,
+                    'length' =>  255,
+                    'comment' => 'Facebook Url',
+                    'label' => 'Facebook'
+                ],
+                'instagram' => [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'nullable' => true,
+                    'length' =>  255,
+                    'comment' => 'Instagram Url',
+                    'label' => 'Instagram'
+                ]
+            ];
+
+            // $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+            foreach ($attributes as $attribute_code => $attributeOptions) {
+                $this->eavSetup->addAttribute(
+                    \Vnecoms\Vendors\Model\Vendor::ENTITY,
+                    $attribute_code,
+                    $attributeOptions
+                );
+            }
+        }
     }
 }
