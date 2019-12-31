@@ -68,26 +68,24 @@ const Thankyou = props => {
             {TitleHelper.renderMetaHeader({
                 title:Identify.__('Thank you for your purchase!')
             })}
-            <div className="root">
-                <div className="body">
-                    <h2 className='header'>{Identify.__('Thank you for your purchase!')}</h2>
-                    <div  className="email-sending-message">
-                        {padOrderId && <div className="order-number">{Identify.__('Order your number is #@').replace('@', padOrderId)}</div>}
-                        {isPreOrder && <div className="order-preorder-note">{Identify.__('Please be aware that this is a preorder. You will be informed once they become available.')}</div>}
-                        {Identify.__("We'll email you an order confirmation with details and tracking info.")}
-                    </div>
-                    <div className="order-actions">
-                        <Colorbtn 
-                            onClick={handleViewOrderDetails}
-                            style={{ backgroundColor: '#101820', color: '#FFF' }}
-                            className="view-order-details"
-                            text={Identify.__('View Order Details')} />
-                        <Colorbtn 
-                            onClick={()=>history.push('/')}
-                            style={{ backgroundColor: '#101820', color: '#FFF' }}
-                            className="continue-shopping"
-                            text={Identify.__('Continue shopping')} />
-                    </div>
+            <div className="thankyou-root">
+                <h2 className='header'>{Identify.__('Thank you for your purchase!')}</h2>
+                <div  className="email-sending-message">
+                    {padOrderId && <div className="order-number">{Identify.__('Order your number is #@').replace('@', padOrderId)}</div>}
+                    {isPreOrder && <div className="order-preorder-note">{Identify.__('Please be aware that this is a preorder. You will be informed once they become available.')}</div>}
+                    {Identify.__("We'll email you an order confirmation with details and tracking info.")}
+                </div>
+                <div className="order-actions">
+                    <Colorbtn 
+                        onClick={handleViewOrderDetails}
+                        style={{ backgroundColor: '#101820', color: '#FFF' }}
+                        className="view-order-details"
+                        text={Identify.__('View Order Details')} />
+                    <Colorbtn 
+                        onClick={()=>history.push('/')}
+                        style={{ backgroundColor: '#101820', color: '#FFF' }}
+                        className="continue-shopping"
+                        text={Identify.__('Continue shopping')} />
                 </div>
             </div>
         </div>

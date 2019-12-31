@@ -10,8 +10,11 @@ import { beginCheckout, cancelCheckout, editOrder,
     /* submitShippingMethod, */
     submitPaymentMethod
 } from 'src/actions/checkout';
+import { getOS } from 'src/simi/App/Bianca/Helper';
 
 require('./checkout.scss')
+
+if (getOS() === 'MacOS') require('./checkoutMac.scss');
 
 import { submitShippingAddress, submitBillingAddress, submitOrder, submitShippingMethod } from 'src/simi/Redux/actions/simiactions';
 

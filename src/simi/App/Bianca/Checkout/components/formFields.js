@@ -236,16 +236,16 @@ const FormFields = (props) => {
     const listOptionsAddress = (addresses) => {
         let html = null;
         if (addresses){
-            if (!addresses.length) {
+            if (addresses.length) {
                 html = addresses.map((address, idx) => {
                     const labelA = address.firstname + ' ' + address.lastname + ', ' + address.city + ', ' + address.region.region;
                     return <option value={address.id} key={idx}>{labelA}</option>
                 });
-            } else {
-                const signin_token = storage.getItem('signin_token')
-                if (signin_token && simiSignedIn) //logged in but not loaded addresses
-                    simiSignedIn(signin_token)
             }
+        } else {
+            const signin_token = storage.getItem('signin_token')
+            if (signin_token && simiSignedIn) //logged in but not loaded addresses
+                simiSignedIn(signin_token)
         }
         return <Fragment>
             {html && <option value="">{Identify.__('Please choose')}</option>}

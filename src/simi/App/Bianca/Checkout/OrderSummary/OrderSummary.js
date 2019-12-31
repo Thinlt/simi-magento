@@ -6,8 +6,12 @@ import Total from 'src/simi/BaseComponents/Total';
 import isObjectEmpty from 'src/util/isObjectEmpty';
 import OrderItems from './OrderItems';
 import { isArray } from 'util';
+import { getOS } from 'src/simi/App/Bianca/Helper';
 
 require('./OrderSummary.scss')
+
+if (getOS() === 'MacOS') require('./OrderSummaryMac.scss');
+
 const $ = window.$;
 
 const OrderSummary = (props) => {
