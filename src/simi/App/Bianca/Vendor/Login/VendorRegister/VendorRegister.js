@@ -95,13 +95,10 @@ const VendorRegister = (props) => {
 
 	const registerDone = (data) => {
 		hideFogLoading();
-		console.log(data);
 		if (data && data.status === 'error') {
-			console.log('nooo');
 			let message = Identify.__(data.message);
 			showToastMessage(message);
 		} else {
-			console.log('yes');
 			let message = Identify.__(data.message);
 			showToastMessage(message);
 		}

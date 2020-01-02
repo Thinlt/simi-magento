@@ -208,9 +208,7 @@ class Login extends Component {
 
 	vendorLoginCallback = (data) => {
 		hideFogLoading();
-		console.log(data);
 		if (data && data.status === 'error') {
-			console.log('nooo');
 			let message = Identify.__(data.message);
 			showToastMessage(message);
 		} else {

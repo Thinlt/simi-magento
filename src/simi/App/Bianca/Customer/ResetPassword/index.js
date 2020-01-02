@@ -64,10 +64,10 @@ class ResetPassword extends React.Component {
 					title: Identify.__('Reset Customer Password')
 				})}
 				<div className="title">
-					<span>{Identify.__('buyer - designer'.toUpperCase())}</span>
+					<span>{Identify.__('reset password'.toUpperCase())}</span>
 				</div>
 				<div className="wrap">
-					<div className="title-form">{Identify.__('reset password?'.toUpperCase())}</div>
+					<div className="title-form">{Identify.__('create new password?'.toUpperCase())}</div>
 					<p className="description-form">{Identify.__('Enter a new password for account:')}</p>
 					<Form className="form" getApi={this.setFormApi} onSubmit={handleSubmit}>
 						<div className="newPassword">

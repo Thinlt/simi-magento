@@ -4,7 +4,6 @@ import { Form } from 'informed';
 import Field from 'src/components/Field';
 import TextInput from 'src/components/TextInput';
 import { isRequired } from 'src/util/formValidators';
-import {configColor} from 'src/simi/Config'
 import Identify from 'src/simi/Helper/Identify'
 import classes from './forgotPasswordForm.css';
 
@@ -31,7 +30,7 @@ const ForgotPasswordForm  =  props => {
             <div className={classes.buttonContainer}>
                 <button 
                     priority="high" className={classes.submitButton} type="submit" 
-                    style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}>
+                >
                     {Identify.__('Submit')}
                 </button>
             </div>
