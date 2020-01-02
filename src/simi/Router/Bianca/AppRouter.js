@@ -26,6 +26,7 @@ class AppRouter extends Abstract{
                 <Route exact {...router.order_history_detail}/>
                 <Route exact {...router.newsletter}/>
                 <Route exact {...router.profile}/>
+                <Route exact {...router.sizechart}/>
                 <Route exact {...router.wishlist}/>
                 <Route exact {...router.login}/>
                 <Route exact {...router.vendor_login}/>

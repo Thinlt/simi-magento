@@ -3,8 +3,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import Identify from "src/simi/Helper/Identify";
 import defaultClasses from './style.scss'
-import CloseIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
-import MenuIcon from 'src/simi/BaseComponents/Icon/Menu'
+// import CloseIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
+// import MenuIcon from 'src/simi/BaseComponents/Icon/Menu'
 import BreadCrumb from "src/simi/BaseComponents/BreadCrumb"
 import classify from 'src/classify';
 import { compose } from 'redux';
@@ -17,6 +17,7 @@ import Profile from './Page/Profile';
 import MyOrder from './Page/OrderHistory';
 import OrderDetail from './Page/OrderDetail';
 import MyGiftVouchers from './Page/MyGiftVouchers';
+import SizeChart from './Page/SizeChart';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import {
     getUserDetails,
@@ -72,53 +73,60 @@ class CustomerLayout extends React.Component{
                 sort_order : 30
             },
             {
+                title : 'My Size Chart',
+                url : '/mysizechart.html',
+                page : 'size-chart',
+                enable : true,
+                sort_order : 40
+            },
+            {
                 title : 'Newsletter',
                 url : '/newsletter.html',
                 page : 'newsletter',
                 enable : true,
-                sort_order : 40
+                sort_order : 50
             },
             {
                 title : 'Address Book',
                 url : '/addresses.html',
                 page : 'address-book',
                 enable : true,
-                sort_order : 50
+                sort_order : 60
             },
             {
                 title : 'Wishlist',
                 url : '/wishlist.html',
                 page : 'wishlist',
                 enable : true,
-                sort_order : 60
+                sort_order : 70
             },
             {
                 title : 'MY GIFT VOUCHERS',
                 url : '/mygiftvouchers.html',
                 page : 'giftvoucher',
                 enable : true,
-                sort_order : 70
+                sort_order : 80
             },
             {
                 title : 'MY RESERVED PRODUCTS',
                 url : '/account.html',
                 page : 'newsletter',
                 enable : true,
-                sort_order : 80
+                sort_order : 90
             },
             {
                 title : 'MY TRY & BUY PRODUCTS',
                 url : '/account.html',
                 page : 'newsletter',
                 enable : true,
-                sort_order : 90
+                sort_order : 100
             },
             {
                 title : 'Log out',
                 url : '/logout.html',
                 page : 'home',
                 enable : true,
-                sort_order : 100
+                sort_order : 110
             }
         ]
         return menuConfig
@@ -179,8 +187,9 @@ class CustomerLayout extends React.Component{
 
     renderContent = ()=>{
         const {page} = this.state;
-        const { firstname, lastname, email, extension_attributes } = this.props;
+        const { firstname, lastname, email, extension_attributes, id } = this.props;
         const data = {
+            id,
             firstname,
             lastname,
             email,
@@ -196,6 +205,9 @@ class CustomerLayout extends React.Component{
                 break;
             case 'edit':
                 content = <Profile data={data} history={this.props.history} isPhone={this.state.isPhone}/>
+                break;
+            case 'size-chart':
+                content = <SizeChart data={data} history={this.props.history} isPhone={this.state.isPhone}/>
                 break;
             case 'my-order':
                 content = <MyOrder data={data} isPhone={this.state.isPhone} history={this.props.history}/>
@@ -264,8 +276,9 @@ class CustomerLayout extends React.Component{
 
 const mapStateToProps = ({ user }) => {
     const { currentUser, isSignedIn } = user
-    const { firstname, lastname, email } = currentUser;
+    const { firstname, lastname, email, id } = currentUser;
     return {
+        id,
         firstname,
         lastname,
         email,
