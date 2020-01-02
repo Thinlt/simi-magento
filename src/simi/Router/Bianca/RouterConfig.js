@@ -69,6 +69,12 @@ const Webviews = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Payfort"*/'src/simi/App/Bianca/Payment/Webviews')} {...props}/>
 }
 
+const StoreLocator = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "StoreLocator"*/'src/simi/App/Bianca/StoreLocator')} {...props}/>
+}
+
+
+
 const router = {
     home : {
         path: '/',
@@ -165,6 +171,10 @@ const router = {
     webview: {
         path: '/payment_webview.html',
         render : location => <Webviews {...location} />
+    },
+    storelocator: {
+        path: '/storelocator.html',
+        render : location => <StoreLocator {...location}/>
     },
     noMatch: {
         component : location => <NoMatch {...location} />
