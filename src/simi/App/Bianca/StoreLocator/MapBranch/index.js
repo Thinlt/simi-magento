@@ -96,7 +96,7 @@ class MapBranch extends React.Component {
                     lng={currentLocation.lng}
                     className="current-store-maker"
                     text={''}
-                    color="#0B5B28"
+                    color="#101820"
                 />
         }
         return html;
@@ -348,7 +348,7 @@ const MakerComponent = ({ text, className, current = false }) => (
             color: "#fff",
             width: 23,
             height: 23,
-            background: !current ? "#d7282f" : "#0B5B28",
+            background: !current ? "#101820" : "#101820",
             display: "inline-flex",
             position: "absolute",
             textAlign: "center",

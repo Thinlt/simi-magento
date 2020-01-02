@@ -154,67 +154,69 @@ const ImageGallery = props => {
 const StoreSummary = props => {
     const { item, setShowingDetailItem, showingDetail } = props;
     return (
-        <div className="branch-content-panel">
-            <div className="column-store-item">
-                <div className="box-store-br-item">
-                    <b className="title">{Identify.__("Address")}</b>
-                    {item.address && <p>{item.address}</p>}
-                    {item.city && <p>{item.city}</p>}
-                    {item.zipcode && <p>{item.zipcode}</p>}
+        <React.Fragment>
+            <div className="branch-content-panel">
+                <div className="column-store-item">
+                    <div className="box-store-br-item">
+                        <b className="title">{Identify.__("Address")}</b>
+                        {item.address && <p>{item.address}</p>}
+                        {item.city && <p>{item.city}</p>}
+                        {item.zipcode && <p>{item.zipcode}</p>}
+                    </div>
+                    <div className="box-store-br-item">
+                        <b className="title">{Identify.__("Contact")}</b>
+                        {item.phone && (
+                            <p>
+                                <span className="br-item-label">
+                                    {Identify.__("Tel:")}
+                                </span>
+                                <a href={`tel:${item.phone}`}>
+                                    {item.phone}
+                                </a>
+                            </p>
+                        )}
+                        {item.email && (
+                            <p style={{display:'flex',flexWrap:'wrap'}}>
+                                <span className="br-item-label">
+                                    {Identify.__("Email:")}
+                                </span>
+                                <a href={`mailto:${item.email}`}>
+                                    {item.email}
+                                </a>
+                            </p>
+                        )}
+                        {item.fax && (
+                            <p>
+                                <span className="br-item-label">
+                                    {Identify.__("Whatsapp:")}
+                                </span>
+                                <a href={`https://wa.me/${item.fax}`}>
+                                    {item.fax}
+                                </a>
+                            </p>
+                        )}
+                    </div>
                 </div>
-                <div className="box-store-br-item">
-                    <b className="title">{Identify.__("Contact")}</b>
-                    {item.phone && (
-                        <p>
-                            <span className="bold">
-                                {Identify.__("Tel:")}
-                            </span>
-                            <a href={`tel:${item.phone}`}>
-                                {item.phone}
-                            </a>
-                        </p>
-                    )}
-                    {item.email && (
-                        <p style={{display:'flex',flexWrap:'wrap'}}>
-                            <span className="bold">
-                                {Identify.__("Email:")}
-                            </span>
-                            <a href={`mailto:${item.email}`}>
-                                {item.email}
-                            </a>
-                        </p>
-                    )}
-                    {item.fax && (
-                        <p>
-                            <span className="bold">
-                                {Identify.__("Whatsapp:")}
-                            </span>
-                            <a href={`https://wa.me/${item.fax}`}>
-                                {item.fax}
-                            </a>
-                        </p>
-                    )}
+                <div className="column-store-item">
+                    <b className="title">{Identify.__("Opening Hours")}</b>
+                    <div className="box-store-br-item">
+                        {checkTimeOpen(item)}
+                    </div>
+                    {
+                        !showingDetail &&
+                        <div className="detail-branch-btn" 
+                            role="presentation"
+                            onClick={()=> {smoothScrollToView($("#id-message")); setShowingDetailItem(item)}}>
+                                {Identify.__("Details")}
+                        </div>
+                    }
                 </div>
             </div>
-            <div className="column-store-item">
-                <b className="title">{Identify.__("Opening Hours")}</b>
-                <div className="box-store-br-item">
-                    {checkTimeOpen(item)}
-                </div>
-            </div>
-            {
-                !showingDetail &&
-                <div className="detail-branch-btn" 
-                    role="presentation"
-                    onClick={()=> {smoothScrollToView($("#id-message")); setShowingDetailItem(item)}}>
-                        {Identify.__("Details")}
-                </div>
-            }
             {
                 showingDetail && 
                 <ImageGallery item={item} />
             }
-        </div>
+        </React.Fragment>
     );
 }
 
