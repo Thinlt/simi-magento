@@ -161,7 +161,7 @@ const ShippingForm = (props) => {
         setMethodCodesSelected(selecteds);
         handleSubmit2(selecteds);
     }
-console.log(props)
+    
     if (!availableVendorsMethods || !availableVendorsMethods.length) {
         return <Loading />
     }
