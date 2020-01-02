@@ -8,38 +8,38 @@
 <form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">vendor_about_form.vendor_about_form_data_source</item>
+            <item name="provider" xsi:type="string">vendor_faqs_form.vendor_faqs_form_data_source</item>
         </item>
-        <item name="label" xsi:type="string" translate="true">About Store</item>
+        <item name="label" xsi:type="string" translate="true">FAQs</item>
         <item name="template" xsi:type="string">templates/form/collapsible</item>
         <item name="buttons" xsi:type="array">
-            <item name="save_and_continue" xsi:type="string">Simi\VendorMapping\Block\Vendors\About\SaveAndContinue</item>
+            <item name="save_and_continue" xsi:type="string">Simi\VendorMapping\Block\Vendors\Faqs\SaveAndContinue</item>
         </item>
     </argument>
     <settings>
-        <namespace>vendor_about_form</namespace>
+        <namespace>vendor_faqs_form</namespace>
         <dataScope>data</dataScope>
         <deps>
-            <dep>vendor_about_form.vendor_about_form_data_source</dep>
+            <dep>vendor_faqs_form.vendor_faqs_form_data_source</dep>
         </deps>
     </settings>
-    <dataSource name="vendor_about_form_data_source">
+    <dataSource name="vendor_faqs_form_data_source">
         <argument name="data" xsi:type="array">
             <item name="js_config" xsi:type="array">
                 <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
             </item>
         </argument>
         <settings>
-            <submitUrl path="simivendor/about/save"/>
+            <submitUrl path="simivendor/faqs/save"/>
         </settings>
-        <dataProvider class="Simi\VendorMapping\Ui\DataProvider\About\FormProvider" name="vendor_about_form_data_source">
+        <dataProvider class="Simi\VendorMapping\Ui\DataProvider\Faqs\FormProvider" name="vendor_faqs_form_data_source">
             <settings>
                 <requestFieldName>id</requestFieldName>
                 <primaryFieldName>entity_id</primaryFieldName>
             </settings>
         </dataProvider>
     </dataSource>
-    <fieldset name="about_store">
+    <fieldset name="faqs_store">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
                 <item name="label" xsi:type="string" translate="true">Content</item>
@@ -50,7 +50,7 @@
         <field name="content" formElement="wysiwyg">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">about</item>
+                    <item name="source" xsi:type="string">faqs</item>
                     <item name="component" xsi:type="string">Simi_VendorMapping/js/form/element/wysiwyg</item>
                     <item name="elementTmpl" xsi:type="string">Simi_VendorMapping/form/element/wysiwyg</item>
                     <item name="wysiwygConfigData" xsi:type="array">

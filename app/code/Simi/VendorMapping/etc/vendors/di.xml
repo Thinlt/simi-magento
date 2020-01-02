@@ -75,4 +75,11 @@
             <argument name="imageUploader" xsi:type="object">Simi\VendorMapping\ImageUploader</argument>
         </arguments>
     </type>
+    <type name="Magento\Cms\Model\Wysiwyg\CompositeConfigProvider">
+        <arguments>
+            <argument name="variablePluginConfigProvider" xsi:type="array">
+                <item name="mage/adminhtml/wysiwyg/tiny_mce/tinymce4Adapter" xsi:type="string">Simi\VendorMapping\Ui\Variable\Config</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

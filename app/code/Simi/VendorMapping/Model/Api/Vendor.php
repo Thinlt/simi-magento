@@ -111,6 +111,8 @@ class Vendor implements VendorInterface
         $data['banner_path'] = $this->getBannerPath($vendor->getId()) ? '/'. \Magento\Framework\UrlInterface::URL_TYPE_MEDIA . '/' .$this->getBannerPath($vendor->getId()) : '';
         $data['profile'] = $this->vendorHelper->getProfile($vendor->getId());
         $data['reviews'] = $this->reviewHelper->getVendorReviews($id, false);
+        $data['about'] = $this->getAbout($id);
+        $data['faqs'] = $this->getFaqs($id);
         return array('data' => $data);
     }
 
@@ -326,6 +328,28 @@ class Vendor implements VendorInterface
             return 'ves_vendors/banner/' . $this->_bannerConfig;
         }
         return '';
+    }
+
+    /**
+     * Get about store infomation
+     *
+     * @param void
+     * @return string
+     */
+    protected function getAbout($vendorId)
+    {
+        return $this->_configHelper->getVendorConfig('general/store/about', $vendorId);
+    }
+
+    /**
+     * Get Faqs store
+     *
+     * @param void
+     * @return string
+     */
+    protected function getFaqs($vendorId)
+    {
+        return $this->_configHelper->getVendorConfig('general/store/faqs', $vendorId);
     }
 
     /**

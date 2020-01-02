@@ -29,6 +29,11 @@ class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
      */
     public function execute()
     {
+        $vendor = $this->_vendorsession->getVendor();
+        if ($vendor && $vendor->getId()) {
+            $this->_redirect('*/*/edit/id/'.$vendor->getId());
+            return;
+        }
         $this->_redirect('*/*/edit');
     }
 }

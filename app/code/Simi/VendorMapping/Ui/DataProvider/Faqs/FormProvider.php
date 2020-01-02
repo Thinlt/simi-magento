@@ -3,7 +3,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Simi\VendorMapping\Ui\DataProvider\About;
+namespace Simi\VendorMapping\Ui\DataProvider\Faqs;
 
 use Vnecoms\Vendors\Model\ResourceModel\Vendor\CollectionFactory;
 use Vnecoms\Vendors\Model\ResourceModel\Vendor\Collection;
@@ -79,10 +79,10 @@ class FormProvider extends \Magento\Ui\DataProvider\ModifierPoolDataProvider
             'id' => $vendor->getId(),
             'content' => '',
         ];
-        $data = $this->dataPersistor->get('vendor_about');
+        $data = $this->dataPersistor->get('vendor_faqs');
         if (!empty($data)) {
             $this->loadedData[$vendor->getId()] = $data;
-            $this->dataPersistor->clear('vendor_about');
+            $this->dataPersistor->clear('vendor_faqs');
         }
 
         return $this->loadedData;

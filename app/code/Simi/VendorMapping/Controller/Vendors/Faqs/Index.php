@@ -20,7 +20,7 @@ class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
      *
      * @see _isAllowed()
      */
-    protected $_aclResource = 'Simi_VendorMapping::store_about';
+    protected $_aclResource = 'Simi_VendorMapping::store_faqs';
 
     /**
      * Index action
@@ -29,6 +29,11 @@ class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
      */
     public function execute()
     {
+        $vendor = $this->_vendorsession->getVendor();
+        if ($vendor && $vendor->getId()) {
+            $this->_redirect('*/*/edit/id/'.$vendor->getId());
+            return;
+        }
         $this->_redirect('*/*/edit');
     }
 }

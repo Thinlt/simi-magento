@@ -11,9 +11,9 @@ use Magento\Framework\View\Result\PageFactory;
 /**
  * Class Index
  *
- * @package Aheadworks\Giftcard\Controller\Adminhtml\Giftcard
+ * @package Simi\VendorMapping\Controller\Vendors\Save
  */
-class Edit extends \Vnecoms\Vendors\Controller\Vendors\Action
+class Save extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
     const XML_PATH_STORE_FAQS = 'general/store/faqs';
 
@@ -55,28 +55,33 @@ class Edit extends \Vnecoms\Vendors\Controller\Vendors\Action
      */
     public function execute()
     {
-        // $om = \Magento\Framework\App\ObjectManager::getInstance();
         $helper = $this->objectManager->get(\Vnecoms\VendorsConfig\Helper\Data::class);
         $vendor = $this->_vendorsession->getVendor();
-        if ($this->getRequest()->getParam('id') != $vendor->getId()) {
-            if ($this->getRequest()->getParam('redirected')) {
-                $this->_redirect('*/*');
-                return;
-            }
-            $this->_redirect('*/*/edit/id/'.$vendor->getId().'/redirected/1');
-            return;
-        }
-        $content = $helper->getVendorConfig(self::XML_PATH_STORE_FAQS, $vendor->getId());
-        $this->dataPersistor->set('vendor_faqs', array(
-            'id' => $vendor->getId(),
-            'content' => $content
-        ));
+        $resultRedirect = $this->resultRedirectFactory->create();
+        if ($data = $this->getRequest()->getPostValue()) {
+            try {
+                $storeId = 0;
+                $this->dataPersistor->clear('vendor_faqs');
+                $groups = array('store' => array('fields' => array('faqs' => array('value' => $data['content']))));
+                $helper->saveConfig($vendor->getId(), 'general', $groups, $storeId);
 
-        $this->_initAction();
-        $this->setActiveMenu($this->_aclResource);
-        $title = $this->_view->getPage()->getConfig()->getTitle();
-        $title->prepend(__("FAQs"));
-        $this->_addBreadcrumb(__("FAQs"), __("FAQs"));
-        $this->_view->renderLayout();
+                $this->messageManager->addSuccessMessage(__('Successfully saved'));
+
+                if ($vendor && $vendor->getId()) {
+                    return $resultRedirect->setPath('*/*/edit/id/'.$vendor->getId());
+                }
+            } catch (LocalizedException $e) {
+                $this->messageManager->addErrorMessage($e->getMessage());
+            } catch (\RuntimeException $e) {
+                $this->messageManager->addErrorMessage($e->getMessage());
+            } catch (\Exception $e) {
+                $this->messageManager->addExceptionMessage(
+                    $e,
+                    __('Something went wrong while saving the data')
+                );
+            }
+            $this->dataPersistor->set('vendor_faqs', $data);
+        }
+        return $resultRedirect->setPath('*/*/');
     }
 }

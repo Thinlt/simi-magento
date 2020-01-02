@@ -13,7 +13,7 @@ define([
     'ko',
     './abstract',
     'mage/adminhtml/events',
-    'Magento_Variable/variables'
+    'Simi_VendorMapping/variables'
 ], function (wysiwyg, $, _, ko, Abstract, varienGlobalEvents) {
     'use strict';
 
