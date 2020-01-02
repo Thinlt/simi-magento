@@ -8,8 +8,14 @@ namespace Simi\Simicustomize\Api;
 interface SizechartInterface
 {
     /**
-     * Save Reserve request
+     * Save Sizechart request
      * @return boolean
      */
     public function index();
+
+    /**
+     * Get Sizecharts by customer
+     * @return array
+     */
+    public function getSizecharts();
 }

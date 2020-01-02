@@ -54,7 +54,7 @@ class Sizechart extends \Simi\Simiconnector\Model\Api\Apiabstract implements \Si
     }
 
     /**
-     * Save Reserve request
+     * Save Sizecharts request
      * @return boolean
      */
     public function index() {
@@ -119,6 +119,30 @@ class Sizechart extends \Simi\Simiconnector\Model\Api\Apiabstract implements \Si
             }catch(\Exception $e){
                 return ['data' => ['status' => false, 'message' => $e->getMessage()]];
             }
+        }
+        return ['data' => ['status' => false, 'message' => __('Invalid request value!')]];
+    }
+
+
+    /**
+     * Get Sizecharts by customer
+     * @return array
+     */
+    public function getSizecharts(){
+        $data = $this->request->getParams();
+        if ($this->request->getContent()) {
+            $data = json_decode($this->request->getContent(), true);
+        }
+        if (isset($data['customer_id']) && $data['customer_id']) 
+        {
+            // check to create new or update existed item
+            $model = $this->simiObjectManager->get('\Simi\Simicustomize\Model\SizeChart');
+            $collection = $model->getCollection();
+            $collection->addFieldToFilter('customer_id', $data['customer_id'])->load();
+            if ($collection->getSize()) {
+                return ['data' => $collection->toArray()];
+            }
+            return ['data' => ['status' => false, 'message' => __('No data!')]];
         }
         return ['data' => ['status' => false, 'message' => __('Invalid request value!')]];
     }
