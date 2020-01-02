@@ -126,6 +126,30 @@ class Collection extends \Magento\Review\Model\ResourceModel\Review\Collection
         return $this;
     }
 
+    /**
+     * Add entity type filter by product, customer, category
+     *
+     * @param int|string $entity | product, customer, category
+     * @return $this
+     */
+    public function addEntityTypeFilter($entity)
+    {
+        $reviewEntityTable = $this->getReviewEntityTable();
+        if (is_string($entity)) {
+            $this->_select->join(
+                $reviewEntityTable,
+                'main_table.entity_id=' . $reviewEntityTable . '.entity_id',
+                ['entity_code']
+            );
+            $this->addFilter(
+                'entity',
+                $this->getConnection()->quoteInto($reviewEntityTable . '.entity_code=?', $entity),
+                'string'
+            );
+        }
+        return $this;
+    }
+
     // /**
     //  * Initialize select
     //  *

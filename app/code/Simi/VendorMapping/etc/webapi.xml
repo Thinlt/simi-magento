@@ -38,4 +38,10 @@
             <resource ref="anonymous"/>
         </resources>
     </route>
+    <route url="/V1/simiconnector/vendors/:id/reviews" method="GET">
+        <service class="Simi\VendorMapping\Api\VendorInterface" method="getVendorReviews"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
 </routes>

@@ -58,6 +58,15 @@ class Vendor implements VendorInterface
 
     protected $_logoConfig;
     protected $_bannerConfig;
+    public $simiObjectManager;
+
+    /**
+     * Review product collection factory
+     *
+     * @var \Simi\VendorMapping\Model\ResourceModel\Review\Product\CollectionFactory
+     */
+    protected $productCollectionFactory;
+    protected $productRepositoryFactory;
 
     public function __construct(
         \Vnecoms\Vendors\Model\VendorFactory $vendorFactory,
@@ -69,6 +78,9 @@ class Vendor implements VendorInterface
         \Simi\Simicustomize\Helper\Vendor $vendorHelper,
         \Simi\VendorMapping\Helper\Review $reviewHelper,
         \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\ObjectManagerInterface $simiObjectManager,
+        \Simi\VendorMapping\Model\ResourceModel\Review\Product\CollectionFactory $productFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterfaceFactory $productRepositoryFactory,
         DirectoryList $directory_list
     ){
         $this->_vendorFactory = $vendorFactory;
@@ -80,6 +92,9 @@ class Vendor implements VendorInterface
         $this->_storeManager = $storeManager;
         $this->vendorHelper = $vendorHelper;
         $this->reviewHelper = $reviewHelper;
+        $this->simiObjectManager = $simiObjectManager;
+        $this->productCollectionFactory = $productFactory;
+        $this->productRepositoryFactory = $productRepositoryFactory;
     }
 
     /**
@@ -95,15 +110,100 @@ class Vendor implements VendorInterface
         $data['banner'] = $this->getBannerUrl($vendor->getId());
         $data['banner_path'] = $this->getBannerPath($vendor->getId()) ? '/'. \Magento\Framework\UrlInterface::URL_TYPE_MEDIA . '/' .$this->getBannerPath($vendor->getId()) : '';
         $data['profile'] = $this->vendorHelper->getProfile($vendor->getId());
-        $data['reviews'] = $this->getReviews($id);
+        $data['reviews'] = $this->reviewHelper->getVendorReviews($id, false);
         return array('data' => $data);
     }
 
-    public function getReviews($vendorId){
-        return $this->reviewHelper->getVendorReviews($vendorId, false);
+    /**
+     * Vendor api VnecomsVendor module
+     * @param int $id The Vendor ID.
+     * @return array | json
+     */
+    public function getVendorReviews($id){
+        $data = array();
+        $collection = $this->reviewHelper->getProductReviews($id, false);
+        $page       = 1;
+        $limit = self::DEFAULT_LIMIT;
+        $offset = 0;
+        $parameters = $this->_request->getParams();
+        $this->setPageSize($parameters, $limit, $offset, $collection, $page);
+        $info    = [];
+        $total   = $collection->getSize();
+        
+        if ($offset > $total) {
+            throw new \Simi\Simiconnector\Helper\SimiException(__('Invalid method.'), 4);
+        }
+        
+        $fields = [];
+        if (isset($parameters['fields']) && $parameters['fields']) {
+            $fields = explode(',', $parameters['fields']);
+        }
+        $count   = null;
+        $check_limit  = 0;
+        $check_offset = 0;
+
+        // get all products to map to result
+        $allProducts = [];
+        $storeId = $this ->_storeManager->getStore()->getId();
+        $products = $this->productCollectionFactory->create()
+            ->addStoreFilter($storeId)
+            ->addStatusFilter('1')
+            ->addAttributeToFilter('rt.vendor_id', $id);
+        foreach ($products as $product) {
+            $allProducts[$product->getId()] = $product;
+        }
+
+        foreach ($collection as $entity) {
+            if (++$check_offset <= $offset) {
+                continue;
+            }
+            if (++$check_limit > $limit) {
+                break;
+            }
+            $y = 0;
+            foreach ($entity->getRatingVotes() as $vote) {
+                $y += ($vote->getPercent() / 20);
+            }
+            $count = $this->simiObjectManager->get('Simi\Simiconnector\Helper\Data')
+                ->countArray($entity->getRatingVotes());
+            $count = $count == 0 ? 1 : $count;
+            $info_detail                = $entity->toArray($fields);
+            $info_detail['rate_points'] = $x = (int) ($y / $count);
+            if (isset($allProducts[$entity->getEntityPkValue()])) {
+                $product = $allProducts[$entity->getEntityPkValue()];
+                $productImage = $this->productRepositoryFactory->create()->getById($product->getId());
+                $info_detail['product_id'] = $product->getId();
+                $info_detail['product_name'] = $product->getName();
+                $info_detail['product_image'] = $productImage->getData('thumbnail');
+                $info_detail['product_url_key'] = preg_replace('/^http[s]?:\/\/.*?\//', '/', $product->getUrlModel()->getUrl($product));
+            }
+            $info_detail['product_url'] = $entity->getProductUrl($entity->getEntityPkValue(), $storeId);
+            $info[] = $info_detail;
+        }
+
+        return array('data' => array(
+            'reviews' => $info,
+            'total' => $total, 'page_size' => $limit, 'from' => $offset
+        ));
     }
 
-    
+    private function setPageSize($parameters, &$limit, &$offset, $collection, &$page)
+    {
+        if (isset($parameters[self::PAGE]) && $parameters[self::PAGE]) {
+            $page = $parameters[self::PAGE];
+        }
+        if (isset($parameters[self::LIMIT]) && $parameters[self::LIMIT]) {
+            $limit = $parameters[self::LIMIT];
+        }
+        $offset = $limit * ($page - 1);
+        if (isset($parameters[self::OFFSET]) && $parameters[self::OFFSET]) {
+            $offset = $parameters[self::OFFSET];
+        }
+        $collection->setPageSize($offset + $limit);
+        if (isset($parameters['dir']) && isset($parameters['order'])) {
+            $this->_order($parameters);
+        }
+    }
 
     /**
      * Vendor list api VnecomsVendor module

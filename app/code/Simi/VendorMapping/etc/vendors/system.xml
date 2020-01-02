@@ -15,5 +15,35 @@
 	        	</field>
 			</group>
 		</section>
+
+		<!-- <tab id="store" translate="label" sortOrder="100">
+            <label>Store</label>
+        </tab> -->
+        <!-- About Store Section -->
+        <!-- <section id="about" translate="label" type="text" sortOrder="10" showInDefault="1">
+            <label>About Store</label>
+            <tab>store</tab>
+            <resource>Vnecoms_VendorsConfig::general</resource>
+            <group id="about_information" translate="label tooltip" type="text" sortOrder="10" showInDefault="1">
+				<label>About Information</label>
+	        	<field id="short_description" translate="label" type="textarea" sortOrder="30" showInDefault="1">
+	            	<label>Short Description</label>
+	            	<backend_model>Vnecoms\Vendors\Model\Config\Backend\StoreDescription</backend_model>
+	        	</field>
+			</group>
+		</section> -->
+        <!-- FAQs Section -->
+        <!-- <section id="faqs" translate="label" type="text" sortOrder="100" showInDefault="1">
+            <label>FAQs</label>
+            <tab>store</tab>
+            <resource>Vnecoms_VendorsConfig::general</resource>
+            <group id="faqs_information" translate="label tooltip" type="text" sortOrder="10" showInDefault="1">
+				<label>Store Information</label>
+	        	<field id="short_description" translate="label" type="editor" sortOrder="30" showInDefault="1">
+	            	<label>Short Description</label>
+	            	<frontend_model>Vnecoms\Vendors\Block\System\Config\Form\Field\Editor</frontend_model>
+	        	</field>
+			</group>
+		</section> -->
     </system>
 </config>

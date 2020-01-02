@@ -41,11 +41,17 @@ class Review extends \Simi\Simiconnector\Helper\Data
     /**
      * Get all reviews for a Product
      */
-    public function getProductReviews($productId, $getForm = true) {
-        $ratings      = $this->getProductRatingStar($productId);
-        $total_rating = $this->getTotalRate($ratings);
-        $avg          = $this->getAvgRate($ratings, $total_rating);
-        return $this->_getRestData($avg, $ratings, $getForm);
+    public function getProductReviews($vendorId, $getForm = true) {
+        $storeId = $this->storeManager->getStore()->getId();
+        $reviews = $this->simiObjectManager->get('Simi\VendorMapping\Model\Review')
+                ->getResourceCollection()
+                ->addStoreFilter($storeId)
+                ->addVendorFilter($vendorId)
+                ->addEntityTypeFilter('product')
+                ->addStatusFilter(\Magento\Review\Model\Review::STATUS_APPROVED)
+                ->setDateOrder()
+                ->addRateVotes();
+        return $reviews;
     }
 
     /**
@@ -56,21 +62,6 @@ class Review extends \Simi\Simiconnector\Helper\Data
         $total_rating = $this->getTotalRate($ratings);
         $avg          = $this->getAvgRate($ratings, $total_rating);
         return $this->_getRestData($avg, $ratings, $getForm);
-    }
-
-    /**
-     * Get rating star by Product ID
-     */
-    public function getProductRatingStar($productId){
-        $storeId = $this->storeManager->getStore()->getId();
-        $reviews = $this->simiObjectManager->get('Simi\VendorMapping\Model\Review')
-                ->getResourceCollection()
-                ->addStoreFilter($storeId)
-                ->addEntityFilter('product', $productId)
-                ->addStatusFilter(\Magento\Review\Model\Review::STATUS_APPROVED)
-                ->setDateOrder()
-                ->addRateVotes();
-        return $this->getRatingStar($reviews);
     }
 
     /**

@@ -13,4 +13,11 @@ interface VendorInterface
      * @return array | json
      */
     public function getVendorDetail($id);
+
+    /**
+     * Vendor api VnecomsVendor module
+     * @param int $id The Vendor ID.
+     * @return array | json
+     */
+    public function getVendorReviews($id);
 }
