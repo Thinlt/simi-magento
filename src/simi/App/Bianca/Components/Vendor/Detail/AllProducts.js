@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import LoadingSpiner from 'src/simi/BaseComponents/Loading/LoadingSpiner';
+// import LoadingSpiner from 'src/simi/BaseComponents/Loading/LoadingSpiner';
+import Loading from 'src/simi/BaseComponents/Loading';
 import { number, string } from 'prop-types';
 import Identify from 'src/simi/Helper/Identify';
 import ObjectHelper from 'src/simi/Helper/ObjectHelper';
@@ -81,7 +82,7 @@ const AllProducts = props => {
                 if (loadedData) data = loadedData
 
                 if (!data || loading) {
-                    return <LoadingSpiner />
+                    return <Loading />
                 }
 
                 return (
