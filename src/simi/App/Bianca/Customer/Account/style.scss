@@ -288,10 +288,12 @@
 .table-siminia > tbody > tr > td,
 .table-siminia > tbody > tr > th,
 .table-siminia > tfoot > tr > td,
-.table-siminia > tfoot > tr > th,
-.table-siminia > thead > tr > td,
-.table-siminia > thead > tr > th {
-    padding: 16px 24px;
+.table-siminia > thead > tr > td {
+    padding: 0px 24px;
+    line-height: 14px;
+}
+.table-siminia > thead > tr > th{
+    padding: 0px 24px;
 }
 .table-siminia > tbody > tr > td.order-status{
     text-transform: capitalize;
@@ -309,7 +311,7 @@
     .view-all{
         color: #101820;
         font-size: 14px;
-        line-height: 24px;
+        line-height: 14px;
         font-weight: normal;
         margin-top: 2.5px;
         float: right;
