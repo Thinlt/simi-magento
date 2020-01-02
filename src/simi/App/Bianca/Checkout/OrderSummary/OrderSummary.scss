@@ -27,12 +27,12 @@
                     justify-content: space-between;
                 }
                 .item-count > span {
-                    padding-top: 7px;
+                    padding-top: 6px;
                 }
             }
             ul.items {
                 padding: 0;
-                margin-top: 35px;
+                margin-top: 18px;
                 border: none;
             }
             ul.items li.order-item {
@@ -63,7 +63,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                margin-top: 20px;
+                margin-top: 7px;
                 font-size: 14px;
                 font-family: 'Gotham Medium';
             }
@@ -73,17 +73,22 @@
             }
             .item-qty-price .price {
                 color: #101820;
-                font-size: 16px;
-                margin-top: 10px;
+                font-size: 14px;
             }
             .option-selected {
-                margin: 12px 0px 0px;
+                margin: 7px 0px 23px;
                 font-size: 12px;
                 color: #727272;
                 font-weight: 400;
                 font-family: 'Gotham Book';
                 display: flex;
                 flex-wrap: wrap;
+                .option-title {
+                    font-size: 12px;
+                    color: #727272;
+                    font-weight: 400;
+                    font-family: 'Gotham Book';
+                }
                 .option-selected-item {
                     width: 50%;
                     .price {
@@ -110,11 +115,11 @@
                     text-align: start;
                 }
                 .grand_total {
-                    font-size: 24px;
+                    font-size: 18px;
                     text-transform: uppercase;
-                    line-height: 24px;
+                    line-height: 18px;
                     .label {
-                        font-size: 24px;
+                        font-size: 18px;
                     }
                     .price {
                         font-weight: 600;
@@ -131,6 +136,10 @@
                 justify-content: space-between;
                 height: auto;
                 margin-bottom: 28px;
+            }
+
+            .cart-total > .subtotal > div {
+                margin-bottom: 32px;
             }
 
             .shipping-address-detail .item-box {
@@ -177,7 +186,7 @@
 
         @media (min-width: 1440px) {
             .checkout-panel {
-                padding-left: 40px !important;
+                padding-left: 24px !important;
                 padding-right: 40px !important;
             }
         }

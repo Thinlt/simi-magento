@@ -12,7 +12,7 @@
         margin: 0;
         text-transform: uppercase;
         text-align: start;
-        margin-bottom: 35px;
+        margin-bottom: 32px;
     }
     .checkout-column {
         display: flex;
@@ -46,11 +46,14 @@
         .panel-icon button{
             padding: 0;
         }
+        .panel-content {
+            padding-top: 24px !important;
+        }
     }
     .checkout-section-title {
         font-size: 18px;
         line-height: 18px;
-        padding-top: 15px;
+        padding-top: 10px;
         text-transform: uppercase;
         font-family: 'Gotham Medium';
         font-weight: 400;
@@ -58,7 +61,7 @@
     .btn-place-order {
         margin-top: 48px;
         div {
-            padding: 16px;
+            padding: 10px;
             font-size: 16px;
             max-width: 252px;
             margin-left: auto;

@@ -72,7 +72,8 @@ const FormFields = (props) => {
         configFields,
         handleFormReset,
         is_virtual,
-        initialValues
+        initialValues,
+        beginCheckout
     } = props;
 
     const { isSignedIn, currentUser } = user;
@@ -183,6 +184,7 @@ const FormFields = (props) => {
     const handleActionSignIn = useCallback(
         (value) => {
             simiSignedIn(value);
+            beginCheckout()
         },
         [simiSignedIn]
     )
@@ -236,19 +238,19 @@ const FormFields = (props) => {
     const listOptionsAddress = (addresses) => {
         let html = null;
         if (addresses){
-            if (!addresses.length) {
+            if (addresses.length) {
                 html = addresses.map((address, idx) => {
                     const labelA = address.firstname + ' ' + address.lastname + ', ' + address.city + ', ' + address.region.region;
                     return <option value={address.id} key={idx}>{labelA}</option>
                 });
-            } else {
-                const signin_token = storage.getItem('signin_token')
-                if (signin_token && simiSignedIn) //logged in but not loaded addresses
-                    simiSignedIn(signin_token)
             }
+        } else {
+            const signin_token = storage.getItem('signin_token')
+            if (signin_token && simiSignedIn) //logged in but not loaded addresses
+                simiSignedIn(signin_token)
         }
         return <Fragment>
-            {html && <option value="">{Identify.__('Please choose')}</option>}
+            {/*html && <option value="">{Identify.__('Please choose')}</option>*/}
             {html}
             <option value="new_address">{Identify.__('New Address')}</option>
         </Fragment>;
@@ -286,7 +288,7 @@ const FormFields = (props) => {
                             />
                             {handlingEmail && <LoadingImg divStyle={{ marginTop: 5 }} />}
                         </div>}
-                    {existCustomer && <Fragment>
+                    {(!isSignedIn && existCustomer) && <Fragment>
                         <div className='password'>
                             <div className={`address-field-label req`}>{Identify.__("Password")}</div>
                             <input id="password" type="password" name="password" className="isrequired"/>

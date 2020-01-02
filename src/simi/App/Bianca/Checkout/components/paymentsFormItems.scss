@@ -1,6 +1,7 @@
 
 .checkout-panel {
     .payment-method-item {
+        padding-top: 8px;
         label {
             grid-template-columns: auto;
             margin-left: 0;
@@ -25,6 +26,10 @@
         }
         input[type=checkbox], input[type=radio] {
             margin-top: 0px;
+        }
+        input[type=radio] {
+            width: 24px;
+            height: 24px;
         }
     }
 }
