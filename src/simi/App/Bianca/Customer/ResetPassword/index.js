@@ -64,7 +64,7 @@ class ResetPassword extends React.Component {
 					title: Identify.__('Reset Customer Password')
 				})}
 				<div className="title">
-					<span>{Identify.__('buyer'.toUpperCase())}</span>
+					<span>{Identify.__('buyer - designer'.toUpperCase())}</span>
 				</div>
 				<div className="wrap">
 					<div className="title-form">{Identify.__('reset password?'.toUpperCase())}</div>

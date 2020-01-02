@@ -96,23 +96,20 @@ const VendorRegister = (props) => {
 	const registerDone = (data) => {
 		hideFogLoading();
 		console.log(data);
-		if (data.errors) {
+		if (data && data.status === 'error') {
 			console.log('nooo');
-			let errorMsg = '';
-			if (data.errors.length) {
-				data.errors.map((error) => {
-					errorMsg += error.message;
-				});
-				showToastMessage(errorMsg);
-			}
+			let message = Identify.__(data.message);
+			showToastMessage(message);
 		} else {
-			// props.onSignIn(registeringEmail, registeringPassword)
+			console.log('yes');
+			let message = Identify.__(data.message);
+			showToastMessage(message);
 		}
 	};
 
-    const handleBack = () => {
-        history.push('/designer_login.html');
-    };
+	const handleBack = () => {
+		history.push('/designer_login.html');
+	};
 
 	return (
 		<React.Fragment>
@@ -120,55 +117,47 @@ const VendorRegister = (props) => {
 				title: Identify.__('Create Account')
 			})}
 			<Form className={classes.root} initialValues={initialValues} onSubmit={handleSubmit}>
-				{/* <h3 className={classes.lead}>
-                    {`Check out faster, use multiple addresses, track
-                            orders and more by creating an account!`}
-                </h3> */}
-				<Field label="First Name" required={true}>
+				<div className={classes.lead1}>{Identify.__('create an account'.toUpperCase())}</div>
+				<div className={classes.lead2}>
+					{Identify.__('Please enter the following information to create your account.')}
+				</div>
+				<Field label="First Name *" required={true}>
 					<TextInput
 						field="firstname"
 						autoComplete="given-name"
 						validate={validators.get('firstName')}
 						validateOnBlur
+						placeholder="First Name"
 					/>
 				</Field>
-				<Field label="Last Name" required={true}>
+				<Field label="Last Name *" required={true}>
 					<TextInput
 						field="lastname"
 						autoComplete="family-name"
 						validate={validators.get('lastName')}
 						validateOnBlur
+						placeholder="Last Name"
 					/>
 				</Field>
-				<Field label="Vendor Id">
-					<TextInput field="vendor.vendor_id" validate={validators.get('vendorId')} validateOnBlur />
-				</Field>
-				<Field label="Email" required={true}>
-					<TextInput field="email" autoComplete="email" validate={validators.get('email')} validateOnBlur />
-				</Field>
-				<Field label="Password">
+				<Field label="Vendor Id *">
 					<TextInput
-						field="password"
-						type="password"
-						autoComplete="new-password"
-						validate={validators.get('password')}
+						field="vendor.vendor_id"
+						validate={validators.get('vendorId')}
 						validateOnBlur
+						placeholder="Vendor Id"
 					/>
 				</Field>
-				<Field label="Confirm Password">
-					<TextInput field="confirm" type="password" validate={validators.get('confirm')} validateOnBlur />
+				<Field label="Email *" required={true}>
+					<TextInput
+						field="email"
+						autoComplete="email"
+						validate={validators.get('email')}
+						validateOnBlur
+						placeholder="Email"
+					/>
 				</Field>
-				<Field label="Company">
-					<TextInput field="vendor.company" />
-				</Field>
-				<Field label="Street Address">
-					<TextInput field="vendor.street" />
-				</Field>
-				<Field label="City">
-					<TextInput field="vendor.city" />
-				</Field>
-				<div className="form-row">
-					<label htmlFor="input-country">{Identify.__('Country')}</label>
+				<div className={classes.form_row}>
+					<label htmlFor="input-country">{Identify.__('Country *')}</label>
 					<SimiSelect
 						id="input-country"
 						field="vendor.country_id"
@@ -185,25 +174,52 @@ const VendorRegister = (props) => {
 						})}
 					</SimiSelect>
 				</div>
-				<Field label="State/Province">
-					<TextInput field="vendor.region" />
+				{/* <Field label="Zip/Postal Code *">
+					<TextInput field="vendor.postcode" validate={validators.get('postcode')} placeholder="Zip Code" />
+				</Field> */}
+				<Field label="City *">
+					<TextInput field="vendor.city" validate={validators.get('city')} placeholder="City" />
 				</Field>
-				<Field label="Zip/Postal Code">
-					<TextInput field="vendor.postcode" />
+				<Field label="Region *">
+					<TextInput field="vendor.region" validate={validators.get('region')} placeholder="Region" />
 				</Field>
-				<Field label="Phone Number">
-					<TextInput field="vendor.telephone" />
+				<Field label="Phone Number *">
+					<TextInput field="vendor.telephone" validate={validators.get('telephone')} placeholder="Phone" />
 				</Field>
-				<div className={classes.subscribe}>
-					<Checkbox field="vendor.vendor_registration_agreement" label="I agree with" />
-				</div>
+				<Field label="Website *">
+					<TextInput field="vendor.website" validate={validators.get('website')} />
+				</Field>
+				<Field label="Facebook *">
+					<TextInput field="vendor.facebook" validate={validators.get('facebook')} />
+				</Field>
+				<Field label="Instagram *">
+					<TextInput field="vendor.instagram" validate={validators.get('instagram')} />
+				</Field>
+				<Field label="Password *">
+					<TextInput
+						field="password"
+						type="password"
+						autoComplete="new-password"
+						validate={validators.get('password')}
+						validateOnBlur
+						placeholder="Password"
+					/>
+				</Field>
+				<Field label="Password Confirmation *">
+					<TextInput
+						field="confirm"
+						type="password"
+						validate={validators.get('confirm')}
+						validateOnBlur
+						placeholder="Password Confirmation"
+					/>
+				</Field>
 				<div className={classes.error}>{errorMessage}</div>
 				<div className={classes.actions}>
 					<button
 						priority="high"
 						className={classes.submitButton}
 						type="submit"
-						style={{ backgroundColor: configColor.button_background, color: configColor.button_text_color }}
 					>
 						{Identify.__('Submit')}
 					</button>

@@ -209,14 +209,10 @@ class Login extends Component {
 	vendorLoginCallback = (data) => {
 		hideFogLoading();
 		console.log(data);
-		if (data.errors) {
-			let errorMsg = '';
-			if (data.errors.length) {
-				data.errors.map((error) => {
-					errorMsg += error.message;
-				});
-				showToastMessage(errorMsg);
-			}
+		if (data && data.status === 'error') {
+			console.log('nooo');
+			let message = Identify.__(data.message);
+			showToastMessage(message);
 		} else {
 			smoothScrollToView($('#id-message'));
 			let message = Identify.__('You have succesfully logged in !');
