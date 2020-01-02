@@ -157,7 +157,7 @@ class Header extends React.Component {
 
 	renderViewPhone = (bianca_header_sale_title,bianca_header_sale_link) => {
 		return (
-			<div className="header-wrapper mobile">
+            <React.Fragment>
 				<div className="container-global-notice">
 					<div className="container">
 						<div className="global-site-notice">
@@ -202,12 +202,12 @@ class Header extends React.Component {
 					<TopMessage />
 					<ToastMessage />
 				</div>
-			</div>
+			</React.Fragment>
 		);
 	};
 
 	render() {
-		const { user, storeConfig } = this.props;
+        const { user, storeConfig, location} = this.props;
 		// Check user login to show wish lish
 		var isSignedIn = false;
 		if (user) {
@@ -236,13 +236,19 @@ class Header extends React.Component {
 		const { drawer } = this.props;
 		const cartIsOpen = drawer === 'cart';
 		const storeViewOptions = <Storeview classes={classes} className="storeview" />;
-		const currencyOptions = <Currency classes={classes} className="currency" />;
+        const currencyOptions = <Currency classes={classes} className="currency" />;
+        const simpleHeader = (location && location.pathname &&
+                ((location.pathname.indexOf("/checkout.html") !== -1) || (location.pathname.indexOf("/cart.html") !== -1)))
 		if (window.innerWidth < 1024) {
-			return this.renderViewPhone(bianca_header_sale_title,bianca_header_sale_link);
+			return (
+                <div className={`header-wrapper mobile ${simpleHeader && 'simple-header'}`}>
+                    {this.renderViewPhone(bianca_header_sale_title,bianca_header_sale_link)}
+                </div>
+            )
 		}
 		return (
 			<React.Fragment>
-				<div className="header-wrapper">
+				<div className={`header-wrapper ${simpleHeader && 'simple-header'}`}>
 					<div className="container-global-notice">
 						<div className="container header-container">
 							<div className="global-site-notice">
@@ -274,15 +280,15 @@ class Header extends React.Component {
 					<div className="container-header">
 						<div className="container sub-container">
 							<div className="header">
-								{this.renderSearchForm()}
+								{!simpleHeader && this.renderSearchForm()}
 								{this.renderLogo()}
-								{this.renderRightBar(isSignedIn)}
+								{!simpleHeader && this.renderRightBar(isSignedIn)}
 							</div>
-							<MiniCart isOpen={cartIsOpen} />
+							{!simpleHeader && <MiniCart isOpen={cartIsOpen} />}
 						</div>
 					</div>
 				</div>
-				{window.innerWidth >= 1024 && <HeaderNavigation classes={this.classes} />}
+				{!simpleHeader && <HeaderNavigation classes={this.classes} />}
 				<div id="id-message">
 					<TopMessage />
 					<ToastMessage />

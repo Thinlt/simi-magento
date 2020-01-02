@@ -962,3 +962,53 @@ body.fixed-scroll {
         font-size: 10px !important;
     }
 }
+
+
+/*
+Simple header (for checkout and cart)
+*/
+.header-wrapper.simple-header {
+    .header-container {
+        display: none !important;
+    }
+    .header-wrapper .container-global-notice, .app-nav,.header .header-search, .header .right-bar {
+        display: none !important;
+    }
+    .sub-container {
+        height: 70px !important;
+    }
+    .container-header {
+        background-color: #E4E4E4;
+    }
+    .header {
+        height: 70px !important; 
+        min-height: 70px !important; 
+        padding-top: 0px !important;
+        img {
+            width: 154px !important;
+            height: 43.61px !important;
+        }
+    }
+    .header-logo {
+        margin-top: 0px !important;
+    }
+}
+.header-wrapper.simple-header.mobile {
+    .header {
+        height: 55px !important;
+        min-height: unset !important; 
+    }
+    .header button {
+        display: none !important;
+    }
+    .header-image {
+        margin-left: 0px !important;
+        img {
+            margin: 0 auto !important;
+            display: block !important;
+            width: unset !important;
+            max-height: 23px !important;
+            max-width: 85px !important;
+        }
+    }
+}
