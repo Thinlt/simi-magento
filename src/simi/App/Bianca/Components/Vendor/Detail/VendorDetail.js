@@ -127,6 +127,7 @@ class VendorDetail extends React.Component {
     render(){
         const {isActive, activeContent} = this;
         const {data, contentRight} = this.state;
+        const mediaPrefix = '/'+window.SMCONFIGS.media_url_prefix;
         if (!data) return <Loading />
 
         let name = data.firstname || null;
@@ -143,7 +144,7 @@ class VendorDetail extends React.Component {
                     <div className="container">
                         <div className="cont-left">
                             <div className="store-info">
-                                <div className="logo"><img src={data.logo_path} alt="Vendor banner"/></div>
+                                <div className="logo"><img src={mediaPrefix+data.logo_path} alt="Vendor banner"/></div>
                                 <div className="name">{Identify.__(storeName)}</div>
                                 <div className="location">{Identify.__(profile.address)}</div>
                                 <div className="description">{Identify.__(profile.description)}</div>
@@ -156,7 +157,7 @@ class VendorDetail extends React.Component {
                         </div>
                         <div className="cont-right">
                             <div className="banner-info">
-                                <img src={data.banner_path} alt="Vendor banner"/>
+                                <img src={mediaPrefix+data.banner_path} alt="Vendor banner"/>
                             </div>
                         </div>
                     </div>
