@@ -1,7 +1,9 @@
 import React from 'react';
 import {sendRequest} from 'src/simi/Network/RestMagento';
 import Loading from 'src/simi/BaseComponents/Loading';
+import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import Identify from "src/simi/Helper/Identify";
+import {StaticRate} from 'src/simi/App/Bianca/BaseComponents/Rate';
 import { TopReview } from './Review';
 import { getOS } from 'src/simi/App/Bianca/Helper';
 import IconPhone from 'src/simi/App/Bianca/BaseComponents/Icon/Telephone';
@@ -9,6 +11,7 @@ import IconEnvelopeOpen from 'src/simi/App/Bianca/BaseComponents/Icon/EnvelopeOp
 // import IconSortAmount from 'src/simi/App/Bianca/BaseComponents/Icon/SortAmount';
 import AllProduct from './AllProducts';
 import {smoothScrollToView} from 'src/simi/Helper/Behavior';
+import ReviewList from 'src/simi/App/Bianca/Components/Vendor/Detail/Review/ReviewList';
 
 require('./style.scss');
 // if (getOS() === 'MacOS') require('./home-ios.scss');
@@ -17,11 +20,13 @@ const $ = window.$;
 
 class VendorDetail extends React.Component {
 
-    state = {}
+    state = {
+        activeContent: 'products'
+    }
 
     constructor(props){
         super(props);
-        this.state = {isPhone: window.innerWidth < 1024}
+        this.state.isPhone = window.innerWidth < 1024;
 
         const {vendorId} = props;
         const storeConfig = Identify.getStoreConfig() || {};
@@ -58,13 +63,32 @@ class VendorDetail extends React.Component {
             this.setState({isPhone: isPhone});
         }
     }
+    
+    componentDidUpdate(){
+        if (this.clickActiveContent) {
+            smoothScrollToView($('.vendor-body .cont-right'));
+        }
+        this.clickActiveContent = false;
+    }
 
     renderAllProducts = () => {
         return <AllProduct vendorId={this.state.id} isPhone={this.state.isPhone}/>
     }
 
     renderReviews = () => {
-        return "reviews"
+        const {data} = this.state;
+        const {reviews} = data || {}
+        return (
+            <div className="message-reviews">
+                <div className="title">{Identify.__('Reviews')}</div>
+                <div className="average-review">
+                    <span>{Identify.__('Average review')}</span>
+                    <StaticRate className="rate-star" rate={reviews.rate} size={24} width={137}/>
+                    <span className="review-count">({reviews.number})</span>
+                </div>
+                <ReviewList vendorId={this.state.id} isPhone={this.state.isPhone}/>
+            </div>
+        );
     }
 
     renderAbout = () => {
@@ -76,26 +100,32 @@ class VendorDetail extends React.Component {
     }
 
     activeContent = (name) => {
+        this.clickActiveContent = true;
         switch(name){
             case "products":
-                this.setState({contentRight: this.renderAllProducts()});
+                this.setState({contentRight: this.renderAllProducts(), activeContent: name});
                 break;
             case "reviews":
-                this.setState({contentRight: this.renderReviews()});
+                this.setState({contentRight: this.renderReviews(), activeContent: name});
                 break;
             case "about":
-                this.setState({contentRight: this.renderAbout()});
+                this.setState({contentRight: this.renderAbout(), activeContent: name});
                 break;
             case "faqs":
-                this.setState({contentRight: this.renderFaqs()});
+                this.setState({contentRight: this.renderFaqs(), activeContent: name});
                 break;
             default:
-                this.setState({contentRight: this.renderAllProducts()});
+                this.setState({contentRight: this.renderAllProducts(), activeContent: name});
         }
-        smoothScrollToView($('.vendor-body .cont-right'));
+    }
+
+    isActive = (name) => {
+        const {activeContent} = this.state;
+        return activeContent === name ? 'active' : '';
     }
 
     render(){
+        const {isActive, activeContent} = this;
         const {data, contentRight} = this.state;
         if (!data) return <Loading />
 
@@ -135,16 +165,16 @@ class VendorDetail extends React.Component {
                     <div className="container">
                         <div className="cont-left">
                             <div className="menu-items">
-                                <div className="item active" onClick={() => this.activeContent('products')}>
+                                <div className={`item ${isActive('products')}`} onClick={() => activeContent('products')}>
                                     <span>{Identify.__('All Products')}</span>
                                 </div>
-                                <div className="item" onClick={() => this.activeContent('reviews')}>
+                                <div className={`item ${isActive('reviews')}`} onClick={() => activeContent('reviews')}>
                                     <span>{Identify.__('Reviews')}</span>
                                 </div>
-                                <div className="item" onClick={() => this.activeContent('about')}>
+                                <div className={`item ${isActive('about')}`} onClick={() => activeContent('about')}>
                                     <span>{Identify.__('About Store')}</span>
                                 </div>
-                                <div className="item" onClick={() => this.activeContent('faqs')}>
+                                <div className={`item ${isActive('faqs')}`} onClick={() => activeContent('faqs')}>
                                     <span>{Identify.__('FAQs')}</span>
                                 </div>
                             </div>

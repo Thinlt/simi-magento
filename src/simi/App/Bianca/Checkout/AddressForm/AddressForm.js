@@ -217,7 +217,7 @@ const AddressForm = props => {
             onSubmit={handleSubmit}
             style={{ display: 'inline-block', width: '100%' }}
         >
-            <FormFields {...formChildrenProps}/>
+            <FormFields {...formChildrenProps} initialValues={values}/>
         </form>
     );
 };
