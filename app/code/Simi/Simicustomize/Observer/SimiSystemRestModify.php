@@ -24,8 +24,17 @@ class SimiSystemRestModify implements ObserverInterface {
                 strpos($routeData['routePath'], 'V1/guest-carts/:cartId') !== false ||
                 strpos($routeData['routePath'], 'V1/carts/mine') !== false
             ) {
-                if (strpos($routeData['routePath'], '/totals') !== false) {
+                if (
+                    strpos($routeData['routePath'], '/totals') !== false
+                ) {
                     $this->_addDataToTotal($contentArray);
+                } else if (
+                    strpos($routeData['routePath'], '/shipping-information') !== false &&
+                    isset($contentArray['totals']['total_segments'])
+                ) {
+                    $total = $contentArray['totals'];
+                    $this->_addDataToTotal($total);
+                    $contentArray['totals'] = $total;
                 }
                 if (isset($contentArray['totals']['items'])) {
                     $totalData = $contentArray['totals'];
@@ -115,20 +124,21 @@ class SimiSystemRestModify implements ObserverInterface {
                                     $productModel = $this->simiObjectManager->create(\Magento\Catalog\Model\Product::class);
                                     $productModel->load($productModel->getIdBySku($newOption['sku']));
                                     $systemProductOption[$newOptionIndex]['product_final_price'] = $productModel->getFinalPrice();
-                                    $systemProductOption[$newOptionIndex]['product_name'] = $productModel->getName();
+                                    $systemProductOption[$newOptionIndex]['name'] = $productModel->getName();
 
                                     //to get image
-                                    $imageProductModel = $productModel;
-                                    $media_gallery = $imageProductModel->getMediaGallery();
-                                    if ($media_gallery && isset($media_gallery['images']) && is_array($media_gallery['images']) && !count($media_gallery['images'])) {
-                                        $product = $this->simiObjectManager
-                                            ->create('Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable')
-                                            ->getParentIdsByChild($productModel->getId());
-                                        if($product && isset($product[0])){
-                                            $imageProductModel = $this->simiObjectManager->create(\Magento\Catalog\Model\Product::class)->load($product[0]);
+                                    $product = $this->simiObjectManager
+                                        ->create('Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable')
+                                        ->getParentIdsByChild($productModel->getId());
+                                    if($product && isset($product[0])){
+                                        $imageProductModel = $productModel;
+                                        $media_gallery = $imageProductModel->getMediaGallery();
+                                        $parentProductModel = $this->simiObjectManager->create(\Magento\Catalog\Model\Product::class)->load($product[0]);
+                                        if ($media_gallery && isset($media_gallery['images']) && is_array($media_gallery['images']) && !count($media_gallery['images'])) {
+                                            $imageProductModel = $parentProductModel;
                                         }
+                                        $systemProductOption[$newOptionIndex]['name'] = $parentProductModel->getName();
                                     }
-
                                     $systemProductOption[$newOptionIndex]['image'] =  $this->simiObjectManager
                                         ->create('Simi\Simiconnector\Helper\Products')
                                         ->getImageProduct($imageProductModel);

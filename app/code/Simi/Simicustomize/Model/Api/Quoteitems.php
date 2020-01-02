@@ -610,6 +610,9 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
                                         $updatedTryToBuyProduct = true;
                                     }
                                 }
+                                if (count($tryToBuyProducts) >= 3) {
+                                    throw new \Simi\Simiconnector\Helper\SimiException(__('You have already tried to by 3 products'), 4);
+                                }
                                 if (!$updatedTryToBuyProduct)
                                     $tryToBuyProducts[] = array(
                                         'sku' => $sku,
