@@ -1,0 +1,10 @@
+.store-locator-ctn {
+    .back-store-btn {
+        padding-top: 5px;
+    }
+    @media (max-width: 1023px) {
+        .back-store-btn {
+            padding-top: 2px;
+        }
+    }
+}

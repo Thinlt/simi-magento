@@ -217,20 +217,16 @@ class Header extends React.Component {
 		var bianca_header_phone = '';
 		var bianca_header_sale_title = '';
 		var bianca_header_sale_link = '';
-		var bianca_header_storelocator = '';
 		if (
 			storeConfig &&
 			storeConfig.simiStoreConfig &&
 			storeConfig.simiStoreConfig.config &&
 			storeConfig.simiStoreConfig.config.base
 		) {
-			let base_option = storeConfig.simiStoreConfig.config.base;
+			const base_option = storeConfig.simiStoreConfig.config.base;
 			bianca_header_phone = base_option.bianca_header_phone ? base_option.bianca_header_phone : '';
 			bianca_header_sale_title = base_option.bianca_header_sale_title ? base_option.bianca_header_sale_title : '';
 			bianca_header_sale_link = base_option.bianca_header_sale_link ? base_option.bianca_header_sale_link : '';
-			bianca_header_storelocator = base_option.bianca_header_storelocator
-				? base_option.bianca_header_storelocator
-				: '';
 		}
 		const { classes } = this;
 		const { drawer } = this.props;
@@ -267,7 +263,9 @@ class Header extends React.Component {
 										<div className="storelocator">
 											<div className="storelocator-icon" />
 											<div className="storelocator-title">
-												<a href={bianca_header_storelocator}>{Identify.__('Store')}</a>
+                                                <Link to={'/storelocator.html'}>
+                                                    {Identify.__('Store')}
+                                                </Link>
 											</div>
 										</div>
 										<div className="storeview-switcher">{storeViewOptions}</div>
