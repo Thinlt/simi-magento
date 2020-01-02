@@ -124,6 +124,7 @@ class Storelocations extends Api
 //           Return default store image as base image if user not config.
                 $storeReturn["image"] = "http://localhost:81/cms/pub/static/version1557471173/adminhtml/Magento/backend/en_US/Simi_Simistorelocator/images/default_store.png";
             }
+            $storeReturn['image_gallery'] = $this->getStoreGallery($item);
             $result['storelocations'][$index] = $storeReturn;
         }
         return $result;
@@ -158,5 +159,15 @@ class Storelocations extends Api
             }
         }
         return $tagIds;
+    }
+
+    public function getStoreGallery($store){
+        $images = $store->getImages();
+        $result = [];
+        $imageHelper = $this->simiObjectManager->get('\Simi\Simistorelocator\Helper\Image');
+        foreach ($images as $image) {
+            $result[] = $imageHelper->getMediaUrlImage($image->getPath());
+        }
+        return $result;
     }
 }

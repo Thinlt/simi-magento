@@ -150,8 +150,8 @@ class GeneralTab extends \Magento\Backend\Block\Widget\Form\Generic implements \
         $fieldset->addField(
                 'fax', 'text', [
             'name' => 'fax',
-            'label' => __('Fax Number'),
-            'title' => __('Fax Number'),
+            'label' => __('Whatsapp'),
+            'title' => __('Whatsapp'),
                 ]
         );
 
