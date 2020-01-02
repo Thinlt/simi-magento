@@ -85,7 +85,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
                     AccountManagement::EMAIL_RESET
                 );
             } else {
-                throw new \Simi\Simiconnector\Helper\SimiException(__('Customer is not exist'));
+                throw new \Simi\Simiconnector\Helper\SimiException(__('Account does not exist !'));
             }
         }
     }
