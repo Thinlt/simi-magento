@@ -53,7 +53,7 @@ const Coupon = (props) => {
     return <div className='coupon-code'>
         <div className="coupon-code-title">{Identify.__('Promo code')}</div>
         <div className="coupon-code-area-tablet">
-            <input id="coupon_field" type="text" placeholder={Identify.__('enter code here')} defaultValue={value} />
+            <input id="coupon_field" type="text" placeholder={Identify.__('Enter Code Here')} defaultValue={value} />
             {value && <button className='btn-clear-coupon' onClick={()=>handleCoupon('clear')}>
                         <Close style={{width:15,height:15}}/>
                     </button>   }

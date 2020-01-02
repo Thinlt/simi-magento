@@ -13,19 +13,21 @@ $color2: #727272;
             width: 100%;
             .detail-top{
                 padding-left: 71px;
+                .col-left{
+                    min-width: unset;
+                }
                 .col-right{
                     max-width: 454px;
                 }
             }
             .image-carousel{
+                max-width: 376px;
                 .product-carousel{
                     flex-direction: column;
-                    max-width: 376px;
                     .carousel{
                         width: 100%;
                     }
                     .carousel-slider{
-                        width: 376px;
                         max-height: 470px;
                     }
                     .carousel{
@@ -82,6 +84,26 @@ $color2: #727272;
                         .siminia-product-grid-item{
                             width: 180px;
                         }
+                    }
+                }
+            }
+        }
+    }
+    @media screen and (min-width: 1024px) and (max-width: 1290px){
+        .modal-quick-view-inner{
+            .product-detail-root{
+                width: 100%;
+                .detail-top{
+                    padding-left: 0px;
+                    .image-carousel{
+                        max-width: 330px;
+                    }
+                }
+                .main-info{
+                    margin-left: 0px;
+                    margin-right: 0px;
+                    .tabs .tab-list .tab-list-item{
+                        padding: 10px;
                     }
                 }
             }

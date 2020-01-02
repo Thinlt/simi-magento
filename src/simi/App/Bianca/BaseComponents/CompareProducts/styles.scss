@@ -6,10 +6,98 @@
     overflow: auto;
     margin-top: 10%;
     padding: 16px 12px;
+    .title{
+        font-size: 24px;
+        color: #101820;
+        font-weight: 600;
+    }
+    .modal-compare-inner{
+        margin-top: 30px;
+        max-width: 1280px;
+        overflow: hidden;
+        overflow-x: auto;
+    }
 }
 
-.compare-table{
-    display: flex;
+#compare-table{
+    display: table;
+    padding: 5px;
+    .tr {
+        display: table-row;
+        padding: 5px;
+
+        .td-header{
+            min-width: 181px;
+            background-color: #E0E0E0;
+            color: #101820;
+            font-weight: 500;
+        }
+
+        .compare-remove-btn{
+            height: 66px;
+            line-height: 66px;
+            color: #727272;
+        }
+
+        .compare-add-to-cart{
+            height: 36px !important;
+            line-height: 12px;
+            margin: auto;
+            border: 1px solid;
+            background: #101820;
+            color: #FFF;
+            max-width: 148px;
+            margin-bottom: 39px;
+            font-size: 12px;
+        }
+
+        .compare-img{
+            text-align: center;
+            vertical-align: unset;
+            img{
+                max-width: 190px;
+                height: 236px;
+            }
+            .compare-remove-btn{
+                height: 66px;
+            }
+        }
+        
+        .compare-item-name{
+            font-size: 12px;
+            height: 60px;
+        }
+
+        .compare-item-price{
+            font-weight: 600;
+            padding-top: 10px;
+            padding-bottom: 18px;
+            font-size: 16px;
+            height: 70px;
+
+            .vendor-name{
+                font-size: 12px;
+                margin-left: 17.5px;
+            }
+        }
+
+        .compare-description{
+            text-align: center;
+        }
+    }
+
+    .compare-item-color,.compare-item-size,.compare-item-sku,.compare-item-in-stock,.compare-weight{
+        height: 90px;
+    }
+
+    .td {
+        max-width: 213px;
+        min-width: 212px;
+        display: table-cell;
+        border: #E4E4E4 solid 1px;
+        text-align: center;
+        vertical-align: middle;
+    }
     .empty-header{
         height: 483px;
     }
@@ -22,8 +110,10 @@
         img{
             max-width: 190px;
         }
-        .compare-remove-btn{
-            height: 66px;
+        
+
+        .compare-item-color, .compare-item-size{
+            word-break: break-all;
         }
     }
 }

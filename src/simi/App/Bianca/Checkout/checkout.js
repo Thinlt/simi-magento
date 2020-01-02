@@ -10,8 +10,11 @@ import { beginCheckout, cancelCheckout, editOrder,
     /* submitShippingMethod, */
     submitPaymentMethod
 } from 'src/actions/checkout';
+import { getOS } from 'src/simi/App/Bianca/Helper';
 
 require('./checkout.scss')
+
+if (getOS() === 'MacOS') require('./checkoutMac.scss');
 
 import { submitShippingAddress, submitBillingAddress, submitOrder, submitShippingMethod } from 'src/simi/Redux/actions/simiactions';
 
@@ -27,6 +30,7 @@ import { toggleMessages, simiSignedIn } from 'src/simi/Redux/actions/simiactions
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import { smoothScrollToView } from 'src/simi/Helper/Behavior';
 import Coupon from 'src/simi/BaseComponents/Coupon';
+import ApplyGiftcard from 'src/simi/App/Bianca/BaseComponents/Giftcard/ApplyGiftcard';
 
 class Checkout extends Component {
     constructor(...args) {
@@ -56,6 +60,24 @@ class Checkout extends Component {
         } catch (err) {
             console.log(err)
         }
+        
+        //to hide other top menu items
+        $(
+            '.header-wrapper .container-global-notice, .app-nav,.header .header-search, .header .right-bar'
+        ).css('display', 'none');
+        $('.sub-container').css('height', '70px');
+        $('.container-header').css('background-color','#E4E4E4')
+        $('.header').css({'height':'70px', 'min-height':'70px', 'padding-top':'0px'})
+        $('.header img').css({'width':'154.26','height':'43.61px'})
+        $('.header-logo').css('margin-top','0px')
+        $('.mobile .header-logo img').removeAttr('style')
+    }
+    
+    componentWillUnmount() {
+        //to show other top menu items
+        $(
+            '.header-wrapper .container-global-notice, .container-header ,.app-nav,.header .header-search, .header .right-bar,.sub-container, .header,.header img, .header-logo'
+        ).removeAttr('style');
     }
 
     check3DSecure = () => {
@@ -152,7 +174,7 @@ class Checkout extends Component {
 
 
     placeOrder = () => {
-        const { submitOrder, checkout, toggleMessages, history } = this.props;
+        const { submitOrder, checkout, toggleMessages, history, cart } = this.props;
         const { paymentData, shippingAddress, shippingMethod, billingAddress } = checkout;
         const {is_virtual} = this
 
@@ -176,8 +198,17 @@ class Checkout extends Component {
                 smoothScrollToView($("#id-message"));
                 toggleMessages([{ type: 'error', message: Identify.__('Please choose a payment method'), auto_dismiss: true }])
                 return;
+            } else if (paymentData.value === 'payfort_fort_cc') {
+                if (!Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'payfort_cc_card_data')) {
+                    smoothScrollToView($("#id-message"));
+                    toggleMessages([{ type: 'error', message: Identify.__('Please fill your card information'), auto_dismiss: true }])
+                    return
+                }
             }
         }
+        
+        //save to show on thank you page
+        Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, 'last_cart_info', { cart });
         if (paymentData && paymentData.value === 'paypal_express')
             history.push('/paypal_express.html')
         else {
@@ -212,9 +243,9 @@ class Checkout extends Component {
     }
 
     get checkoutInner() {
-        const { props, cartCurrencyCode, btnPlaceOrder, userSignedIn, pageTitle, is_virtual } = this;
+        const { props, cartCurrencyCode, btnPlaceOrder, userSignedIn, pageTitle, is_virtual, } = this;
         const { cart, checkout, directory, editOrder, submitShippingMethod, submitShippingAddress, submitOrder, submitPaymentMethod,
-            submitBillingAddress, user, simiSignedIn, toggleMessages, getCartDetails, history } = props;
+            submitBillingAddress, user, simiSignedIn, toggleMessages, getCartDetails, history, beginCheckout } = props;
         const { shippingAddress, submitting, availableShippingMethods, shippingMethod, billingAddress, paymentData, paymentCode,
             invalidAddressMessage, isAddressInvalid, shippingTitle, editing } = checkout;
         const { paymentMethods } = cart;
@@ -264,7 +295,7 @@ class Checkout extends Component {
                 <div className='checkout-col-1'>
                     {!is_virtual && <Panel title={<div className='checkout-section-title'>{Identify.__('Shipping Address')}</div>}
                         className='checkout-panel'
-                        renderContent={<EditableForm {...stepProps} editing='address' />}
+                        renderContent={<EditableForm {...stepProps} beginCheckout={beginCheckout} editing='address' />}
                         isToggle={true}
                         expanded={true}
                         headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
@@ -298,6 +329,14 @@ class Checkout extends Component {
                     <Panel title={<div className='checkout-section-title'>{Identify.__('Coupon Code')}</div>}
                         className='checkout-panel'
                         renderContent={<Coupon {...childCPProps} />}
+                        isToggle={true}
+                        expanded={false}
+                        headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                    />
+
+                    <Panel title={<div className='checkout-section-title'>{Identify.__('Add a Gift Voucher')}</div>}
+                        className='checkout-panel'
+                        renderContent={<ApplyGiftcard getCartDetails={getCartDetails} cart={cart} toggleMessages={toggleMessages} userSignedIn={userSignedIn} />}
                         isToggle={true}
                         expanded={false}
                         headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}

@@ -69,6 +69,9 @@ query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, 
                 html
                 __typename
             }
+            # ... on ConfigurableProduct {
+            #     ... ConfigurableOptions
+            # }
             url_key
             special_price
             special_from_date

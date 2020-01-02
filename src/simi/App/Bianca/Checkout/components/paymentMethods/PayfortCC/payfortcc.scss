@@ -14,14 +14,13 @@
         padding: 0.375rem 0.125rem 0.125rem;
     }
 
-
-    &.container-cc_form-rtl{
-        .cc-field{
-            input[name="cc_number"]{
-                direction: ltr;
-                text-align: right;
-            }
-        }
+    .submitCC {
+        font-family: 'Gotham Book';
+        padding: 10px 15px;
+        height: 40px;
+        font-size: 12px;
+        background-color: #101820;
+        color: white;
+        text-transform: uppercase;
     }
-
 }

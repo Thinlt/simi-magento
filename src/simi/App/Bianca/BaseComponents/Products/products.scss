@@ -287,10 +287,10 @@ Sort by
     margin-top: 10px;
   }
   .description-area {
-      display: none;
+    display: none;
   }
   .mobile-item-count {
-      display: none;
+    display: none;
   }
   .top-sort-by .sort-by-select {
     min-height: 45px;
@@ -298,32 +298,40 @@ Sort by
     padding-left: 15px;
     padding-right: 15px;
     .dir-item {
-        padding: 20px 0px;
-        display: flex;
-        justify-content: space-between;
-        .dir-title {
-            font-family: 'Gotham Book';
-            font-size: 14px;
-            font-weight: 400;
-            > span {
-                font-size: 12px;
-            }
+      padding: 20px 0px;
+      display: flex;
+      justify-content: space-between;
+      .dir-title {
+        font-family: "Gotham Book";
+        font-size: 14px;
+        font-weight: 400;
+        > span {
+          font-size: 12px;
         }
-        .dir-check {
-            margin-top: 2px;
-            svg {
-                width: 14px !important;
-                height: 14px !important;
-            }
+      }
+      .dir-check {
+        margin-top: 2px;
+        svg {
+          width: 14px !important;
+          height: 14px !important;
         }
+      }
     }
     .dir-item:not(:last-child) {
-        border-bottom: solid 1px #F2F2F2;
+      border-bottom: solid 1px #f2f2f2;
     }
   }
-  .products-gallery-root .product-list-container-siminia {
-    padding: 0;
-    margin-top: 10px;
+  .products-gallery-root {
+
+    .title {
+      .categoryTitle {
+        margin-top: 16px;
+      }
+    }
+    .product-list-container-siminia {
+      padding: 0;
+      margin-top: 10px;
+    }
   }
   .top-sort-by .items-count {
     margin: unset;
@@ -338,7 +346,7 @@ Sort by
     padding-left: 1px;
     padding-right: 1px;
     .gallery-items {
-        grid-gap: 11px;
+      grid-gap: 11px;
     }
   }
   .top-sort-by .sort-by-select .dropdownoption {
@@ -382,16 +390,16 @@ Sort by
     padding-right: 15px;
     padding-bottom: 9px;
     button {
-        top: 20px;
-        right: 20px;
-        svg {
-            width: 20px;
-            height: 20px;
-        }
+      top: 20px;
+      right: 20px;
+      svg {
+        width: 20px;
+        height: 20px;
+      }
     }
   }
   .products-gallery-root .recent-viewed-product .recent-viewed-title {
-      margin-top: 45px;
+    margin-top: 45px;
   }
   .products-gallery-root .recent-viewed-product .recent-viewed-slide {
     min-height: unset;

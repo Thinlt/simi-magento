@@ -4,6 +4,7 @@ import BundlePrice from './Bundle';
 import Simple from './Simple';
 import Grouped from './Grouped';
 import Configurable from './Configurable';
+import Giftcard from './Giftcard';
 
 class PriceComponent extends React.Component {
     constructor(props) {
@@ -22,6 +23,9 @@ class PriceComponent extends React.Component {
         }
         else if (this.type === "configurable") {
             return <Configurable prices={this.prices} parent={this} />
+        }
+        else if (this.type === 'aw_giftcard') {
+            return <Giftcard prices={this.prices} parent={this} />
         }
         else {
             ////simple, configurable ....

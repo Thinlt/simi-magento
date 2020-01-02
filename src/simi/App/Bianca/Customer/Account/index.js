@@ -17,6 +17,10 @@ import Profile from './Page/Profile';
 import MyOrder from './Page/OrderHistory';
 import OrderDetail from './Page/OrderDetail';
 import MyGiftVouchers from './Page/MyGiftVouchers';
+import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+import {
+    getUserDetails,
+} from 'src/actions/user';
 
 class CustomerLayout extends React.Component{
 
@@ -215,6 +219,8 @@ class CustomerLayout extends React.Component{
     }
 
     componentDidMount(){
+        this.props.getUserDetails();
+            // Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, 'user_detail', '')
         this.setIsPhone()
         $('body').addClass('body-customer-dashboard')
     }
@@ -267,9 +273,15 @@ const mapStateToProps = ({ user }) => {
     };
 }
 
+const mapDispatchToProps = {
+    getUserDetails,
+    toggleMessages,
+};
+
 export default compose(
     classify(defaultClasses),
     connect(
-        mapStateToProps
+        mapStateToProps,
+        mapDispatchToProps
     )
 )(CustomerLayout);

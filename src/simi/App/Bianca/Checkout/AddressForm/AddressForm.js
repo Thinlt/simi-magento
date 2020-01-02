@@ -117,7 +117,7 @@ const AddressForm = props => {
 
     let initialCountry;
     let selectableCountries;
-    const callGetCountries = { value: '', label: Identify.__('Please choose') }
+    //const callGetCountries = { value: '', label: Identify.__('Please choose') }
 
     if (countries && countries.length) {
         selectableCountries = countries.map(
@@ -131,7 +131,7 @@ const AddressForm = props => {
         selectableCountries = [];
         initialCountry = '';
     }
-    selectableCountries.unshift(callGetCountries);
+    //selectableCountries.unshift(callGetCountries);
 
     const handleSubmitBillingSameFollowShipping = useCallback(
         () => {
@@ -217,7 +217,7 @@ const AddressForm = props => {
             onSubmit={handleSubmit}
             style={{ display: 'inline-block', width: '100%' }}
         >
-            <FormFields {...formChildrenProps}/>
+            <FormFields {...formChildrenProps} initialValues={values}/>
         </form>
     );
 };

@@ -62,18 +62,18 @@
     border: solid 1px #F2F2F2;
 }
 
-#submit-coupon {
+.submit-coupon {
     background-color: #101820 !important;
     color: #FFF !important;
     height: 48px;
 }
 
 @media (min-width: 1024px) {
-    .checkout-col-2 #submit-coupon {
+    .checkout-col-2 .submit-coupon {
         margin-left: 0;
         margin-top: 8px;
     }
-    #submit-coupon {
+    .submit-coupon {
         display: inline-block;
         margin-left: 8px;
         width: 100px;
@@ -95,10 +95,10 @@
     .checkout-col-2 .coupon-code{
         max-width: unset;
     }
-    .checkout-col-2 .coupon-code #submit-coupon{
+    .checkout-col-2 .coupon-code .submit-coupon{
         margin-top: 20px;
     }
-    #submit-coupon {
+    .submit-coupon {
         width: 100%;
         margin-top: 8px;
     }

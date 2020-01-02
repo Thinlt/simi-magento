@@ -79,4 +79,25 @@
             }
         }
     }
+    @media screen and (max-width: 639px){
+        .review-form {
+            .form-content{
+                .form-group{
+                    margin-bottom: 20px;
+                }
+                .btn-submit-review-ctn{
+                    margin-top: 20px;
+                    .btn-submit-review{
+                        min-width: 145px;
+                        min-height: 36px;
+                        font-size: 12px;
+                        line-height: 12px;
+                        padding: 12px;
+                        width: fit-content;
+                        height: fit-content;
+                    }
+                }
+            }
+        }
+    }
 }

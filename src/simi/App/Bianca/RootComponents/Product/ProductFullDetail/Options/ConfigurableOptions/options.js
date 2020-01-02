@@ -28,13 +28,38 @@ class Options extends Component {
         }
     }
 
+    mapOptionInStock = () => {
+        const { options, variants } = this.props;
+        return options.map(option => {
+            if(option.values && option.values instanceof Array){
+                option.values.forEach((optionVal) => {
+                    let products = [];
+                    variants.forEach((variant) => {
+                        if (variant.attributes){
+                            let variantAttributes = variant.attributes.find((item) => {
+                                    return (item.code === option.attribute_code && parseInt(item.value_index) === parseInt(optionVal.value_index))
+                                });
+                            if (variantAttributes && variant.product && variant.product.stock_status === 'IN_STOCK') {
+                                    products.push(variant.product);
+                            }
+                        }
+                    });
+                    optionVal.products = products;
+                });
+            }
+            return option;
+        });
+    }
+
     render() {
-        const { handleSelectionChange, handleAskOption, props } = this;
-        const { options } = props;
+        const { handleSelectionChange, handleAskOption } = this;
+        const { optionSelections } = this.props;
+        const options = this.mapOptionInStock(); //TODO: implement out-of-stock for color option
 
         return options.map(option => (
             <Option
                 {...option}
+                optionSelections={optionSelections}
                 key={option.attribute_id}
                 onSelectionChange={handleSelectionChange}
                 onAskOption={handleAskOption}

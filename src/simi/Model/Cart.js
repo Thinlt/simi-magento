@@ -29,22 +29,22 @@ export const updateCoupon = (callBack, params) => {
     sendRequest('rest/V1/simiconnector/quoteitems', callBack, 'PUT', getParams, params)
 }
 
-export const updateGiftVoucher = (callBack, params, isSignedIn) => {
+export const updateGiftVoucher = (callBack, giftVoucher, isSignedIn, storeCode) => {
     const cartId = storage.getItem('cartId');
-    const giftVoucher = params['aw-giftcard'];
-
     if(isSignedIn){
-        sendRequest('/rest/default/V1/carts/mine/aw-giftcard/' + giftVoucher, callBack, 'PUT', {}, params )
+        sendRequest('/rest/' + storeCode + '/V1/carts/mine/aw-giftcard/' + giftVoucher, callBack, 'PUT', {} )
     } else {
-        sendRequest('/rest/default/V1/guest-carts/' + cartId + '/aw-giftcard/' + giftVoucher , callBack, 'PUT',{},params)
+        sendRequest('/rest/' + storeCode + '/V1/guest-carts/' + cartId + '/aw-giftcard/' + giftVoucher , callBack, 'PUT',{})
     }
 }
 
-export const deleteGiftCode = (callBack, params, isSignedIn) => {
+export const deleteGiftCode = (callBack, giftVoucher, isSignedIn, storeCode) => {
     const cartId = storage.getItem('cartId');
-    const giftVoucher = params['aw-giftcard'];
-
-    sendRequest('/rest/default/V1/guest-carts/' + cartId + '/aw-giftcard/' + giftVoucher, callBack, 'DELETE', {}, params)
+    if(isSignedIn){
+        sendRequest('/rest/' + storeCode + '/V1/carts/mine/aw-giftcard/' + giftVoucher, callBack, 'DELETE', {})
+    } else {
+        sendRequest('/rest/' + storeCode + '/V1/guest-carts/' + cartId + '/aw-giftcard/' + giftVoucher , callBack, 'DELETE',{})
+    }
 }
 
 export const updateEstimateShipping = (callBack, params, isSignedIn) => {

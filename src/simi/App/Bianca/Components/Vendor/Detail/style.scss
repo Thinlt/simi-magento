@@ -1,0 +1,344 @@
+$color1: #101820;
+$color2: #727272;
+$color3: #F2F2F2;
+.vendor-detail{
+    color: $color1;
+    .vendor-header{
+        margin-top: 68px;
+        .container{
+            display: flex;
+            justify-content: center;
+            .cont-left{
+                width: 100%;
+                max-width: 278px;
+                float: left;
+                margin-right: 16px;
+                .store-info{
+                    text-align: center;
+                    padding: 19px;
+                    border: 1px solid #101820;
+                    max-width: 278px;
+                    min-height: 322px;
+                    .logo{
+                        display: block;
+                        margin: 0 auto;
+                        width: 52px;
+                        height: 52px;
+                        border: 1px solid $color1;
+                        -webkit-border-radius: 52px;
+                        -moz-border-radius: 52px;
+                        border-radius: 52px;
+                        overflow: hidden;
+                        img{
+                            width: 100%;
+                            height: auto;
+                            min-height: 100%;
+                            object-fit: contain;
+                        }
+                    }
+                    .name{
+                        font-family: 'Gotham Book';
+                        font-weight: 600;
+                        font-size: 20px;
+                        line-height: 20px;
+                        margin-top: 12px;
+                    }
+                    .location{
+                        font-family: 'Gotham Book';
+                        font-size: 14px;
+                        line-height: 14px;
+                        text-transform: uppercase;
+                        margin-top: 10px;
+                    }
+                    .description{
+                        font-family: 'Gotham Book';
+                        font-size: 14px;
+                        line-height: 24px;
+                        margin-top: 20px;
+                    }
+                    .reviews{
+                        display: block;
+                        height: 14px;
+                        margin-top: 20px;
+                    }
+                    .phone{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-family: 'Gotham Book';
+                        font-size: 14px;
+                        line-height: 14px;
+                        margin-top: 20px;
+                        svg{
+                            fill: $color1!important;
+                            margin-right: 16px;
+                        }
+                    }
+                    .email{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-family: 'Gotham Book';
+                        font-size: 14px;
+                        line-height: 14px;
+                        margin-top: 20px;
+                        svg{
+                            fill: $color1!important;
+                            margin-right: 16px;
+                        }
+                    }
+                }
+            }
+            .cont-right{
+                width: 100%;
+                max-width: 866px;
+                float: right;
+                .banner-info{
+                    max-width: 866px;
+                    min-height: 322px;
+                    img{
+                        width: 100%;
+                        height: auto;
+                        min-height: 100%;
+                        object-fit: cover;
+                    }
+                }
+            }
+        }
+    }
+    .vendor-body{
+        margin-top: 32px;
+        .container{
+            display: flex;
+            justify-content: center;
+            .cont-left{
+                width: 100%;
+                max-width: 278px;
+                float: left;
+                margin-right: 16px;
+                .menu-items{
+                    .item{
+                        max-width: 287px;
+                        min-height: 48px;
+                        font-family: 'Gotham Book';
+                        font-size: 14px;
+                        line-height: 14px;
+                        text-transform: uppercase;
+                        text-align: center;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background-color: $color3;
+                        margin-top: 8px;
+                        &:first-child{
+                            margin-top: 0px;
+                        }
+                        &:hover{
+                            cursor: pointer;
+                        }
+                        &.active{
+                            color: #FFF;
+                            background-color: $color1;
+                        }
+                    }
+                }
+            }
+            .cont-right{
+                width: 100%;
+                max-width: 866px;
+                float: right;
+                .container{
+                    width: 100%;
+                    padding-left: 0px;
+                    padding-right: 0px;
+                    margin: 0px;
+                    .products-gallery-root{
+                        width: 100%;
+                        .product-list-container-siminia{
+                            margin-top: 0px;
+                            padding: 0;
+                            .listing-product{
+                                padding: 0;
+                                .gallery{
+                                    margin-top: 55px;
+                                    .siminia-product-grid-item .siminia-product-des .cart-wishlish-compare .add-to-cart-btn {
+                                        max-width: 145px;
+                                        height: 36px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .message-reviews{
+                    margin-top: 18px;
+                    .title {
+                        font-size: 24px;
+                        line-height: 24px;
+                        font-family: Gotham;
+                        font-weight: 600;
+                    }
+                    .average-review{
+                        font-weight: 500;
+                        font-size: 16px;
+                        line-height: 16px;
+                        display: inline-flex;
+                        align-items: center;
+                        margin-top: 15px;
+                        > div{
+                            margin-top: 0px!important;
+                        }
+                        > *{
+                            margin-right: 9px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &.mobile{
+        .vendor-header{
+            margin-top: 10px;
+            .container{
+                flex-direction: column-reverse;
+                padding-right: 16px;
+                padding-left: 16px;
+                .cont-left{
+                    margin-right: 0px;
+                    max-width: unset;
+                    .store-info{
+                        border: none;
+                        margin: 0 auto;
+                    }
+                }
+                .cont-right{
+                    .banner-info{
+                        min-height: auto;
+                    }
+                }
+            }
+        }
+        .vendor-body{
+            margin-top: 11px;
+            .container{
+                padding-right: 16px;
+                padding-left: 16px;
+                display: block;
+                .cont-left{
+                    float: unset;
+                    margin-right: auto;
+                    margin: 0 auto;
+                    max-width: 249px;
+                    .menu-items{
+                        .item{
+                        }
+                    }
+                }
+                .cont-right{
+                    .container{
+                        .products-gallery-root{
+                            .product-list-container-siminia{
+                                .listing-product{
+                                    .top-sort-by{
+                                        margin-top: 30px;
+                                        min-height: 16px;
+                                        .sort-by-select{
+                                            padding-left: 0px;
+                                            padding-right: 0px;
+                                            margin-top: 0px;
+                                            min-height: unset;
+                                            .dropdownoption{
+                                                border: none;
+                                                background-color: #FFF;
+                                                padding: 0px;
+                                                max-width: 144px;
+                                                height: auto;
+                                                min-height: unset;
+                                                .icon-arrow-up{
+                                                    margin-top: -4px;
+                                                    vertical-align: middle;
+                                                    display: inline-block;
+                                                    &:before{
+                                                        content: '\e9ba';
+                                                        transform: rotateX(180deg);
+                                                        display: inline-block;
+                                                    }
+                                                }
+                                                .icon-arrow-down{
+                                                    margin-top: -4px;
+                                                    vertical-align: middle;
+                                                    display: inline-block;
+                                                    &:before{
+                                                        content: '\e9ba';
+                                                    }
+                                                }
+                                                .dropdownoption-title{
+                                                    max-height: unset;
+                                                    .dropdown-title{
+                                                        text-transform: uppercase;
+                                                        line-height: 16px;
+                                                        font-family: 'Gotham Medium';
+                                                    }
+                                                    .icons{
+                                                        display: none!important;
+                                                    }
+                                                }
+                                                .dropdownoption-inner{
+                                                    -moz-box-shadow: 0 2px 4px 0 #BDBDBD;
+                                                    -webkit-box-shadow: 0 2px 4px 0 #BDBDBD;
+                                                    box-shadow: 0 2px 4px 0 #BDBDBD;
+                                                    .dir-item{
+                                                        padding: 8px 10px 8px 20px;
+                                                        .dir-title{
+                                                            display: inline-flex;
+                                                            justify-content: space-between;
+                                                            align-items: center;
+                                                            width: 100%;
+                                                        }
+                                                        .dir-check{
+                                                            position: absolute;
+                                                            left: 3px;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        .items-count{
+                                            margin: 0px;
+                                            font-size: 12px;
+                                            line-height: 12px;
+                                            height: auto;
+                                        }
+                                    }
+                                    .gallery{
+                                        margin-top: 21px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .message-reviews{
+                        margin-top: 30px;
+                        .title {
+                            font-size: 16px;
+                            line-height: 16px;
+                        }
+                        .average-review{
+                            font-size: 14px;
+                            line-height: 14px;
+                            margin-top: 13px;
+                            > *{
+                                margin-right: 10px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        &.MacOS{
+            .top-sort-by{
+                padding-top: 2px;
+            }
+        }
+    }
+}

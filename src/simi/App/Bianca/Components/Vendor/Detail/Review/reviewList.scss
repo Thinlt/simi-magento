@@ -1,0 +1,167 @@
+.review-list {
+    margin-top: 9px;
+    .total-rate{
+        margin-bottom: 30px;
+        margin-top: 20px;
+        p{
+            font-size: 16px;
+            margin-top: 10px;
+        }
+    }
+    .text-center {
+        text-align: center;
+    }
+    .list-review-item {
+        padding: 0;
+    }
+    .review-item {
+        border-top: 1px solid #E0E0E0;
+        padding: 30px 0;
+        &:first-child{
+            border: none;
+        }
+    }
+    .item-title {
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 20px;
+        text-transform: uppercase;
+        margin-bottom: 0px;
+    }
+    .item-detail {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        padding: 0;
+        margin-top: 10px;
+    }
+    .review-item-detail {
+        padding: 0;
+        margin-top: 16px;
+        margin-bottom: 0px;
+        flex-wrap: wrap;
+        display: inline-flex;
+        line-height: 16px;
+        .item-created {
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 16px;
+            margin-left: auto;
+            color: #727272;
+            span{
+                padding-right: 10px;
+                margin-right: 10px;
+                border-right: 1px solid #808080;
+                max-height: 16px;
+                line-height: 16px;
+                padding-top: 2px;
+            }
+        }
+        @media (max-width: 1024px){
+            justify-content: center;
+            .item-created{
+                margin-left: 0px;
+            }
+        }
+    }
+    .product{
+        margin-top: 15px;
+        img{
+            width: 100%;
+            height: 103px;
+            max-width: 82px;
+            max-height: 103px;
+            object-fit: cover;
+        }
+        span{
+            font-size: 16px;
+            line-height: 16px;
+            font-family: 'Gotham Medium';
+            margin-left: 16px;
+        }
+    }
+    .pagination{
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 18px;
+        margin: 20px 0;
+        border-radius: unset;
+        float: right;
+        width: 100%;
+        text-align: right;
+        display: inline-flex;
+        justify-content: flex-end;
+        .scroller{
+            max-width: 262px;
+            display: flex;
+            overflow-x: auto;
+            /* Hide scrollbar for Chrome, Safari and Opera */
+            &::-webkit-scrollbar{
+                display: none;
+            }
+            /* Hide scrollbar for IE and Edge */
+            -ms-overflow-style: none;
+        }
+        span{
+            padding: 1px 7px;
+            cursor: pointer;
+            &.disabled{
+                color: #E0E0E0;
+                cursor: not-allowed;
+                position: relative;
+                &:after{
+                    content: '';
+                    width: 60%;
+                    height: 1px;
+                    background-color: #E0E0E0;
+                    position: absolute;
+                    left: 20%;
+                    bottom: 0;
+                }
+            }
+        }
+    }
+}
+.mobile{
+    .review-list{
+        margin-top: 6px;
+        .review-item{
+            padding: 24px 0;
+            .item-title{
+                font-size: 14px;
+                line-height: 14px;
+            }
+            .item-detail{
+                margin-top: 15px;
+                font-size: 14px;
+            }
+            .review-item-detail{
+                margin-top: 15px;
+                .item-created{
+                    font-size: 14px;
+                    line-height: 14px;
+                    span{
+                        font-size: 14px;
+                        line-height: 14px;
+                    }
+                }
+            }
+            .product{
+                span{
+                    font-size: 14px;
+                    line-height: 14px;
+                }
+            }
+        }
+    }
+}
+.MacOS{
+    .cont-right{
+        .message-reviews{
+            .title{
+                padding-top: 5px;
+                margin-bottom: -11px;
+            }
+        }
+    }
+}
