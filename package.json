@@ -49,6 +49,7 @@
     "braintree-web-drop-in": "~1.16.0",
     "crypto-js": "~3.1.9-1",
     "firebase": "~7.5.0",
+    "google-map-react": "~1.1.5",
     "graphql-cli": "~3.0.11",
     "graphql-cli-validate-magento-pwa-queries": "~1.0.0",
     "graphql-tag": "~2.10.1",
@@ -67,7 +68,9 @@
     "react-image-video-lightbox": "^2.0.1",
     "react-items-carousel": "~2.8.0",
     "react-lazyload": "^2.6.2",
+    "react-livechat": "~1.1.1",
     "react-loadable": "^5.5.0",
+    "react-owl-carousel2": "~0.3.0",
     "react-redux": "~6.0.1",
     "react-responsive-carousel": "^3.1.49",
     "react-responsive-modal": "latest",
@@ -75,9 +78,7 @@
     "redux": "~4.0.1",
     "redux-actions": "~2.6.4",
     "redux-thunk": "~2.3.0",
-    "uuid": "~3.3.2",
-    "react-livechat": "~1.1.1",
-    "react-owl-carousel2": "~0.3.0"
+    "uuid": "~3.3.2"
   },
   "devDependencies": {
     "@babel/core": "~7.3.4",
