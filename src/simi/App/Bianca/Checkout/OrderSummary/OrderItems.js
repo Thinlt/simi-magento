@@ -8,7 +8,7 @@ import { isArray } from 'util';
 import Childproducts from './Childproducts'
 
 const OrderItems = (props) => {
-    const { cartCurrencyCode, totals, is_pre_order } = props;
+    const { cartCurrencyCode, totals, is_pre_order, is_try_to_buy } = props;
     let items = []
     if (totals && totals.items)
         items = totals.items
@@ -19,6 +19,8 @@ const OrderItems = (props) => {
         
         if (o_item.simi_pre_order_option) {
             optionElement = <Childproducts childProducts={o_item.simi_pre_order_option} cartCurrencyCode={cartCurrencyCode} />
+        } else if (o_item.simi_trytobuy_option) {
+            optionElement = <Childproducts childProducts={o_item.simi_trytobuy_option} cartCurrencyCode={cartCurrencyCode} />
         } else if (o_item.options.length > 0) {
             itemsOption = o_item.options.map((optionObject, optionObjectindex) => {
                 return (
@@ -54,7 +56,7 @@ const OrderItems = (props) => {
                 <div className='item-info'>
                     <label className='item-name'>{o_item.name}</label>
                     {
-                        !is_pre_order &&
+                        (!is_pre_order && !is_try_to_buy) &&
                         <React.Fragment>
                             {optionElement}
                             <div className='item-qty-price'>
@@ -64,7 +66,7 @@ const OrderItems = (props) => {
                         </React.Fragment>
                     }
                 </div>
-                {is_pre_order && optionElement}
+                {(is_pre_order || is_try_to_buy) && optionElement}
             </li>
         );
     }) : null;

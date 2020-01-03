@@ -245,9 +245,9 @@ const FormFields = (props) => {
                 });
             }
         } else {
-            const signin_token = storage.getItem('signin_token')
-            if (signin_token && simiSignedIn) //logged in but not loaded addresses
-                simiSignedIn(signin_token)
+            // const signin_token = storage.getItem('signin_token')
+            // if (signin_token && simiSignedIn) //logged in but not loaded addresses
+            //     simiSignedIn(signin_token)
         }
         return <Fragment>
             {/*html && <option value="">{Identify.__('Please choose')}</option>*/}
