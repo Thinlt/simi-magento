@@ -35,6 +35,7 @@ class AppRouter extends Abstract{
                 <Route exact {...router.contact}/>
                 <Route exact {...router.preorder2nd}/>
                 <Route exact {...router.webview}/>
+                <Route exact {...router.storelocator}/>
                 {/*this.renderPbRoute()*/}
                 <Route {...router.noMatch}/>
             </Switch>

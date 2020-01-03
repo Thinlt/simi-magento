@@ -60,24 +60,6 @@ class Checkout extends Component {
         } catch (err) {
             console.log(err)
         }
-        
-        //to hide other top menu items
-        $(
-            '.header-wrapper .container-global-notice, .app-nav,.header .header-search, .header .right-bar'
-        ).css('display', 'none');
-        $('.sub-container').css('height', '70px');
-        $('.container-header').css('background-color','#E4E4E4')
-        $('.header').css({'height':'70px', 'min-height':'70px', 'padding-top':'0px'})
-        $('.header img').css({'width':'154.26','height':'43.61px'})
-        $('.header-logo').css('margin-top','0px')
-        $('.mobile .header-logo img').removeAttr('style')
-    }
-    
-    componentWillUnmount() {
-        //to show other top menu items
-        $(
-            '.header-wrapper .container-global-notice, .container-header ,.app-nav,.header .header-search, .header .right-bar,.sub-container, .header,.header img, .header-logo'
-        ).removeAttr('style');
     }
 
     check3DSecure = () => {
