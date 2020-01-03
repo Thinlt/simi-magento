@@ -45,7 +45,7 @@
                 border: solid 1px #E0E0E0;
                 border-radius: 0px;
                 .MuiExpansionPanelDetails-root {
-                    padding: 38px 0 11px;
+                    padding: 0px;
                 }
             }
             .harlow-expansion-heading {
@@ -59,6 +59,17 @@
                 }
                 .branch-title-panel{
                     padding: 16px 24px;
+                }
+            }   
+            .store-image-gallery {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-column-gap: 16px;
+                margin-top: 16px;
+                grid-row-gap: 16px;
+                .store-image-item {
+                    display: flex;
+                    justify-content: center;
                 }
             }
         }
@@ -126,7 +137,7 @@
                 color: #101820;
                 align-items: center;
                 font-family: "Gotham Medium";
-                text-transform: unset;
+                text-transform: none;
             }
             span.count {
                 margin-right: 10px;
@@ -149,7 +160,9 @@
         margin-left: 8px;
     }
     .branch-content-panel{
+        padding-top: 38px;
         display: flex;
+        padding-bottom: 11px;
         .column-store-item{
             flex-basis: 217px;
         }
@@ -213,7 +226,20 @@
                 display: block;
             }
         }
-        
+    }
+    .store-content-showing-detail {
+        .branch-title-panel {
+            border: solid 1px #E0E0E0;
+            padding: 26px;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .branch-content-panel{
+            padding: 38px 26px 11px;
+            border: solid 1px #E0E0E0;
+            border-top: none;
+            border-radius: 0px;
+        }
     }
     .store-maker.active{
         -webkit-transform: scale(2);
