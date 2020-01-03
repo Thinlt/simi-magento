@@ -68,6 +68,12 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
 
     public function update()
     {
+        $data = $this->getData();
+        if ($data && isset($data['params']['subproductsku'])) {
+            $this->updateSubProductSpecialItem();
+            return $this->index();
+        }
+
         $data       = $this->getData();
         $parameters = (array) $data['contents'];
         if (isset($parameters['coupon_code'])) {
@@ -656,6 +662,94 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
         }
         $this->getRequestInfoFilter()->filter($request);
         return $request;
+    }
+
+    /*
+     * Trytobuy-preorder product remove subproducts
+     */
+    public function updateSubProductSpecialItem()
+    {
+        $data = $this->getData();
+        $cart = $this->_getCart();
+        $controller = $data['controller'];
+
+        if ($data && isset($data['params']['subproductsku']) &&
+            isset($data['params']['newquantity']) && isset($data['resourceid'])) {
+            $depositProductId = $this->scopeConfig->getValue('sales/preorder/deposit_product_id');
+            $tryToByProductId = $this->scopeConfig->getValue('sales/trytobuy/trytobuy_product_id');
+            $quoteItems = null;
+            $currentQuoteItems = $this->_getQuote()->getItemsCollection();
+            foreach ($currentQuoteItems as $currentQuoteItem) {
+                if ($currentQuoteItem->getId() == $data['resourceid']) {
+                    $quoteItem = $currentQuoteItem;
+                }
+            }
+            if ($quoteItem && $quoteItem->getId()) {
+                $newquantity = $data['params']['newquantity'];
+                $productId = $quoteItem->getData('product_id');
+                $optionTitle = self::TRY_TO_BUY_OPTION_TITLE;
+                if ($productId == $depositProductId) {
+                    $optionTitle = self::PRE_ORDER_OPTION_TITLE;
+                } else if ($productId == $tryToByProductId) {
+                    if ($newquantity != 0 && $newquantity > 1) {
+                        throw new \Simi\Simiconnector\Helper\SimiException(__('Cannot try to buy with quantity over 2'), 4);
+                    }
+                }
+
+                $block = $this->simiObjectManager->get('Magento\Checkout\Block\Cart\Item\Renderer');
+                $block->setItem($quoteItem);
+                $selectedOptions = $this->simiObjectManager
+                    ->get('Simi\Simiconnector\Helper\Checkout')->convertOptionsCart($block->getOptionList());
+                $subProducts = null;
+                if ($selectedOptions && is_array($selectedOptions)) {
+                    foreach ($selectedOptions as $selectedOption) {
+                        if (isset($selectedOption['option_title']) && $selectedOption['option_title'] == $optionTitle) {
+                            $subProducts = json_decode(base64_decode($selectedOption['option_value']), true);
+                        }
+                    }
+                }
+                if ($subProducts) {
+                    $specialProduct = $this->simiObjectManager
+                        ->create('Magento\Catalog\Api\ProductRepositoryInterface')->getById($productId, false);
+                    $specialProductOptions = $this->simiObjectManager
+                        ->get('\Simi\Simiconnector\Helper\Options')->getOptions($specialProduct);
+                    if ($specialProductOptions && isset($specialProductOptions['custom_options']) && is_array($specialProductOptions['custom_options'])) {
+                        foreach ($specialProductOptions['custom_options'] as $specialCustomOption) {
+                            if (isset($specialCustomOption['title']) && $specialCustomOption['title'] === $optionTitle) {
+                                $newSubproducts = array();
+                                $willUpdate = false;
+                                foreach ($subProducts as $subProduct) {
+                                    if ($subProduct['sku'] == $data['params']['subproductsku']) {
+                                        $willUpdate = true;
+                                        if ($newquantity == 0)
+                                            continue;
+                                        else {
+                                            $subProduct['quantity'] = (int)$newquantity;
+                                        }
+                                    }
+                                    $newSubproducts[] = $subProduct;
+                                }
+                                if ($willUpdate) {
+                                    $cart->getQuote()->removeItem($quoteItem->getId())->save();
+                                    if (count($newSubproducts)) {
+                                        $product = $this->_initProduct($productId);
+                                        $param = array();
+                                        $param['options'] = array($specialCustomOption['id'] => base64_encode(json_encode($newSubproducts)));
+                                        $cart->addProduct($product, $param);
+                                        $this->_getSession()->setCartWasUpdated(true);
+                                        $this->eventManager->dispatch(
+                                            'checkout_cart_add_product_complete',
+                                            ['product' => $product, 'request' => $controller->getRequest(),
+                                                'response' => $controller->getResponse()]
+                                        );
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
 
