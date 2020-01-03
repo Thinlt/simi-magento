@@ -193,6 +193,66 @@ $color3: #F2F2F2;
                         }
                     }
                 }
+                .about-store{
+                    font-family: 'Gotham Book';
+                    margin-bottom: 67px;
+                    h1,h2,h3{
+                        font-family: 'Gotham Book';
+                        font-weight: 500;
+                        margin-top: 18px;
+                    }
+                    h1{
+                        font-size: 30px;
+                        line-height: 30px;
+                    }
+                    h2{
+                        font-size: 26px;
+                        line-height: 26px;
+                    }
+                    h3{
+                        font-size: 24px;
+                        line-height: 24px;
+                    }
+                    p{
+                        font-family: 'Gotham Book';
+                        font-size: 16px;
+                        line-height: 24px;
+                        text-align: justify;
+                        margin-top: 14px;
+                    }
+                }
+                .faqs-store{
+                    font-family: 'Gotham Book';
+                    margin-bottom: 67px;
+                    h1,h2,h3{
+                        font-family: 'Gotham Book';
+                        font-weight: 500;
+                        margin-top: 18px;
+                        margin-top: 35px;
+                        &:first-child{
+                            margin-top: 8px;
+                        }
+                    }
+                    h1{
+                        font-size: 28px;
+                        line-height: 28px;
+                    }
+                    h2{
+                        font-size: 24px;
+                        line-height: 24px;
+                    }
+                    h3{
+                        font-size: 20px;
+                        line-height: 20px;
+                    }
+                    p{
+                        font-family: 'Gotham Book';
+                        font-size: 16px;
+                        line-height: 24px;
+                        text-align: justify;
+                        margin-top: 12px;
+                    }
+                }
             }
         }
     }
@@ -330,6 +390,50 @@ $color3: #F2F2F2;
                             > *{
                                 margin-right: 10px;
                             }
+                        }
+                    }
+                    .about-store{
+                        margin-bottom: 116px;
+                        h1,h2,h3{
+                            margin-top: 30px;
+                        }
+                        h1{
+                            font-size: 20px;
+                            line-height: 20px;
+                        }
+                        h2{
+                            font-size: 18px;
+                            line-height: 18px;
+                        }
+                        h3{
+                            font-size: 16px;
+                            line-height: 16px;
+                        }
+                        p{
+                            font-size: 14px;
+                            margin-top: 10px;
+                        }
+                    }
+                    .faqs-store{
+                        margin-bottom: 116px;
+                        h1,h2,h3{
+                            margin-top: 30px;
+                        }
+                        h1{
+                            font-size: 20px;
+                            line-height: 20px;
+                        }
+                        h2{
+                            font-size: 18px;
+                            line-height: 18px;
+                        }
+                        h3{
+                            font-size: 16px;
+                            line-height: 16px;
+                        }
+                        p{
+                            font-size: 14px;
+                            margin-top: 10px;
                         }
                     }
                 }

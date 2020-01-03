@@ -1,7 +1,8 @@
 import React from 'react';
 import {sendRequest} from 'src/simi/Network/RestMagento';
+import ReactHTMLParse from 'react-html-parser';
 import Loading from 'src/simi/BaseComponents/Loading';
-import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
+// import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import Identify from "src/simi/Helper/Identify";
 import {StaticRate} from 'src/simi/App/Bianca/BaseComponents/Rate';
 import { TopReview } from './Review';
@@ -12,6 +13,7 @@ import IconEnvelopeOpen from 'src/simi/App/Bianca/BaseComponents/Icon/EnvelopeOp
 import AllProduct from './AllProducts';
 import {smoothScrollToView} from 'src/simi/Helper/Behavior';
 import ReviewList from 'src/simi/App/Bianca/Components/Vendor/Detail/Review/ReviewList';
+
 
 require('./style.scss');
 // if (getOS() === 'MacOS') require('./home-ios.scss');
@@ -92,11 +94,19 @@ class VendorDetail extends React.Component {
     }
 
     renderAbout = () => {
-        return "about"
+        const {data} = this.state;
+        const {about} = data || {}
+        return (
+            <div className="about-store">{ReactHTMLParse(about)}</div>
+        );
     }
 
     renderFaqs = () => {
-        return "faqs"
+        const {data} = this.state;
+        const {faqs} = data || {}
+        return (
+            <div className="faqs-store">{ReactHTMLParse(faqs)}</div>
+        );
     }
 
     activeContent = (name) => {
