@@ -130,8 +130,8 @@ class SimiSystemRestModify implements ObserverInterface {
                                     $product = $this->simiObjectManager
                                         ->create('Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable')
                                         ->getParentIdsByChild($productModel->getId());
+                                    $imageProductModel = $productModel;
                                     if($product && isset($product[0])){
-                                        $imageProductModel = $productModel;
                                         $media_gallery = $imageProductModel->getMediaGallery();
                                         $parentProductModel = $this->simiObjectManager->create(\Magento\Catalog\Model\Product::class)->load($product[0]);
                                         if ($media_gallery && isset($media_gallery['images']) && is_array($media_gallery['images']) && !count($media_gallery['images'])) {
