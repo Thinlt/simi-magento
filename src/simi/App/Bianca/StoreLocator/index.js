@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import BreadCrumb from 'src/simi/BaseComponents/BreadCrumb';
 import {getStorelocators} from 'src/simi/Model/Storelocator'
 import {showToastMessage} from 'src/simi/Helper/Message';
@@ -18,7 +18,7 @@ export const StoreLocator = props => {
     const [expanded, setExpanded] = useState(null)
     const [markerFocus, setMarkerFocus] = useState({id: null, center: null })
     const [showingDetailItem, setShowingDetailItem] = useState(null)
-    const isPhone = window.innerWidth < 1024 
+    const [isPhone, setIsPhone] = useState(window.innerWidth < 1024);
     
     const processData = (data) => {
         if (data.errors) {
@@ -48,8 +48,20 @@ export const StoreLocator = props => {
         }
     }
 
-    console.log(props)
-    console.log(stores)
+	const resizePhone = () => {
+		$(window).resize(function() {
+			const width = window.innerWidth;
+			const newIsPhone = width < 1024;
+			if (isPhone !== newIsPhone) {
+				setIsPhone(newIsPhone);
+			}
+		});
+    };
+    
+	useEffect(() => {
+		resizePhone();
+	});
+    
     return (
         <div className="store-locator-ctn container">
             <BreadCrumb

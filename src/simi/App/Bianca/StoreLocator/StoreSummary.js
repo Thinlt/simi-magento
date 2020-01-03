@@ -141,9 +141,7 @@ const ImageGallery = props => {
             {
                 item.image_gallery.map((image, key) => {
                     return (
-                        <div className="store-image-item" key={key}>
-                            <img src={image} alt={`Storeimg-${key}`}/>
-                        </div>
+                        <div className="store-image-item" key={key} style={{backgroundImage: `url("${image}")`}}></div>
                     )
                 })
             }
@@ -164,7 +162,7 @@ const StoreSummary = props => {
                         {item.zipcode && <p>{item.zipcode}</p>}
                     </div>
                     <div className="box-store-br-item">
-                        <b className="title title-contact">{Identify.__("Contact")}</b>
+                        <b className="title">{Identify.__("Contact")}</b>
                         {item.phone && (
                             <p>
                                 <span className="br-item-label">

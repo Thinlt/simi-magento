@@ -47,20 +47,10 @@
                 .MuiExpansionPanelDetails-root {
                     padding: 0px;
                 }
-            }
-            .harlow-expansion-heading {
-                padding: 0;
-                min-height: 50px !important;
-                div[role="button"] {
-                    display: none;
+                .MuiButtonBase-root {
+                    margin-right: -8px;
                 }
-                > div:not([role="button"]){
-                    margin: 0;
-                }
-                .branch-title-panel{
-                    padding: 16px 24px;
-                }
-            }   
+            }  
             .store-image-gallery {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
@@ -68,8 +58,10 @@
                 margin-top: 16px;
                 grid-row-gap: 16px;
                 .store-image-item {
-                    display: flex;
-                    justify-content: center;
+                    background-size: contain;
+                    background-position: center;
+                    padding-top: 100%;
+                    background-repeat: no-repeat;
                 }
             }
         }
@@ -200,9 +192,6 @@
                 margin-bottom: 16px;
                 display: block;
             }
-            .title-contact {
-                font-weight: 200;
-            }
             p{
                 margin: 0;
                 font-family: "Gotham Book";
@@ -251,6 +240,8 @@
         z-index: 9 !important;
     }
     @media (max-width: 1023px) {
+        padding-left: 16px;
+        padding-right: 16px;
         .back-store-btn {
             margin-top: -15px;
             font-family: "Gotham Medium";
@@ -260,7 +251,6 @@
             line-height: 12px;
             text-decoration: underline;
         }
-
         .branch-main-content {
             margin-top: 30px;
             flex-wrap: wrap;
@@ -271,6 +261,70 @@
                 margin-left: 0px;
                 margin-right: 0px;
                 margin-top: 30px;
+                width: 100%;
+                .MuiExpansionPanel-root {
+                    padding: 10px 26px;
+                }
+                .branch-title-panel {
+                    >span {
+                        span.branch-name {
+                            font-size: 16px;
+                            line-height: 16px;
+                            font-family: "Gotham Medium";
+                        }
+                        span.count {
+                        }
+                    }
+                }
+                .store-image-gallery {
+                    grid-template-columns: repeat(2, 1fr);
+                    grid-column-gap: 11px;
+                    margin-top: 16px;
+                    grid-row-gap: 11px;
+                }
+            }
+        }
+        .branch-content-panel {
+            flex-wrap: wrap;
+            padding-top: 30px;
+            padding-bottom: 10px;
+            .column-store-item {
+                font-size: 14px;
+                line-height: 16px;
+                .title {
+                    font-size: 14px;
+                    line-height: 16px;
+                }
+            }
+            .column-store-item:not(:first-child) {
+                margin-left: 0px;
+                margin-top: 30px;
+                .box-store-br-item:not(:first-of-type) {
+                    margin-top: 30px;
+                }
+            }
+            .box-store-br-item {
+                p {
+                    font-size: 14px;
+                    line-height: 16px;
+                }
+            }
+            .detail-branch-btn {
+                margin-top: 30px;
+                margin-left: unset;
+                height: 48px;
+                font-size: 16px;
+                width: 180px;
+            }
+        }
+        .store-content-showing-detail {
+            .branch-title-panel {
+                padding-top: 10px;
+            }
+            .branch-content-panel {
+                flex-wrap: wrap;
+                padding-top: 30px;
+                padding-bottom: 10px;
             }
         }
     }
