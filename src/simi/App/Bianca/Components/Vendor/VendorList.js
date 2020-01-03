@@ -95,8 +95,6 @@ const VendorList = (props) => {
                 </div>
                 <div className="listing">
                     {renderList()}
-                    {renderList()}
-                    {renderList()}
                 </div>
             </div>
         </div>
