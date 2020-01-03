@@ -200,6 +200,9 @@
                 margin-bottom: 16px;
                 display: block;
             }
+            .title-contact {
+                font-weight: 200;
+            }
             p{
                 margin: 0;
                 font-family: "Gotham Book";
@@ -209,8 +212,8 @@
                 font-weight: bold;
                 margin-right: 2px;
             }
-            a{
-                text-decoration: underline;
+            a:hover{
+                color: #101820 !important;
             }
         }
         .column-store-item {

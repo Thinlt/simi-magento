@@ -164,11 +164,11 @@ const StoreSummary = props => {
                         {item.zipcode && <p>{item.zipcode}</p>}
                     </div>
                     <div className="box-store-br-item">
-                        <b className="title">{Identify.__("Contact")}</b>
+                        <b className="title title-contact">{Identify.__("Contact")}</b>
                         {item.phone && (
                             <p>
                                 <span className="br-item-label">
-                                    {Identify.__("Tel:")}
+                                    {Identify.__("Tel: ")}
                                 </span>
                                 <a href={`tel:${item.phone}`}>
                                     {item.phone}
@@ -178,7 +178,7 @@ const StoreSummary = props => {
                         {item.email && (
                             <p style={{display:'flex',flexWrap:'wrap'}}>
                                 <span className="br-item-label">
-                                    {Identify.__("Email:")}
+                                    {Identify.__("Email: ")}
                                 </span>
                                 <a href={`mailto:${item.email}`}>
                                     {item.email}
@@ -188,7 +188,7 @@ const StoreSummary = props => {
                         {item.fax && (
                             <p>
                                 <span className="br-item-label">
-                                    {Identify.__("Whatsapp:")}
+                                    {Identify.__("Whatsapp: ")}
                                 </span>
                                 <a href={`https://wa.me/${item.fax}`}>
                                     {item.fax}
