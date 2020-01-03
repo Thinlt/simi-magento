@@ -93,29 +93,31 @@ class Review extends \Magento\Review\Model\ResourceModel\Review
      */
     protected $_ratingOptions;
 
-    // /**
-    //  * @param \Magento\Framework\Model\ResourceModel\Db\Context $context
-    //  * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
-    //  * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-    //  * @param \Magento\Review\Model\RatingFactory $ratingFactory
-    //  * @param \Magento\Review\Model\ResourceModel\Rating\Option $ratingOptions
-    //  * @param string $connectionName
-    //  */
-    // public function __construct(
-    //     \Magento\Framework\Model\ResourceModel\Db\Context $context,
-    //     \Magento\Framework\Stdlib\DateTime\DateTime $date,
-    //     \Magento\Store\Model\StoreManagerInterface $storeManager,
-    //     \Magento\Review\Model\RatingFactory $ratingFactory,
-    //     Rating\Option $ratingOptions,
-    //     $connectionName = null
-    // ) {
-    //     $this->_date = $date;
-    //     $this->_storeManager = $storeManager;
-    //     $this->_ratingFactory = $ratingFactory;
-    //     $this->_ratingOptions = $ratingOptions;
-
-    //     parent::__construct($context, $connectionName);
-    // }
+    /**
+     * @param \Magento\Framework\Model\ResourceModel\Db\Context $context
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Review\Model\RatingFactory $ratingFactory
+     * @param \Magento\Review\Model\ResourceModel\Rating\Option $ratingOptions
+     * @param string $connectionName
+     */
+    public function __construct(
+        \Magento\Framework\Model\ResourceModel\Db\Context $context,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Review\Model\RatingFactory $ratingFactory,
+        Rating\Option $ratingOptions,
+        $connectionName = null
+    ) {
+        parent::__construct(
+            $context,
+            $date,
+            $storeManager,
+            $ratingFactory,
+            $ratingOptions,
+            $connectionName
+        );
+    }
 
     // /**
     //  * Define main table. Define other tables name
