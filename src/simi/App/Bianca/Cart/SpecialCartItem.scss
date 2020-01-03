@@ -1,0 +1,23 @@
+.cart-list {
+    .special-product-header {
+        display: flex;
+        margin-top: -10px;
+        padding: 0px 28px;
+        .sp-image {
+            width: 42px;
+            img {
+                width: 100%;
+            }
+        }
+        .sp-name {
+            font-size: 16px;
+            font-family: 'Gotham Medium';
+            color: #101820;
+            margin-left: 12px;
+            padding-top: 12px;
+        }
+    }
+    .special-cart-subitem:not(:last-of-type) {
+        border-bottom: none;
+    }
+}

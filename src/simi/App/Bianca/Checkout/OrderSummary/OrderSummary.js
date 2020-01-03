@@ -16,20 +16,13 @@ const $ = window.$;
 
 const OrderSummary = (props) => {
 
-    const { cart, cartCurrencyCode, panelClassName, btnPlaceOrder } = props;
+    const { cart, cartCurrencyCode, panelClassName, btnPlaceOrder, is_try_to_buy, is_pre_order } = props;
     const { details } = cart;
-    
-    let is_pre_order = false
-    if (cart.totals && cart.totals.items && isArray(cart.totals.items)) {
-        cart.totals.items.forEach(cartTotalItem => {
-            if (cartTotalItem.simi_pre_order_option && cartTotalItem.simi_pre_order_option!== '[]') {
-                is_pre_order = true
-            }
-        });
-    }
 
     const totalLabel = details && details.hasOwnProperty('items_count') && details.items_count + Identify.__(' items in cart');
-    const orderItem = useMemo(() => details && details.items && <OrderItems totals={cart.totals} cartCurrencyCode={cartCurrencyCode} is_pre_order={is_pre_order} />, [details.items]);
+    const orderItem = useMemo(() => details && details.items &&
+                <OrderItems totals={cart.totals} cartCurrencyCode={cartCurrencyCode} 
+                    is_try_to_buy={is_try_to_buy} is_pre_order={is_pre_order} />, [details.items]);
 
     const handleToggleItems = (e) => {
         const parent = $(e.currentTarget);
