@@ -1,0 +1,127 @@
+$color1: #101820;
+.vendor-list{
+    color: $color1;
+    .container{
+        .alphabet{
+            margin-top: 104px;
+            .title{
+                font-family: 'Gotham Medium';
+                font-size: 20px;
+                line-height: 20px;
+            }
+            .abcxyz{
+                font-family: 'Gotham Book';
+                font-size: 20px;
+                padding: 6px 21.5px;
+                border-top: 1px solid #E0E0E0;
+                border-bottom: 1px solid #E0E0E0;
+                margin-top: 30px;
+                span{
+                    margin: 14px;
+                    line-height: 20px;
+                    display: inline-block;
+                    cursor: pointer;
+                }
+                .active{
+                    position: relative;
+                    &:after{
+                        content: '';
+                        position: absolute;
+                        bottom: 0px;
+                        left: 0;
+                        width: 100%;
+                        height: 1px;
+                        background-color: #E0E0E0;
+                    }
+                }
+            }
+        }
+        .listing{
+            .group{
+                padding-top: 40px;
+                padding-bottom: 30px;
+                // &:first-child{
+                //     margin-top: 40px;
+                // }
+                .group-name{
+                    font-family: 'Gotham Medium';
+                    font-size: 40px;
+                    line-height: 40px;
+                    text-transform: uppercase;
+                }
+                .items{
+                    font-family: 'Gotham Book';
+                    font-size: 16px;
+                    line-height: 16px;
+                    display: flex;
+                    justify-content: flex-start;
+                    flex-wrap: wrap;
+                    margin-top: 20px;
+                    .vendor-name{
+                        width: 100%;
+                        max-width: 290px;
+                        text-align: left;
+                        margin-top: 30px;
+                    }
+                }
+            }
+        }
+    }
+    &.mobile{
+        .container{
+            padding-left: 16px;
+            padding-right: 16px;
+            .alphabet{
+                margin-top: 30px;
+                .title{
+                    font-size: 16px;
+                    line-height: 16px;
+                }
+                .abcxyz{
+                    display: grid;
+                    grid-template-columns: repeat(11, 1fr);
+                    margin-top: 15px;
+                    padding: 5px 0px;
+                    span{
+                        margin: 0px;
+                        padding: 10px 0px;
+                        min-width: 15px;
+                        font-size: 16px;
+                        line-height: 16px;
+                        text-align: center;
+                    }
+                }
+            }
+            .listing{
+                .group{
+                    padding-top: 30px;
+                    padding-bottom: 10px;
+                    .group-name{
+                    }
+                    .items{
+                        margin-top: 0px;
+                        .vendor-name{
+                            max-width: 171.5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &.MacOS{
+        .alphabet{
+            .title{
+                padding-top: 4px;
+                margin-bottom: -10px;
+            }
+        }
+        .listing{
+            .group{
+                .group-name{
+                    padding-top: 8px;
+                    margin-bottom: -19px;
+                }
+            }
+        }
+    }
+}

@@ -96,17 +96,17 @@ class VendorDetail extends React.Component {
 
     renderAbout = () => {
         const {data} = this.state;
-        const {about} = data || {}
+        const about = data && data.about || null
         return (
-            <div className="about-store">{ReactHTMLParse(about)}</div>
+            <div className="about-store">{about ? ReactHTMLParse(about) : <div className="no-data">{Identify.__('No Data')}</div>}</div>
         );
     }
 
     renderFaqs = () => {
         const {data} = this.state;
-        const {faqs} = data || {}
+        const faqs = data && data.faqs || null
         return (
-            <div className="faqs-store">{ReactHTMLParse(faqs)}</div>
+            <div className="faqs-store">{faqs ? ReactHTMLParse(faqs) : <div className="no-data">{Identify.__('No Data')}</div>}</div>
         );
     }
 
