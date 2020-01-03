@@ -4,6 +4,7 @@
  * See COPYING.txt for license details.
  */
 namespace Vnecoms\Vendors\Setup;
+
 use Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface;
 use Magento\Framework\Setup\UpgradeDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
@@ -14,6 +15,7 @@ use Vnecoms\Vendors\Model\Vendor;
 use Vnecoms\Vendors\Setup\VendorSetupFactory;
 use Magento\Eav\Model\Entity\Attribute\Set as AttributeSet;
 use Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
+
 /**
  * Upgrade Data script
  * @codeCoverageIgnore
@@ -26,12 +28,16 @@ class UpgradeData implements UpgradeDataInterface
      * @var VendorSetupFactory
      */
     private $vendorSetupFactory;
+
     /**
      * EAV setup factory
      *
      * @var EavSetupFactory
      */
     private $eavSetupFactory;
+
+
+
     private $attributeSetFactory;
     /**
      * Init
@@ -49,6 +55,7 @@ class UpgradeData implements UpgradeDataInterface
         $this->eavSetupFactory = $eavSetupFactory;
         $this->attributeSetFactory = $attributeSetFactory;
     }
+
     /**
      * {@inheritdoc}
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
@@ -76,6 +83,7 @@ class UpgradeData implements UpgradeDataInterface
         }
         $setup->endSetup();
     }
+
     /**
      * Create page
      *
