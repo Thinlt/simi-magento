@@ -125,8 +125,10 @@ class SimiSystemRestModify implements ObserverInterface {
                                     $productModel->load($productModel->getIdBySku($newOption['sku']));
                                     $systemProductOption[$newOptionIndex]['product_final_price'] = $productModel->getFinalPrice();
                                     $systemProductOption[$newOptionIndex]['name'] = $productModel->getName();
+                                    $systemProductOption[$newOptionIndex]['url_key'] = $productModel->getData('url_key');
+                                    $systemProductOption[$newOptionIndex]['vendor_id'] = $productModel->getData('vendor_id');
 
-                                    //to get image
+                                    //to get image + parent data
                                     $product = $this->simiObjectManager
                                         ->create('Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable')
                                         ->getParentIdsByChild($productModel->getId());
@@ -138,6 +140,8 @@ class SimiSystemRestModify implements ObserverInterface {
                                             $imageProductModel = $parentProductModel;
                                         }
                                         $systemProductOption[$newOptionIndex]['name'] = $parentProductModel->getName();
+                                        $systemProductOption[$newOptionIndex]['url_key'] = $parentProductModel->getData('url_key');
+                                        $systemProductOption[$newOptionIndex]['vendor_id'] = $productModel->getData('vendor_id');
                                     }
                                     $systemProductOption[$newOptionIndex]['image'] =  $this->simiObjectManager
                                         ->create('Simi\Simiconnector\Helper\Products')

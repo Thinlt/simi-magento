@@ -99,6 +99,25 @@ class SystemRestModify implements ObserverInterface
                         ->create('Simi\Simiconnector\Helper\Products')
                         ->getImageProduct($product);
                     $item['simi_sku']  = $product->getData('sku');
+                    $item['url_key']  = $product->getData('url_key');
+
+                    $parentProducts = $this->simiObjectManager
+                        ->create('Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable')
+                        ->getParentIdsByChild($product->getId());
+                    $imageProductModel = $product;
+                    if($parentProducts && isset($parentProducts[0])){
+                        $media_gallery = $imageProductModel->getMediaGallery();
+                        $parentProductModel = $this->simiObjectManager->create('\Magento\Catalog\Model\Product')->load($parentProducts[0]);
+                        if ($media_gallery && isset($media_gallery['images']) && is_array($media_gallery['images']) && !count($media_gallery['images'])) {
+                            $imageProductModel = $parentProductModel;
+                        }
+                        $item['url_key'] = $parentProductModel->getData('url_key');
+                    }
+                    $item['image'] =  $this->simiObjectManager
+                        ->create('Simi\Simiconnector\Helper\Products')
+                        ->getImageProduct($imageProductModel);
+
+
                     $contentArray['items'][$index] = $item;
                 }
             }
