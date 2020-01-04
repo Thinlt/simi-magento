@@ -212,7 +212,7 @@ class Login extends Component {
 			let message = Identify.__(data.message);
 			showToastMessage(message);
 		} else {
-			smoothScrollToView($('#id-message'));
+			smoothScrollToView($('#root'));
 			let message = Identify.__('You have succesfully logged in !');
 			if (this.props.toggleMessages)
 				this.props.toggleMessages([ { type: 'success', message: message, auto_dismiss: true } ]);

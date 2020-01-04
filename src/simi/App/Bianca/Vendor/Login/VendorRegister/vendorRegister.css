@@ -1,8 +1,8 @@
 .root {
 	display: grid;
-    justify-items: stretch;
-    padding: 0 98px;
-    margin-top: 50px;
+	justify-items: stretch;
+	padding: 0 98px;
+	margin-top: 50px;
 }
 
 .actions {
@@ -18,21 +18,21 @@
 }
 
 .lead1 {
-    color: #101820;
-    font-family: Gotham;
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 18px;
+	color: #101820;
+	font-family: Gotham;
+	font-size: 18px;
+	font-weight: 500;
+	line-height: 18px;
 }
 .lead2 {
-    color: #727272;
-    font-family: Gotham;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 14px;
-    text-align: left;
-    margin-top: 10px;
-    margin-bottom: 0px;
+	color: #727272;
+	font-family: Gotham;
+	font-size: 14px;
+	font-weight: 300;
+	line-height: 14px;
+	text-align: left;
+	margin-top: 10px;
+	margin-bottom: 0px;
 }
 
 .subscribe {
@@ -75,7 +75,9 @@
 	line-height: 18px;
 	display: inline-block;
 }
-
+.root .root_error{
+	
+}
 .root div[class *= "field-root"] {
 	margin-top: 35px;
 }
@@ -128,32 +130,109 @@
 	background-color: #101820;
 	color: #fff;
 }
-.form_row{
+.form_row {
 	margin-top: 35px;
+	position: relative;
 }
-.form_row label{
+.form_row label {
 	color: #101820;
-    font-family: Gotham;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 14px;
-    text-transform: uppercase;
-    padding: unset;
-    padding-top: 0;
+	font-family: Gotham;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 14px;
+	text-transform: uppercase;
+	padding: unset;
+	padding-top: 0;
 	padding-bottom: 8px;
 	display: block;
 }
-.form_row select{
+.form_row select {
 	display: inline-grid;
-    grid-auto-flow: column;
-    grid-template-areas: 'before input after';
-    grid-template-columns: auto 1fr auto;
+	grid-auto-flow: column;
+	grid-template-areas: 'before input after';
+	grid-template-columns: auto 1fr auto;
 	height: 2.25rem;
 	width: 100%;
 	min-height: 48px;
-    padding-left: 16px !important;
-    background-color: #f2f2f2;
-    min-width: 572px;
+	padding-left: 16px !important;
+	background-color: #f2f2f2;
+	min-width: 572px;
 	border: unset;
 	cursor: pointer;
+	appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	-ms-appearance: none;
+	-o-appearance: none;
+}
+
+.form_row small {
+	display: inline-block;
+	padding-top: 8px;
+}
+
+.form_row .arrow_down,
+.form_row .arrow_down1{
+	width: 16px;
+    height: 16px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 9;
+    top: 43px;
+    margin: 0;
+    right: 16px;
+    padding-bottom: 0;
+}
+
+.form_row .arrow_down::before,
+.form_row .arrow_down1::before{
+	color: #101820;
+    content: "\e93a";
+    font-size: 14px;
+    font-family: 'Linearicons', 'Simple Linearicons';
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    font-feature-settings: "liga";
+}
+.form_row .arrow_up,
+.form_row .arrow_up1{
+	width: 16px;
+    height: 16px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 9;
+    top: 43px;
+    margin: 0;
+    right: 16px;
+	padding-bottom: 0;
+	transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+}
+
+.form_row .arrow_up::before,
+.form_row .arrow_up1::before{
+	color: #101820;
+    content: "\e93a";
+    font-size: 14px;
+    font-family: 'Linearicons', 'Simple Linearicons';
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    font-feature-settings: "liga";
+}
+
+.show{
+	display: inline-flex !important;
+}
+
+.hidden{
+	display: none !important;
 }
