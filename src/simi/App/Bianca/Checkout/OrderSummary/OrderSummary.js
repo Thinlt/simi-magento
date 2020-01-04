@@ -36,8 +36,8 @@ const OrderSummary = (props) => {
     const summaryItem = (
         <div className='order-review-container'>
             <div className='order-review item-box'>
-                {is_pre_order ? (
-                    <ul className='items pre-order-item'>
+                {(is_pre_order || is_try_to_buy) ? (
+                    <ul className='items special-item'>
                         {orderItem}
                     </ul>
                 ) : (
