@@ -1,0 +1,51 @@
+.category-top-images {
+    display: grid;
+    grid-gap: 16px;
+    grid-template-columns: repeat(4, 1fr);
+    margin-bottom: 160px;
+    margin-top: 48px;
+    .category-top-child-image-ctn {
+        .category-top-child-image {
+            height: 218px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border: solid 1px #E0E0E0;
+        }
+        .name-title {
+            background-color: #101820;
+            color: white;
+            font-family: "Gotham Book";
+            text-align: center;
+            padding-top: 16px;
+            font-size: 20px;
+            height: 60px;
+            text-transform: uppercase;
+        }
+        .name-title:hover {
+            text-decoration: none;
+        }
+    }
+
+    .category-top-child-image-ctn:hover {
+        text-decoration: none;
+    }
+}
+
+@media (max-width: 1023px) {
+    .category-top-images {
+        margin-top: 18px;
+        grid-template-columns: repeat(2, 1fr);
+
+        .category-top-child-image-ctn {
+            .category-top-child-image {
+                height: 128px;
+            }
+            .name-title {
+                padding-top: 11px;
+                font-size: 16px;
+                height: 40px;
+            }
+        }
+    }
+}
