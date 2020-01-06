@@ -26,6 +26,7 @@ interface GiftcardInterface extends ExtensibleDataInterface
     const BALANCE = 'balance';
     const INITIAL_BALANCE = 'initial_balance';
     const STATE = 'state';
+    const STATUS = 'status';
     const ORDER_ID = 'order_id';
     const PRODUCT_ID = 'product_id';
     const EMAIL_TEMPLATE = 'email_template';
@@ -176,6 +177,13 @@ interface GiftcardInterface extends ExtensibleDataInterface
      * @return $this
      */
     public function setState($state);
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatus();
 
     /**
      * Get order id

@@ -106,7 +106,7 @@ class InstallSchema implements InstallSchemaInterface
                 'product_id',
                 Table::TYPE_INTEGER,
                 null,
-                ['unsigned' => true, 'nullable' => false, 'default' => '0'],
+                ['unsigned' => true, 'nullable' => true, 'default' => '0'],
                 'Product ID'
             )
             ->addColumn(
@@ -120,7 +120,7 @@ class InstallSchema implements InstallSchemaInterface
                 'sender_name',
                 Table::TYPE_TEXT,
                 255,
-                ['nullable' => false],
+                ['nullable' => true],
                 'Sender Name'
             )
             ->addColumn(
@@ -134,7 +134,7 @@ class InstallSchema implements InstallSchemaInterface
                 'recipient_name',
                 Table::TYPE_TEXT,
                 255,
-                ['nullable' => false],
+                ['nullable' => true],
                 'Recipient Name'
             )
             ->addColumn(
@@ -162,7 +162,7 @@ class InstallSchema implements InstallSchemaInterface
                 'email_sent',
                 Table::TYPE_SMALLINT,
                 null,
-                ['nullable' => false, 'default' => EmailStatus::SENT],
+                ['nullable' => true, 'default' => EmailStatus::SENT],
                 'Email Sent'
             )
             ->addColumn(

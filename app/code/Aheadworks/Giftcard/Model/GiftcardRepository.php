@@ -14,7 +14,10 @@ use Aheadworks\Giftcard\Model\Giftcard as GiftcardModel;
 use Aheadworks\Giftcard\Api\Data\GiftcardInterfaceFactory;
 use Aheadworks\Giftcard\Api\Data\GiftcardSearchResultsInterface;
 use Aheadworks\Giftcard\Api\Data\GiftcardSearchResultsInterfaceFactory;
+use Aheadworks\Giftcard\Api\Data\Giftcard\HistoryActionInterface as GiftcardHistoryActionInterface;
+use Aheadworks\Giftcard\Model\ResourceModel\Giftcard\History\CollectionFactory as GiftcardHistoryCollectionFactory;
 use Magento\Framework\Api\DataObjectHelper;
+use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\Reflection\DataObjectProcessor;
 use Magento\Framework\Api\ExtensionAttribute\JoinProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
@@ -38,6 +41,11 @@ class GiftcardRepository implements GiftcardRepositoryInterface
     private $giftcardFactory;
 
     /**
+     * @var GiftcardHistoryCollectionFactory
+     */
+    private $giftcardHistoryCollectionFactory;
+
+    /**
      * @var GiftcardInterfaceFactory
      */
     private $giftcardDataFactory;
@@ -51,6 +59,11 @@ class GiftcardRepository implements GiftcardRepositoryInterface
      * @var DataObjectHelper
      */
     private $dataObjectHelper;
+    
+    /**
+     * @var ObjectFactory
+     */
+    private $objectFactory;
 
     /**
      * @var DataObjectProcessor
@@ -91,7 +104,9 @@ class GiftcardRepository implements GiftcardRepositoryInterface
         EntityManager $entityManager,
         GiftcardFactory $giftcardFactory,
         GiftcardInterfaceFactory $giftcardDataFactory,
+        GiftcardHistoryCollectionFactory $giftcardHistoryCollectionFactory,
         DataObjectHelper $dataObjectHelper,
+        ObjectFactory $objectFactory,
         DataObjectProcessor $dataObjectProcessor,
         GiftcardSearchResultsInterfaceFactory $searchResultsFactory,
         JoinProcessorInterface $extensionAttributesJoinProcessor,
@@ -100,7 +115,9 @@ class GiftcardRepository implements GiftcardRepositoryInterface
         $this->entityManager = $entityManager;
         $this->giftcardFactory = $giftcardFactory;
         $this->giftcardDataFactory = $giftcardDataFactory;
+        $this->giftcardHistoryCollectionFactory = $giftcardHistoryCollectionFactory;
         $this->dataObjectHelper = $dataObjectHelper;
+        $this->objectFactory = $objectFactory;
         $this->dataObjectProcessor = $dataObjectProcessor;
         $this->searchResultsFactory = $searchResultsFactory;
         $this->extensionAttributesJoinProcessor = $extensionAttributesJoinProcessor;
@@ -231,6 +248,67 @@ class GiftcardRepository implements GiftcardRepositoryInterface
             $giftcards[] = $this->getGiftcardDataObject($giftcardModel);
         }
         $searchResults->setItems($giftcards);
+        return $searchResults;
+    }
+
+    /**
+     * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    public function getListHistory(SearchCriteriaInterface $searchCriteria)
+    {
+        /** @var GiftcardSearchResultsInterface $searchResults */
+        $searchResults = $this->searchResultsFactory->create()
+            ->setSearchCriteria($searchCriteria);
+
+        /** @var \Aheadworks\Giftcard\Model\ResourceModel\Giftcard\History\Collection $collection */
+        $collection = $this->giftcardHistoryCollectionFactory->create();
+
+        $this->extensionAttributesJoinProcessor->process($collection, GiftcardHistoryActionInterface::class);
+        foreach ($searchCriteria->getFilterGroups() as $filterGroup) {
+            $fields = [];
+            $conditions = [];
+            foreach ($filterGroup->getFilters() as $filter) {
+                $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
+                $fields[] = $filter->getField();
+                $conditions[] = [$condition => $filter->getValue()];
+            }
+            if ($fields) {
+                $collection->addFieldToFilter($fields, $conditions);
+            }
+        }
+        $searchResults->setTotalCount($collection->getSize());
+        if ($sortOrders = $searchCriteria->getSortOrders()) {
+            /** @var \Magento\Framework\Api\SortOrder $sortOrder */
+            foreach ($sortOrders as $sortOrder) {
+                $collection->addOrder($sortOrder->getField(), $sortOrder->getDirection());
+            }
+        }
+
+        $collection
+            ->setCurPage($searchCriteria->getCurrentPage())
+            ->setPageSize($searchCriteria->getPageSize());
+
+        $histories = [];
+        foreach ($collection as $giftcardHistoryModel) {
+            $giftcard = $this->giftcardFactory->create()->load($giftcardHistoryModel->getData(GiftcardHistoryActionInterface::GIFTCARD_ID));
+            $histories[] = array(
+                GiftcardHistoryActionInterface::ID => $giftcardHistoryModel->getData(GiftcardHistoryActionInterface::ID),
+                GiftcardHistoryActionInterface::GIFTCARD_ID => $giftcardHistoryModel->getData(GiftcardHistoryActionInterface::GIFTCARD_ID),
+                GiftcardHistoryActionInterface::UPDATED_AT => $giftcardHistoryModel->getData(GiftcardHistoryActionInterface::UPDATED_AT),
+                GiftcardHistoryActionInterface::ACTION => $giftcardHistoryModel->getData(GiftcardHistoryActionInterface::ACTION),
+                GiftcardHistoryActionInterface::BALANCE_AMOUNT => $giftcardHistoryModel->getData(GiftcardHistoryActionInterface::BALANCE_AMOUNT),
+                GiftcardHistoryActionInterface::BALANCE_DELTA => $giftcardHistoryModel->getData(GiftcardHistoryActionInterface::BALANCE_DELTA),
+                GiftcardHistoryActionInterface::COMMENT => $giftcardHistoryModel->getData(GiftcardHistoryActionInterface::COMMENT),
+                GiftcardHistoryActionInterface::COMMENT_PLACEHOLDER => $giftcardHistoryModel->getData(GiftcardHistoryActionInterface::COMMENT_PLACEHOLDER),
+                GiftcardHistoryActionInterface::ACTION_TYPE => $giftcardHistoryModel->getData(GiftcardHistoryActionInterface::ACTION_TYPE),
+                // GiftcardHistoryActionInterface::ENTITIES => $giftcardHistoryModel->getData(GiftcardHistoryActionInterface::ENTITIES),
+                'status' => $giftcard->getStatus(),
+                'code' => $giftcard->getCode(),
+                'order_id' => str_replace('Applied to order #', '', $giftcardHistoryModel->getData(GiftcardHistoryActionInterface::COMMENT)),
+            );
+        }
+        $searchResults->setItems($histories);
         return $searchResults;
     }
 

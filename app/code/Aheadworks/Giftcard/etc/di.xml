@@ -13,6 +13,7 @@
     <preference for="Aheadworks\Giftcard\Api\GiftcardRepositoryInterface" type="Aheadworks\Giftcard\Model\GiftcardRepository" />
     <preference for="Aheadworks\Giftcard\Api\Data\GiftcardInterface" type="Aheadworks\Giftcard\Model\Giftcard" />
     <preference for="Aheadworks\Giftcard\Api\Data\GiftcardSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Aheadworks\Giftcard\Api\Data\GiftcardHistorySearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
     <preference for="Aheadworks\Giftcard\Api\Data\AmountInterface" type="Aheadworks\Giftcard\Model\Product\Entity\Attribute\Amount" />
     <preference for="Aheadworks\Giftcard\Api\Data\TemplateInterface" type="Aheadworks\Giftcard\Model\Product\Entity\Attribute\Template" />
     <preference for="Aheadworks\Giftcard\Api\Data\OptionInterface" type="Aheadworks\Giftcard\Model\Product\Option" />

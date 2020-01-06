@@ -42,6 +42,11 @@ class Giftcard extends AbstractModel implements GiftcardInterface
     private $statistics;
 
     /**
+     * @var SourceStatus
+     */
+    private $sourceStatus;
+
+    /**
      * @var StoreManagerInterface
      */
     private $storeManager;
@@ -56,6 +61,7 @@ class Giftcard extends AbstractModel implements GiftcardInterface
      * @param Registry $registry
      * @param GiftcardManagementInterface $giftcardManagement
      * @param Statistics $statistics
+     * @param Status $sourceStatus
      * @param StoreManagerInterface $storeManager
      * @param TimezoneInterface $localeDate
      */
@@ -64,11 +70,13 @@ class Giftcard extends AbstractModel implements GiftcardInterface
         Registry $registry,
         GiftcardManagementInterface $giftcardManagement,
         Statistics $statistics,
+        Status $sourceStatus,
         StoreManagerInterface $storeManager,
         TimezoneInterface $localeDate
     ) {
         $this->giftcardManagement = $giftcardManagement;
         $this->statistics = $statistics;
+        $this->sourceStatus = $sourceStatus;
         $this->storeManager = $storeManager;
         $this->localeDate = $localeDate;
         parent::__construct($context, $registry);
@@ -224,6 +232,14 @@ class Giftcard extends AbstractModel implements GiftcardInterface
     public function setState($state)
     {
         return $this->setData(self::STATE, $state);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStatus()
+    {
+        return $this->sourceStatus->getOptionByValue($this->getState());
     }
 
     /**

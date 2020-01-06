@@ -52,6 +52,15 @@ interface GiftcardRepositoryInterface
     public function getList(SearchCriteriaInterface $searchCriteria);
 
     /**
+     * Retrieve giftcard histories matching the specified criteria.
+     *
+     * @param SearchCriteriaInterface $searchCriteria
+     * @return \Aheadworks\Giftcard\Api\Data\GiftcardHistorySearchResultsInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getListHistory(SearchCriteriaInterface $searchCriteria);
+
+    /**
      * Delete giftcard
      *
      * @param \Aheadworks\Giftcard\Api\Data\GiftcardInterface $giftcard

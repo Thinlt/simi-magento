@@ -502,9 +502,9 @@
                     <item name="source" xsi:type="string">giftcard</item>
                     <item name="sortOrder" xsi:type="number">10</item>
                     <item name="dataScope" xsi:type="string">recipient_name</item>
-                    <item name="validation" xsi:type="array">
+                    <!-- <item name="validation" xsi:type="array">
                         <item name="required-entry" xsi:type="boolean">true</item>
-                    </item>
+                    </item> -->
                 </item>
             </argument>
         </field>
@@ -518,7 +518,7 @@
                     <item name="sortOrder" xsi:type="number">20</item>
                     <item name="dataScope" xsi:type="string">recipient_email</item>
                     <item name="validation" xsi:type="array">
-                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <!-- <item name="required-entry" xsi:type="boolean">true</item> -->
                         <item name="validate-email" xsi:type="boolean">true</item>
                     </item>
                 </item>

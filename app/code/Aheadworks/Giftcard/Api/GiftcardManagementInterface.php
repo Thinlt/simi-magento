@@ -61,4 +61,37 @@ interface GiftcardManagementInterface
      * @throws \Aheadworks\Giftcard\Api\Exception\ImportValidatorExceptionInterface
      */
     public function importCodes($codesRawData);
+
+    /**
+     * Retrieve Gift Card codes by customer
+     *
+     * @param int|null $storeId
+     * @return \Aheadworks\Giftcard\Api\Data\GiftcardInterface[]
+     */
+    public function getMineGiftcards($storeId = null);
+
+    /**
+     * Retrieve Gift card history by customer
+     *
+     * @param int|null $storeId
+     * @return \Aheadworks\Giftcard\Api\Data\GiftcardInterface[]
+     */
+    public function getMineHistoryGiftcards($storeId = null);
+
+    /**
+     * Add Gift Card code to customer
+     * @param string $code
+     * @param int|null $storeId
+     * @return bool|\Aheadworks\Giftcard\Api\Data\GiftcardInterface[]
+     */
+    public function addMineGiftcards($code, $storeId = null);
+
+    /**
+     * Remove Gift Card id from customer
+     * @param string $id
+     * @param string $code
+     * @param int|null $storeId
+     * @return bool|\Aheadworks\Giftcard\Api\Data\GiftcardInterface[]
+     */
+    public function removeMineGiftcards($id = null, $code = null, $storeId = null);
 }

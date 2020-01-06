@@ -32,6 +32,7 @@ use Magento\Sales\Api\Data\OrderStatusHistoryInterfaceFactory;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Aheadworks\Giftcard\Model\Import\GiftcardCode as ImportGiftcardCode;
 use Magento\Store\Model\StoreManagerInterface as StoreManager;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Class GiftcardService
@@ -121,6 +122,11 @@ class GiftcardService implements GiftcardManagementInterface
     private $storeManager;
 
     /**
+     * Request
+     */
+    private $request;
+
+    /**
      * @param GiftcardRepositoryInterface $giftcardRepository
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param PriceCurrencyInterface $priceCurrency
@@ -154,7 +160,8 @@ class GiftcardService implements GiftcardManagementInterface
         OrderRepositoryInterface $orderRepository,
         CodeGenerator $codeGenerator,
         ImportGiftcardCode $importGiftcardCode,
-        StoreManager $storeManager
+        StoreManager $storeManager,
+        RequestInterface $request
     ) {
         $this->giftcardRepository = $giftcardRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
@@ -172,6 +179,7 @@ class GiftcardService implements GiftcardManagementInterface
         $this->codeGenerator = $codeGenerator;
         $this->importGiftcardCode = $importGiftcardCode;
         $this->storeManager = $storeManager;
+        $this->request = $request;
     }
 
     /**
@@ -334,5 +342,155 @@ class GiftcardService implements GiftcardManagementInterface
             return true;
         }
         return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMineGiftcards($storeId = null)
+    {
+        $giftcards = [];
+        $customerEmail = $this->customerSession->getCustomer()->getEmail();
+        $websiteId = $this->storeManager->getStore($storeId)->getWebsiteId();
+        if (!$customerEmail) {
+            return $giftcards;
+        }
+        $this->_buildSearchCriteria();
+
+        $this->searchCriteriaBuilder
+            ->addFilter(GiftcardInterface::RECIPIENT_EMAIL, $customerEmail)
+            ->addFilter(GiftcardInterface::STATE, Status::ACTIVE)
+            ->addFilter(GiftcardInterface::EMAIL_SENT, [EmailStatus::SENT, EmailStatus::NOT_SEND], 'in')
+            ->addFilter(GiftcardInterface::WEBSITE_ID, $websiteId);
+        
+        $giftcards = $this->giftcardRepository->getList($this->searchCriteriaBuilder->create())->getItems();
+
+        /** @var GiftcardInterface $giftcardCode */
+        foreach ($giftcards as $giftcard) {
+            $giftcard->setBalance($this->priceCurrency->convert($giftcard->getBalance(), $storeId));
+        }
+        return $giftcards;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMineHistoryGiftcards($storeId = null)
+    {
+        $giftcards = [];
+        $customerEmail = $this->customerSession->getCustomer()->getEmail();
+        $websiteId = $this->storeManager->getStore($storeId)->getWebsiteId();
+        if (!$customerEmail) {
+            return $giftcards;
+        }
+        $this->_buildSearchCriteria();
+
+        $usedStatus = \Aheadworks\Giftcard\Model\Source\History\Action::USED;
+        $this->searchCriteriaBuilder
+            ->addFilter(GiftcardInterface::RECIPIENT_EMAIL, $customerEmail)
+            ->addFilter(HistoryActionInterface::ACTION_TYPE, $usedStatus)
+            ->addFilter(GiftcardInterface::WEBSITE_ID, $websiteId);
+        
+        $giftcards = $this->giftcardRepository->getListHistory($this->searchCriteriaBuilder->create())->getItems();
+
+        /** @var GiftcardInterface $giftcardCode */
+        // foreach ($giftcards as $giftcard) {
+        //     $giftcard->setBalance($this->priceCurrency->convert($giftcard->getBalance(), $storeId));
+        // }
+        return $giftcards;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addMineGiftcards($code, $storeId = null)
+    {
+        $giftcards = [];
+        $customerEmail = $this->customerSession->getCustomer()->getEmail();
+        $customerName = $this->customerSession->getCustomer()->getName();
+        $websiteId = $this->storeManager->getStore($storeId)->getWebsiteId();
+        if (!$customerEmail || !$code) {
+            return false;
+        }
+        try{
+            $giftcard = $this->giftcardRepository->getByCode($code, $websiteId);
+            if($giftcard->getId()){
+                if($giftcard->getData(GiftcardInterface::STATE) == Status::ACTIVE && 
+                    empty($giftcard->getData(GiftcardInterface::RECIPIENT_EMAIL))
+                ){
+                    $giftcard
+                        ->setData(GiftcardInterface::RECIPIENT_EMAIL, $customerEmail)
+                        ->setData(GiftcardInterface::RECIPIENT_NAME, $customerName)
+                        ->save();
+                }
+                if ($giftcard->getData(GiftcardInterface::RECIPIENT_EMAIL) == $customerEmail) {
+                    $giftcards = $this->getMineGiftcards($storeId);
+                    $data = [];
+                    foreach($giftcards as $gc){
+                        $data[] = $gc->toArray();
+                    }
+                    return $data;
+                }
+            }
+        }catch(\Exception $e){
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeMineGiftcards($id = null, $code = null, $storeId = null)
+    {
+        $giftcards = [];
+        $customerEmail = $this->customerSession->getCustomer()->getEmail();
+        $websiteId = $this->storeManager->getStore($storeId)->getWebsiteId();
+        if (!$customerEmail || (!$id && !$code)) {
+            return false;
+        }
+        try{
+            if ($code) {
+                $giftcard = $this->giftcardRepository->getByCode($code, $websiteId);
+            } else {
+                $giftcard = $this->giftcardRepository->get($id, $websiteId);
+            }
+            if($giftcard->getId()){
+                $emailBefore = $giftcard->getData(GiftcardInterface::RECIPIENT_EMAIL);
+                if($giftcard->getData(GiftcardInterface::STATE) == Status::ACTIVE && 
+                    !empty($giftcard->getData(GiftcardInterface::RECIPIENT_EMAIL))
+                ){
+                    $giftcard
+                        ->setData(GiftcardInterface::RECIPIENT_EMAIL, '')
+                        ->setData(GiftcardInterface::RECIPIENT_NAME, '')
+                        ->save();
+                }
+                if ($emailBefore == $customerEmail) {
+                    $giftcards = $this->getMineGiftcards($storeId);
+                    $data = [];
+                    foreach($giftcards as $gc){
+                        $data[] = $gc->toArray();
+                    }
+                    return $data;
+                }
+            }
+        }catch(\Exception $e){
+            return false;
+        }
+        return false;
+    }
+
+    private function _buildSearchCriteria(){
+        $pageSize = $this->request->getParam('limit');
+        $curPage = $this->request->getParam('page');
+        $orderBy = $this->request->getParam('order');
+        $direction = $this->request->getParam('dir');
+        $this->searchCriteriaBuilder->setPageSize($pageSize ? $pageSize : 10);
+        $this->searchCriteriaBuilder->setCurrentPage($curPage ? $curPage : 1);
+        if ($orderBy) {
+            $sortOrder = new \Magento\Framework\Api\SortOrder;
+            $sortOrder->setField($orderBy)->setDirection($direction ? $direction : \Magento\Framework\Api\SortOrder::SORT_ASC);
+            $this->searchCriteriaBuilder->setSortOrders([$sortOrder]);
+        }
     }
 }

@@ -216,4 +216,28 @@
             <parameter name="cartId" force="true">%cart_id%</parameter>
         </data>
     </route>
+    <route url="/V1/giftcard/mine/codes" method="GET">
+        <service class="Aheadworks\Giftcard\Api\GiftcardManagementInterface" method="getMineGiftcards"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+    </route>
+    <route url="/V1/giftcard/mine/history" method="GET">
+        <service class="Aheadworks\Giftcard\Api\GiftcardManagementInterface" method="getMineHistoryGiftcards"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+    </route>
+    <route url="/V1/giftcard/mine/addcode" method="POST">
+        <service class="Aheadworks\Giftcard\Api\GiftcardManagementInterface" method="addMineGiftcards"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+    </route>
+    <route url="/V1/giftcard/mine/remove" method="POST">
+        <service class="Aheadworks\Giftcard\Api\GiftcardManagementInterface" method="removeMineGiftcards"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+    </route>
 </routes>
