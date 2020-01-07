@@ -16,20 +16,20 @@ class VendorLogin extends LoginPost implements VendorLoginInterface
     public function loginPost()
     {
 
-        if ($this->session->isLoggedIn()) {
-            $helper = $this->_objectManager->get('Vnecoms\Vendors\Helper\Data');
-            $redirectUrl = $helper->getHomePageUrl();
-            return [
-                [
-                    'status' => 'success',
-                    'is_login' => '1',
-                    'sessionId' => $this->session->getSessionId(),
-                    // 'vendor_url' => $redirectUrl,
-                    'redirect_url' => $redirectUrl . '?simiSessId=' . $this->session->getSessionId()
-                    // 'redirect_path' => 'vendors/simivendor/vendors',
-                ]
-            ];
-        }
+        // if ($this->session->isLoggedIn()) {
+        //     $helper = $this->_objectManager->get('Vnecoms\Vendors\Helper\Data');
+        //     $redirectUrl = $helper->getHomePageUrl();
+        //     return [
+        //         [
+        //             'status' => 'success',
+        //             'is_login' => '1',
+        //             'sessionId' => $this->session->getSessionId(),
+        //             // 'vendor_url' => $redirectUrl,
+        //             'redirect_url' => $redirectUrl . '?simiSessId=' . $this->session->getSessionId()
+        //             // 'redirect_path' => 'vendors/simivendor/vendors',
+        //         ]
+        //     ];
+        // }
 
         if ($this->getRequest()->isPost()) {
             $login = $this->getRequest()->getPost();
