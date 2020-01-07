@@ -262,7 +262,7 @@ const VendorRegister = (props) => {
 							autoComplete="given-name"
 							validate={validators.get('firstName')}
 							validateOnBlur
-							placeholder="First Name"
+							placeholder="First name"
 						/>
 					</Field>
 					<Field label="Last Name *" required={true}>
@@ -271,7 +271,7 @@ const VendorRegister = (props) => {
 							autoComplete="family-name"
 							validate={validators.get('lastName')}
 							validateOnBlur
-							placeholder="Last Name"
+							placeholder="Last name"
 						/>
 					</Field>
 					<Field label="Designer Id *">
@@ -279,7 +279,7 @@ const VendorRegister = (props) => {
 							field="vendor.vendor_id"
 							validate={validators.get('vendorId')}
 							validateOnBlur
-							placeholder="Designer Id"
+							placeholder="Designer ID"
 						/>
 					</Field>
 					<Field label="Email address *" required={true}>
