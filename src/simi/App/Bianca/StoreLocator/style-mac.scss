@@ -3,12 +3,15 @@
         padding-top: 5px;
     }
     .branch-title-panel span.branch-name {
-        padding-top: 12px;
+        padding-top: 7px;
         height: 20px;
     }
     @media (max-width: 1023px) {
         .back-store-btn {
             padding-top: 2px;
+        }
+        .branch-title-panel span.branch-name {
+            padding-top: 12px;
         }
     }
 }
