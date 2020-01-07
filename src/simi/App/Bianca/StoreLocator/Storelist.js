@@ -8,7 +8,8 @@ const Storelist = props => {
     const { 
         expanded, setExpanded,
         data, postcode, setMarkerFocus,
-        setShowingDetailItem, showingDetailItem
+        setShowingDetailItem, showingDetailItem,
+        isPhone
     } = props;
 
     const onDirectMile = reLatLng => {
@@ -29,6 +30,8 @@ const Storelist = props => {
     }
 
     if (data && data.storelocations.length > 0) {
+        const storelocations = data.storelocations
+        storelocations.sort((a, b)=> parseFloat(a.sort_order) - parseFloat(b.sort_order))
         html = data.storelocations.map((item, index) => {
             const item_id = item.simistorelocator_id;
             const reLatLng = {
@@ -74,7 +77,7 @@ const Storelist = props => {
                         <StoreSummary 
                             key={item_id}
                             item={item} setShowingDetailItem={setShowingDetailItem}
-                            showingDetail={true}/>
+                            showingDetail={true} isPhone={isPhone}/>
                     </div>
                 )
             }
@@ -82,7 +85,7 @@ const Storelist = props => {
                 <React.Fragment>
                     <StoreSummary 
                         item={item} setShowingDetailItem={setShowingDetailItem}
-                        showingDetail={false}/>
+                        showingDetail={false} isPhone={isPhone}/>
                 </React.Fragment>
             );
 

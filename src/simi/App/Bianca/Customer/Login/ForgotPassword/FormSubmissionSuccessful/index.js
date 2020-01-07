@@ -17,7 +17,7 @@ const FormSubmissionSuccessful = props => {
                 <div 
                     onClick={onContinue}
                     className={classes.submitButton}
-                    style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}>
+                >
                     <span className={classes.continue}>{Identify.__('Continue Shopping')}</span>
                 </div>
             </div>
