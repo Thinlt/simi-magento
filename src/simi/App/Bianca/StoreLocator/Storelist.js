@@ -69,10 +69,13 @@ const Storelist = props => {
                 return
             } else if (showingDetailItem) {
                 return  (
-                    <StoreSummary 
-                        key={item_id}
-                        item={item} setShowingDetailItem={setShowingDetailItem}
-                        showingDetail={true}/>
+                    <div className="store-content-showing-detail">
+                        {title}
+                        <StoreSummary 
+                            key={item_id}
+                            item={item} setShowingDetailItem={setShowingDetailItem}
+                            showingDetail={true}/>
+                    </div>
                 )
             }
             const content = (

@@ -45,8 +45,12 @@ const Product = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "SimiBiancaProduct"*/'src/simi/App/Bianca/RootComponents/Product')} {...props}/>
 }
 
+const VendorList = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "VendorList"*/'src/simi/App/Bianca/Components/Vendor/VendorList')} {...props}/>
+}
+
 const VendorDetail = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "SimiBiancaProduct"*/'src/simi/App/Bianca/Components/Vendor/Detail')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "VendorDetail"*/'src/simi/App/Bianca/Components/Vendor/Detail')} {...props}/>
 }
 
 const Search = (props) => {
@@ -91,6 +95,10 @@ const router = {
     product_detail : {
         path: '/product.html',
         render : (location) => <Product {...location}/>
+    },
+    vendor_list : {
+        path: "/designers.html",
+        render : (location) => <VendorList {...location}/>
     },
     vendor_detail : {
         path: "/designers/:id.html",

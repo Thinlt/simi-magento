@@ -1,6 +1,7 @@
 import React from 'react';
 import {sendRequest} from 'src/simi/Network/RestMagento';
 import ReactHTMLParse from 'react-html-parser';
+import { withRouter } from 'react-router-dom';
 import Loading from 'src/simi/BaseComponents/Loading';
 // import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import Identify from "src/simi/Helper/Identify";
@@ -51,13 +52,13 @@ class VendorDetail extends React.Component {
     componentDidMount(){
         if (this.state.id) {
             sendRequest(`/rest/V1/simiconnector/vendors/${this.state.id}`, (data) => {
-                if (data) {
+                if (data && !data.errors) {
                     this.setState({
                         data: data
                     });
-                } else {
-                    
+                    return;
                 }
+                this.props.history && this.props.history.push('/');
             }, 'GET', null, null);
         }
         window.onresize = () => {
@@ -95,17 +96,17 @@ class VendorDetail extends React.Component {
 
     renderAbout = () => {
         const {data} = this.state;
-        const {about} = data || {}
+        const about = data && data.about || null
         return (
-            <div className="about-store">{ReactHTMLParse(about)}</div>
+            <div className="about-store">{about ? ReactHTMLParse(about) : <div className="no-data">{Identify.__('No Data')}</div>}</div>
         );
     }
 
     renderFaqs = () => {
         const {data} = this.state;
-        const {faqs} = data || {}
+        const faqs = data && data.faqs || null
         return (
-            <div className="faqs-store">{ReactHTMLParse(faqs)}</div>
+            <div className="faqs-store">{faqs ? ReactHTMLParse(faqs) : <div className="no-data">{Identify.__('No Data')}</div>}</div>
         );
     }
 
@@ -167,7 +168,9 @@ class VendorDetail extends React.Component {
                         </div>
                         <div className="cont-right">
                             <div className="banner-info">
-                                <img src={mediaPrefix+data.banner_path} alt="Vendor banner"/>
+                                {data.banner_path &&
+                                    <img src={mediaPrefix+data.banner_path} alt="Vendor banner"/>
+                                }
                             </div>
                         </div>
                     </div>
@@ -202,4 +205,4 @@ class VendorDetail extends React.Component {
     }
 }
 
-export default VendorDetail
+export default withRouter(VendorDetail)

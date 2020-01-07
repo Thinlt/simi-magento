@@ -141,9 +141,7 @@ const ImageGallery = props => {
             {
                 item.image_gallery.map((image, key) => {
                     return (
-                        <div className="store-image-item" key={key}>
-                            <img src={image} alt={`Storeimg-${key}`}/>
-                        </div>
+                        <div className="store-image-item" key={key} style={{backgroundImage: `url("${image}")`}}></div>
                     )
                 })
             }
@@ -168,7 +166,7 @@ const StoreSummary = props => {
                         {item.phone && (
                             <p>
                                 <span className="br-item-label">
-                                    {Identify.__("Tel:")}
+                                    {Identify.__("Tel: ")}
                                 </span>
                                 <a href={`tel:${item.phone}`}>
                                     {item.phone}
@@ -178,7 +176,7 @@ const StoreSummary = props => {
                         {item.email && (
                             <p style={{display:'flex',flexWrap:'wrap'}}>
                                 <span className="br-item-label">
-                                    {Identify.__("Email:")}
+                                    {Identify.__("Email: ")}
                                 </span>
                                 <a href={`mailto:${item.email}`}>
                                     {item.email}
@@ -188,7 +186,7 @@ const StoreSummary = props => {
                         {item.fax && (
                             <p>
                                 <span className="br-item-label">
-                                    {Identify.__("Whatsapp:")}
+                                    {Identify.__("Whatsapp: ")}
                                 </span>
                                 <a href={`https://wa.me/${item.fax}`}>
                                     {item.fax}

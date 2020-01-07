@@ -33,6 +33,7 @@ query storeConfigData($storeId: Int, $currency: String) {
         product_count
         path
       	position
+        image
         children {
             id
             name
@@ -43,6 +44,7 @@ query storeConfigData($storeId: Int, $currency: String) {
             path
             include_in_menu
       	    position
+          	image
             children {
                 id
                 name
@@ -51,7 +53,8 @@ query storeConfigData($storeId: Int, $currency: String) {
                 url_path
                 path
                 include_in_menu
-      			position
+                position
+                image
                 children {
                     id
                     name
@@ -60,7 +63,8 @@ query storeConfigData($storeId: Int, $currency: String) {
                     url_path
                     path
                     include_in_menu
-      				position
+                    position
+                  	image
                     children {
                         id
                         name
@@ -69,7 +73,8 @@ query storeConfigData($storeId: Int, $currency: String) {
                         url_path
                         path
                         include_in_menu
-      					position
+                        position
+                    		image
                     }
                 }
             }
