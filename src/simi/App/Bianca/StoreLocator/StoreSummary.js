@@ -115,7 +115,7 @@ const checkTimeOpen = times => {
             )
         );
     }
-    if (times.sunday_status && times.sunday_open !== times.sunday_close) {
+    if ((parseInt(times.sunday_status) === 1) && times.sunday_open !== times.sunday_close) {
         time.push(
             Identify.__(
                 `Sunday ${times.sunday_open}h - ${times.sunday_close}h`
@@ -149,8 +149,18 @@ const ImageGallery = props => {
     )
 }
 
+const openingOur = (item) => {
+    return (
+        <React.Fragment>
+            <b className="title">{Identify.__("Opening Hours")}</b>
+            <div className="box-store-br-item">
+                {checkTimeOpen(item)}
+            </div>
+        </React.Fragment>
+    )
+}
 const StoreSummary = props => {
-    const { item, setShowingDetailItem, showingDetail } = props;
+    const { item, setShowingDetailItem, showingDetail, isPhone } = props;
     return (
         <React.Fragment>
             <div className="branch-content-panel">
@@ -161,6 +171,9 @@ const StoreSummary = props => {
                         {item.city && <p>{item.city}</p>}
                         {item.zipcode && <p>{item.zipcode}</p>}
                     </div>
+                    {
+                        isPhone && <div className="box-store-br-item">{openingOur(item)}</div>
+                    }
                     <div className="box-store-br-item">
                         <b className="title">{Identify.__("Contact")}</b>
                         {item.phone && (
@@ -196,10 +209,9 @@ const StoreSummary = props => {
                     </div>
                 </div>
                 <div className="column-store-item">
-                    <b className="title">{Identify.__("Opening Hours")}</b>
-                    <div className="box-store-br-item">
-                        {checkTimeOpen(item)}
-                    </div>
+                    {
+                        !isPhone && openingOur(item)
+                    }
                     {
                         !showingDetail &&
                         <div className="detail-branch-btn" 
