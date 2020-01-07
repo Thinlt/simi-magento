@@ -56,3 +56,11 @@ export const updateEstimateShipping = (callBack, params, isSignedIn) => {
         sendRequest('/rest/default/V1/guest-carts/' + cartId + '/estimate-shipping-methods' , callBack, 'POST',{},params)
     }
 }
+
+export const updateSubProductSpecialItem = (callBack, cartItemId, subProductSku, quantity) => {
+    let getParams = storage.getItem('cartId');
+    getParams = getParams ? {quote_id: getParams} : {};
+    getParams.subproductsku = subProductSku
+    getParams.newquantity = quantity
+    sendRequest('rest/V1/simiconnector/quoteitems/' + cartItemId, callBack, 'PUT', getParams)
+}

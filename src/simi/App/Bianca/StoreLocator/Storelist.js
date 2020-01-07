@@ -43,7 +43,7 @@ const Storelist = props => {
                 >
                     <span>
                         <span className="count">{index + 1}</span>
-                        {Identify.__(item.store_name)}
+                        <span className="branch-name">{Identify.__(item.store_name)}</span>
                     </span>
                     {(typeof item.distance ==='number' && item.distance !== 0) && (
                         <span
@@ -69,10 +69,13 @@ const Storelist = props => {
                 return
             } else if (showingDetailItem) {
                 return  (
-                    <StoreSummary 
-                        key={item_id}
-                        item={item} setShowingDetailItem={setShowingDetailItem}
-                        showingDetail={true}/>
+                    <div className="store-content-showing-detail">
+                        {title}
+                        <StoreSummary 
+                            key={item_id}
+                            item={item} setShowingDetailItem={setShowingDetailItem}
+                            showingDetail={true}/>
+                    </div>
                 )
             }
             const content = (

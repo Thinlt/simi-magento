@@ -1,6 +1,2 @@
-import React from 'react';
-
-class VendorList extends React.Component {
-}
-
+import VendorList from './VendorList';
 export default VendorList

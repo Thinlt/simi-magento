@@ -1,8 +1,10 @@
 import React from 'react'
 import { Link } from 'src/drivers'
 import Identify from 'src/simi/Helper/Identify'
-import {cateUrlSuffix} from 'src/simi/Helper/Url'
+import {cateUrlSuffix, resourceUrl} from 'src/simi/Helper/Url'
 let foundChild = false
+
+require('./childCats.scss')
 
 const findChild = (catArr, idToFind) => {
     catArr.every(catItem => {
@@ -16,6 +18,7 @@ const findChild = (catArr, idToFind) => {
     return foundChild === false
 }
 const childCats = props => {
+    const {cateEmpty} = props
     if (props.category && props.category.id) {
         const storeConfig = Identify.getStoreConfig();
         if (storeConfig && storeConfig.simiRootCate && storeConfig.simiRootCate.children) {
@@ -25,6 +28,27 @@ const childCats = props => {
             }
 
             if (foundChild.children && foundChild.children.length) {
+                if (cateEmpty) {
+                    return (
+                        <div className="category-top-images">
+                            {
+                                foundChild.children.map((child, index)=> {
+                                    const location = {pathname: `/${child.url_path}${cateUrlSuffix()}`}
+                                    return (
+                                        <Link to={location} className="category-top-child-image-ctn" key={index}>
+                                            <div className="category-top-child-image" 
+                                                style={{backgroundImage: `url("${'pub' + resourceUrl(child.image, { type: 'image-category' })}")`}}>
+                                            </div>
+                                            <div className="name-title">
+                                                {child.name}
+                                            </div>
+                                        </Link>
+                                    )
+                                })
+                            }
+                        </div>
+                    )
+                }
                 return (
                     <div className="category-top-children">
                         {

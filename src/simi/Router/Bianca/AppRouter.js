@@ -17,6 +17,7 @@ class AppRouter extends Abstract{
                 <Route exact {...router.search_page}/>
                 <Route exact {...router.cart}/>
                 <Route exact {...router.product_detail}/>
+                <Route exact {...router.vendor_list}/>
                 <Route exact {...router.vendor_detail}/>
                 <Route exact {...router.checkout}/>
                 <Route exact {...router.thankyou}/>

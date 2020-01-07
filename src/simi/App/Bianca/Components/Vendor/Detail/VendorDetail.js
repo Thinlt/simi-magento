@@ -1,7 +1,9 @@
 import React from 'react';
 import {sendRequest} from 'src/simi/Network/RestMagento';
+import ReactHTMLParse from 'react-html-parser';
+import { withRouter } from 'react-router-dom';
 import Loading from 'src/simi/BaseComponents/Loading';
-import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
+// import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import Identify from "src/simi/Helper/Identify";
 import {StaticRate} from 'src/simi/App/Bianca/BaseComponents/Rate';
 import { TopReview } from './Review';
@@ -12,6 +14,7 @@ import IconEnvelopeOpen from 'src/simi/App/Bianca/BaseComponents/Icon/EnvelopeOp
 import AllProduct from './AllProducts';
 import {smoothScrollToView} from 'src/simi/Helper/Behavior';
 import ReviewList from 'src/simi/App/Bianca/Components/Vendor/Detail/Review/ReviewList';
+
 
 require('./style.scss');
 // if (getOS() === 'MacOS') require('./home-ios.scss');
@@ -49,13 +52,13 @@ class VendorDetail extends React.Component {
     componentDidMount(){
         if (this.state.id) {
             sendRequest(`/rest/V1/simiconnector/vendors/${this.state.id}`, (data) => {
-                if (data) {
+                if (data && !data.errors) {
                     this.setState({
                         data: data
                     });
-                } else {
-                    
+                    return;
                 }
+                this.props.history && this.props.history.push('/');
             }, 'GET', null, null);
         }
         window.onresize = () => {
@@ -92,11 +95,19 @@ class VendorDetail extends React.Component {
     }
 
     renderAbout = () => {
-        return "about"
+        const {data} = this.state;
+        const about = data && data.about || null
+        return (
+            <div className="about-store">{about ? ReactHTMLParse(about) : <div className="no-data">{Identify.__('No Data')}</div>}</div>
+        );
     }
 
     renderFaqs = () => {
-        return "faqs"
+        const {data} = this.state;
+        const faqs = data && data.faqs || null
+        return (
+            <div className="faqs-store">{faqs ? ReactHTMLParse(faqs) : <div className="no-data">{Identify.__('No Data')}</div>}</div>
+        );
     }
 
     activeContent = (name) => {
@@ -157,7 +168,9 @@ class VendorDetail extends React.Component {
                         </div>
                         <div className="cont-right">
                             <div className="banner-info">
-                                <img src={mediaPrefix+data.banner_path} alt="Vendor banner"/>
+                                {data.banner_path &&
+                                    <img src={mediaPrefix+data.banner_path} alt="Vendor banner"/>
+                                }
                             </div>
                         </div>
                     </div>
@@ -192,4 +205,4 @@ class VendorDetail extends React.Component {
     }
 }
 
-export default VendorDetail
+export default withRouter(VendorDetail)

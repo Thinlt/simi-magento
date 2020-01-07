@@ -36,7 +36,7 @@ const Shippingproduct = props => {
                 let itemsOption = '';
                 let optionElement = ''
                 item.options = (item.options)?(isArray(item.options)?item.options:JSON.parse(item.options)):[]
-                if (item.options.length > 0) {
+                if (item.options.length > 0 && !item.simi_trytobuy_option) {
                     itemsOption = item.options.map((optionObject, optionObjectindex) => {
                         return (
                             <div key={optionObjectindex} className="option-selected-item">

@@ -31,6 +31,7 @@ import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/
 import { smoothScrollToView } from 'src/simi/Helper/Behavior';
 import Coupon from 'src/simi/BaseComponents/Coupon';
 import ApplyGiftcard from 'src/simi/App/Bianca/BaseComponents/Giftcard/ApplyGiftcard';
+import { isArray } from 'util';
 
 class Checkout extends Component {
     constructor(...args) {
@@ -271,6 +272,19 @@ class Checkout extends Component {
             }
         }
 
+
+        let is_pre_order = false
+        let is_try_to_buy = false
+        if (cart && cart.totals && cart.totals.items && isArray(cart.totals.items)) {
+            cart.totals.items.forEach(cartTotalItem => {
+                if (cartTotalItem.simi_pre_order_option && cartTotalItem.simi_pre_order_option!== '[]') {
+                    is_pre_order = true
+                } else if (cartTotalItem.simi_trytobuy_option && cartTotalItem.simi_trytobuy_option!== '[]') {
+                    is_try_to_buy = true
+                }
+            });
+        }
+        
         return <Fragment>
             {pageTitle}
             <div className='checkout-column'>
@@ -331,6 +345,8 @@ class Checkout extends Component {
                             cartCurrencyCode={cartCurrencyCode}
                             panelClassName='checkout-panel'
                             btnPlaceOrder={btnPlaceOrder}
+                            is_pre_order={is_pre_order}
+                            is_try_to_buy={is_try_to_buy}
                             />
                     </div>
                 </div>

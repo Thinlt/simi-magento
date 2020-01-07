@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import BreadCrumb from 'src/simi/BaseComponents/BreadCrumb';
 import {getStorelocators} from 'src/simi/Model/Storelocator'
 import {showToastMessage} from 'src/simi/Helper/Message';
@@ -6,6 +6,8 @@ import Storelist from './Storelist'
 import MapBranch from './MapBranch'
 import Identify from 'src/simi/Helper/Identify'
 import { getOS } from 'src/simi/App/Bianca/Helper';
+import { Colorbtn } from 'src/simi/BaseComponents/Button';
+import TextBox from 'src/simi/BaseComponents/TextBox';
 require('./style.scss');
 
 if (getOS() === 'MacOS') require('./style-mac.scss');
@@ -16,6 +18,7 @@ export const StoreLocator = props => {
     const [expanded, setExpanded] = useState(null)
     const [markerFocus, setMarkerFocus] = useState({id: null, center: null })
     const [showingDetailItem, setShowingDetailItem] = useState(null)
+    const [isPhone, setIsPhone] = useState(window.innerWidth < 1024);
     
     const processData = (data) => {
         if (data.errors) {
@@ -33,8 +36,32 @@ export const StoreLocator = props => {
         getStorelocators(processData)
     }
     
-    console.log(props)
-    console.log(stores)
+    const onDirection = () => {
+        if (markerFocus && markerFocus.center) {
+            const centerF = markerFocus.center;
+            const lat = centerF.lat;
+            const lng = centerF.lng;
+            if($('input[name="store_locator_postcode"]').val()){
+                const postcode = $('input[name="store_locator_postcode"]').val();
+                window.open(`https://www.google.com/maps/dir/?api=1&origin=${postcode}&destination=${lat},${lng}`,'_blank');
+            }
+        }
+    }
+
+	const resizePhone = () => {
+		$(window).resize(function() {
+			const width = window.innerWidth;
+			const newIsPhone = width < 1024;
+			if (isPhone !== newIsPhone) {
+				setIsPhone(newIsPhone);
+			}
+		});
+    };
+    
+	useEffect(() => {
+		resizePhone();
+	});
+    
     return (
         <div className="store-locator-ctn container">
             <BreadCrumb
@@ -53,10 +80,28 @@ export const StoreLocator = props => {
                             currentLocation={stores.hasOwnProperty('current_location') && stores.current_location ? stores.current_location : ''}
                             markerFocus={markerFocus}
                             multiple={true}
-                            height={665}
+                            height={isPhone?343:527}
                         />
+                        {
+                            (markerFocus && markerFocus.center) && (
+                                <div className="detail__direction-map">
+                                    <TextBox
+                                        type="text"
+                                        name="store_locator_postcode"
+                                        placeholder={Identify.__(
+                                            "Enter postcode for directions"
+                                        )}
+                                    />
+                                    <Colorbtn
+                                        className="store_locator_btnSubmit"
+                                        text={Identify.__("Get directions")}
+                                        onClick={() => onDirection()}
+                                    />
+                                </div>
+                            )
+                        }
                     </div>
-                    <div className="branch-list-results">
+                    <div className="branch-list-results" style={isPhone?{}:{maxHeight: (markerFocus && markerFocus.center) ? 592 : 527, overflow: 'scroll'}} >
                         <Storelist
                             data={stores}
                             expanded={expanded} setExpanded={setExpanded}
