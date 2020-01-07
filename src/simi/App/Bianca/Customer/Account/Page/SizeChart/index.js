@@ -25,7 +25,7 @@ const MySizeChart = props => {
 
     return (
         <div className='my-size-chart-area'>
-            <PageTitle title={'Size Chart History'}/>
+            <PageTitle title={'Size Chart History'.toUpperCase()}/>
             {sizeData
             ?
                 <SizeChart data={sizeData}/>
