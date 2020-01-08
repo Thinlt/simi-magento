@@ -156,6 +156,10 @@ const router = {
         path : '/profile.html',
         render : location => <Account {...location} page={`edit`} />
     },
+    sizechart : {
+        path : '/mysizechart.html',
+        render : location => <Account {...location} page={`size-chart`}/>
+    },
     wishlist : {
         path: '/wishlist.html',
         render : (location) => <Account {...location} page={`wishlist`}/>

@@ -192,9 +192,8 @@ class Products extends React.Component {
 
     render() {
         const {props} = this
-        const { data, title } = props;
+        const { data, title, cateEmpty } = props;
         let descriptionArea = ''
-        //console.log(data)
         if(data&& data.category && data.category.description){
             const description = data.category.description ? Identify.__('%t') : Identify.__('%t')
             descriptionArea = <div className="description">
@@ -211,16 +210,21 @@ class Products extends React.Component {
                     {descriptionArea}
                 </h2>
                 {props.underHeader}
-                <div className="product-list-container-siminia">
-                    {!this.state.isPhone && this.renderLeftNavigation()}
-                    {this.state.isPhone && this.renderBottomFilterSort()}
-                    <div className="listing-product">
-                        {this.renderList()}
-                    </div>
-                </div>
-                <div className="recent-viewed-product">
-                    <RecentViewed />
-                </div>
+                {
+                    !cateEmpty &&
+                    <React.Fragment>
+                        <div className="product-list-container-siminia">
+                            {!this.state.isPhone && this.renderLeftNavigation()}
+                            {this.state.isPhone && this.renderBottomFilterSort()}
+                            <div className="listing-product">
+                                {this.renderList()}
+                            </div>
+                        </div>
+                        <div className="recent-viewed-product">
+                            <RecentViewed />
+                        </div>
+                    </React.Fragment>
+                }
             </article>
         );
     }

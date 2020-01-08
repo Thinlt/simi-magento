@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Identify from 'src/simi/Helper/Identify'
-import {configColor} from 'src/simi/Config'
 import classes from './formSubmissionSuccessful.css';
 
 const FormSubmissionSuccessful = props => {
@@ -17,7 +16,7 @@ const FormSubmissionSuccessful = props => {
                 <div 
                     onClick={onContinue}
                     className={classes.submitButton}
-                    style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}>
+                >
                     <span className={classes.continue}>{Identify.__('Continue Shopping')}</span>
                 </div>
             </div>

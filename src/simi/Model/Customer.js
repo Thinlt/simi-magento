@@ -37,3 +37,7 @@ export const vendorLogin = (callBack, postData) => {
 export const vendorRegister = (callBack, vendorInfo) => {
     sendRequest('/rest/V1/simiconnector/vendor/register', callBack, 'POST', {},vendorInfo)
 }
+
+export const getSizeChart = (callBack, customerId) => {
+    sendRequest('/rest/V1/simiconnector/sizechart', callBack, 'GET',{customer_id: customerId});
+}

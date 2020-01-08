@@ -3,8 +3,6 @@ import LoadingSpiner from 'src/simi/BaseComponents/Loading/LoadingSpiner'
 import { number } from 'prop-types';
 import simicntrCategoryQuery from 'src/simi/queries/catalog/getCategory.graphql'
 import Products from '../../BaseComponents/Products';
-import { resourceUrl } from 'src/simi/Helper/Url'
-import CategoryHeader from './categoryHeader'
 import Identify from 'src/simi/Helper/Identify';
 import ObjectHelper from 'src/simi/Helper/ObjectHelper';
 import { withRouter } from 'react-router-dom';
@@ -95,6 +93,10 @@ const Category = props => {
                     })
                 }
                 breadcrumb.push({name: data.category.name})
+                const appliedFilter = filterData?JSON.parse(productListFilter):null
+                let cateEmpty = false
+                if (!appliedFilter && data.simiproducts && data.simiproducts.total_count === 0)
+                    cateEmpty = true
                 return (
                     <div className="container">
                         <BreadCrumb breadcrumb={breadcrumb} history={props.history}/>
@@ -103,25 +105,23 @@ const Category = props => {
                             desc: data.category.meta_description
                         })}
                         {
-                            (data.category && data.category.name && data.category.image) &&
-                            <CategoryHeader
-                                name={data.category.name}
-                                image_url={resourceUrl(data.category.image, { type: 'image-category' })}
-                            />
-                        }
-                        {
                             <Products
                                 title={categoryTitle}
-                                underHeader={<ChildCats category={data.category}/>}
+                                underHeader={<ChildCats 
+                                    category={data.category} 
+                                    cateEmpty={cateEmpty}
+                                    />
+                                }
                                 history={props.history}
                                 location={props.location}
                                 currentPage={currentPage}
                                 pageSize={pageSize}
                                 data={data}
                                 sortByData={sortByData}
-                                filterData={filterData?JSON.parse(productListFilter):null}
+                                filterData={appliedFilter}
                                 setCurrentPage={setCurrentPage}
                                 loading={loading}
+                                cateEmpty={cateEmpty}
                             />
                         }
                     </div>

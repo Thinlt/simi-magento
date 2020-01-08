@@ -11,12 +11,18 @@ import {
     hideFogLoading
 } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import ReactHTMLParse from 'react-html-parser';
+import SpecialCartItem from './SpecialCartItem'
+import { productUrlSuffix } from 'src/simi/Helper/Url';
+
 require('./cartItem.scss')
 
 const CartItem = props => {
     const [read, setReadOny] = useState(true)
     const inputQty = useRef(null)
     const { currencyCode, item, isPhone, itemTotal, handleLink } = props
+    if (itemTotal && (itemTotal.simi_pre_order_option || itemTotal.simi_trytobuy_option))
+        return <SpecialCartItem itemTotal={itemTotal}
+            handleLink={handleLink} currencyCode={currencyCode} isPhone={isPhone} isOpen={props.isOpen}/>
     const tax_cart_display_price = 3; // 1 - exclude, 2 - include, 3 - both
 
     const rowPrice = tax_cart_display_price == 1 ? itemTotal.price : itemTotal.price_incl_tax
@@ -64,7 +70,7 @@ const CartItem = props => {
                     role="presentation"
                     style={{ color: configColor.content_color }}
                     onClick={() => {
-                        handleLink(location)
+                        handleLink(`/${item.url_key}${productUrlSuffix()}`)
                     }}>
                     <div className="item-name">{item.name}</div>
                 </div>

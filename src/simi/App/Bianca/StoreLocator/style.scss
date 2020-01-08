@@ -37,9 +37,11 @@
         justify-content: flex-end;
         margin-top: -1px;
         margin-bottom: 31px;
+        width: 100%;
 
         .branch-list-results {
             margin-left: 16px;
+            max-width: 572px;
             .MuiExpansionPanel-root {
                 padding: 15px 26px;
                 border: solid 1px #E0E0E0;
@@ -49,6 +51,8 @@
                 }
                 .MuiButtonBase-root {
                     margin-right: -8px;
+                    font-size: 16px;
+                    padding: 6px;
                 }
             }  
             .store-image-gallery {
@@ -60,7 +64,7 @@
                 .store-image-item {
                     background-size: contain;
                     background-position: center;
-                    padding-top: 100%;
+                    padding-top: 109%;
                     background-repeat: no-repeat;
                 }
             }
@@ -69,8 +73,7 @@
             display: none;
         }
         .branch-map{
-            width: 50%;
-            max-width: 527px;
+            width: 49.5%;
             overflow: hidden;
             .marker-pin {
                 width: 30px;
@@ -97,20 +100,29 @@
                 margin-top: 20px;
                 justify-content: space-between;
                 .form-group {
-                    width: 65%;
+                    width: 68.5%;
                     input {
                         border-radius: 0;
                         font-size: 14px;
+                        border: none;
+                        background-color: #F2F2F2;
+                        height: 48px;
+                        padding-top: 8px;
+                    }
+                    input::placeholder {
+                        color: #727272;
                     }
                 }
                 .store_locator_btnSubmit {
-                    width: 30%;
-                    min-width: 150px;
+                    width: 31.5%;
+                    min-width: 180px;
                     background-color: #101820;
                     color: white;
                     font-family: "Gotham Book";
                     text-transform: uppercase;
-                    font-size: 14px;
+                    font-size: 16px;
+                    padding-top: 12px;
+                    height: 48px;
                 }
             }
         }
@@ -125,7 +137,7 @@
             span.branch-name {
                 font-size: 20px;
                 font-weight: bold;
-                line-height: 24px;
+                line-height: 31px;
                 color: #101820;
                 align-items: center;
                 font-family: "Gotham Medium";
@@ -262,8 +274,9 @@
                 margin-right: 0px;
                 margin-top: 30px;
                 width: 100%;
+                max-width: unset;
                 .MuiExpansionPanel-root {
-                    padding: 10px 26px;
+                    padding: 10px 16px;
                 }
                 .branch-title-panel {
                     >span {
@@ -282,6 +295,11 @@
                     margin-top: 16px;
                     grid-row-gap: 11px;
                 }
+                .MuiExpansionPanel-root {
+                    .MuiButtonBase-root {
+                        margin-right: -4px;
+                    }
+                }  
             }
         }
         .branch-content-panel {
@@ -325,6 +343,36 @@
                 flex-wrap: wrap;
                 padding-top: 30px;
                 padding-bottom: 10px;
+            }
+        }
+    }
+    @media (min-width: 1919px) {
+        .branch-main-content {
+            .branch-list-results {
+                max-width: unset;
+            }
+        }
+    }
+    
+}
+.rtl-root {
+    .store-locator-ctn {
+        .branch-list-results {
+            margin-right: 16px;
+            margin-left: 0px;
+        }
+        .branch-title-panel{
+            >span {
+                span.count {
+                    margin-right: 0px;
+                    margin-left: 16px;
+                }
+            }
+        }
+        .branch-content-panel {
+            .column-store-item:not(:first-child) {
+                margin-left: 0px;
+                margin-right: 44px;
             }
         }
     }

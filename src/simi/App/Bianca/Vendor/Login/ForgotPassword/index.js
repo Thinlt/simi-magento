@@ -51,12 +51,7 @@ class ForgotPassword extends Component {
     }
 
     handleContinue = () => {
-        this.setState({resetSubmited: false})
-        if (this.props.onClose)
-            this.props.onClose();
-        if (this.props.showDesigner){
-            this.props.showDesigner()
-        }
+        this.props.history.push('/');
     };
 
     render() {
