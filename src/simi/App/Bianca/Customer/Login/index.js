@@ -20,6 +20,7 @@ import { simiSignedIn } from 'src/simi/Redux/actions/simiactions';
 import { showToastMessage } from 'src/simi/Helper/Message';
 import firebase, { auth } from 'firebase';
 import firebaseApp from './SocialLogin/base';
+import { smoothScrollToView } from 'src/simi/Helper/Behavior';
 import { async } from 'q';
 
 const { BrowserPersistence } = Util;
@@ -354,7 +355,7 @@ class Login extends Component {
 			} else {
 				history.push('/');
 			}
-
+			smoothScrollToView($('#root'));
 			const message = firstname
 				? Identify.__('Welcome %s Start shopping now').replace('%s', firstname)
 				: Identify.__('You have succesfully logged in, Start shopping now');
