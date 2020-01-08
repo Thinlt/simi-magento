@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
 
-const useWindowSize = (initial = {width: window.innerWidth, height: window.innerHeight}) => {
+const useWindowSize = (initial = {width: document.body.clientWidth, height: document.body.clientHeight}) => {
     const [size, setSize] = useState(initial);
 
     const onChangeSize = () => {
         setSize({
-            width: window.outerWidth || document.body.clientWidth,
-            height: window.outerHeight || document.body.clientHeight
+            width: document.body.clientWidth,
+            height: document.body.clientHeight
         })
     }
 

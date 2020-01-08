@@ -15,30 +15,30 @@ require('./linkedProduct.scss');
 
 const responsive = {
     superLargeDesktop: {
-      breakpoint: { max: 4000, min: 1470 },
-      items: 5,
-      chevronWidth: 72,
-      iconWidth: 48
+        minWidth: 1600,
+        items: 5,
+        chevronWidth: 72,
+        iconWidth: 48
     },
     desktop: {
-      breakpoint: { max: 1470, min: 1176 },
-      items: 4,
-      chevronWidth: 72,
-      iconWidth: 48
+        minWidth: 1300,
+        items: 4,
+        chevronWidth: 72,
+        iconWidth: 48
     },
     tablet: {
-      breakpoint: { max: 1176, min: 639 },
-      items: 3,
-      chevronWidth: 20,
-      iconWidth: 16,
-      gutter: 16
+        minWidth: 639,
+        items: 3,
+        chevronWidth: 20,
+        iconWidth: 16,
+        gutter: 16
     },
     mobile: {
-      breakpoint: { max: 639, min: 0 },
-      items: 2,
-      chevronWidth: 20,
-      iconWidth: 16,
-      gutter: 11
+        minWidth: 0,
+        items: 2,
+        chevronWidth: 20,
+        iconWidth: 16,
+        gutter: 11
     },
 };
 
@@ -95,11 +95,9 @@ const LinkedProducts = props => {
 
     // calculate items number for Carousel
     const _responseSize = Object.values(responsive);
-    const breakPoint = _responseSize.find((itemSize) => {
-        if (itemSize.breakpoint) {
-            if (width > itemSize.breakpoint.min && width <= itemSize.breakpoint.max) {
-                return true;
-            }
+    const breakPoint = _responseSize.find((item) => {
+        if (item.minWidth !== undefined && width >= item.minWidth) {
+            return true;
         }
         return false;
     });
