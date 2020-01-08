@@ -41,3 +41,19 @@ export const vendorRegister = (callBack, vendorInfo) => {
 export const getSizeChart = (callBack, customerId) => {
     sendRequest('/rest/V1/simiconnector/sizechart', callBack, 'GET',{customer_id: customerId});
 }
+
+export const addGiftVoucher = (callBack, postData) => {
+    sendRequest('/rest/V1/giftcard/mine/addcode', callBack, 'POST', {}, postData);
+}
+
+export const getGiftCodes = (callBack, page, limit, orderId, dir) => {
+    sendRequest('/rest/V1/giftcard/mine/codes', callBack, 'GET', {page, limit, order: orderId, dir});
+}
+
+export const getHistoryCodes = (callBack, page, limit, orderId, dir) => {
+    sendRequest('/rest/V1/giftcard/mine/history', callBack, 'GET', {page, limit, order: orderId, dir});
+}
+
+export const removeCode = (callBack, postData) => {
+    sendRequest('/rest/V1/giftcard/mine/remove', callBack, 'POST', {}, postData);
+}
