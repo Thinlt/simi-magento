@@ -126,14 +126,14 @@ class Reviews extends \Simi\Simiconnector\Model\Api\Apiabstract
         if (isset($parameters['fields']) && $parameters['fields']) {
             $fields = explode(',', $parameters['fields']);
         }
-        $star    = [];
+        // $star    = [];
         $count   = null;
-        $star[0] = 0;
-        $star[1] = 0;
-        $star[2] = 0;
-        $star[3] = 0;
-        $star[4] = 0;
-        $star[5] = 0;
+        // $star[0] = 0;
+        // $star[1] = 0;
+        // $star[2] = 0;
+        // $star[3] = 0;
+        // $star[4] = 0;
+        // $star[5] = 0;
 
         $check_limit  = 0;
         $check_offset = 0;
@@ -144,7 +144,7 @@ class Reviews extends \Simi\Simiconnector\Model\Api\Apiabstract
             if (++$check_limit > $limit) {
                 break;
             }
-            $star[5] ++;
+            // $star[5] ++;
             $y = 0;
             foreach ($entity->getRatingVotes() as $vote) {
                 $y += ($vote->getPercent() / 20);
@@ -156,19 +156,48 @@ class Reviews extends \Simi\Simiconnector\Model\Api\Apiabstract
             $info_detail                = $entity->toArray($fields);
             $info_detail['rate_points'] = $x;
             $info[]                     = $info_detail;
+            // $z = $y % 3;
+            // $x = $z < 5 ? $x : $x + 1;
+            // $this->applyStarCount($x, $star);
+        }
+        $count = $this->collecStarCount();
+        return $this->getListReview($info, $all_ids, $total, $limit, $offset, $count);
+    }
 
+    private function collecStarCount(){
+        $collection = clone $this->builderQuery;
+        $collection->getSelect()->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $collection->getSelect()->reset(\Zend_Db_Select::LIMIT_OFFSET);
+        $collection->load();// Reload the collection using the new SQL query:
+        // $offset = 0;
+        $count   = null;
+        $star    = [];
+        $star[0] = 0;
+        $star[1] = 0;
+        $star[2] = 0;
+        $star[3] = 0;
+        $star[4] = 0;
+        $star[5] = 0;
+        foreach ($collection as $entity) {
+            $star[5] ++;
+            $y = 0;
+            foreach ($entity->getRatingVotes() as $vote) {
+                $y += ($vote->getPercent() / 20);
+            }
+            $count = $this->simiObjectManager->get('Simi\Simiconnector\Helper\Data')->countArray($entity->getRatingVotes());
+            $count = $count == 0 ? 1 : $count;
+            $x     = (int) ($y / $count);
             $z = $y % 3;
             $x = $z < 5 ? $x : $x + 1;
             $this->applyStarCount($x, $star);
         }
-        $count = [
+        return [
             '1_star' => $star[0],
             '2_star' => $star[1],
             '3_star' => $star[2],
             '4_star' => $star[3],
             '5_star' => $star[4],
         ];
-        return $this->getListReview($info, $all_ids, $total, $limit, $offset, $count);
     }
     
     private function setPageSize($parameters, &$limit, &$offset, $collection, &$page)
