@@ -7,7 +7,7 @@ class Schedule extends \Simi\Simistorelocator\Model\ResourceModel\AbstractResour
     /**
      * @var \Simi\Simistorelocator\Model\ResourceModel\Store\CollectionFactory
      */
-    public $storeCollectionFactory;
+    public $simiObjectManager;
 
     /**
      * Class constructor.
@@ -17,11 +17,11 @@ class Schedule extends \Simi\Simistorelocator\Model\ResourceModel\AbstractResour
      */
     public function __construct(
         \Magento\Framework\Model\ResourceModel\Db\Context $context,
-        \Simi\Simistorelocator\Model\ResourceModel\Store\CollectionFactory $storeCollectionFactory,
+        \Magento\Framework\ObjectManagerInterface $simiObjectManager,
         $resourcePrefix = null
     ) {
         parent::__construct($context, $resourcePrefix);
-        $this->storeCollectionFactory = $storeCollectionFactory;
+        $this->simiObjectManager = $simiObjectManager;
     }
 
     /**
@@ -71,8 +71,7 @@ class Schedule extends \Simi\Simistorelocator\Model\ResourceModel\AbstractResour
      */
     public function getStores(\Magento\Framework\Model\AbstractModel $object) {
         /** @var \Simi\Simistorelocator\Model\ResourceModel\Store\Collection $collection */
-        $collection = $this->_storeCollectionFactory->create();
-
+        $collection = $this->simiObjectManager->create('\Simi\Simistorelocator\Model\Store')->getCollection();
         $collection->addFieldToSelect('simistorelocator_id')
                 ->addFieldToFilter($this->getIdFieldName(), (int) $object->getId());
 
