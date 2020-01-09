@@ -80,7 +80,7 @@ export const StoreLocator = props => {
                             currentLocation={stores.hasOwnProperty('current_location') && stores.current_location ? stores.current_location : ''}
                             markerFocus={markerFocus}
                             multiple={!showingDetailItem}
-                            height={isPhone?343:527}
+                            height={isPhone?343:572}
                         />
                         {
                             (markerFocus && markerFocus.center) && (
@@ -101,7 +101,7 @@ export const StoreLocator = props => {
                             )
                         }
                     </div>
-                    <div className="branch-list-results" style={isPhone?{}:{maxHeight: showingDetailItem?'unset':(markerFocus && markerFocus.center) ? 592 : 527, overflow: 'scroll'}} >
+                    <div className="branch-list-results" style={isPhone?{}:{maxHeight: showingDetailItem?'unset':(markerFocus && markerFocus.center) ? 592 : 572, overflow: 'scroll'}} >
                         <Storelist
                             data={stores}
                             expanded={expanded} setExpanded={setExpanded}

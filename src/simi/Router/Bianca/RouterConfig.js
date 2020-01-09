@@ -77,6 +77,9 @@ const StoreLocator = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "StoreLocator"*/'src/simi/App/Bianca/StoreLocator')} {...props}/>
 }
 
+const Shopbybrand = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Shopbybrand"*/'src/simi/App/Bianca/Shopbybrand')} {...props}/>
+}
 
 
 const router = {
@@ -187,6 +190,10 @@ const router = {
     storelocator: {
         path: '/storelocator.html',
         render : location => <StoreLocator {...location}/>
+    },
+    shopbybrand: {
+        path: '/brands.html',
+        render : location => <Shopbybrand {...location}/>
     },
     noMatch: {
         component : location => <NoMatch {...location} />
