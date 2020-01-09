@@ -52,6 +52,12 @@ class SimiGetStoreviewInfoAfter implements ObserverInterface {
             $object->storeviewInfo['delivery_returns'] = $this->config->getValue('sales/policy/delivery_returns'); //get all vendors
             $object->storeviewInfo['preorder_deposit'] = $this->config->getValue('sales/preorder/deposit_amount'); //get all vendors
             // add brands list to storeview api
+            $serializer = $this->simiObjectManager->get('Magento\Framework\Serialize\SerializerInterface');
+            $brandsDetailsFromConfig = $serializer->unserialize($this->config->getValue('simiconnector/product_brands/brand_details'));
+            $descriptionArr = array();
+            foreach ($brandsDetailsFromConfig as $brandDetailsFromConfig) {
+                $descriptionArr[$brandDetailsFromConfig['brand_title']] = $brandDetailsFromConfig['brand_description'];
+            }
             $attributeInfo = $this->_attributeFactory->getCollection();
             $attributeInfo->addFieldToFilter('attribute_code', 'brand');
             $storeId = $this->storeManager->getDefaultStoreView()->getStoreId();
@@ -71,9 +77,12 @@ class SimiGetStoreviewInfoAfter implements ObserverInterface {
                     )
                     ->where('attribute_id = ?', $brand->getAttributeId());
                 foreach($optionCollection as $option){
+                    $brandName = $option->getData('name');
+                    $brandDesc = isset($descriptionArr[$brandName])?$descriptionArr[$brandName]:'';
                     $object->storeviewInfo['brands'][] = [
                         'option_id' => $option->getData('option_id'),
-                        'name' => $option->getData('name'),
+                        'name' => $brandName,
+                        'description' => $brandDesc,
                         'image' => $this->swatchMediaHelper->getSwatchMediaUrl() . $option->getData('value'),
                         'attribute_name' => $brand->getData('frontend_label'),
                         'attribute_code' => $brand->getData('attribute_code'),
