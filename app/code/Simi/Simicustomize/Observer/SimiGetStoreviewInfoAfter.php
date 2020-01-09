@@ -115,6 +115,12 @@ class SimiGetStoreviewInfoAfter implements ObserverInterface {
                     'path' => '/'.UrlInterface::URL_TYPE_MEDIA.'/sizeguide_mobile/'.$sizeGuideFileMobile
                 ),
             );
+
+            $aw_blog_enable = $this->config->getValue('aw_blog/general/enabled');
+            $aw_blog_posts_per_page = $this->config->getValue('aw_blog/general/posts_per_page');
+            if ($aw_blog_enable && $aw_blog_posts_per_page){
+                $object->storeviewInfo['blog_posts_per_page'] = $aw_blog_posts_per_page;
+            }
         }
     }
 }
