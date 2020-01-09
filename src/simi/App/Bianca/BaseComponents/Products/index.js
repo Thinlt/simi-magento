@@ -193,13 +193,13 @@ class Products extends React.Component {
     render() {
         const {props} = this
         const { data, title, cateEmpty } = props;
-        let descriptionArea = ''
-        if(data&& data.category && data.category.description){
-            const description = data.category.description ? Identify.__('%t') : Identify.__('%t')
-            descriptionArea = <div className="description">
-                                {ReactHTMLParse(description.replace('%t', data.category.description))}                 
-                            </div>;
+        let description = props.description
+        if(!description && data&& data.category && data.category.description){
+            description = data.category.description ? Identify.__('%t') : Identify.__('%t')
         }
+        let descriptionArea = ''
+        if (description)
+            descriptionArea = <div className="description"> {ReactHTMLParse(description.replace('%t', data.category.description))} </div>;
                 
         return (
             <article className="products-gallery-root">

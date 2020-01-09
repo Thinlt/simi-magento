@@ -84,12 +84,16 @@
 
             .item-edit{
                 margin-top: 24px;
+                font-size: 12px;
+                line-height: 12px;
             }
             
             .item-delete{
                 width: auto;
                 display: flex;
                 padding-top: 24px;
+                font-size: 12px;
+                line-height: 12px;
             }
 
             .item-options{
@@ -117,11 +121,11 @@
         .cart-item-detail{
             display: flex;
             width: 100%;
-            padding-right: 46px;
+            padding-right: 27px;
             justify-content: space-between;
             .item-name{
                 color: #101820;
-                font-weight: 600;
+                font-weight: 500;
             }
             .designer-name{
                 color: #101820;
@@ -132,11 +136,17 @@
 
         .sub-item.item-subtotal{
             width: auto;
+            font-family: Gotham Medium;
+            font-size: 14px;
+            line-height: 14px;
         }
 
         .sub-item.item-price, .sub-item.item-qty{
             width: auto;
             padding-top: 0;
+            font-family: Gotham Medium;
+            font-size: 14px;
+            line-height: 14px;
         }
     }
 }

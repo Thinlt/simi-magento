@@ -14,7 +14,7 @@ const Brands = props => {
     }
 
     data.forEach((item, index)=>{
-        item.url = `/shop-by-brand.html?option_id=${item.option_id}`;
+        item.url = `/brands.html?filter=%7B"brand"%3A"${item.option_id}"%7D`;
     });
 
     return (
