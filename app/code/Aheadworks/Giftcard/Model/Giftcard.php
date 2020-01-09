@@ -189,6 +189,38 @@ class Giftcard extends AbstractModel implements GiftcardInterface
     /**
      * {@inheritdoc}
      */
+    public function getAmountType()
+    {
+        return $this->getData(self::AMOUNT_TYPE);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAmountType($type)
+    {
+        return $this->setData(self::AMOUNT_TYPE, $type);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPercent()
+    {
+        return $this->getData(self::PERCENT);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPercent($percent)
+    {
+        return $this->setData(self::PERCENT, $percent);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getBalance()
     {
         return $this->getData(self::BALANCE);

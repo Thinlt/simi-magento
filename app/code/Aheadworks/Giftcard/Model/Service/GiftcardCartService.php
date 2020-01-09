@@ -200,6 +200,8 @@ class GiftcardCartService implements GiftcardCartManagementInterface
             ->setGiftcardCode($giftcard->getCode())
             ->setGiftcardBalance($giftcard->getBalance())
             ->setQuoteId($quote->getId())
+            ->setGiftcardAmountType($giftcard->getAmountType())
+            ->setGiftcardPercent($giftcard->getPercent())
             ->setBaseGiftcardAmount($giftcard->getBalance());
 
         $giftcards = [$giftcardQuoteObject];

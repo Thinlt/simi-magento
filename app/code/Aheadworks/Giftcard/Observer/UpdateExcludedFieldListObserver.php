@@ -30,6 +30,7 @@ class UpdateExcludedFieldListObserver implements ObserverInterface
         $excludedAttributes = [
             ProductAttributeInterface::CODE_AW_GC_EMAIL_TEMPLATES,
             ProductAttributeInterface::CODE_AW_GC_AMOUNTS,
+            ProductAttributeInterface::CODE_AW_GC_AMOUNTS_PERCENT,
         ];
         $list = array_merge($list, $excludedAttributes);
         $block->setFormExcludedFieldList($list);

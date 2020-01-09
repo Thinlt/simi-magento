@@ -114,6 +114,48 @@ class UpgradeSchema implements UpgradeSchemaInterface
         if ($context->getVersion() && version_compare($context->getVersion(), '1.2.0', '<')) {
             $this->addTables120($setup);
         }
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.2.9', '<')) {
+            //add column to aw_giftcard_product_entity_amounts
+            $setup->getConnection()
+                ->addColumn(
+                    $setup->getTable('aw_giftcard_product_entity_amounts'),
+                    'percent',
+                    [
+                        'type' => Table::TYPE_DECIMAL,
+                        'length' => '5,2',
+                        'nullable' => true,
+                        'default' => 0,
+                        'comment' => 'Percent of discount',
+                        'after' => 'value'
+                    ]
+                );
+            
+            //add column to aw_giftcard
+            $giftcardTable = $setup->getTable('aw_giftcard');
+            $setup->getConnection()->addColumn(
+                $giftcardTable,
+                'amount_type',
+                [
+                    'type' => Table::TYPE_SMALLINT,
+                    'nullable' => true,
+                    'default' => \Aheadworks\Giftcard\Model\Source\Entity\Attribute\AmountType::VALUE_FIXED,
+                    'comment' => 'Amount type',
+                    'after' => 'initial_balance'
+                ]
+            );
+            $setup->getConnection()->addColumn(
+                $giftcardTable,
+                'percent',
+                [
+                    'type' => Table::TYPE_DECIMAL,
+                    'length' => '5,2',
+                    'nullable' => true,
+                    'default' => 0,
+                    'comment' => 'Percent of discount',
+                    'after' => 'initial_balance'
+                ]
+            );
+        }
     }
 
     /**

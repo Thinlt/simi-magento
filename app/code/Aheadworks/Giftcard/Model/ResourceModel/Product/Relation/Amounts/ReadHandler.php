@@ -113,6 +113,7 @@ class ReadHandler implements ExtensionInterface
         $columns = [
             'value_id',
             'price' => 'value',
+            'percent',
             'website_id',
         ];
 

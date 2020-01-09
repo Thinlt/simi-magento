@@ -205,6 +205,12 @@ class Save extends \Magento\Backend\App\Action
             if ($codeFromPool) {
                 $data['code'] = $this->poolManagement->pullCodeFromPool($data['code_pool']);
             }
+            if (isset($data['amount_type']) && 
+                $data['amount_type'] == \Aheadworks\Giftcard\Model\Source\Entity\Attribute\AmountType::VALUE_PERCENT
+                && isset($data['percent']) && $data['percent']) 
+            {
+                $data['initial_balance'] = $data['percent'];
+            }
         }
 
         if (isset($data['delivery_date']) && $data['delivery_date']) {

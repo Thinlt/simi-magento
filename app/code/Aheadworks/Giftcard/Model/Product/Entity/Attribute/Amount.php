@@ -67,6 +67,22 @@ class Amount extends AbstractExtensibleObject implements AmountInterface
     /**
      * {@inheritdoc}
      */
+    public function getPercent()
+    {
+        return $this->_get(self::PERCENT);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPercent($value)
+    {
+        return $this->setData(self::PERCENT, $value);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getWebsiteId()
     {
         return $this->_get(self::WEBSITE_ID);

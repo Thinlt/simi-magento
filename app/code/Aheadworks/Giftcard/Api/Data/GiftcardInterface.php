@@ -23,6 +23,8 @@ interface GiftcardInterface extends ExtensibleDataInterface
     const CREATED_AT = 'created_at';
     const EXPIRE_AT = 'expire_at';
     const WEBSITE_ID = 'website_id';
+    const AMOUNT_TYPE = 'amount_type';
+    const PERCENT = 'percent';
     const BALANCE = 'balance';
     const INITIAL_BALANCE = 'initial_balance';
     const STATE = 'state';
@@ -132,6 +134,36 @@ interface GiftcardInterface extends ExtensibleDataInterface
      * @return $this
      */
     public function setWebsiteId($websiteId);
+
+    /**
+     * Get giftcard type
+     *
+     * @return int
+     */
+    public function getAmountType();
+
+    /**
+     * Set giftcard type
+     *
+     * @param int $type
+     * @return $this
+     */
+    public function setAmountType($type);
+
+    /**
+     * Get discount percent
+     *
+     * @return float
+     */
+    public function getPercent();
+
+    /**
+     * Set discount percent
+     *
+     * @param float $percent
+     * @return $this
+     */
+    public function setPercent($percent);
 
     /**
      * Get balance

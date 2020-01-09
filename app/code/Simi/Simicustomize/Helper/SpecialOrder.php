@@ -37,7 +37,7 @@ class SpecialOrder extends \Magento\Framework\App\Helper\AbstractHelper
             $quoteModel = $this->simiObjectManager->get('Magento\Quote\Model\Quote')->load($quoteId);
             if ($quoteModel->getId() && $quoteModel->getData('is_active')) {
                 $this->foundQuoteId = $quoteModel->getId();
-                $this->simiObjectManager->get('Simi\Simiconnector\Helper\Data')->setQuoteToSession($quoteModel);
+                // $this->simiObjectManager->get('Simi\Simiconnector\Helper\Data')->setQuoteToSession($quoteModel);
             }
         }
     }

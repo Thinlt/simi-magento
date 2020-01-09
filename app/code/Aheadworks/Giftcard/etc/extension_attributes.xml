@@ -9,6 +9,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
     <extension_attributes for="Magento\Catalog\Api\Data\ProductInterface">
         <attribute code="aw_giftcard_amounts" type="Aheadworks\Giftcard\Api\Data\AmountInterface[]" />
+        <attribute code="aw_giftcard_amounts_percent" type="Aheadworks\Giftcard\Api\Data\AmountInterface[]" />
         <attribute code="aw_giftcard_templates" type="Aheadworks\Giftcard\Api\Data\TemplateInterface[]" />
     </extension_attributes>
     <extension_attributes for="Magento\Quote\Api\Data\ProductOptionInterface">

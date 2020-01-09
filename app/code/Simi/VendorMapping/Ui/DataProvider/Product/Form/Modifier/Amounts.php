@@ -13,6 +13,7 @@ use Magento\Framework\Stdlib\ArrayManager;
 use Magento\Directory\Helper\Data;
 use Magento\Ui\Component\Form\Element\DataType\Text;
 use Magento\Ui\Component\Form\Element\DataType\Price;
+use Magento\Ui\Component\Form\Element\DataType\Number;
 use Magento\Ui\Component\Form\Element\Input;
 use Magento\Ui\Component\Form\Element\Select;
 use Magento\Ui\Component\Form\Field;
@@ -106,8 +107,9 @@ class Amounts extends AbstractModifier
                     'data' => [
                         'config' => [
                             'componentType' => 'dynamicRows',
+                            // 'component' => 'Aheadworks_Giftcard/js/ui/dynamic-rows/dynamic-rows',
                             'label' => __('Amounts'),
-                            'required' => 1,
+                            'required' => 0,
                             'renderDefaultRecord' => false,
                             'recordTemplate' => 'record',
                             'dataScope' => '',
@@ -154,13 +156,31 @@ class Amounts extends AbstractModifier
                                             'componentType' => Field::NAME,
                                             'formElement' => Input::NAME,
                                             'dataType' => Price::NAME,
-                                            'label' => __('Amount'),
+                                            'label' => __('Value'),
                                             'validation' => [
                                                 'validate-zero-or-greater' => true,
                                                 'validate-no-empty' => true,
                                             ],
                                             'enableLabel' => true,
                                             'dataScope' => 'price',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            'percent' => [
+                                'arguments' => [
+                                    'data' => [
+                                        'config' => [
+                                            'componentType' => Field::NAME,
+                                            'formElement' => Input::NAME,
+                                            'dataType' => Number::NAME,
+                                            'label' => __('Price'),
+                                            'validation' => [
+                                                'validate-zero-or-greater' => true,
+                                                'validate-no-empty' => true,
+                                            ],
+                                            'enableLabel' => true,
+                                            'dataScope' => 'percent',
                                         ],
                                     ],
                                 ],
@@ -183,6 +203,50 @@ class Amounts extends AbstractModifier
                 ],
             ]
         );
+        // disable amount percent field
+        $fieldName = static::CONTAINER_PREFIX . ProductAttributeInterface::CODE_AW_GC_AMOUNTS_PERCENT;
+        if ($this->getGroupCodeByField($meta, $fieldName)) {
+            $containerPath = $this->arrayManager->findPath($fieldName, $meta);
+            $meta = $this->arrayManager->set(
+                $containerPath . '/children/' . ProductAttributeInterface::CODE_AW_GC_AMOUNTS_PERCENT,
+                $meta,
+                [
+                    'arguments' => [
+                        'data' => [
+                            'config' => [
+                                'componentType' => 'dynamicRows',
+                                'label' => __('Amounts Percent (Unused)'),
+                                'required' => 0,
+                                'disabled' => true,
+                                'visible' => false,
+                            ],
+                        ],
+                    ]
+                ]
+            );
+        }
+        // disable amount_type field
+        $fieldName = static::CONTAINER_PREFIX . ProductAttributeInterface::CODE_AW_GC_AMOUNT_TYPE;
+        if ($this->getGroupCodeByField($meta, $fieldName)) {
+            $containerPath = $this->arrayManager->findPath($fieldName, $meta);
+            $meta = $this->arrayManager->set(
+                $containerPath . '/children/' . ProductAttributeInterface::CODE_AW_GC_AMOUNT_TYPE,
+                $meta,
+                [
+                    'arguments' => [
+                        'data' => [
+                            'config' => [
+                                'componentType' => 'dynamicRows',
+                                'label' => __('Amount Type'),
+                                'required' => 0,
+                                'disabled' => true,
+                                'visible' => false,
+                            ],
+                        ],
+                    ]
+                ]
+            );
+        }
 
         return $this;
     }

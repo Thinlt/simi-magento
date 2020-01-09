@@ -99,6 +99,38 @@ class Quote extends AbstractExtensibleModel implements QuoteInterface
     /**
      * {@inheritdoc}
      */
+    public function getGiftcardPercent()
+    {
+        return $this->getData(self::GIFTCARD_PERCENT);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setGiftcardPercent($percent)
+    {
+        return $this->setData(self::GIFTCARD_PERCENT, $percent);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getGiftcardAmountType()
+    {
+        return $this->getData(self::GIFTCARD_AMOUNT_TYPE);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setGiftcardAmountType($type)
+    {
+        return $this->setData(self::GIFTCARD_AMOUNT_TYPE, $type);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getBaseGiftcardAmount()
     {
         return $this->getData(self::BASE_GIFTCARD_AMOUNT);

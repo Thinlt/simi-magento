@@ -20,6 +20,7 @@ interface AmountInterface extends ExtensibleDataInterface
     const VALUE_ID = 'value_id';
     const ENTITY_ID = 'entity_id';
     const VALUE = 'value';
+    const PERCENT = 'percent';
     const WEBSITE_ID = 'website_id';
     /**#@-*/
 
@@ -67,6 +68,21 @@ interface AmountInterface extends ExtensibleDataInterface
      * @return $this
      */
     public function setValue($value);
+    
+    /**
+     * Get percent
+     *
+     * @return string
+     */
+    public function getPercent();
+
+    /**
+     * Set percent
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setPercent($value);
 
     /**
      * Get website id

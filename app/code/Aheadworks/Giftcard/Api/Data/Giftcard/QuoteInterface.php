@@ -22,8 +22,10 @@ interface QuoteInterface extends ExtensibleDataInterface
     const GIFTCARD_CODE = 'giftcard_code';
     const QUOTE_ID = 'quote_id';
     const GIFTCARD_BALANCE = 'giftcard_balance';
+    const GIFTCARD_PERCENT = 'giftcard_percent';
     const BASE_GIFTCARD_AMOUNT = 'base_giftcard_amount';
     const GIFTCARD_AMOUNT = 'giftcard_amount';
+    const GIFTCARD_AMOUNT_TYPE = 'giftcard_amount_type';
     const IS_REMOVE = 'is_remove';
     const IS_INVALID = 'is_invalid';
     /**#@-*/
@@ -104,6 +106,21 @@ interface QuoteInterface extends ExtensibleDataInterface
     public function setGiftcardBalance($balance);
 
     /**
+     * Get Gift Card percent
+     *
+     * @return float
+     */
+    public function getGiftcardPercent();
+
+    /**
+     * Set Gift Card percent
+     *
+     * @param float $percent
+     * @return $this
+     */
+    public function setGiftcardPercent($percent);
+
+    /**
      * Get base Gift Card amount
      *
      * @return float
@@ -132,6 +149,21 @@ interface QuoteInterface extends ExtensibleDataInterface
      * @return $this
      */
     public function setGiftcardAmount($amount);
+
+    /**
+     * Get Gift Card amount type
+     *
+     * @return int
+     */
+    public function getGiftcardAmountType();
+
+    /**
+     * Set Gift Card amount type
+     *
+     * @param int $type
+     * @return $this
+     */
+    public function setGiftcardAmountType($type);
 
     /**
      * Check is remove Gift Card or not

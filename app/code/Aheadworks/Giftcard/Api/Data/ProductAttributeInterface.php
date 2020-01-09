@@ -23,7 +23,9 @@ interface ProductAttributeInterface extends CatalogProductAttributeInterface
     const CODE_AW_GC_EXPIRE = 'aw_gc_expire';
     const CODE_AW_GC_CUSTOM_MESSAGE_FIELDS = 'aw_gc_custom_message_fields';
     const CODE_AW_GC_EMAIL_TEMPLATES = 'aw_gc_email_templates';
+    const CODE_AW_GC_AMOUNT_TYPE = 'aw_gc_amount_type';
     const CODE_AW_GC_AMOUNTS = 'aw_gc_amounts';
+    const CODE_AW_GC_AMOUNTS_PERCENT = 'aw_gc_amounts_percent';
     const CODE_AW_GC_ALLOW_OPEN_AMOUNT = 'aw_gc_allow_open_amount';
     const CODE_AW_GC_OPEN_AMOUNT_MIN = 'aw_gc_open_amount_min';
     const CODE_AW_GC_OPEN_AMOUNT_MAX = 'aw_gc_open_amount_max';
@@ -107,6 +109,21 @@ interface ProductAttributeInterface extends CatalogProductAttributeInterface
     public function setEmailTemplates($emailTemplates);
 
     /**
+     * Get amount type
+     *
+     * @return int
+     */
+    public function getAmountType();
+
+    /**
+     * Set amount type
+     *
+     * @param int $type
+     * @return $this
+     */
+    public function setAmountType($type);
+
+    /**
      * Get amounts
      *
      * @return \Aheadworks\Giftcard\Api\Data\AmountInterface
@@ -120,6 +137,21 @@ interface ProductAttributeInterface extends CatalogProductAttributeInterface
      * @return $this
      */
     public function setAmounts($amounts);
+
+    /**
+     * Get amounts
+     *
+     * @return \Aheadworks\Giftcard\Api\Data\AmountInterface
+     */
+    public function getAmountsPercent();
+
+    /**
+     * Set amounts
+     *
+     * @param \Aheadworks\Giftcard\Api\Data\AmountInterface $amounts
+     * @return $this
+     */
+    public function setAmountsPercent($percent);
 
     /**
      * Get allow open amount

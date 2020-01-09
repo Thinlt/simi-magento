@@ -54,20 +54,37 @@ class Amounts extends AbstractBackend
     {
         $amountsRows = $object->getData($this->getAttribute()->getName()) ? : [];
         $amountsKeys = [];
+        $amountsKeysPrice = [];
         foreach ($amountsRows as $data) {
-            if (!isset($data['price']) || !empty($data['delete'])) {
+            if (!isset($data['price']) || !isset($data['percent']) || !empty($data['delete'])) {
                 continue;
             }
+            //validate duplicate price (giftcard value)
             if ($data['website_id'] == 0) {
                 foreach ($object->getWebsiteIds() as $websiteId) {
                     $key = implode('-', [$websiteId, (float)$data['price']]);
-                    $amountsKeys[$key] = $this->processValidateDuplicate($key, $amountsKeys);
+                    $amountsKeys[$key] = $this->processValidateDuplicate($key, $amountsKeys, 'Value');
                 }
             }
             $key = implode('-', [$data['website_id'], (float)$data['price']]);
-            $amountsKeys[$key] = $this->processValidateDuplicate($key, $amountsKeys);
+            $amountsKeys[$key] = $this->processValidateDuplicate($key, $amountsKeys, 'Value');
+
+            //validate duplicate percent (real price)
+            if ($data['website_id'] == 0) {
+                foreach ($object->getWebsiteIds() as $websiteId) {
+                    $key = implode('-', [$websiteId, (float)$data['percent']]);
+                    $amountsKeysPrice[$key] = $this->processValidateDuplicate($key, $amountsKeysPrice, 'Price');
+                }
+            }
+            $key = implode('-', [$data['website_id'], (float)$data['percent']]);
+            $amountsKeysPrice[$key] = $this->processValidateDuplicate($key, $amountsKeysPrice, 'Price');
+
+            if (isset($data['percent']) && ($data['percent'] < 0 || $data['percent'] > 100)) {
+                throw new LocalizedException(__('The percent value is between 0 and 100'));
+            }
         }
         if (count($amountsKeys) == 0 && !$object->getData(ProductAttributeInterface::CODE_AW_GC_ALLOW_OPEN_AMOUNT)) {
+            return $this;
             throw new LocalizedException(__('Specify amount options'));
         }
 
@@ -82,10 +99,10 @@ class Amounts extends AbstractBackend
      * @return bool
      * @throws LocalizedException
      */
-    private function processValidateDuplicate($key, $amountsKeys)
+    private function processValidateDuplicate($key, $amountsKeys, $name = '')
     {
         if (array_key_exists($key, $amountsKeys)) {
-            throw new LocalizedException(__('Duplicate amount found'));
+            throw new LocalizedException(__('Duplicate amount found '.$name));
         }
         return true;
     }

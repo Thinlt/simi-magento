@@ -101,7 +101,7 @@ class Templates extends AbstractModifier
                             'componentType' => 'dynamicRows',
                             'component' => 'Aheadworks_Giftcard/js/ui/dynamic-rows/dynamic-rows',
                             'label' => __('Email Templates'),
-                            'required' => 1,
+                            'required' => 0,
                             'renderDefaultRecord' => false,
                             'recordTemplate' => 'record',
                             'dataScope' => '',

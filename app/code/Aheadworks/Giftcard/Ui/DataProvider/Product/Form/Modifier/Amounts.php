@@ -13,6 +13,7 @@ use Magento\Framework\Stdlib\ArrayManager;
 use Magento\Directory\Helper\Data;
 use Magento\Ui\Component\Form\Element\DataType\Text;
 use Magento\Ui\Component\Form\Element\DataType\Price;
+use Magento\Ui\Component\Form\Element\DataType\Number;
 use Magento\Ui\Component\Form\Element\Input;
 use Magento\Ui\Component\Form\Element\Select;
 use Magento\Ui\Component\Form\Field;
@@ -70,6 +71,8 @@ class Amounts extends AbstractModifier
     public function modifyMeta(array $meta)
     {
         $this->modifyAmountsContainer($meta);
+        // $this->modifyAmountsPercentContainer($meta);
+        // $this->modifyAmountTypeField($meta);
         $this->modifyAllowOpenAmountField($meta);
         $this->modifyOpenAmountMinFields($meta);
         $this->modifyOpenAmountMaxFields($meta);
@@ -106,8 +109,175 @@ class Amounts extends AbstractModifier
                     'data' => [
                         'config' => [
                             'componentType' => 'dynamicRows',
+                            'component' => 'Aheadworks_Giftcard/js/ui/dynamic-rows/dynamic-rows',
                             'label' => __('Amounts'),
-                            'required' => 1,
+                            'required' => 0,
+                            'renderDefaultRecord' => false,
+                            'recordTemplate' => 'record',
+                            'dataScope' => '',
+                            'dndConfig' => [
+                                'enabled' => false,
+                            ],
+                            'disabled' => false,
+                        ],
+                    ],
+                ],
+                'children' => [
+                    'record' => [
+                        'arguments' => [
+                            'data' => [
+                                'config' => [
+                                    'componentType' => Container::NAME,
+                                    'isTemplate' => true,
+                                    'is_collection' => true,
+                                    'component' => 'Magento_Ui/js/dynamic-rows/record',
+                                    'dataScope' => '',
+                                ],
+                            ],
+                        ],
+                        'children' => [
+                            'website_id' => [
+                                'arguments' => [
+                                    'data' => [
+                                        'config' => [
+                                            'dataType' => Text::NAME,
+                                            'formElement' => Select::NAME,
+                                            'componentType' => Field::NAME,
+                                            'dataScope' => 'website_id',
+                                            'label' => __('Website'),
+                                            'options' => $this->getWebsites(),
+                                            'value' => $this->getDefaultWebsite(),
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            'price' => [
+                                'arguments' => [
+                                    'data' => [
+                                        'config' => [
+                                            'componentType' => Field::NAME,
+                                            'formElement' => Input::NAME,
+                                            'dataType' => Price::NAME,
+                                            'label' => __('Value'),
+                                            'validation' => [
+                                                'validate-zero-or-greater' => true,
+                                                'validate-no-empty' => true,
+                                            ],
+                                            'enableLabel' => true,
+                                            'dataScope' => 'price',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            'percent' => [
+                                'arguments' => [
+                                    'data' => [
+                                        'config' => [
+                                            'componentType' => Field::NAME,
+                                            'formElement' => Input::NAME,
+                                            'dataType' => Number::NAME,
+                                            'label' => __('Price'),
+                                            'validation' => [
+                                                'validate-zero-or-greater' => true,
+                                                'validate-no-empty' => true,
+                                            ],
+                                            'enableLabel' => true,
+                                            'dataScope' => 'percent',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            'actionDelete' => [
+                                'arguments' => [
+                                    'data' => [
+                                        'config' => [
+                                            'fit' => true,
+                                            'componentType' => 'actionDelete',
+                                            'dataType' => Text::NAME,
+                                            'label' => __('Action'),
+                                            'dataScope' => 'delete'
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ]
+        );
+        // disable amount percent field
+        $fieldName = static::CONTAINER_PREFIX . ProductAttributeInterface::CODE_AW_GC_AMOUNTS_PERCENT;
+        if ($this->getGroupCodeByField($meta, $fieldName)) {
+            $containerPath = $this->arrayManager->findPath($fieldName, $meta);
+            $meta = $this->arrayManager->set(
+                $containerPath . '/children/' . ProductAttributeInterface::CODE_AW_GC_AMOUNTS_PERCENT,
+                $meta,
+                [
+                    'arguments' => [
+                        'data' => [
+                            'config' => [
+                                'componentType' => 'dynamicRows',
+                                'label' => __('Amounts Percent (Unused)'),
+                                'required' => 0,
+                                'disabled' => true,
+                                'visible' => false,
+                            ],
+                        ],
+                    ]
+                ]
+            );
+        }
+        // disable amount_type field
+        $fieldName = static::CONTAINER_PREFIX . ProductAttributeInterface::CODE_AW_GC_AMOUNT_TYPE;
+        if ($this->getGroupCodeByField($meta, $fieldName)) {
+            $containerPath = $this->arrayManager->findPath($fieldName, $meta);
+            $meta = $this->arrayManager->set(
+                $containerPath . '/children/' . ProductAttributeInterface::CODE_AW_GC_AMOUNT_TYPE,
+                $meta,
+                [
+                    'arguments' => [
+                        'data' => [
+                            'config' => [
+                                'componentType' => 'dynamicRows',
+                                'label' => __('Amount Type'),
+                                'required' => 0,
+                                'disabled' => true,
+                                'visible' => false,
+                            ],
+                        ],
+                    ]
+                ]
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Modify amounts percent container
+     *
+     * @param array $meta
+     * @return $this
+     */
+    private function modifyAmountsPercentContainer(array &$meta)
+    {
+        $fieldName = static::CONTAINER_PREFIX . ProductAttributeInterface::CODE_AW_GC_AMOUNTS_PERCENT;
+        if (!$this->getGroupCodeByField($meta, $fieldName)) {
+            return $this;
+        }
+        $containerPath = $this->arrayManager->findPath($fieldName, $meta);
+        // add amount percent
+        $meta = $this->arrayManager->set(
+            $containerPath . '/children/' . ProductAttributeInterface::CODE_AW_GC_AMOUNTS,
+            $meta,
+            [
+                'arguments' => [
+                    'data' => [
+                        'config' => [
+                            'componentType' => 'dynamicRows',
+                            'component' => 'Aheadworks_Giftcard/js/ui/dynamic-rows/dynamic-rows',
+                            'label' => __('Amounts Percent'),
+                            'required' => 0,
                             'renderDefaultRecord' => false,
                             'recordTemplate' => 'record',
                             'dataScope' => '',
@@ -165,6 +335,24 @@ class Amounts extends AbstractModifier
                                     ],
                                 ],
                             ],
+                            'percent' => [
+                                'arguments' => [
+                                    'data' => [
+                                        'config' => [
+                                            'componentType' => Field::NAME,
+                                            'formElement' => Input::NAME,
+                                            'dataType' => Number::NAME,
+                                            'label' => __('Discount (%)'),
+                                            'validation' => [
+                                                'validate-zero-or-greater' => true,
+                                                'validate-no-empty' => true,
+                                            ],
+                                            'enableLabel' => true,
+                                            'dataScope' => 'percent',
+                                        ],
+                                    ],
+                                ],
+                            ],
                             'actionDelete' => [
                                 'arguments' => [
                                     'data' => [
@@ -183,7 +371,65 @@ class Amounts extends AbstractModifier
                 ],
             ]
         );
-
+        return $this;
+    }
+    
+    /**
+     * Modify amount type field
+     *
+     * @param array $meta
+     * @return $this
+     */
+    private function modifyAmountTypeField(array &$meta)
+    {
+        $amountTypePath = $this->arrayManager->findPath(
+            ProductAttributeInterface::CODE_AW_GC_AMOUNT_TYPE,
+            $meta,
+            null,
+            'children'
+        );
+        if (!$amountTypePath) {
+            return $this;
+        }
+        // @codingStandardsIgnoreStart
+        $meta = $this->arrayManager->merge(
+            $amountTypePath . static::META_CONFIG_PATH,
+            $meta,
+            [
+                'switcherConfig' => [
+                    'enabled' => true,
+                    'rules' => [
+                        [
+                            'value' => '1',
+                            'actions' => [
+                                [
+                                    'target' => 'product_form.product_form.gift-card-information.container_aw_gc_amounts.aw_gc_amounts',
+                                    'callback' => 'show'
+                                ],
+                                [
+                                    'target' => 'product_form.product_form.gift-card-information.container_aw_gc_amounts_percent.aw_gc_amounts',
+                                    'callback' => 'hide'
+                                ],
+                            ]
+                        ],
+                        [
+                            'value' => '2',
+                            'actions' => [
+                                [
+                                    'target' => 'product_form.product_form.gift-card-information.container_aw_gc_amounts.aw_gc_amounts',
+                                    'callback' => 'hide'
+                                ],
+                                [
+                                    'target' => 'product_form.product_form.gift-card-information.container_aw_gc_amounts_percent.aw_gc_amounts',
+                                    'callback' => 'show'
+                                ],
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        );
+        // @codingStandardsIgnoreEnd
         return $this;
     }
 

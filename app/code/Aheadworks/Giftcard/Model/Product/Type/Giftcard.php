@@ -219,7 +219,11 @@ class Giftcard extends AbstractType
         $amountsData = $this->getAttribute($product, ProductAttributeInterface::CODE_AW_GC_AMOUNTS);
         foreach ($amountsData as $data) {
             if (in_array($data['website_id'], [$websiteId, 0])) {
-                $amounts[] = $data['price'];
+                if (!empty($data['percent'])) {
+                    $amounts[] = $data['percent'];
+                } else {
+                    $amounts[] = $data['price'];
+                }
             }
         }
         return $amounts;

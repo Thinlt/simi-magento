@@ -43,7 +43,7 @@ class Templates extends AbstractBackend
             $templatesKeys[$key] = $this->processValidateDuplicate($key, $templatesKeys);
         }
         if (count($templatesKeys) == 0) {
-            throw new LocalizedException(__('Specify template options'));
+            // throw new LocalizedException(__('Specify template options'));
         }
         return $this;
     }

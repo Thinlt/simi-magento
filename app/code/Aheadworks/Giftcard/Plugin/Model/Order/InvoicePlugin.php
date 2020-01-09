@@ -225,13 +225,24 @@ class InvoicePlugin
                     );
                     /** @var GiftcardInterface $giftcardObject */
                     $giftcardObject = $this->giftcardDataFactory->create();
+                    $product = $item->getOrderItem()->getProduct();
+                    $gcAmounts = $product->getTypeInstance()->getAttribute($product, ProductAttributeInterface::CODE_AW_GC_AMOUNTS);
+                    $gcBalanceValue = $options->getAwGcAmount();
+                    foreach($gcAmounts as $amount){
+                        $options->getAwGcAmount();
+                        if (isset($amount['price']) && isset($amount['percent']) && $amount['percent'] == $options->getAwGcAmount()) {
+                            $gcBalanceValue = $amount['price'];
+                            break;
+                        }
+                    }
                     $giftcardObject
                         ->setOrderId($invoice->getOrder()->getId())
                         ->setProductId($item->getOrderItem()->getProductId())
                         ->setCode($this->getGiftcardCode($item->getOrderItem()->getProduct()))
                         ->setType(
                             $item->getOrderItem()->getProduct()->getData(ProductAttributeInterface::CODE_AW_GC_TYPE)
-                        )->setInitialBalance($item->getBasePrice())
+                        )
+                        ->setInitialBalance($gcBalanceValue) //old value is $item->getBasePrice()
                         ->setWebsiteId($invoice->getStore()->getWebsiteId())
                         ->setSenderName($options->getAwGcSenderName())
                         ->setSenderEmail($options->getAwGcSenderEmail())

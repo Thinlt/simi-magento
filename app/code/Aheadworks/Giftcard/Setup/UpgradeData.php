@@ -87,6 +87,125 @@ class UpgradeData implements UpgradeDataInterface
         if ($context->getVersion() && version_compare($context->getVersion(), '1.2.0', '<')) {
             $this->updateAttributesForVersion120($setup);
         }
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.2.9', '<')) {
+            $this->eavSetup
+                ->addAttribute(
+                    $this->entityTypeId,
+                    ProductAttributeInterface::CODE_AW_GC_EMAIL_TEMPLATES,
+                    [
+                        'type' => 'static',
+                        'label' => 'Email Templates',
+                        'input' => 'select',
+                        'backend' => \Aheadworks\Giftcard\Model\Product\Entity\Attribute\Backend\Templates::class,
+                        'frontend' => '',
+                        'global' => CatalogEavAttribute::SCOPE_STORE,
+                        'user_defined' => false,
+                        'searchable' => false,
+                        'filterable' => false,
+                        'visible_in_advanced_search' => false,
+                        'used_in_product_listing' => false,
+                        'used_for_sort_by' => false,
+                        'apply_to' => $this->giftCardTypeCode,
+                        'group' => $this->giftCardInfoGroupName,
+                        'sort_order' => 5,
+                        'visible' => true
+                    ]
+                )
+                ->addAttribute(
+                    $this->entityTypeId,
+                    ProductAttributeInterface::CODE_AW_GC_AMOUNT_TYPE,
+                    [
+                        'type' => 'int',
+                        'label' => 'Amount Type',
+                        'input' => 'select',
+                        'required' => false,
+                        'frontend' => '',
+                        'source' => \Aheadworks\Giftcard\Model\Source\Entity\Attribute\AmountType::class,
+                        'global' => CatalogEavAttribute::SCOPE_WEBSITE,
+                        'user_defined' => false,
+                        'searchable' => false,
+                        'filterable' => false,
+                        'visible_in_advanced_search' => false,
+                        'used_in_product_listing' => false,
+                        'used_for_sort_by' => false,
+                        'apply_to' => $this->giftCardTypeCode,
+                        'group' => $this->giftCardInfoGroupName,
+                        'sort_order' => 7,
+                    ]
+                )
+                ->addAttribute(
+                    $this->entityTypeId,
+                    ProductAttributeInterface::CODE_AW_GC_AMOUNTS,
+                    [
+                        'type' => 'static',
+                        'label' => 'Amounts',
+                        'input' => 'select',
+                        'backend' => \Aheadworks\Giftcard\Model\Product\Entity\Attribute\Backend\Amounts::class,
+                        'frontend' => '',
+                        'global' => CatalogEavAttribute::SCOPE_GLOBAL,
+                        'user_defined' => false,
+                        'searchable' => false,
+                        'filterable' => false,
+                        'visible_in_advanced_search' => false,
+                        'used_in_product_listing' => false,
+                        'used_for_sort_by' => false,
+                        'apply_to' => $this->giftCardTypeCode,
+                        'group' => $this->giftCardInfoGroupName,
+                        'sort_order' => 8,
+                    ]
+                )
+                ->addAttribute(
+                    $this->entityTypeId,
+                    ProductAttributeInterface::CODE_AW_GC_AMOUNTS_PERCENT,
+                    [
+                        'type' => 'static',
+                        'label' => 'Amounts',
+                        'input' => 'select',
+                        'backend' => \Aheadworks\Giftcard\Model\Product\Entity\Attribute\Backend\Amounts::class,
+                        'frontend' => '',
+                        'global' => CatalogEavAttribute::SCOPE_GLOBAL,
+                        'user_defined' => false,
+                        'searchable' => false,
+                        'filterable' => false,
+                        'visible_in_advanced_search' => false,
+                        'used_in_product_listing' => false,
+                        'used_for_sort_by' => false,
+                        'apply_to' => $this->giftCardTypeCode,
+                        'group' => $this->giftCardInfoGroupName,
+                        'sort_order' => 9,
+                    ]
+                )
+                ->updateAttribute(
+                    $this->entityTypeId,
+                    ProductAttributeInterface::CODE_AW_GC_ALLOW_OPEN_AMOUNT,
+                    'sort_order',
+                    null, 11
+                )
+                ->updateAttribute(
+                    $this->entityTypeId,
+                    ProductAttributeInterface::CODE_AW_GC_OPEN_AMOUNT_MIN,
+                    'sort_order',
+                    null, 12
+                )
+                ->updateAttribute(
+                    $this->entityTypeId,
+                    ProductAttributeInterface::CODE_AW_GC_OPEN_AMOUNT_MAX,
+                    'sort_order',
+                    null, 13
+                )
+                ->updateAttribute(
+                    $this->entityTypeId,
+                    ProductAttributeInterface::CODE_AW_GC_ALLOW_DELIVERY_DATE,
+                    'sort_order',
+                    null, 14
+                )
+                ->updateAttribute(
+                    $this->entityTypeId,
+                    ProductAttributeInterface::CODE_AW_GC_DAYS_ORDER_DELIVERY,
+                    'sort_order',
+                    null, 15
+                );
+        }
         $setup->endSetup();
     }
 
