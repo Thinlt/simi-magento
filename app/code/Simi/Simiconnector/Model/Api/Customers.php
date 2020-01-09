@@ -97,7 +97,7 @@ class Customers extends Apiabstract
     public function store()
     {
         $data                  = $this->getData();
-        if ($data['resourceid'] !== "sociallogin" && $data['resourceid'] !== "createpassword") {
+        if ($data['resourceid'] !== "sociallogin" && $data['resourceid'] !== "createpassword" && $data['resourceid'] !== "logout") {
             $customer              = $this->simiObjectManager->get('Simi\Simiconnector\Model\Customer')->register($data);
             $this->builderQuery    = $customer;
             $this->RETURN_MESSAGE = __("Thank you for registering with "

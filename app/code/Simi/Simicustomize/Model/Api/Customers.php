@@ -123,6 +123,7 @@ class Customers extends \Simi\Simiconnector\Model\Api\Customers
             return $resultArray;
         } else {
             if (isset($info['email'])) {
+                $resultArray            = parent::getDetail($info);
                 if (
                     $this->simiObjectManager->get('\Magento\Newsletter\Model\Subscriber') &&
                     $this->simiObjectManager->get('\Magento\Newsletter\Model\Subscriber')
@@ -136,8 +137,18 @@ class Customers extends \Simi\Simiconnector\Model\Api\Customers
                     ->get('Simi\Simiconnector\Helper\Customer')
                     ->getToken($data);
                 $info['simi_hash'] = $hash;
+                // First: get customer access token
+                $tokenService = $this->simiObjectManager->create('Simi\Simicustomize\Model\CustomerTokenService');
+                $customerAccessToken = $tokenService->getCustomerAccessToken($resultArray['customer']['entity_id']);
+
+                // Second: get customer_identity
+                $customerIdentity = $this->simiObjectManager->get('Magento\Customer\Model\Session')->getSessionId();
+
+                return ([
+                    'customer_access_token' => $customerAccessToken,
+                    'customer_identity' => $customerIdentity
+                ]);
             }
-            return ['customer' => $this->modifyFields($info)];
         }
     }
 }
