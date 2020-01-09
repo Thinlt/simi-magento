@@ -244,12 +244,14 @@ class ProductFullDetail extends Component {
                 this.setState({isErrorPreorder: true});
             }
         } else {
+            this.props.updateItemInCart()
             if (this.isBuy1Click) {
-                this.props.history.push('/checkout.html');
+                (new Promise(resolve => setTimeout(resolve, 1200))).then(() => {
+                    this.props.history.push('/checkout.html');
+                });
                 return;
             }
             this.showSuccess(data)
-            this.props.updateItemInCart()
         }
     }
 
@@ -456,7 +458,7 @@ class ProductFullDetail extends Component {
     get productOptions() {
         const { fallback, handleConfigurableSelectionChange, props } = this;
         const { configurable_options, simiExtraField, type_id, is_dummy_data, variants } = props.product;
-        const {attribute_values: {pre_order, try_to_buy, reservable}} = simiExtraField;
+        const {attribute_values: {pre_order, try_to_buy, reservable, is_salable}} = simiExtraField;
         // map color options in simiExtraField to configurable_options
         if (simiExtraField && simiExtraField.app_options && simiExtraField.app_options.configurable_options && simiExtraField.app_options.configurable_options.attributes) {
             let optionColors = Object.values(simiExtraField.app_options.configurable_options.attributes);
@@ -563,8 +565,8 @@ class ProductFullDetail extends Component {
                         parent={this}
                     />
                 }
-                {
-                    try_to_buy === '1' && <TrytobuyOptions className={"try-to-buy"} cbRef={el => this.trytobuyOptionsRef = el} />
+                {try_to_buy === '1' && pre_order !== '1' && parseInt(is_salable) === 1 &&
+                    <TrytobuyOptions className={"try-to-buy"} cbRef={el => this.trytobuyOptionsRef = el} />
                 }
             </Suspense>
         );
@@ -675,9 +677,9 @@ class ProductFullDetail extends Component {
                                 optionSelections={optionSelections}
                                 product={product}
                             />
-                            {parseInt(is_salable) === 0 && parseInt(pre_order) !== 1 && 
+                            {/* {parseInt(is_salable) === 0 && parseInt(pre_order) !== 1 && 
                                 <div className="out-of-stock"><span>{Identify.__('Out of stock')}</span></div>
-                            }
+                            } */}
                             {isPhone && (parseInt(pre_order) === 1 || parseInt(is_salable) === 1) && 
                                 <div className="wishlist-actions action-icon">
                                     <button onClick={addToWishlist} title={Identify.__('Add to Favourites')}><Favorite /></button>
@@ -817,9 +819,11 @@ class ProductFullDetail extends Component {
                         <div className="modal-title">
                             <h2>{Identify.__('RESERVE')}</h2>
                         </div>
-                        <div className="modal-header">
-                            <p>{Identify.__('Please visit chosen store in next working day to try your item. Contact us if you have any question.')}</p>
-                        </div>
+                        {!this.state.reserveSuccess && 
+                            <div className="modal-header">
+                                <p>{Identify.__('Please visit chosen store in next working day to try your item. Contact us if you have any question.')}</p>
+                            </div>
+                        }
                         {
                             this.state.reserveSubmited ? 
                                 this.state.reserveSuccess ? 
