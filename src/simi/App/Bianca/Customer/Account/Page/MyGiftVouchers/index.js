@@ -11,10 +11,6 @@ import { getGiftCodes, getHistoryCodes } from 'src/simi/Model/Customer';
 import { Colorbtn } from 'src/simi/BaseComponents/Button';
 import { addGiftVoucher, removeCode } from 'src/simi/Model/Customer';
 import TextBox from 'src/simi/BaseComponents/TextBox';
-import {
-    showFogLoading,
-    hideFogLoading
-} from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import Identify from 'src/simi/Helper/Identify';
 
 
@@ -22,17 +18,20 @@ const MyGiftVouchers = props => {
     const [code, setCode] = useState('');
     const [giftCode, setGiftCode] = useState('');
     const [historyCodes, setHistoryCodes] = useState('');
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
-        getGiftCodes(getCodeCallBack, 1, 5, '1', 'asc');
-        getHistoryCodes(getHistoryCodesCallBack, 1, 5, '1', 'asc');
+        getGiftCodes(getCodeCallBack, 1, 5, 'id', 'asc');
+        getHistoryCodes(getHistoryCodesCallBack, 1, 5, 'id', 'asc');
     }, []);
 
     const getCodeCallBack = data => {
         setGiftCode(data);
+        setLoading(false)
     };
 
     const getHistoryCodesCallBack = data => {
         setHistoryCodes(data);
+        setLoading(false)
     };
 
     const handleSubmitVoucher = (e) => {
@@ -43,13 +42,13 @@ const MyGiftVouchers = props => {
             code,
             store_id: parseInt(storeId) || null
         }
-        showFogLoading();
+        setLoading(true)
         addGiftVoucher(giftVoucherCallBack, data);
     }
 
     const giftVoucherCallBack = (data) => {
-        hideFogLoading();
         setGiftCode(data);
+        setLoading(false)
     }
 
     return (
@@ -68,12 +67,13 @@ const MyGiftVouchers = props => {
                     text={Identify.__("Add to my list")}
                 />
             </form>
-            {giftCode && historyCodes ? (
+            {giftCode && historyCodes && !loading ? (
                 <Vouchers
                     giftCode={giftCode}
                     historyCodes={historyCodes}
                     setGiftCode={setGiftCode}
                     setHistoryCodes={setHistoryCodes}
+                    setLoading={setLoading}
                 />
             ) : (
                 <Loading />

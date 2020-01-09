@@ -6,11 +6,8 @@ import Identify from 'src/simi/Helper/Identify';
 import { removeCode } from 'src/simi/Model/Customer';
 
 const GiftVouchers = props => {
-    const { setGiftCode } = props;
+    const { setGiftCode, setLoading } = props;
     let {giftCode, historyCodes} = props
-    useEffect(()=>{
-        console.log('props changed')
-    },[giftCode])
 
     if(!Array.isArray(giftCode)) {
         giftCode = [giftCode]
@@ -55,11 +52,13 @@ const GiftVouchers = props => {
             code,
             id: codeId
         }
-        removeCode(removeGiftCodeCallBack, data)
+        setLoading(true);
+        removeCode(removeGiftCodeCallBack, data);
     }
 
     const removeGiftCodeCallBack = (data) => {
-        setGiftCode(data)
+        setGiftCode(data);
+        setLoading(false);
     } 
 
     const renderListVoucher = (item,index) => {
@@ -124,7 +123,7 @@ const GiftVouchers = props => {
 
     return (
         <React.Fragment>
-            <div className="box-title">
+            <div className="box-title my-vouchers">
                 {Identify.__("MY GIFT VOUCHERS")}
             </div>
             {!giftCode || giftCode.length == 0
@@ -141,7 +140,7 @@ const GiftVouchers = props => {
                 />
             }
 
-            <div className="box-title">
+            <div className="box-title vouchers-history">
                 {Identify.__("HISTORY")}
             </div>
             {!historyCodes || historyCodes.length == 0
