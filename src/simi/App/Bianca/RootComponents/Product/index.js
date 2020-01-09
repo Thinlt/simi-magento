@@ -11,7 +11,7 @@ import { saveDataToUrl, productUrlSuffix } from 'src/simi/Helper/Url';
 
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent'
 const Page404 = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/core/NoMatch/Page404')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/Bianca/NoMatch/Page404')} {...props}/>
 }
 
 const Product = props => {
