@@ -38,6 +38,7 @@ class AppRouter extends Abstract{
                 <Route exact {...router.webview}/>
                 <Route exact {...router.storelocator}/>
                 <Route exact {...router.shopbybrand}/>
+                <Route exact {...router.blog}/>
                 {/*this.renderPbRoute()*/}
                 <Route {...router.noMatch}/>
             </Switch>

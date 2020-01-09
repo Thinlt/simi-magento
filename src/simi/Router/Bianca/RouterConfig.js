@@ -81,6 +81,11 @@ const Shopbybrand = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Shopbybrand"*/'src/simi/App/Bianca/Shopbybrand')} {...props}/>
 }
 
+const Blog = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Blog"*/'src/simi/App/Bianca/Blog')} {...props}/>
+}
+
+
 
 const router = {
     home : {
@@ -194,6 +199,10 @@ const router = {
     shopbybrand: {
         path: '/brands.html',
         render : location => <Shopbybrand {...location}/>
+    },
+    blog: {
+        path: '/blog.html',
+        render : location => <Blog {...location}/>
     },
     noMatch: {
         component : location => <NoMatch {...location} />
