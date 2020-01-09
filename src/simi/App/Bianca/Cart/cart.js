@@ -200,7 +200,7 @@ class Cart extends Component {
                 {hasGrandtotal ? (
                     <div className="grandtotal">
                         <div className="grandtotal-label">Grand Total</div>
-                        <div>
+                        <div className="grandtotal-price">
                             <Price
                                 currencyCode={cartCurrencyCode}
                                 value={grandTotal}
