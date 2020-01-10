@@ -34,7 +34,7 @@ export const BlogItem = props => {
                     {getFormattedDate(item.publish_date)}
                 </div>}
                 <Link to={locationDest} className="title">
-                    {Identify.__(item.title)}
+                    {item.title}
                 </Link>
             </div>
         </div>
