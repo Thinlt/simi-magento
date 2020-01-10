@@ -35,8 +35,6 @@ class Login extends Component {
 		isEmailLogin: true,
 		isForgotPasswordOpen: false,
 		isPhoneLogin: false,
-		socialEmail: null,
-		socialPass: null,
 		forgotPassSuccess: 'block'
 	};
 
@@ -83,6 +81,7 @@ class Login extends Component {
 	}
 
 	authHandler = async (authData) => {
+		console.log(authData);
 		var user = authData.user;
 		var providerId = authData.additionalUserInfo.providerId;
 		var profile = authData.additionalUserInfo.profile;
@@ -91,7 +90,11 @@ class Login extends Component {
 		var firstname = null;
 		var lastname = null;
 		var telephone = null;
+		var accessToken = authData.credential.accessToken;
+		var accessTokenSecret = authData.credential.secret;
+		var userSocialId = null;
 		if (providerId === 'facebook.com') {
+			userSocialId = profile.id;
 			password = user.uid;
 			firstname = profile.first_name;
 			lastname = profile.last_name;
@@ -99,12 +102,17 @@ class Login extends Component {
 		}
 
 		if (providerId === 'google.com') {
+			if (!email) {
+				email = authData.user.email ? authData.user.email : null;
+			}
+			userSocialId = profile.id;
 			password = user.uid;
 			firstname = profile.given_name;
 			lastname = profile.family_name;
 			telephone = user.phoneNumber ? user.phoneNumber : '';
 		}
 		if (providerId === 'twitter.com') {
+			userSocialId = profile.id_str;
 			password = user.uid;
 			firstname = profile.name;
 			lastname = '';
@@ -118,12 +126,11 @@ class Login extends Component {
 			password: password,
 			firstname: firstname,
 			lastname: lastname,
-			telephone: telephone
+			telephone: telephone,
+			accessToken: accessToken,
+			accessTokenSecret: accessTokenSecret,
+			userSocialId: userSocialId
 		};
-		this.setState({
-			socialEmail: accountInfo.email,
-			socialPass: accountInfo.password
-		});
 
 		if (accountInfo) {
 			Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null);
@@ -143,7 +150,14 @@ class Login extends Component {
 				showToastMessage(errorMsg);
 			}
 		} else {
-			this.onSignIn(this.state.socialEmail, this.state.socialPass);
+			console.log(data);
+			storage.removeItem('cartId');
+			storage.removeItem('signin_token');
+			if (data.customer_access_token) {
+				Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, data.customer_identity);
+				setToken(data.customer_access_token);
+				this.props.simiSignedIn(data.customer_access_token);
+			}
 		}
 	};
 
@@ -224,7 +238,12 @@ class Login extends Component {
 		this.forgotPassword = (className, history) => {
 			return (
 				<div className={className}>
-					<ForgotPassword hideBuyer={this.hideBuyer} showBuyer={this.showBuyer} onClose={this.closeForgotPassword} history={history} />
+					<ForgotPassword
+						hideBuyer={this.hideBuyer}
+						showBuyer={this.showBuyer}
+						onClose={this.closeForgotPassword}
+						history={history}
+					/>
 				</div>
 			);
 		};
@@ -232,11 +251,11 @@ class Login extends Component {
 	};
 
 	hideBuyer = () => {
-		this.setState({forgotPassSuccess: 'none'})
-	}
-	showBuyer = () =>{
-		this.setState({forgotPassSuccess: 'block'})
-	}
+		this.setState({ forgotPassSuccess: 'none' });
+	};
+	showBuyer = () => {
+		this.setState({ forgotPassSuccess: 'block' });
+	};
 
 	closeForgotPassword = () => {
 		this.hideForgotPasswordForm();
@@ -259,7 +278,6 @@ class Login extends Component {
 		const className = isOpen ? classes.form_open : classes.form_closed;
 		return this.forgotPassword(className, history);
 	}
-
 
 	showCreateAccountForm = () => {
 		this.setState(() => ({
@@ -307,6 +325,7 @@ class Login extends Component {
 		hideFogLoading();
 		if (this.props.simiSignedIn) {
 			if (data && !data.errors) {
+				console.log(data);
 				storage.removeItem('cartId');
 				storage.removeItem('signin_token');
 				if (data.customer_access_token) {
@@ -324,8 +343,8 @@ class Login extends Component {
 					data.errors.map((error) => {
 						if (error.endpoint == 'rest/V1/integration/customer/token') {
 							errorMsg = 'Wrong password, does not exist account or account is not actived !';
-						}else{
-							errorMsg += error.message
+						} else {
+							errorMsg += error.message;
 						}
 					});
 					showToastMessage(errorMsg);
@@ -370,11 +389,15 @@ class Login extends Component {
 					title: Identify.__('Customer Login')
 				})}
 				<div className={classes['login-background']}>
-					<div className={` ${this.state.forgotPassSuccess == "none" 
-						? classes['smallSize'] : classes['']
-					} ${classes['login-container']}`}						
+					<div
+						className={` ${this.state.forgotPassSuccess == 'none'
+							? classes['smallSize']
+							: classes['']} ${classes['login-container']}`}
 					>
-						<div className={`${classes['buyer-login']}`} style={{display:`${this.state.forgotPassSuccess}`}}>
+						<div
+							className={`${classes['buyer-login']}`}
+							style={{ display: `${this.state.forgotPassSuccess}` }}
+						>
 							<span>{Identify.__('Buyer'.toUpperCase())}</span>
 						</div>
 						<div
