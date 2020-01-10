@@ -18,6 +18,15 @@ $color2: #727272;
                 }
                 .col-right{
                     max-width: 454px;
+                    .options{
+                        .option-root{
+                            .list-size{
+                                .size-guide{
+                                    display: none;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             .image-carousel{

@@ -122,7 +122,7 @@ $color1: #101820;
             .chat-icons{
                 width: 40px;
                 height: 40px;
-                bottom: 35px;
+                bottom: 50px;
                 svg{
                     width: 18px!important;
                     height: 18px!important;
@@ -145,7 +145,7 @@ $color1: #101820;
                     }
                 }
                 &.chats-menu{
-                    bottom: 35px;
+                    bottom: 50px;
                     right: 16px;
                     width: 60px;
                     height: 60px;
@@ -154,13 +154,13 @@ $color1: #101820;
             .chats-group{
                 &.open{
                     .contact{
-                        bottom: 220px;
+                        bottom: 235px;
                     }
                     .whatsapp{
-                        bottom: 165px;
+                        bottom: 180px;
                     }
                     .livechat{
-                        bottom: 110px;
+                        bottom: 125px;
                     }
                 }
             }

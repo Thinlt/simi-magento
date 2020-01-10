@@ -47,6 +47,7 @@ const TrytobuyOptions = React.lazy(() => import('src/simi/App/Bianca/Components/
 import {addRecentViewedProducts} from '../../../Helper/Biancaproduct'
 import { productUrlSuffix } from 'src/simi/Helper/Url';
 import SizeGuide from 'src/simi/App/Bianca/Components/Product/SizeGuide';
+import Select from 'src/simi/App/Bianca/BaseComponents/FormInput/Select';
 
 require('./productFullDetail.scss');
 if (getOS() === 'MacOS') {
@@ -76,6 +77,8 @@ class ProductFullDetail extends Component {
 
     quantity = 1;
     stores = []; // Storelocators
+    storesOptions = []; // Storelocators option value
+    reserveSelectTrigger = React.createRef();
     reserveStoreId = '';
     isPreorder = false;
 
@@ -108,6 +111,9 @@ class ProductFullDetail extends Component {
         sendRequest('/rest/V1/simiconnector/storelocations', (data) => {
             if (data && data.storelocations) {
                 this.stores = data.storelocations;
+                this.storesOptions = this.stores && this.stores.map((item) => {
+                    return { label: item.store_name, value: item.simistorelocator_id }
+                }) || []
                 if (callback) callback(this.stores);
             }
         });
@@ -351,8 +357,7 @@ class ProductFullDetail extends Component {
         }
     };
 
-    onReserveChooseStore = (e) => {
-        const storeId = e.target.value;
+    onReserveChooseStore = (storeId) => {
         this.reserveStoreId = storeId;
         this.setState({reserveSuccess: false, reserveError: ''});
     }
@@ -619,6 +624,8 @@ class ProductFullDetail extends Component {
                 let vendorName = '';
                 if (vendor && vendor.firstname) vendorName = `${vendor.firstname}`;
                 if (vendor && vendor.lastname) vendorName = `${vendorName} ${vendor.lastname}`;
+                const {profile} = vendor || {}
+                vendorName = profile && profile.store_name || vendorName;
                 if (vendorName) return vendorName;
             }
         }
@@ -815,7 +822,7 @@ class ProductFullDetail extends Component {
                     closeIconSize={16}
                     closeIconSvgPath={<CloseIcon style={{fill: '#101820'}}/>}
                 >
-                    <div className="reserve-modal-content">
+                    <div className={`reserve-modal-content ${isPhone ? 'mobile':''}`}>
                         <div className="modal-title">
                             <h2>{Identify.__('RESERVE')}</h2>
                         </div>
@@ -837,8 +844,15 @@ class ProductFullDetail extends Component {
                             <div className="modal-body">
                                 <div className="locations-select">
                                     <label>{Identify.__('Location')}</label>
-                                    <div className="option-select">
-                                        <select onChange={this.onReserveChooseStore}>
+                                    <div className="option-select" ref={this.reserveSelectTrigger}>
+                                        {this.storesOptions && this.storesOptions.length &&
+                                            <Select className="store-input"
+                                                triggerRef={this.reserveSelectTrigger}
+                                                showSelected={true} placeholder={Identify.__('Choose a store')} 
+                                                items={this.storesOptions} onChange={this.onReserveChooseStore} 
+                                            />
+                                        }
+                                        {/* <select onChange={this.onReserveChooseStore}>
                                             <option value="" hidden>{Identify.__('Choose a store')}</option>
                                             {
                                                 this.stores && 
@@ -846,7 +860,7 @@ class ProductFullDetail extends Component {
                                                     return <option value={store.simistorelocator_id} key={index}>{store.store_name}</option>
                                                 })
                                             }
-                                        </select>
+                                        </select> */}
                                     </div>
                                     {this.state.reserveError && <div className="error">{this.state.reserveError}</div>}
                                 </div>
