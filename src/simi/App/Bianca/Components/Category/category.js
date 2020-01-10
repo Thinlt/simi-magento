@@ -91,8 +91,10 @@ const Category = props => {
                     breadcrumb = props.breadcrumb
                 } else {
                     if(data && data.category && data.category.breadcrumbs instanceof Array) {
+                        let path = ''
                         data.category.breadcrumbs.forEach(item => {
-                            breadcrumb.push({name: item.category_name, link: '/' + item.category_url_key + cateUrlSuffix()})
+                            path += ('/' + item.category_url_key)
+                            breadcrumb.push({name: item.category_name, link: path + cateUrlSuffix()})
                         })
                     }
                     breadcrumb.push({name: data.category.name})
