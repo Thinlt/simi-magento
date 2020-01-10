@@ -79,7 +79,7 @@ class Urldicts extends \Simi\Simiconnector\Model\Api\Apiabstract
             $result['urldict']['category_id'] = $this->builderQuery->getEntityId();
         $data = $this->getData();
         if(isset($result['urldict']['product_id']) && $result['urldict']['product_id']) {
-            $apiModel = $this->simiObjectManager->get('Simi\Simicustomize\Model\Api\Products');
+            $apiModel = $this->simiObjectManager->get('Simi\Simiconnector\Model\Api\Products');
             $data['resourceid'] = $result['urldict']['product_id'];
             $apiModel->singularKey = 'product';
             $apiModel->setData($data);
@@ -102,7 +102,7 @@ class Urldicts extends \Simi\Simiconnector\Model\Api\Apiabstract
 
             $data['params'] = $this->params;
             $productListModel = $this->simiObjectManager
-                ->get('Simi\Simicustomize\Model\Api\Products');
+                ->get('Simi\Simiconnector\Model\Api\Products');
             $data['resourceid'] = null;
             $data['params'][self::FILTER] = array('cat_id'=>$result['urldict']['category_id']);
             $data['params']['image_width'] = isset($data['params']['image_width'])?
