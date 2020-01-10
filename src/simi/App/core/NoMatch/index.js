@@ -1,6 +1,7 @@
 import React from 'react'
 import Product from 'src/simi/App/core/RootComponents/Product'
 import Category from 'src/simi/App/core/RootComponents/Category'
+import CMS from 'src/simi/App/core/RootComponents/CMS'
 import Simicms from 'src/simi/App/core/Simicms'
 import resolveUrl from 'src/simi/queries/urlResolver.graphql'
 import { simiUseQuery } from 'src/simi/Network/Query';
@@ -21,13 +22,14 @@ const NoMatch = props => {
             return <Product {...props} preloadedData={preloadedData}/>
         else if (type === TYPE_CATEGORY)
             return <Category {...props} id={parseInt(id, 10)}/>
+        else if (type === TYPE_CMS_PAGE)
+            return <CMS {...props} id={parseInt(id, 10)}/>
     }
 
     if (
         parseFromDoc &&
         document.body.getAttribute('data-model-type') &&
-        document.body.getAttribute('data-model-id') &&
-        (document.body.getAttribute('data-model-type') !== TYPE_CMS_PAGE)
+        document.body.getAttribute('data-model-id')
     ) {
         parseFromDoc = false
         const type = document.body.getAttribute('data-model-type')
