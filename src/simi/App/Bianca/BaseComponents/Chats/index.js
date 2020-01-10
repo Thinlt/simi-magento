@@ -6,13 +6,13 @@ import IconWhatsapp from "src/simi/App/Bianca/BaseComponents/Icon/Whatsapp";
 import IconBubble from "src/simi/App/Bianca/BaseComponents/Icon/Bubble";
 import IconBubble2 from "src/simi/App/Bianca/BaseComponents/Icon/Bubble2";
 import IconCross from "src/simi/App/Bianca/BaseComponents/Icon/Cross";
-import LiveChat from 'react-livechat';
+// import LiveChat from 'react-livechat';
 import Modal from 'react-responsive-modal';
 import CloseIcon from 'src/simi/App/Bianca/BaseComponents/Icon/Close';
 import {sendRequest} from 'src/simi/Network/RestMagento';
 import Loading from 'src/simi/BaseComponents/Loading';
 import PhoneCodes from './PhoneData';
-import Select from './SelectOption';
+import Select from 'src/simi/App/Bianca/BaseComponents/FormInput/Select';
 
 require('./style.scss');
 if (getOS() === 'MacOS') require('./style-ios.scss');
@@ -260,7 +260,8 @@ const Chats = (props) => {
                                     <Select className="contact-input time-input" 
                                         items={timeItems} onChange={onChangeContactTime} 
                                         showSelected={true}
-                                        placeholder={timeItems[0] ? timeItems[0].label : ''} 
+                                        selected={timeItems[0]}
+                                        placeholder={Identify.__('Time')} 
                                         hiddenInput={{name: 'time', id: 'contact-time', defaultValue: timeItems[0] ? timeItems[0].value : ''}}
                                     />
                                 }
