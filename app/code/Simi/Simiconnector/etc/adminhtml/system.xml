@@ -140,17 +140,6 @@
                     </depends>
                 </field>
             </group>
-            <group id="config_price" translate="label" type="text" sortOrder="1099" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Price Configuration</label>
-                <field id="price_one_row" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Show price in a row</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="is_show_price_for_guest" translate="label" type="select" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Show price for guest</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-            </group>
             <group id="methods_support" translate="label" type="text" sortOrder="1199" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Supported Methods</label>
                 <field id="delete" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
