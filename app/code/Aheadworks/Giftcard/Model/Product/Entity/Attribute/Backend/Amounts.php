@@ -79,9 +79,9 @@ class Amounts extends AbstractBackend
             $key = implode('-', [$data['website_id'], (float)$data['percent']]);
             $amountsKeysPrice[$key] = $this->processValidateDuplicate($key, $amountsKeysPrice, 'Price');
 
-            if (isset($data['percent']) && ($data['percent'] < 0 || $data['percent'] > 100)) {
-                throw new LocalizedException(__('The percent value is between 0 and 100'));
-            }
+            // if (isset($data['percent']) && ($data['percent'] < 0 || $data['percent'] > 100)) {
+            //     throw new LocalizedException(__('The percent value is between 0 and 100'));
+            // }
         }
         if (count($amountsKeys) == 0 && !$object->getData(ProductAttributeInterface::CODE_AW_GC_ALLOW_OPEN_AMOUNT)) {
             return $this;
