@@ -5,8 +5,6 @@ import TextInput from 'src/components/TextInput';
 import { isRequired } from 'src/util/formValidators';
 import Identify from 'src/simi/Helper/Identify'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
-import UserIcon from '../../../../../BaseComponents/Icon/User';
-import Key from '../../../../../BaseComponents/Icon/Key';
 import Checkbox from 'src/simi/BaseComponents/Checkbox';
 
 require("./signIn.scss")

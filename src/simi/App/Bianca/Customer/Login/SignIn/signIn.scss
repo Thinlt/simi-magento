@@ -98,7 +98,7 @@
         size: 16px;
     }
     
-    .root.sign-in-form .input{
+    .root.sign-in-form input{
         min-height: 48px;
         padding-left: 16px !important;
         background-color: #F2F2F2;
@@ -164,5 +164,18 @@
         &:not(:last-child){
             margin-right: 16px;
         }
+    }
+}
+
+@media(max-width: 834px){
+    .root.sign-in-form{
+        padding: 0 120px;
+    }
+    .root.sign-in-form .userInput span[class *= "root"],
+    .root.sign-in-form .passwordInput span[class *= "root"]{
+        width: 100%;
+    }
+    .root.sign-in-form input{
+        min-width: unset !important;
     }
 }

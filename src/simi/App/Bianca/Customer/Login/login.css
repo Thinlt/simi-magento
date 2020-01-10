@@ -1,323 +1,367 @@
 .login-background {
-    background-color: white;
-    padding: 25px;
-    padding-bottom: unset;
-    padding-top: 60px;
-    background-size: cover;
-    background-position: top center;
-    background-repeat: no-repeat;
+	background-color: white;
+	padding: 25px;
+	padding-bottom: unset;
+	padding-top: 60px;
+	background-size: cover;
+	background-position: top center;
+	background-repeat: no-repeat;
 }
 .login-background .login-container {
-    max-width: 770px;
-    margin-top: 47px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0px 0px 60px;
-    border: 1px solid;
-    border-bottom: unset;
-    background-color: white;
-    /* min-height: 700px !important; */
+	max-width: 770px;
+	margin-top: 47px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0px 0px 60px;
+	border: 1px solid;
+	border-bottom: unset;
+	background-color: white;
+	/* min-height: 700px !important; */
 }
-.login-background .smallSize{
-    max-width: 572px;
-    border: unset;
+.login-background .smallSize {
+	max-width: 572px;
+	border: unset;
 }
 
 .signIn_closed {
-    display: none;
+	display: none;
 }
 .modal_active {
-    left: 0;
+	left: 0;
 }
 .form_closed {
-    display: none;
+	display: none;
 }
 .login-header {
-    display: flex;
-    margin-bottom: 35px;
+	display: flex;
+	margin-bottom: 35px;
 }
 .login-header-back {
-    width: 20%;
-    margin-top: 8px;
-    cursor: pointer;
+	width: 20%;
+	margin-top: 8px;
+	cursor: pointer;
 }
 .login-header-title {
-    width: 100%;
-    text-align: center;
-    font-size: 24px;
-    font-weight: 600;
+	width: 100%;
+	text-align: center;
+	font-size: 24px;
+	font-weight: 600;
 }
 .login-header.has-back-btn .login-header-title {
-    width: 60%;
+	width: 60%;
 }
 
 .login-container .buyer-login {
-    max-height: 60px;
-    width: 100%;
-    padding: 20px 0;
-    text-align: center;
-    border-left: 1px solid #727272;
-    border-right: 1px solid #727272;
-    box-sizing: border-box;
-    background-color: #101820;
-    color: #fff;
+	max-height: 60px;
+	width: 100%;
+	padding: 20px 0;
+	text-align: center;
+	border-left: 1px solid #727272;
+	border-right: 1px solid #727272;
+	box-sizing: border-box;
+	background-color: #101820;
+	color: #fff;
 }
 
 .login-container .buyer-login span {
-    color: #fff;
-    font-size: 20px;
-    line-height: 20px;
-    font-weight: 500;
-    font-family: Gotham;
-    width: 72px;
-    height: 20px;
-    margin: auto;
-    text-align: center;
-    display: inline-block;
-    margin-top: 0px;
+	color: #fff;
+	font-size: 20px;
+	line-height: 20px;
+	font-weight: 500;
+	font-family: 'Gotham Medium';
+	width: 72px;
+	height: 20px;
+	margin: auto;
+	text-align: center;
+	display: inline-block;
+	margin-top: 0px;
 }
-.userInput{
-    margin-bottom: 10px !important;
+.userInput {
+	margin-bottom: 10px !important;
 }
 .input {
-    min-height: 48px;
-    padding-left: 16px !important;
-    background-color: #f2f2f2;
-    min-width: 572px;
-    width: 100%;
-    border: unset;
-    margin-bottom: 24px !;
+	min-height: 48px;
+	padding-left: 16px !important;
+	background-color: #f2f2f2;
+	min-width: 572px;
+	width: 100%;
+	border: unset;
+	margin-bottom: 24px !;
 }
 
 /* nam style css */
 .login-background .select-type {
-    padding: 0 98px;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 25px;
+	padding: 0 98px;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 25px;
 }
-.login-background .select-type .active{
-    background-color: #101820 !important;
+.login-background .select-type .active {
+	background-color: #101820 !important;
 }
 .login-background .select-type .active .icon-phone,
-.login-background .select-type .active .title-phone{
-    color: #fff !important;
+.login-background .select-type .active .title-phone {
+	color: #fff !important;
 }
 .login-background .select-type .active .icon-email,
-.login-background .select-type .active .title-email{
-    color: #fff !important;
+.login-background .select-type .active .title-email {
+	color: #fff !important;
 }
 .login-background .select-type .phone-type,
 .login-background .select-type .email-type {
-    width: 278px;
-    height: 48px;
-    background-color: #fff;
-    border: 1px solid #101820;
+	width: 278px;
+	height: 48px;
+	background-color: #fff;
+	border: 1px solid #101820;
     box-sizing: border-box;
+    padding: 0;
+    display: flex;
+    justify-content: center;
 }
-.login-background .select-type .phone-type {
-    padding: 15px 101.5px;
-    cursor: pointer;
+.login-background .select-type .phone-type .wrap,
+.login-background .select-type .email-type .wrap {
     position: relative;
-}
-.login-background .select-type .email-type {
-    padding: 15px 104.5px;
+    width: fit-content;
+    display: block;
+    margin: auto;
     cursor: pointer;
-    position: relative;
 }
 .login-background .select-type .phone-type .icon-phone {
-    display: inline-block;
-    color: #101820;
-    font-family: Linearicons;
-    font-size: 18px;
-    line-height: 18px;
-    text-align: center;
+	display: inline-block;
+	color: #101820;
+	font-family: Linearicons;
+	font-size: 18px;
+	line-height: 18px;
+	text-align: center;
 }
-.login-background .select-type .phone-type .icon-phone::before{
-    content:"\e831";
+.login-background .select-type .phone-type .icon-phone::before {
+	content: "\e831";
 }
 .login-background .select-type .phone-type .title-phone {
-    display: inline-block;
-    color: #101820;
-    font-family: Gotham;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 16px;
-    padding: 1px 0;
-    position: absolute;
-    top: 14px;
-    left: 126px;
+	display: inline-block;
+	color: #101820;
+	font-family: Gotham;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 16px;
+	padding: 1px 0;
 }
 .login-background .select-type .email-type .icon-email {
-    display: inline-block;
-    color: #101820;
-    font-family: Linearicons;
-    font-size: 18px;
-    line-height: 18px;
-    text-align: center;
+	display: inline-block;
+	color: #101820;
+	font-family: Linearicons;
+	font-size: 18px;
+	line-height: 18px;
+	text-align: center;
 }
 .login-background .select-type .email-type .icon-email::before {
-    content:"\e697";
+	content: "\e697";
 }
 .login-background .select-type .email-type .title-email {
-    display: inline-block;
-    color: #101820;
-    font-family: Gotham;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 16px;
-    position: absolute;
-    padding: 1px 0;
-    top: 14px;
-    left: 131px;
+	display: inline-block;
+	color: #101820;
+	font-family: Gotham;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 16px;
 }
-.login-background div[class ~="signInAction"]{
-    margin-top: 40px;
+.login-background div[class ~="signInAction"] {
+	margin-top: 40px;
 }
-.login-background div[class ~="signInAction"] button{
-    color: #101820;
-    font-family: "Gotham Medium";
-    font-size: 16px;
-    line-height: 16px;
+.login-background div[class ~="signInAction"] button {
+	color: #101820;
+	font-family: "Gotham Medium";
+	font-size: 16px;
+	line-height: 16px;
 }
-.login-background div[class ~="signInAction"] div[class *= "checkbox-item"]{
-    margin-top: unset !important;
+.login-background div[class ~="signInAction"] div[class *= "checkbox-item"] {
+	margin-top: unset !important;
 }
-.login-background div[class ~="signInAction"] div[class *= "checkbox-item-icon"]{
-    width: 24px;
-    height: 24px;
+.login-background div[class ~="signInAction"] div[class *= "checkbox-item-icon"] {
+	width: 24px;
+	height: 24px;
 }
-.login-background div[class ~="signInAction"] div[class *= "checkbox-item-icon-inside"]{
-    margin-top: 4px !important;
+.login-background div[class ~="signInAction"] div[class *= "checkbox-item-icon-inside"] {
+	margin-top: 4px !important;
 }
-.login-background div[class ~="signInAction"] span[class *= "checkbox-item-text"]{
-   margin: 5px 0;
-   min-width: 103px;
+.login-background div[class ~="signInAction"] span[class *= "checkbox-item-text"] {
+	margin: 5px 0;
+	min-width: 103px;
 }
-.login-background div[class ~="signInButtonCtn"]{
-    margin-top: 32px !important;
+.login-background div[class ~="signInButtonCtn"] {
+	margin-top: 32px !important;
 }
-.login-background div[class ~="signInButtonCtn"] button{
-       font-size: 16px;
-       font-weight: 500 !important;
-       white-space: nowrap;
-       text-align: center;
-       padding-top: 16px !important;
-       cursor: pointer;
-       border: 0;
-       width: 100%;
-       min-width: 200px;
-       padding-bottom: 16px !important;
-       font-family: Gotham;
-       line-height: 16px !important;
+.login-background div[class ~="signInButtonCtn"] button {
+	font-size: 16px;
+	font-weight: 500 !important;
+	white-space: nowrap;
+	text-align: center;
+	padding-top: 16px !important;
+	cursor: pointer;
+	border: 0;
+	width: 100%;
+	min-width: 200px;
+	padding-bottom: 16px !important;
+	font-family: 'Gotham Medium';
+	line-height: 16px !important;
 }
 
-.login-background .inactive{
-    display: none;
+.login-background .inactive {
+	display: none;
 }
-.login-background .active{
-    padding: 0 98px;
-    display: block;
-    justify-content: space-between;
+.login-background .active {
+	padding: 0 98px;
+	display: block;
+	justify-content: space-between;
 }
-.login-background .active .signInDivider{
-    text-align: center;
-    display: flex;
-    justify-content: center;
+.login-background .active .signInDivider {
+	text-align: center;
+	display: flex;
+	justify-content: center;
 }
-.login-background .active .signInDivider .hr{
-    border-top: 0.5px solid #727272;
-    border-bottom: 0.5px solid #727272;
-    margin: unset;
-    margin-top: 7.5px;
-    width: 211px;
+.login-background .active .signInDivider .hr {
+	border-top: 0.5px solid #727272;
+	border-bottom: 0.5px solid #727272;
+	margin: unset;
+	margin-top: 7.5px;
+	width: 211px;
 }
-.login-background .active .signInDivider .hr.left-hr{
-    margin-right: 12px;
+.login-background .active .signInDivider .hr.left-hr {
+	margin-right: 12px;
 }
-.login-background .active .signInDivider .hr.right-hr{
-    margin-left: 12px;
+.login-background .active .signInDivider .hr.right-hr {
+	margin-left: 12px;
 }
-.login-background .active .signInDivider .signInWidth{
-    color: #101820;
-    font-family: "Gotham Medium";
-    font-size: 14px;
-    font-weight: 500;
-    height: 14px;
-    text-transform: uppercase;
+.login-background .active .signInDivider .signInWidth {
+	color: #101820;
+	font-family: "Gotham Medium";
+	font-size: 14px;
+	font-weight: 500;
+	height: 14px;
+	text-transform: uppercase;
 }
-.login-background .active .socialMedia{
-    margin-top: 32px;
-    display: flex;
-    justify-content: center;
+.login-background .active .socialMedia {
+	margin-top: 32px;
+	display: flex;
+	justify-content: center;
 }
-.login-background .active .socialMedia .social-icon{
-    display: inline-block;
-    cursor: pointer;
-    border: 1px solid #101820;
-    box-sizing: border-box;
-    border-radius: 100%;
-    width: 36px;
-    height: 36px;
-    background-color: #fff;
-    margin: 0 8px;
+.login-background .active .socialMedia .social-icon {
+	display: inline-block;
+	cursor: pointer;
+	border: 1px solid #101820;
+	box-sizing: border-box;
+	border-radius: 100%;
+	width: 36px;
+	height: 36px;
+	background-color: #fff;
+	margin: 0 8px;
 }
-.login-background .active .socialMedia .social-icon.special{
-   text-align: center;
+.login-background .active .socialMedia .social-icon.special {
+	text-align: center;
 }
-.login-background .active .socialMedia .social-icon .icon{
-    display: inline-block;
-    height: 24px;
-    width: 24px;
-    color: #101820;
-    font-family: simple-line-icons;
-    font-size: 24px;
-    line-height: 24px;
-    text-align: center;
-    padding: 5px;
+.login-background .active .socialMedia .social-icon .icon {
+	display: inline-block;
+	height: 24px;
+	width: 24px;
+	color: #101820;
+	font-family: simple-line-icons;
+	font-size: 24px;
+	line-height: 24px;
+	text-align: center;
+	padding: 5px;
 }
-.login-background .active .socialMedia .social-icon .icon.google{
-    display: inline-block;
-    height: 24px;
-    width: 24px;
-    color: #101820;
-    font-family: Material-Design-Iconic-Font;
-    font-size: 24px;
-    letter-spacing: 0.17px;
-    line-height: 24px;
-    text-align: center;
+.login-background .active .socialMedia .social-icon .icon.google {
+	display: inline-block;
+	height: 24px;
+	width: 24px;
+	color: #101820;
+	font-family: Material-Design-Iconic-Font;
+	font-size: 24px;
+	letter-spacing: 0.17px;
+	line-height: 24px;
+	text-align: center;
 }
-.login-background .active .socialMedia .social-icon .facebook::before{
-    content: "\e00b";
+.login-background .active .socialMedia .social-icon .facebook::before {
+	content: "\e00b";
 }
-.login-background .active .socialMedia .social-icon .twitter::before{
-    content: "\e009";
+.login-background .active .socialMedia .social-icon .twitter::before {
+	content: "\e009";
 }
-.login-background .active .socialMedia .social-icon .google::before{
-    content: '\f3f7';
+.login-background .active .socialMedia .social-icon .google::before {
+	content: '\f3f7';
 }
-.login-background .active .socialMedia .social-icon .linkedin::before{
-    content: "\e60a";
+.login-background .active .socialMedia .social-icon .linkedin::before {
+	content: "\e60a";
 }
-.login-background .active .socialMedia .social-icon .instagram::before{
-    content: "\e609";
+.login-background .active .socialMedia .social-icon .instagram::before {
+	content: "\e609";
 }
-.login-background .active .showCreateAccountButtonCtn{
-    display:flex;
-    margin-top: 60px;
-    box-sizing: content-box;
-    height: 48px;
-    width: 572px;
-    border: 1px solid #101820;
-    cursor: pointer;
+.login-background .active .showCreateAccountButtonCtn {
+	display: flex;
+	margin-top: 60px;
+	box-sizing: content-box;
+	height: 48px;
+	width: 572px;
+	border: 1px solid #101820;
+	cursor: pointer;
 }
-.login-background .active .showCreateAccountButtonCtn .showCreateAccountButton{
-    display: inline-block;
-    width: 100%;
-    color: #101820;
-    font-family: Gotham;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 16px;
-    text-transform: uppercase;
+.login-background .active .showCreateAccountButtonCtn .showCreateAccountButton {
+	display: inline-block;
+	width: 100%;
+	color: #101820;
+	font-family: Gotham;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 16px;
+	text-transform: uppercase;
+}
+
+@media (max-width: 834px) {
+	.login-background {
+		padding: 40px;
+		padding-top: 0;
+	}
+	.login-background .select-type {
+		padding: 0 120px;
+	}
+	.login-container .buyer-login {
+		padding: 15px 0;
+	}
+	.login-container .buyer-login span {
+		font-size: 18px;
+		line-height: 18px;
+		font-weight: 500;
+		height: 18px;
+	}
+	.login-background .select-type .phone-type,
+	.login-background .select-type .email-type {
+		padding: 9px 101.5px;
+		height: 40px;
+    }
+    .login-background .select-type .phone-type .title-phone,
+    .login-background .select-type .email-type .title-email {
+        font-size: 14px;
+        line-height: 14px;
+        top: 9px;
+        left: 126px;
+    }
+    .login-background .active {
+        padding: 0 120px;
+    }
+    .login-background .active .signInDivider .signInWidth {
+        font-size: 13px;
+    }
+    .login-background .active .signInDivider .hr {
+        width: 177px;
+    }
+    .login-background .active .showCreateAccountButtonCtn {
+        width: 100%;
+        margin-top: 40px;
+        height: 40px;
+    }
+    .login-background div[class ~="signInButtonCtn"] button {
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+        line-height: 16px !important;
+    }
 }
