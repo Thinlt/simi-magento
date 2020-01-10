@@ -114,11 +114,16 @@ class Blog extends React.Component {
     renderContent = (data) => {
         let html = null;
         if (data.length) {
+            let first = true
+            const storeId = this.storeConfig.storeConfig.id.toString()
             html = data.map((item, index) => {
-                if (index === 0) {
-                    return <div key={index} className="special-post col-md-12">{this.renderSpecialPost(item)}</div>
+                if (item.store_ids && item.store_ids.length && item.store_ids.includes(storeId)) {
+                    if (first) {
+                        first = false
+                        return <div key={index} className="special-post col-md-12">{this.renderSpecialPost(item)}</div>
+                    }
+                    return <div className="col-xs-12 col-sm-6 col-md-4" key={index}><BlogItem item={item} /></div>
                 }
-                return <div className="col-xs-12 col-sm-6 col-md-4" key={index}><BlogItem item={item} /></div>
             });
         }
         return html;
@@ -161,6 +166,10 @@ class Blog extends React.Component {
     }
 
     render() {
+        this.storeConfig = Identify.getStoreConfig();
+        if (!this.storeConfig || !this.storeConfig.storeConfig || !this.storeConfig.storeConfig.id) {
+            return ''
+        }
         const { data, isPhone } = this.state;
         if (!data || !data.hasOwnProperty('articles')) {
             return <Loading />

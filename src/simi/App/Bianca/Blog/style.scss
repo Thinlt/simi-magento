@@ -223,6 +223,21 @@
         }
     }
 }
+/*listing RTL*/
+.rtl-root {
+    .blog-app-page {    
+        .article-item.item-featured-post {
+            .article-description {
+                margin-left: 20px;
+                margin-right: 0;
+            }
+        }
+        .blog-left-col {
+            float: right;
+        }
+    }
+}
+/*Post page*/
 
 .blog-single-app-page {
     margin: 8px 0 100px;
