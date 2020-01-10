@@ -225,6 +225,17 @@ $colorRed: #b91c1c;
                                     }
                                 }
                             }
+                            .price-aw_giftcard{
+                                .regular{
+                                    font-size: 32px;
+                                    font-weight: 600;
+                                    margin-top: 24px;
+                                    .price{
+                                        font-size: 32px;
+                                        font-weight: 600;
+                                    }
+                                }
+                            }
                             .price-simple{
                                 .product-prices{
                                     display: flex;
@@ -355,6 +366,23 @@ $colorRed: #b91c1c;
                                     align-items: center;
                                 }
                                 svg{fill: $color1!important;}
+                            }
+                        }
+                    }
+                    .option-row{
+                        .simi-input-select{
+                            margin-top: 8px;
+                            width: 100%;
+                            min-height: 48px;
+                            border: none;
+                            border-radius: unset;
+                            background-color: #f2f2f2;
+                            font-size: 14px;
+                            line-height: 14px;
+                            font-family: 'Gotham Book';
+                            color: #101820;
+                            .input-display{
+                                padding: 17px;
                             }
                         }
                     }
@@ -680,6 +708,16 @@ $colorRed: #b91c1c;
                                             padding-top: 0px;
                                             padding-bottom: 0px;
                                             font-family: 'Gotham Book';
+                                        }
+                                    }
+                                }
+                                .price-aw_giftcard{
+                                    .regular{
+                                        font-size: 20px;
+                                        font-weight: 600;
+                                        .price{
+                                            font-size: 20px;
+                                            font-weight: 600;
                                         }
                                     }
                                 }
