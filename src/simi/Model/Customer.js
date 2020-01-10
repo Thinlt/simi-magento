@@ -8,6 +8,10 @@ export const socialLogin = (callBack, accountInfo) => {
     sendRequest('rest/V1/simiconnector/customers/sociallogin', callBack, 'POST', {}, accountInfo)
 }
 
+export const logout = (callBack, {}) => {
+    sendRequest('rest/V1/simiconnector/customers/logout', callBack, 'POST', {}, {})
+}
+
 export const createPassword = (callBack, passwordInfo) => {
     sendRequest('rest/V1/simiconnector/customers/createpassword', callBack, 'POST', {}, passwordInfo)
 }
