@@ -52,11 +52,16 @@ class SimiGetStoreviewInfoAfter implements ObserverInterface {
             $object->storeviewInfo['delivery_returns'] = $this->config->getValue('sales/policy/delivery_returns'); //get all vendors
             $object->storeviewInfo['preorder_deposit'] = $this->config->getValue('sales/preorder/deposit_amount'); //get all vendors
             // add brands list to storeview api
-            $serializer = $this->simiObjectManager->get('Magento\Framework\Serialize\SerializerInterface');
-            $brandsDetailsFromConfig = $serializer->unserialize($this->config->getValue('simiconnector/product_brands/brand_details'));
             $descriptionArr = array();
-            foreach ($brandsDetailsFromConfig as $brandDetailsFromConfig) {
-                $descriptionArr[$brandDetailsFromConfig['brand_title']] = $brandDetailsFromConfig['brand_description'];
+            $serializer = $this->simiObjectManager->get('Magento\Framework\Serialize\SerializerInterface');
+            $brandDetails = $this->config->getValue('simiconnector/product_brands/brand_details');
+            if ($brandDetails) {
+                $brandsDetailsFromConfig = $serializer->unserialize($brandDetails);
+                if ($brandsDetailsFromConfig && is_array($brandsDetailsFromConfig)) {
+                    foreach ($brandsDetailsFromConfig as $brandDetailsFromConfig) {
+                        $descriptionArr[$brandDetailsFromConfig['brand_title']] = $brandDetailsFromConfig['brand_description'];
+                    }
+                }
             }
             $attributeInfo = $this->_attributeFactory->getCollection();
             $attributeInfo->addFieldToFilter('attribute_code', 'brand');
