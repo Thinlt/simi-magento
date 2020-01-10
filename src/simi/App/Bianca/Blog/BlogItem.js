@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from 'src/drivers';
-import Identify from 'src/simi/Helper/Identify'
 import {getFormattedDate} from './BlogHelper'
 
 
@@ -34,7 +33,7 @@ export const BlogItem = props => {
                     {getFormattedDate(item.publish_date)}
                 </div>}
                 <Link to={locationDest} className="title">
-                    {Identify.__(item.title)}
+                    {item.title.substring(0,40)} {(item.title.length) > 40 ? '...': ''}
                 </Link>
             </div>
         </div>
