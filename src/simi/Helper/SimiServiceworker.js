@@ -20,6 +20,7 @@ function urlB64ToUint8Array(base64String) {
 
 export function initializeUI(swRegistration) {
     checkVersionPwa()
+    return;
     pushButton.addEventListener('click', function() {
         pushButton.disabled = true;
         if (isSubscribed) {
