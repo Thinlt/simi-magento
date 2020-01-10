@@ -13,6 +13,10 @@
     <type name="Magento\Quote\Model\Quote\Item\Repository">
         <plugin name="simi_cart_plugin_quote_item_repository" type="Simi\Simicustomize\Plugin\QuoteItemRepository" />
     </type>
+    <!--update urlResolver -->
+    <type name="Magento\UrlRewriteGraphQl\Model\Resolver\EntityUrl">
+        <plugin name="simi_cart_plugin_urlrewrite_urlresover_entityurl" type="Simi\Simicustomize\Plugin\ResolverEntityUrl" />
+    </type>
     <!-- Add order column sync to order grid -->
     <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid">
         <arguments>
