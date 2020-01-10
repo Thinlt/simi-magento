@@ -201,7 +201,7 @@ const router = {
         render : location => <Shopbybrand {...location}/>
     },
     blog: {
-        path: '/blog.html',
+        path: '/blog',
         render : location => <Blog {...location}/>
     },
     noMatch: {

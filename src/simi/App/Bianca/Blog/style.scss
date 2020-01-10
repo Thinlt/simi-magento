@@ -12,7 +12,7 @@
     .article-item.item-featured-post {
         .article-description {
             max-width: 551px;
-            margin-right: 76px;
+            margin-right: 20px;
             margin-top: 0;
             .title {
                 font-size: 38px;
@@ -185,12 +185,11 @@
                     overflow: hidden;
                     width: 100%;
                     background-repeat: no-repeat;
-                    background-size: contain;
+                    background-size: cover;
                     background-position: top;
-                    border: solid 1px #eaeaea;
                 }
                 .special-image-container {
-                    width: 60%;
+                    width: 70%;
                     .benecos-article-image {
                         
                     }
