@@ -120,9 +120,12 @@ class Customer extends \Simi\Simiconnector\Model\Customer
                     if ($userProfile->identifier === $data->userSocialId) {
                         // If the same -> force login ( need return 2 fields: customer_access_token and customer_identity)
 
-                        // Login by customer object
+                        // Login by customer object, this function only create new customer session id ( customer_identity)
                         $this->simiObjectManager
                             ->get('Simi\Simicustomize\Override\Helper\Customer')->loginByCustomer($customer);
+                        // Create new customer access token ( customer_access_token )
+                        $tokenModel = $this->simiObjectManager->create('\Magento\Integration\Model\Oauth\Token');
+                        $tokenModel->createCustomerToken($customer->getId());
                     } else {
                         // Not the same, show error
                         throw new \Simi\Simiconnector\Helper\SimiException(__('Your account is Invalid !'), 4);
@@ -140,12 +143,9 @@ class Customer extends \Simi\Simiconnector\Model\Customer
             if (!$data->lastname) {
                 $data->lastname = __('Lastname');
             }
+            // Create new customer account for social network
             $customer = $this->_createCustomer($data);
-            if ($customer->getId()) {
-                // Create customer access token
-                $tokenModel = $this->simiObjectManager->create('\Magento\Integration\Model\Oauth\Token');
-                $tokenModel->createCustomerToken($customer->getId());
-            }
+            // Notify user to check mailbox and verify new account
             throw new \Simi\Simiconnector\Helper\SimiException(__('Please check your mailbox to active your account !.'), 4);
         }
     }
