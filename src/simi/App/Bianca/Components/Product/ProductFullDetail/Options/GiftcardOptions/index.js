@@ -58,18 +58,6 @@ class GiftcardOptions extends OptionBase {
         }
     }
 
-    // componentWillMount() {
-    //     const aw_gc_timezones = this.extraField.aw_gc_timezones || null;
-    //     if (aw_gc_timezones) {
-    //         for (const key in aw_gc_timezones) {
-    //             this.timezoneOption.push(
-    //                 <MenuItem value={aw_gc_timezones[key].value} key={key}>{Identify.__(aw_gc_timezones[key].label)}</MenuItem>
-    //             );
-    //         }
-    //     }
-    //     this.updatePrices(this.state.aw_gc_amount);
-    // }
-
     componentDidMount() {
         this.updatePrices(this.state.aw_gc_amount);
         this.props.myRef(this);
@@ -310,7 +298,7 @@ class GiftcardOptions extends OptionBase {
                                             options.aw_gc_amounts && 
                                             options.aw_gc_amounts.map((value, key) => {
                                                 return (
-                                                    <MenuItem key={key} value={value.price}>
+                                                    <MenuItem key={key} value={value.percent}>
                                                         {this.formatPrice(parseFloat(value.price))}
                                                     </MenuItem>
                                                 )

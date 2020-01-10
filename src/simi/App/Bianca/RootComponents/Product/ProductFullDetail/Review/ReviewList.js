@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { getReviews } from 'src/simi/Model/Product';
+import React, { useReducer, useEffect, useCallback } from 'react';
 import Loading from 'src/simi/BaseComponents/Loading';
 import Identify from 'src/simi/Helper/Identify';
-import Pagination from 'src/simi/BaseComponents/Pagination';
+import { sendRequest } from 'src/simi/Network/RestMagento';
+import Loadmore from './loadMore';
 import { StaticRate } from 'src/simi/App/Bianca/BaseComponents/Rate';
 
 require('./reviewList.scss');
 
 const ReviewList = props => {
     const { product_id } = props;
+    const pageSize = 5;
     const api_data = Identify.ApiDataStorage('product_list_review');
     const initData =
         api_data &&
@@ -16,64 +17,28 @@ const ReviewList = props => {
         api_data.hasOwnProperty(product_id)
             ? api_data[product_id]
             : null;
+    const reducer = (state, action) => {
+        return {...state, ...action}
+    }
+    const [state, dispatch] = useReducer(reducer, {data: initData, page: 1});
 
-    const [data, setData] = useState(initData);
-
-    const renderListItem = () => {
-        if (data && data.reviews && data.reviews.length) {
-            return (
-                <div className="list-review-item">
-                    <Pagination data={data.reviews} renderItem={renderItem} />
-                </div>
-            );
+    useEffect(() => {
+        if (!state.data) {
+            sendRequest(`rest/V1/simiconnector/reviews`, apiCallBack, 'GET', {'filter[product_id]': product_id, limit: pageSize}, {})
         }
-        return (
-            <div className="text-center">{Identify.__('Review is empty')}</div>
-        );
-    };
+    });
+
+    const loadMorePage = useCallback((page) => {
+        dispatch({page: page, loadingMore: true});
+        sendRequest(`rest/V1/simiconnector/reviews`, apiCallBack, 'GET', {'filter[product_id]': product_id, limit: pageSize, page: page}, {})
+    });
 
     const renderItem = item => {
-        if (item.hasOwnProperty('votes')) {
-            // const rating_votes = item.votes.map((rate, index) => {
-            //     const point = rate.value;
-            //     return (
-            //         <div className="rating-votes" key={index}>
-            //             <div className="label-rate">
-            //                 {Identify.__(rate.label)}
-            //             </div>
-            //             <div className="item-rating">
-            //                 <Rate rate={parseInt(point, 10)} size={13} />
-            //             </div>
-            //         </div>
-            //     );
-            // });
-            // const created = (
-            //     <div className="item-created flex">
-            //         <span>{item.created_at}</span>
-            //         <span>{item.nickname}</span>
-            //     </div>
-            // );
-            // return (
-            //     <div className="review-item item" key={item.review_id}>
-            //         <div className="item-title flex">{item.title}</div>
-            //         <div className="review-item-detail">
-            //             <div className="item-review-content">
-            //                 <div className="item-detail">{item.detail}</div>
-            //                 {created}
-            //             </div>
-            //             <div className="item-votes">{rating_votes}</div>
-            //         </div>
-            //         <div className="clearfix" />
-            //     </div>
-            // );
-        }
-
         const createdAt = new Date(item.created_at);
         const monthNames = [
             "January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
         ];
-
         return (
             <div className="review-item item" key={item.review_id}>
                 <div className="item-title flex">{item.title}</div>
@@ -97,11 +62,22 @@ const ReviewList = props => {
         );
     };
 
-    useEffect(() => {
-        if (!data) {
-            getReviews(apiCallBack, product_id);
+    const renderListItem = () => {
+        const {data} = state;
+        if (data && data.reviews && data.reviews.length) {
+            return (
+                <div className="list-review-item">
+                    {data.reviews && data.reviews.length &&
+                        data.reviews.map((item) => renderItem(item))
+                    }
+                    <Loadmore items={state.data.reviews} itemCount={data.total} currentPage={state.page} updateSetPage={loadMorePage} loading={state.loadingMore} />
+                </div>
+            );
         }
-    });
+        return (
+            <div className="text-center">{Identify.__('Review is empty')}</div>
+        );
+    };
 
     const apiCallBack = data => {
         if (data.errors) {
@@ -114,17 +90,33 @@ const ReviewList = props => {
             if (text !== '') {
                 Identify.showToastMessage(text);
             }
+            dispatch({
+                loadingMore: false
+            });
         } else {
-            setData(data);
+            let newData = state.data || {};
+            if (newData.reviews) {
+                if (data && data.reviews) {
+                    newData.reviews = [...newData.reviews, ...data.reviews];
+                }
+                if (data && data.from) {
+                    newData.from = data.from;
+                }
+            } else {
+                newData = data;
+            }
+            dispatch({
+                data: newData,
+                loadingMore: false
+            });
             const api_data = {};
-            api_data[props.product_id] = data;
+            api_data[props.product_id] = newData;
             Identify.ApiDataStorage('product_list_review', 'update', api_data);
         }
     };
 
     const renderAverageStar = () => {
-        const { count, total } = data;
-
+        const { count, total } = state.data;
         let averageStar = 0;
         let roundedAverageStar = 0;
         if (total !== 0) {
@@ -145,14 +137,14 @@ const ReviewList = props => {
         );
     };
 
-    if (!data) {
+    if (!state.data) {
         return <Loading />;
     }
 
     return (
         <div>
             <h2 className="review-list-title">
-                <span>{Identify.__(`${data.total} Customer Reviews`)}</span>
+                <span>{Identify.__(`${state.data.total} Customer Reviews`)}</span>
             </h2>
             {renderAverageStar()}
             {renderListItem()}

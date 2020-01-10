@@ -134,6 +134,42 @@
     }
 }
 
+@media (min-width: 1441px){
+    .cart-page{
+        .cart-list{
+            max-width: unset !important;
+            margin-right: 57px;
+            .cart-siminia-item{
+                max-width: unset !important;
+            }
+        }
+        .cart-item-header > div {
+            padding: 12px 18px;
+            border-bottom: 1px solid #808080;
+            font-size: 14px;
+            font-weight: 500;
+            &:first-child{
+                padding-left: 37px;
+                width: 49% !important;
+            }
+            
+            &:nth-child(2){
+                width: 20% !important;
+            }
+
+            &:nth-child(3){
+                width: 19% !important;
+            }
+
+            &:last-child{
+                text-align: right !important;
+                padding-right: 46px;
+                width: 20% !important;
+            }
+        }
+    }
+}
+
 @media (min-width: 1024px) {
     .cart-page{
         .cart-list{
@@ -153,6 +189,8 @@
             
             .cart-coupon-form .coupon-code-area-tablet input, .cart-voucher-form .gift-voucher-area-tablet input{
                 max-width: 197px;
+                font-size: 14px;
+                line-height: 14px;
             }
             
             .submit-coupon, .submit-voucher{
@@ -162,6 +200,7 @@
             .summary-zone{
                 .summary{
                     margin-top: 32px;
+                    font-weight: 500;
                     .subtotal, .grandtotal{
                         display: flex;
                         justify-content: space-between;
@@ -173,7 +212,12 @@
                     }
 
                     .grandtotal{
-                        font-size: 24px;
+                        font-size: 18px;
+                        line-height: 18px;
+                        font-family: Gotham Book;
+                        .grandtotal-price{
+                            font-family: Gotham Medium;
+                        }
                     }
                 }
             }
@@ -204,10 +248,7 @@
         }
     }
 }
- 
-.cart-coupon-form .coupon-code-title {
-    font-weight: 600;
-}
+
 .cart-coupon-form .coupon-code-area-tablet {
     margin-top: 8px;
     display: inline-block;

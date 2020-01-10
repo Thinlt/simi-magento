@@ -1,14 +1,27 @@
 .my-gift-vouchers-area{
+    .customer-page-title{
+        font-family: Gotham Medium;
+        margin-bottom: 28px;
+    }
+
+    
     .form-add-voucher{
+        @media (max-width: 1440px) {
+            .form-group{
+                max-width: 474px;
+                margin-right: 16px;
+            }
+        }
         display: flex;
         justify-content: space-between;
+        margin-bottom: 32px;
         .form-group{  
-            max-width: 474px;
             width: 100%;
             input{
                 height: 48px;
                 border-radius: unset;
                 border-color: #727272;
+                margin-right: 16px;
             }
         }
 
@@ -20,5 +33,14 @@
             width: 100%;
             margin-top: 25px;
         }
+    }
+
+    .box-title{
+        font-family: Gotham Medium;
+        margin-bottom: 20px;
+    }
+
+    .box-title.vouchers-history{
+        margin-top: 32px;
     }
 }

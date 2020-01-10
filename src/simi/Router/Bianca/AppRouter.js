@@ -27,7 +27,9 @@ class AppRouter extends Abstract{
                 <Route exact {...router.order_history_detail}/>
                 <Route exact {...router.newsletter}/>
                 <Route exact {...router.profile}/>
+                <Route exact {...router.sizechart}/>
                 <Route exact {...router.wishlist}/>
+                <Route exact {...router.my_gift_vouchers}/>
                 <Route exact {...router.login}/>
                 <Route exact {...router.vendor_login}/>
                 <Route exact {...router.logout}/>
@@ -36,6 +38,8 @@ class AppRouter extends Abstract{
                 <Route exact {...router.preorder2nd}/>
                 <Route exact {...router.webview}/>
                 <Route exact {...router.storelocator}/>
+                <Route exact {...router.shopbybrand}/>
+                <Route exact {...router.blog}/>
                 {/*this.renderPbRoute()*/}
                 <Route {...router.noMatch}/>
             </Switch>

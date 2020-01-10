@@ -41,7 +41,9 @@
 
 .titleSummary{
     margin-top: 32px;
-    font-size: 16px
+    font-size: 16px;
+    font-family: Gotham Book;
+    text-transform: uppercase;
 }
 
 .footer {
@@ -78,11 +80,14 @@
     display: flex;
     justify-content: space-between;
     margin-top: 32px;
+    font-family: Gotham Book;
+    font-size: 16px;
 }
 
 .grandTotalLabel{
     font-size: 24px;
-    text-transform: uppercase
+    text-transform: uppercase;
+    font-family: Gotham Book;
 }
 
 .grandTotal{
@@ -128,19 +133,22 @@
 
 .minicartAction{
     display: flex;
-    justify-content: space-between;
-    margin-top: 52px;
-    margin-bottom: 50px;
+    margin: 52px 7px 50px;
 }
 
 .viewCartBtn{
     padding: 16px 47.5px;
     background-color: #F2F2F2;
+    width: 252px;
+    height: 48px;
+    margin-right: 16px;
 }
 
 .checkoutBtn{
     padding: 16px 22px;
     border: 1px solid #101820;
     background-color: #101820;
-    color: #FFF
+    color: #FFF;
+    width: 252px;
+    height: 48px;
 }

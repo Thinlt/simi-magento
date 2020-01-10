@@ -18,7 +18,7 @@ var filterData = null
 let loadedData = null
 
 const Category = props => {
-    const { id } = props;
+    const { id, foundBrand } = props;
     let pageSize = Identify.findGetParameter('product_list_limit')
     pageSize = pageSize?Number(pageSize):window.innerWidth < 1024?10:9
     const paramPageval = Identify.findGetParameter('page')
@@ -85,14 +85,19 @@ const Category = props => {
                 }
 
                 //breadcrumb
-                const categoryTitle = data && data.category ? data.category.name : '';
-                const breadcrumb = [{name: Identify.__("Home"), link: '/'}];
-                if(data && data.category && data.category.breadcrumbs instanceof Array) {
-                    data.category.breadcrumbs.forEach(item => {
-                        breadcrumb.push({name: item.category_name, link: '/' + item.category_url_key + cateUrlSuffix()})
-                    })
+                const categoryTitle = (foundBrand && foundBrand.name) ? foundBrand.name : (data && data.category) ? data.category.name : '';
+                let breadcrumb = [{name: Identify.__("Home"), link: '/'}];
+                if (props.breadcrumb) {
+                    breadcrumb = props.breadcrumb
+                } else {
+                    if(data && data.category && data.category.breadcrumbs instanceof Array) {
+                        data.category.breadcrumbs.forEach(item => {
+                            breadcrumb.push({name: item.category_name, link: '/' + item.category_url_key + cateUrlSuffix()})
+                        })
+                    }
+                    breadcrumb.push({name: data.category.name})
                 }
-                breadcrumb.push({name: data.category.name})
+
                 const appliedFilter = filterData?JSON.parse(productListFilter):null
                 let cateEmpty = false
                 if (!appliedFilter && data.simiproducts && data.simiproducts.total_count === 0)
@@ -101,8 +106,8 @@ const Category = props => {
                     <div className="container">
                         <BreadCrumb breadcrumb={breadcrumb} history={props.history}/>
                         {TitleHelper.renderMetaHeader({
-                            title: data.category.meta_title?data.category.meta_title:data.category.name,
-                            desc: data.category.meta_description
+                            title: (foundBrand && foundBrand.name) ? foundBrand.name : data.category.meta_title?data.category.meta_title:data.category.name,
+                            desc: (foundBrand && foundBrand.description) ? foundBrand.description : data.category.meta_description
                         })}
                         {
                             <Products
@@ -122,6 +127,7 @@ const Category = props => {
                                 setCurrentPage={setCurrentPage}
                                 loading={loading}
                                 cateEmpty={cateEmpty}
+                                description={(foundBrand && foundBrand.description)?foundBrand.description:false}
                             />
                         }
                     </div>

@@ -173,6 +173,17 @@ class Cart extends Component {
             (Math.abs(cart.totals.discount_amount) / totalPrice) * 100;
         return (
             <div>
+                {hasSubtotal ? (
+                    <div className="subtotal">
+                        <div className="subtotal-label">Subtotal</div>
+                        <div>
+                            <Price
+                                currencyCode={cartCurrencyCode}
+                                value={totalPrice}
+                            />
+                        </div>
+                    </div>
+                ) : null}
                 {hasDiscount ? (
                     <div className="subtotal">
                         <div className="subtotal-label">
@@ -186,21 +197,10 @@ class Cart extends Component {
                         </div>
                     </div>
                 ) : null}
-                {hasSubtotal ? (
-                    <div className="subtotal">
-                        <div className="subtotal-label">Subtotal</div>
-                        <div>
-                            <Price
-                                currencyCode={cartCurrencyCode}
-                                value={totalPrice}
-                            />
-                        </div>
-                    </div>
-                ) : null}
                 {hasGrandtotal ? (
                     <div className="grandtotal">
                         <div className="grandtotal-label">Grand Total</div>
-                        <div>
+                        <div className="grandtotal-price">
                             <Price
                                 currencyCode={cartCurrencyCode}
                                 value={grandTotal}
