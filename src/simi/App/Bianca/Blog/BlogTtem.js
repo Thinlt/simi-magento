@@ -4,7 +4,7 @@ import Identify from 'src/simi/Helper/Identify'
 import {getFormattedDate} from './BlogHelper'
 
 
-require('./Blogitem.scss')
+require('./BlogItem.scss')
 
 export const BlogItem = props => {
     const { item } = props;
