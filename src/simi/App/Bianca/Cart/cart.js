@@ -20,7 +20,7 @@ import {
     hideFogLoading
 } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
-import { removeItemFromCart } from 'src/simi/Model/Cart';
+import { removeItemFromCart, removeAllItems } from 'src/simi/Model/Cart';
 import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon';
 import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher';
 
@@ -81,6 +81,29 @@ class Cart extends Component {
         );
     }
 
+    updateItemCart = (item,quantity) => {
+        showFogLoading()
+        const payload = {
+            item,
+            quantity
+        };
+        this.props.updateItemInCart(payload, item.item_id)
+    }
+
+    removeAllItems = () => {
+        const { cart } = this.props;
+        const initialValue = {};
+        const test = cart.details.items.map(item => item.item_id);
+        const allItems = cart.details.items.reduce((obj,item) => {
+            return {
+                ...obj,
+                [item.item_id]: "0",
+            };
+        },initialValue);
+        // const allItems = test.map(id => {id : '0'})
+        console.log(test);
+    }
+
     get productList() {
         const { cart } = this.props;
         if (!cart) return;
@@ -125,7 +148,7 @@ class Cart extends Component {
                             currencyCode={cartCurrencyCode}
                             itemTotal={itemTotal}
                             removeFromCart={this.removeFromCart.bind(this)}
-                            updateCartItem={this.props.updateItemInCart}
+                            updateCartItem={this.updateItemCart}
                             history={this.props.history}
                             handleLink={this.handleLink.bind(this)}
                         />
@@ -148,8 +171,8 @@ class Cart extends Component {
                         <div
                             role="button"
                             tabIndex="0"
-                            onClick={this.handleBack}
-                            onKeyDown={this.handleBack}
+                            onClick={this.removeAllItems}
+                            onKeyDown={this.removeAllItems}
                         >
                             {Identify.__('Clear all items')}
                         </div>
