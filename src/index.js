@@ -38,7 +38,7 @@ if (process.env.SERVICE_WORKER && 'serviceWorker' in navigator) {
             .register(process.env.SERVICE_WORKER)
             .then(registration => {
                 initializeUI(registration);
-                subscribeUser(registration);
+                //subscribeUser(registration);
                 console.log('Service worker registered: ', registration);
             })
             .catch(error => {

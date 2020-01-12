@@ -1,16 +1,16 @@
-import React, {useState} from 'react'
+import React from 'react'
 import Product from 'src/simi/App/Bianca/RootComponents/Product'
 import Category from 'src/simi/App/Bianca/Components/Category'
 import Simicms from 'src/simi/App/Bianca/Components/Simicms'
 import resolveUrl from 'src/simi/queries/urlResolver.graphql'
+import CMS from 'src/simi/App/core/RootComponents/CMS'
 import { simiUseQuery } from 'src/simi/Network/Query';
 import Loading from 'src/simi/BaseComponents/Loading'
 import Identify from 'src/simi/Helper/Identify'
 import Page404 from './Page404'
 import { getDataFromUrl } from 'src/simi/Helper/Url';
-import { getUrlFromPathBySimiUrlDict } from 'src/simi/Model/UrlDict';
+import Blogpost from 'src/simi/App/Bianca/Blog/post'
 
-var gettingUrlDictFromSimiconnector = false
 var parseFromDoc = true
 const TYPE_PRODUCT = 'PRODUCT'
 const TYPE_CATEGORY = 'CATEGORY'
@@ -18,25 +18,31 @@ const TYPE_CMS_PAGE = 'CMS_PAGE'
 
 const NoMatch = props => {
     const {location} = props
-    const [simiUrlDictAPIResult, setSimiUrlDictAPIResult] = useState(null)
-    
-    const renderByTypeAndId = (type, id, preloadedData = null) => {
+    const renderByTypeAndId = (type, id, relative_url, preloadedData = null) => {
         if (type === TYPE_PRODUCT)
             return <Product {...props} preloadedData={preloadedData}/>
         else if (type === TYPE_CATEGORY)
             return <Category {...props} id={parseInt(id, 10)}/>
+        else if (type === TYPE_CMS_PAGE) {
+            if (relative_url === 'simi_blog_page') {
+                return <Blogpost {...props} post_id={parseInt(id, 10)} />
+            } else {
+                return <CMS {...props} id={parseInt(id, 10)}/>
+            }
+        }
     }
 
     if (
         parseFromDoc &&
         document.body.getAttribute('data-model-type') &&
         document.body.getAttribute('data-model-id') &&
-        (document.body.getAttribute('data-model-type') !== TYPE_CMS_PAGE)
+        document.body.getAttribute('data-model-relative_url')
     ) {
         parseFromDoc = false
         const type = document.body.getAttribute('data-model-type')
         const id = document.body.getAttribute('data-model-id')
-        const result = renderByTypeAndId(type, id)
+        const relative_url = document.body.getAttribute('data-model-relative_url')
+        const result = renderByTypeAndId(type, id, relative_url)
         if (result)
             return result
     } else if (location && location.pathname) {
@@ -51,7 +57,7 @@ const NoMatch = props => {
             if (dataFromDict.sku)  {
                 type = TYPE_PRODUCT
             }
-            const result = renderByTypeAndId(type, id, dataFromDict)
+            const result = renderByTypeAndId(type, id, dataFromDict.relative_url, dataFromDict)
             if (result)
                 return result
         }
@@ -75,21 +81,6 @@ const NoMatch = props => {
                     return <Simicms csmItem={simiCms} />
         }
 
-        //get type by url dict simi connector
-        if (!simiUrlDictAPIResult && !gettingUrlDictFromSimiconnector) {
-            gettingUrlDictFromSimiconnector = true
-            getUrlFromPathBySimiUrlDict((returnedData) => {
-                gettingUrlDictFromSimiconnector = false
-                if (returnedData.errors) {
-                    if (data && data.urlResolver)
-                        return
-                    else
-                        setSimiUrlDictAPIResult(returnedData)
-                } else
-                    setSimiUrlDictAPIResult(returnedData)
-            }, pathname)
-        }
-
         //get type from server
         const [queryResult, queryApi] = simiUseQuery(resolveUrl);
         const { data } = queryResult;
@@ -100,19 +91,14 @@ const NoMatch = props => {
                     urlKey: pathname
                 }
             });
-        } else {
+        }
+        if (data) {
             if (data.urlResolver) {
-                const result = renderByTypeAndId(data.urlResolver.type, data.urlResolver.id)
+                const result = renderByTypeAndId(data.urlResolver.type, data.urlResolver.id, data.urlResolver.relative_url)
                 if (result)
                     return result
-            } else {
-                if (simiUrlDictAPIResult) {
-                    console.log(simiUrlDictAPIResult)
-                } else if (!simiUrlDictAPIResult && gettingUrlDictFromSimiconnector) {
-                    return <Loading />
-                }
-                return <Page404 />
             }
+            return <Page404 />
         }
     }
 

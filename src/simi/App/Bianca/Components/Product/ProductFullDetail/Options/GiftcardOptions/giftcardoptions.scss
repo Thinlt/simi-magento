@@ -167,6 +167,12 @@ $bgColor: #f2f2f2;
                 right: 10px;
                 top: 11px;
             }
+            input{
+                margin: 0px;
+            }
+        }
+        .clear-date{
+            top: calc(50% - 5px);
         }
         .date-picker-ctn{
             margin-top: 8px;

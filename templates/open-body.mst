@@ -1,7 +1,7 @@
 </head>
 {{> templates/js-unavailable}}
 {{#urlResolver}}
-<body data-model-type="{{type}}" data-model-id="{{id}}">
+<body data-model-type="{{type}}" data-model-id="{{id}}" data-model-relative_url="{{relative_url}}"  data-model-canonical_url="{{canonical_url}}">
 <div style="display: none">
     <div class="addthis_inline_share_toolbox" id="social-share"></div>
 </div>
