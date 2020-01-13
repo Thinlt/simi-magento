@@ -677,6 +677,7 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
             isset($data['params']['newquantity']) && isset($data['resourceid'])) {
             $depositProductId = $this->scopeConfig->getValue('sales/preorder/deposit_product_id');
             $tryToByProductId = $this->scopeConfig->getValue('sales/trytobuy/trytobuy_product_id');
+            $isPreOrder = false;
             $quoteItems = null;
             $currentQuoteItems = $this->_getQuote()->getItemsCollection();
             foreach ($currentQuoteItems as $currentQuoteItem) {
@@ -690,6 +691,7 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
                 $optionTitle = self::TRY_TO_BUY_OPTION_TITLE;
                 if ($productId == $depositProductId) {
                     $optionTitle = self::PRE_ORDER_OPTION_TITLE;
+                    $isPreOrder = true;
                 } else if ($productId == $tryToByProductId) {
                     if ($newquantity != 0 && $newquantity > 1) {
                         throw new \Simi\Simiconnector\Helper\SimiException(__('Cannot try to buy with quantity over 2'), 4);
@@ -734,8 +736,15 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
                                     if (count($newSubproducts)) {
                                         $product = $this->_initProduct($productId);
                                         $param = array();
-                                        $param['options'] = array($specialCustomOption['id'] => base64_encode(json_encode($newSubproducts)));
+                                        $optionString = base64_encode(json_encode($newSubproducts));
+                                        $param['options'] = array($specialCustomOption['id'] => $optionString);
+                                        if ($isPreOrder) {
+                                            $registry = $this->simiObjectManager->get('\Magento\Framework\Registry');
+                                            $registry->register('simi_pre_order_option', $optionString);
+                                        }
+
                                         $cart->addProduct($product, $param);
+
                                         $this->_getSession()->setCartWasUpdated(true);
                                         $this->eventManager->dispatch(
                                             'checkout_cart_add_product_complete',

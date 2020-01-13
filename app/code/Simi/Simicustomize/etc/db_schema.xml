@@ -10,6 +10,7 @@
     <table name="sales_order_grid">
         <column xsi:type="varchar" name="order_type" nullable="true" length="100" comment="Order type"/>
         <column xsi:type="varchar" name="deposit_order_increment_id" nullable="true" length="100" comment="Deposit Order Id"/>
+        <column xsi:type="varchar" name="service_support_fee" nullable="true" length="100" comment="Service Support Fee"/>
     </table>
     <table name="simi_reserve" comment="Sales Product Reserve">
         <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity Id"/>

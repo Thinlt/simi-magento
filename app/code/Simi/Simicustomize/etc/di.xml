@@ -23,6 +23,7 @@
             <argument name="columns" xsi:type="array">
                 <item name="order_type" xsi:type="string">sales_order.order_type</item>
                 <item name="deposit_order_increment_id" xsi:type="string">sales_order.deposit_order_increment_id</item>
+                <item name="service_support_fee" xsi:type="string">sales_order.service_support_fee</item>
             </argument>
         </arguments>
     </virtualType>
@@ -59,5 +60,9 @@
     </type>
     <type name="Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder">
         <plugin name="simi_cart_customize_plugin_sales_block_order_email_items_defaultitems" type="Simi\Simicustomize\Plugin\SalesBlockOrderEmailItemsDefaultItems" />
+    </type>
+    <!-- apply is_by_service to order item -->
+    <type name='Magento\Quote\Model\Quote\Item\ToOrderItem'>
+        <plugin name='SimiAddOrderItemPlugin' type='Simi\Simicustomize\Plugin\QuoteItemToOrderItem' sortOrder='99'/>
     </type>
 </config>
