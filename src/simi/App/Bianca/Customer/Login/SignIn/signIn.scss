@@ -4,18 +4,16 @@
     padding: 0 98px;
 }
 
-.sign-in-form{
+.sign-in-form {
     .forgotPassword {
         display: block;
         font-family: Gotham;
         font-size: 16px;
         color: #101820;
     }
-    
     .form {
         display: grid;
     }
-    
     .modal {
         visibility: hidden;
         height: 100%;
@@ -24,22 +22,19 @@
         position: absolute;
         bottom: 0;
     }
-    
     .modal_active {
         visibility: visible;
         opacity: 0.9;
     }
-    
-    .showCreateAccountButtonCtn, .signInButtonCtn {
+    .showCreateAccountButtonCtn,
+    .signInButtonCtn {
         text-align: center;
         margin-top: 32px;
         margin-bottom: 32px;
     }
-    
-    .showCreateAccountButtonCtn{
+    .showCreateAccountButtonCtn {
         margin-bottom: 0px;
     }
-    
     .showCreateAccountButton,
     .signInButton {
         padding: 5px 15px;
@@ -55,11 +50,9 @@
         padding-bottom: 10px;
         font-family: Gotham;
     }
-    
     .signInButton:hover {
         opacity: 0.8;
     }
-    
     .showCreateAccountButton {
         background-color: white;
         color: #38404A;
@@ -67,38 +60,32 @@
         border: solid #38404A 1px;
         font-weight: 400;
     }
-    
     .showCreateAccountButton:hover {
         padding-top: 9px;
         border: solid #38404A 2px;
     }
-    
     .signInDivider {
-        width: 100%; 
-        text-align: center; 
-        border-bottom: 1px solid #000; 
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid #000;
         line-height: 0.1em;
         margin: 10px 0 20px;
     }
-    
     .signInError {
         color: red;
         text-align: center;
     }
-    
-    .userIcon{
+    .userIcon {
         position: absolute;
         margin: 16px;
         size: 16px;
     }
-    
-    .passwordIcon{
+    .passwordIcon {
         position: absolute;
         margin: 16px;
         size: 16px;
     }
-    
-    .root.sign-in-form input{
+    .root.sign-in-form input {
         min-height: 48px;
         padding-left: 16px !important;
         background-color: #F2F2F2;
@@ -107,13 +94,12 @@
         border: unset;
         margin-bottom: 24px;
     }
-    
-    .userInput{
+    .userInput {
         margin-top: 36px;
         margin-bottom: 10px !important;
     }
     .userInput .title-input,
-    .passwordInput .title-input{
+    .passwordInput .title-input {
         color: #101820;
         font-family: Gotham;
         font-size: 14px;
@@ -121,61 +107,101 @@
         line-height: 14px;
         margin-bottom: 8px;
     }
-    
-    .userInput p{
+    .userInput p {
         padding-top: 20px;
     }
-    
-    
-    .passwordInput{
+    .passwordInput {
         margin-top: 24px;
         margin-bottom: 10px !important;
     }
-    
-    .passwordInput p{
+    .passwordInput p {
         padding-top: 20px;
     }
-    .signInAction{
+    .signInAction {
         display: flex;
         justify-content: space-between;
     }
-    
-    .signInWith{
-        background:#fff; 
-        padding:0 12px; 
+    .signInWith {
+        background: #fff;
+        padding: 0 12px;
     }
-    
-    .socialMedia{
+    .socialMedia {
         display: flex;
         justify-content: space-between;
         margin: auto;
         max-width: 244px;
     }
-
-    .social-icon{
+    .social-icon {
         width: 36px !important;
         height: 36px !important;
         border: 1px solid;
         border-radius: 50%;
         padding: 6px 0
     }
-
-    .social-icon{
-        &:not(:last-child){
+    .social-icon {
+        &:not(:last-child) {
             margin-right: 16px;
         }
     }
 }
 
-@media(max-width: 834px){
-    .root.sign-in-form{
-        padding: 0 120px;
+@media(max-width: 834px) {
+    .root.sign-in-form {
+        padding: 0 80px;
     }
-    .root.sign-in-form .userInput span[class *= "root"],
-    .root.sign-in-form .passwordInput span[class *= "root"]{
+    .root.sign-in-form .userInput span[class *="root"],
+    .root.sign-in-form .passwordInput span[class *="root"] {
         width: 100%;
     }
-    .root.sign-in-form input{
+    .root.sign-in-form input {
         min-width: unset !important;
+    }
+}
+
+@media(max-width: 736px) {
+    .root.sign-in-form {
+        padding: 0 60px;
+    }
+}
+
+@media(max-width: 600px) {
+    .root.sign-in-form {
+        padding: 0 40px;
+    }
+}
+
+@media(max-width: 500px) {
+    .root.sign-in-form {
+        padding: 0 10px;
+    }
+}
+
+@media(max-width: 375px) {
+    .root.sign-in-form {
+        padding: 0 1px;
+    }
+    .root.sign-in-form .userInput {
+        margin-top: 25px;
+        margin-bottom: 0px !important;
+    }
+    .root.sign-in-form .passwordInput {
+        margin-top: 20px;
+        margin-bottom: 4px !important;
+    }
+    .root.sign-in-form input {
+        min-height: 40px;
+        font-size: 14px;
+        line-height: 14px;
+        height: 14px;
+    }
+    .root.sign-in-form input::placeholder {
+        min-height: 40px;
+        font-size: 14px;
+        line-height: 14px;
+        height: 14px;
+    }
+    .root.sign-in-form .signInAction {
+        margin-top: 35px;
+        display: block;
     }
 }

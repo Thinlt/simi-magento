@@ -81,7 +81,6 @@ class Login extends Component {
 	}
 
 	authHandler = async (authData) => {
-		console.log(authData);
 		var user = authData.user;
 		var providerId = authData.additionalUserInfo.providerId;
 		var profile = authData.additionalUserInfo.profile;
@@ -150,7 +149,6 @@ class Login extends Component {
 				showToastMessage(errorMsg);
 			}
 		} else {
-			console.log(data);
 			storage.removeItem('cartId');
 			storage.removeItem('signin_token');
 			if (data.customer_access_token) {
@@ -325,7 +323,6 @@ class Login extends Component {
 		hideFogLoading();
 		if (this.props.simiSignedIn) {
 			if (data && !data.errors) {
-				console.log(data);
 				storage.removeItem('cartId');
 				storage.removeItem('signin_token');
 				if (data.customer_access_token) {
