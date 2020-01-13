@@ -93,6 +93,9 @@
         width: 100%;
         border: unset;
         margin-bottom: 24px;
+        font-family: Gotham;
+        font-size: 14px;
+        font-weight: 500;
     }
     .userInput {
         margin-top: 36px;
@@ -101,9 +104,8 @@
     .userInput .title-input,
     .passwordInput .title-input {
         color: #101820;
-        font-family: Gotham;
+        font-family: 'Gotham Medium';
         font-size: 14px;
-        font-weight: 500;
         line-height: 14px;
         margin-bottom: 8px;
     }

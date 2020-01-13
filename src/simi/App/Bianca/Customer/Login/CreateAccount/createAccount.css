@@ -19,9 +19,8 @@
 
 .lead1 {
     color: #101820;
-    font-family: Gotham;
+    font-family: 'Gotham Medium';
     font-size: 18px;
-    font-weight: 500;
     line-height: 18px;
 }
 
@@ -84,9 +83,8 @@
 
 .root div[class *="field-root"] span[class *="label"] {
     color: #101820;
-    font-family: Gotham;
+    font-family: 'Gotham Medium';
     font-size: 14px;
-    font-weight: 500;
     line-height: 14px;
     text-transform: uppercase;
     padding: unset;
@@ -105,6 +103,9 @@
     min-width: 572px;
     width: 100%;
     border: unset;
+    font-family: Gotham;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .root div[class *="field-root"] input:focus {

@@ -467,6 +467,14 @@
     }
 }
 
+@media(max-width: 425px) {
+    .login-container {
+        margin-top: 20px;
+        border: unset !important;
+        padding-bottom: 50px !important;
+    }
+}
+
 @media(max-width: 375px) {
     .login-container {
         margin-top: 20px;
