@@ -72,6 +72,12 @@ class Select extends React.Component {
                     onClick={(e) => this.onClickItem(item)} key={index}>{item.label}</span>
                 );
             });
+        } else if(this.props.children) {
+            Object.values(this.props.children).forEach((item, index) => {
+                _items.push(<div className={`input-option ${selected && selected.value === item.props.value ? 'selected':''}`} 
+                    onClick={(e) => this.onClickItem({label: item.props.children, value: item.props.value})} key={`${index}-${item.props.value}`}>{item.props.children}</div>
+                );
+            });
         }
         return _items;
     };
@@ -82,18 +88,20 @@ class Select extends React.Component {
         const placeholder = <div className="placeholder">{this.props.placeholder || Identify.__('Please select')}</div>;
         return (
             <div className={`simi-input-select ${className}`} onClick={(e) => this.onToggle(e)}>
-            {
-                showSelected && <div className="input-display">{selected ? selected.label : placeholder}</div>
-            }
-            {
-                isOpen && <div className={"simi-simple-input-select"}>{this.options()}</div>
-            }
-            {
-                hiddenInput && typeof hiddenInput === 'object' ?
+                {this.props.icon && 
+                    <div className="icon">{this.props.icon}</div>
+                }
+                {showSelected && 
+                    <div className="input-display">{selected ? selected.label : placeholder}</div>
+                }
+                {isOpen && 
+                    <div className={"simi-simple-input-select"}>{this.options()}</div>
+                }
+                {hiddenInput && typeof hiddenInput === 'object' ?
                     <input type="hidden" {...hiddenInput} defaultValue={selected && selected.value || ''} /> :
-                hiddenInput === true ?
+                    hiddenInput === true ?
                     <input type="hidden" style={{display: "none"}} name="input-select" defaultValue={selected && selected.value || ''} /> : null
-            }
+                }
             </div>
         );
     }
