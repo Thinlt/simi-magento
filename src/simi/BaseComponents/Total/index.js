@@ -20,7 +20,7 @@ const Total = props => {
         else if (item.code == 'grand_total')
             className = "grand_total"
 
-        if (item.value)
+        if (item.value || (item.code == 'grand_total'))
         totalRows.push(
             <div key={index} className={className}>
                 <div>
