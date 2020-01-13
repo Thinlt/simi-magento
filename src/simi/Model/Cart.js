@@ -68,5 +68,5 @@ export const updateSubProductSpecialItem = (callBack, cartItemId, subProductSku,
 export const removeAllItems = (callBack, params) => {
     let getParams = storage.getItem('cartId');
     getParams = getParams ? {quote_id: getParams} : {};
-    sendRequest('/simiconnector/rest/v2/quoteitems', callBack, 'PUT', getParams, params);
+    sendRequest('rest/V1/simiconnector/quoteitems/', callBack, 'PUT', getParams, params);
 }
