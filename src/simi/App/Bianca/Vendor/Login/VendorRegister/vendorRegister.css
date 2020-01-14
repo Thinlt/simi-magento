@@ -110,15 +110,17 @@
 }
 
 .root div[class *="field-root"] input {
-	min-height: 48px;
-	padding-left: 16px !important;
-	background-color: #f2f2f2;
-	min-width: 572px;
-	width: 100%;
-	border: unset;
-	font-family: Gotham;
-	font-size: 14px;
-	font-weight: 500;
+    min-height: 48px;
+    padding-left: 16px !important;
+    background-color: #f2f2f2;
+    min-width: 572px;
+    width: 100%;
+    border: unset;
+    font-family: Gotham;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 14px;
+    color: #101820;
 }
 
 .root div[class *="field-root"] input::placeholder {
@@ -259,11 +261,48 @@
 	display: none !important;
 }
 
+/* right to left */
+.rtl-rootForm{
+
+}
+
+.rtl-rootForm .lead2{
+    text-align: unset !important;
+}
+.rtl-rootForm input{
+    padding-left: 5px !important;
+    padding-right: 16px !important;
+}
+.rtl-rootForm .back{
+    left: unset !important;
+    right: 139px !important;
+}
+
+.rtl-rootForm .form_row .arrow_down,
+.rtl-rootForm .form_row .arrow_down1 {
+	right: unset !important;
+	left: 16px !important;
+}
+
+.rtl-rootForm .form_row .arrow_up,
+.rtl-rootForm .form_row .arrow_up1 {
+	right: unset !important;
+	left: 16px !important;
+}
+.rtl-rootForm select{
+	padding-left: 16px !important;
+	padding-right: 16px !important;
+}
+
 @media(max-width: 1023px) {
 	.root .back {
 		top: 130px;
 		left: 5%;
 	}
+	.rtl-rootForm .back{
+        top: 130px !important;
+        right: 5% !important;
+    }
 }
 
 @media(max-width: 834px) {
@@ -279,6 +318,9 @@
 	.root .back {
 		top: 92px;
 	}
+	.rtl-rootForm .back{
+        top: 92px !important;
+    }
 }
 
 @media(max-width: 640px) {
@@ -341,6 +383,7 @@
 		height: 14px;
 	}
 	.root .actions {
+		padding-bottom: 0 !important;
 		display: block;
 		margin-top: 27px;
 		text-align: center;
@@ -359,4 +402,17 @@
 		line-height: 14px;
 		height: 14px;
 	}
+}
+
+@media(max-width: 425px){
+    .root{
+        padding: unset !important;
+    }
+}
+
+@media(max-width: 375px){
+    .root,
+    .rtl-rootForm{
+        padding: unset !important;
+    }
 }

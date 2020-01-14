@@ -15,7 +15,7 @@ const ForgotPasswordForm  =  props => {
 
     return (
         <Form
-            className={classes.root}
+            className={`${classes.root} ${Identify.isRtl() ? classes['rtl-rootForm'] : null}`}
             onSubmit={onSubmit}
         >
             <Field label="Email *" required={true}>
@@ -35,7 +35,7 @@ const ForgotPasswordForm  =  props => {
                 </button>
             </div>
             <div 
-                className={classes['back']}
+                className={`${classes['back']} ${Identify.isRtl() ? classes['rtl-back'] : null}`}
                 onClick={handleBack}
             >
                 <span>{Identify.__('back'.toUpperCase())}</span>
