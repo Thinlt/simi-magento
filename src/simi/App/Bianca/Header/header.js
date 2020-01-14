@@ -232,7 +232,7 @@ class Header extends React.Component {
 	};
 
 	render() {
-        const { user, storeConfig, location} = this.props;
+		const { user, storeConfig, location} = this.props;
 		// Check user login to show wish lish
 		var isSignedIn = false;
 		if (user) {
@@ -310,7 +310,7 @@ class Header extends React.Component {
 								{this.renderLogo()}
 								{!simpleHeader && this.renderRightBar(isSignedIn)}
 							</div>
-							{!simpleHeader && <MiniCart isOpen={cartIsOpen} />}
+							{!simpleHeader && <MiniCart isOpen={cartIsOpen} history={this.props.history}/>}
 						</div>
 					</div>
 				</div>

@@ -20,7 +20,7 @@ import {
     hideFogLoading
 } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
-import { removeItemFromCart } from 'src/simi/Model/Cart';
+import { removeItemFromCart, removeAllItems } from 'src/simi/Model/Cart';
 import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon';
 import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher';
 
@@ -33,7 +33,9 @@ class Cart extends Component {
         const isPhone = window.innerWidth < 1024;
         this.state = {
             isPhone: isPhone,
-            focusItem: null
+            focusItem: null,
+            items: this.props.cart.details.items,
+            isLoading: true
         };
     }
 
@@ -58,7 +60,7 @@ class Cart extends Component {
                 }
             }
         }
-        
+        this.setState({isLoading: false})
         showFogLoading();
         this.setIsPhone();
         const { getCartDetails } = this.props;
@@ -79,6 +81,35 @@ class Cart extends Component {
             cart.details.currency &&
             cart.details.currency.quote_currency_code
         );
+    }
+
+    updateItemCart = (item,quantity) => {
+        showFogLoading()
+        const payload = {
+            item,
+            quantity
+        };
+        this.props.updateItemInCart(payload, item.item_id)
+    }
+
+    removeAllItemsInCart = () => {
+        const { cart } = this.props;
+        const initialValue = {};
+        const allItems = cart.details.items.reduce((obj,item) => {
+            return {
+                ...obj,
+                [item.item_id]: "0",
+            };
+        },initialValue);
+        showFogLoading();
+        this.setState({isLoading: true})
+        removeAllItems(this.removeAllCallBack, allItems);
+    }
+
+    removeAllCallBack = (data) => {
+        this.setState({isLoading: false})
+        this.setState({items: data.quoteitems})
+        getCartDetails();
     }
 
     get productList() {
@@ -105,32 +136,34 @@ class Cart extends Component {
                     {/* <div style={{width: '7%'}}>{Identify.__('').toUpperCase()}</div> */}
                 </div>
             );
-            for (const i in cart.details.items) {
-                const item = cart.details.items[i];
-                let itemTotal = null;
-                if (cart.totals && cart.totals.items) {
-                    cart.totals.items.every(function(total) {
-                        if (total.item_id === item.item_id) {
-                            itemTotal = total;
-                            return false;
-                        } else return true;
-                    });
-                }
-                if (itemTotal) {
-                    const element = (
-                        <CartItem
-                            key={Identify.randomString(5)}
-                            item={item}
-                            isPhone={this.state.isPhone}
-                            currencyCode={cartCurrencyCode}
-                            itemTotal={itemTotal}
-                            removeFromCart={this.removeFromCart.bind(this)}
-                            updateCartItem={this.props.updateItemInCart}
-                            history={this.props.history}
-                            handleLink={this.handleLink.bind(this)}
-                        />
-                    );
-                    obj.push(element);
+            if(this.state.items){
+                for (const i in this.state.items) {
+                    const item = this.state.items[i];
+                    let itemTotal = null;
+                    if (cart.totals && cart.totals.items) {
+                        cart.totals.items.every(function(total) {
+                            if (total.item_id === item.item_id) {
+                                itemTotal = total;
+                                return false;
+                            } else return true;
+                        });
+                    }
+                    if (itemTotal) {
+                        const element = (
+                            <CartItem
+                                key={Identify.randomString(5)}
+                                item={item}
+                                isPhone={this.state.isPhone}
+                                currencyCode={cartCurrencyCode}
+                                itemTotal={itemTotal}
+                                removeFromCart={this.removeFromCart.bind(this)}
+                                updateCartItem={this.updateItemCart}
+                                history={this.props.history}
+                                handleLink={this.handleLink.bind(this)}
+                            />
+                        );
+                        obj.push(element);
+                    }
                 }
             }
             return (
@@ -148,8 +181,8 @@ class Cart extends Component {
                         <div
                             role="button"
                             tabIndex="0"
-                            onClick={this.handleBack}
-                            onKeyDown={this.handleBack}
+                            onClick={this.removeAllItemsInCart}
+                            onKeyDown={this.removeAllItemsInCart}
                         >
                             {Identify.__('Clear all items')}
                         </div>
@@ -328,6 +361,7 @@ class Cart extends Component {
     }
 
     get miniCartInner() {
+        const {isLoading} = this.state
         const {
             productList,
             props,
@@ -337,13 +371,12 @@ class Cart extends Component {
             giftVoucher
         } = this;
         const {
-            cart: { isLoading },
             isCartEmpty,
             cart
         } = props;
         if (
             isCartEmpty ||
-            !cart.details ||
+            !this.state.items ||
             !parseInt(cart.details.items_count)
         ) {
             if (isLoading) return <Loading />;

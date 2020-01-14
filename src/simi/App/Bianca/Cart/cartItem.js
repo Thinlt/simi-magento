@@ -17,7 +17,6 @@ import { productUrlSuffix } from 'src/simi/Helper/Url';
 require('./cartItem.scss')
 
 const CartItem = props => {
-    const [read, setReadOny] = useState(true)
     const inputQty = useRef(null)
     const { currencyCode, item, isPhone, itemTotal, handleLink } = props
     if (itemTotal && (itemTotal.simi_pre_order_option || itemTotal.simi_trytobuy_option))
@@ -102,16 +101,13 @@ const CartItem = props => {
             <div className="minicart-qty-title">{Identify.__('Quantity')}</div>
             <input
                 min={1}
-                readOnly={read}
                 // eslint-disable-next-line jsx-a11y/no-autofocus
-                autoFocus={!read}
                 type="number"
                 pattern="[1-9]*"
                 defaultValue={item.qty}
-                ref={inputQty}
                 onBlur={(event) => {
-                    setReadOny(true)
                     if (parseInt(event.target.value, 10) !== parseInt(item.qty, 10)){
+                        console.log(parseInt(event.target.value,10))
                         props.updateCartItem(item,parseInt(event.target.value, 10))
                     }
                 }
@@ -132,11 +128,6 @@ const CartItem = props => {
             <div className='cart-item-value'>{subtotal}</div>
         </div>
     )
-
-    const focusOnInput = (callback) => {
-        setReadOny(false)
-        // callback();
-    }
 
     const location = `/product.html?sku=${item.simi_sku ? item.simi_sku : item.sku}`
     const image = (item.image && item.image.file) ? item.image.file : item.simi_image
@@ -180,7 +171,7 @@ const CartItem = props => {
                         tabIndex="0"
                         className="item-edit"
                         onClick={() => {
-                            focusOnInput();
+                            handleLink(location)
                         }}
                         onKeyUp={() => {}}
                     >
