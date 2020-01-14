@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /*
 Header and Menu items
 */
@@ -5,10 +7,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import LeftMenuContent from './LeftMenuContent'
 import {itemTypes} from './Consts'
-import {configColor} from 'src/simi/Config';
-import BottomMenu from './BottomMenu'
 import { connect } from 'src/drivers';
 import { toggleDrawer, closeDrawer } from 'src/actions/app';
+import Identify from "src/simi/Helper/Identify"
 
 class Dashboardmenu extends React.Component {
 
@@ -72,38 +73,51 @@ class Dashboardmenu extends React.Component {
 
 
     renderBottomMenu = () => {
-        const {props} = this
-        this.bottomContains = {
-            cart: false,
-            menu: false,
-            search: false,
-        }
+        // const {props} = this
+        // this.bottomContains = {
+        //     cart: false,
+        //     menu: false,
+        //     search: false,
+        // }
 
-        if (props.bottomMenuItems) {
-            props.bottomMenuItems.forEach(item=> {
-                const type = parseInt(item.type, 10)
-                if (type === 2)
-                    this.bottomContains.cart = true
-                else if (type === 22)
-                    this.bottomContains.search = true
-                else if (type === 20)
-                    this.bottomContains.menu = true
-            })
-            // try {
-            //     $('#siminia-main-page').css('margin-bottom', '38px')
-            // } catch (err) { console.log(err)}
-            return <BottomMenu parent={this} bottomMenuItems={props.bottomMenuItems} classes={props.classes} />
-        }
-        return <div></div>
+        // if (props.bottomMenuItems) {
+        //     props.bottomMenuItems.forEach(item=> {
+        //         const type = parseInt(item.type, 10)
+        //         if (type === 2)
+        //             this.bottomContains.cart = true
+        //         else if (type === 22)
+        //             this.bottomContains.search = true
+        //         else if (type === 20)
+        //             this.bottomContains.menu = true
+        //     })
+        //     // try {
+        //     //     $('#siminia-main-page').css('margin-bottom', '38px')
+        //     // } catch (err) { console.log(err)}
+        //     return <BottomMenu parent={this} bottomMenuItems={props.bottomMenuItems} classes={props.classes} />
+        // }
+        return (
+            <div className='left-all-cats left-bottom-menu'>
+                <div onClick={() => this.handleLink('/login.html')}>
+                    {Identify.__('Login as Buyer')}
+                </div>
+                <div onClick={() => this.handleLink('/designer_login.html')}>
+                    {Identify.__('Login as Designer')}
+                </div>
+            </div>
+        )
     }
 
     render() {
+        const { isSignedIn } = this.props;
         return (
             <React.Fragment>
                 <aside className={this.props.className}>
                     {this.renderLeftMenu()}
+                    { !isSignedIn
+                    ?  this.renderBottomMenu()
+                    :   null
+                    }
                 </aside>
-                {this.renderBottomMenu()}
             </React.Fragment>
         )
     }
@@ -122,7 +136,14 @@ const mapDispatchToProps = dispatch => ({
     hideNav: () => dispatch(closeDrawer('nav'))
 });
 
+const mapStateToProps = ({ user }) => { 
+    const { isSignedIn } = user;
+    return {
+        isSignedIn
+    }; 
+};
+
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(Dashboardmenu);

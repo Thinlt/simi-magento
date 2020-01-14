@@ -156,7 +156,16 @@ class LeftMenuContent extends React.Component{
                         title={Identify.__('ACCOUNT')}
                         onClick={()=>this.handleLink('/account.html')}
                     /> */}
-                    <LeftAccountMenu handleMenuItem={this.handleMenuItem.bind(this)} />
+                    { isSignedIn 
+                    ?
+                        <LeftAccountMenu handleMenuItem={this.handleMenuItem.bind(this)} />
+                    :   null
+                    }
+                    <div className="left-store">
+                        <div onClick={() => this.handleLink('/storelocator.html')}>
+                            {Identify.__("Store")}
+                        </div>
+                    </div>
                     <div className="left-store-switch">
                         <div className="storeview-switcher">
                             {storeViewOptions}
