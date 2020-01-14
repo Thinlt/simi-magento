@@ -363,7 +363,7 @@ urlKey:
   when:
     - matches: request.url.pathname
       #pattern: '^/(?:(.*)\.html)?'
-      pattern: '^((?!\/js\/).)*$'
+      pattern: '^((?!\/js\/|\.(jpg|svg|js|json)).)*$'
       use: $match.$1
   default:
     inline: ''

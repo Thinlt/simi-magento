@@ -75,6 +75,7 @@ const SizeGuide = (props) => {
                 closeIconId={'size_guide-modal-close'}
                 closeIconSize={16}
                 closeIconSvgPath={<CloseIcon style={{fill: '#101820'}}/>}
+                classNames={{overlay: Identify.isRtl()?"rtl-root":""}}
             >
             <div className={`size-guide ${isPhone ? 'mobile':''}`}>
                 <div className="title"><h3 className="_text_ios">{Identify.__('Size Guide')}</h3></div>

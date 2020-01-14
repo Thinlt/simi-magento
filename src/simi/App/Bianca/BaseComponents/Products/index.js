@@ -103,7 +103,8 @@ class Products extends React.Component {
         const { data, filterData, sortByData } = props;
         return (
             <React.Fragment>
-                <Modal open={this.state.openMobileModel !== false} onClose={this.closeModalFilter} classNames={{modal: "products-mobile-sort-filter-modal"}}>
+                <Modal open={this.state.openMobileModel !== false} onClose={this.closeModalFilter} 
+                    classNames={{overlay: Identify.isRtl()?"rtl-root":"", modal: "products-mobile-sort-filter-modal"}}>
                     <div className="modal-mobile-filter-view" style={{display: this.state.openMobileModel === 'filter' ? 'block' : 'none'}}>
                         <Filter data={data.products.filters} filterData={filterData}/>
                     </div>
