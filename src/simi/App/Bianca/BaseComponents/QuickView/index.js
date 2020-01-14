@@ -76,7 +76,10 @@ class QuickView extends React.Component {
             );
         }
         return (
-            <Modal modalId="modal-quick-view" overlayId="modal-quick-view-overlay" open={openModal} onClose={this.onCloseModal}>
+            <Modal modalId="modal-quick-view" overlayId="modal-quick-view-overlay"
+            open={openModal} onClose={this.onCloseModal}
+            classNames={{overlay: Identify.isRtl()?"rtl-root":""}}
+            >
                 <div className="modal-quick-view-inner">
                     {dataModal(product)}
                 </div>

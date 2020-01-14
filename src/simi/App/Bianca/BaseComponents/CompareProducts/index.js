@@ -324,6 +324,7 @@ const CompareProduct = props => {
             overlayId="modal-compare-overlay"
             open={openModal}
             onClose={closeModal}
+            classNames={{overlay: Identify.isRtl()?"rtl-root":""}}
         >
             <div className="title">{Identify.__("COMPARE PRODUCTS")}</div>
             
