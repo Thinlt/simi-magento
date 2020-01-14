@@ -405,3 +405,29 @@ Sort by
     min-height: unset;
   }
 }
+
+.rtl-root {
+    .products-gallery-root .product-list-container-siminia .listing-product {
+        padding-right: 16px;
+        padding-left: 0px;
+    }
+    @media (max-width: 1023px) {
+        .products-gallery-root .product-list-container-siminia .listing-product {
+            padding-right: 0px;
+            padding-left: 0px;
+        }
+    }
+    .filter-products .MuiListItem-root {
+        direction: rtl;
+    }
+
+    .filter-products .filter-item {
+        direction: rtl;
+    }
+    .filter-products .selectable-filter .checkbox-item-icon {
+        margin-left: 9px;
+    }
+    .top-sort-by .sort-by-select .dir-item {
+        direction: rtl;
+    }
+}

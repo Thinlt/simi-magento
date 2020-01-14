@@ -192,6 +192,7 @@
     .footer button[type=submit] {
         border-radius: 0;
         background-color: #101820;
+        margin-bottom: 16px;
         span {
             padding-top: 4px;
             text-transform: uppercase;
@@ -234,4 +235,19 @@
         }
     }
 
+}
+
+.rtl-root {
+    .checkout-column .checkout-col-1,
+    .checkout-column .checkout-col-2,
+    .checkout-column .checkout-col-3 {
+        width: 33.33%;
+        margin: 0 8px;
+    }
+    .checkout-column .checkout-col-3 {
+        margin-left: 0px;
+    }
+    .checkout-column .checkout-col-1 {
+        margin-right: 0px;
+    }
 }

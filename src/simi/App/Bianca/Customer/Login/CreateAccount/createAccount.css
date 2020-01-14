@@ -19,11 +19,11 @@
 
 .lead1 {
     color: #101820;
-    font-family: Gotham;
+    font-family: 'Gotham Medium';
     font-size: 18px;
-    font-weight: 500;
     line-height: 18px;
 }
+
 .lead2 {
     color: #727272;
     font-family: Gotham;
@@ -56,7 +56,8 @@
 .submitButton:hover {
     opacity: 0.8;
 }
-.root .back{
+
+.root .back {
     width: fit-content;
     border-bottom: 1px solid #101820;
     position: absolute;
@@ -64,7 +65,8 @@
     left: 139px;
     cursor: pointer;
 }
-.root .back span{
+
+.root .back span {
     height: 18px;
     width: 53px;
     color: #101820;
@@ -74,41 +76,51 @@
     line-height: 18px;
     display: inline-block;
 }
-.root div[class *= "field-root"]{
+
+.root div[class *="field-root"] {
     margin-top: 35px;
 }
-.root div[class *= "field-root"] span[class *= "label"]{
+
+.root div[class *="field-root"] span[class *="label"] {
     color: #101820;
-    font-family: Gotham;
+    font-family: 'Gotham Medium';
     font-size: 14px;
-    font-weight: 500;
     line-height: 14px;
     text-transform: uppercase;
     padding: unset;
     padding-top: 0;
     padding-bottom: 8px;
 }
-.root div[class *= "field-root"] span[class *= "requiredSymbol"]{
+
+.root div[class *="field-root"] span[class *="requiredSymbol"] {
     display: none;
 }
 
-.root div[class *= "field-root"] input{
+.root div[class *="field-root"] input {
     min-height: 48px;
     padding-left: 16px !important;
     background-color: #f2f2f2;
     min-width: 572px;
     width: 100%;
     border: unset;
+    font-family: Gotham;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 14px;
+    color: #101820;
 }
-.root div[class *= "field-root"] input:focus{
+
+.root div[class *="field-root"] input:focus {
     box-shadow: none;
     border-color: unset;
 }
-.root div[class *= "field-root"] p{
+
+.root div[class *="field-root"] p {
     padding-top: 20px;
     position: relative;
 }
-.actions button{
+
+.actions button {
     font-size: 16px;
     font-weight: 500 !important;
     white-space: nowrap;
@@ -125,3 +137,133 @@
     background-color: #101820;
     color: #fff;
 }
+
+/* right to left */
+.rtl-rootForm{
+
+}
+
+.rtl-rootForm .lead2{
+    text-align: unset !important;
+}
+.rtl-rootForm input{
+    padding-left: 5px !important;
+    padding-right: 16px !important;
+}
+.rtl-rootForm .back{
+    left: unset !important;
+    right: 139px !important;
+}
+
+@media(max-width: 1023px) {
+    .root .back {
+        top: 130px;
+        left: 5%;
+    }
+    .rtl-rootForm .back{
+        top: 130px !important;
+        right: 5% !important;
+    }
+}
+
+@media(max-width: 834px) {
+    .root {
+        padding: 0 80px;
+    }
+    .root div[class *="field-root"] input {
+        min-width: unset !important;
+    }
+    .root .back {
+        top: 92px;
+    }
+    .rtl-rootForm .back{
+        top: 92px !important;
+    }
+}
+
+@media(max-width: 640px) {
+    .root {
+        padding: 0 40px;
+    }
+    .root div[class *="field-root"] input {
+        min-width: unset !important;
+    }
+    .root .back {
+        left: 3%;
+    }
+}
+
+@media(max-width: 530px) {
+    .root {
+        padding: 0 20px;
+    }
+    .root div[class *="field-root"] input {
+        min-width: unset !important;
+    }
+    .root .back {
+        left: 4%;
+    }
+}
+
+@media(max-width: 470px) {
+    .root {
+        margin-top: 20px;
+        padding: 0 20px;
+    }
+    .root .back {
+        top: 93px;
+    }
+    .root .back span {
+        height: 12px;
+        width: 36px;
+        font-size: 12px;
+        font-weight: 500 !important;
+        line-height: 12px;
+    }
+    .lead1 {
+        font-size: 16px;
+        line-height: 16px;
+    }
+    .lead2 {
+        font-size: 12px;
+        line-height: 14px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+    }
+    .root div[class *="field-root"] {
+        margin-top: 20px;
+    }
+    .root div[class *="field-root"] input {
+        min-width: unset !important;
+        min-height: 40px;
+        font-size: 14px;
+        line-height: 14px;
+        height: 14px;
+    }
+    .root .actions {
+        display: block;
+        margin-top: 11px;
+        text-align: center;
+    }
+    .root .actions button{
+        max-width: 249px;
+        font-size: 14px;
+        line-height: 14px !important;
+        padding-top: 13px !important;
+        padding-bottom: 13px !important;
+    }
+}
+
+@media(max-width: 425px){
+    .root{
+        padding: unset !important;
+    }
+}
+
+@media(max-width: 375px){
+    .root,
+    .rtl-rootForm{
+        padding: unset !important;
+    }
+}
+

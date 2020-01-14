@@ -15,9 +15,17 @@ class Select extends React.Component {
         this.isClickToggle = false;
     }
 
+    static getDerivedStateFromProps(props, state){
+        if (props.selected) state.selected = props.selected;
+        return state;
+    }
+
     onClickItem = (item) => {
         if (this.props.onChange) {
             this.props.onChange(item.value);
+        }
+        if (this.props.onChangeItem) {
+            this.props.onChangeItem(item);
         }
         this.setState({selected: item});
     }
@@ -83,7 +91,8 @@ class Select extends React.Component {
     };
 
     render(){
-        const {selected, isOpen} = this.state;
+        const {isOpen} = this.state;
+        const selected = this.props.forceSelected || this.state.selected;
         const {showSelected, className, hiddenInput} = this.props;
         const placeholder = <div className="placeholder">{this.props.placeholder || Identify.__('Please select')}</div>;
         return (
@@ -92,7 +101,7 @@ class Select extends React.Component {
                     <div className="icon">{this.props.icon}</div>
                 }
                 {showSelected && 
-                    <div className="input-display">{selected ? selected.label : placeholder}</div>
+                    <div className="input-display">{selected && selected.label ? selected.label : placeholder}</div>
                 }
                 {isOpen && 
                     <div className={"simi-simple-input-select"}>{this.options()}</div>

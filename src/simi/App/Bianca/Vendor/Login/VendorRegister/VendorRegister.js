@@ -171,7 +171,7 @@ const VendorRegister = (props) => {
 			var regionValue = null;
 			return (
 				<div className={classes.form_row}>
-					<label htmlFor="input-region">{Identify.__('Region *')}</label>
+					<label className={classes.select} htmlFor="input-region">{Identify.__('Region *')}</label>
 					<label className={`${classes.arrow_down} show`} htmlFor="input-region" />
 					<label className={`${classes.arrow_up} hidden`} htmlFor="input-region" />
 					<SimiSelect
@@ -250,7 +250,11 @@ const VendorRegister = (props) => {
 			{TitleHelper.renderMetaHeader({
 				title: Identify.__('Create Designer Account')
 			})}
-			<Form id="root-designer" className={classes.root} onSubmit={handleSubmit}>
+			<Form 
+				id="root-designer" 
+				className={`${classes.root} ${Identify.isRtl() ? classes['rtl-rootForm'] : null}`}
+				onSubmit={handleSubmit}
+			>
 				<React.Fragment>
 					<div className={classes.lead1}>{Identify.__('create an account'.toUpperCase())}</div>
 					<div className={classes.lead2}>
@@ -292,7 +296,7 @@ const VendorRegister = (props) => {
 						/>
 					</Field>
 					<div className={classes.form_row}>
-						<label htmlFor="input-country">{Identify.__('Country *')}</label>
+						<label className={classes.select}  htmlFor="input-country">{Identify.__('Country *')}</label>
 						<label className={`${classes.arrow_down1} show`} htmlFor="input-country" />
 						<label className={`${classes.arrow_up1} hidden`} htmlFor="input-country" />
 						<SimiSelect

@@ -239,7 +239,7 @@ class Login extends Component {
 				{TitleHelper.renderMetaHeader({
 					title: Identify.__('Designer Login')
 				})}
-				<div className={classes['login-background']}>
+				<div className={`${classes['login-background']} ${Identify.isRtl() ? classes['rtl-login-background'] : null}`}>
 					<div
 						className={` ${this.state.forgotPassSuccess == 'none'
 							? classes['smallSize']
@@ -260,15 +260,19 @@ class Login extends Component {
 								onClick={this.showPhoneLoginForm}
 								className={`${isPhoneLogin ? classes['active'] : null} ${classes['phone-type']}`}
 							>
-								<span className={classes['icon-phone']} />
-								<span className={classes['title-phone']}>{Identify.__('Phone')}</span>
+								<div className={classes['wrap']}>
+									<span className={classes['icon-phone']} />
+									<span className={classes['title-phone']}>{Identify.__('Phone')}</span>
+								</div>
 							</div>
 							<div
 								onClick={this.showEmailLoginForm}
 								className={`${isEmailLogin ? classes['active'] : null} ${classes['email-type']}`}
 							>
-								<span className={classes['icon-email']} />
-								<span className={classes['title-email']}>{Identify.__('Email')}</span>
+								<div className={classes['wrap']}>
+									<span className={classes['icon-email']} />
+									<span className={classes['title-email']}>{Identify.__('Email')}</span>
+								</div>
 							</div>
 						</div>
 						{emailLoginForm}

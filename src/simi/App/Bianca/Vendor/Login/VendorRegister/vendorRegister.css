@@ -19,11 +19,11 @@
 
 .lead1 {
 	color: #101820;
-	font-family: Gotham;
+	font-family: 'Gotham Medium';
 	font-size: 18px;
-	font-weight: 500;
 	line-height: 18px;
 }
+
 .lead2 {
 	color: #727272;
 	font-family: Gotham;
@@ -65,6 +65,7 @@
 	left: 139px;
 	cursor: pointer;
 }
+
 .root .back span {
 	height: 18px;
 	width: 53px;
@@ -75,17 +76,17 @@
 	line-height: 18px;
 	display: inline-block;
 }
-.root .root_error{
-	
-}
-.root div[class *= "field-root"] {
+
+.root .root_error {}
+
+.root div[class *="field-root"] {
 	margin-top: 35px;
 }
-.root div[class *= "field-root"] span[class *= "label"] {
+
+.root div[class *="field-root"] span[class *="label"] {
 	color: #101820;
-	font-family: Gotham;
+	font-family: 'Gotham Medium';
 	font-size: 14px;
-	font-weight: 500;
 	line-height: 14px;
 	text-transform: uppercase;
 	padding: unset;
@@ -93,26 +94,49 @@
 	padding-bottom: 8px;
 }
 
-.root div[class *= "field-root"] span[class *= "requiredSymbol"] {
+.root label.select{
+	color: #101820;
+	font-family: 'Gotham Medium';
+	font-size: 14px;
+	line-height: 14px;
+	text-transform: uppercase;
+	padding: unset;
+	padding-top: 0;
+	padding-bottom: 8px;
+}
+
+.root div[class *="field-root"] span[class *="requiredSymbol"] {
 	display: none;
 }
 
-.root div[class *= "field-root"] input {
-	min-height: 48px;
-	padding-left: 16px !important;
-	background-color: #f2f2f2;
-	min-width: 572px;
-	width: 100%;
-	border: unset;
+.root div[class *="field-root"] input {
+    min-height: 48px;
+    padding-left: 16px !important;
+    background-color: #f2f2f2;
+    min-width: 572px;
+    width: 100%;
+    border: unset;
+    font-family: Gotham;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 14px;
+    color: #101820;
 }
-.root div[class *= "field-root"] input:focus {
+
+.root div[class *="field-root"] input::placeholder {
+	font-family: Gotham;
+}
+
+.root div[class *="field-root"] input:focus {
 	box-shadow: none;
 	border-color: unset;
 }
-.root div[class *= "field-root"] p {
+
+.root div[class *="field-root"] p {
 	padding-top: 20px;
 	position: relative;
 }
+
 .actions button {
 	font-size: 16px;
 	font-weight: 500 !important;
@@ -130,10 +154,12 @@
 	background-color: #101820;
 	color: #fff;
 }
+
 .form_row {
 	margin-top: 35px;
 	position: relative;
 }
+
 .form_row label {
 	color: #101820;
 	font-family: Gotham;
@@ -146,6 +172,7 @@
 	padding-bottom: 8px;
 	display: block;
 }
+
 .form_row select {
 	display: inline-grid;
 	grid-auto-flow: column;
@@ -171,68 +198,221 @@
 	padding-top: 8px;
 }
 
-.form_row .arrow_down,
-.form_row .arrow_down1{
+.form_row .arrow_down, .form_row .arrow_down1 {
 	width: 16px;
-    height: 16px;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    z-index: 9;
-    top: 43px;
-    margin: 0;
-    right: 16px;
-    padding-bottom: 0;
+	height: 16px;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	z-index: 9;
+	top: 43px;
+	margin: 0;
+	right: 16px;
+	padding-bottom: 0;
 }
 
-.form_row .arrow_down::before,
-.form_row .arrow_down1::before{
+.form_row .arrow_down::before, .form_row .arrow_down1::before {
 	color: #101820;
-    content: "\e93a";
-    font-size: 14px;
-    font-family: 'Linearicons', 'Simple Linearicons';
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    font-feature-settings: "liga";
+	content: "\e93a";
+	font-size: 14px;
+	font-family: 'Linearicons', 'Simple Linearicons';
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	font-feature-settings: "liga";
 }
-.form_row .arrow_up,
-.form_row .arrow_up1{
+
+.form_row .arrow_up, .form_row .arrow_up1 {
 	width: 16px;
-    height: 16px;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    z-index: 9;
-    top: 43px;
-    margin: 0;
-    right: 16px;
+	height: 16px;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	z-index: 9;
+	top: 43px;
+	margin: 0;
+	right: 16px;
 	padding-bottom: 0;
 	transform: rotate(180deg);
-    -moz-transform: rotate(180deg);
-    -webkit-transform: rotate(180deg);
-    -o-transform: rotate(180deg);
-    -ms-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
 }
 
-.form_row .arrow_up::before,
-.form_row .arrow_up1::before{
+.form_row .arrow_up::before, .form_row .arrow_up1::before {
 	color: #101820;
-    content: "\e93a";
-    font-size: 14px;
-    font-family: 'Linearicons', 'Simple Linearicons';
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    font-feature-settings: "liga";
+	content: "\e93a";
+	font-size: 14px;
+	font-family: 'Linearicons', 'Simple Linearicons';
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	font-feature-settings: "liga";
 }
 
-.show{
+.show {
 	display: inline-flex !important;
 }
 
-.hidden{
+.hidden {
 	display: none !important;
+}
+
+/* right to left */
+.rtl-rootForm{
+
+}
+
+.rtl-rootForm .lead2{
+    text-align: unset !important;
+}
+.rtl-rootForm input{
+    padding-left: 5px !important;
+    padding-right: 16px !important;
+}
+.rtl-rootForm .back{
+    left: unset !important;
+    right: 139px !important;
+}
+
+.rtl-rootForm .form_row .arrow_down,
+.rtl-rootForm .form_row .arrow_down1 {
+	right: unset !important;
+	left: 16px !important;
+}
+
+.rtl-rootForm .form_row .arrow_up,
+.rtl-rootForm .form_row .arrow_up1 {
+	right: unset !important;
+	left: 16px !important;
+}
+.rtl-rootForm select{
+	padding-left: 16px !important;
+	padding-right: 16px !important;
+}
+
+@media(max-width: 1023px) {
+	.root .back {
+		top: 130px;
+		left: 5%;
+	}
+	.rtl-rootForm .back{
+        top: 130px !important;
+        right: 5% !important;
+    }
+}
+
+@media(max-width: 834px) {
+	.root {
+		padding: 0 80px;
+	}
+	.root div[class *="field-root"] input {
+		min-width: unset !important;
+	}
+	.root select {
+		min-width: unset !important;
+	}
+	.root .back {
+		top: 92px;
+	}
+	.rtl-rootForm .back{
+        top: 92px !important;
+    }
+}
+
+@media(max-width: 640px) {
+	.root {
+		padding: 0 40px;
+	}
+	.root div[class *="field-root"] input {
+		min-width: unset !important;
+	}
+	.root .back {
+		left: 3%;
+	}
+}
+
+@media(max-width: 530px) {
+	.root {
+		padding: 0 20px;
+	}
+	.root div[class *="field-root"] input {
+		min-width: unset !important;
+	}
+	.root .back {
+		left: 4%;
+	}
+}
+
+@media(max-width: 470px) {
+	.root {
+		margin-top: 20px;
+		padding: 0 20px;
+	}
+	.root .back {
+		top: 93px;
+	}
+	.root .back span {
+		height: 12px;
+		width: 36px;
+		font-size: 12px;
+		font-weight: 500 !important;
+		line-height: 12px;
+	}
+	.lead1 {
+		font-size: 16px;
+		line-height: 16px;
+	}
+	.lead2 {
+		font-size: 12px;
+		line-height: 14px;
+		margin-top: 5px;
+		margin-bottom: 10px;
+	}
+	.root div[class *="field-root"] {
+		margin-top: 20px;
+	}
+	.root div[class *="field-root"] input {
+		min-width: unset !important;
+		min-height: 40px;
+		font-size: 14px;
+		line-height: 14px;
+		height: 14px;
+	}
+	.root .actions {
+		padding-bottom: 0 !important;
+		display: block;
+		margin-top: 27px;
+		text-align: center;
+	}
+	.root .actions button {
+		max-width: 249px;
+		font-size: 14px;
+		line-height: 14px !important;
+		padding-top: 13px !important;
+		padding-bottom: 13px !important;
+	}
+	.root select {
+		min-width: unset !important;
+		min-height: 40px;
+		font-size: 14px;
+		line-height: 14px;
+		height: 14px;
+	}
+}
+
+@media(max-width: 425px){
+    .root{
+        padding: unset !important;
+    }
+}
+
+@media(max-width: 375px){
+    .root,
+    .rtl-rootForm{
+        padding: unset !important;
+    }
 }

@@ -36,7 +36,7 @@ class VendorLogin extends Component {
 		const { classes } = this.props;
 
 		return (
-			<div className="root sign-in-form">
+			<div className={`root sign-in-form ${Identify.isRtl() ? 'rtl-signInForm' : null}`}>
 				{TitleHelper.renderMetaHeader({
 					title: Identify.__('Sign In')
 				})}
@@ -66,7 +66,7 @@ class VendorLogin extends Component {
 							placeholder="Password"
 						/>
 					</div>
-					<div className="signInAction">
+					<div className={`${Identify.isRtl() ? 'rtl-signInAction' : null} signInAction`}>
 						<Checkbox
 							onClick={this.handleCheckBox}
 							label={Identify.__('Remember me')}

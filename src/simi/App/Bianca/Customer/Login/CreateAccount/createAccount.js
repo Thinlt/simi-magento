@@ -69,7 +69,7 @@ const CreateAccount = props => {
                 title:Identify.__('Create Account')
             })}
             <Form
-                className={classes.root}
+                className={`${classes.root} ${Identify.isRtl() ? classes['rtl-rootForm'] : null}`}
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
             >
@@ -86,7 +86,7 @@ const CreateAccount = props => {
                         autoComplete="given-name"
                         validate={validators.get('firstName')}
                         validateOnBlur
-                        placeholder="First name"
+                        placeholder="First Name"
                     />
                 </Field>
                 <Field label="Last Name *" required={true}>
@@ -96,7 +96,7 @@ const CreateAccount = props => {
                         autoComplete="family-name"
                         validate={validators.get('lastName')}
                         validateOnBlur
-                        placeholder="Last name"
+                        placeholder="Last Name"
                     />
                 </Field>
                 <Field label="Email Address *" required={true}>
@@ -129,7 +129,7 @@ const CreateAccount = props => {
                         placeholder="Password"
                     />
                 </Field>
-                <Field label="Confirm Password *">
+                <Field label="Password Confirmation*">
                     <TextInput
                         field="confirm"
                         type="password"
@@ -154,6 +154,7 @@ const CreateAccount = props => {
                 </div>
                 <div 
                     className={classes['back']}
+                    
                     onClick={handleBack}
                 >
                     <span>{Identify.__('back'.toUpperCase())}</span>

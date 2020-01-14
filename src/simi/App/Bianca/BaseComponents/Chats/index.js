@@ -218,6 +218,7 @@ const Chats = (props) => {
                 overlayId={'contact-modal-overlay'}
                 modalId={'contact-modal'}
                 closeIconId={'contact-modal-close'}
+                classNames={{overlay: Identify.isRtl()?"rtl-root":""}}
                 closeIconSize={16}
                 closeIconSvgPath={<CloseIcon style={{fill: '#101820'}}/>}
             >

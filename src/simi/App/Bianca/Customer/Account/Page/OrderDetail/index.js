@@ -59,7 +59,9 @@ const Detail = (props) => {
     };
 
     const getFormatPrice = value => {
-        return formatPrice(Number(value))
+        if (data && data.order_currency_code) {
+            return formatPrice(Number(value), data.order_currency_code)
+        }
     }
 
     const onBackOrder = () => {
@@ -186,12 +188,12 @@ const Detail = (props) => {
                             </Link>
                         </div>
                         <div className="detail-order__col product-code">
-                            {isPhone && <b>{Identify.__('Product code')}</b>}
+                            {isPhone && <b>{Identify.__('SKU')}</b>}
                             {item.sku}
                         </div>
-                        <div className="detail-order__col item-size">
-                            {isPhone && <b>{Identify.__('Size')}</b>}
-                            {optionText}
+                        <div className="detail-order__col item-buyservice">
+                            {isPhone && <b>{Identify.__('Service Support')}</b>}
+                            {(item && parseInt(item.is_buy_service)) ? Identify.__('Yes') : Identify.__('No')}
                         </div>
                         <div className="detail-order__col item-qty">
                             {isPhone && <b>{Identify.__('Quantity')}</b>}
@@ -239,10 +241,10 @@ const Detail = (props) => {
                             {Identify.__("Item")}
                         </div>
                         <div className="detail-order__col">
-                            {Identify.__("Product Code")}
+                            {Identify.__("SKU")}
                         </div>
                         <div className="detail-order__col">
-                            {Identify.__("Size")}
+                            {Identify.__("Service Support")}
                         </div>
                         <div className="detail-order__col">
                             {Identify.__("Quantity")}
@@ -288,6 +290,13 @@ const Detail = (props) => {
                             <span className="bold">{Identify.__('VAT')}</span>
                             <span className="price">{getFormatPrice(totalPrice.tax)}</span>
                         </div>
+                        {
+                                parseInt(data.service_support_fee) && 
+                                <div className="summary-price-line">
+                                    <span className="bold">{Identify.__('Service Support Fee')}</span>
+                                    <span className="price">{getFormatPrice(data.service_support_fee)}</span>
+                                </div>
+                        }
                         <div className="summary-price-line total">
                             <span className="bold">{Identify.__('Total')}</span>
                             <span className="price">{totalPrice.tax ? getFormatPrice(totalPrice.grand_total_incl_tax) : getFormatPrice(totalPrice.shipping_hand_excl_tax)}</span>

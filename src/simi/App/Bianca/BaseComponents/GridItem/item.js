@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactHTMLParse from 'react-html-parser'
 import Price from 'src/simi/App/Bianca/BaseComponents/Price';
 import { prepareProduct } from 'src/simi/Helper/Product'
+import { analyticClickGTM, analyticAddCartGTM } from 'src/simi/Helper/Analytics'
 import { Link } from 'src/drivers';
 import LazyLoad from 'react-lazyload';
 import { logoUrl } from 'src/simi/Helper/Url'
@@ -29,7 +30,6 @@ require('./item.scss')
 if (getOS() === 'MacOS') {
     require('./item-macos.scss')
 }
-
 
 
 class Griditem extends React.Component {
@@ -86,6 +86,8 @@ class Griditem extends React.Component {
             if (data.message)
                 showToastMessage(data.message)
             this.props.getCartDetails()
+            const item = prepareProduct(this.props.item)
+            analyticAddCartGTM(item.name, item.id, item.price)
         }
     }
 
@@ -296,10 +298,12 @@ class Griditem extends React.Component {
                 <div className="siminia-product-des">
                     <div className="product-des-info">
                         <div className="product-name">
-                            <div role="presentation" className="product-name small" onClick={() => props.handleLink(location)}>{ReactHTMLParse(name)}</div>
+                            <div role="presentation" className="product-name small"
+                                onClick={() => {analyticClickGTM(name, item.id, item.price); props.handleLink(location)}} >{ReactHTMLParse(name)}</div>
                         </div>
                         <div className="vendor-and-price">
-                            <div role="presentation" className={`prices-layout ${Identify.isRtl() ? "prices-layout-rtl" : ''}`} id={`price-${id}`} onClick={() => props.handleLink(location)}>
+                            <div role="presentation" className={`prices-layout ${Identify.isRtl() ? "prices-layout-rtl" : ''}`} id={`price-${id}`} 
+                                onClick={() => {analyticClickGTM(name, item.id, item.price); props.handleLink(location)}}>
                                 <Price
                                     prices={price} type={type_id}
                                 />

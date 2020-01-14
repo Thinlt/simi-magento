@@ -34,11 +34,11 @@ const Designers = props => {
         history.push('/designers' + cateUrlSuffix());
     }
 
-    const lastItems = (
+    const lastItems = [(
         <div className="last-items">
             <div className="btn" onClick={actionViewAll}><span>{Identify.__('View all')}</span></div>
         </div>
-    );
+    )];
 
     return (
         <div className={`brand-slider ${isPhone ? 'phone-view':''}`}>
