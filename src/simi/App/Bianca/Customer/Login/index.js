@@ -81,7 +81,6 @@ class Login extends Component {
 	}
 
 	authHandler = async (authData) => {
-		console.log(authData);
 		var user = authData.user;
 		var providerId = authData.additionalUserInfo.providerId;
 		var profile = authData.additionalUserInfo.profile;
@@ -150,7 +149,6 @@ class Login extends Component {
 				showToastMessage(errorMsg);
 			}
 		} else {
-			console.log(data);
 			storage.removeItem('cartId');
 			storage.removeItem('signin_token');
 			if (data.customer_access_token) {
@@ -325,7 +323,6 @@ class Login extends Component {
 		hideFogLoading();
 		if (this.props.simiSignedIn) {
 			if (data && !data.errors) {
-				console.log(data);
 				storage.removeItem('cartId');
 				storage.removeItem('signin_token');
 				if (data.customer_access_token) {
@@ -409,15 +406,19 @@ class Login extends Component {
 								onClick={this.showPhoneLoginForm}
 								className={`${isPhoneLogin ? classes['active'] : null} ${classes['phone-type']}`}
 							>
-								<span className={classes['icon-phone']} />
-								<span className={classes['title-phone']}>{Identify.__('Phone')}</span>
+								<div className={classes['wrap']}>
+									<span className={classes['icon-phone']} />
+									<span className={classes['title-phone']}>{Identify.__('Phone')}</span>
+								</div>
 							</div>
 							<div
 								onClick={this.showEmailLoginForm}
 								className={`${isEmailLogin ? classes['active'] : null} ${classes['email-type']}`}
 							>
-								<span className={classes['icon-email']} />
-								<span className={classes['title-email']}>{Identify.__('Email')}</span>
+								<div className={classes['wrap']}>
+									<span className={classes['icon-email']} />
+									<span className={classes['title-email']}>{Identify.__('Email')}</span>
+								</div>
 							</div>
 						</div>
 						{emailLoginForm}

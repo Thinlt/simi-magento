@@ -7,6 +7,7 @@
     background-position: top center;
     background-repeat: no-repeat;
 }
+
 .login-background .login-container {
     max-width: 770px;
     margin-top: 47px;
@@ -18,7 +19,8 @@
     background-color: white;
     /* min-height: 700px !important; */
 }
-.login-background .smallSize{
+
+.login-background .smallSize {
     max-width: 572px;
     border: unset;
 }
@@ -26,27 +28,33 @@
 .signIn_closed {
     display: none;
 }
+
 .modal_active {
     left: 0;
 }
+
 .form_closed {
     display: none;
 }
+
 .login-header {
     display: flex;
     margin-bottom: 35px;
 }
+
 .login-header-back {
     width: 20%;
     margin-top: 8px;
     cursor: pointer;
 }
+
 .login-header-title {
     width: 100%;
     text-align: center;
     font-size: 24px;
     font-weight: 600;
 }
+
 .login-header.has-back-btn .login-header-title {
     width: 60%;
 }
@@ -68,7 +76,7 @@
     font-size: 20px;
     line-height: 20px;
     font-weight: 500;
-    font-family: Gotham;
+    font-family: 'Gotham Medium';
     width: 72px;
     height: 20px;
     margin: auto;
@@ -76,9 +84,11 @@
     display: inline-block;
     margin-top: 0px;
 }
-.userInput{
+
+.userInput {
     margin-bottom: 10px !important;
 }
+
 .input {
     min-height: 48px;
     padding-left: 16px !important;
@@ -89,24 +99,30 @@
     margin-bottom: 24px !;
 }
 
+
 /* nam style css */
+
 .login-background .select-type {
     padding: 0 98px;
     display: flex;
     justify-content: space-between;
     margin-top: 25px;
 }
-.login-background .select-type .active{
+
+.login-background .select-type .active {
     background-color: #101820 !important;
 }
+
 .login-background .select-type .active .icon-phone,
-.login-background .select-type .active .title-phone{
+.login-background .select-type .active .title-phone {
     color: #fff !important;
 }
+
 .login-background .select-type .active .icon-email,
-.login-background .select-type .active .title-email{
+.login-background .select-type .active .title-email {
     color: #fff !important;
 }
+
 .login-background .select-type .phone-type,
 .login-background .select-type .email-type {
     width: 278px;
@@ -114,17 +130,20 @@
     background-color: #fff;
     border: 1px solid #101820;
     box-sizing: border-box;
+    padding: 0;
+    display: flex;
+    justify-content: center;
 }
-.login-background .select-type .phone-type {
-    padding: 15px 101.5px;
-    cursor: pointer;
+
+.login-background .select-type .phone-type .wrap,
+.login-background .select-type .email-type .wrap {
     position: relative;
-}
-.login-background .select-type .email-type {
-    padding: 15px 104.5px;
+    width: fit-content;
+    display: flex;
+    margin: auto;
     cursor: pointer;
-    position: relative;
 }
+
 .login-background .select-type .phone-type .icon-phone {
     display: inline-block;
     color: #101820;
@@ -132,10 +151,13 @@
     font-size: 18px;
     line-height: 18px;
     text-align: center;
+    margin-right: 3px;
 }
-.login-background .select-type .phone-type .icon-phone::before{
-    content:"\e831";
+
+.login-background .select-type .phone-type .icon-phone::before {
+    content: "\e831";
 }
+
 .login-background .select-type .phone-type .title-phone {
     display: inline-block;
     color: #101820;
@@ -144,10 +166,11 @@
     font-weight: 500;
     line-height: 16px;
     padding: 1px 0;
-    position: absolute;
-    top: 14px;
-    left: 126px;
+    margin-left: 3px;
+    width: 51px;
+    margin-top: 2px;
 }
+
 .login-background .select-type .email-type .icon-email {
     display: inline-block;
     color: #101820;
@@ -155,10 +178,13 @@
     font-size: 18px;
     line-height: 18px;
     text-align: center;
+    margin-right: 3px;
 }
+
 .login-background .select-type .email-type .icon-email::before {
-    content:"\e697";
+    content: "\e697";
 }
+
 .login-background .select-type .email-type .title-email {
     display: inline-block;
     color: #101820;
@@ -166,79 +192,92 @@
     font-size: 16px;
     font-weight: 500;
     line-height: 16px;
-    position: absolute;
-    padding: 1px 0;
-    top: 14px;
-    left: 131px;
+    margin-left: 3px;
+    width: 45px;
+    margin-top: 2px;
 }
-.login-background div[class ~="signInAction"]{
+
+.login-background div[class~="signInAction"] {
     margin-top: 40px;
 }
-.login-background div[class ~="signInAction"] button{
+
+.login-background div[class~="signInAction"] button {
     color: #101820;
     font-family: "Gotham Medium";
     font-size: 16px;
     line-height: 16px;
 }
-.login-background div[class ~="signInAction"] div[class *= "checkbox-item"]{
+
+.login-background div[class~="signInAction"] div[class *="checkbox-item"] {
     margin-top: unset !important;
 }
-.login-background div[class ~="signInAction"] div[class *= "checkbox-item-icon"]{
+
+.login-background div[class~="signInAction"] div[class *="checkbox-item-icon"] {
     width: 24px;
     height: 24px;
 }
-.login-background div[class ~="signInAction"] div[class *= "checkbox-item-icon-inside"]{
+
+.login-background div[class~="signInAction"] div[class *="checkbox-item-icon-inside"] {
     margin-top: 4px !important;
 }
-.login-background div[class ~="signInAction"] span[class *= "checkbox-item-text"]{
-   margin: 5px 0;
-   min-width: 103px;
-}
-.login-background div[class ~="signInButtonCtn"]{
-    margin-top: 32px !important;
-}
-.login-background div[class ~="signInButtonCtn"] button{
-       font-size: 16px;
-       font-weight: 500 !important;
-       white-space: nowrap;
-       text-align: center;
-       padding-top: 16px !important;
-       cursor: pointer;
-       border: 0;
-       width: 100%;
-       min-width: 200px;
-       padding-bottom: 16px !important;
-       font-family: Gotham;
-       line-height: 16px !important;
+
+.login-background div[class~="signInAction"] span[class *="checkbox-item-text"] {
+    margin: 5px 0;
+    min-width: 103px;
 }
 
-.login-background .inactive{
+.login-background div[class~="signInButtonCtn"] {
+    margin-top: 32px !important;
+}
+
+.login-background div[class~="signInButtonCtn"] button {
+    font-size: 16px;
+    font-weight: 500 !important;
+    white-space: nowrap;
+    text-align: center;
+    padding-top: 16px !important;
+    cursor: pointer;
+    border: 0;
+    width: 100%;
+    min-width: 200px;
+    padding-bottom: 16px !important;
+    font-family: 'Gotham Medium';
+    line-height: 16px !important;
+}
+
+.login-background .inactive {
     display: none;
 }
-.login-background .active{
+
+.login-background .active {
     padding: 0 98px;
     display: block;
     justify-content: space-between;
 }
-.login-background .active .signInDivider{
+
+.login-background .active .signInDivider {
     text-align: center;
     display: flex;
     justify-content: center;
 }
-.login-background .active .signInDivider .hr{
+
+.login-background .active .signInDivider .hr {
     border-top: 0.5px solid #727272;
     border-bottom: 0.5px solid #727272;
     margin: unset;
     margin-top: 7.5px;
     width: 211px;
 }
-.login-background .active .signInDivider .hr.left-hr{
+
+.login-background .active .signInDivider .hr.left-hr {
     margin-right: 12px;
 }
-.login-background .active .signInDivider .hr.right-hr{
+
+.login-background .active .signInDivider .hr.right-hr {
     margin-left: 12px;
 }
-.login-background .active .signInDivider .signInWidth{
+
+.login-background .active .signInDivider .signInWidth {
     color: #101820;
     font-family: "Gotham Medium";
     font-size: 14px;
@@ -246,12 +285,14 @@
     height: 14px;
     text-transform: uppercase;
 }
-.login-background .active .socialMedia{
+
+.login-background .active .socialMedia {
     margin-top: 32px;
     display: flex;
     justify-content: center;
 }
-.login-background .active .socialMedia .social-icon{
+
+.login-background .active .socialMedia .social-icon {
     display: inline-block;
     cursor: pointer;
     border: 1px solid #101820;
@@ -262,10 +303,12 @@
     background-color: #fff;
     margin: 0 8px;
 }
-.login-background .active .socialMedia .social-icon.special{
-   text-align: center;
+
+.login-background .active .socialMedia .social-icon.special {
+    text-align: center;
 }
-.login-background .active .socialMedia .social-icon .icon{
+
+.login-background .active .socialMedia .social-icon .icon {
     display: inline-block;
     height: 24px;
     width: 24px;
@@ -276,7 +319,8 @@
     text-align: center;
     padding: 5px;
 }
-.login-background .active .socialMedia .social-icon .icon.google{
+
+.login-background .active .socialMedia .social-icon .icon.google {
     display: inline-block;
     height: 24px;
     width: 24px;
@@ -287,23 +331,29 @@
     line-height: 24px;
     text-align: center;
 }
-.login-background .active .socialMedia .social-icon .facebook::before{
+
+.login-background .active .socialMedia .social-icon .facebook::before {
     content: "\e00b";
 }
-.login-background .active .socialMedia .social-icon .twitter::before{
+
+.login-background .active .socialMedia .social-icon .twitter::before {
     content: "\e009";
 }
-.login-background .active .socialMedia .social-icon .google::before{
+
+.login-background .active .socialMedia .social-icon .google::before {
     content: '\f3f7';
 }
-.login-background .active .socialMedia .social-icon .linkedin::before{
+
+.login-background .active .socialMedia .social-icon .linkedin::before {
     content: "\e60a";
 }
-.login-background .active .socialMedia .social-icon .instagram::before{
+
+.login-background .active .socialMedia .social-icon .instagram::before {
     content: "\e609";
 }
-.login-background .active .showCreateAccountButtonCtn{
-    display:flex;
+
+.login-background .active .showCreateAccountButtonCtn {
+    display: flex;
     margin-top: 60px;
     box-sizing: content-box;
     height: 48px;
@@ -311,7 +361,8 @@
     border: 1px solid #101820;
     cursor: pointer;
 }
-.login-background .active .showCreateAccountButtonCtn .showCreateAccountButton{
+
+.login-background .active .showCreateAccountButtonCtn .showCreateAccountButton {
     display: inline-block;
     width: 100%;
     color: #101820;
@@ -320,4 +371,220 @@
     font-weight: 500;
     line-height: 16px;
     text-transform: uppercase;
+}
+
+@media (max-width: 834px) {
+    .login-background {
+        padding: 40px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .login-background .select-type {
+        padding: 0 80px;
+    }
+    .login-container .buyer-login {
+        padding: 15px 0;
+    }
+    .login-container .buyer-login span {
+        font-size: 18px;
+        line-height: 18px;
+        font-weight: 500;
+        height: 18px;
+    }
+    .login-background .select-type .phone-type,
+    .login-background .select-type .email-type {
+        padding: unset;
+        height: 40px;
+    }
+    .login-background .select-type .phone-type .title-phone,
+    .login-background .select-type .email-type .title-email {
+        font-size: 14px;
+        line-height: 14px;
+    }
+    .login-background .active {
+        padding: 0 80px;
+    }
+    .login-background .active .signInDivider .signInWidth {
+        font-size: 13px;
+    }
+    .login-background .active .signInDivider .hr {
+        width: 177px;
+    }
+    .login-background .active .showCreateAccountButtonCtn {
+        width: 100%;
+        margin-top: 40px;
+        height: 40px;
+    }
+    .login-background div[class~="signInButtonCtn"] button {
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+        line-height: 16px !important;
+    }
+}
+
+@media(max-width: 736px) {
+    .login-background {
+        padding: 20px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .login-background .select-type {
+        padding: 0 60px;
+    }
+    .login-background .active {
+        padding: 0 60px;
+    }
+}
+
+@media(max-width: 600px) {
+    .login-background {
+        padding: 20px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .login-background .select-type {
+        padding: 0 40px;
+    }
+    .login-background .active {
+        padding: 0 40px;
+    }
+}
+
+@media(max-width: 500px) {
+    .login-background {
+        padding: 10px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .login-background .select-type {
+        padding: 0 10px;
+    }
+    .login-background .active {
+        padding: 0 10px;
+    }
+    .login-background .active .signInDivider .hr {
+        width: 120px;
+    }
+}
+
+@media(max-width: 425px) {
+    .login-container {
+        margin-top: 20px;
+        border: unset !important;
+        padding-bottom: 50px !important;
+    }
+}
+
+@media(max-width: 375px) {
+    .login-container {
+        margin-top: 20px;
+        border: unset !important;
+        padding-bottom: 50px !important;
+    }
+    .login-background {
+        padding: 15px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .login-background .select-type {
+        margin-top: 20px;
+        padding: 0 1px;
+    }
+    .login-background .active {
+        padding: 0 10px;
+    }
+    .login-background .active .signInDivider .hr {
+        width: 50px;
+        margin-top: 5px;
+    }
+    .login-container .buyer-login {
+        padding: 12px 0;
+        max-height: 40px;
+        max-width: 343px;
+    }
+    .login-container .buyer-login span {
+        font-size: 16px;
+        line-height: 16px;
+        font-weight: 500;
+        height: 16px;
+        width: 58px;
+    }
+    .login-background .select-type .phone-type,
+    .login-background .select-type .email-type {
+        padding: unset;
+        height: 40px;
+    }
+    .login-background .select-type .phone-type .wrap,
+    .login-background .select-type .email-type .wrap {
+        height: 15px;
+    }
+    .login-background .select-type .phone-type .icon-phone {
+        height: 14px;
+        font-size: 14px;
+        line-height: 14px;
+    }
+    .login-background .select-type .active .icon-phone,
+    .login-background .select-type .active .title-phone {
+        font-size: 14px;
+        line-height: 14px;
+        height: 14px;
+    }
+    .login-background .select-type .active .icon-email,
+    .login-background .select-type .active .title-email {
+        font-size: 14px;
+        line-height: 14px;
+        height: 14px;
+    }
+    .login-background .select-type .phone-type .title-phone,
+    .login-background .select-type .email-type .title-email {
+        font-size: 14px;
+        line-height: 14px;
+        padding: unset;
+        margin-top: 1px;
+    }
+    .login-background .select-type .phone-type .title-phone {
+        width: 44px;
+    }
+    .login-background .select-type .email-type .title-email {
+        width: 39px;
+    }
+    .login-background div[class~="signInAction"] button {
+        margin-top: 25px;
+        font-family: 'Gotham-Medium';
+        font-size: 14px;
+        line-height: 14px;
+    }
+    .login-background div[class~="signInButtonCtn"] {
+        margin-top: 38px !important;
+        margin-bottom: 30px;
+    }
+    .login-background div[class~="signInButtonCtn"] button {
+        max-width: 249px;
+        font-size: 14px;
+        line-height: 14px !important;
+        padding-top: 13px !important;
+        padding-bottom: 13px !important;
+    }
+    .login-background .active .signInDivider .signInWidth {
+        font-size: 14px;
+        line-height: 14px;
+        min-width: 126px;
+    }
+    .login-background .active .socialMedia {
+        margin-top: 30px;
+    }
+    .login-background .active .showCreateAccountButtonCtn {
+        margin-top: 30px;
+        display: block;
+        text-align: center;
+        border: unset !important;
+    }
+    .login-background .active .showCreateAccountButtonCtn .showCreateAccountButton {
+        max-width: 249px;
+        font-size: 14px;
+        line-height: 14px !important;
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+        border: 1px solid #101820;
+    }
 }
