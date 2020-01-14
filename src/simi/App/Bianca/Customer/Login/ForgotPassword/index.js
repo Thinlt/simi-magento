@@ -73,7 +73,7 @@ class ForgotPassword extends Component {
                 {TitleHelper.renderMetaHeader({
                     title:Identify.__('Forgot password')
                 })}
-                <div className={classes["wrap"]}>
+                <div className={`${classes['wrap']} ${Identify.isRtl() ? classes['rtl-wrap'] : null}`}>
                     <div className={classes["title"]}>{Identify.__("forgot password?".toUpperCase())}</div>
                     <p className={classes.instructions}>
                         {Identify.__('Enter your email address to reset your password.')}

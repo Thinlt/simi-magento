@@ -87,7 +87,12 @@
     min-width: 572px;
     width: 100%;
     border: unset;
-    margin-bottom: 24px !;
+    margin-bottom: 24px;
+    font-family: Gotham;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 14px;
+    color: #101820;
 }
 
 /* nam style css */
@@ -295,6 +300,32 @@
     text-transform: uppercase;
 }
 
+/* right to left */
+.rtl-login-background{
+    
+}
+
+.rtl-login-background .icon-phone,
+.rtl-login-background .icon-email{
+    margin-right: unset !important;
+    margin-left: 3px;
+}
+
+.rtl-login-background .title-email,
+.rtl-login-background .title-phone{
+    margin-left: unset !important;
+    margin-right: 3px;
+}
+
+.rtl-login-background .hr.left-hr{
+    margin-left: 12px !important;
+    margin-right: unset !important;
+}
+.rtl-login-background .hr.right-hr{
+    margin-left: unset !important;
+    margin-right: 12px !important;
+}
+
 @media (max-width: 834px) {
     .login-background {
         padding: 40px;
@@ -395,6 +426,12 @@
         border: unset !important;
         padding-bottom: 50px !important;
     }
+    .login-background .select-type {
+        padding: 0px;
+    }
+    .login-background .active {
+        padding: 0px;
+    }
 }
 
 @media(max-width: 375px) {
@@ -429,7 +466,6 @@
         line-height: 16px;
         font-weight: 500;
         height: 16px;
-        width: 58px;
     }
     .login-background .select-type .phone-type,
     .login-background .select-type .email-type {
@@ -472,13 +508,13 @@
     }
     .login-background div[class~="signInAction"] button {
         margin-top: 25px;
-        font-family: 'Gotham-Medium';
+        font-family: 'Gotham Medium';
         font-size: 14px;
         line-height: 14px;
     }
     .login-background div[class~="signInButtonCtn"] {
         margin-top: 38px !important;
-        margin-bottom: 30px;
+        margin-bottom: 30px !important;
     }
     .login-background div[class~="signInButtonCtn"] button {
         max-width: 249px;
@@ -496,7 +532,7 @@
         margin-top: 30px;
     }
     .login-background .active .showCreateAccountButtonCtn {
-        margin-top: 30px;
+        margin-top: 0 !important;
         display: block;
         text-align: center;
         border: unset !important;

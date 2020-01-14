@@ -250,7 +250,11 @@ const VendorRegister = (props) => {
 			{TitleHelper.renderMetaHeader({
 				title: Identify.__('Create Designer Account')
 			})}
-			<Form id="root-designer" className={classes.root} onSubmit={handleSubmit}>
+			<Form 
+				id="root-designer" 
+				className={`${classes.root} ${Identify.isRtl() ? classes['rtl-rootForm'] : null}`}
+				onSubmit={handleSubmit}
+			>
 				<React.Fragment>
 					<div className={classes.lead1}>{Identify.__('create an account'.toUpperCase())}</div>
 					<div className={classes.lead2}>

@@ -69,7 +69,7 @@ const CreateAccount = props => {
                 title:Identify.__('Create Account')
             })}
             <Form
-                className={classes.root}
+                className={`${classes.root} ${Identify.isRtl() ? classes['rtl-rootForm'] : null}`}
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
             >
@@ -154,6 +154,7 @@ const CreateAccount = props => {
                 </div>
                 <div 
                     className={classes['back']}
+                    
                     onClick={handleBack}
                 >
                     <span>{Identify.__('back'.toUpperCase())}</span>
