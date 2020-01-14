@@ -5,6 +5,7 @@
     <preference for="\Simi\Simiconnector\Model\Api\Customers" type="\Simi\Simicustomize\Model\Api\Customers" />
     <preference for="\Simi\Simiconnector\Model\Customer" type="\Simi\Simicustomize\Model\Customer" />
     <preference for="\Simi\Simicustomize\Api\ReserveInterface" type="\Simi\Simicustomize\Model\Api\Reserve" />
+    <preference for="\Simi\Simicustomize\Api\ServiceInterface" type="\Simi\Simicustomize\Model\Api\Service" />
     <preference for="\Simi\Simicustomize\Api\ContactInterface" type="\Simi\Simicustomize\Model\Api\Contact" />
     <preference for="\Simi\Simicustomize\Api\SizechartInterface" type="\Simi\Simicustomize\Model\Api\Sizechart" />
     <preference for="\Simi\Simicustomize\Api\ProxyInstagramInterface" type="\Simi\Simicustomize\Model\Api\ProxyInstagram" />
@@ -45,12 +46,19 @@
             <argument name="resourceModel" xsi:type="string">Simi\Simicustomize\Model\ResourceModel\Contact</argument>
         </arguments>
     </virtualType>
+    <virtualType name="SimiServiceGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">simi_service</argument>
+            <argument name="resourceModel" xsi:type="string">Simi\Simicustomize\Model\ResourceModel\Service</argument>
+        </arguments>
+    </virtualType>
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
                 <item name="simi_reserve_data_source" xsi:type="string">SimiReserveGridDataProvider</item>
                 <item name="simi_sizechart_data_source" xsi:type="string">SimiSizechartGridDataProvider</item>
                 <item name="simi_contact_data_source" xsi:type="string">SimiContactGridDataProvider</item>
+                <item name="simi_service_data_source" xsi:type="string">SimiServiceGridDataProvider</item>
             </argument>
         </arguments>
     </type>

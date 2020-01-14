@@ -52,4 +52,21 @@
             <column name="id"/>
         </constraint>
     </table>
+    <table name="simi_service" comment="Clothing alteration services">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary Id"/>
+        <column xsi:type="varchar" name="increment_id" nullable="true" length="32" comment="Increment Id"/>
+        <column xsi:type="text" name="name" nullable="true" comment="Customer Name"/>
+        <column xsi:type="text" name="phone" nullable="true" comment="Customer Phone"/>
+        <column xsi:type="text" name="email" nullable="true" comment="Customer Email"/>
+        <column xsi:type="text" name="address" nullable="true" comment="Customer Address"/>
+        <column xsi:type="text" name="service_text" nullable="true" comment="Type of service"/>
+        <column xsi:type="int" name="service_id" unsigned="true" padding="10" nullable="true" comment="Type of service ID"/>
+        <column xsi:type="int" name="qty" unsigned="true" padding="10" nullable="true" comment="Quantity"/>
+        <column xsi:type="text" name="detail" nullable="true" comment="Details"/>
+        <column xsi:type="text" name="files" nullable="true" comment="Files uploaded"/>
+        <column xsi:type="datetime" name="date" nullable="true" comment="Created At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
 </schema>

@@ -120,7 +120,10 @@ class SimiGetStoreviewInfoAfter implements ObserverInterface {
                     'path' => '/'.UrlInterface::URL_TYPE_MEDIA.'/sizeguide_mobile/'.$sizeGuideFileMobile
                 ),
             );
-
+            $object->storeviewInfo['service'] = array(
+                'types' => $this->simiObjectManager->get('Simi\Simicustomize\Model\Source\Service\ServiceType')->getAllOptions(),
+                'description' => $this->config->getValue('sales/service/description'),
+            );
             $aw_blog_enable = $this->config->getValue('aw_blog/general/enabled');
             $aw_blog_posts_per_page = $this->config->getValue('aw_blog/general/posts_per_page');
             if ($aw_blog_enable && $aw_blog_posts_per_page){

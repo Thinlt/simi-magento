@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Copyright 2019 simicart. All rights serviced.
+* See LICENSE.txt for license details.
+*/
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">simi_service_form.simi_service_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Service</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <!-- <buttons>
+            <button name="back" class="Magento\Cms\Block\Adminhtml\Block\Edit\BackButton"/>
+        </buttons> -->
+        <namespace>simi_service_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>simi_service_form.simi_service_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="simi_service_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <dataProvider class="Simi\Simicustomize\Ui\DataProvider\ServiceForm" name="simi_service_form_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="service_information">
+        <settings>
+            <label/>
+        </settings>
+        <field name="id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="elementTmpl" xsi:type="string">Simi_Simicustomize/ui/form/element/label</item>
+                    <item name="source" xsi:type="string">service</item>
+                    <item name="dataScope" xsi:type="string">id</item>
+                </item>
+            </argument>
+        </field>
+        <field name="name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Name</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="elementTmpl" xsi:type="string">Simi_Simicustomize/ui/form/element/label</item>
+                    <item name="source" xsi:type="string">service</item>
+                    <item name="dataScope" xsi:type="string">name</item>
+                </item>
+            </argument>
+        </field>
+        <field name="phone">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">service</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="elementTmpl" xsi:type="string">Simi_Simicustomize/ui/form/element/label</item>
+                    <item name="label" xsi:type="string" translate="true">Phone</item>
+                    <item name="dataScope" xsi:type="string">phone</item>
+                </item>
+            </argument>
+        </field>
+        <field name="email">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">service</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="elementTmpl" xsi:type="string">Simi_Simicustomize/ui/form/element/label</item>
+                    <item name="label" xsi:type="string" translate="true">Email</item>
+                    <item name="dataScope" xsi:type="string">email</item>
+                </item>
+            </argument>
+        </field>
+        <field name="address">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">service</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="elementTmpl" xsi:type="string">Simi_Simicustomize/ui/form/element/label</item>
+                    <item name="label" xsi:type="string" translate="true">Address</item>
+                    <item name="dataScope" xsi:type="string">address</item>
+                </item>
+            </argument>
+        </field>
+        <field name="service_text">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Simi\Simicustomize\Model\Source\Service\ServiceType</item>
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">service</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="elementTmpl" xsi:type="string">Simi_Simicustomize/ui/form/element/label</item>
+                    <item name="label" xsi:type="string" translate="true">Type Of Service</item>
+                    <item name="dataScope" xsi:type="string">service_text</item>
+                </item>
+            </argument>
+        </field>
+        <field name="qty">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">service</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="elementTmpl" xsi:type="string">Simi_Simicustomize/ui/form/element/label</item>
+                    <item name="label" xsi:type="string" translate="true">Quantity</item>
+                    <item name="dataScope" xsi:type="string">qty</item>
+                </item>
+            </argument>
+        </field>
+        <field name="detail">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">service</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="elementTmpl" xsi:type="string">Simi_Simicustomize/ui/form/element/label</item>
+                    <item name="label" xsi:type="string" translate="true">Detail</item>
+                    <item name="dataScope" xsi:type="string">detail</item>
+                </item>
+            </argument>
+        </field>
+        <!-- <field name="files">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">service</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="elementTmpl" xsi:type="string">Simi_Simicustomize/ui/form/element/label</item>
+                    <item name="label" xsi:type="string" translate="true">All Uploaded Files</item>
+                    <item name="dataScope" xsi:type="string">files</item>
+                </item>
+            </argument>
+        </field> -->
+        <htmlContent name="html_content">
+            <settings>
+                <additionalClasses>
+                    <class name="admin__field">true</class>
+                </additionalClasses>
+            </settings>
+            <block name="html_content_block" class="Simi\Simicustomize\Block\Adminhtml\Service\Form\Field\Images">
+                <arguments>
+                    <argument name="template" xsi:type="string">Simi_Simicustomize::service/form/field/images.phtml</argument>
+                </arguments>
+            </block>
+        </htmlContent>
+    </fieldset>
+</form>
