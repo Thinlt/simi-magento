@@ -38,7 +38,18 @@
             console.log(e)
             if (e && e.target && e.target.src && (typeof e.target.src === 'string')) {
                 if (e.target.src.indexOf('vendor~client') !== -1) { //version is outdated - old client file not found
-                    window.location.reload()
+                    sessionStorage.clear();
+                    localStorage.setItem("CLIENT_VER",data.pwa.pwa_studio_client_ver_number);
+                    unregister();
+                    if(caches){
+                        caches.keys().then(function(names) {
+                            for (let name of names)
+                                if(name.indexOf('sw-precache') >= 0){
+                                    caches.delete(name);
+                                }
+                        });
+                        window.location.reload();
+                    }
                 }
             }
         }, true);
