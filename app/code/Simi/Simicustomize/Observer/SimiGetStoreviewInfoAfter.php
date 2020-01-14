@@ -129,7 +129,7 @@ class SimiGetStoreviewInfoAfter implements ObserverInterface {
 
             $this->simiObjectManager->get('Magento\Framework\Serialize\SerializerInterface');
             $customTitles = $this->config->getValue('pwa_titles/pwa_titles/pwa_titles');
-            if ($brandDetails) {
+            if ($customTitles) {
                 $customTitles = $this->simiObjectManager->get('Magento\Framework\Serialize\SerializerInterface')
                     ->unserialize($customTitles);
                 $customTitleDict = array();
