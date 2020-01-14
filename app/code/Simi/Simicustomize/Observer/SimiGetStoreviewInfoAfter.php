@@ -126,6 +126,20 @@ class SimiGetStoreviewInfoAfter implements ObserverInterface {
             if ($aw_blog_enable && $aw_blog_posts_per_page){
                 $object->storeviewInfo['blog_posts_per_page'] = $aw_blog_posts_per_page;
             }
+
+            $this->simiObjectManager->get('Magento\Framework\Serialize\SerializerInterface');
+            $customTitles = $this->config->getValue('pwa_titles/pwa_titles/pwa_titles');
+            if ($brandDetails) {
+                $customTitles = $this->simiObjectManager->get('Magento\Framework\Serialize\SerializerInterface')
+                    ->unserialize($customTitles);
+                $customTitleDict = array();
+                if ($customTitles && is_array($customTitles)) {
+                    foreach ($customTitles as $customTitle) {
+                        $customTitleDict[$customTitle['url_path']] = $customTitle;
+                    }
+                }
+                $object->storeviewInfo['custom_pwa_titles'] = $customTitleDict;
+            }
         }
     }
 }

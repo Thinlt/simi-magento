@@ -127,6 +127,7 @@ class Storelocations extends Api
             $storeReturn['image_gallery'] = $this->getStoreGallery($item);
             $result['storelocations'][$index] = $storeReturn;
         }
+        $result['google_api_key'] = $this->scopeConfig->getValue('simistorelocator/service/google_api_key');
         return $result;
     }
 
