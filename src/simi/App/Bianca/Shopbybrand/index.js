@@ -9,13 +9,12 @@ const Shopbybrand = props => {
         let breadcrumb = false
         try {
             const filter = JSON.parse(Identify.findGetParameter('filter'))
-            const brands = storeConfig.simiStoreConfig.config.brands
-            console.log(brands)
+            const brands = storeConfig.simiStoreConfig.config.brands=
             brands.map(brand => {
                 if (brand.option_id === filter.brand)
                     foundBrand = brand
             })
-            if (foundBrand) {
+            if (foundBrand && foundBrand.name) {
                 breadcrumb = [
                     {name: Identify.__("Home"), link: '/'},
                     {name: foundBrand.name},

@@ -112,11 +112,9 @@ class CateTree extends React.Component {
 
     render() {
         const storeConfig = Identify.getStoreConfig();
-        try {
+        if (storeConfig && storeConfig.simiRootCate) {
             const item = this.renderTreeItem(storeConfig.simiRootCate);
             return item;
-        } catch (err) {
-            console.log(err);
         }
         return '';
     }

@@ -321,12 +321,12 @@ class MapBranch extends React.Component {
             ]
         };
         const { centerT } = this.state;
-        const { height } = this.props;
+        const { height, data } = this.props;
         return (
             <div style={{ height: height, width: "100%" }}>
                 <GoogleMapReact
                     bootstrapURLKeys={{
-                        key: "AIzaSyDVCRi-1g45uNxpu_VY3o3M9A1UqtezG1k",
+                        key: (data && data.google_api_key) ? data.google_api_key : "AIzaSyDVCRi-1g45uNxpu_VY3o3M9A1UqtezG1k",
                         language: "en"
                     }}
                     defaultCenter={this.props.center}
