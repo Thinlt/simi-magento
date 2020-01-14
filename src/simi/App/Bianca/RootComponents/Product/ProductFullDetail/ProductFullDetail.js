@@ -812,7 +812,8 @@ class ProductFullDetail extends Component {
                 }
                 {/* <LinkedProduct product={product} link_type="crosssell" history={this.props.history}/> */}
                 <Modal open={this.state.reserveModalMessage} onClose={this.onCloseReserveModalMessage}
-                    modalId={'reserve-modal-message'}
+                    modalId={'reserve-modal-message'} 
+                    classNames={{overlay: Identify.isRtl()?"rtl-root":""}}
                     closeIconId={'reserve-modal-close'}
                     closeIconSize={16}
                     closeIconSvgPath={<CloseIcon style={{fill: '#101820'}}/>}
@@ -822,6 +823,7 @@ class ProductFullDetail extends Component {
                 <Modal open={this.state.openModal} onClose={this.onCloseReserve}
                     overlayId={'reserve-modal-overlay'}
                     modalId={'reserve-modal'}
+                    classNames={{overlay: Identify.isRtl()?"rtl-root":""}}
                     closeIconId={'reserve-modal-close'}
                     closeIconSize={16}
                     closeIconSvgPath={<CloseIcon style={{fill: '#101820'}}/>}
@@ -893,6 +895,7 @@ class ProductFullDetail extends Component {
                 {
                     this.state.isErrorPreorder && 
                     <Modal open={this.state.isErrorPreorder} onClose={this.onCloseErrorPopup}
+                        classNames={{overlay: Identify.isRtl()?"rtl-root":""}}
                         overlayId={'error-modal-overlay'}
                         modalId={'error-modal'}
                         closeIconSvgPath={''}
