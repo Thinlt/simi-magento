@@ -157,14 +157,20 @@ class Header extends React.Component {
     };
     
     renderMetaHeader = () => {
+        const {pathname} = this.props.location
+        if (!pathname)
+            return
+        ga('send', {
+            hitType: 'pageview',
+            page: pathname
+        });
         if (
             this.props.location && this.props.storeConfig
             && this.props.storeConfig && this.props.storeConfig.simiStoreConfig
             && this.props.storeConfig.simiStoreConfig.config
             ) {
-                const {pathname} = this.props.location
                 const {custom_pwa_titles} = this.props.storeConfig.simiStoreConfig.config
-                if (pathname && custom_pwa_titles && custom_pwa_titles[pathname]) {
+                if (custom_pwa_titles && custom_pwa_titles[pathname]) {
                     const custom_pwa_title = custom_pwa_titles[pathname]
                     return TitleHelper.renderMetaHeader({
                         title: custom_pwa_title.meta_title || null,
