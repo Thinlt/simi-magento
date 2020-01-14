@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {  func, shape, string } from 'prop-types';
-import { getOrderInformation, getAccountInformation } from 'src/selectors/checkoutReceipt';
+import { getOrderInformation } from 'src/selectors/checkoutReceipt';
 import { connect } from 'src/drivers';
 import actions from 'src/actions/checkoutReceipt';
 import Identify from 'src/simi/Helper/Identify';
@@ -12,7 +12,7 @@ import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/
 require('./thankyou.scss')
 
 const Thankyou = props => {
-    const {  history, order } = props;
+    const {  history, order, isSignedIn } = props;
     let padOrderId = (order && order.id) ? Identify.PadWithZeroes(order.id, 9) : Identify.findGetParameter('order_increment_id')
     const last_cart_info = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'last_cart_info');
     const last_order_info = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'last_order_info');
@@ -62,7 +62,7 @@ const Thankyou = props => {
         }
         history.push(orderLocate);
     }
-
+    
     return (
         <div className="container thankyou-container" style={{ marginTop: 40 }}>
             {TitleHelper.renderMetaHeader({
@@ -76,11 +76,11 @@ const Thankyou = props => {
                     {Identify.__("We'll email you an order confirmation with details and tracking info.")}
                 </div>
                 <div className="order-actions">
-                    <Colorbtn 
+                    {(isSignedIn && hasOrderId()) && <Colorbtn 
                         onClick={handleViewOrderDetails}
                         style={{ backgroundColor: '#101820', color: '#FFF' }}
                         className="view-order-details"
-                        text={Identify.__('View Order Details')} />
+                        text={Identify.__('View Order Details')} />}
                     <Colorbtn 
                         onClick={()=>history.push('/')}
                         style={{ backgroundColor: '#101820', color: '#FFF' }}
@@ -97,11 +97,7 @@ Thankyou.propTypes = {
         id: string
     }).isRequired,
     createAccount: func.isRequired,
-    reset: func.isRequired,
-    user: shape({
-        /* isSignedIn: bool */
-        email: string
-    })
+    reset: func.isRequired
 };
 
 Thankyou.defaultProps = {
@@ -112,10 +108,14 @@ Thankyou.defaultProps = {
 
 const { reset } = actions;
 
-const mapStateToProps = state => ({
-    order: getOrderInformation(state),
-    user: getAccountInformation(state)
-});
+const mapStateToProps = state => {
+    const { user} = state;
+    const { isSignedIn } = user;
+    return ({
+        order: getOrderInformation(state),
+        isSignedIn
+    });
+}
 
 const mapDispatchToProps = {
     reset

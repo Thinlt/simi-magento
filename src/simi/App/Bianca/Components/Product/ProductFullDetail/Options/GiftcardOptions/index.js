@@ -3,13 +3,14 @@ import Identify from 'src/simi/Helper/Identify';
 import {validateEmail} from 'src/simi/Helper/Validation';
 import OptionBase from 'src/simi/App/core/RootComponents/Product/ProductFullDetail/Options/OptionBase';
 import {formatPrice as helperFormatPrice} from 'src/simi/Helper/Pricing';
-import Select from '@material-ui/core/Select';
+// import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
 // import classify from 'src/classify';
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent/';
 import ArrowDown from 'src/simi/App/Bianca/BaseComponents/Icon/ArrowDown';
+import Select from 'src/simi/App/Bianca/BaseComponents/FormInput/Select';
 require('./giftcardoptions.scss');
 
 const DatePicker = (props) => {
@@ -67,9 +68,12 @@ class GiftcardOptions extends OptionBase {
         this.setState({isSendToFriend: !this.state.isSendToFriend});
     }
 
-    chooseDeliveryMethod = (e) => {
-        let value = e.target.value;
+    chooseDeliveryMethod = (value) => {
         this.setState({deliveryMethod: value});
+    }
+
+    chooseTimeZone = (value) => {
+        this.setState({aw_gc_delivery_date_timezone: value});
     }
 
     selectTemplate = (template_id) => {
@@ -92,15 +96,15 @@ class GiftcardOptions extends OptionBase {
         }
     };
 
-    gcAmountChange = (event) => {
-        jQuery('form [name="'+event.target.name+'"]').val(event.target.value)
+    gcAmountChange = (value) => {
+        jQuery('form [name="aw_gc_amount"]').val(value)
         if (this.isCheckOptionRequired) {
             this.checkOptionRequired()
         }
         this.setState({
-            aw_gc_amount: event.target.value
+            aw_gc_amount: value
         })
-        this.updatePrices(event.target.value)
+        this.updatePrices(value)
     };
 
     onGcCustomAmountChange = (event) => {
@@ -273,10 +277,14 @@ class GiftcardOptions extends OptionBase {
         const deliveryMethod = this.state.deliveryMethod;
         if(this.extraField instanceof Object && this.extraField.hasOwnProperty('attribute_values')){
             const options = this.extraField.attribute_values;
-            const {aw_gc_allow_open_amount, aw_gc_open_amount_max, aw_gc_open_amount_min} = options;
+            if(!options) return <div></div>;
+            const {aw_gc_allow_open_amount, aw_gc_open_amount_max, aw_gc_open_amount_min, aw_gc_amounts} = options;
             const aw_gc_email_templates = options.aw_gc_email_templates || null;
             const mediaUrlPath = this.extraField.aw_gc_template_image_url_path || null;
-            if(!options) return <div></div>;
+            let amountsOptions = aw_gc_amounts.map((amount) => {
+                return {label: this.formatPrice(parseFloat(amount.price)), value: amount.percent}
+            })
+            amountsOptions.push({label: Identify.__('Other Amount...'), value: 'other_amount'});
             return (
                 <div className="product-options giftcard-type">
                     <div id="giftcard-option" className="giftcard-option">
@@ -284,33 +292,12 @@ class GiftcardOptions extends OptionBase {
                             <div className="option-row">
                                 <label htmlFor="aw_gc_amount">{Identify.__('CARD VALUE *')}</label>
                                 <div data-input-bounded-for={"aw_gc_amount"}>
-                                    <Select value={this.state.aw_gc_amount} onChange={this.gcAmountChange} displayEmpty={true} 
-                                        IconComponent={ArrowDown}
-                                        // renderValue={this.renderAmountSelect}
-                                        inputProps={{
-                                            name: 'aw_gc_amount',
-                                            id: 'aw_gc_amount',
-                                        }}>
-                                        <MenuItem key={Identify.randomString(5)} value={""}>
-                                            {Identify.__('Choose an amount')}
-                                        </MenuItem>
-                                        {
-                                            options.aw_gc_amounts && 
-                                            options.aw_gc_amounts.map((value, key) => {
-                                                return (
-                                                    <MenuItem key={key} value={value.percent}>
-                                                        {this.formatPrice(parseFloat(value.price))}
-                                                    </MenuItem>
-                                                )
-                                            })
-                                        }
-                                        {
-                                            aw_gc_allow_open_amount && aw_gc_allow_open_amount === '1' &&
-                                            <MenuItem key={Identify.randomString(5)} value={"other_amount"}>
-                                                {Identify.__('Other Amount...')}
-                                            </MenuItem>
-                                        }
-                                    </Select>
+                                    <Select className="aw_gc_amount"
+                                        showSelected={true} placeholder={Identify.__('Choose an amount')} 
+                                        items={amountsOptions} onChange={this.gcAmountChange} 
+                                        icon={<ArrowDown />}
+                                        hiddenInput={{name: 'aw_gc_amount'}}
+                                    />
                                 </div>
                             </div>
                             {
@@ -360,11 +347,14 @@ class GiftcardOptions extends OptionBase {
                                     </div>
                                     <div className="option-row option-delivery-method">
                                         <label>{Identify.__('Delivery method *')}</label>
-                                        <Select defaultValue={deliveryMethod} onChange={this.chooseDeliveryMethod} displayEmpty={true} 
-                                            IconComponent={ArrowDown}
-                                            inputProps={{
-                                                name: 'aw_gc_delivery_method', id: 'aw_gc_delivery_method',
-                                            }}>
+                                        <Select className="aw_gc_delivery_method"
+                                            selected={{label: Identify.__('Email'), value: this.state.deliveryMethod}}
+                                            showSelected={true} 
+                                            placeholder={''} 
+                                            onChange={this.chooseDeliveryMethod} 
+                                            icon={<ArrowDown />}
+                                            hiddenInput={{name: 'aw_gc_delivery_method'}}
+                                        >
                                             <MenuItem value={"email"}>{Identify.__('Email')}</MenuItem>
                                             <MenuItem value={"sms"}>{Identify.__('SMS')}</MenuItem>
                                             <MenuItem value={"whatsapp"}>{Identify.__('Whatsapp')}</MenuItem>
@@ -384,21 +374,22 @@ class GiftcardOptions extends OptionBase {
                                             <input type="text" name="aw_gc_recipient_phone" ref={this.awGcRecipientPhoneRef} placeholder={Identify.__("Recipient phone number")} />
                                         </div>
                                     }
+                                    <div className="option-row option-delivery-timezone">
+                                        <label>{Identify.__('Timezone *')}</label>
+                                        <Select className="aw_gc_delivery_date_timezone"
+                                            showSelected={true} 
+                                            placeholder={'Select timezone'} 
+                                            onChange={this.chooseTimeZone} 
+                                            icon={<ArrowDown />}
+                                            hiddenInput={{name: 'aw_gc_delivery_date_timezone'}}
+                                        >
+                                            {this.timezoneOption}
+                                        </Select>
+                                    </div>
                                     <div className="option-row option-delivery-date">
                                         <label>{Identify.__('Send date *')}</label>
                                         <input type="hidden" ref={this.deliveryDateRef} name="aw_gc_delivery_date" placeholder={Identify.__('Send date')}/>
                                         <DatePicker datetime={false} id='aw_gc_delivery_date' inputRef={this.deliveryDateRef} onChange={this.deliveryDateChange} parent={this} classes={classes}/>
-                                    </div>
-                                    <div className="option-row option-delivery-timezone">
-                                        <label>{Identify.__('Timezone *')}</label>
-                                        <Select defaultValue={''} onChange={this.chooseDeliveryMethod} displayEmpty={true} 
-                                            IconComponent={ArrowDown}
-                                            inputProps={{
-                                                name: 'aw_gc_delivery_date_timezone', id: 'aw_gc_delivery_date_timezone',
-                                            }}>
-                                            <MenuItem value="" disabled>{Identify.__('Select timezone')}</MenuItem>
-                                            { this.timezoneOption }
-                                        </Select>
                                     </div>
                                     <div className="option-row option-message">
                                         <label>{Identify.__('Message')}</label>

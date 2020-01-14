@@ -240,14 +240,14 @@ const FormFields = (props) => {
         if (addresses){
             if (addresses.length) {
                 html = addresses.map((address, idx) => {
-                    const labelA = address.firstname + ' ' + address.lastname + ', ' + address.city + ', ' + address.region.region;
+                    const labelA = address.firstname + ' ' + address.lastname + ', ' + address.city + (address.region.region?(', ' + address.region.region):'')
                     return <option value={address.id} key={idx}>{labelA}</option>
                 });
             }
         } else {
-            // const signin_token = storage.getItem('signin_token')
-            // if (signin_token && simiSignedIn) //logged in but not loaded addresses
-            //     simiSignedIn(signin_token)
+            const signin_token = storage.getItem('signin_token')
+            if (signin_token && simiSignedIn) //logged in but not loaded addresses
+                simiSignedIn(signin_token)
         }
         return <Fragment>
             {/*html && <option value="">{Identify.__('Please choose')}</option>*/}
@@ -277,7 +277,15 @@ const FormFields = (props) => {
                     </span>
                 </div>
             }
-            {!isSignedIn || shippingNewForm || ((billingForm && storageBilling === 'new_address') || (!billingForm && storageShipping === 'new_address')) ?
+            {
+                (
+                    !isSignedIn || shippingNewForm || //not signed in or signed it and choose to add new address
+                    (
+                        (billingForm && storageBilling === 'new_address') || //add new billing address
+                        (!billingForm && storageShipping === 'new_address') //add new shipping address
+                    ) ||
+                    (addresses && !addresses.length) //logged in but has no address
+                ) ?
                 <Fragment>
                     {!isSignedIn && <div className='email'>
                             <div className={`address-field-label req`}>{Identify.__("Email")}</div>

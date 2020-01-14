@@ -1,6 +1,7 @@
 import React, { useReducer, useEffect, useCallback } from 'react';
 import Loading from 'src/simi/BaseComponents/Loading';
 import Identify from 'src/simi/Helper/Identify';
+import {showToastMessage} from 'src/simi/Helper/Message';
 import { sendRequest } from 'src/simi/Network/RestMagento';
 import Loadmore from './loadMore';
 import { StaticRate } from 'src/simi/App/Bianca/BaseComponents/Rate';
@@ -26,7 +27,7 @@ const ReviewList = props => {
         if (!state.data) {
             sendRequest(`rest/V1/simiconnector/reviews`, apiCallBack, 'GET', {'filter[product_id]': product_id, limit: pageSize}, {})
         }
-    });
+    }, []);
 
     const loadMorePage = useCallback((page) => {
         dispatch({page: page, loadingMore: true});
@@ -88,9 +89,10 @@ const ReviewList = props => {
                 text += error.message + ' ';
             }
             if (text !== '') {
-                Identify.showToastMessage(text);
+                showToastMessage(text);
             }
             dispatch({
+                data: state.data || data,
                 loadingMore: false
             });
         } else {
@@ -139,6 +141,16 @@ const ReviewList = props => {
 
     if (!state.data) {
         return <Loading />;
+    }
+
+    if (!state.data.reviews && state.data.errors) {
+        return (
+            <div>
+                {
+                    state.data.errors.length && <p className="error">{state.data.errors[0].message}</p>
+                }
+            </div>
+        );
     }
 
     return (

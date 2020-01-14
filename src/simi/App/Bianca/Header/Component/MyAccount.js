@@ -10,6 +10,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { logout as signOutApi } from 'src/simi/Model/Customer';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
+import {showToastMessage} from 'src/simi/Helper/Message';
 
 class MyAccount extends React.Component {
 	state = {
