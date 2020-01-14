@@ -260,15 +260,19 @@ class Login extends Component {
 								onClick={this.showPhoneLoginForm}
 								className={`${isPhoneLogin ? classes['active'] : null} ${classes['phone-type']}`}
 							>
-								<span className={classes['icon-phone']} />
-								<span className={classes['title-phone']}>{Identify.__('Phone')}</span>
+								<div className={classes['wrap']}>
+									<span className={classes['icon-phone']} />
+									<span className={classes['title-phone']}>{Identify.__('Phone')}</span>
+								</div>
 							</div>
 							<div
 								onClick={this.showEmailLoginForm}
 								className={`${isEmailLogin ? classes['active'] : null} ${classes['email-type']}`}
 							>
-								<span className={classes['icon-email']} />
-								<span className={classes['title-email']}>{Identify.__('Email')}</span>
+								<div className={classes['wrap']}>
+									<span className={classes['icon-email']} />
+									<span className={classes['title-email']}>{Identify.__('Email')}</span>
+								</div>
 							</div>
 						</div>
 						{emailLoginForm}

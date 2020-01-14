@@ -40,6 +40,7 @@ const OrderList = props => {
         let m = date.getMonth() + 1;
         m = m < 10 ? "0" + m : m;
         date = date.getDate() + "/" + m + "/" + date.getFullYear();
+        console.log(item)
         const location = {
             pathname: "/orderdetails.html/" + item.increment_id,
             state: { orderData: item }

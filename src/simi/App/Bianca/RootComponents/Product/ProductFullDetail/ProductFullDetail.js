@@ -49,6 +49,8 @@ import { productUrlSuffix } from 'src/simi/Helper/Url';
 import SizeGuide from 'src/simi/App/Bianca/Components/Product/SizeGuide';
 import Select from 'src/simi/App/Bianca/BaseComponents/FormInput/Select';
 
+import { analyticAddCartGTM, analyticsViewDetailsGTM } from 'src/simi/Helper/Analytics'
+
 require('./productFullDetail.scss');
 if (getOS() === 'MacOS') {
     require('src/simi/App/Bianca/Components/Product/ProductFullDetail/style-macos.scss');
@@ -258,6 +260,7 @@ class ProductFullDetail extends Component {
                 return;
             }
             this.showSuccess(data)
+            analyticAddCartGTM(this.props.product.name, this.props.product.id, this.props.product.price)
         }
     }
 
@@ -669,6 +672,7 @@ class ProductFullDetail extends Component {
                 )
             }
         }
+        analyticsViewDetailsGTM(product)
         return (
             <div className={`container product-detail-root ${getOS()} ${isPhone ? 'mobile':''}`}>
                 {this.breadcrumb(product)}

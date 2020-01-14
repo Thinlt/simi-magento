@@ -48,7 +48,7 @@
             }
             .item-info {
                 width: 60%;
-                max-width: 182px;
+                max-width: 202px;
             }
             .item-name {
                 font-size: 14px;
@@ -88,6 +88,7 @@
                     color: #727272;
                     font-weight: 400;
                     font-family: 'Gotham Book';
+                    text-transform: none;
                 }
                 .option-selected-item {
                     width: 50%;
@@ -103,6 +104,7 @@
                 color: #101820;
                 font-family: 'Gotham Book';
                 .price {
+                    display: flex;
                     color: #101820 !important;
                 }
                 .label {

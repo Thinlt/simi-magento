@@ -4,12 +4,16 @@ import Loading from 'src/simi/BaseComponents/Loading'
 import Identify from 'src/simi/Helper/Identify'
 import {showToastMessage} from 'src/simi/Helper/Message';
 import {startpreorderscomplete} from 'src/simi/Model/Preorder'
+import {
+    getCartDetails
+} from 'src/actions/cart';
 
 var startingPreorder = false
 
 const PreorderSecondOrder = props => {
+    console.log('aaaa')
     console.log(props)
-    const {history, isSignedIn, cartId, user} = props
+    const {history, isSignedIn, cartId, user, getCartDetails} = props
     const deposit_order_id = Identify.findGetParameter('deposit_order_id')
     if (!deposit_order_id) {
         showToastMessage(Identify.__('Sorry, your deposit Order Id is not valid.'))
@@ -25,8 +29,12 @@ const PreorderSecondOrder = props => {
             });
             showToastMessage(errorsMessage)
         }
-        if (data.startpreorderscompletes || data.startpreorderscomplete)
-            history.push('/checkout.html');
+        if (data.startpreorderscompletes || data.startpreorderscomplete) {
+            if (getCartDetails) {
+                getCartDetails()
+            }
+            history.push('/checkout.html');  
+        }
     }
     if (customer_id && customer_email) { //need to signin first
         if (!isSignedIn) {
@@ -65,8 +73,12 @@ const mapStateToProps = ({ user, cart }) => {
         user
     }
 }
+const mapDispatchToProps = {
+    getCartDetails
+};
+
 
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps
 )(PreorderSecondOrder);

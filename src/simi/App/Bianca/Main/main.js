@@ -35,6 +35,7 @@ class Main extends Component {
     }
 
     mainContent(storeConfig = null) {
+        console.log(this.props)
         return (
             <React.Fragment>
                 <Header storeConfig={storeConfig}/>
