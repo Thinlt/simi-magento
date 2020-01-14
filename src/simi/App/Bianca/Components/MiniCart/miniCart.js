@@ -154,7 +154,9 @@ class MiniCart extends Component {
     }
 
     handleLink(link) {
-        this.props.history.push(link);
+        const {closeDrawer, history} = this.props;
+        closeDrawer();
+        history.push(link);
     }
 
     get totalsSummary() {
@@ -311,10 +313,6 @@ class MiniCart extends Component {
     get miniCartInner() {
         const { checkout, productList, props } = this;
         const { classes, isCartEmpty, isMiniCartMaskOpen } = props;
-
-        if(this.props.drawer === 'cart'){
-            console.log(this.props)
-        }
 
         if (isCartEmpty) {
             return <EmptyMiniCart />;

@@ -8,6 +8,7 @@ import TitleHelper from 'src/simi/Helper/TitleHelper'
 import { Colorbtn } from 'src/simi/BaseComponents/Button'
 import {getOrderDetail} from 'src/simi/Model/Orders'
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
+import { analyticPurchaseGTM } from 'src/simi/Helper/Analytics'
 
 require('./thankyou.scss')
 
@@ -36,8 +37,10 @@ const Thankyou = props => {
             showFogLoading()
             getOrderDetail(last_order_info, (orderData) => {
                 hideFogLoading()
-                if (orderData && orderData.order && orderData.order.increment_id)
+                if (orderData && orderData.order && orderData.order.increment_id) {
+                    analyticPurchaseGTM(orderData.order)
                     setOrderIncFromAPI(orderData.order.increment_id)
+                }
             })
         }
     }

@@ -22,6 +22,7 @@ import MiniCart from 'src/simi/App/Bianca/Components/MiniCart';
 import { connect } from 'src/drivers';
 import { compose } from 'redux';
 import CompareProduct from 'src/simi/App/Bianca/BaseComponents/CompareProducts'
+import TitleHelper from 'src/simi/Helper/TitleHelper';
 require('./header.scss');
 
 const SearchForm = React.lazy(() => import('./Component/SearchForm'));
@@ -153,7 +154,31 @@ class Header extends React.Component {
 				{props.children}
 			</div>
 		);
-	};
+    };
+    
+    renderMetaHeader = () => {
+        const {pathname} = this.props.location
+        if (!pathname)
+            return
+        ga('send', {
+            hitType: 'pageview',
+            page: pathname
+        });
+        if (
+            this.props.location && this.props.storeConfig
+            && this.props.storeConfig && this.props.storeConfig.simiStoreConfig
+            && this.props.storeConfig.simiStoreConfig.config
+            ) {
+                const {custom_pwa_titles} = this.props.storeConfig.simiStoreConfig.config
+                if (custom_pwa_titles && custom_pwa_titles[pathname]) {
+                    const custom_pwa_title = custom_pwa_titles[pathname]
+                    return TitleHelper.renderMetaHeader({
+                        title: custom_pwa_title.meta_title || null,
+                        desc: custom_pwa_title.meta_description || null
+                    })
+                }
+            }
+    }
 
 	renderViewPhone = (bianca_header_sale_title,bianca_header_sale_link) => {
 		return (
@@ -207,7 +232,7 @@ class Header extends React.Component {
 	};
 
 	render() {
-        const { user, storeConfig, location} = this.props;
+		const { user, storeConfig, location} = this.props;
 		// Check user login to show wish lish
 		var isSignedIn = false;
 		if (user) {
@@ -235,15 +260,18 @@ class Header extends React.Component {
         const currencyOptions = <Currency classes={classes} className="currency" />;
         const simpleHeader = (location && location.pathname &&
                 ((location.pathname.indexOf("/checkout.html") !== -1) || (location.pathname.indexOf("/cart.html") !== -1)))
+                
 		if (window.innerWidth < 1024) {
 			return (
                 <div className={`header-wrapper mobile ${simpleHeader && 'simple-header'}`}>
+                    {this.renderMetaHeader()}
                     {this.renderViewPhone(bianca_header_sale_title,bianca_header_sale_link)}
                 </div>
             )
 		}
 		return (
 			<React.Fragment>
+                {this.renderMetaHeader()}
 				<div className={`header-wrapper ${simpleHeader && 'simple-header'}`}>
 					<div className="container-global-notice">
 						<div className="container header-container">
@@ -282,7 +310,7 @@ class Header extends React.Component {
 								{this.renderLogo()}
 								{!simpleHeader && this.renderRightBar(isSignedIn)}
 							</div>
-							{!simpleHeader && <MiniCart isOpen={cartIsOpen} />}
+							{!simpleHeader && <MiniCart isOpen={cartIsOpen} history={this.props.history}/>}
 						</div>
 					</div>
 				</div>
