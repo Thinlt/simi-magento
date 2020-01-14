@@ -54,6 +54,10 @@
                         font-weight: 600;
                         margin-bottom: 0px;
                         display: block;
+                        span{
+                            padding-left: 4px;
+                            padding-right: 4px;
+                        }
                     }
                     .form-input{
                         font-size: 14px;
@@ -199,6 +203,10 @@
                         >label{
                             font-size: 12px;
                             line-height: 12px;
+                            span{
+                                padding-left: 2px;
+                                padding-right: 2px;
+                            }
                         }
                         .form-input{
                             min-height: 46px;

@@ -198,31 +198,31 @@ const ClothingService = (props) => {
                     <h3>{Identify.__('Please fill in the form below for a quote.')}</h3>
                     <div className="form">
                         <div className="form-row">
-                            <label htmlFor="name">{Identify.__('Name')}<i>*</i></label>
+                            <label htmlFor="name">{Identify.__('Name')}<span>*</span></label>
                             <div className={`form-input ${validate('name', ['empty'])}`}>
                                 <input value={formData['name']} onChange={(e) => onChangeInput('name', e.target.value)} id="name" name="name" placeholder={Identify.__(`User's name`)} />
                             </div>
                         </div>
                         <div className="form-row">
-                            <label htmlFor="phone">{Identify.__('Phone Number')}<i>*</i></label>
+                            <label htmlFor="phone">{Identify.__('Phone Number')}<span>*</span></label>
                             <div className={`form-input ${validate('phone', ['empty'])}`}>
                                 <input value={formData['phone']} onChange={(e) => onChangeInput('phone', e.target.value)} id="phone" name="phone" placeholder={Identify.__(`Phone number`)}/>
                             </div>
                         </div>
                         <div className="form-row">
-                            <label htmlFor="email">{Identify.__('Email Address')}<i>*</i></label>
+                            <label htmlFor="email">{Identify.__('Email Address')}<span>*</span></label>
                             <div className={`form-input ${validate('email', ['empty', 'email'])}`}>
                                 <input value={formData['email']} onChange={(e) => onChangeInput('email', e.target.value)} type="email" id="email" name="email" placeholder={Identify.__(`Email address`)}/>
                             </div>
                         </div>
                         <div className="form-row">
-                            <label htmlFor="address">{Identify.__('Address')}<i>*</i></label>
+                            <label htmlFor="address">{Identify.__('Address')}<span>*</span></label>
                             <div className={`form-input ${validate('address', ['empty'])}`}>
                                 <input value={formData['address']} onChange={(e) => onChangeInput('address', e.target.value)} id="address" name="address" placeholder={Identify.__(`Address`)}/>
                             </div>
                         </div>
                         <div className="form-row">
-                            <label htmlFor="service">{Identify.__('Type Of Service')}<i>*</i></label>
+                            <label htmlFor="service">{Identify.__('Type Of Service')}<span>*</span></label>
                             <Select className={`form-input service-type ${validate('service', ['empty'])}`}
                                 items={types}
                                 selected={formData['service']}
@@ -234,19 +234,19 @@ const ClothingService = (props) => {
                             />
                         </div>
                         <div className="form-row">
-                            <label htmlFor="qty">{Identify.__('Quantity')}<i>*</i></label>
+                            <label htmlFor="qty">{Identify.__('Quantity')}<span>*</span></label>
                             <div className={`form-input ${validate('qty', ['empty'])}`}>
                                 <input value={formData['qty']} onChange={(e) => onChangeInput('qty', e.target.value)} id="qty" name="qty" placeholder={Identify.__(`Quantity`)}/>
                             </div>
                         </div>
                         <div className="form-row">
-                            <label htmlFor="detail">{Identify.__('Details')}<i>*</i></label>
+                            <label htmlFor="detail">{Identify.__('Details')}<span>*</span></label>
                             <div className={`form-input detail ${validate('detail', ['empty'])}`}>
                                 <textarea value={formData['detail']} onChange={(e) => onChangeInput('detail', e.target.value)} id="detail" name="detail" placeholder={Identify.__(`Please describe what work you need to be done in as much detail as possible.`)}/>
                             </div>
                         </div>
                         <div className="form-row">
-                            <label>{Identify.__('Upload Files')}<i>*</i></label>
+                            <label>{Identify.__('Upload Files')}<span>*</span></label>
                             <div className={`form-input files ${validate('files', ['empty'])}`}>
                                 <span>{Identify.__(`You can upload up to 4 files`)}</span>
                                 {Object.values(formData.files).length < 4 &&
