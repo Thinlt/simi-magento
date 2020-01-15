@@ -60,18 +60,11 @@ class Cart extends Component {
                 }
             }
         }
-        $('.header .header-logo .header-image img').attr({style : 'width: 154px !important; height: 44px !important'});
-        $('.header .header-logo .header-image img').css('min-height','unset');
         this.setState({isLoading: false})
         showFogLoading();
         this.setIsPhone();
         const { getCartDetails } = this.props;
         getCartDetails();
-    }
-    
-    componentWillUnmount(){
-        $('.header .header-logo .header-image img').removeAttr('style');
-        $('.header .header-logo .header-image img').css('min-height','54.61px');
     }
 
     get cartId() {
