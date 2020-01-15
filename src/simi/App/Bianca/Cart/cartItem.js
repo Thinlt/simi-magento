@@ -55,13 +55,19 @@ const CartItem = props => {
         let vendorList;
         if(storeConfig){
             vendorList = storeConfig.simiStoreConfig.config.vendor_list;
-            const vendorName = vendorList.find(vendor => {
+            const vendor = vendorList.find(vendor => {
                 if(vendorId === 'default'){
                     return vendor.entity_id === "1"
                 }
                 return vendor.entity_id === vendorId; //entity_id is Vendor ID in vendor model
             })
-            return (vendorName && vendorName.vendor_id)?vendorName.vendor_id:'';
+            let vendorName = '';
+            if (vendor && vendor.firstname) vendorName = `${vendor.firstname}`;
+            if (vendor && vendor.lastname) vendorName = `${vendorName} ${vendor.lastname}`;
+            const {profile} = vendor || {}
+            vendorName = profile && profile.store_name || vendorName;
+            if (vendorName) return vendorName;
+            // return (vendorName && vendorName.vendor_id)?vendorName.vendor_id:'';
         }
     }
 
@@ -176,8 +182,8 @@ const CartItem = props => {
                         onKeyUp={() => {}}
                     >
                         <EditIcon 
-                            style={{width: '16px', height: '16px', marginRight: '8px' }}/>
-                        {Identify.__('Edit')}
+                            style={{width: '16px', height: '16px', marginRight: '8px', marginLeft: 'auto' }}/>
+                        <div>{Identify.__('Edit')}</div>
                     </div>
                     <div
                         role="button"
@@ -188,7 +194,7 @@ const CartItem = props => {
                     >
                         <Deleteicon
                             style={{ width: '16px', height: '16px', marginRight: '8px' }} />
-                        {Identify.__('Remove')}
+                        <div>{Identify.__('Remove')}</div>
                     </div>
                 </div>
             </div>
