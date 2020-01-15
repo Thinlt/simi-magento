@@ -480,6 +480,10 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
 
         if (!$isTryToBuy && !$isPreOrder) {
             return;
+        } else {
+            if (!$this->simiObjectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
+                throw new \Simi\Simiconnector\Helper\SimiException(__('Please login to continue.'), 4);
+            }
         }
 
         if (!$this->itemProcessor)
