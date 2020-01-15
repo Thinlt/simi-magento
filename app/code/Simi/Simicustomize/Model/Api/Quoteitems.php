@@ -481,7 +481,7 @@ class Quoteitems extends \Simi\Simiconnector\Model\Api\Apiabstract
         if (!$isTryToBuy && !$isPreOrder) {
             return;
         } else {
-            if (!$this->simiObjectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
+            if (!$this->_getQuote()->getData('customer_id')) {
                 throw new \Simi\Simiconnector\Helper\SimiException(__('Please login to continue.'), 4);
             }
         }
