@@ -23,21 +23,23 @@ class SpecialOrder extends \Magento\Framework\App\Helper\AbstractHelper
         parent::__construct($context);
     }
 
-    public function submitQuotFromRestToSession() {
+    public function submitQuotFromRestToSession($quoteId = null) {
         $inputParams = $this->inputParamsResolver->resolve();
         if ($this->foundQuoteId)
             return;
-        if ($inputParams && is_array($inputParams) && isset($inputParams[0])) {
+        if (!$quoteId && $inputParams && is_array($inputParams) && isset($inputParams[0])) {
             $quoteId = $inputParams[0];
             $quoteIdMask = $this->simiObjectManager->get('Magento\Quote\Model\QuoteIdMask');
             if ($quoteIdMask->load($quoteId, 'masked_id')) {
                 if ($quoteIdMask && $maskQuoteId = $quoteIdMask->getData('quote_id'))
                     $quoteId = $maskQuoteId;
             }
+        }
+        if ($quoteId) {
             $quoteModel = $this->simiObjectManager->get('Magento\Quote\Model\Quote')->load($quoteId);
             if ($quoteModel->getId() && $quoteModel->getData('is_active')) {
                 $this->foundQuoteId = $quoteModel->getId();
-                // $this->simiObjectManager->get('Simi\Simiconnector\Helper\Data')->setQuoteToSession($quoteModel);
+                $this->simiObjectManager->get('Simi\Simiconnector\Helper\Data')->setQuoteToSession($quoteModel);
             }
         }
     }

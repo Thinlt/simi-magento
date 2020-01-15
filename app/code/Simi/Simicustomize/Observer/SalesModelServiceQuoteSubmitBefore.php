@@ -29,30 +29,32 @@ class SalesModelServiceQuoteSubmitBefore implements ObserverInterface
 
     public function execute(Observer $observer) {
         $order = $observer->getEvent()->getOrder();
-        $specialOrderHelper = $this->simiObjectManager->get('Simi\Simicustomize\Helper\SpecialOrder');
-        $specialOrderHelper->submitQuotFromRestToSession();
-        $quote = $this->_getQuote();
-        $isPreOrder = $specialOrderHelper->isQuotePreOrder();
-        if ($isPreOrder) {
-            $order->setOrderType(\Simi\Simicustomize\Ui\Component\Sales\Order\Column\OrderType::ORDER_TYPE_PRE_ORDER_WAITING);
-        }
-        if ($preOrderDepositAmount = $quote->getData('preorder_deposit_discount')) {
-            $order->setData('preorder_deposit_discount', $preOrderDepositAmount);
-        }
-        if ($deposit_order_increment_id = $quote->getData('deposit_order_increment_id')) {
-            try {
-                $this->simiObjectManager->create('Magento\Sales\Model\Order')
-                    ->loadByIncrementId($deposit_order_increment_id)
-                    ->setOrderType(\Simi\Simicustomize\Ui\Component\Sales\Order\Column\OrderType::ORDER_TYPE_PRE_ORDER_PAID)
-                    ->save();
-            } catch (\Exception $e) {
-
+        if ($order->getData('quote_id')) {
+            $specialOrderHelper = $this->simiObjectManager->get('Simi\Simicustomize\Helper\SpecialOrder');
+            $specialOrderHelper->submitQuotFromRestToSession($order->getData('quote_id'));
+            $quote = $this->_getQuote();
+            $isPreOrder = $specialOrderHelper->isQuotePreOrder();
+            if ($isPreOrder) {
+                $order->setOrderType(\Simi\Simicustomize\Ui\Component\Sales\Order\Column\OrderType::ORDER_TYPE_PRE_ORDER_WAITING);
             }
-            $order->setData('deposit_order_increment_id' , $deposit_order_increment_id);
-        }
+            if ($preOrderDepositAmount = $quote->getData('preorder_deposit_discount')) {
+                $order->setData('preorder_deposit_discount', $preOrderDepositAmount);
+            }
+            if ($deposit_order_increment_id = $quote->getData('deposit_order_increment_id')) {
+                try {
+                    $this->simiObjectManager->create('Magento\Sales\Model\Order')
+                        ->loadByIncrementId($deposit_order_increment_id)
+                        ->setOrderType(\Simi\Simicustomize\Ui\Component\Sales\Order\Column\OrderType::ORDER_TYPE_PRE_ORDER_PAID)
+                        ->save();
+                } catch (\Exception $e) {
 
-        if ($service_support_fee = $quote->getData('service_support_fee')) {
-            $order->setData('service_support_fee' , $service_support_fee);
+                }
+                $order->setData('deposit_order_increment_id', $deposit_order_increment_id);
+            }
+
+            if ($service_support_fee = $quote->getData('service_support_fee')) {
+                $order->setData('service_support_fee', $service_support_fee);
+            }
         }
     }
 }
