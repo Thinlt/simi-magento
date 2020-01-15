@@ -69,6 +69,7 @@ class MiniCart extends Component {
     handleClickOutside = (event) => {
         if (this.wrapperMiniCart && this.wrapperMiniCart.current && !this.wrapperMiniCart.current.contains(event.target)) {
             this.props.closeDrawer()
+            $('body').css('overflow','auto')
         }
     }
 
@@ -202,7 +203,7 @@ class MiniCart extends Component {
         return hasGrandtotal ? (
             <div className={classes.grandTotal}>
                 <div className={classes.grandTotalLabel}>Grand Total</div>
-                <div>
+                <div className={classes.grandPrice}>
                     <Price currencyCode={cartCurrencyCode} value={grandTotal} />
                 </div>
             </div>
@@ -326,8 +327,12 @@ class MiniCart extends Component {
 
         return (
             <Fragment>
-                <div className={classes.body}>{productList}</div>
-                <div className={footerClassName}>{footer}</div>
+                <div style={{overflow:'scroll', display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
+                    <div className={classes.body}>
+                        {productList}
+                    </div>
+                    <div className={footerClassName}>{footer}</div>
+                </div>
             </Fragment>
         );
     }
@@ -342,6 +347,10 @@ class MiniCart extends Component {
             isOpen,
             isCartEmpty
         } = props;
+
+        if(isOpen){
+            $('body').css('overflow','hidden');
+        }
 
         const className = isOpen ? classes.root_open : classes.root;
         const body = isOptionsDrawerOpen ? productOptions : miniCartInner;

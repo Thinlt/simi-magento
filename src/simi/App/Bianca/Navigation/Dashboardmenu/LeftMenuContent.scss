@@ -24,7 +24,7 @@ $colorSubTitle: #727272;
     line-height: 12px;
 }
 .left-store-switch .storeview-switcher .storeview div[class ~="MuiListItem-gutters"]{
-    margin-top: 27px;
+    margin-top: 37px;
     padding-left: 33px;
     padding-right: 19px;
 }
@@ -57,7 +57,7 @@ $colorSubTitle: #727272;
     line-height: 12px;
 }
 .left-store-switch .currency-switcher .currency div[class ~="MuiListItem-gutters"]{
-    margin-top: 31px;
+    margin-top: 37px;
     padding-left: 33px;
     padding-right: 19px;
 }
@@ -73,6 +73,33 @@ $colorSubTitle: #727272;
     font-weight: 500;
     line-height: 14px;
     margin-left: 33px;
-    padding-top:35px;
+    padding-top: 45px;
     color: $colorTitle;
+}
+
+.left-store{
+    font-family: Gotham;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 14px;
+    color: $colorTitle;
+    margin-top: 37px;
+    padding-left: 33px;
+    padding-right: 19px;
+    text-transform: uppercase;
+    div{
+        padding-top: 8px;
+        padding-bottom: 8px; 
+    }
+}
+
+.left-bottom-menu{
+    height: 194px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    background-color: #F2F2F2;
+    div{
+        margin-top: 30px;
+    }
 }
