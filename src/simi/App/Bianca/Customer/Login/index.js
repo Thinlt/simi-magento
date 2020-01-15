@@ -175,7 +175,7 @@ class Login extends Component {
 						? classes['inactive']
 						: classes['active']}`}
 				>
-					<div className={`${classes['signInDivider']}`}>
+					<div className={`${classes['signInDivider']} ${Identify.isRtl() ? classes['rtl-divider'] : null}`}>
 						<hr className={`${classes['hr']} ${classes['left-hr']}`} />
 						<div className={`${classes['signInWidth']}`}>
 							{Identify.__('or sign in with'.toUpperCase())}
@@ -217,7 +217,7 @@ class Login extends Component {
 		);
 	}
 
-	createAccount = () => {};
+	createAccount = () => { };
 
 	setCreateAccountForm = () => {
 		this.createAccount = (className, history) => {
@@ -230,7 +230,7 @@ class Login extends Component {
 		this.showCreateAccountForm();
 	};
 
-	forgotPassword = () => {};
+	forgotPassword = () => { };
 
 	setForgotPasswordForm = () => {
 		this.forgotPassword = (className, history) => {
@@ -258,7 +258,7 @@ class Login extends Component {
 	closeForgotPassword = () => {
 		this.hideForgotPasswordForm();
 	};
-	hideForgotPasswordForm = () => {};
+	hideForgotPasswordForm = () => { };
 
 	get createAccountForm() {
 		const { isCreateAccountOpen } = this.state;
@@ -376,7 +376,7 @@ class Login extends Component {
 				? Identify.__('Welcome %s Start shopping now').replace('%s', firstname)
 				: Identify.__('You have succesfully logged in, Start shopping now');
 			if (this.props.toggleMessages)
-				this.props.toggleMessages([ { type: 'success', message: message, auto_dismiss: true } ]);
+				this.props.toggleMessages([{ type: 'success', message: message, auto_dismiss: true }]);
 		}
 		const showBackBtn = isCreateAccountOpen || isForgotPasswordOpen;
 
@@ -406,7 +406,7 @@ class Login extends Component {
 								onClick={this.showPhoneLoginForm}
 								className={`${isPhoneLogin ? classes['active'] : null} ${classes['phone-type']}`}
 							>
-								<div className={classes['wrap']}>
+								<div className={`${classes['wrap']} ${Identify.isRtl() ? classes['rtl-wrap'] : null}`} >
 									<span className={classes['icon-phone']} />
 									<span className={classes['title-phone']}>{Identify.__('Phone')}</span>
 								</div>
@@ -415,7 +415,7 @@ class Login extends Component {
 								onClick={this.showEmailLoginForm}
 								className={`${isEmailLogin ? classes['active'] : null} ${classes['email-type']}`}
 							>
-								<div className={classes['wrap']}>
+								<div className={`${classes['wrap']} ${Identify.isRtl() ? classes['rtl-wrap'] : null}`} >
 									<span className={classes['icon-email']} />
 									<span className={classes['title-email']}>{Identify.__('Email')}</span>
 								</div>

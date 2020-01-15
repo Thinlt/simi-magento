@@ -96,7 +96,12 @@
     min-width: 572px;
     width: 100%;
     border: unset;
-    margin-bottom: 24px !;
+    margin-bottom: 24px;
+    font-family: Gotham;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 14px;
+    color: #101820;
 }
 
 
@@ -373,6 +378,33 @@
     text-transform: uppercase;
 }
 
+/* right to left */
+.rtl-wrap{
+
+}
+.rtl-wrap .icon-email,
+.rtl-wrap .icon-phone{
+    margin-right: unset !important;
+    margin-left: 3px;
+}
+.rtl-wrap .title-email,
+.rtl-wrap .title-phone{
+    margin-left: unset !important;
+    margin-right: 3px;
+}
+.rtl-divider{
+    
+}
+.rtl-divider .hr.left-hr{
+    margin-left: 12px !important;
+    margin-right: unset !important;
+}
+.rtl-divider .hr.right-hr{
+    margin-left: unset !important;
+    margin-right: 12px !important;
+}
+
+
 @media (max-width: 834px) {
     .login-background {
         padding: 40px;
@@ -467,11 +499,23 @@
     }
 }
 
+@media(max-width: 470px) {
+    .login-container{
+        padding: 0 10px;
+    }
+}
+
 @media(max-width: 425px) {
     .login-container {
         margin-top: 20px;
         border: unset !important;
         padding-bottom: 50px !important;
+    }
+    .login-background .select-type {
+        padding: 0px;
+    }
+    .login-background .active {
+        padding: 0px;
     }
 }
 
@@ -550,7 +594,7 @@
     }
     .login-background div[class~="signInAction"] button {
         margin-top: 25px;
-        font-family: 'Gotham-Medium';
+        font-family: 'Gotham Medium';
         font-size: 14px;
         line-height: 14px;
     }

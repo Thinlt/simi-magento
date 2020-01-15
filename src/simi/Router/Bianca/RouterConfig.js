@@ -41,6 +41,10 @@ const Contact = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Contact"*/'src/simi/App/core/Contact/Contact')} {...props}/>
 }
 
+const Clothing = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Contact"*/'src/simi/App/Bianca/Clothing')} {...props}/>
+}
+
 const Product = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "SimiBiancaProduct"*/'src/simi/App/Bianca/RootComponents/Product')} {...props}/>
 }
@@ -179,6 +183,10 @@ const router = {
     contact: {
         path: '/contact.html',
         render : location => <Contact {...location} page={`contact`}/>
+    },
+    clothing_alterations: {
+        path: '/clothing-alterations.html',
+        render : location => <Clothing {...location} page={`clothing`}/>
     },
     contact: {
         path: '/paypal_express.html',

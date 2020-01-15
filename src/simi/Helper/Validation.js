@@ -38,7 +38,7 @@ export const validateEmpty = (value) => {
 }
 
 export const validateEmail = (value) => {
-    var validRegexp = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b/; //eslint-disable-line max-len
+    var validRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; //eslint-disable-line max-len
     if (!validateEmpty(value) || !validRegexp.test(value.trim())) {
         return false;
     }

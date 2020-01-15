@@ -239,7 +239,7 @@ class Login extends Component {
 				{TitleHelper.renderMetaHeader({
 					title: Identify.__('Designer Login')
 				})}
-				<div className={classes['login-background']}>
+				<div className={`${classes['login-background']} ${Identify.isRtl() ? classes['rtl-login-background'] : null}`}>
 					<div
 						className={` ${this.state.forgotPassSuccess == 'none'
 							? classes['smallSize']

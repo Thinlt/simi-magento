@@ -105,7 +105,9 @@
     border: unset;
     font-family: Gotham;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 300;
+    line-height: 14px;
+    color: #101820;
 }
 
 .root div[class *="field-root"] input:focus {
@@ -136,10 +138,31 @@
     color: #fff;
 }
 
+/* right to left */
+.rtl-rootForm{
+
+}
+
+.rtl-rootForm .lead2{
+    text-align: unset !important;
+}
+.rtl-rootForm input{
+    padding-left: 5px !important;
+    padding-right: 16px !important;
+}
+.rtl-rootForm .back{
+    left: unset !important;
+    right: 139px !important;
+}
+
 @media(max-width: 1023px) {
     .root .back {
         top: 130px;
         left: 5%;
+    }
+    .rtl-rootForm .back{
+        top: 130px !important;
+        right: 5% !important;
     }
 }
 
@@ -152,6 +175,9 @@
     }
     .root .back {
         top: 92px;
+    }
+    .rtl-rootForm .back{
+        top: 92px !important;
     }
 }
 
@@ -227,3 +253,17 @@
         padding-bottom: 13px !important;
     }
 }
+
+@media(max-width: 425px){
+    .root{
+        padding: unset !important;
+    }
+}
+
+@media(max-width: 375px){
+    .root,
+    .rtl-rootForm{
+        padding: unset !important;
+    }
+}
+
