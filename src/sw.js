@@ -52,6 +52,7 @@ workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
 
 importScripts('/simistatic/config.js');
 self.addEventListener('push', function(event) {
+    return
     var apiPath = SMCONFIGS.notification_api+ 'pwadevices/message?endpoint=';
     event.waitUntil(
         registration.pushManager.getSubscription()
