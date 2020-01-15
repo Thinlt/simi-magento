@@ -1,165 +1,93 @@
-# Magento 2 Backend Reindex Free
 
-Magento 2 [Backend Reindex](https://www.mageplaza.com/magento-2-backend-reindex/) by Mageplaza allows store admins to update individual or all indexes manually right from the admin backend easily instead of running command line. 
+<h3>Labels applied by the team</h3>
 
-
-## 1. Backend Reindex Documentation
-
-- [Installation guide](https://www.mageplaza.com/install-magento-2-extension/)
-- [User guide](https://docs.mageplaza.com/backend-reindex/index.html)
-- [Introduction page](http://www.mageplaza.com/magento-2-backend-reindex/)
-- [Contribute on Github](https://github.com/mageplaza/magento-2-backend-reindex)
-- [Get Support](https://github.com/mageplaza/magento-2-backend-reindex/issues)
-
-## 2. Reindex FAQ
-
-**Q: I got error: Mageplaza_Core has been already defined**
-
-A: Read solution: https://github.com/mageplaza/module-core/issues/3
-
-**Q: How can I select some indexers to reindex?**
-
-A: You just need to click to select each reindex, then click on Submit to reindex them.  
-
-**Q: How can I select all indexers?**
-
-A: Yes, you can reindex all easily, select Mass Action box, click Select All then click Submit. 
-
-**Q: I am a store owner. Our store has many admins. How can I set access ability to reindex action for specific accounts only?**
-
-A: Please go to `System > User Roles > Add new role > Select index management`, save then select admin account to allow access. 
-
-## 3. How to install Backend Reindex extension for Magento 2
-
-Install via composer (recommend)
-
-Run the following command in Magento 2 root folder:
-
-```
-composer require mageplaza/module-backend-reindex
-php bin/magento setup:upgrade
-php bin/magento setup:static-content:deploy
-```
-
-## 4. Highlight Features 
-
-### Reindex data within Magento 2 admin 
-
-**Magento 2 Reindex extension** allows store owners to choose the indexers easily and reindex them when there are any updates on the data from Index Management section from the admin backend easily. 
-
-For example, some typical indexers are: 
-- Customer Grid: Rebuild Customer grid index
-- Category Products: Indexed category/products association
-- Product Categories: 	Indexed product/categories association
-- Product Price: Index product prices
-- Stock: Index stock
-
-![Magento 2 Reindex extension](https://i.imgur.com/OY7MSLA.png)
-
-### Reindex all in one click 
-
-**Reindex All Data** allows store owners to submit data which needs to be reindexed in just one click. From the admin backend, it is easy to select all or deselect all the indexes and do actions quickly.  
-
-This is time-saving for store owners in case there are updates on all the data of stores. Instead of running command line with unfamiliar codes, any store admins can reindex data easily from the backend.
-
-![Magento 2 Reindex all](https://i.imgur.com/iobo0Sj.png)
-
-### Reindex notification
-
-The notification will appear right after any indexers have been updated.  The notification will inform store admins to know that the indexer has been rebuilt successfully. 
-
-When the number of indexers which are reindexed is more than one, there will be a notification about the total of successful updates. Store admins can make sure that their actions are done and check the frontend performance for the final result. 
-
-![Magento 2 Reindex notification](https://i.imgur.com/aLjxtu2.png)
+| Label        | Description           |
+| ------------- |-------------|
+| ![bug](https://s3.amazonaws.com/ebizmartsgithubimages/bug.png) | Bug report contains sufficient information to reproduce. Will be solved for associated Milestone.|
+| ![enhancement](https://s3.amazonaws.com/ebizmartsgithubimages/enhancement.png) | Improvement accepted. Will be added for associated Milestone.|
+| ![done](https://s3.amazonaws.com/ebizmartsgithubimages/done.png) | Issue has been solved and will be applied in the associated Milestone. |
+| ![duplicate](https://s3.amazonaws.com/ebizmartsgithubimages/duplicate.png) | Issue has been already reported and will be closed with no further action. |
+| ![wrong issue format](https://s3.amazonaws.com/ebizmartsgithubimages/wrongissueformat.png) | Issue has not been created according to requirements at the [Issue reporting guidelines](https://github.com/mailchimp/mc-magento2/wiki/Issue-reporting-guidelines). Will be closed until requirements are met. |
+| ![feature request](https://s3.amazonaws.com/ebizmartsgithubimages/featurerequest.png) | Feature request to be considered by the team. After approval will be labeled as enhancement. |
+| ![could not replicate](https://s3.amazonaws.com/ebizmartsgithubimages/couldnotreplicate.png) | The team was not able to replicate issue. It will be closed until missing information is given. |
+| ![contact support](https://s3.amazonaws.com/ebizmartsgithubimages/contactsupport.png) | Contact our support team at mailchimp@ebizmarts-desk.zendesk.com. Issue will be closed with no further action. |
+| ![low priority](https://s3.amazonaws.com/ebizmartsgithubimages/lowpriority.png) | Issue is considered as low priority by the team. |
+| ![priority](https://s3.amazonaws.com/ebizmartsgithubimages/priority.png) | Issue is considered as high priority by the team. |
+| ![conflict](https://s3.amazonaws.com/ebizmartsgithubimages/conflict.png) | Issue reports a conflict with other third party extension. |
+| ![need feedback](https://s3.amazonaws.com/ebizmartsgithubimages/needfeedback.png) | Feedback is required to continue working on the issue. If there is no answer after a week it will be closed. |
+| ![blocked](https://s3.amazonaws.com/ebizmartsgithubimages/blocked.png) | Issue can not be solved due to external causes. |
+| ![read documentation](https://s3.amazonaws.com/ebizmartsgithubimages/readdocumentation.png) | Issue will be closed. Available documentation: [MailChimp For Magento doc](https://kb.mailchimp.com/integrations/e-commerce/connect-or-disconnect-mailchimp-for-magento-2)|
 
 
-### Access restriction 
-
-Store data is extremely important, so store owners may wish that the access to reindex data can be restricted by admin role. 
-This can be done easily from the setting index management with specific admin role. 
-
-As a result, store owners can control which admin accounts are allowed to access reindex action in the backend. 
-
-![Magento 2 Reindex Access restriction](https://i.imgur.com/1O7GLaj.png)
-
-## 5. Full Magento 2 Reindex Features
-
-- Enable/ Disable backend reindex 
-- Reindex data from admin in Magento 2 backend
-- Partly reindex or reindex all the indexes
-- Notification after finishing reindex
-- Allow accessing ability by admin role 
-
- 
-## 6. Reindex User Guide
-
-### 6.1. Configuration Reindex Section
-
-From the admin backend, go to `System > Index Management` 
-
-![Magento 2 Configuration Reindex Section](https://i.imgur.com/IWBgPPC.png)
-
-#### Reindex one indexer:
-
-At the **Action** box, click on **Reindex Data** to reindex each indexer separately. 
-
-![Magento 2 Reindex one indexer](https://i.imgur.com/hvRRinh.png)
 
 
-#### Reindex some indexers:
+# Issue reporting guidelines
 
-  - Click to select the indexers you need to reindex
-  - Select **Reindex Data** 
-  - Click **Submit** 
+To maintain an effective bugfix workflow and make sure issues will be solved in a timely manner we kindly ask reporters to follow some simple guidelines.
 
- ![Magento 2 Reindex some indexers](https://i.imgur.com/0j4q32o.png)
+Before creating an issue, please do the following:
 
-#### Reindex all the indexers
+* Check the [documentation](https://kb.mailchimp.com/integrations/e-commerce/connect-or-disconnect-mailchimp-for-magento-2) to make sure the behavior you are reporting is really a bug, not a feature.
+* Check the existing [issues](https://github.com/mailchimp/mc-magento2/issues) to make sure you are not duplicating somebody’s work.
+* Make sure, that information you are about to report is a technical issue, please refer to the [Community Forums](http://ebizmarts.com/mailchimp-for-magento-support)  for technical questions.
 
-- Click on **Mass Actions** box, choose **Select All** 
-- Select **Reindex Data** 
-- Click **Submit** 
+If you are sure that the problem you are experiencing is caused by a bug, file a new issue in a Github issue tracker following the recommendations below.
 
-![Magento 2 Reindex all the indexers](https://i.imgur.com/fUn2aV0.png)
+## Title
 
-### 6.2. User roles with reindex
+Title is a vital part of bug report for developer and triager to quickly identify a unique issue. A well written title should contain a clear, brief explanation of the issue, making emphasis on the most important points.
 
-#### Step 1: Go to `Admin > System > User role`
+Good example would be:
 
-![User roles with reindex](https://i.imgur.com/Ch0qBSS.png)
- 
-#### Step 2: Add a new role resource
+> Unable to place order with Virtual product and PayPal.
 
-Fill in role information at **Role Information** section
+Unclear example:
 
-![Add a new role resource](https://i.imgur.com/3H9By5B.png)
+> Can't checkout.
 
-Select index management role at **Role Resources** section, then click on **Save Role** 
+## Issue Description
 
-![Magento 2 Add a new role resource](https://i.imgur.com/3aIoSyz.png)
+### Preconditions
 
-#### Step 3: Set role users for admin accounts, then click on Save Role to finish. 
+Describing preconditions is a great start, provide information on system configuration settings you have changed, detailed information on entities created (Products, Customers, etc), Magento and mc-magento versions. Basically, everything that would help developer set up the same environment as you have.
 
-![Magento 2 Set role users for admin accounts](https://i.imgur.com/hveeS2l.png)
+Example:
 
-**People also search:**
-- reindex magento 2
-- magento 2 reindex from admin
-- magento 2 reindex
-- how to reindex in magento 2
-- magento 2 reindex all
-- reindex in magento 2
-- magento 2 reindex extension
-- reindexing in magento 2
-- magento 2.3 reindex
-- reindex magento 2 from admin
+    1. Magento CE 2.0.1 without sample data is installed.
+    2. mc-magento 1.0.6.
+    3. Test category is set up.
+    4. Virtual Product is created and assigned to the Test Category.
+    ...
 
-**Other free extension on Github**
-- [Magento 2 SEO Suite](https://github.com/mageplaza/magento-2-seo)
-- [M2 Google Maps](https://github.com/mageplaza/magento-2-google-maps)
-- [M2 Delete Orders](https://github.com/mageplaza/magento-2-delete-orders)
-- [M2 GDPR Free](https://github.com/mageplaza/magento-2-gdpr)
-- [M2 login as customer](https://github.com/mageplaza/magento-2-login-as-customer)
-- [M2 Same Order Number](https://github.com/mageplaza/magento-2-same-order-number)
-- [M2 Ajax Layered Navigation](https://github.com/mageplaza/magento-2-ajax-layered-navigation)
-- [M2 security module](https://github.com/mageplaza/magento-2-security)
+### Steps to reproduce
+
+This part of the bug report is the most important, as developer will use this information to reproduce the issue. Problem is more likely to be fixed if it can be reproduced.
+
+Precisely describe each step you have taken to reproduce the issue. Try to include as much information as possible, sometimes even minor differences can be crucial.
+
+Example:
+
+    1. Navigate to storefront as a guest.
+    2. Open Test Category.
+    3. Click "Add to Cart" on the Virtual Product.
+    4. Open mini shopping cart and click "Proceed to Checkout".
+    ...
+
+### Actual and Expected result
+
+To make sure that everybody involved in the fix are on the same page, precisely describe the result you expected to get and the result you actually observed after performing the steps.
+
+Example:
+
+    Expected result:
+    Order is placed successfully, customer is redirected to the success page.
+    Actual result:
+    "Place order" button is not visible, order cannot be placed.
+
+### Additional information
+
+Additional information is often requested when the bug report is processed, you can save time by providing Magento and browser logs, screenshots, any other artifacts related to the issue at your own judgement.
+
+## Pull requests
+
+Before creating a pull request please make sure to follow this [guidelines](https://github.com/mailchimp/mc-magento2/wiki/Pull-Request-guideliness) or it will be rejected.
