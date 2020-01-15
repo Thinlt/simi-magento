@@ -37,3 +37,17 @@
     font-size: 12px;
     font-weight: 500;
 }
+
+.rtl-root {
+    .left-cats-menu {
+        .MuiListItem-button {
+            padding-left: 33px;
+            padding-right: 19px;
+        }
+
+        .menu-item-wrap{
+            margin-right: -5px;
+            padding-right: 33px;
+        }
+    }
+}

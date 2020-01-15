@@ -13,7 +13,7 @@
     transition-property: opacity, transform, visibility;
     visibility: hidden;
     width: 90%;
-    max-width: 315px;
+    max-width: 292px;
     z-index: 3;
 }
 
@@ -24,15 +24,34 @@
 }
 
 .root_open {
-    composes: root;
+    background-color: white;
+    bottom: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    left: 0;
+    position: fixed;
+    top: 0;
+    transition-property: opacity, transform, visibility;
+    visibility: hidden;
+    width: 90%;
+    z-index: 3;
     box-shadow: 1px 0 rgb(var(--venia-border));
     opacity: 1;
     transform: translate3d(0, 0, 0);
     transition-duration: 224ms;
     transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
     visibility: visible;
-    max-width: 292px;
 }
+
+.root.nav_rtl {
+    transform: translate3d(100%, 0, 0);
+    transition-duration: 0ms;
+}
+.root_open.nav_rtl {
+    right: 0;
+    left: unset;
+}
+
 
 /* keyframes */
 

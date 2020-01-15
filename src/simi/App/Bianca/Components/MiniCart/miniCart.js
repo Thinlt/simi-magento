@@ -343,7 +343,7 @@ class MiniCart extends Component {
             isCartEmpty
         } = props;
 
-        const className = isOpen ? classes.root_open : classes.root;
+        const className = `${Identify.isRtl()&&classes.nav_rtl} ${isOpen ? classes.root_open : classes.root}`;
         const body = isOptionsDrawerOpen ? productOptions : miniCartInner;
         const title = isOptionsDrawerOpen ? 'Edit Cart Item' : 'My Cart';
 

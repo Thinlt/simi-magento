@@ -72,7 +72,21 @@ $colorSubTitle: #727272;
     font-size: 14px;
     font-weight: 500;
     line-height: 14px;
-    margin-left: 33px;
+    padding-left: 33px;
+    padding-right: 33px;
     padding-top:35px;
     color: $colorTitle;
+}
+
+
+.rtl-root {
+
+    .left-store-switch .storeview-switcher .storeview .menu-item{
+        margin-right: -5px;
+        padding-right: 33px;
+    }
+    .left-store-switch .currency-switcher .currency .menu-item {
+        margin-right: -5px;
+        padding-right: 33px;
+    }
 }

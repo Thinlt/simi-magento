@@ -107,7 +107,7 @@ const Navigation = props => {
         drawer,
     } = props;
     const isOpen = drawer === 'nav';
-    const className = isOpen ? classes.root_open : classes.root;
+    const className = `${Identify.isRtl()&&classes.nav_rtl} ${isOpen ? classes.root_open : classes.root}`;
     const simicartConfig = Identify.getAppDashboardConfigs()
     if (simicartConfig) {
         const dbMenu = renderDashboardMenu(className, simicartConfig)
