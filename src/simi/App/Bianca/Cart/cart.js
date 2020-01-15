@@ -60,6 +60,8 @@ class Cart extends Component {
                 }
             }
         }
+        $('.header .header-logo .header-image img').attr({style : 'width: 154px !important; height: 44px !important'});
+        $('.header .header-logo .header-image img').css('min-height','unset');
         this.setState({isLoading: false})
         showFogLoading();
         this.setIsPhone();
@@ -67,6 +69,11 @@ class Cart extends Component {
         getCartDetails();
     }
     
+    componentWillUnmount(){
+        $('.header .header-logo .header-image img').removeAttr('style');
+        $('.header .header-logo .header-image img').css('min-height','54.61px');
+    }
+
     get cartId() {
         const { cart } = this.props;
 
@@ -361,7 +368,7 @@ class Cart extends Component {
     }
 
     get miniCartInner() {
-        const {isLoading} = this.state
+        const {isLoading} = this.props.cart;
         const {
             productList,
             props,
@@ -376,7 +383,7 @@ class Cart extends Component {
         } = props;
         if (
             isCartEmpty ||
-            !this.state.items ||
+            !cart.details.items ||
             !parseInt(cart.details.items_count)
         ) {
             if (isLoading) return <Loading />;

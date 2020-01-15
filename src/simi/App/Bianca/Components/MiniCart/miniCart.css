@@ -61,7 +61,7 @@
 
 
 .body {
-    overflow: auto;
+    
 }
 
 .titleSummary{
@@ -75,7 +75,6 @@
     --minicart-footer-padding-top: 1.5rem;
     --minicart-footer-padding-bottom: 0.5rem;
     background-color: #E4E4E4;
-    overflow: auto;
 }
 
 .summary{
@@ -93,7 +92,7 @@
     display: grid;
     grid-auto-flow: column;
     grid-template-columns: 1fr;
-    padding: 0 57px;
+    padding: 0 28px;
     margin: 40px 0 51px;
 }
 
@@ -167,6 +166,7 @@
     width: 252px;
     height: 48px;
     margin-right: 16px;
+    font-weight: 500;
 }
 
 .checkoutBtn{
@@ -176,4 +176,12 @@
     color: #FFF;
     width: 252px;
     height: 48px;
+    font-weight: 500;
+}
+
+.grandPrice{
+    font-size: 24px;
+    line-height: 24px;
+    font-family: Gotham Medium;
+    padding-top: 12px;
 }
