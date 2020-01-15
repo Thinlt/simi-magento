@@ -198,6 +198,20 @@ class ProductFullDetail extends Component {
         return params
     }
 
+    checkLogin = (params) => {
+        // check login for try-to-buy or pre-order
+        if (parseInt(params.pre_order) === 1 || parseInt(params.try_to_buy) === 1) {
+            if (!this.props.isSignedIn) {
+                showToastMessage(Identify.__('Please login first'));
+                setTimeout(()=>{
+                    this.props.history.push({pathname: '/login.html', pushTo: this.props.history.location.pathname});
+                }, 1600);
+                return false;
+            }
+        }
+        return true;
+    }
+
     addToCart = () => {
         const { props } = this;
         const { product } = props;
@@ -208,19 +222,12 @@ class ProductFullDetail extends Component {
                 showToastMessage(Identify.__('Please select the options required (*)'));
                 return
             }
+            // check login
+            if(!this.checkLogin(params)) return;
             showFogLoading()
             simiAddToCart(this.addToCartCallBack, params)
         }
     };
-
-    preorderAction = () => {
-        this.addToCartWithParams({pre_order: '1'})
-    }
-
-    buy1ClickAction = (cartParams) => {
-        this.addToCartWithParams(cartParams);
-        this.isBuy1Click = true;
-    }
 
     addToCartWithParams = (data = {}) => {
         const { product } = this.props;
@@ -231,6 +238,8 @@ class ProductFullDetail extends Component {
                 showToastMessage(Identify.__('Please select the options required (*)'));
                 return
             }
+            // check login
+            if(!this.checkLogin(params)) return;
             showFogLoading()
             simiAddToCart(this.addToCartCallBack, params)
             this.isPreorder = false;
@@ -243,6 +252,15 @@ class ProductFullDetail extends Component {
             }
         }
     };
+
+    preorderAction = () => {
+        this.addToCartWithParams({pre_order: '1'})
+    }
+
+    buy1ClickAction = (cartParams) => {
+        this.addToCartWithParams(cartParams);
+        this.isBuy1Click = true;
+    }
 
     addToCartCallBack = (data) => {
         hideFogLoading()
@@ -267,7 +285,7 @@ class ProductFullDetail extends Component {
     addToWishlist = () => {
         const {product, isSignedIn, history} = this.props
         if (!isSignedIn) {
-            history.push('/login.html')
+            history.push({pathname: '/login.html', pushTo: this.props.history.location.pathname})
         } else if (product && product.id) {
             this.missingOption = false
             const params = this.prepareParams()
@@ -392,7 +410,7 @@ class ProductFullDetail extends Component {
         }
         regData.request_info = params;
         if (!this.props.isSignedIn) {
-            this.props.history.push('/login.html');
+            this.props.history.push({pathname: '/login.html', pushTo: this.props.history.location.pathname});
         }
         regData.customer_id = this.props.customerId;
         regData.customer_name = this.props.customerLastname ? this.props.customerFirstname : `${this.props.customerFirstname} ${this.props.customerLastname}`;

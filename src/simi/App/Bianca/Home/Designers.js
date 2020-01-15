@@ -35,7 +35,7 @@ const Designers = props => {
     }
 
     const lastItems = [(
-        <div className="last-items">
+        <div className="last-items" key={Identify.randomString(3)}>
             <div className="btn" onClick={actionViewAll}><span>{Identify.__('View all')}</span></div>
         </div>
     )];
