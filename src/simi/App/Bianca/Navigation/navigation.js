@@ -24,10 +24,10 @@ const Navigation = props => {
         Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null)
     }
 
-    // useEffect(() => {
-    //     if (isSignedIn && (!currentUser || !currentUser.email)) //get user detail when missing (from refreshing)
-    //         getUserDetails();
-    // }, []);
+    useEffect(() => {
+        if (isSignedIn && (!currentUser || !currentUser.email)) //get user detail when missing (from refreshing)
+            getUserDetails();
+    }, []);
 
     const [isPhone, setIsPhone] = useState(window.innerWidth < 1024)
 

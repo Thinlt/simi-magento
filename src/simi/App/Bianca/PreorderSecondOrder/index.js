@@ -8,7 +8,6 @@ import {
     getCartDetails
 } from 'src/actions/cart';
 
-var startingPreorder = false
 var openCheckoutPage = false
 
 const PreorderSecondOrder = props => {
@@ -51,8 +50,9 @@ const PreorderSecondOrder = props => {
             showToastMessage(Identify.__('Sorry. Your account does not match Pre-order deposit information, please signout and open this page again'))
             history.push({pathname: '/logout.html'});
         } else if (user && user.currentUser && user.currentUser.email && user.currentUser.email === customer_email) {
-            if (!startingPreorder) {
-                startingPreorder = true
+            console.log(cartId)
+            console.log(totals)
+            if (cartId && totals) { //get cart done then request start pre order
                 startpreorderscomplete((data) => startPreorderCompleted(data), deposit_order_id, cartId)
             }
         }
