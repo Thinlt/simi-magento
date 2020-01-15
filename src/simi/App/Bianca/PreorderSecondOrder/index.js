@@ -9,11 +9,10 @@ import {
 } from 'src/actions/cart';
 
 var startingPreorder = false
+var openCheckoutPage = false
 
 const PreorderSecondOrder = props => {
-    console.log('aaaa')
-    console.log(props)
-    const {history, isSignedIn, cartId, user, getCartDetails} = props
+    const {history, isSignedIn, cartId, user, getCartDetails, totals} = props
     const deposit_order_id = Identify.findGetParameter('deposit_order_id')
     if (!deposit_order_id) {
         showToastMessage(Identify.__('Sorry, your deposit Order Id is not valid.'))
@@ -30,12 +29,17 @@ const PreorderSecondOrder = props => {
             showToastMessage(errorsMessage)
         }
         if (data.startpreorderscompletes || data.startpreorderscomplete) {
-            if (getCartDetails) {
-                getCartDetails()
-            }
-            history.push('/checkout.html');  
+            getCartDetails()
+            openCheckoutPage = true
         }
     }
+    
+    if (openCheckoutPage) {
+        if (totals && totals.items && totals.items.length) {
+            history.push('/checkout.html'); 
+        }
+    }
+    
     if (customer_id && customer_email) { //need to signin first
         if (!isSignedIn) {
             const location = {
@@ -45,20 +49,15 @@ const PreorderSecondOrder = props => {
             history.push(location);
         } else if (user && user.currentUser && user.currentUser.email && user.currentUser.email !== customer_email) {
             showToastMessage(Identify.__('Sorry. Your account does not match Pre-order deposit information, please signout and open this page again'))
-            history.push({pathname: '/'});
+            history.push({pathname: '/logout.html'});
         } else if (user && user.currentUser && user.currentUser.email && user.currentUser.email === customer_email) {
             if (!startingPreorder) {
                 startingPreorder = true
-                startpreorderscomplete(startPreorderCompleted, deposit_order_id, cartId)
+                startpreorderscomplete((data) => startPreorderCompleted(data), deposit_order_id, cartId)
             }
         }
-    } else { //no need to signin first
-        if (isSignedIn || cartId) {
-            if (!startingPreorder) {
-                startingPreorder = true
-                startpreorderscomplete(startPreorderCompleted, deposit_order_id, cartId)
-            }
-        }
+    } else {
+        showToastMessage(Identify.__('The url seems to be wrong, please contact us.'))
     }
     return <Loading />
 };
@@ -66,10 +65,11 @@ const PreorderSecondOrder = props => {
 
 const mapStateToProps = ({ user, cart }) => {
     const { isSignedIn } = user;
-    const { cartId } = cart
+    const { cartId, totals } = cart
     return {
         isSignedIn,
         cartId,
+        totals,
         user
     }
 }
