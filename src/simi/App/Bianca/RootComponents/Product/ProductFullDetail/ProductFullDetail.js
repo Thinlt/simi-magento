@@ -476,7 +476,8 @@ class ProductFullDetail extends Component {
                 if (_optionColor && _optionColor.values) {
                     optionColor.options.map(item => {
                         let option = _optionColor.values.find(_optItem => _optItem.value_index === parseInt(item.id));
-                        return option.option_value = item.option_value;
+                        if (option) option.option_value = item.option_value;
+                        return option;
                     })
                 }
             }
