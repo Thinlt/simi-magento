@@ -14,7 +14,7 @@ class SocialShare extends React.PureComponent{
         let renderStatus = this.state.reRenderSuccess
         let url = this.props.sharingUrl?this.props.sharingUrl:document.URL
         if(url.indexOf('?id') === -1 && this.props.id){
-        url = url + '?id='+this.props.id;
+            url = url + '?id='+this.props.id;
         }
         $(function () {
             const social = $('#social-share');
@@ -23,10 +23,10 @@ class SocialShare extends React.PureComponent{
             const btn = $('.social-share .at-share-btn-elements').children('a');
             btn.each(function () {
                 $(this).click(function () {
-                const a = $(this).attr('class');
-                a = 'a.' + a.split(" ")[2];
-                a = $('#social-share').find(a);
-                a[0].click();
+                    const a = $(this).attr('class');
+                    a = 'a.' + a.split(" ")[2];
+                    a = $('#social-share').find(a);
+                    a[0].click();
                 })
             })
         })
@@ -50,6 +50,7 @@ class SocialShare extends React.PureComponent{
 
     renderJS(){
         var self = this
+        this.start_time = new Date().getTime();
         $.ajax({
             method: "GET",
             cache: false,
@@ -57,20 +58,19 @@ class SocialShare extends React.PureComponent{
             dataType: "script",
             start_time: new Date().getTime(),
             success: function(res){
-                //   wait ajax return response success 
-                    var along = new Date().getTime() - this.start_time
-                    let count = 0;
-                //    console.log(('This request took '+along+' ms'));
-                    setTimeout(
-                    function (data) {
-                        count++;
-                        // change state to re-render and update our customize design
-                        self.setState({reRenderSuccess: "already-re-rendered"})
-                        if (count===1){
-                            // only update design 1 time
-                            self.updateDesign()
-                        }
-                    },along);
+                // wait ajax return response success 
+                /* var along = new Date().getTime() - self.start_time
+                let count = 0;
+                // console.log(('This request took '+along+' ms'));
+                setTimeout(function(){
+                    count++;
+                    // change state to re-render and update our customize design
+                    self.setState({reRenderSuccess: "already-re-rendered"})
+                    if (count===1){
+                        // only update design 1 time
+                        // self.updateDesign()
+                    }
+                },along); */
             }
         });
     }
@@ -78,7 +78,18 @@ class SocialShare extends React.PureComponent{
     render(){
         return(
             <div className={this.props.className}>
-                <div className="social-share"></div>
+                <div className="social-share">
+                    <div className="at-share-btn-elements">
+                        <div className="at-icon-wrapper">
+                            <span className="at-icon-wrapper">
+                                <div className="fb"><span className="share-facebook" aria-hidden="true"></span></div>
+                                <div className="twitter"><span className="share-twitter" aria-hidden="true"></span></div>
+                                <div className="google"><span className="share-google" aria-hidden="true"></span></div>
+                                <div className="linkedin"><span className="share-linkedin" aria-hidden="true"></span></div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
                 <div className="social-script"></div>
                 {this.renderJS()}
             </div>

@@ -202,10 +202,10 @@ class ProductFullDetail extends Component {
         // check login for try-to-buy or pre-order
         if (parseInt(params.pre_order) === 1 || parseInt(params.try_to_buy) === 1) {
             if (!this.props.isSignedIn) {
-                showToastMessage(Identify.__('Please login first'));
+                // showToastMessage(Identify.__('Please login first'));
                 setTimeout(()=>{
                     this.props.history.push({pathname: '/login.html', pushTo: this.props.history.location.pathname});
-                }, 1600);
+                }, 10);
                 return false;
             }
         }
@@ -674,7 +674,7 @@ class ProductFullDetail extends Component {
                 text={Identify.__('Add to Cart')} />
         )
         if (simiExtraField && simiExtraField.attribute_values) {
-            if (parseInt(pre_order)) {
+            if (parseInt(pre_order) && !isProductConfigurable(props.product)) {
                 addToCartBtn = (
                     <Colorbtn
                         style={{ backgroundColor: '#101820', color: '#FFF' }}
