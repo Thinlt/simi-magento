@@ -200,7 +200,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$customerData = $this->objectManager->create('\Magento\Customer\Model\Customer');
 		$customer = $customerData->getCollection()
 		    ->addFieldToFilter("mobilenumber", $mobile)
-		    ->addFieldToFilter("website_id", $websiteid);
+			->addFieldToFilter("website_id", $websiteid);
 		if(count($customer) > 0){
 			return "exist";
 		}
