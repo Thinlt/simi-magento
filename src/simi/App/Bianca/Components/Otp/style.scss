@@ -179,6 +179,23 @@
   height: 48px;
   z-index: 10;
 }
+// Right to left
+.login-opt-area-rtl .custom-input .element-1{
+  left: unset !important;
+  right: 62px !important;
+}
+.login-opt-area-rtl .custom-input .element-2{
+  left: unset !important;
+  right: 92px !important;
+}
+.login-opt-area-rtl .custom-input .react-tel-input .flag-dropdown{
+  left: unset !important;
+  right: 60px !important;
+}
+.login-opt-area-rtl .custom-input .react-tel-input input{
+  padding-right: 20px !important;
+}
+
 // Default style of React-Phone-Input
 .react-tel-input {
   font-family: "Roboto", sans-serif;
@@ -1417,4 +1434,7 @@
     padding-top: 13px;
     padding-bottom: 13px;
   }
+  .login-opt-area-rtl .country-list{
+    right: -17px !important;
+   }
 }
