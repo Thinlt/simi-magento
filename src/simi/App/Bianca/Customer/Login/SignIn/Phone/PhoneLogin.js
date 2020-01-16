@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
+import LoginOTP from './LoginOTP';
 import { Form } from 'informed';
-require('./phoneLogin.scss');
+import classes from './phoneLogin.css';
 
 class PhoneLogin extends Component {
     render() {
-        return(
-            <Form>
-                <div className="phone-login">
-                    Buyer Phone Login Form
-                </div>
-            </Form>
+        return (
+            <LoginOTP
+                classes={classes}
+                onSignIn={this.props.simiSignedIn}
+                getUserDetails={this.props.getUserDetails}
+            />
         )
     }
 }

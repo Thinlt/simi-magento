@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import defaultClasses from './login.css';
 import classify from 'src/classify';
 import Identify from 'src/simi/Helper/Identify';
-import PhoneVendorLogin from './VendorLogin/PhoneVendor/PhoneVendorLogin';
+import PhoneLogin from '../../Customer/Login/SignIn/Phone/PhoneLogin';
 import VendorLogInForm from './VendorLogin';
 import ForgotPassword from './ForgotPassword';
 import { connect } from 'src/drivers';
@@ -73,7 +73,7 @@ class Login extends Component {
 
 		return (
 			<div className={className}>
-				<PhoneVendorLogin />
+				<PhoneLogin />
 			</div>
 		);
 	}
