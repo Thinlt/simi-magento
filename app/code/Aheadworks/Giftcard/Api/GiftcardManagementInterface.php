@@ -82,7 +82,7 @@ interface GiftcardManagementInterface
      * Add Gift Card code to customer
      * @param string $code
      * @param int|null $storeId
-     * @return bool|\Aheadworks\Giftcard\Api\Data\GiftcardInterface[]
+     * @return \Aheadworks\Giftcard\Api\Data\GiftcardInterface[]|bool
      */
     public function addMineGiftcards($code, $storeId = null);
 

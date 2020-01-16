@@ -425,11 +425,12 @@ class GiftcardService implements GiftcardManagementInterface
                 }
                 if ($giftcard->getData(GiftcardInterface::RECIPIENT_EMAIL) == $customerEmail) {
                     $giftcards = $this->getMineGiftcards($storeId);
-                    $data = [];
-                    foreach($giftcards as $gc){
-                        $data[] = $gc->toArray();
-                    }
-                    return $data;
+                    // $data = [];
+                    // foreach($giftcards as $gc){
+                    //     $data[] = $gc->toArray();
+                    // }
+                    // return $data;
+                    return $giftcards;
                 }
             }
         }catch(\Exception $e){
