@@ -1,46 +1,91 @@
 .my-gift-vouchers-area{
+    font-family: 'Gotham Book';
     .customer-page-title{
-        font-family: Gotham Medium;
+        font-family: 'Gotham Book';
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 24px;
         margin-bottom: 28px;
     }
-
-    
     .form-add-voucher{
-        @media (max-width: 1440px) {
-            .form-group{
-                max-width: 474px;
-                margin-right: 16px;
-            }
-        }
         display: flex;
         justify-content: space-between;
         margin-bottom: 32px;
-        .form-group{  
+        .form-group{
             width: 100%;
+            margin-right: 0px;
+            margin-bottom: 0px;
+            @media (max-width: 1440px) {
+                max-width: 474px;
+            }
+            >label{
+                font-family: 'Gotham Book';
+                font-size: 14px;
+                line-height: 14px;
+                font-weight: 600;
+                margin-bottom: 8px;
+                display: block;
+                text-transform: uppercase;
+            }
             input{
                 height: 48px;
+                line-height: 48px;
                 border-radius: unset;
                 border-color: #727272;
-                margin-right: 16px;
+                font-size: 14px;
+                color: #101820;
+                font-weight: 500;
             }
         }
-
         .add-voucher-btn{
             background-color: #101820;
             color: #FFF;
-            height: 48px;
-            max-width: 278px;
             width: 100%;
-            margin-top: 25px;
+            height: 48px;
+            padding: 0px;
+            max-width: 278px;
+            margin-top: 22px;
+            .siminia-btn{
+                font-family: 'Gotham Book';
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: 16px;
+                line-height: 16px;
+            }
         }
     }
-
     .box-title{
-        font-family: Gotham Medium;
+        font-family: 'Gotham Book';
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 20px;
         margin-bottom: 20px;
     }
-
+    .table-siminia{
+        tr > th{
+            font-family: 'Gotham Book';
+            font-weight: 600;
+        }
+    }
     .box-title.vouchers-history{
         margin-top: 32px;
+    }
+    .config-page{
+        display: inline-flex!important;
+        align-items: unset!important;
+        justify-content: flex-end!important;
+        margin-top: 10px;
+        width: 100%;
+    }
+    .vouchers{
+        table{
+            .action{
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+    }
+    .history{
+        
     }
 }

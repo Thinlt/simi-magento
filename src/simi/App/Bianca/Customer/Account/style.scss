@@ -13,7 +13,8 @@
     line-height: 24px;
     font-weight: bold;
     color: #101820;
-    font-family: Gotham Medium;
+    font-family: 'Gotham Book';
+    font-weight: 600;
     margin-bottom: 24px;
 }
 .menu-header .menu-logout {
@@ -59,6 +60,14 @@
     max-width: 970px;
     max-width: unset;
     margin-right: 0;
+    .config-page{
+        margin-top: 10px;
+    }
+}
+/* Right to left */
+.rtl-root .dashboard-content{
+    margin-left: 0px;
+    margin-right: 114px;
 }
 .sidebar-item .sidebar-title {
     font-size: 28px;
@@ -280,7 +289,8 @@
 .table-siminia > thead > tr > th {
     background: #E4E4E4;
     color: #101820;
-    font-family: Gotham Medium;
+    font-family: 'Gotham Book';
+    font-weight: 600;
     font-size: 16px;
     line-height: 16px;
     height: 48px;
@@ -291,6 +301,10 @@
 .table-siminia > thead > tr > td {
     padding: 0px 24px;
     line-height: 14px;
+    font-family: 'Gotham Book';
+    .view-order{
+        text-decoration: underline;
+    }
 }
 .table-siminia > thead > tr > th{
     padding: 0px 24px;
@@ -386,23 +400,26 @@
         height: 0px;
     }
 }
-.dash-column-box .edit-information {
-    width: 100px;
+.dash-column-box .edit-information{
+    width: 100%;
     position: absolute;
     top: 0;
     right: 0;
     display: flex;
-    justify-content: center;
-    padding-top: 24px;
-    font-family: Gotham Medium;
-    font-size: 12px;
+    justify-content: flex-end;
+    margin-top: 24px;
     line-height: 12px;
-    align-items: flex-end;
-}
-
-.dash-column-box .edit-information{
+    align-items: center;
+    font-family: 'Gotham Book';
+    font-weight: 600;
+    font-size: 12px;
+    padding: 0px 24px;
+    >svg{
+        width: 32px!important;
+        padding: 0px 8px;
+    }
     div{
-        margin-left: 8px;
+        // margin-left: 8px;
         color: #101820;
     }
 }

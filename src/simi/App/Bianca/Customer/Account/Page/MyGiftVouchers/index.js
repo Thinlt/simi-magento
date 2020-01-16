@@ -4,6 +4,7 @@ import { connect } from 'src/drivers';
 import { compose } from 'redux';
 import PageTitle from 'src/simi/App/core/Customer/Account/Components/PageTitle';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+import { showToastMessage } from 'src/simi/Helper/Message';
 import Vouchers from './Vouchers';
 import defaultClasses from './style.scss';
 import Loading from 'src/simi/BaseComponents/Loading';
@@ -13,9 +14,10 @@ import { addGiftVoucher, removeCode } from 'src/simi/Model/Customer';
 import TextBox from 'src/simi/BaseComponents/TextBox';
 import Identify from 'src/simi/Helper/Identify';
 
+$ = window.$;
 
 const MyGiftVouchers = props => {
-    const [code, setCode] = useState('');
+    // const [code, setCode] = useState('');
     const [giftCode, setGiftCode] = useState('');
     const [historyCodes, setHistoryCodes] = useState('');
     const [loading, setLoading] = useState(true);
@@ -36,19 +38,21 @@ const MyGiftVouchers = props => {
 
     const handleSubmitVoucher = (e) => {
         e.preventDefault();
-        const storeConfig = Identify.getStoreConfig();
-        const storeId = storeConfig.simiStoreConfig.store_id;
-        const data = {
-            code,
-            store_id: parseInt(storeId) || null
-        }
+        // const storeConfig = Identify.getStoreConfig();
+        // const storeId = storeConfig.simiStoreConfig.store_id;
+        const code = $('#voucher-input').val();
         setLoading(true)
-        addGiftVoucher(giftVoucherCallBack, data);
+        addGiftVoucher(giftVoucherCallBack, {code});
     }
 
     const giftVoucherCallBack = (data) => {
-        setGiftCode(data);
-        setLoading(false)
+        if (data instanceof Array){
+            setGiftCode(data);
+        } else {
+            showToastMessage(Identify.__('This code does not available'));
+        }
+        $('#voucher-input').val('');
+        setLoading(false);
     }
 
     return (
@@ -60,7 +64,8 @@ const MyGiftVouchers = props => {
                     name="voucher"
                     className="add-voucher"
                     placeholder="Specify Gift Code"
-                    onChange={(e)=>setCode(e.target.value)}
+                    // onChange={(e)=>setCode(e.target.value)}
+                    id={"voucher-input"}
                 />
                 <Colorbtn type="submit" 
                     className="add-voucher-btn" 

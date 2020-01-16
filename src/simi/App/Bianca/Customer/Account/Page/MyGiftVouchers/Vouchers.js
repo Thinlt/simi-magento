@@ -20,7 +20,6 @@ const GiftVouchers = props => {
         [
             { title: Identify.__("Code"), width: "14.02%" },
             { title: Identify.__("Added Date"), width: "15.67%" },
-            // { title: Identify.__("Ship to"), width: "33.40%" },
             { title: Identify.__("Expired Date"), width: "12.06%" },
             { title: Identify.__("Balance"), width: "12.58%" },
             { title: Identify.__("Status"), width: "12.27%" },
@@ -31,7 +30,6 @@ const GiftVouchers = props => {
         [
             { title: Identify.__("Status"), width: "14.02%" },
             { title: Identify.__("Code"), width: "15.67%" },
-            // { title: Identify.__("Ship to"), width: "33.40%" },
             { title: Identify.__("Order"), width: "12.06%" },
             { title: Identify.__("Changed tieme"), width: "12.58%" },
         ]
@@ -61,7 +59,7 @@ const GiftVouchers = props => {
         setLoading(false);
     } 
 
-    const renderListVoucher = (item,index) => {
+    const renderListVoucher = (item, index) => {
         const addedDate = new Date(item.created_at);
         const expireDate = new Date(item.expired_at);
         return (
@@ -87,15 +85,15 @@ const GiftVouchers = props => {
                 <td data-title={Identify.__("Status")}>
                     {Identify.__(`${item.status}`)}
                 </td>
-                <td data-title={Identify.__("Action")} onClick={() => removeGiftCode(item.id, item.code)}>
+                <td className="action" data-title={Identify.__("Action")} onClick={() => removeGiftCode(item.id, item.code)}>
                     {Identify.__(`Remove`)}   
                 </td>
             </tr>
         )
     }
 
-    const renderHistoryVoucher = (item,index) => {
-        const changedTime = new Date(item.changed_at);
+    const renderHistoryVoucher = (item, index) => {
+        const changedTime = new Date(item.updated_at);
         return (
             <tr key={index}>
                 <td data-title={Identify.__("Status")}>
@@ -123,39 +121,42 @@ const GiftVouchers = props => {
 
     return (
         <React.Fragment>
-            <div className="box-title my-vouchers">
-                {Identify.__("MY GIFT VOUCHERS")}
-            </div>
-            {!giftCode || giftCode.length == 0
-            ?
-                <div className="text-center">
-                    {Identify.__("You have no gift voucher")}
+            <div className="vouchers">
+                <div className="box-title my-vouchers">
+                    {Identify.__("My Gift Vouchers")}
                 </div>
-            :   
-                <PaginationTable
-                    renderItem={renderListVoucher}
-                    cols={cols}
-                    data={giftCode}
-                    limit={5}
-                />
-            }
-
-            <div className="box-title vouchers-history">
-                {Identify.__("HISTORY")}
+                {!giftCode || giftCode.length == 0
+                ?
+                    <div className="text-center">
+                        {Identify.__("You have no gift voucher")}
+                    </div>
+                :   
+                    <PaginationTable
+                        renderItem={renderListVoucher}
+                        cols={cols}
+                        data={giftCode}
+                        limit={5}
+                    />
+                }
             </div>
-            {!historyCodes || historyCodes.length == 0
-            ?
-                <div className="text-center">
-                    {Identify.__("You have no code in your history")}
+            <div className="history">
+                <div className="box-title vouchers-history">
+                    {Identify.__("History")}
                 </div>
-            :   
-                <PaginationTable
-                    renderItem={renderHistoryVoucher}
-                    cols={colsHistory}
-                    data={historyCodes}
-                    limit={4}
-                />
-            }
+                {!historyCodes || historyCodes.length == 0
+                ?
+                    <div className="text-center">
+                        {Identify.__("You have no code in your history")}
+                    </div>
+                :   
+                    <PaginationTable
+                        renderItem={renderHistoryVoucher}
+                        cols={colsHistory}
+                        data={historyCodes}
+                        limit={4}
+                    />
+                }
+            </div>
         </React.Fragment>
     );
 };

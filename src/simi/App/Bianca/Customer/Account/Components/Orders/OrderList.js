@@ -65,7 +65,7 @@ const OrderList = props => {
                     {item.status}
                 </td>
                 <td data-title="">
-                    <Link className="view-order" to={location}>{Identify.__('View order')}</Link>
+                    <Link className="view-order" to={location}>{Identify.__('View Order')}</Link>
                 </td>
                 {/* <td data-title="">
                     <div aria-hidden onClick={()=>{
