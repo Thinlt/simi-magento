@@ -161,7 +161,7 @@ class Griditem extends React.Component {
     renderVendorName = (item) => {
         if (item && item.simiExtraField && item.simiExtraField.attribute_values) {
             const {attribute_values} = item.simiExtraField
-            if (attribute_values && attribute_values.vendor_name) {
+            if (attribute_values && attribute_values.vendor_name && attribute_values.vendor_id !== 'default') {
                 this.vendorName = attribute_values.vendor_name
             }
         }

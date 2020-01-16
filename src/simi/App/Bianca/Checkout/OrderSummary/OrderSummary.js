@@ -10,7 +10,7 @@ import { getOS } from 'src/simi/App/Bianca/Helper';
 
 require('./OrderSummary.scss')
 
-if (getOS() === 'MacOS') require('./OrderSummaryMac.scss');
+if (["MacOS", "iOS"].includes(getOS())) require('./OrderSummaryMac.scss');
 
 const $ = window.$;
 
