@@ -61,7 +61,11 @@
     max-width: unset;
     margin-right: 0;
     .config-page{
+        display: inline-flex!important;
+        align-items: unset!important;
+        justify-content: flex-end!important;
         margin-top: 10px;
+        width: 100%;
     }
 }
 /* Right to left */
