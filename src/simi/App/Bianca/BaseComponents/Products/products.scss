@@ -12,7 +12,7 @@ $colorTitle: #101820;
 .products-gallery-root {
   .title {
     .categoryTitle {
-      margin-top: 32px;
+      margin-top: 0px;
       color: $colorTitle;
       font-family: "Gotham Medium";
       font-size: 24px;
@@ -238,7 +238,8 @@ Sort by
   font-weight: 500;
   line-height: 24px;
   text-align: center;
-  margin-top: 63px;
+  margin-top: 3px;
+  margin-bottom: 31px;
 }
 
 .products-gallery-root .recent-viewed-product .recent-viewed-slide {
@@ -399,7 +400,10 @@ Sort by
     }
   }
   .products-gallery-root .recent-viewed-product .recent-viewed-title {
-    margin-top: 45px;
+    margin-top: 0px;
+    font-size: 20px;
+    line-height: 20px;
+    margin-bottom: 0px;
   }
   .products-gallery-root .recent-viewed-product .recent-viewed-slide {
     min-height: unset;

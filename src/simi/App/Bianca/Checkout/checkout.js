@@ -14,7 +14,7 @@ import { getOS } from 'src/simi/App/Bianca/Helper';
 
 require('./checkout.scss')
 
-if (getOS() === 'MacOS') require('./checkoutMac.scss');
+if (["MacOS", "iOS"].includes(getOS())) require('./checkoutMac.scss');
 
 import { submitShippingAddress, submitBillingAddress, submitOrder, submitShippingMethod } from 'src/simi/Redux/actions/simiactions';
 

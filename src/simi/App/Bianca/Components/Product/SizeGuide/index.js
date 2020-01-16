@@ -8,7 +8,7 @@ import useWindowSize from 'src/simi/App/Bianca/Hooks';
 import Loading from 'src/simi/BaseComponents/Loading';
 
 require('./style.scss');
-if (getOS() === 'MacOS') require('./style-ios.scss');
+if (["MacOS", "iOS"].includes(getOS())) require('./style-ios.scss');
 
 const SizeGuide = (props) => {
     const $ = window.$;
