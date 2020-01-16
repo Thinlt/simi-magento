@@ -6,13 +6,8 @@ import {smoothScrollToView} from "src/simi/Helper/Behavior";
 
 class Abstract extends React.Component{
     render(){
-        const simicartConfig = Identify.getAppDashboardConfigs() !== null ? Identify.getAppDashboardConfigs()
-            : Identify.getAppDashboardConfigsFromLocalFile();
         const merchantConfig = Identify.getStoreConfig();
-        if(simicartConfig
-            && merchantConfig
-            && merchantConfig.simiStoreConfig)
-        {
+        if(merchantConfig) {
             //add rtl
             this.renderRTL(merchantConfig.simiStoreConfig)
         }
@@ -100,7 +95,7 @@ class Abstract extends React.Component{
 
     renderRTL = (simiStoreConfig)=>{
         //add rtl
-        if (simiStoreConfig.config && parseInt(simiStoreConfig.config.base.is_rtl, 10) === 1) {
+        if (simiStoreConfig && simiStoreConfig.config && parseInt(simiStoreConfig.config.base.is_rtl, 10) === 1) {
             try {
                 document.getElementById("root").classList.add("rtl-root");
             }

@@ -69,7 +69,6 @@ class MiniCart extends Component {
     handleClickOutside = (event) => {
         if (this.wrapperMiniCart && this.wrapperMiniCart.current && !this.wrapperMiniCart.current.contains(event.target)) {
             this.props.closeDrawer()
-            $('body').css('overflow','auto')
         }
     }
 
@@ -347,10 +346,6 @@ class MiniCart extends Component {
             isOpen,
             isCartEmpty
         } = props;
-
-        if(isOpen){
-            $('body').css('overflow','hidden');
-        }
 
         const className = `${Identify.isRtl()&&classes.nav_rtl} ${isOpen ? classes.root_open : classes.root}`;
         const body = isOptionsDrawerOpen ? productOptions : miniCartInner;
