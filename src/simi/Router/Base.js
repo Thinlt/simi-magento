@@ -100,6 +100,7 @@ class Abstract extends React.Component{
 
     renderRTL = (simiStoreConfig)=>{
         //add rtl
+        console.log(simiStoreConfig)
         if (simiStoreConfig.config && parseInt(simiStoreConfig.config.base.is_rtl, 10) === 1) {
             try {
                 document.getElementById("root").classList.add("rtl-root");
