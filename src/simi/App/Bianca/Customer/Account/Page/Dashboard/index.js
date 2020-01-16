@@ -92,23 +92,27 @@ const Dashboard = props => {
                 title: Identify.__('Dashboard'),
                 desc: Identify.__('Dashboard') 
             })}
-            {!isPhone ? (
-                    <div className="dashboard-recent-orders">
-                        <div className="customer-page-title">
-                            {Identify.__("Recent Orders")}
-                            <Link className="view-all" to='/orderhistory.html'>{Identify.__("View all")}</Link>
+            {(data.customerOrders && data.customerOrders.items) &&
+                (
+                    !isPhone ? (
+                        <div className="dashboard-recent-orders">
+                            <div className="customer-page-title">
+                                {Identify.__("Recent Orders")}
+                                <Link className="view-all" to='/orderhistory.html'>{Identify.__("View all")}</Link>
+                            </div>
+                            <OrderHistory data={data.customerOrders.items} showForDashboard={true} />
                         </div>
-                        <OrderHistory data={data} showForDashboard={true} />
-                    </div>
-                ) : (
-                    <Link to="/orderhistory.html">
-                        <Whitebtn
-                            text={Identify.__("View recent orders")}
-                            className="view-recent-orders"
-                        />
-                    </Link>
-                    
-            )}
+                        ) : (
+                        <Link to="/orderhistory.html">
+                            <Whitebtn
+                                text={Identify.__("View recent orders")}
+                                className="view-recent-orders"
+                            />
+                        </Link>
+                        
+                    )
+                )
+            }
             <div className='dashboard-acc-information'>
                 <div className='customer-page-title'>
                     {Identify.__("Account Information")}

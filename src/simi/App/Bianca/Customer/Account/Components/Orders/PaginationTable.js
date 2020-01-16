@@ -85,7 +85,7 @@ class PaginationTable extends Pagination {
                     key={number}
                     id={number}
                     onClick={(e)=>this.changePage(e)}
-                    className={`'page-nums' ${active}`}
+                    className={`page-nums ${active}`}
                 >
                     {number}
                 </li>
@@ -116,36 +116,8 @@ class PaginationTable extends Pagination {
                 <li className="icon-page-number" onClick={()=>this.handleChangePage(true, total)}>{nextPageIcon}</li>
             </ul>
         ):'';
-        let {currentPage,limit} = this.state;
-        let lastItem = currentPage * limit;
-        let firstItem = lastItem - limit+1;
-        lastItem = lastItem > totalItem ? totalItem : lastItem;
-        let itemsPerPage = (
-            <div className="icon-page-number">
-                {
-                    this.props.showInfoItem &&
-                    <span style={{marginRight : 10,fontSize : 16}}>
-                        {Identify.__('%a - %b of %c').replace('%a', firstItem).replace('%b', lastItem).replace('%c', totalItem)}
-                    </span>
-                }
-            </div>
-        );
         return (
-            <div className="config-page"
-                 style={{
-                     display : 'flex',
-                     alignItems : 'center',
-                     justifyContent : 'space-between',
-                     clear: 'both',
-                     fontWeight:'500'
-                 }}
-            >
-                <div style={{display:"flex", alignItems:"center"}}>
-                    {itemsPerPage}
-                    <div style={{display:"flex"}}>
-                        {Identify.__("Show")} {this.renderDropDown()}{Identify.__(" per page")}
-                    </div>
-                </div>
+            <div className="config-page"  >
                 {pagesSelection}
             </div>
         )
