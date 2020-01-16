@@ -750,24 +750,6 @@
 
 
 @media (max-width: 1023px) {
-    .customer-dashboard {
-        padding-top: 0;
-        .dashboard-layout {
-            display: block;
-            .dashboard-content {
-                margin-right: 0px;
-                margin-left: 0px;
-            }
-            /* Right to left */
-            .rtl-root .dashboard-content{
-                margin-left: 0px;
-                margin-right: 0px;
-            }
-        }
-    }
-    .dashboard-menu {
-        width: 100%;
-    }
     .customer-dashboard .container {
         padding: 0;
     }
@@ -1148,5 +1130,52 @@ Order history
 
     .product-grid .siminia-product-list-item.first{
         margin-left: 40px;
+    }
+}
+
+.customer-dashboard {
+    &.mobile{
+        padding-top: 0;
+        .dashboard-layout {
+            display: block;
+            .dashboard-menu {
+                display: none;
+            }
+            .dashboard-content {
+                margin-right: 0px;
+                margin-left: 0px;
+                .table-group{
+                    padding: 0px;
+                    font-family: 'Gotham Book';
+                    font-size: 16px;
+                    font-weight: 500;
+                    border: 1px solid #e0e0e0;
+                    .item{
+                        padding: 16px 22px;
+                        &:nth-child(even){
+                            background-color: #f2f2f2;
+                        }
+                        .row-item{
+                            display: grid;
+                            grid-template-columns: auto auto;
+                            .item-label{
+                                font-weight: 700;
+                            }
+                            .item-value{
+                                text-align: right;
+                                a{
+                                    text-decoration: underline;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            /* Right to left */
+            .rtl-root .dashboard-content{
+                margin-left: 0px;
+                margin-right: 0px;
+            }
+        }
     }
 }

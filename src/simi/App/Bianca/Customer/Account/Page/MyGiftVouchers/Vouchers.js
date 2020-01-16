@@ -1,12 +1,13 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
-import PaginationTable from '../../Components/Orders/PaginationTable';
+import Pagination from '../../Components/Pagination';
+import PaginationTable from '../../Components/PaginationTable';
 import Identify from 'src/simi/Helper/Identify';
 import { removeCode } from 'src/simi/Model/Customer';
 
 const GiftVouchers = props => {
-    const { setGiftCode, setLoading } = props;
+    const { setGiftCode, setLoading, isPhone } = props;
     let {giftCode, historyCodes} = props
 
     if(!Array.isArray(giftCode)) {
@@ -62,6 +63,40 @@ const GiftVouchers = props => {
     const renderListVoucher = (item, index) => {
         const addedDate = new Date(item.created_at);
         const expireDate = new Date(item.expired_at);
+        // render on mobile nontable
+        if (isPhone) {
+            return (
+                <div className="item">
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Code")}</div>
+                        <div className="item-value">{Identify.__(`${item.code}`)}</div>
+                    </div>
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Added Date")}</div>
+                        <div className="item-value">{Identify.__(`${formatDate(addedDate)}`)}</div>
+                    </div>
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Expired Date")}</div>
+                        <div className="item-value">{item.expired_at && Identify.__(`${formatDate(expireDate)}`)}</div>
+                    </div>
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Balance")}</div>
+                        <div className="item-value">{Identify.__(`${item.balance}`)}</div>
+                    </div>
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Status")}</div>
+                        <div className="item-value">{Identify.__(`${item.status}`)}</div>
+                    </div>
+                    <div className="row-item">
+                        <div className="item-label"></div>
+                        <div className="item-value">
+                            <a href="#" className="action" onClick={()=>removeGiftCode(item.id, item.code)}>{Identify.__('Remove')}</a>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        // on desktop
         return (
             <tr key={index}>
                 <td data-title={Identify.__("Code")}>
@@ -94,6 +129,30 @@ const GiftVouchers = props => {
 
     const renderHistoryVoucher = (item, index) => {
         const changedTime = new Date(item.updated_at);
+        // render on mobile nontable
+        if (isPhone) {
+            return (
+                <div className="item">
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Status")}</div>
+                        <div className="item-value">{Identify.__(`${item.status}`)}</div>
+                    </div>
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Code")}</div>
+                        <div className="item-value">{Identify.__(`${item.code}`)}</div>
+                    </div>
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Order")}</div>
+                        <div className="item-value">{Identify.__(`${item.order_id}`)}</div>
+                    </div>
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Changed Time")}</div>
+                        <div className="item-value">{item.expired_at && Identify.__(`${formatDate(changedTime)}`)}</div>
+                    </div>
+                </div>
+            );
+        }
+        // on desktop
         return (
             <tr key={index}>
                 <td data-title={Identify.__("Status")}>
@@ -130,7 +189,13 @@ const GiftVouchers = props => {
                     <div className="text-center">
                         {Identify.__("You have no gift voucher")}
                     </div>
-                :   
+                :   isPhone ? 
+                    <Pagination
+                        renderItem={renderListVoucher}
+                        cols={cols}
+                        data={giftCode}
+                        limit={5}
+                    /> :
                     <PaginationTable
                         renderItem={renderListVoucher}
                         cols={cols}
@@ -148,7 +213,13 @@ const GiftVouchers = props => {
                     <div className="text-center">
                         {Identify.__("You have no code in your history")}
                     </div>
-                :   
+                :   isPhone ? 
+                    <Pagination
+                        renderItem={renderHistoryVoucher}
+                        cols={colsHistory}
+                        data={historyCodes}
+                        limit={4}
+                    /> :
                     <PaginationTable
                         renderItem={renderHistoryVoucher}
                         cols={colsHistory}

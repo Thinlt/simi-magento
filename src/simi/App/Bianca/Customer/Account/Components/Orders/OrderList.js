@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 // import Loading from "src/simi/BaseComponents/Loading";
 import Identify from 'src/simi/Helper/Identify'
 import { formatPrice } from 'src/simi/Helper/Pricing';
-import Pagination from './Pagination';
-import PaginationTable from './PaginationTable';
+import Pagination from '../Pagination';
+import PaginationTable from '../PaginationTable';
 import { Link } from 'react-router-dom';
 import defaultClasses from './style.scss'
 import classify from "src/classify";
@@ -36,7 +36,7 @@ const OrderList = props => {
             pathname: "/orderdetails.html/" + item.increment_id,
             state: { orderData: item }
         };
-        // render on mobile nontable
+        // render on mobile nonetable
         if (props.isPhone) {
             return (
                 <div className="item">
