@@ -199,31 +199,31 @@ class CustomerLayout extends React.Component{
         let content = null;
         switch (page) {
             case 'dashboard':
-                content = <Dashboard customer={data} history={this.props.history} isPhone={this.state.isPhone}/>
+                content = <Dashboard customer={data} isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'address-book':
-                content = <AddressBook />
+                content = <AddressBook isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'edit':
-                content = <Profile data={data} history={this.props.history} isPhone={this.state.isPhone}/>
+                content = <Profile data={data} isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'size-chart':
-                content = <SizeChart data={data} history={this.props.history} isPhone={this.state.isPhone}/>
+                content = <SizeChart data={data} isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'my-order':
                 content = <MyOrder data={data} isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'newsletter':
-                content = <Newsletter />
+                content = <Newsletter isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'order-detail':
-                content = <OrderDetail  history={this.props.history} isPhone={this.state.isPhone}/>
+                content = <OrderDetail isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'wishlist':
-                content = <Wishlist history={this.props.history} />
+                content = <Wishlist isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'giftvoucher':
-                content = <MyGiftVouchers history={this.props.history}/>
+                content = <MyGiftVouchers isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'mytrytobuy':
                 content = <Mytrytobuy history={this.props.history}/>
@@ -246,7 +246,7 @@ class CustomerLayout extends React.Component{
     }
 
     render() {
-        const {page}= this.state;
+        const {page, isPhone}= this.state;
         const {isSignedIn, history} = this.props
         this.pushTo = '/login.html';
         if(!isSignedIn){
@@ -266,7 +266,7 @@ class CustomerLayout extends React.Component{
                         </div>
                         <div className="dashboard-layout">
                             {this.renderMenu()}
-                            <div className='dashboard-content'>
+                            <div className={`dashboard-content ${isPhone?'mobile':''}`}>
                                 {this.renderContent()}
                             </div>
                         </div>

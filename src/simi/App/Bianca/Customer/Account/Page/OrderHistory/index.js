@@ -1,5 +1,5 @@
-import React,  { useState } from 'react';
-import OrderHistory from 'src/simi/App/Bianca/Customer/Account/Components/Orders/OrderList';
+import React, { useState, useEffect } from 'react';
+import OrderHistory from '../../Components/Orders/OrderList';
 import Identify from "src/simi/Helper/Identify";
 import Loading from "src/simi/BaseComponents/Loading";
 import TitleHelper from 'src/simi/Helper/TitleHelper';
@@ -26,7 +26,7 @@ const MyOrder = props => {
                     {Identify.__("My Orders")}
                 </div>
                 <div className='account-my-orders'>
-                    <OrderHistory data={data.orders} showForDashboard={false} />
+                    <OrderHistory data={data.orders} showForDashboard={false} isPhone={props.isPhone}/>
                 </div>
             </div>
         </div>
