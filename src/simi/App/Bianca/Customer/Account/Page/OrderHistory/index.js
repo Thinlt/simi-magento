@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import OrderHistory from 'src/simi/App/Bianca/Customer/Account/Components/Orders/OrderList';
+import OrderHistory from '../../Components/Orders/OrderList';
 import Identify from "src/simi/Helper/Identify";
 import Loading from "src/simi/BaseComponents/Loading";
 import { simiUseQuery } from 'src/simi/Network/Query'
@@ -36,7 +36,7 @@ const MyOrder = props => {
                     {Identify.__("My Orders")}
                 </div>
                 <div className='account-my-orders'>
-                    <OrderHistory data={data} showForDashboard={false} />
+                    <OrderHistory data={data} showForDashboard={false} isPhone={props.isPhone} />
                 </div>
             </div>
         </div>

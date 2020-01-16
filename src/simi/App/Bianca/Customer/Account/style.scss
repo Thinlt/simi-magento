@@ -742,15 +742,21 @@
 @media (max-width: 767px) {
     .customer-dashboard {
         padding-top: 0;
-    }
-    .dashboard-layout {
-        display: block;
+        .dashboard-layout {
+            display: block;
+            .dashboard-content {
+                margin-right: 0px;
+                margin-left: 0px;
+            }
+            /* Right to left */
+            .rtl-root .dashboard-content{
+                margin-left: 0px;
+                margin-right: 0px;
+            }
+        }
     }
     .dashboard-menu {
         width: 100%;
-    }
-    .dashboard-content{
-        margin-left: 0px !important;
     }
     .customer-dashboard .container {
         padding: 0;
@@ -1089,55 +1095,18 @@
 .is-invalid {
     border-color: #d7282f;
 }
-
 .email-not-edit {
     color: #d7282f;
     text-align: center;
     margin-top: 10px;
 }
-
-@media (max-width: 359px) {
-    .form-address-row .checkbox-item .checkbox-item-text{
-        margin-right: -22px;
-    }
-}
 /*
 Order history
 */
-
 .my-order{
     .table-siminia > tbody > tr{
         font-size: 14px;
         font-weight: 500;
-    }
-}
-
-@media (max-width: 1024px) {
-    .table-siminia > tbody > tr > td,
-    .table-siminia > tbody > tr > th,
-    .table-siminia > tfoot > tr > td,
-    .table-siminia > tfoot > tr > th,
-    .table-siminia > thead > tr > td,
-    .table-siminia > thead > tr > th {
-        padding: 8px 8px;
-    }
-
-    .table-siminia > tbody > tr{
-        font-size: 14px;
-        font-weight: 500;
-    }
-
-    .dashboard-content {
-        margin-right: 20px;
-        margin-left: 20px;
-    }
-
-    .dash-column-box .email {
-        word-break: break-all;
-    }
-
-    .dash-column-box .edit-information {
-        margin-top: 10px;
     }
 }
 
@@ -1153,13 +1122,6 @@ Order history
     margin-top: 16px;
     vertical-align: top;
     width: 48%;
-}
-
-@media (min-width: 1024px) {
-    .product-grid .siminia-product-list-item{
-        width: 25%;
-        padding-left: 22px;
-    }
 }
 
 @media (min-width: 1920px) {
