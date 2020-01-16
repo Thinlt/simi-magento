@@ -2,6 +2,9 @@ import React from 'react'
 import Identify from "src/simi/Helper/Identify";
 import {cateUrlSuffix} from 'src/simi/Helper/Url';
 import Scroller from "./Scroller";
+import {smoothScrollToView} from 'src/simi/Helper/Behavior';
+
+const $ = window.$;
 
 const Designers = props => {
     const { history, isPhone} = props;
@@ -31,14 +34,17 @@ const Designers = props => {
     }
 
     const actionViewAll = () => {
-        history.push('/designers' + cateUrlSuffix());
+        smoothScrollToView($('#siminia-main-page'), 350);
+        setTimeout(()=>{
+            history.push('/designers' + cateUrlSuffix());
+        }, 350);
     }
 
-    const lastItems = (
-        <div className="last-items">
+    const lastItems = [(
+        <div className="last-items" key={Identify.randomString(3)}>
             <div className="btn" onClick={actionViewAll}><span>{Identify.__('View all')}</span></div>
         </div>
-    );
+    )];
 
     return (
         <div className={`brand-slider ${isPhone ? 'phone-view':''}`}>

@@ -39,3 +39,10 @@ $colorSubTitle : #727272;
     color: $colorSubTitle;
     text-transform: uppercase;
 }
+
+.rtl-root {
+    .left-account-menu .menu-item{
+        margin-right: -5px;
+        padding-right: 33px;
+    }
+}

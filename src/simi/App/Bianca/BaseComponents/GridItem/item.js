@@ -161,7 +161,7 @@ class Griditem extends React.Component {
     renderVendorName = (item) => {
         if (item && item.simiExtraField && item.simiExtraField.attribute_values) {
             const {attribute_values} = item.simiExtraField
-            if (attribute_values && attribute_values.vendor_name) {
+            if (attribute_values && attribute_values.vendor_name && attribute_values.vendor_id !== 'default') {
                 this.vendorName = attribute_values.vendor_name
             }
         }
@@ -257,26 +257,27 @@ class Griditem extends React.Component {
                 text={Identify.__('Add to Cart')} />
         )
         if (item.simiExtraField && item.simiExtraField.attribute_values) {
-            if (parseInt(item.simiExtraField.attribute_values.pre_order)) {
-                addToCartBtn = (
-                    <Colorbtn
-                        style={{ backgroundColor: '#101820', color: '#FFF' }}
-                        className="add-to-cart-btn"
-                        onClick={() => addToCart(true)}
-                        text={Identify.__('Pre-order')} />
-                )
-                const storeConfig = Identify.getStoreConfig()
-                const { config } = storeConfig && storeConfig.simiStoreConfig || {};
-                const { preorder_deposit } = config;
-                if (preorder_deposit)
-                    depositText = (<p className="item-deposit">{Identify.__(`Deposit ${preorder_deposit}%`)}</p>)
-            } else if (!parseInt(item.simiExtraField.attribute_values.is_salable)) {
-                addToCartBtn = (
-                    <Colorbtn
-                        style={{ backgroundColor: '#101820', color: '#FFF', opacity: 0.5 }}
-                        className="add-to-cart-btn"
-                        text={Identify.__('Out of stock')} />
-                )
+            if (!parseInt(item.simiExtraField.attribute_values.is_salable)) {
+                if (parseInt(item.simiExtraField.attribute_values.pre_order)) {
+                    addToCartBtn = (
+                        <Colorbtn
+                            style={{ backgroundColor: '#101820', color: '#FFF' }}
+                            className="add-to-cart-btn"
+                            onClick={() => addToCart(true)}
+                            text={Identify.__('Pre-order')} />
+                    )
+                    const storeConfig = Identify.getStoreConfig()
+                    const { config } = storeConfig && storeConfig.simiStoreConfig || {};
+                    const { preorder_deposit } = config;
+                    if (preorder_deposit)
+                        depositText = (<p className="item-deposit">{Identify.__(`Deposit ${preorder_deposit}%`)}</p>)
+                } else
+                    addToCartBtn = (
+                        <Colorbtn
+                            style={{ backgroundColor: '#101820', color: '#FFF', opacity: 0.5 }}
+                            className="add-to-cart-btn"
+                            text={Identify.__('Out of stock')} />
+                    )
             }
         }
         

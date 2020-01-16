@@ -66,7 +66,7 @@ class Cart extends Component {
         const { getCartDetails } = this.props;
         getCartDetails();
     }
-    
+
     get cartId() {
         const { cart } = this.props;
 
@@ -361,7 +361,7 @@ class Cart extends Component {
     }
 
     get miniCartInner() {
-        const {isLoading} = this.state
+        const {isLoading} = this.props.cart;
         const {
             productList,
             props,
@@ -376,7 +376,7 @@ class Cart extends Component {
         } = props;
         if (
             isCartEmpty ||
-            !this.state.items ||
+            !cart.details.items ||
             !parseInt(cart.details.items_count)
         ) {
             if (isLoading) return <Loading />;

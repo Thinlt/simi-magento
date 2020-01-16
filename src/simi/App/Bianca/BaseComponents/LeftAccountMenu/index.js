@@ -43,11 +43,39 @@ const listAccountMenu = [
         sort_order: 50
     },
     {
-        title: 'Favourites',
+        title: 'Wishlist',
         url: '/wishlist.html',
         page: 'wishlist',
         enable: true,
         sort_order: 60
+    },
+    {
+        title : Identify.__('My Gift Vouchers'),
+        url : '/mygiftvouchers.html',
+        page : 'giftvoucher',
+        enable : true,
+        sort_order : 80
+    },
+    {
+        title : Identify.__('My Reserved Products'),
+        url : '/account.html',
+        page : 'newsletter',
+        enable : true,
+        sort_order : 90
+    },
+    {
+        title : Identify.__('My Try & Buy Products'),
+        url : '/mytrytobuy.html',
+        page : 'mytrytobuy',
+        enable : true,
+        sort_order : 100
+    },
+    {
+        title : Identify.__('Logout'),
+        url : '/logout.html',
+        page : 'logout',
+        enable : true,
+        sort_order : 110
     }
 ]
 

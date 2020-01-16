@@ -14,23 +14,6 @@ class PaginationTable extends Pagination {
         this.endPage = this.startPage + 2;
     }
 
-    renderColumnTitle = () => {
-        let data = this.props.cols;
-        if(data.length > 0){
-            let columns = data.map((item, index)=>{
-                return <th key={index} width={item.width?item.width: ''} >{Identify.__(item.title)}</th>
-            });
-            return (
-                <thead>
-                    <tr>
-                        {columns}
-                    </tr>
-                </thead>
-            ) 
-            
-        }
-    }
-
     componentDidUpdate(prevProps){
         if(this.props.limit !== prevProps.limit){
             this.setState({limit: this.props.limit})
@@ -85,7 +68,7 @@ class PaginationTable extends Pagination {
                     key={number}
                     id={number}
                     onClick={(e)=>this.changePage(e)}
-                    className={`page-nums ${active}`}
+                    className={`'page-nums' ${active}`}
                 >
                     {number}
                 </li>
@@ -116,8 +99,36 @@ class PaginationTable extends Pagination {
                 <li className="icon-page-number" onClick={()=>this.handleChangePage(true, total)}>{nextPageIcon}</li>
             </ul>
         ):'';
+        let {currentPage,limit} = this.state;
+        let lastItem = currentPage * limit;
+        let firstItem = lastItem - limit+1;
+        lastItem = lastItem > totalItem ? totalItem : lastItem;
+        let itemsPerPage = (
+            <div className="icon-page-number">
+                {
+                    this.props.showInfoItem &&
+                    <span style={{marginRight : 10,fontSize : 16}}>
+                        {Identify.__('%a - %b of %c').replace('%a', firstItem).replace('%b', lastItem).replace('%c', totalItem)}
+                    </span>
+                }
+            </div>
+        );
         return (
-            <div className="config-page"  >
+            <div className="config-page"
+                 style={{
+                     display : 'flex',
+                     alignItems : 'center',
+                     justifyContent : 'space-between',
+                     clear: 'both',
+                     fontWeight:'500'
+                 }}
+            >
+                <div style={{display:"flex", alignItems:"center"}}>
+                    {itemsPerPage}
+                    <div style={{display:"flex"}}>
+                        {Identify.__("Show")} {this.renderDropDown()}{Identify.__(" per page")}
+                    </div>
+                </div>
                 {pagesSelection}
             </div>
         )
@@ -137,10 +148,9 @@ class PaginationTable extends Pagination {
             let total = data.length;
             return (
                 <React.Fragment>
-                    <table className='col-xs-12 table-striped table-siminia'>
-                        {this.renderColumnTitle()}
-                        <tbody>{items}</tbody>
-                    </table>
+                    <div className='col-xs-12 table-siminia table-group'>
+                        {items}
+                    </div>
                     {this.renderPageNumber(total)}
                 </React.Fragment>
             )

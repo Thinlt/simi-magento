@@ -2,15 +2,14 @@ import React, {useState} from 'react';
 // import Loading from "src/simi/BaseComponents/Loading";
 import Identify from 'src/simi/Helper/Identify'
 import { formatPrice } from 'src/simi/Helper/Pricing';
+import Pagination from './Pagination';
 import PaginationTable from './PaginationTable';
 import { Link } from 'react-router-dom';
 import defaultClasses from './style.scss'
 import classify from "src/classify";
-import { getReOrder } from '../../../../../../Model/Orders';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { connect } from 'src/drivers';
 import { compose } from 'redux';
-import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 
 const OrderList = props => {
     const { showForDashboard, data } = props
@@ -20,19 +19,12 @@ const OrderList = props => {
         [
             { title: Identify.__("Order #"), width: "14.02%" },
             { title: Identify.__("Date"), width: "15.67%" },
-            // { title: Identify.__("Ship to"), width: "33.40%" },
             { title: Identify.__("Total"), width: "12.06%" },
             { title: Identify.__("Status"), width: "12.58%" },
             { title: Identify.__("Action"), width: "12.27%" },
         ];
-    // const limit = 2;
+
     const currentPage = 1;
-    const processData = (data) => {
-        if(data){
-            hideFogLoading();
-            props.toggleMessages([{type:'success', message: data.message}])    
-        }
-    }
 
     const renderOrderItem = (item, index) => {
         let date = Date.parse(item.created_at);
@@ -40,11 +32,40 @@ const OrderList = props => {
         let m = date.getMonth() + 1;
         m = m < 10 ? "0" + m : m;
         date = date.getDate() + "/" + m + "/" + date.getFullYear();
-        console.log(item)
         const location = {
             pathname: "/orderdetails.html/" + item.increment_id,
             state: { orderData: item }
         };
+        // render on mobile nontable
+        if (props.isPhone) {
+            return (
+                <div className="item">
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Order #")}</div>
+                        <div className="item-value">{Identify.__(item.increment_id)}</div>
+                    </div>
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Date")}</div>
+                        <div className="item-value">{date}</div>
+                    </div>
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Total")}</div>
+                        <div className="item-value">{formatPrice(item.grand_total)}</div>
+                    </div>
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Status")}</div>
+                        <div className="item-value">{item.status}</div>
+                    </div>
+                    <div className="row-item">
+                        <div className="item-label"></div>
+                        <div className="item-value">
+                            <Link className="view-order" to={location}>{Identify.__('View Order')}</Link>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        // on desktop
         return (
             <tr key={index}>
                 <td data-title={Identify.__("Order #")}>
@@ -55,9 +76,6 @@ const OrderList = props => {
                 >
                     {date}
                 </td>
-                {/* <td data-title={Identify.__("Ship to")}>{`${
-                    item.customer_firstname
-                }  ${item.customer_lastname}`}</td> */}
                 <td data-title={Identify.__("Total")}>
                     {formatPrice(item.grand_total)}
                 </td>
@@ -65,31 +83,37 @@ const OrderList = props => {
                     {item.status}
                 </td>
                 <td data-title="">
-                    <Link className="view-order" to={location}>{Identify.__('View order')}</Link>
+                    <Link className="view-order" to={location}>{Identify.__('View Order')}</Link>
                 </td>
-                {/* <td data-title="">
-                    <div aria-hidden onClick={()=>{
-                        showFogLoading();
-                        getReOrder(item.increment_id,processData)
-                    }} className="view-order">{Identify.__('Re-order')}</div>
-                </td> */}
             </tr>
         )
     }
     let listOrder = [];
-    if(data.hasOwnProperty('customerOrders') && data.customerOrders.items instanceof Array && data.customerOrders.items.length > 0){
-        listOrder = data.customerOrders.items.sort((a,b)=>{
-            return  b.id - a.id
+    if(data){
+        listOrder = data.sort((a,b)=>{
+            return  (b.entity_id)? (b.entity_id - a.entity_id):(b.id - a.id)
         })
     }
     return (
         <div className='customer-recent-orders'>
-            {!data || !data.hasOwnProperty('customerOrders') || data.customerOrders.items.length === 0
+            {!data|| data.length === 0
                 ? (
                     <div className="text-center">
                         {Identify.__("You have no items in your order")}
                     </div>
                 ) : (
+                    props.isPhone ? 
+                    <Pagination
+                        renderItem={renderOrderItem}
+                        data={showForDashboard ? listOrder.slice(0, 5) : listOrder}
+                        cols={cols}
+                        showPageNumber={!showForDashboard}
+                        limit={typeof(limit) === 'string' ? parseInt(limit): limit}
+                        setLimit={setLimit}
+                        currentPage={currentPage}
+                        title={title}
+                        setTitle={setTitle}
+                    /> :
                     <PaginationTable
                         renderItem={renderOrderItem}
                         data={showForDashboard ? listOrder.slice(0, 5) : listOrder}

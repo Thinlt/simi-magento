@@ -7,7 +7,7 @@ import LoadingSpiner from 'src/simi/BaseComponents/Loading/LoadingSpiner'
 import { withRouter } from 'react-router-dom';
 import ProductList from './ProductList';
 import Identify from 'src/simi/Helper/Identify';
-import * as Constants from 'src/simi/Config/Constants';
+// import * as Constants from 'src/simi/Config/Constants';
 import { getOS } from 'src/simi/App/Bianca/Helper';
 import Designers from './Designers';
 import Newcollections from './Newcollections';

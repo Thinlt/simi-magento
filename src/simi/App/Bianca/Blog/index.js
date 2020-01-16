@@ -114,16 +114,11 @@ class Blog extends React.Component {
     renderContent = (data) => {
         let html = null;
         if (data.length) {
-            let first = true
-            const storeId = this.storeConfig.storeConfig.id.toString()
             html = data.map((item, index) => {
-                if (item.store_ids && item.store_ids.length && item.store_ids.includes(storeId)) {
-                    if (first) {
-                        first = false
-                        return <div key={index} className="special-post col-md-12">{this.renderSpecialPost(item)}</div>
-                    }
-                    return <div className="col-xs-12 col-sm-6 col-md-4" key={index}><BlogItem item={item} /></div>
+                if (index === 0) {
+                    return <div key={index} className="special-post col-md-12">{this.renderSpecialPost(item)}</div>
                 }
+                return <div className="col-xs-12 col-sm-6 col-md-4" key={index}><BlogItem item={item} /></div>
             });
         }
         return html;
@@ -143,7 +138,7 @@ class Blog extends React.Component {
         }
     }
 
-    renderLatest = (posts) => {
+    renderList = (posts) => {
         let html = null;
         if (posts instanceof Array && posts.length) {
             html = posts.map(post => {
@@ -187,6 +182,14 @@ class Blog extends React.Component {
             }
         ];
 
+        const articles = []
+        const storeId = this.storeConfig.storeConfig.id.toString()
+        data.articles.map(post => {
+            if (post.store_ids && post.store_ids.length && post.store_ids.includes(storeId)) {
+                articles.push(post)
+            }
+        })
+
         return (
             <React.Fragment>
                 {config && TitleHelper.renderMetaHeader({
@@ -201,13 +204,13 @@ class Blog extends React.Component {
                                 <div className="blog-left-col col-md-3">
                                     {isPhone ? '' : <React.Fragment>
                                         <div className="latest-title">{Identify.__("Latest Posts")}</div>
-                                        {this.renderLatest(data.latest_posts)}
+                                        {this.renderList(articles)}
                                     </React.Fragment>}
                                 </div>
                                 <div className="blog-main-col col-md-9">
                                     <div className="blog-article-content">
                                         <div className="blog-grid row">
-                                            {this.renderContent(data.articles)}
+                                            {this.renderContent(articles)}
                                         </div>
                                         {((parseInt(this.limit, 10) + parseInt(this.offset, 10)) < parseInt(this.total, 10)) ? <div id="blog-items-load-more"><LoadingMore divStyle={{marginTop: 5}} /></div> : ''}
                                     </div>

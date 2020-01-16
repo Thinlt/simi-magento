@@ -8,7 +8,7 @@ import useWindowSize from 'src/simi/App/Bianca/Hooks';
 import Loading from 'src/simi/BaseComponents/Loading';
 
 require('./style.scss');
-if (getOS() === 'MacOS') require('./style-ios.scss');
+if (["MacOS", "iOS"].includes(getOS())) require('./style-ios.scss');
 
 const SizeGuide = (props) => {
     const $ = window.$;
@@ -75,6 +75,7 @@ const SizeGuide = (props) => {
                 closeIconId={'size_guide-modal-close'}
                 closeIconSize={16}
                 closeIconSvgPath={<CloseIcon style={{fill: '#101820'}}/>}
+                classNames={{overlay: Identify.isRtl()?"rtl-root":""}}
             >
             <div className={`size-guide ${isPhone ? 'mobile':''}`}>
                 <div className="title"><h3 className="_text_ios">{Identify.__('Size Guide')}</h3></div>

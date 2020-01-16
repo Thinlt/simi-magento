@@ -9,7 +9,7 @@ const Shopbybrand = props => {
         let breadcrumb = false
         try {
             const filter = JSON.parse(Identify.findGetParameter('filter'))
-            const brands = storeConfig.simiStoreConfig.config.brands=
+            const brands = storeConfig.simiStoreConfig.config.brands
             brands.map(brand => {
                 if (brand.option_id === filter.brand)
                     foundBrand = brand

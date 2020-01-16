@@ -11,13 +11,13 @@ require('./recentViewed.scss');
 
 const responsive = {
     superLargeDesktop: {
-      breakpoint: { max: 4000, min: 1470 },
+      breakpoint: { max: 4000, min: 1900 },
       items: 5,
       chevronWidth: 72,
       iconWidth: 48
     },
     desktop: {
-      breakpoint: { max: 1470, min: 1176 },
+      breakpoint: { max: 1900, min: 1176 },
       items: 4,
       chevronWidth: 72,
       iconWidth: 48
@@ -30,13 +30,14 @@ const responsive = {
     },
     mobile: {
       breakpoint: { max: 588, min: 0 },
-      items: 1,
+      items: 2,
       chevronWidth: 20,
       iconWidth: 16
     },
 };
 
 const RecentViewed = props => {
+    const isPhone = window.innerWidth < 1024 
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const {width} = useWindowSize();
     const maxItem = 8 //max 10 items
@@ -70,24 +71,26 @@ const RecentViewed = props => {
             }
             return false;
         });
-        let numberCards = 4, chevWidth = 72, iconWidth = 24; // default values
+        let numberCards = 4, chevWidth = 72, iconWidth = 24, gutter=isPhone?11:16; // default values
         if (breakPoint.items) {
             numberCards = breakPoint.items;
             chevWidth = breakPoint.chevronWidth;
             iconWidth = breakPoint.iconWidth;
+            if (breakPoint.gutter) gutter = breakPoint.gutter;
         }
+    
 
         return (
             <React.Fragment>
-                <div className="recent-viewed-title">
-                    {Identify.__('Recently Viewed Products')}
-                </div>
                 <div className="recent-viewed-slide">
                     <div className="recent-product-ctn">
+                        <div className="recent-viewed-title">
+                            {Identify.__('Recently Viewed Products')}
+                        </div>
                         <div className="recent-products">
                             <ItemsCarousel
                                 infiniteLoop={false}
-                                gutter={16} //Space between cards.
+                                gutter={gutter}
                                 firstAndLastGutter={false}
                                 activePosition={'center'}
                                 chevronWidth={chevWidth}
@@ -101,6 +104,7 @@ const RecentViewed = props => {
                                 requestToChangeActive={setActiveItemIndex}
                                 leftChevron={<ChevronLeft className="chevron-left" style={{width: `${iconWidth}px`}} />}
                                 rightChevron={<ChevronRight className="chevron-right" style={{width: `${iconWidth}px`}} />}
+                                classes={{ wrapper: "wrapper", itemsWrapper: 'items-wrapper', itemsInnerWrapper: 'items-inner-wrapper', itemWrapper: 'item-wrapper', rightChevronWrapper: 'right-chevron-wrapper', leftChevronWrapper: 'left-chevron-wrapper' }}
                             >
                                 {recentProducts}
                             </ItemsCarousel>

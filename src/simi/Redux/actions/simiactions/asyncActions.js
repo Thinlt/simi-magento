@@ -311,9 +311,6 @@ export const submitOrder = () =>
         }
 
         try {
-            //simi remove last order id
-            Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, 'last_order_info', false)
-
             // POST to payment-information to submit the payment details and billing address,
             // Note: this endpoint also actually submits the order.
             const guestPaymentEndpoint = `/rest/V1/guest-carts/${cartId}/payment-information`;

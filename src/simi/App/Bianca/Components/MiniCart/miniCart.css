@@ -27,7 +27,22 @@
 /* state: open */
 
 .root_open {
-    composes: root;
+    --base-z-index: 4;
+    --minicart-header-height: 3.5rem;
+    align-content: start;
+    background-color: white;
+    bottom: 0;
+    box-shadow: -1px 0 rgb(var(--venia-border));
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    overflow: hidden;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transition-property: opacity, transform, visibility;
+    width: 100%;
+    max-width: 614px;
+    z-index: 99999;
     opacity: 1;
     transform: translate3d(0, 0, 0);
     transition-duration: 224ms;
@@ -35,8 +50,18 @@
     visibility: visible;
 }
 
+.root.nav_rtl {
+    transform: translate3d(-100%, 0, 0);
+    transition-duration: 0ms;
+}
+.root_open.nav_rtl {
+    left: 0;
+    right: unset;
+}
+
+
 .body {
-    overflow: auto;
+    
 }
 
 .titleSummary{
@@ -50,7 +75,6 @@
     --minicart-footer-padding-top: 1.5rem;
     --minicart-footer-padding-bottom: 0.5rem;
     background-color: #E4E4E4;
-    overflow: auto;
 }
 
 .summary{
@@ -68,7 +92,7 @@
     display: grid;
     grid-auto-flow: column;
     grid-template-columns: 1fr;
-    padding: 0 57px;
+    padding: 0 28px;
     margin: 40px 0 51px;
 }
 
@@ -142,6 +166,7 @@
     width: 252px;
     height: 48px;
     margin-right: 16px;
+    font-weight: 500;
 }
 
 .checkoutBtn{
@@ -151,4 +176,12 @@
     color: #FFF;
     width: 252px;
     height: 48px;
+    font-weight: 500;
+}
+
+.grandPrice{
+    font-size: 24px;
+    line-height: 24px;
+    font-family: Gotham Medium;
+    padding-top: 12px;
 }

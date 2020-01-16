@@ -198,6 +198,20 @@ class ProductFullDetail extends Component {
         return params
     }
 
+    checkLogin = (params) => {
+        // check login for try-to-buy or pre-order
+        if (parseInt(params.pre_order) === 1 || parseInt(params.try_to_buy) === 1) {
+            if (!this.props.isSignedIn) {
+                // showToastMessage(Identify.__('Please login first'));
+                setTimeout(()=>{
+                    this.props.history.push({pathname: '/login.html', pushTo: this.props.history.location.pathname});
+                }, 10);
+                return false;
+            }
+        }
+        return true;
+    }
+
     addToCart = () => {
         const { props } = this;
         const { product } = props;
@@ -208,19 +222,12 @@ class ProductFullDetail extends Component {
                 showToastMessage(Identify.__('Please select the options required (*)'));
                 return
             }
+            // check login
+            if(!this.checkLogin(params)) return;
             showFogLoading()
             simiAddToCart(this.addToCartCallBack, params)
         }
     };
-
-    preorderAction = () => {
-        this.addToCartWithParams({pre_order: '1'})
-    }
-
-    buy1ClickAction = (cartParams) => {
-        this.addToCartWithParams(cartParams);
-        this.isBuy1Click = true;
-    }
 
     addToCartWithParams = (data = {}) => {
         const { product } = this.props;
@@ -231,6 +238,8 @@ class ProductFullDetail extends Component {
                 showToastMessage(Identify.__('Please select the options required (*)'));
                 return
             }
+            // check login
+            if(!this.checkLogin(params)) return;
             showFogLoading()
             simiAddToCart(this.addToCartCallBack, params)
             this.isPreorder = false;
@@ -243,6 +252,15 @@ class ProductFullDetail extends Component {
             }
         }
     };
+
+    preorderAction = () => {
+        this.addToCartWithParams({pre_order: '1'})
+    }
+
+    buy1ClickAction = (cartParams) => {
+        this.addToCartWithParams(cartParams);
+        this.isBuy1Click = true;
+    }
 
     addToCartCallBack = (data) => {
         hideFogLoading()
@@ -267,7 +285,7 @@ class ProductFullDetail extends Component {
     addToWishlist = () => {
         const {product, isSignedIn, history} = this.props
         if (!isSignedIn) {
-            history.push('/login.html')
+            history.push({pathname: '/login.html', pushTo: this.props.history.location.pathname})
         } else if (product && product.id) {
             this.missingOption = false
             const params = this.prepareParams()
@@ -392,7 +410,7 @@ class ProductFullDetail extends Component {
         }
         regData.request_info = params;
         if (!this.props.isSignedIn) {
-            this.props.history.push('/login.html');
+            this.props.history.push({pathname: '/login.html', pushTo: this.props.history.location.pathname});
         }
         regData.customer_id = this.props.customerId;
         regData.customer_name = this.props.customerLastname ? this.props.customerFirstname : `${this.props.customerFirstname} ${this.props.customerLastname}`;
@@ -476,7 +494,8 @@ class ProductFullDetail extends Component {
                 if (_optionColor && _optionColor.values) {
                     optionColor.options.map(item => {
                         let option = _optionColor.values.find(_optItem => _optItem.value_index === parseInt(item.id));
-                        return option.option_value = item.option_value;
+                        if (option) option.option_value = item.option_value;
+                        return option;
                     })
                 }
             }
@@ -655,7 +674,7 @@ class ProductFullDetail extends Component {
                 text={Identify.__('Add to Cart')} />
         )
         if (simiExtraField && simiExtraField.attribute_values) {
-            if (parseInt(pre_order)) {
+            if (parseInt(pre_order) && !isProductConfigurable(props.product)) {
                 addToCartBtn = (
                     <Colorbtn
                         style={{ backgroundColor: '#101820', color: '#FFF' }}
@@ -812,7 +831,8 @@ class ProductFullDetail extends Component {
                 }
                 {/* <LinkedProduct product={product} link_type="crosssell" history={this.props.history}/> */}
                 <Modal open={this.state.reserveModalMessage} onClose={this.onCloseReserveModalMessage}
-                    modalId={'reserve-modal-message'}
+                    modalId={'reserve-modal-message'} 
+                    classNames={{overlay: Identify.isRtl()?"rtl-root":""}}
                     closeIconId={'reserve-modal-close'}
                     closeIconSize={16}
                     closeIconSvgPath={<CloseIcon style={{fill: '#101820'}}/>}
@@ -822,6 +842,7 @@ class ProductFullDetail extends Component {
                 <Modal open={this.state.openModal} onClose={this.onCloseReserve}
                     overlayId={'reserve-modal-overlay'}
                     modalId={'reserve-modal'}
+                    classNames={{overlay: Identify.isRtl()?"rtl-root":""}}
                     closeIconId={'reserve-modal-close'}
                     closeIconSize={16}
                     closeIconSvgPath={<CloseIcon style={{fill: '#101820'}}/>}
@@ -893,6 +914,7 @@ class ProductFullDetail extends Component {
                 {
                     this.state.isErrorPreorder && 
                     <Modal open={this.state.isErrorPreorder} onClose={this.onCloseErrorPopup}
+                        classNames={{overlay: Identify.isRtl()?"rtl-root":""}}
                         overlayId={'error-modal-overlay'}
                         modalId={'error-modal'}
                         closeIconSvgPath={''}

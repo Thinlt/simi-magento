@@ -35,11 +35,13 @@ class AppRouter extends Abstract{
                 <Route exact {...router.logout}/>
                 <Route exact {...router.customer_reset_password}/>
                 <Route exact {...router.contact}/>
+                <Route exact {...router.clothing_alterations}/>
                 <Route exact {...router.preorder2nd}/>
                 <Route exact {...router.webview}/>
                 <Route exact {...router.storelocator}/>
                 <Route exact {...router.shopbybrand}/>
                 <Route exact {...router.blog}/>
+                <Route exact {...router.mytrytobuy}/>
                 {/*this.renderPbRoute()*/}
                 <Route {...router.noMatch}/>
             </Switch>

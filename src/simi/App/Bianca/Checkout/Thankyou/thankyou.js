@@ -14,7 +14,7 @@ require('./thankyou.scss')
 
 const Thankyou = props => {
     const {  history, order, isSignedIn } = props;
-    let padOrderId = (order && order.id) ? Identify.PadWithZeroes(order.id, 9) : Identify.findGetParameter('order_increment_id')
+    let padOrderId = null
     const last_cart_info = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'last_cart_info');
     const last_order_info = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'last_order_info');
     const [orderIncIdFromAPI, setOrderIncFromAPI] = useState(false)
@@ -30,7 +30,7 @@ const Thankyou = props => {
 
     }
 
-    if (!padOrderId && last_order_info) {
+    if (last_order_info) {
         if (orderIncIdFromAPI)
             padOrderId = orderIncIdFromAPI
         else {

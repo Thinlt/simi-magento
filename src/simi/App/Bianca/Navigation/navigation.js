@@ -24,10 +24,10 @@ const Navigation = props => {
         Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null)
     }
 
-    // useEffect(() => {
-    //     if (isSignedIn && (!currentUser || !currentUser.email)) //get user detail when missing (from refreshing)
-    //         getUserDetails();
-    // }, []);
+    useEffect(() => {
+        if (isSignedIn && (!currentUser || !currentUser.email)) //get user detail when missing (from refreshing)
+            getUserDetails();
+    }, []);
 
     const [isPhone, setIsPhone] = useState(window.innerWidth < 1024)
 
@@ -107,7 +107,7 @@ const Navigation = props => {
         drawer,
     } = props;
     const isOpen = drawer === 'nav';
-    const className = isOpen ? classes.root_open : classes.root;
+    const className = `${Identify.isRtl()&&classes.nav_rtl} ${isOpen ? classes.root_open : classes.root}`;
     const simicartConfig = Identify.getAppDashboardConfigs()
     if (simicartConfig) {
         const dbMenu = renderDashboardMenu(className, simicartConfig)

@@ -1,36 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import OrderHistory from '../../Components/Orders/OrderList';
+import React, { useState } from 'react';
+import OrderHistory from 'src/simi/App/Bianca/Customer/Account/Components/Orders/OrderList';
 import Identify from "src/simi/Helper/Identify";
 import Loading from "src/simi/BaseComponents/Loading";
 import TitleHelper from 'src/simi/Helper/TitleHelper';
-import {getAllOrders } from 'src/simi/Model/Orders'
+import {getTryToBuyOrders } from 'src/simi/Model/Orders'
 
-const MyOrder = props => {
+const Mytrytobuy = props => {
     const [data, setData] = useState(null)
     if (!data) {
-        getAllOrders((data) => setData(data))
+        getTryToBuyOrders((data) => setData(data))
     }
-    if (!data || !data.orders) {
+    if (!data || !data.mytrytobuys) {
         return <Loading />
     }
     
-
     return (
         <div className='account-my-orders-history'>
             {TitleHelper.renderMetaHeader({
-                title: Identify.__('My Orders'),
-                desc: Identify.__('My Orders') 
+                title: Identify.__('My Try & Buy Products'),
+                desc: Identify.__('My Try & Buy Products') 
             })}
             <div className="customer-page-title">
                 <div className="customer-page-title">
-                    {Identify.__("My Orders")}
+                    {Identify.__("My Try & Buy Products")}
                 </div>
                 <div className='account-my-orders'>
-                    <OrderHistory data={data.orders} showForDashboard={false} isPhone={props.isPhone}/>
+                    <OrderHistory data={data.mytrytobuys} showForDashboard={false} />
                 </div>
             </div>
         </div>
     )
 }
-
-export default MyOrder;
+export default Mytrytobuy

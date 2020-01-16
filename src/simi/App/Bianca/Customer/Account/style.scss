@@ -13,7 +13,8 @@
     line-height: 24px;
     font-weight: bold;
     color: #101820;
-    font-family: Gotham Medium;
+    font-family: 'Gotham Book';
+    font-weight: 600;
     margin-bottom: 24px;
 }
 .menu-header .menu-logout {
@@ -59,6 +60,18 @@
     max-width: 970px;
     max-width: unset;
     margin-right: 0;
+    .config-page{
+        display: inline-flex!important;
+        align-items: unset!important;
+        justify-content: flex-end!important;
+        margin-top: 10px;
+        width: 100%;
+    }
+}
+/* Right to left */
+.rtl-root .dashboard-content{
+    margin-left: 0px;
+    margin-right: 114px;
 }
 .sidebar-item .sidebar-title {
     font-size: 28px;
@@ -267,6 +280,12 @@
     margin-top: 24px;
     float: left;
     width: 100%;
+    flex-flow: row-reverse;
+    display : flex;
+    justify-content : space-between;
+    clear: both;
+    font-weight: 500;
+    font-family: "Gotham Book";
 }
 .table-siminia {
     font-size: 16px;
@@ -280,7 +299,8 @@
 .table-siminia > thead > tr > th {
     background: #E4E4E4;
     color: #101820;
-    font-family: Gotham Medium;
+    font-family: 'Gotham Book';
+    font-weight: 600;
     font-size: 16px;
     line-height: 16px;
     height: 48px;
@@ -291,6 +311,10 @@
 .table-siminia > thead > tr > td {
     padding: 0px 24px;
     line-height: 14px;
+    font-family: 'Gotham Book';
+    .view-order{
+        text-decoration: underline;
+    }
 }
 .table-siminia > thead > tr > th{
     padding: 0px 24px;
@@ -386,23 +410,26 @@
         height: 0px;
     }
 }
-.dash-column-box .edit-information {
-    width: 100px;
+.dash-column-box .edit-information{
+    width: 100%;
     position: absolute;
     top: 0;
     right: 0;
     display: flex;
-    justify-content: center;
-    padding-top: 24px;
-    font-family: Gotham Medium;
-    font-size: 12px;
+    justify-content: flex-end;
+    margin-top: 24px;
     line-height: 12px;
-    align-items: flex-end;
-}
-
-.dash-column-box .edit-information{
+    align-items: center;
+    font-family: 'Gotham Book';
+    font-weight: 600;
+    font-size: 12px;
+    padding: 0px 24px;
+    >svg{
+        width: 32px!important;
+        padding: 0px 8px;
+    }
     div{
-        margin-left: 8px;
+        // margin-left: 8px;
         color: #101820;
     }
 }
@@ -446,15 +473,16 @@
 }
 .customer-recent-orders #page-numbers li{
     background-color: #FFFFFF;
-    color: #333132;
+    color: #101820;
     width: 24px;
     height: 24px;
     margin: 0 4px;
     text-align: center;
     line-height: 24px;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 500;
     font-size: 16px;
+    font-family: "Gotham Book";
 }
 
 .product-code{
@@ -464,7 +492,10 @@
 .page-nums{
     padding: 0 3px;
 }
-
+.page-nums.active {
+    color: #afafaf;
+    text-decoration: underline;
+}
 .customer-recent-orders #page-numbers li.icon-page-number{
     padding: 2px !important;
 }
@@ -718,18 +749,24 @@
 }
 
 
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
     .customer-dashboard {
         padding-top: 0;
-    }
-    .dashboard-layout {
-        display: block;
+        .dashboard-layout {
+            display: block;
+            .dashboard-content {
+                margin-right: 0px;
+                margin-left: 0px;
+            }
+            /* Right to left */
+            .rtl-root .dashboard-content{
+                margin-left: 0px;
+                margin-right: 0px;
+            }
+        }
     }
     .dashboard-menu {
         width: 100%;
-    }
-    .dashboard-content{
-        margin-left: 0px !important;
     }
     .customer-dashboard .container {
         padding: 0;
@@ -745,6 +782,7 @@
         margin-right: auto;
         white-space: nowrap;
         overflow: hidden;
+        padding: 15px;
     }
     .menu-header .menu-logout svg {
         fill: #fff !important;
@@ -1068,55 +1106,18 @@
 .is-invalid {
     border-color: #d7282f;
 }
-
 .email-not-edit {
     color: #d7282f;
     text-align: center;
     margin-top: 10px;
 }
-
-@media (max-width: 359px) {
-    .form-address-row .checkbox-item .checkbox-item-text{
-        margin-right: -22px;
-    }
-}
 /*
 Order history
 */
-
 .my-order{
     .table-siminia > tbody > tr{
         font-size: 14px;
         font-weight: 500;
-    }
-}
-
-@media (max-width: 1024px) {
-    .table-siminia > tbody > tr > td,
-    .table-siminia > tbody > tr > th,
-    .table-siminia > tfoot > tr > td,
-    .table-siminia > tfoot > tr > th,
-    .table-siminia > thead > tr > td,
-    .table-siminia > thead > tr > th {
-        padding: 8px 8px;
-    }
-
-    .table-siminia > tbody > tr{
-        font-size: 14px;
-        font-weight: 500;
-    }
-
-    .dashboard-content {
-        margin-right: 20px;
-        margin-left: 20px;
-    }
-
-    .dash-column-box .email {
-        word-break: break-all;
-    }
-
-    .dash-column-box .edit-information {
-        margin-top: 10px;
     }
 }
 
@@ -1132,13 +1133,6 @@ Order history
     margin-top: 16px;
     vertical-align: top;
     width: 48%;
-}
-
-@media (min-width: 1024px) {
-    .product-grid .siminia-product-list-item{
-        width: 25%;
-        padding-left: 22px;
-    }
 }
 
 @media (min-width: 1920px) {

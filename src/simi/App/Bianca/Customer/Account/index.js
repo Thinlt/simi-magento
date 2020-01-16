@@ -18,6 +18,7 @@ import MyOrder from './Page/OrderHistory';
 import OrderDetail from './Page/OrderDetail';
 import MyGiftVouchers from './Page/MyGiftVouchers';
 import SizeChart from './Page/SizeChart';
+import Mytrytobuy from './Page/Mytrytobuy'
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import {
     getUserDetails,
@@ -52,77 +53,77 @@ class CustomerLayout extends React.Component{
     getMenuConfig = () => {
         const menuConfig = [
             {
-                title : 'My Account',
+                title : Identify.__('My Account'),
                 url : '/account.html',
                 page : 'dashboard',
                 enable : true,
                 sort_order : 10
             },
             {
-                title : 'My Orders',
+                title : Identify.__('My Orders'),
                 url : '/orderhistory.html',
                 page : 'my-order',
                 enable : true,
                 sort_order : 20
             },
             {
-                title : 'Account Information',
+                title : Identify.__('Account Information'),
                 url : '/profile.html',
                 page : 'edit-account',
                 enable : true,
                 sort_order : 30
             },
             {
-                title : 'My Size Chart',
+                title : Identify.__('My Size Chart'),
                 url : '/mysizechart.html',
                 page : 'size-chart',
                 enable : true,
                 sort_order : 40
             },
             {
-                title : 'Newsletter',
+                title : Identify.__('Newsletter'),
                 url : '/newsletter.html',
                 page : 'newsletter',
                 enable : true,
                 sort_order : 50
             },
             {
-                title : 'Address Book',
+                title : Identify.__('Address Book'),
                 url : '/addresses.html',
                 page : 'address-book',
                 enable : true,
                 sort_order : 60
             },
             {
-                title : 'Wishlist',
+                title : Identify.__('Wishlist'),
                 url : '/wishlist.html',
                 page : 'wishlist',
                 enable : true,
                 sort_order : 70
             },
             {
-                title : 'MY GIFT VOUCHERS',
+                title : Identify.__('My Gift Vouchers'),
                 url : '/mygiftvouchers.html',
                 page : 'giftvoucher',
                 enable : true,
                 sort_order : 80
             },
             {
-                title : 'MY RESERVED PRODUCTS',
+                title : Identify.__('My Reserved Products'),
                 url : '/account.html',
                 page : 'newsletter',
                 enable : true,
                 sort_order : 90
             },
             {
-                title : 'MY TRY & BUY PRODUCTS',
-                url : '/account.html',
-                page : 'newsletter',
+                title : Identify.__('My Try & Buy Products'),
+                url : '/mytrytobuy.html',
+                page : 'mytrytobuy',
                 enable : true,
                 sort_order : 100
             },
             {
-                title : 'Log out',
+                title : Identify.__('Log out'),
                 url : '/logout.html',
                 page : 'home',
                 enable : true,
@@ -198,31 +199,34 @@ class CustomerLayout extends React.Component{
         let content = null;
         switch (page) {
             case 'dashboard':
-                content = <Dashboard customer={data} history={this.props.history} isPhone={this.state.isPhone}/>
+                content = <Dashboard customer={data} isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'address-book':
-                content = <AddressBook />
+                content = <AddressBook isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'edit':
-                content = <Profile data={data} history={this.props.history} isPhone={this.state.isPhone}/>
+                content = <Profile data={data} isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'size-chart':
-                content = <SizeChart data={data} history={this.props.history} isPhone={this.state.isPhone}/>
+                content = <SizeChart data={data} isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'my-order':
                 content = <MyOrder data={data} isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'newsletter':
-                content = <Newsletter />
+                content = <Newsletter isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'order-detail':
-                content = <OrderDetail  history={this.props.history} isPhone={this.state.isPhone}/>
+                content = <OrderDetail isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'wishlist':
-                content = <Wishlist history={this.props.history} />
+                content = <Wishlist isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'giftvoucher':
-                content = <MyGiftVouchers history={this.props.history}/>
+                content = <MyGiftVouchers isPhone={this.state.isPhone} history={this.props.history}/>
+                break;
+            case 'mytrytobuy':
+                content = <Mytrytobuy history={this.props.history}/>
                 break;
             default :
                 content = 'customer dashboard 2'
@@ -242,7 +246,7 @@ class CustomerLayout extends React.Component{
     }
 
     render() {
-        const {page}= this.state;
+        const {page, isPhone}= this.state;
         const {isSignedIn, history} = this.props
         this.pushTo = '/login.html';
         if(!isSignedIn){
@@ -262,7 +266,7 @@ class CustomerLayout extends React.Component{
                         </div>
                         <div className="dashboard-layout">
                             {this.renderMenu()}
-                            <div className='dashboard-content'>
+                            <div className={`dashboard-content ${isPhone?'mobile':''}`}>
                                 {this.renderContent()}
                             </div>
                         </div>

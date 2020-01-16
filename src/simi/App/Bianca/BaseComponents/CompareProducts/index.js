@@ -112,21 +112,22 @@ const CompareProduct = props => {
                     text={Identify.__('Add to Cart')} />
             )
             if (item.simiExtraField && item.simiExtraField.attribute_values) {
-                if (parseInt(item.simiExtraField.attribute_values.pre_order)) {
-                    addToCartBtn = (
-                        <Colorbtn
-                            style={{ backgroundColor: '#101820', color: '#FFF' }}
-                            className="compare-add-to-cart"
-                            onClick={() => addToCart(true)}
-                            text={Identify.__('Pre-order')} />
-                    )
-                } else if (!parseInt(item.simiExtraField.attribute_values.is_salable)) {
-                    addToCartBtn = (
-                        <Colorbtn
-                            style={{ backgroundColor: '#101820', color: '#FFF', opacity: 0.5 }}
-                            className="compare-add-to-cart"
-                            text={Identify.__('Out of stock')} />
-                    )
+                if (!parseInt(item.simiExtraField.attribute_values.is_salable)) {
+                    if (parseInt(item.simiExtraField.attribute_values.pre_order)) {
+                        addToCartBtn = (
+                            <Colorbtn
+                                style={{ backgroundColor: '#101820', color: '#FFF' }}
+                                className="compare-add-to-cart"
+                                onClick={() => addToCart(true)}
+                                text={Identify.__('Pre-order')} />
+                        )
+                    } else
+                        addToCartBtn = (
+                            <Colorbtn
+                                style={{ backgroundColor: '#101820', color: '#FFF', opacity: 0.5 }}
+                                className="compare-add-to-cart"
+                                text={Identify.__('Out of stock')} />
+                        )
                 }
             }
             return(
@@ -324,6 +325,7 @@ const CompareProduct = props => {
             overlayId="modal-compare-overlay"
             open={openModal}
             onClose={closeModal}
+            classNames={{overlay: Identify.isRtl()?"rtl-root":""}}
         >
             <div className="title">{Identify.__("COMPARE PRODUCTS")}</div>
             

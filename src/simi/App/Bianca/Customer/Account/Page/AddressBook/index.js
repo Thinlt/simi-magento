@@ -14,6 +14,7 @@ import List from './list';
 import Edit from './edit';
 import defaultClasses from './style.scss';
 import { withRouter } from 'react-router-dom';
+import Pencil from 'src/simi/BaseComponents/Icon/Pencil';
 
 const AddressBook = props => {
     
@@ -237,54 +238,70 @@ const AddressBook = props => {
         return (
             <div className="address-content">
                 { defaultBilling.id &&
-                    <div className="billing-address">
-                        <span className="box-title">{Identify.__("Default Billing Address")}</span>
-                        <div className="box-content">
-                            <address>
-                                {defaultBilling.firstname} {defaultBilling.lastname}<br/>
-                                {(!addressConfig || addressConfig && addressConfig.street_show) && defaultBilling.street ? 
-                                    <>{defaultBilling.street.map((address, index) => {
-                                    return <React.Fragment key={index}>{address}<br/></React.Fragment>;
-                                })}</> : ''}
-                                {(!addressConfig || addressConfig && addressConfig.zipcode_show) && defaultBilling.postcode ? <>{defaultBilling.postcode}, </> : ''}
-                                {(!addressConfig || addressConfig && addressConfig.city_show) && defaultBilling.city ? <>{defaultBilling.city}, </>: ''}
-                                {(!addressConfig || addressConfig && addressConfig.region_id_show) && defaultBilling.region ? <>{defaultBilling.region.region_code}<br/></>: ''}
-                                {(!addressConfig || addressConfig && addressConfig.country_id_show) && defaultBillingCountry.full_name_locale ? <>{defaultBillingCountry.full_name_locale}<br/></> : ''}
-                                {(!addressConfig || addressConfig && addressConfig.telephone_show) && defaultBilling.telephone && 
-                                    <>
-                                        T: <a href={"tel:"+defaultBilling.telephone}>{defaultBilling.telephone}</a>
-                                    </>
-                                }
-                            </address>
-                        </div>
-                        <div className="box-action">
-                            <a href="" onClick={e => editDefaultAddressHandle(e, defaultBilling.id, 'billing')}><span>{Identify.__("Change Billing Address")}</span></a>
+                    <div className="billing-address dash-column-box">
+                        <div className="white-box-content">
+                            <span className="box-title">{Identify.__("Default Billing Address")}</span>
+                            <div className="box-content">
+                                <address>
+                                    {defaultBilling.firstname} {defaultBilling.lastname}<br/>
+                                    {(!addressConfig || addressConfig && addressConfig.street_show) && defaultBilling.street ? 
+                                        <>{defaultBilling.street.map((address, index) => {
+                                        return <React.Fragment key={index}>{address}<br/></React.Fragment>;
+                                    })}</> : ''}
+                                    {(!addressConfig || addressConfig && addressConfig.zipcode_show) && defaultBilling.postcode ? <>{defaultBilling.postcode}, </> : ''}
+                                    {(!addressConfig || addressConfig && addressConfig.city_show) && defaultBilling.city ? <>{defaultBilling.city}, </>: ''}
+                                    {(!addressConfig || addressConfig && addressConfig.region_id_show) && defaultBilling.region ? <>{defaultBilling.region.region_code}<br/></>: ''}
+                                    {(!addressConfig || addressConfig && addressConfig.country_id_show) && defaultBillingCountry.full_name_locale ? <>{defaultBillingCountry.full_name_locale}<br/></> : ''}
+                                    {(!addressConfig || addressConfig && addressConfig.telephone_show) && defaultBilling.telephone && 
+                                        <>
+                                            T: <a href={"tel:"+defaultBilling.telephone}>{defaultBilling.telephone}</a>
+                                        </>
+                                    }
+                                </address>
+                            </div>
+                            <div className="box-action">
+                                <a href="" onClick={e => editDefaultAddressHandle(e, defaultBilling.id, 'billing')}>
+                                    {/* <span>{Identify.__("Change Billing Address")}</span> */}
+                                    <div className="edit-information">
+                                        <Pencil style={{width: '16px', height: '16px'}}/>
+                                        <div>{Identify.__("Edit".toUpperCase())}</div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 }
                 { defaultShipping.id &&
-                    <div className="shipping-address">
-                        <span className="box-title">{Identify.__("Default Shipping Address")}</span>
-                        <div className="box-content">
-                            <address>
-                                {defaultShipping.firstname} {defaultShipping.lastname}<br/>
-                                {(!addressConfig || addressConfig && addressConfig.street_show) && defaultShipping.street ? 
-                                    <>{defaultShipping.street.map((address, index) => {
-                                        return <React.Fragment key={index}>{address}<br/></React.Fragment>;
-                                })}</> : ''}
-                                {(!addressConfig || addressConfig && addressConfig.zipcode_show) && defaultShipping.postcode ? <>{defaultShipping.postcode}, </> : ''}
-                                {(!addressConfig || addressConfig && addressConfig.city_show) && defaultShipping.city ? <>{defaultShipping.city}, </>: ''}
-                                {(!addressConfig || addressConfig && addressConfig.region_id_show) && defaultShipping.region ? <>{defaultShipping.region.region_code}<br/></>: ''}
-                                {(!addressConfig || addressConfig && addressConfig.country_id_show) && defaultShippingCountry.full_name_locale ? <>{defaultShippingCountry.full_name_locale}<br/></> : ''}
-                                {(!addressConfig || addressConfig && addressConfig.telephone_show) && defaultShipping.telephone && 
-                                    <>
-                                        T: <a href={"tel:"+defaultShipping.telephone}>{defaultShipping.telephone}</a>
-                                    </>
-                                }
-                            </address>
-                        </div>
-                        <div className="box-action">
-                            <a href="" onClick={e => editDefaultAddressHandle(e, defaultShipping.id, 'shipping')}><span>{Identify.__("Change Shipping Address")}</span></a>
+                    <div className="shipping-address dash-column-box">
+                        <div className="white-box-content">
+                            <span className="box-title">{Identify.__("Default Shipping Address")}</span>
+                            <div className="box-content">
+                                <address>
+                                    {defaultShipping.firstname} {defaultShipping.lastname}<br/>
+                                    {(!addressConfig || addressConfig && addressConfig.street_show) && defaultShipping.street ? 
+                                        <>{defaultShipping.street.map((address, index) => {
+                                            return <React.Fragment key={index}>{address}<br/></React.Fragment>;
+                                    })}</> : ''}
+                                    {(!addressConfig || addressConfig && addressConfig.zipcode_show) && defaultShipping.postcode ? <>{defaultShipping.postcode}, </> : ''}
+                                    {(!addressConfig || addressConfig && addressConfig.city_show) && defaultShipping.city ? <>{defaultShipping.city}, </>: ''}
+                                    {(!addressConfig || addressConfig && addressConfig.region_id_show) && defaultShipping.region ? <>{defaultShipping.region.region_code}<br/></>: ''}
+                                    {(!addressConfig || addressConfig && addressConfig.country_id_show) && defaultShippingCountry.full_name_locale ? <>{defaultShippingCountry.full_name_locale}<br/></> : ''}
+                                    {(!addressConfig || addressConfig && addressConfig.telephone_show) && defaultShipping.telephone && 
+                                        <>
+                                            T: <a href={"tel:"+defaultShipping.telephone}>{defaultShipping.telephone}</a>
+                                        </>
+                                    }
+                                </address>
+                            </div>
+                            <div className="box-action">
+                                <a href="" onClick={e => editDefaultAddressHandle(e, defaultShipping.id, 'shipping')}>
+                                    {/* <span>{Identify.__("Change Shipping Address")}</span> */}
+                                    <div className="edit-information">
+                                        <Pencil style={{width: '16px', height: '16px'}}/>
+                                        <div>{Identify.__("Edit".toUpperCase())}</div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 }
