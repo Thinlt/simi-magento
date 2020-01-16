@@ -6,13 +6,8 @@ import {smoothScrollToView} from "src/simi/Helper/Behavior";
 
 class Abstract extends React.Component{
     render(){
-        const simicartConfig = Identify.getAppDashboardConfigs() !== null ? Identify.getAppDashboardConfigs()
-            : Identify.getAppDashboardConfigsFromLocalFile();
         const merchantConfig = Identify.getStoreConfig();
-        if(simicartConfig
-            && merchantConfig
-            && merchantConfig.simiStoreConfig)
-        {
+        if(merchantConfig) {
             //add rtl
             this.renderRTL(merchantConfig.simiStoreConfig)
         }
@@ -85,8 +80,11 @@ class Abstract extends React.Component{
                 <Route exact {...router.newsletter}/>
                 <Route exact {...router.profile}/>
                 <Route exact {...router.wishlist}/>
+                <Route exact {...router.my_gift_vouchers}/>
                 <Route exact {...router.login}/>
+                <Route exact {...router.vendor_login}/>
                 <Route exact {...router.logout}/>
+                <Route exact {...router.customer_reset_password}/>
                 <Route exact {...router.contact}/>
                 {this.renderPbRoute()}
                 <Route {...router.noMatch}/>
@@ -97,8 +95,13 @@ class Abstract extends React.Component{
 
     renderRTL = (simiStoreConfig)=>{
         //add rtl
-        if (simiStoreConfig.config && parseInt(simiStoreConfig.config.base.is_rtl, 10) === 1) {
-            console.log('Is RTL');
+        if (simiStoreConfig && simiStoreConfig.config && parseInt(simiStoreConfig.config.base.is_rtl, 10) === 1) {
+            try {
+                document.getElementById("root").classList.add("rtl-root");
+            }
+            catch (err) {
+
+            }
         } else {
             try {
                 document.getElementById("rtl-stylesheet").remove();
