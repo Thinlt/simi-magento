@@ -28,7 +28,7 @@ const MySizeChart = props => {
             <PageTitle title={'Size Chart History'.toUpperCase()}/>
             {sizeData
             ?
-                <SizeChart data={sizeData}/>
+                <SizeChart data={sizeData} isPhone={props.isPhone}/>
             : <Loading/>}
         </div>
     )

@@ -61,11 +61,64 @@
     max-width: unset;
     margin-right: 0;
     .config-page{
-        display: inline-flex!important;
-        align-items: unset!important;
-        justify-content: flex-end!important;
-        margin-top: 10px;
         width: 100%;
+        margin-top: 60px;
+        display: inline-flex;
+        justify-content: space-between;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        .pagination-info{
+            font-family: 'Gotham Book';
+            font-weight: 500;
+            font-size: 18px;
+            *{
+                font-family: unset;
+                font-size: unset;
+                font-weight: unset;
+            }
+        }
+        #page-numbers{
+            li{
+                background-color: #FFFFFF;
+                color: #101820;
+                width: auto;
+                height: 18px;
+                text-align: center;
+                cursor: pointer;
+                font-family: "Gotham Book";
+                font-weight: 500;
+                font-size: 18px;
+                line-height: 22px;
+                margin: 0 3px;
+                padding: 0px 6px;
+                &.page-nums{
+                    &.active {
+                        color: #BDBDBD;
+                        text-decoration: underline;
+                    }
+                }
+                &.icon-page-number{
+                    &.disabled{
+                        color: #BDBDBD;
+                        svg{
+                            fill: #BDBDBD!important;
+                        }
+                    }
+                    &.next,&.prev{
+                        margin-left: 0px;
+                        margin-right: 0px;
+                        padding-left: 0px;
+                        padding-right: 0px;
+                    }
+                    &.start,&.end{
+                        padding-left: 0px;
+                        padding-right: 0px;
+                        margin: 0;
+                    }
+                }
+            }
+        }
     }
 }
 /* Right to left */
@@ -126,6 +179,16 @@
     line-height: 20px;
     margin-bottom: 20px;
     font-family: Gotham Medium;
+    .view-all{
+        color: #101820;
+        font-size: 14px;
+        line-height: 14px;
+        font-weight: normal;
+        margin-top: 2.5px;
+        float: right;
+        cursor: pointer;
+        font-weight: 500;
+    }
 }
 .customer-page-content {
     padding: 24px;
@@ -276,20 +339,8 @@
         font-weight: 500;
     }
 }
-.customer-recent-orders .config-page{
-    margin-top: 24px;
-    float: left;
-    width: 100%;
-    flex-flow: row-reverse;
-    display : flex;
-    justify-content : space-between;
-    clear: both;
-    font-weight: 500;
-    font-family: "Gotham Book";
-}
 .table-siminia {
     font-size: 16px;
-    line-height: 24px;
     border: 1px solid #101820;
     tr{
         border: 1px solid
@@ -330,18 +381,6 @@
 }
 .table-siminia.table-striped > tbody > tr:nth-of-type(odd) {
     background: #fff;
-}
-.customer-page-title{
-    .view-all{
-        color: #101820;
-        font-size: 14px;
-        line-height: 14px;
-        font-weight: normal;
-        margin-top: 2.5px;
-        float: right;
-        cursor: pointer;
-        font-weight: 500;
-    }
 }
 .view-order {
     color: #101820;
@@ -471,49 +510,9 @@
 .view-recent-orders{
     background: transparent;
 }
-.customer-recent-orders #page-numbers li{
-    background-color: #FFFFFF;
-    color: #101820;
-    width: 24px;
-    height: 24px;
-    margin: 0 4px;
-    text-align: center;
-    line-height: 24px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 16px;
-    font-family: "Gotham Book";
-}
-
 .product-code{
     vertical-align: middle
 }
-
-.page-nums{
-    padding: 0 3px;
-}
-.page-nums.active {
-    color: #afafaf;
-    text-decoration: underline;
-}
-.customer-recent-orders #page-numbers li.icon-page-number{
-    padding: 2px !important;
-}
-.customer-recent-orders #page-numbers li:first-child{
-    margin-left: 0;
-}
-.customer-recent-orders #page-numbers li:last-child{
-    margin-right: 0;
-}
-
-#page-numbers li{
-    margin-right: 5px;
-}
-
-.icon-page-number{
-    line-height: 0px;
-}
-
 /* newsletter */
 .customer-dashboard.newsletter .customer-page-content{
     min-height: 455px;
@@ -759,13 +758,6 @@
         background: #0f7d37;
         padding-right: 16px;
     }
-    .welcome-customer {
-        background: unset;
-        margin-right: auto;
-        white-space: nowrap;
-        overflow: hidden;
-        padding: 15px;
-    }
     .menu-header .menu-logout svg {
         fill: #fff !important;
     }
@@ -781,11 +773,6 @@
         margin-left: 16px;
         margin-right: 16px;
         display: none;
-    }
-    .dashboard-content {
-        margin: 0;
-        padding: 16px;
-        width: auto;
     }
     .body-customer-dashboard #data-breadcrumb {
         display: block;
@@ -832,9 +819,6 @@
     }
     .customer-dashboard.address-book .customer-page-content {
         padding: 0px 24px 24px;
-    }
-    .customer-page-title {
-        margin-bottom: 16px;
     }
     .account-address-book .additional-address-entries .acc-book-title {
         margin: 0px -24px;
@@ -946,30 +930,9 @@
     .dashboard-address-book .customer-page-title .view-all{
         float: right;
     }
-    .customer-dashboard.my-order{
-        padding-bottom: 40px;
-    }
-    .customer-recent-orders .config-page{
-        flex-direction: column;
-        margin-top: 16px;
-    }
-    .customer-recent-orders .config-page #page-numbers{
-        margin-top: 24px;
-    }
-    .customer-recent-orders #page-numbers li{
-        width: 32px;
-        height: 32px;
-        line-height: 32px;
-        margin: 0 8px;
-    }
-    .customer-recent-orders #page-numbers li.icon-page-number svg{
-        width: 26.67px !important;
-        height: 26.67px !important;
-    }
     .customer-dashboard.edit{
         padding-bottom: 24px;
     }
-
     /* newsletter */
     .customer-dashboard.newsletter{
         padding-bottom: 17px;
@@ -1136,39 +1099,79 @@ Order history
 .customer-dashboard {
     &.mobile{
         padding-top: 0;
+        padding-bottom: 50px;
+        .welcome-customer {
+            background: unset;
+            margin-right: auto;
+            white-space: nowrap;
+            overflow: hidden;
+            padding: 14px 16px 18px 16px;
+            margin-bottom: 0px;
+            font-size: 18px;
+        }
         .dashboard-layout {
             display: block;
             .dashboard-menu {
                 display: none;
             }
             .dashboard-content {
+                width: auto;
+                margin: 0;
                 margin-right: 0px;
                 margin-left: 0px;
+                padding: 0px 16px;
+                .customer-page-title {
+                    margin-bottom: 16px;
+                    font-family: 'Gotham Book';
+                    font-weight: 600;
+                    font-size: 18px;
+                    margin-bottom: 18px;
+                }
                 .table-group{
                     padding: 0px;
                     font-family: 'Gotham Book';
-                    font-size: 16px;
+                    font-size: 14px;
+                    line-height: 14px;
                     font-weight: 500;
-                    border: 1px solid #e0e0e0;
+                    // border: 1px solid #e0e0e0;
+                    border: none;
                     .item{
-                        padding: 16px 22px;
-                        &:nth-child(even){
-                            background-color: #f2f2f2;
+                        padding-top: 20px;
+                        padding-bottom: 20px;
+                        border-bottom: 1px solid #e0e0e0;
+                        &:first-child{
+                            padding-top: 0px;
+                        }
+                        &:last-child{
+                            padding-bottom: 0px;
+                            border-bottom: none;
                         }
                         .row-item{
                             display: grid;
                             grid-template-columns: auto auto;
+                            padding-top: 6px;
+                            padding-bottom: 6px;
+                            &:first-child{
+                                padding-top: 0px;
+                            }
+                            &:last-child{
+                                padding-bottom: 0px;
+                            }
                             .item-label{
                                 font-weight: 700;
                             }
                             .item-value{
-                                text-align: right;
+                                display: flex;
+                                justify-content: flex-end;
                                 a{
                                     text-decoration: underline;
                                 }
                             }
                         }
                     }
+                }
+                .config-page{
+                    margin-top: 40px;
                 }
             }
             /* Right to left */

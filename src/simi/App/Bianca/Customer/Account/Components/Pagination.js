@@ -68,7 +68,7 @@ class PaginationNoneTable extends Pagination {
                     key={number}
                     id={number}
                     onClick={(e)=>this.changePage(e)}
-                    className={`'page-nums' ${active}`}
+                    className={`page-nums ${active}`}
                 >
                     {number}
                 </li>
@@ -94,9 +94,29 @@ class PaginationNoneTable extends Pagination {
                 alignItems : 'center',
                 fontSize : 14,
             }}>
-                <li className="icon-page-number" onClick={()=>this.handleChangePage(false, total)}>{prevPageIcon}</li>
+                <li className="icon-page-number start" key={"p-start"}>(</li>
+                {obj.state.currentPage === 1 ? 
+                    Identify.isRtl() ?
+                    <li className={`icon-page-number prev disabled`} key={"p-prev"}>{nextPageIcon}</li> :
+                    <li className={`icon-page-number prev disabled`} key={"p-prev"}>{prevPageIcon}</li>
+                    :
+                    Identify.isRtl() ?
+                    <li className={`icon-page-number prev`} onClick={()=>this.handleChangePage(false, total)} key={"p-prev2"}>{nextPageIcon}</li>
+                    : 
+                    <li className={`icon-page-number prev`} onClick={()=>this.handleChangePage(false, total)} key={"p-prev2"}>{prevPageIcon}</li>
+                }
                 {renderPageNumbers}
-                <li className="icon-page-number" onClick={()=>this.handleChangePage(true, total)}>{nextPageIcon}</li>
+                {obj.state.currentPage >= total ? 
+                    Identify.isRtl() ?
+                    <li className={`icon-page-number next disabled`} key={"p-next"}>{prevPageIcon}</li> :
+                    <li className={`icon-page-number next disabled`} key={"p-next"}>{nextPageIcon}</li>
+                    :
+                    Identify.isRtl() ?
+                    <li className={`icon-page-number next`} onClick={()=>this.handleChangePage(true, total)} key={"p-next2"}>{prevPageIcon}</li>
+                    :
+                    <li className={`icon-page-number next`} onClick={()=>this.handleChangePage(true, total)} key={"p-next2"}>{nextPageIcon}</li>
+                }
+                <li className="icon-page-number end" key={"p-end"}>)</li>
             </ul>
         ):'';
         let {currentPage,limit} = this.state;
@@ -108,26 +128,20 @@ class PaginationNoneTable extends Pagination {
                 {
                     this.props.showInfoItem &&
                     <span style={{marginRight : 10,fontSize : 16}}>
-                        {Identify.__('%a - %b of %c').replace('%a', firstItem).replace('%b', lastItem).replace('%c', totalItem)}
+                        {`${totalItem} ${totalItem > 1 ? Identify.__('items'):Identify.__('item')}`}
+                        {/* {Identify.__('%a - %b of %c').replace('%a', firstItem).replace('%b', lastItem).replace('%c', totalItem)} */}
                     </span>
                 }
             </div>
         );
+        if (total < 2) return null;
         return (
-            <div className="config-page"
-                 style={{
-                     display : 'flex',
-                     alignItems : 'center',
-                     justifyContent : 'space-between',
-                     clear: 'both',
-                     fontWeight:'500'
-                 }}
-            >
-                <div style={{display:"flex", alignItems:"center"}}>
+            <div className="config-page">
+                <div className="pagination-info">
                     {itemsPerPage}
-                    <div style={{display:"flex"}}>
+                    {/* <div style={{display:"flex"}}>
                         {Identify.__("Show")} {this.renderDropDown()}{Identify.__(" per page")}
-                    </div>
+                    </div> */}
                 </div>
                 {pagesSelection}
             </div>
@@ -148,7 +162,7 @@ class PaginationNoneTable extends Pagination {
             let total = data.length;
             return (
                 <React.Fragment>
-                    <div className='col-xs-12 table-siminia table-group'>
+                    <div className='table-siminia table-group'>
                         {items}
                     </div>
                     {this.renderPageNumber(total)}

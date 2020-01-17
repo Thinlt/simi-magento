@@ -21,7 +21,7 @@ const MyOrder = props => {
                 title: Identify.__('My Orders'),
                 desc: Identify.__('My Orders') 
             })}
-            <div className="customer-page-title">
+            <div className="customer-page">
                 <div className="customer-page-title">
                     {Identify.__("My Orders")}
                 </div>

@@ -226,7 +226,7 @@ class CustomerLayout extends React.Component{
                 content = <MyGiftVouchers isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'mytrytobuy':
-                content = <Mytrytobuy history={this.props.history}/>
+                content = <Mytrytobuy isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             default :
                 content = 'customer dashboard 2'

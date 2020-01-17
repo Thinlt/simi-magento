@@ -8,42 +8,49 @@ require('./index.scss')
 
 const listAccountMenu = [
     {
-        title: 'My Account',
+        title: Identify.__('My Account'),
         url: '/account.html',
         page: 'dashboard',
         enable: true,
         sort_order: 10
     },
     {
-        title: 'My Orders',
+        title: Identify.__('My Orders'),
         url: '/orderhistory.html',
         page: 'my-order',
         enable: true,
         sort_order: 20
     },
     {
-        title: 'Account Information',
+        title: Identify.__('Account Information'),
         url: '/profile.html',
         page: 'edit-account',
         enable: true,
         sort_order: 30
     },
     {
-        title: 'Newsletter',
+        title: Identify.__('My Size Chart'),
+        url: '/mysizechart.html',
+        page: 'size-chart',
+        enable: true,
+        sort_order: 35
+    },
+    {
+        title: Identify.__('Newsletter'),
         url: '/newsletter.html',
         page: 'newsletter',
         enable: true,
         sort_order: 40
     },
     {
-        title: 'Address Book',
+        title: Identify.__('Address Book'),
         url: '/addresses.html',
         page: 'address-book',
         enable: true,
         sort_order: 50
     },
     {
-        title: 'Wishlist',
+        title: Identify.__('Wishlist'),
         url: '/wishlist.html',
         page: 'wishlist',
         enable: true,
@@ -58,8 +65,8 @@ const listAccountMenu = [
     },
     {
         title : Identify.__('My Reserved Products'),
-        url : '/account.html',
-        page : 'newsletter',
+        url : '/myreserved.html',
+        page : 'my-reserved',
         enable : true,
         sort_order : 90
     },
