@@ -111,13 +111,41 @@ class PaginationTable extends Pagination {
                 alignItems : 'center',
                 fontSize : 14,
             }}>
-                <li className="icon-page-number" onClick={()=>this.handleChangePage(false, total)}>{prevPageIcon}</li>
+                <li className="icon-page-number start" key={"p-start"}>(</li>
+                {obj.state.currentPage === 1 ? 
+                    <li className={`icon-page-number prev disabled`} key={"p-prev"}>{prevPageIcon}</li>
+                    :
+                    <li className={`icon-page-number prev`} onClick={()=>this.handleChangePage(false, total)} key={"p-prev2"}>{prevPageIcon}</li>
+                }
                 {renderPageNumbers}
-                <li className="icon-page-number" onClick={()=>this.handleChangePage(true, total)}>{nextPageIcon}</li>
+                {obj.state.currentPage >= total ? 
+                    <li className={`icon-page-number next disabled`} key={"p-next"}>{nextPageIcon}</li>
+                    :
+                    <li className={`icon-page-number next`} onClick={()=>this.handleChangePage(true, total)} key={"p-next2"}>{nextPageIcon}</li>
+                }
+                <li className="icon-page-number end" key={"p-end"}>)</li>
             </ul>
         ):'';
+        let {currentPage,limit} = this.state;
+        let lastItem = currentPage * limit;
+        let firstItem = lastItem - limit+1;
+        lastItem = lastItem > totalItem ? totalItem : lastItem;
+        let itemsPerPage = (
+            <div className="icon-page-number">
+                {
+                    this.props.showInfoItem &&
+                    <span style={{marginRight : 10,fontSize : 16}}>
+                        {`${totalItem} ${totalItem > 1 ? 'items':'item'}`}
+                    </span>
+                }
+            </div>
+        );
+        if (total < 2) return null;
         return (
-            <div className="config-page"  >
+            <div className="config-page">
+                <div className="pagination-info">
+                    {itemsPerPage}
+                </div>
                 {pagesSelection}
             </div>
         )
@@ -137,7 +165,7 @@ class PaginationTable extends Pagination {
             let total = data.length;
             return (
                 <React.Fragment>
-                    <table className='col-xs-12 table-striped table-siminia'>
+                    <table className='table-striped table-siminia'>
                         {this.renderColumnTitle()}
                         <tbody>{items}</tbody>
                     </table>

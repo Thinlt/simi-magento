@@ -20,12 +20,12 @@ const Mytrytobuy = props => {
                 title: Identify.__('My Try & Buy Products'),
                 desc: Identify.__('My Try & Buy Products') 
             })}
-            <div className="customer-page-title">
+            <div className="customer-page">
                 <div className="customer-page-title">
                     {Identify.__("My Try & Buy Products")}
                 </div>
                 <div className='account-my-orders'>
-                    <OrderHistory data={data.mytrytobuys} showForDashboard={false} />
+                    <OrderHistory data={data.mytrytobuys} showForDashboard={false} isPhone={props.isPhone} />
                 </div>
             </div>
         </div>
