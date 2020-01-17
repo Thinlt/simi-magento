@@ -74,6 +74,7 @@ const MyGiftVouchers = props => {
             </form>
             {giftCode && historyCodes && !loading ? (
                 <Vouchers
+                    isPhone={props.isPhone}
                     giftCode={giftCode}
                     historyCodes={historyCodes}
                     setGiftCode={setGiftCode}

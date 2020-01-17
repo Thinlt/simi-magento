@@ -1033,3 +1033,11 @@ Simple header (for checkout and cart)
         }
     }
 }
+
+.minicart-open{
+    overflow: hidden !important;
+}
+
+.minicart-close{
+    overflow: visible !important;
+}

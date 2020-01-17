@@ -7,28 +7,11 @@ import Pagination from 'src/simi/BaseComponents/Pagination'
 import Identify from 'src/simi/Helper/Identify'
 import Arrow from "src/simi/BaseComponents/Icon/Arrow";
 
-class PaginationTable extends Pagination {
+class PaginationNoneTable extends Pagination {
     constructor(props) {
         super(props)
         this.startPage = 1;
         this.endPage = this.startPage + 2;
-    }
-
-    renderColumnTitle = () => {
-        let data = this.props.cols;
-        if(data.length > 0){
-            let columns = data.map((item, index)=>{
-                return <th key={index} width={item.width?item.width: ''} >{Identify.__(item.title)}</th>
-            });
-            return (
-                <thead>
-                    <tr>
-                        {columns}
-                    </tr>
-                </thead>
-            ) 
-            
-        }
     }
 
     componentDidUpdate(prevProps){
@@ -111,13 +94,45 @@ class PaginationTable extends Pagination {
                 alignItems : 'center',
                 fontSize : 14,
             }}>
-                <li className="icon-page-number" onClick={()=>this.handleChangePage(false, total)}>{prevPageIcon}</li>
+                <li className="icon-page-number start" key={"p-start"}>(</li>
+                {obj.state.currentPage === 1 ? 
+                    <li className={`icon-page-number prev disabled`} key={"p-prev"}>{prevPageIcon}</li>
+                    :
+                    <li className={`icon-page-number prev`} onClick={()=>this.handleChangePage(false, total)} key={"p-prev2"}>{prevPageIcon}</li>
+                }
                 {renderPageNumbers}
-                <li className="icon-page-number" onClick={()=>this.handleChangePage(true, total)}>{nextPageIcon}</li>
+                {obj.state.currentPage >= total ? 
+                    <li className={`icon-page-number next disabled`} key={"p-next"}>{nextPageIcon}</li>
+                    :
+                    <li className={`icon-page-number next`} onClick={()=>this.handleChangePage(true, total)} key={"p-next2"}>{nextPageIcon}</li>
+                }
+                <li className="icon-page-number end" key={"p-end"}>)</li>
             </ul>
         ):'';
+        let {currentPage,limit} = this.state;
+        let lastItem = currentPage * limit;
+        let firstItem = lastItem - limit+1;
+        lastItem = lastItem > totalItem ? totalItem : lastItem;
+        let itemsPerPage = (
+            <div className="icon-page-number">
+                {
+                    this.props.showInfoItem &&
+                    <span style={{marginRight : 10,fontSize : 16}}>
+                        {`${totalItem} ${totalItem > 1 ? Identify.__('items'):Identify.__('item')}`}
+                        {/* {Identify.__('%a - %b of %c').replace('%a', firstItem).replace('%b', lastItem).replace('%c', totalItem)} */}
+                    </span>
+                }
+            </div>
+        );
+        if (total < 2) return null;
         return (
-            <div className="config-page"  >
+            <div className="config-page">
+                <div className="pagination-info">
+                    {itemsPerPage}
+                    {/* <div style={{display:"flex"}}>
+                        {Identify.__("Show")} {this.renderDropDown()}{Identify.__(" per page")}
+                    </div> */}
+                </div>
                 {pagesSelection}
             </div>
         )
@@ -137,10 +152,9 @@ class PaginationTable extends Pagination {
             let total = data.length;
             return (
                 <React.Fragment>
-                    <table className='col-xs-12 table-striped table-siminia'>
-                        {this.renderColumnTitle()}
-                        <tbody>{items}</tbody>
-                    </table>
+                    <div className='table-siminia table-group'>
+                        {items}
+                    </div>
                     {this.renderPageNumber(total)}
                 </React.Fragment>
             )
@@ -153,4 +167,4 @@ class PaginationTable extends Pagination {
     }
 }
 
-export default PaginationTable
+export default PaginationNoneTable

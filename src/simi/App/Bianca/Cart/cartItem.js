@@ -57,7 +57,7 @@ const CartItem = props => {
             vendorList = storeConfig.simiStoreConfig.config.vendor_list;
             const vendor = vendorList.find(vendor => {
                 if(vendorId === 'default'){
-                    return vendor.entity_id === "1"
+                    return null;
                 }
                 return vendor.entity_id === vendorId; //entity_id is Vendor ID in vendor model
             })
@@ -83,7 +83,11 @@ const CartItem = props => {
                     <div className="item-name">{item.name}</div>
                 </div>
                 {/* <div className='item-sku'>{Identify.__('Product code:')} {item.sku}</div> */}
-                <div className='item-options'>{optionText.reverse()}</div>
+                {Array.isArray(optionText) && optionText.length
+                ?
+                    <div className='item-options'>{optionText.reverse()}</div>
+                :   null
+                }
                 {!props.isOpen
                 ?   
                     <div className='designer-name'>{item.attribute_values && getVendorName(item.attribute_values.vendor_id)}</div>

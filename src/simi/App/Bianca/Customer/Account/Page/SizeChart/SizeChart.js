@@ -1,8 +1,10 @@
 import React from 'react';
-import PaginationTable from '../../Components/Orders/PaginationTable';
+import Pagination from '../../Components/Pagination';
+import PaginationTable from '../../Components/PaginationTable';
 import Identify from 'src/simi/Helper/Identify';
 
 const SizeChart = props => {
+    const { isPhone } = props;
     const { items } = props.data;
     const cols =
         [
@@ -14,6 +16,30 @@ const SizeChart = props => {
         ];
 
     const renderSizeChart = (item, index) => {
+        // render on mobile nontable
+        if (isPhone) {
+            return (
+                <div className="item">
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Product name")}</div>
+                        <div className="item-value">{Identify.__(`${item.product_name}`)}</div>
+                    </div>
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Bust (in cm)")}</div>
+                        <div className="item-value">{Identify.__(`${item.bust}`)}</div>
+                    </div>
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Waist (in cm)")}</div>
+                        <div className="item-value">{Identify.__(`${item.waist}`)}</div>
+                    </div>
+                    <div className="row-item">
+                        <div className="item-label">{Identify.__("Hip (in cm)")}</div>
+                        <div className="item-value">{`${Identify.__(item.hip)}"`}</div>
+                    </div>
+                </div>
+            );
+        }
+        // on desktop
         return (
             <tr key={index}>
                 <td data-title={Identify.__("Product name")}>
@@ -36,11 +62,18 @@ const SizeChart = props => {
 
     return (
         <div>
-            <PaginationTable
-                renderItem={renderSizeChart}
-                cols={cols}
-                data={items}
-            />
+            {isPhone ?
+                <Pagination
+                    renderItem={renderSizeChart}
+                    cols={cols}
+                    data={items}
+                /> :
+                <PaginationTable
+                    renderItem={renderSizeChart}
+                    cols={cols}
+                    data={items}
+                />
+            }
         </div>
     );
 };

@@ -14,6 +14,23 @@ class PaginationTable extends Pagination {
         this.endPage = this.startPage + 2;
     }
 
+    renderColumnTitle = () => {
+        let data = this.props.cols;
+        if(data.length > 0){
+            let columns = data.map((item, index)=>{
+                return <th key={index} width={item.width?item.width: ''} >{Identify.__(item.title)}</th>
+            });
+            return (
+                <thead>
+                    <tr>
+                        {columns}
+                    </tr>
+                </thead>
+            ) 
+            
+        }
+    }
+
     componentDidUpdate(prevProps){
         if(this.props.limit !== prevProps.limit){
             this.setState({limit: this.props.limit})
@@ -68,7 +85,7 @@ class PaginationTable extends Pagination {
                     key={number}
                     id={number}
                     onClick={(e)=>this.changePage(e)}
-                    className={`'page-nums' ${active}`}
+                    className={`page-nums ${active}`}
                 >
                     {number}
                 </li>
@@ -94,9 +111,19 @@ class PaginationTable extends Pagination {
                 alignItems : 'center',
                 fontSize : 14,
             }}>
-                <li className="icon-page-number" onClick={()=>this.handleChangePage(false, total)}>{prevPageIcon}</li>
+                <li className="icon-page-number start" key={"p-start"}>(</li>
+                {obj.state.currentPage === 1 ? 
+                    <li className={`icon-page-number prev disabled`} key={"p-prev"}>{prevPageIcon}</li>
+                    :
+                    <li className={`icon-page-number prev`} onClick={()=>this.handleChangePage(false, total)} key={"p-prev2"}>{prevPageIcon}</li>
+                }
                 {renderPageNumbers}
-                <li className="icon-page-number" onClick={()=>this.handleChangePage(true, total)}>{nextPageIcon}</li>
+                {obj.state.currentPage >= total ? 
+                    <li className={`icon-page-number next disabled`} key={"p-next"}>{nextPageIcon}</li>
+                    :
+                    <li className={`icon-page-number next`} onClick={()=>this.handleChangePage(true, total)} key={"p-next2"}>{nextPageIcon}</li>
+                }
+                <li className="icon-page-number end" key={"p-end"}>)</li>
             </ul>
         ):'';
         let {currentPage,limit} = this.state;
@@ -108,26 +135,16 @@ class PaginationTable extends Pagination {
                 {
                     this.props.showInfoItem &&
                     <span style={{marginRight : 10,fontSize : 16}}>
-                        {Identify.__('%a - %b of %c').replace('%a', firstItem).replace('%b', lastItem).replace('%c', totalItem)}
+                        {`${totalItem} ${totalItem > 1 ? 'items':'item'}`}
                     </span>
                 }
             </div>
         );
+        if (total < 2) return null;
         return (
-            <div className="config-page"
-                 style={{
-                     display : 'flex',
-                     alignItems : 'center',
-                     justifyContent : 'space-between',
-                     clear: 'both',
-                     fontWeight:'500'
-                 }}
-            >
-                <div style={{display:"flex", alignItems:"center"}}>
+            <div className="config-page">
+                <div className="pagination-info">
                     {itemsPerPage}
-                    <div style={{display:"flex"}}>
-                        {Identify.__("Show")} {this.renderDropDown()}{Identify.__(" per page")}
-                    </div>
                 </div>
                 {pagesSelection}
             </div>
@@ -148,9 +165,10 @@ class PaginationTable extends Pagination {
             let total = data.length;
             return (
                 <React.Fragment>
-                    <div className='col-xs-12 table-siminia table-group'>
-                        {items}
-                    </div>
+                    <table className='table-striped table-siminia'>
+                        {this.renderColumnTitle()}
+                        <tbody>{items}</tbody>
+                    </table>
                     {this.renderPageNumber(total)}
                 </React.Fragment>
             )

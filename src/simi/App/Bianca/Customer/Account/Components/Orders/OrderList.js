@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 // import Loading from "src/simi/BaseComponents/Loading";
 import Identify from 'src/simi/Helper/Identify'
 import { formatPrice } from 'src/simi/Helper/Pricing';
-import Pagination from './Pagination';
-import PaginationTable from './PaginationTable';
+import Pagination from '../Pagination';
+import PaginationTable from '../PaginationTable';
 import { Link } from 'react-router-dom';
 import defaultClasses from './style.scss'
 import classify from "src/classify";
@@ -36,7 +36,7 @@ const OrderList = props => {
             pathname: "/orderdetails.html/" + item.increment_id,
             state: { orderData: item }
         };
-        // render on mobile nontable
+        // render on mobile nonetable
         if (props.isPhone) {
             return (
                 <div className="item">
@@ -50,14 +50,14 @@ const OrderList = props => {
                     </div>
                     <div className="row-item">
                         <div className="item-label">{Identify.__("Total")}</div>
-                        <div className="item-value">{formatPrice(item.grand_total)}</div>
+                        <div className="item-value">{formatPrice(parseFloat(item.grand_total))}</div>
                     </div>
                     <div className="row-item">
                         <div className="item-label">{Identify.__("Status")}</div>
                         <div className="item-value">{item.status}</div>
                     </div>
                     <div className="row-item">
-                        <div className="item-label"></div>
+                        <div className="item-label">{Identify.__("Action")}</div>
                         <div className="item-value">
                             <Link className="view-order" to={location}>{Identify.__('View Order')}</Link>
                         </div>
@@ -77,7 +77,7 @@ const OrderList = props => {
                     {date}
                 </td>
                 <td data-title={Identify.__("Total")}>
-                    {formatPrice(item.grand_total)}
+                    {formatPrice(parseFloat(item.grand_total))}
                 </td>
                 <td className="order-status" data-title={Identify.__("Status")}>
                     {item.status}

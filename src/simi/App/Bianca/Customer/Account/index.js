@@ -153,7 +153,7 @@ class CustomerLayout extends React.Component{
 
     renderMenu = () => {
         const menuConfig = this.getMenuConfig()
-        const {page} = this.state;
+        const {page, isPhone} = this.state;
         const menu = menuConfig.map(item => {
             const active = item.page.toString().indexOf(page) > -1 || (page === 'order-detail' && item.page === 'my-order') ? 'active' : '';
 
@@ -167,7 +167,7 @@ class CustomerLayout extends React.Component{
                 </MenuItem> : null
         },this)
         return(
-            <div className="dashboard-menu">
+            <div className={`dashboard-menu ${isPhone?'mobile':''}`}>
                 {/* <div className="menu-header">
                     <div className="welcome-customer">
                         {Identify.__("Welcome %s").replace('%s', firstname + ' ' + lastname)}
@@ -226,7 +226,7 @@ class CustomerLayout extends React.Component{
                 content = <MyGiftVouchers isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'mytrytobuy':
-                content = <Mytrytobuy history={this.props.history}/>
+                content = <Mytrytobuy isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             default :
                 content = 'customer dashboard 2'
@@ -258,7 +258,7 @@ class CustomerLayout extends React.Component{
 
         return (
             <React.Fragment>
-                <div className={`customer-dashboard ${page}`} style={{minHeight:window.innerHeight-200}}>
+                <div className={`customer-dashboard ${page} ${isPhone?'mobile':''}`} style={{minHeight:window.innerHeight-200}}>
                     <BreadCrumb history={this.props.history} breadcrumb={[{name:'Home', link:'/'},{name:'Account'}]}/>
                     <div className='container'>
                         <div className="welcome-customer">

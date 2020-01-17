@@ -59,6 +59,7 @@ class Dashboardmenu extends React.Component {
     }
     
     renderLeftMenu = () => {
+        const { isSignedIn } = this.props;
         return (
             <LeftMenuContent 
                 classes={this.props.classes} 
@@ -67,56 +68,16 @@ class Dashboardmenu extends React.Component {
                 isPhone={this.props.isPhone}
                 handleLink={this.handleLink.bind(this)}
                 parent={this}
+                isSignedIn={isSignedIn}
             />
         )
     }
 
-
-    renderBottomMenu = () => {
-        // const {props} = this
-        // this.bottomContains = {
-        //     cart: false,
-        //     menu: false,
-        //     search: false,
-        // }
-
-        // if (props.bottomMenuItems) {
-        //     props.bottomMenuItems.forEach(item=> {
-        //         const type = parseInt(item.type, 10)
-        //         if (type === 2)
-        //             this.bottomContains.cart = true
-        //         else if (type === 22)
-        //             this.bottomContains.search = true
-        //         else if (type === 20)
-        //             this.bottomContains.menu = true
-        //     })
-        //     // try {
-        //     //     $('#siminia-main-page').css('margin-bottom', '38px')
-        //     // } catch (err) { console.log(err)}
-        //     return <BottomMenu parent={this} bottomMenuItems={props.bottomMenuItems} classes={props.classes} />
-        // }
-        return (
-            <div className='left-all-cats left-bottom-menu'>
-                <div onClick={() => this.handleLink('/login.html')}>
-                    {Identify.__('Login as Buyer')}
-                </div>
-                <div onClick={() => this.handleLink('/designer_login.html')}>
-                    {Identify.__('Login as Designer')}
-                </div>
-            </div>
-        )
-    }
-
     render() {
-        const { isSignedIn } = this.props;
         return (
             <React.Fragment>
                 <aside className={this.props.className}>
                     {this.renderLeftMenu()}
-                    { !isSignedIn
-                    ?  this.renderBottomMenu()
-                    :   null
-                    }
                 </aside>
             </React.Fragment>
         )

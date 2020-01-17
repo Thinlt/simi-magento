@@ -14,8 +14,6 @@ import { getOS } from 'src/simi/App/Bianca/Helper';
 
 require('./checkout.scss')
 
-if (["MacOS", "iOS"].includes(getOS())) require('./checkoutMac.scss');
-
 import { submitShippingAddress, submitBillingAddress, submitOrder, submitShippingMethod } from 'src/simi/Redux/actions/simiactions';
 
 import TitleHelper from 'src/simi/Helper/TitleHelper';
@@ -29,7 +27,7 @@ import Panel from 'src/simi/BaseComponents/Panel';
 import { toggleMessages, simiSignedIn } from 'src/simi/Redux/actions/simiactions';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import { smoothScrollToView } from 'src/simi/Helper/Behavior';
-import Coupon from 'src/simi/BaseComponents/Coupon';
+import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon';
 import ApplyGiftcard from 'src/simi/App/Bianca/BaseComponents/Giftcard/ApplyGiftcard';
 import { isArray } from 'util';
 

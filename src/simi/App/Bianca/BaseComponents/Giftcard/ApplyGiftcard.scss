@@ -1,33 +1,96 @@
 .gift-voucher-checkout {
+    font-weight: 400;
     .gift-voucher-area {
-        margin-top: 20px;
         display: flex;
         justify-content: space-between;
-        flex-wrap: wrap;
         #checkout_voucher_field {
-            width: 65%;
-            height: 45px;
-            border: solid 1px rgba(51,49,50,0.4);
+            width: 59%;
+            height: 48px;
+            border: none;
             border-radius: 0px;
             padding: 3px 16px 0px 16px;
+            background-color: #F2F2F2;
+            font-size: 14px;
+            font-family: "Gotham Book";
         }
-        #submit-voucher {
+        #submit-voucher, #remove-voucher {
+            width: 39%;
             margin-top: 0px;
-            min-width: 100px;
-            height: 45px;
+            min-width: 106px;
+            height: 48px;
             font-family: 'Gotham Book';
             text-transform: uppercase;
+            font-size: 16px;
+            padding-top: 14px;
+        }
+    }
+    .gift-select {
+        .gift-select-label {
+            font-size: 14px;
+            line-height: 14px;
+            font-family: "Gotham Book";
+            color: #101820;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .selectSavedGiftcard {
+            display: inline-grid;
+            grid-auto-flow: column;
+            grid-template-areas: 'before input after';
+            grid-template-columns: auto 1fr auto;
+            height: 2.25rem;
+            margin-bottom: 30px;
+            width: 100%;
+            
+            .selectSavedGiftcardInput {
+                align-items: center;
+                display: flex;
+                grid-column: before-start / after-end;
+                grid-row: input-start / input-end;
+            }
+            .selectSavedGiftcardAfter{
+                grid-area: after;
+                align-items: center;
+                display: flex;
+                justify-content: center;
+                pointer-events: none;
+                width: 2.25rem;
+            }
+            select[name="selected_giftcard_field"]{
+                padding: 17px 16px;
+                border: unset;
+                display: inline-flex;
+                flex: 0 0 100%;
+                margin: 0;
+                width: 100%;
+                -webkit-appearance: none;
+                border-radius: 0px;
+            }
         }
     }
 
     @media (max-width: 1023px) {
         .gift-voucher-area {
-            #checkout_voucher_field {
-                width: 100%;
+            #submit-voucher, #remove-voucher {
+                width: 41%;
             }
-            #submit-voucher {
-                width: 100%;
-                margin-top: 20px;
+            #checkout_voucher_field {
+                background-color: #E9E9E9;
+            }
+        }
+
+        .gift-select {
+            .gift-select-label {
+                margin-top: 16px;
+                margin-bottom: 12px;
+                font-size: 14px;
+            }
+
+            .selectSavedGiftcardInput {
+                select[name="selected_giftcard_field"]{
+                    background-color: #E9E9E9;
+                    padding: 14px 16px;
+                }
             }
         }
     }
