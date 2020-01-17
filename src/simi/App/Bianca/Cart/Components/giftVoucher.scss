@@ -65,23 +65,23 @@
     border: solid 1px #F2F2F2;
 }
 
-#submit-voucher {
+#submit-voucher, #remove-voucher {
     background-color: #101820;
     color: #FFF
 }
 
 @media (min-width: 1024px) {
-    .checkout-col-2 #submit-voucher {
+    .checkout-col-2 #submit-voucher, .checkout-col-2 #remove-voucher {
         margin-left: 0;
         margin-top: 8px;
     }
-    #submit-voucher {
+    #submit-voucher, #remove-voucher {
         display: inline-block;
         margin-left: 8px;
         width: 100px;
 
     }
-    .submit-voucher-rtl{
+    .submit-voucher-rtl, .remove-voucher-rtl{
         margin-left: 0 !important;
         margin-right: 8px;
     }
@@ -101,7 +101,7 @@
     .checkout-col-2 .gift-voucher #submit-voucher{
         margin-top: 20px;
     }
-    #submit-voucher {
+    #remove-voucher, #submit-voucher {
         width: 100%;
         margin-top: 8px;
     }

@@ -247,12 +247,29 @@ class LeftMenuContent extends React.Component{
         return items
     }
 
+    renderBottomMenu = () => {
+        return (
+            <div className='left-all-cats left-bottom-menu'>
+                <div onClick={() => this.handleLink('/login.html')}>
+                    {Identify.__('Login as Buyer')}
+                </div>
+                <div onClick={() => this.handleLink('/designer_login.html')}>
+                    {Identify.__('Login as Designer')}
+                </div>
+            </div>
+        )
+    }
+
     render(){
-        const {classes} = this.props
+        const {classes, isSignedIn} = this.props
         return (
             <div className={classes["list-menu-header"]} style={{maxHeight:window.innerHeight}}>
                 {this.renderSections()}
                 {this.renderItemDownloadApp()}
+                { !isSignedIn
+                ?  this.renderBottomMenu()
+                :   null
+                }
             </div>
         )
     }

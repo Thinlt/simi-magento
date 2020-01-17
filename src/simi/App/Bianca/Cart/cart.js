@@ -26,7 +26,6 @@ import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher';
 
 require('./cart.scss');
 
-const $ = window.$;
 class Cart extends Component {
     constructor(...args) {
         super(...args);
@@ -94,16 +93,18 @@ class Cart extends Component {
 
     removeAllItemsInCart = () => {
         const { cart } = this.props;
-        const initialValue = {};
-        const allItems = cart.details.items.reduce((obj,item) => {
-            return {
-                ...obj,
-                [item.item_id]: "0",
-            };
-        },initialValue);
-        showFogLoading();
-        this.setState({isLoading: true})
-        removeAllItems(this.removeAllCallBack, allItems);
+        if (confirm(Identify.__('Are you sure?')) === true) {
+            showFogLoading();
+            const initialValue = {};
+            const allItems = cart.details.items.reduce((obj,item) => {
+                return {
+                    ...obj,
+                    [item.item_id]: "0",
+                };
+            },initialValue);
+            this.setState({isLoading: true})
+            removeAllItems(this.removeAllCallBack, allItems);
+        }
     }
 
     removeAllCallBack = (data) => {
@@ -123,22 +124,22 @@ class Cart extends Component {
                     key={Identify.randomString(5)}
                     className="cart-item-header"
                 >
-                    <div style={{ width: '54%' }}>{Identify.__('Items')}</div>
-                    <div style={{ width: '14%', textAlign: 'center' }}>
+                    <div style={{ width: '52.5%' }}>{Identify.__('Items')}</div>
+                    <div style={{ width: '17%', textAlign: 'left' }}>
                         {Identify.__('Price')}
                     </div>
-                    <div style={{ width: '14%', textAlign: 'center' }}>
+                    <div style={{ width: '16%', textAlign: 'left' }}>
                         {Identify.__('Quantity')}
                     </div>
-                    <div style={{ width: '20%', textAlign: 'center' }}>
+                    <div style={{ width: '14%', textAlign: 'right' }}>
                         {Identify.__('Subtotal')}
                     </div>
                     {/* <div style={{width: '7%'}}>{Identify.__('').toUpperCase()}</div> */}
                 </div>
             );
-            if(this.state.items){
-                for (const i in this.state.items) {
-                    const item = this.state.items[i];
+            if(cart.details.items){
+                for (const i in cart.details.items) {
+                    const item = cart.details.items[i];
                     let itemTotal = null;
                     if (cart.totals && cart.totals.items) {
                         cart.totals.items.every(function(total) {

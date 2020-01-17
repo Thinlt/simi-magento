@@ -80,9 +80,7 @@ const Coupon = props => {
                 <div>{isCouponOpen ? <ArrowUp /> : <ArrowDown />}</div>
             </div>
             <div
-                className={`coupon-code-area-tablet ${
-                    isCouponOpen ? 'coupon-open' : 'coupon-close'
-                }`}
+                className={`coupon-code-area-tablet  `}
             >
                 <input
                     className="coupon_field"
