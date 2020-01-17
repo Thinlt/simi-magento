@@ -45,7 +45,7 @@ const Myreserved = props => {
         // render on mobile nontable
         if (isPhone) {
             return (
-                <div className="item">
+                <div className="item" key={index}>
                     <div className="row-item">
                         <div className="item-label">{Identify.__("Product name")}</div>
                         <div className="item-value">{Identify.__(`${item.product_name}`)}</div>
