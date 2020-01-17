@@ -343,7 +343,12 @@
     font-size: 16px;
     border: 1px solid #101820;
     tr{
-        border: 1px solid
+        td{
+            &.action{
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
     }
 }
 .table-siminia > thead > tr,
@@ -1164,6 +1169,9 @@ Order history
                                 display: flex;
                                 justify-content: flex-end;
                                 a{
+                                    text-decoration: underline;
+                                }
+                                .action{
                                     text-decoration: underline;
                                 }
                             }

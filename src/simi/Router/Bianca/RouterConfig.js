@@ -156,6 +156,10 @@ const router = {
         path : '/orderhistory.html',
         render : location => <Account {...location} page={`my-order`} />
     },
+    myreserved : {
+        path : '/myreserved.html',
+        render : location => <Account {...location} page={`myreserved`} />
+    },
     mytrytobuy : {
         path : '/mytrytobuy.html',
         render : location => <Account {...location} page={`mytrytobuy`} />
