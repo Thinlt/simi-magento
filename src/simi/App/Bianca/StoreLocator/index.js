@@ -10,8 +10,6 @@ import { Colorbtn } from 'src/simi/BaseComponents/Button';
 import TextBox from 'src/simi/BaseComponents/TextBox';
 require('./style.scss');
 
-if (["MacOS", "iOS"].includes(getOS())) require('./style-mac.scss');
-
 export const StoreLocator = props => {
     const loadedFromCache = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'cached_store_locators')
     const [stores, setStores] = useState(loadedFromCache)

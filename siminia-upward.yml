@@ -164,7 +164,7 @@ appShell:
         - matches: resource.model
           pattern: '.'
           use: 200
-      default: 404
+      default: 200
     headers:
       inline:
         # The appShell object will always resolve to a response containing 
