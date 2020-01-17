@@ -23,6 +23,7 @@ import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { removeItemFromCart, removeAllItems } from 'src/simi/Model/Cart';
 import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon';
 import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher';
+import EmptyMiniCart from '../Components/MiniCart/emptyMiniCart';
 
 require('./cart.scss');
 
@@ -375,22 +376,33 @@ class Cart extends Component {
             isCartEmpty,
             cart
         } = props;
-        if (
-            isCartEmpty ||
-            !cart.details.items ||
-            !parseInt(cart.details.items_count)
-        ) {
-            if (isLoading) return <Loading />;
-            else
-                return (
-                    <div className="cart-page-siminia">
-                        <div className="empty-cart">
-                            {Identify.__(
-                                'You have no items in your shopping cart'
-                            )}
+        if (isCartEmpty || !cart.details.items || !parseInt(cart.details.items_count)) {
+            if(isLoading){
+                return <Loading />;
+            }
+            else{
+                if(this.state.isPhone){
+                    return(
+                        <div className="cart-page-siminia">
+                            <div className="cart-title-mobile">
+                                {Identify.__("SHOPPING CART")}
+                            </div>
+                            <EmptyMiniCart/>
                         </div>
-                    </div>
-                );
+                    )
+                }
+                else{
+                    return (
+                        <div className="cart-page-siminia">
+                            <div className="empty-cart">
+                                {Identify.__(
+                                    'You have no items in your shopping cart'
+                                )}
+                            </div>
+                        </div>
+                    );
+                }
+            }
         }
 
         if (isLoading) showFogLoading();

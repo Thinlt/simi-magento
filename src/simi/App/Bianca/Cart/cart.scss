@@ -401,3 +401,33 @@
     }
 }
 }
+
+@media (max-width: 768px){
+    .container.cart-page{
+        .cart-page-siminia{
+            .cart-title-mobile{
+                font-size: 16px;
+                font-weight: 600;
+                margin-top: 20px;
+            }
+            .empty-mobile{
+                padding: 150px 0 373px;
+                svg{
+                    width: 25px !important;
+                    height: 25px !important;
+                }
+                h3{
+                    font-size: 16px;
+                    margin-bottom: 54px;
+                }
+                button{
+                    width: 100%;
+                    span{
+                        width: 100%;
+                        min-width: unset;
+                    }
+                }
+            }
+        }
+    }
+}
