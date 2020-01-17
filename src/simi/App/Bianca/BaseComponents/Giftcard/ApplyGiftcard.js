@@ -1,12 +1,34 @@
 import React, { Component, } from 'react';
 import { updateGiftVoucher, deleteGiftCode } from 'src/simi/Model/Cart';
+import { getGiftCodes } from 'src/simi/Model/Customer'
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import Identify from 'src/simi/Helper/Identify';
 import { Whitebtn } from 'src/simi/BaseComponents/Button'
-import Close from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
+import ChevronDownIcon from 'react-feather/dist/icons/chevron-down';
+import Icon from 'src/components/Icon';
 require('./ApplyGiftcard.scss');
 
+const arrow = <Icon src={ChevronDownIcon} size={18} />;
+
 class ApplyGiftcard extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {savedCoupons: []}
+        this.savedCouponSelect = false
+        this.couponFieldInput = false
+        this.applyingGiftCard = false
+    }
+
+    componentDidMount() {
+        getGiftCodes((data) => this.gotVouchers(data), 1, 99999, 'id', 'desc')
+    }
+
+    gotVouchers(data) {
+        if (data && data.length) {
+            this.setState({savedCoupons: data})
+        }
+    }
+
     deleteVoucher (giftCode) {
         const { userSignedIn } = this.props
         this.clearVoucher = true
@@ -14,25 +36,35 @@ class ApplyGiftcard extends Component {
         const storeConfig = Identify.getStoreConfig() || {};
         if (storeConfig.storeConfig && storeConfig.storeConfig.code)
             storeCode = storeConfig.storeConfig.code
+        showFogLoading()
         deleteGiftCode((data) => this.processData(data), giftCode, userSignedIn, storeCode)
     }
 
-    handleVoucher(type = '') {
+    handleVoucher() {
+        const {toggleMessages} = this.props
+        const voucher = this.couponFieldInput.value;
+        if (!voucher) {
+            toggleMessages([{ type: 'error', message: Identify.__('Please enter gift code'), auto_dismiss: true }]);
+            return null;
+        }
+        this.applyVoucher(voucher)
+    }
+
+    applyVoucher(voucher) {
+        if (this.applyingGiftCard)
+            return
+        this.applyingGiftCard = true
         let storeCode = 'default'
         const storeConfig = Identify.getStoreConfig() || {};
         if (storeConfig.storeConfig && storeConfig.storeConfig.code)
             storeCode = storeConfig.storeConfig.code
-        const {toggleMessages, userSignedIn} = this.props
-        const voucher = document.querySelector('#checkout_voucher_field').value;
-        if (!voucher && type !== 'clear') {
-            toggleMessages([{ type: 'error', message: Identify.__('Please enter gift code'), auto_dismiss: true }]);
-            return null;
-        }
+        const { userSignedIn} = this.props
         showFogLoading()
         updateGiftVoucher((data) => this.processData(data), voucher, userSignedIn, storeCode)
     }
 
     processData(data) {
+        this.applyingGiftCard = false
         const {getCartDetails, toggleMessages} = this.props
         hideFogLoading();
         if(this.clearVoucher){
@@ -41,7 +73,7 @@ class ApplyGiftcard extends Component {
             } else {
                 this.clearVoucher = false
                 toggleMessages([{ type: 'success', message: Identify.__('Gift Card code has been removed'), auto_dismiss: true }]);
-                document.querySelector('#checkout_voucher_field').value = ''
+                this.couponFieldInput.value = ''
             }
         } else if (!data || data.errors) {
             toggleMessages([{ type: 'error', message: Identify.__('Gift Cart is invalid'), auto_dismiss: true }]);
@@ -54,6 +86,7 @@ class ApplyGiftcard extends Component {
     render() {
         let giftCode = '';
         const {cart} = this.props
+        const {savedCoupons} = this.state
 
         if (cart && cart.totals && cart.totals.total_segments) {
             const segment = cart.totals.total_segments.find(item => {
@@ -76,13 +109,23 @@ class ApplyGiftcard extends Component {
             }
         }
 
+        const selections = [<option key="0" value="0">{Identify.__('Choose a Gift Voucher')}</option>]
+        if (savedCoupons && Array.isArray(savedCoupons) && savedCoupons.length) {
+            savedCoupons.map((savedCoupon) => {
+                selections.push(
+                    <option value={savedCoupon.code} key={savedCoupon.code}>
+                        {savedCoupon.code}
+                    </option>
+                )
+            })
+        }
+
         return (
             <div className='gift-voucher-checkout'>
-                <div className={`gift-voucher-area`}>
-                    <input id="checkout_voucher_field" type="text" placeholder={Identify.__('Enter Gift Code')} defaultValue={giftCode} />
-                            {giftCode && <button className='btn-clear-voucher' onClick={()=>this.deleteVoucher(giftCode)}>
-                                <Close style={{width:15,height:15}}/>
-                            </button>   }
+                <div className='gift-voucher-area'>
+                    <input id="checkout_voucher_field" type="text" 
+                        ref={(item)=> {this.couponFieldInput = item}}
+                        placeholder={Identify.__('Enter Gift Code')} defaultValue={giftCode} />
                     {!giftCode 
                     ?   <Whitebtn 
                             id="submit-voucher"
@@ -90,9 +133,38 @@ class ApplyGiftcard extends Component {
                             onClick={() => this.handleVoucher()}
                             text={Identify.__('Apply')} 
                         />
-                    :   null
+                    :   <Whitebtn 
+                            id="remove-voucher"
+                            className={`${Identify.isRtl() ? "remove-voucher-rtl" : 'remove-voucher'}`}
+                            onClick={() => this.deleteVoucher(giftCode)}
+                            text={Identify.__('Cancel')} 
+                        />
                     }
                 </div>
+                {
+                    (selections.length > 1) && 
+                    (
+                        <div className="gift-select">
+                            <div className="gift-select-label">{Identify.__('Or choose from your existing Gift Voucher(s)')}</div>
+                            <div className="gift-select-options">
+                                <span className="selectSavedGiftcard">
+                                    <span className="selectSavedGiftcardInput">
+                                        <select 
+                                            name="selected_giftcard_field"
+                                            defaultValue={ (giftCode && savedCoupons.includes(giftCode)) ? giftCode : 0}
+                                            onChange={(e) => {if (this.savedCouponSelect) this.applyVoucher(this.savedCouponSelect.value)}}
+                                            ref={(item)=> {this.savedCouponSelect = item}}
+                                        >
+                                            {selections}
+                                        </select>
+                                    </span>
+                                    <span className="selectSavedGiftcardAfter">{arrow}</span>
+                                </span>
+                                
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         )
     }
