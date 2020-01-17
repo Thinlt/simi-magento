@@ -18,7 +18,8 @@ import MyOrder from './Page/OrderHistory';
 import OrderDetail from './Page/OrderDetail';
 import MyGiftVouchers from './Page/MyGiftVouchers';
 import SizeChart from './Page/SizeChart';
-import Mytrytobuy from './Page/Mytrytobuy'
+import Myreserved from './Page/Myreserved';
+import Mytrytobuy from './Page/Mytrytobuy';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import {
     getUserDetails,
@@ -110,8 +111,8 @@ class CustomerLayout extends React.Component{
             },
             {
                 title : Identify.__('My Reserved Products'),
-                url : '/account.html',
-                page : 'newsletter',
+                url : '/myreserved.html',
+                page : 'myreserved',
                 enable : true,
                 sort_order : 90
             },
@@ -224,6 +225,9 @@ class CustomerLayout extends React.Component{
                 break;
             case 'giftvoucher':
                 content = <MyGiftVouchers isPhone={this.state.isPhone} history={this.props.history}/>
+                break;
+            case 'myreserved':
+                content = <Myreserved isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'mytrytobuy':
                 content = <Mytrytobuy isPhone={this.state.isPhone} history={this.props.history}/>

@@ -97,24 +97,24 @@ class PaginationNoneTable extends Pagination {
                 <li className="icon-page-number start" key={"p-start"}>(</li>
                 {obj.state.currentPage === 1 ? 
                     Identify.isRtl() ?
-                    <li className={`icon-page-number prev disabled`} key={"p-prev"}>{nextPageIcon}</li> :
-                    <li className={`icon-page-number prev disabled`} key={"p-prev"}>{prevPageIcon}</li>
+                    <li className={`icon-page-number prev disabled`} key={"p-prev1"}>{nextPageIcon}</li> :
+                    <li className={`icon-page-number prev disabled`} key={"p-prev2"}>{prevPageIcon}</li>
                     :
                     Identify.isRtl() ?
-                    <li className={`icon-page-number prev`} onClick={()=>this.handleChangePage(false, total)} key={"p-prev2"}>{nextPageIcon}</li>
+                    <li className={`icon-page-number prev`} onClick={()=>this.handleChangePage(false, total)} key={"p-prev3"}>{nextPageIcon}</li>
                     : 
-                    <li className={`icon-page-number prev`} onClick={()=>this.handleChangePage(false, total)} key={"p-prev2"}>{prevPageIcon}</li>
+                    <li className={`icon-page-number prev`} onClick={()=>this.handleChangePage(false, total)} key={"p-prev4"}>{prevPageIcon}</li>
                 }
                 {renderPageNumbers}
                 {obj.state.currentPage >= total ? 
                     Identify.isRtl() ?
-                    <li className={`icon-page-number next disabled`} key={"p-next"}>{prevPageIcon}</li> :
-                    <li className={`icon-page-number next disabled`} key={"p-next"}>{nextPageIcon}</li>
+                    <li className={`icon-page-number next disabled`} key={"p-next1"}>{prevPageIcon}</li> :
+                    <li className={`icon-page-number next disabled`} key={"p-next2"}>{nextPageIcon}</li>
                     :
                     Identify.isRtl() ?
-                    <li className={`icon-page-number next`} onClick={()=>this.handleChangePage(true, total)} key={"p-next2"}>{prevPageIcon}</li>
+                    <li className={`icon-page-number next`} onClick={()=>this.handleChangePage(true, total)} key={"p-next3"}>{prevPageIcon}</li>
                     :
-                    <li className={`icon-page-number next`} onClick={()=>this.handleChangePage(true, total)} key={"p-next2"}>{nextPageIcon}</li>
+                    <li className={`icon-page-number next`} onClick={()=>this.handleChangePage(true, total)} key={"p-next4"}>{nextPageIcon}</li>
                 }
                 <li className="icon-page-number end" key={"p-end"}>)</li>
             </ul>
@@ -155,9 +155,8 @@ class PaginationNoneTable extends Pagination {
             const indexOfLastTodo = currentPage * limit;
             const indexOfFirstTodo = indexOfLastTodo - limit;
             const currentReview = data.slice(indexOfFirstTodo, indexOfLastTodo);
-            let obj = this;
             const items = currentReview.map((item, key) => {
-                return obj.renderItem(item, key);
+                return this.renderItem(item, key);
             });
             let total = data.length;
             return (

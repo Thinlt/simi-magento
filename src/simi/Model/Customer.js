@@ -46,6 +46,10 @@ export const getSizeChart = (callBack, customerId) => {
     sendRequest('/rest/V1/simiconnector/sizechart', callBack, 'GET',{customer_id: customerId});
 }
 
+export const getMyReserved = (callBack) => {
+    sendRequest('/rest/V1/simiconnector/reserve', callBack, 'GET', {});
+}
+
 export const addGiftVoucher = (callBack, postData) => {
     sendRequest('/rest/V1/giftcard/mine/addcode', callBack, 'POST', {}, postData);
 }
