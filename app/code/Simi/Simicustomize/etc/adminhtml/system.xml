@@ -44,6 +44,10 @@
                     <label>Email template ID</label>
                     <comment>Default value: send_email_reserve_template</comment>
                 </field>
+                <field id="state" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Status</label>
+                    <comment>Use commas to separate between status type - example: Processing,Complete.</comment>
+                </field>
             </group>
             <group id="service" translate="label" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Service Settings</label>

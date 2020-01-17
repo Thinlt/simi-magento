@@ -141,7 +141,54 @@
                     </item>
                 </argument>
             </filterInput>
+            <filterSelect name="status">
+                <argument name="optionsProvider" xsi:type="configurableObject">
+                    <argument name="class" xsi:type="string">Simi\Simicustomize\Model\Source\Reserve\Status</argument>
+                </argument>
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="provider" xsi:type="string">${ $.parentName }</item>
+                        <item name="imports" xsi:type="array">
+                            <item name="visible" xsi:type="string">ns = ${ $.ns }, componentType = column, index = ${ $.index }:visible</item>
+                        </item>
+                        <item name="label" xsi:type="string" translate="true">Service</item>
+                        <item name="caption" xsi:type="string">Select...</item>
+                        <item name="dataScope" xsi:type="string">status</item>
+                        <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
+                        <item name="template" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                    </item>
+                </argument>
+            </filterSelect>
         </filters>
+        <massaction name="listing_massaction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">simi_reserve_grid.simi_reserve_grid.simi_reserve_listing_columns.ids</item>
+                    <item name="displayArea" xsi:type="string">bottom</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/tree-massactions</item>
+                    <item name="indexField" xsi:type="string">id</item>
+                </item>
+            </argument>
+            <action name="changestatus">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">changestatus</item>
+                        <item name="label" xsi:type="string" translate="true">Change status</item>
+                    </item>
+                </argument>
+                <argument name="actions" xsi:type="configurableObject">
+                    <argument name="class" xsi:type="string">Simi\Simicustomize\Model\Source\Reserve\MassStatus</argument>
+                    <argument name="data" xsi:type="array">
+                        <item name="urlPath" xsi:type="string">simi/reserve/massaction</item>
+                        <item name="paramName" xsi:type="string">status</item>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Change status</item>
+                            <item name="message" xsi:type="string" translate="true">Are you sure to use selected status for reserved?</item>
+                        </item>
+                    </argument>
+                </argument>
+            </action>
+        </massaction>
         <paging name="listing_paging"/>
     </listingToolbar>
     <columns name="simi_reserve_listing_columns">
@@ -229,7 +276,18 @@
                 </item>
             </argument>
         </column>
-        <column name="reservation_date" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date" sortOrder="80">
+        <column name="status" sortOrder="80">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Simi\Simicustomize\Model\Source\Reserve\Status</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                    <item name="label" xsi:type="string" translate="true">Status</item>
+                    <item name="fieldName" xsi:type="string">status</item>
+                </item>
+            </argument>
+        </column>
+        <column name="reservation_date" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date" sortOrder="100">
             <settings>
                 <filter>dateRange</filter>
                 <dataType>date</dataType>

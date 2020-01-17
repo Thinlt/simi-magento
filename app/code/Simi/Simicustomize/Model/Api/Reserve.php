@@ -111,6 +111,7 @@ class Reserve extends \Simi\Simiconnector\Model\Api\Apiabstract implements \Simi
             $reserve->setData('store_name', $data['store_name']);
             $reserve->setData('customer_id', $data['customer_id']);
             $reserve->setData('customer_name', $data['customer_name']);
+            $reserve->setData('status', 'Pending');
             $collection = $reserve->getCollection();
             $collection->addFieldToFilter('product_id', $data['product_id'])
                 ->addFieldToFilter('storelocator_id', $data['storelocator_id'])
@@ -146,7 +147,6 @@ class Reserve extends \Simi\Simiconnector\Model\Api\Apiabstract implements \Simi
             $reserve->setData('reservation_date', $this->_getNextWorkingDay());
             try{
                 $reserve->save();
-                
                 try{
                     // send email to customer
                     $customer = $this->simiObjectManager->create('\Magento\Customer\Model\Customer')->load($data['customer_id']);

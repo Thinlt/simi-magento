@@ -21,6 +21,7 @@
         <column xsi:type="int" name="storelocator_id" unsigned="true" padding="10" nullable="true" comment="StoreLocator ID"/>
         <column xsi:type="varchar" name="store_name" nullable="true" length="255" comment="Store Locator Name"/>
         <column xsi:type="text" name="request_info" nullable="true" comment="Request Info"/>
+        <column xsi:type="varchar" name="status" nullable="true" length="255" comment="Status"/>
         <column xsi:type="datetime" name="date" nullable="true" comment="Request date"/>
         <column xsi:type="datetime" name="reservation_date" nullable="true" comment="Reservation date"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
