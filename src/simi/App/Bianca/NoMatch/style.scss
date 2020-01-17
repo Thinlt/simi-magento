@@ -21,4 +21,22 @@
             line-height: 18px;
         }
     }
+
+    @media (max-width: 1023px) {       
+        .container-404 {
+            .title-404 {
+                font-size: 60px;
+                line-height: 60px;
+            }
+            .sub-title-404 {
+                font-size: 20px;
+                line-height: 20px;
+            }
+            .description-404 {
+                margin-top: 10px;
+                font-size: 12px;
+                line-height: 12px;
+            }
+        }
+    }
 }

@@ -1,0 +1,119 @@
+.dashboard-acc-order-detail {
+    font-family: 'Gotham Book';
+    color: #101820;
+    .order-id {
+        font-family: 'Gotham Book';
+        font-size: 24px;
+        line-height: 24px;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+    .created-at {
+        font-family: 'Gotham Book';
+        margin-top: 20px;
+        font-size:16px;
+        line-height: 16px;
+    }
+    .order-detail-table {
+        border: solid #727272 1px;
+        .order-header {
+            border-bottom: solid #727272 1px;
+            font-size: 16px;
+            font-family: "Gotham Book";
+            font-weight: 600;
+            padding: 16px 24px;
+            background-color: #E4E4E4;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            .detail-name-col {
+                min-width: 194px;
+                max-width: 194px;
+                width: 194px;
+            }
+            .detail-sku-col {
+                min-width: 114px;
+                max-width: 114px;
+                width: 114px;
+            }
+        }
+        .order-detail-line {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            padding: 16px 24px;
+            .img-item {
+                min-width: 190px;
+                max-width: 190px;
+                width: 190px;
+                .order-item-info {
+                    .item-name {
+                        cursor: pointer;
+                        margin-bottom: 9px;
+                    }
+                    .item-options {
+                        >div {
+                            font-size: 14px;
+                            .orderhisoptionlabel {
+                                display: inline-block;
+                                font-weight: 600;
+                            }
+                            .orderhisoptionvalue {
+                                display: inline-block;
+                            }
+                        }
+                        >div:not(:first-child) {
+                            margin-top: 25px;
+                        }
+                    }
+                }
+            }
+            .product-code {
+                min-width: 110px;
+                max-width: 110px;
+                width: 110px;
+            }
+            .item-qty {
+                text-align: center;
+            }
+            .cart-item-value {
+                .price {
+                    font-weight: 600;
+                }
+            }
+        }
+        .detail-order-footer {
+            padding: 30px 24px;
+            .box-total-price {
+                background-color: #F2F2F2;
+                padding: 15px 56px;
+                .total-sub-price-container {
+                    max-width: 351px;
+                    margin-left: auto;
+                    .summary-price-line {
+                        display: flex;
+                        justify-content: space-between;
+                        font-size: 14px;
+                        line-height: 14px;
+                        margin-bottom: 12px;
+                    }
+                    .total {
+                        font-weight: 600;
+                        text-transform: uppercase;
+                    }
+                }
+            }
+        }
+    }
+    .order-detail__summary {
+        margin-top: 50px;
+        width: 100%;
+        .summary-title {
+            width: 100%;
+            font-size: 20px;
+            line-height: 20px;
+            padding-bottom: 10px;
+            border-bottom: solid 1px #E0E0E0;
+        }
+    }
+}
