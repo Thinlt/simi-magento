@@ -1,6 +1,8 @@
 <?php
 namespace Simi\Simicustomize\Model\Api;
 
+use Magento\Customer\Model\Session as CustomerSession;
+
 class Reserve extends \Simi\Simiconnector\Model\Api\Apiabstract implements \Simi\Simicustomize\Api\ReserveInterface
 {
     /**
@@ -28,19 +30,28 @@ class Reserve extends \Simi\Simiconnector\Model\Api\Apiabstract implements \Simi
     */
     protected $inlineTranslation;
 
+    /**
+     * @var CustomerSession
+     */
+    private $customerSession;
+
+    public $allow_filter_core = false;
+
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $simiObjectManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
-        \Magento\Framework\App\RequestInterface $request
+        \Magento\Framework\App\RequestInterface $request,
+        CustomerSession $customerSession
     ){
         $this->request = $request;
         $this->config = $config;
         $this->date = $date;
         $this->transportBuilder = $transportBuilder;
         $this->inlineTranslation = $inlineTranslation;
+        $this->customerSession = $customerSession;
         parent::__construct($simiObjectManager);
     }
 
@@ -51,6 +62,35 @@ class Reserve extends \Simi\Simiconnector\Model\Api\Apiabstract implements \Simi
     public function setBuilderQuery()
     {
         $this->builderQuery = false;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getMyReserved(){
+        $customerId = $this->customerSession->getCustomer()->getId();
+        if (isset($customerId) && $customerId) 
+        {
+            $model = $this->simiObjectManager->get('\Simi\Simicustomize\Model\Reserve');
+            $collection = $model->getCollection();
+            $this->builderQuery = $collection;
+            $collection->addFieldToFilter('customer_id', $customerId);
+            $parameters = $this->request->getParams();
+            if ($this->request->getContent()) {
+                $parameters2 = json_decode($this->request->getContent(), true);
+                $parameters = array_merge_recursive($parameters, $parameters2);
+            }
+            $this->order($parameters);
+            $page  = 1;
+            $limit = self::DEFAULT_LIMIT;
+            $offset = 0;
+            $this->setPageSize($collection, $parameters, $limit, $offset, $page);
+            if ($collection->getSize()) {
+                return ['data' => $collection->toArray()];
+            }
+            return ['data' => ['status' => false, 'error' => __('No data!')]];
+        }
+        return ['data' => ['status' => false, 'error' => __('Invalid request value!')]];
     }
 
     /**
@@ -221,5 +261,37 @@ class Reserve extends \Simi\Simiconnector\Model\Api\Apiabstract implements \Simi
 
     protected function getFormatDate($date){
         return date('F d, Y', $this->date->gmtTimestamp($date));
+    }
+
+    private function setPageSize($collection, $parameters, &$limit, &$offset, &$page)
+    {
+        if (isset($parameters[self::PAGE]) && $parameters[self::PAGE]) {
+            $page = $parameters[self::PAGE];
+        }
+        if (isset($parameters[self::LIMIT]) && $parameters[self::LIMIT]) {
+            $limit = $parameters[self::LIMIT];
+        }
+        $offset = $limit * ($page - 1);
+        if (isset($parameters[self::OFFSET]) && $parameters[self::OFFSET]) {
+            $offset = $parameters[self::OFFSET];
+        }
+        // $collection->setPageSize($offset + $limit);
+        $collection->getSelect()->limit($limit, $offset);
+    }
+
+    /**
+     * @return collection
+     * override
+     */
+    public function order($params)
+    {
+        if ($this->builderQuery && isset($params['dir']) && isset($params['order'])) {
+            $query = $this->builderQuery;
+            $order = isset($params[self::ORDER]) ? $params[self::ORDER] : $this->getDefaultOrder();
+            $order = str_replace('|', '.', $order);
+            $dir = isset($params[self::DIR]) ? $params[self::DIR] : $this->getDefaultDir();
+            $query->getSelect()->order($order.' '.$dir);
+        }
+        return null;
     }
 }

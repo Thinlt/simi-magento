@@ -7,6 +7,12 @@
             <resource ref="anonymous"/>
         </resources>
     </route>
+    <route url="/V1/simiconnector/reserve" method="GET">
+        <service class="Simi\Simicustomize\Api\ReserveInterface" method="getMyReserved"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+    </route>
     <route url="/V1/simiconnector/service" method="POST">
         <service class="Simi\Simicustomize\Api\ServiceInterface" method="save"/>
         <resources>

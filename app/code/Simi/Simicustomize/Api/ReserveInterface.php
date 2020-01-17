@@ -12,4 +12,10 @@ interface ReserveInterface
      * @return boolean
      */
     public function index();
+
+    /**
+     * Get my reserved products
+     * @return array|boolean
+     */
+    public function getMyReserved();
 }
