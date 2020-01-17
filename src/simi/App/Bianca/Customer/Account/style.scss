@@ -89,7 +89,7 @@
                 font-family: "Gotham Book";
                 font-weight: 500;
                 font-size: 18px;
-                line-height: 20px;
+                line-height: 22px;
                 margin: 0 3px;
                 padding: 0px 6px;
                 &.page-nums{
@@ -112,8 +112,8 @@
                         padding-right: 0px;
                     }
                     &.start,&.end{
-                        padding-left: 0x;
-                        padding-right: 0x;
+                        padding-left: 0px;
+                        padding-right: 0px;
                         margin: 0;
                     }
                 }
@@ -1161,7 +1161,8 @@ Order history
                                 font-weight: 700;
                             }
                             .item-value{
-                                text-align: right;
+                                display: flex;
+                                justify-content: flex-end;
                                 a{
                                     text-decoration: underline;
                                 }
