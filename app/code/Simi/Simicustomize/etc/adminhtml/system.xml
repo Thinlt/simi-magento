@@ -212,6 +212,13 @@
                     <comment>Example: https://app.apple.com/...</comment>
                 </field>
             </group>
+            <group id="url_logout" translate="label" type="text" sortOrder="2050" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Redirect to url after logout from vendor 's dashboard</label>
+                <field id="url" translate="label" type="text" sortOrder="2003" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>URL PWA site</label>
+                    <comment>Example: https://biancanera-pwa.com/...</comment>
+                </field>
+            </group>
             <group id="instagram" translate="label" type="text" sortOrder="1310" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Instagram Configuration</label>
                 <field id="enable" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">

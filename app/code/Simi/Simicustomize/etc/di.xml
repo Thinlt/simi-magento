@@ -11,6 +11,8 @@
     <preference for="\Simi\Simicustomize\Api\ProxyInstagramInterface" type="\Simi\Simicustomize\Model\Api\ProxyInstagram" />
     <preference for="Magento\Customer\Controller\Account\Confirm" type="Simi\Simicustomize\Controller\Account\Confirm" />
     <preference for="Magento\Customer\Controller\Account\CreatePassword" type="Simi\Simicustomize\Controller\Account\CreatePassword" />
+    <preference for="Vnecoms\Vendors\Block\Vendors\Page\Toplinks\Users" type="Simi\Simicustomize\Block\Vendors\Page\Toplinks\Users" />
+    <preference for="Magento\Customer\Controller\Account\Logout" type="Simi\Simicustomize\Controller\Account\VendorLogout" />
     <type name="Magento\Quote\Model\Quote\Item\Repository">
         <plugin name="simi_cart_plugin_quote_item_repository" type="Simi\Simicustomize\Plugin\QuoteItemRepository" />
     </type>
