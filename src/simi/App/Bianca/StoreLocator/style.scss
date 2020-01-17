@@ -5,7 +5,8 @@
         line-height: 16px;
         text-align: end;
         text-transform: uppercase;
-        font-family: "Gotham Medium";
+        font-family: "Gotham Book";
+        font-weight: 600;
         height: 10px;
         margin-bottom: 25px;
         cursor: pointer;
@@ -136,11 +137,11 @@
             display: flex;
             span.branch-name {
                 font-size: 20px;
-                font-weight: bold;
+                font-weight: 600;
                 line-height: 31px;
                 color: #101820;
                 align-items: center;
-                font-family: "Gotham Medium";
+                font-family: "Gotham Book";
                 text-transform: none;
             }
             span.count {
@@ -256,12 +257,13 @@
         padding-right: 16px;
         .back-store-btn {
             margin-top: -15px;
-            font-family: "Gotham Medium";
+            font-family: "Gotham Book";
             height: 12px;
             margin-bottom: 0px;
             font-size: 12px;
             line-height: 12px;
             text-decoration: underline;
+            font-weight: 600;
         }
         .branch-main-content {
             margin-top: 30px;
@@ -283,7 +285,8 @@
                         span.branch-name {
                             font-size: 16px;
                             line-height: 16px;
-                            font-family: "Gotham Medium";
+                            font-family: "Gotham Book";
+                            font-weight: 600;
                         }
                         span.count {
                         }
