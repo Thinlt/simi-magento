@@ -108,7 +108,10 @@ class ApplyGiftcard extends Component {
                 }
             }
         }
-
+        
+        console.log(giftCode)
+            if (giftCode)
+                console.log(this.props)
         const selections = [<option key="0" value="0">{Identify.__('Choose a Gift Voucher')}</option>]
         if (savedCoupons && Array.isArray(savedCoupons) && savedCoupons.length) {
             savedCoupons.map((savedCoupon) => {
