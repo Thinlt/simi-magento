@@ -343,6 +343,7 @@
     font-size: 16px;
     border: 1px solid #101820;
     tr{
+        border: 1px solid #101820;
         td{
             &.action{
                 text-decoration: underline;
@@ -365,7 +366,7 @@
 .table-siminia > tbody > tr > th,
 .table-siminia > tfoot > tr > td,
 .table-siminia > thead > tr > td {
-    padding: 0px 24px;
+    padding: 4px 24px;
     line-height: 14px;
     font-family: 'Gotham Book';
     .view-order{
