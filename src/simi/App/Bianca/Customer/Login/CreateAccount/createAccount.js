@@ -2,23 +2,23 @@ import React from 'react';
 import { shape, string } from 'prop-types';
 import { Form } from 'informed';
 
-import Checkbox from 'src/components/Checkbox';
 import Field from 'src/components/Field';
 import TextInput from 'src/components/TextInput';
 import { validators } from './validators';
 import classes from './createAccount.css';
-import {configColor} from 'src/simi/Config'
 import Identify from 'src/simi/Helper/Identify'
 import TitleHelper from 'src/simi/Helper/TitleHelper'
 import { createAccount } from 'src/simi/Model/Customer'
-import {showToastMessage} from 'src/simi/Helper/Message';
-import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
+import { showToastMessage } from 'src/simi/Helper/Message';
+import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
+
+const $ = window.$;
 
 const CreateAccount = props => {
     const { history, createAccountError } = props;
-    const errorMessage = createAccountError && (Object.keys(createAccountError).length !== 0) ? Identify.__('An error occurred. Please try again.'):null
-    let registeringEmail = null
-    let registeringPassword = null
+    const errorMessage = createAccountError && (Object.keys(createAccountError).length !== 0) ? Identify.__('An error occurred. Please try again.') : null
+    var registeringEmail = null
+    var registeringPassword = null
 
     const initialValues = () => {
         const { initialValues } = props;
@@ -32,10 +32,10 @@ const CreateAccount = props => {
 
     const handleSubmit = values => {
         const params = {
-            password : values.password,
-            confirm_password : values.confirm,
+            password: values.password,
+            confirm_password: values.confirm,
             ...values.customer,
-            news_letter : values.subscribe ? 1 : 0
+            news_letter: values.subscribe ? 1 : 0
         }
         showFogLoading()
         registeringEmail = values.customer.email
@@ -45,8 +45,9 @@ const CreateAccount = props => {
 
     const registerDone = (data) => {
         hideFogLoading()
+        // Reset form
+        $('.form-create-account')[0].reset();
         if (data.errors) {
-            console.log('nooo')
             let errorMsg = ''
             if (data.errors.length) {
                 data.errors.map(error => {
@@ -55,10 +56,10 @@ const CreateAccount = props => {
                 showToastMessage(errorMsg)
             }
         } else {
-            props.onSignIn(registeringEmail, registeringPassword)
+
         }
     }
-    
+
     const handleBack = () => {
         history.push('/login.html');
     };
@@ -66,10 +67,10 @@ const CreateAccount = props => {
     return (
         <React.Fragment>
             {TitleHelper.renderMetaHeader({
-                title:Identify.__('Create Account')
+                title: Identify.__('Create Account')
             })}
             <Form
-                className={`${classes.root} ${Identify.isRtl() ? classes['rtl-rootForm'] : null}`}
+                className={`form-create-account ${classes.root} ${Identify.isRtl() ? classes['rtl-rootForm'] : null}`}
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
             >
@@ -138,23 +139,17 @@ const CreateAccount = props => {
                         placeholder="Password confirmation"
                     />
                 </Field>
-                {/* <div className={classes.subscribe}>
-                    <Checkbox
-                        field="subscribe"
-                        label="Subscribe to news and updates"
-                    />
-                </div> */}
                 <div className={classes.error}>{errorMessage}</div>
                 <div className={classes.actions}>
-                    <button 
-                        priority="high" className={classes.submitButton} type="submit" 
+                    <button
+                        priority="high" className={classes.submitButton} type="submit"
                     >
                         {Identify.__('Register')}
                     </button>
                 </div>
-                <div 
+                <div
                     className={classes['back']}
-                    
+
                     onClick={handleBack}
                 >
                     <span>{Identify.__('back'.toUpperCase())}</span>
