@@ -10,6 +10,7 @@
 
     .item-name{
         font-family: Gotham Book;
+        font-size: 14px;
     }
 }
 
@@ -48,10 +49,11 @@
             .item-name{
                 font-size: 14px;
                 color: #101820;
+                max-width: 213px;
             }
             .cart-item-value{
-                font-weight: bold;
                 font-size: 18px;
+                padding-top: 6px;
             }
         }
 
@@ -91,7 +93,7 @@
                     margin-left: auto;
                 }
                 div{
-                    padding-top: 7px;
+                    padding-top: 5px;
                 }
             }
             
@@ -102,7 +104,7 @@
                 font-size: 12px;
                 line-height: 12px;
                 div{
-                    padding-top: 7px;
+                    padding-top: 5px;
                 }   
             }
 
@@ -135,6 +137,7 @@
             padding-right: 27px;
             justify-content: space-between;
             .item-name{
+                font-size: 14px;
                 color: #101820;
                 font-weight: 500;
                 line-height: 19px;

@@ -295,12 +295,18 @@ class MiniCart extends Component {
                 {grandTotal}
 
                 <div className={classes.minicartAction}>
-                    <Link to="/cart.html" onClick={closeDrawer}>
+                    <Link to="/cart.html" onClick={() => {
+                        closeDrawer();
+                        document.body.classList.remove('minicart-open');
+                    }}>
                         <button className={classes.viewCartBtn}>
                             {Identify.__('VIEW & EDIT CART')}
                         </button>
                     </Link>
-                    <Link to="/checkout.html" onClick={closeDrawer}>
+                    <Link to="/checkout.html" onClick={() => {
+                        closeDrawer();
+                        document.body.classList.remove('minicart-open');
+                    }}>
                         <button className={classes.checkoutBtn}>
                             {Identify.__('PROCEED TO CHECKOUT')}
                         </button>
@@ -350,6 +356,16 @@ class MiniCart extends Component {
         const className = `${Identify.isRtl()&&classes.nav_rtl} ${isOpen ? classes.root_open : classes.root}`;
         const body = isOptionsDrawerOpen ? productOptions : miniCartInner;
         const title = isOptionsDrawerOpen ? 'Edit Cart Item' : 'My Cart';
+
+        if(isOpen){
+            document.body.classList.add('minicart-open');
+            document.body.classList.remove('minicart-close');
+            document.body.removeAttribute('style');
+        } else {
+            document.body.classList.remove('minicart-open');
+            document.body.classList.add('minicart-close');
+            document.body.removeAttribute('style');
+        }
 
         hideFogLoading()
         return (
