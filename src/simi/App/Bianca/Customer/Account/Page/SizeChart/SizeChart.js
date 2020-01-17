@@ -1,5 +1,5 @@
 import React from 'react';
-import PaginationTable from '../../Components/Orders/PaginationTable';
+import PaginationTable from '../../Components/PaginationTable';
 import Identify from 'src/simi/Helper/Identify';
 
 const SizeChart = props => {

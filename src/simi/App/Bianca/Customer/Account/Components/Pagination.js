@@ -7,7 +7,7 @@ import Pagination from 'src/simi/BaseComponents/Pagination'
 import Identify from 'src/simi/Helper/Identify'
 import Arrow from "src/simi/BaseComponents/Icon/Arrow";
 
-class PaginationTable extends Pagination {
+class PaginationNoneTable extends Pagination {
     constructor(props) {
         super(props)
         this.startPage = 1;
@@ -163,4 +163,4 @@ class PaginationTable extends Pagination {
     }
 }
 
-export default PaginationTable
+export default PaginationNoneTable
