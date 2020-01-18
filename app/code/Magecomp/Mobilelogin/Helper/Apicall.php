@@ -152,22 +152,26 @@ class Apicall extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 
-    public function curlApiCall($message, $mobilenumbers)
+    public function curlApiCall($message, $mobilenumbers, $randomCode)
 
     {
         if ($this->isEnable()) {
 
             $postData = array(
 
+                'authkey' => $this->getAuthkey(),
+
+                'otp' => $randomCode,
+
 				'User' => $this->getUsername(),
 
 				'passwd' => $this->getPassword(),
 
-                'mobilenumber' => $mobilenumbers,
+                'mobile' => $mobilenumbers,
 
 				'message' => $message,
 
-				'sid' => $this->getSenderId(),				
+				'sender' => $this->getSenderId(),				
 
 				'mtype' => 'LNG',
 
@@ -201,8 +205,7 @@ class Apicall extends \Magento\Framework\App\Helper\AbstractHelper
 
             $ret = curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-            curl_exec($ch); // execute
-
+            $result = curl_exec($ch); // execute
 
 
             if (curl_errno($ch))

@@ -274,13 +274,20 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			$otpModel->setMobile($mobile);
 			$otpModel->save();		
 		}
-		$apiReturn = $this->curlApiCall($message,$mobile);
+		$apiReturn = $this->curlApiCall($message,$mobile,$randomCode);
     	return $apiReturn;
 		}catch(\Exception $e)
 		{
 			return "false";
 		}
 	}
+
+	public function setOtpVerified($mobile){
+		$otpModel = $this->_modelLoginOtpFactory->create()->load($mobile,'mobile');
+		$otpModel->setIsVerify(1);
+		$otpModel->save();	
+	}
+
 	public function getAuthkey()
 	{
 	   return $this->scopeConfig->getValue(
@@ -409,9 +416,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		
 		return 'Unknown Broswer';
 	}
-	public function curlApiCall($message,$mobilenumbers)
+	public function curlApiCall($message,$mobilenumbers,$randomCode)
 	{
-		return $this->apicall->curlApiCall($message,$mobilenumbers);
+		return $this->apicall->curlApiCall($message,$mobilenumbers,$randomCode);
 	}
 
 }

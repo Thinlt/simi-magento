@@ -17,6 +17,7 @@ class Verifyotpforlogin extends \Simi\Simiconnector\Model\Api\Apiabstract
         $otp = $data['params']['otp'];
         $isExist = $helperData->checkLoginOTPCode($mobile, $otp);
         $tokenKey = null;
+        $customerIdentity = null;
         if ($isExist == 1) {
             $customerData = $this->simiObjectManager->get(\Magento\Customer\Model\Customer::class);
             $customer = $customerData->getCollection()->addFieldToFilter("mobilenumber", $mobile)->getFirstItem();
@@ -24,17 +25,20 @@ class Verifyotpforlogin extends \Simi\Simiconnector\Model\Api\Apiabstract
                 $session = $this->simiObjectManager->get(\Magento\Customer\Model\Session::class);
                 $session->setCustomerAsLoggedIn($customer);
                 $session->regenerateId();
+                $customerIdentity = $this->simiObjectManager->get('\Magento\Customer\Model\Session')->getSessionId();
                 $result = "true";
                 $customerToken = $this->simiObjectManager->get(\Magento\Integration\Model\Oauth\TokenFactory::class);
                 $tokenKey = $customerToken->create()->createCustomerToken($customer->getId())->getToken();
                 if ($helperData->isEnableLoginEmail()) {
                     $helperData->sendMail($_SERVER['REMOTE_ADDR'], $customer->getEmail(), $_SERVER['HTTP_USER_AGENT']);
                 }
+                $helperData->setOtpVerified($mobile);
             }
         }
         return [
             'result' => $result,
-            'customer_access_token' => $tokenKey
+            'customer_access_token' => $tokenKey,
+            'customer_identity' => $customerIdentity
         ];
     }
 }
