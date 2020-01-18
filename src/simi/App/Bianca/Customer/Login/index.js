@@ -75,7 +75,10 @@ class Login extends Component {
 
 		return (
 			<div className={className}>
-				<PhoneLogin />
+				<PhoneLogin 
+					simiSignedIn={this.props.simiSignIn}
+					// getUserDetails={}
+				/>
 			</div>
 		);
 	}

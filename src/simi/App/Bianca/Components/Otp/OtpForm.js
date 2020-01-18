@@ -26,7 +26,8 @@ class OtpForm extends Component {
 
         const styleInActive = {
             backgroundColor: "#eee",
-            color: "#fff"
+            color: "#fff",
+            cursor: 'not-allowed'
         }
 
         const showOption = () => {
@@ -42,10 +43,14 @@ class OtpForm extends Component {
         const storeConfig = Identify.getStoreConfig();
         const countries = storeConfig.simiStoreConfig.config.allowed_countries;
         const listAllowedCountry = [];
-        countries.map((country, index)=>{
+        countries.map((country, index) => {
             let code = country.country_code
             listAllowedCountry.push(code.toLowerCase())
         })
+
+        const doNothing = () => {
+
+        }
 
         return (
             <div id="login-opt-area" className={`login-opt-area ${Identify.isRtl() ? 'login-opt-area-rtl' : ''}`}>
@@ -63,12 +68,12 @@ class OtpForm extends Component {
                         onChange={updateValue}
                     />
                     <div className="element-2">
-                        <input 
-                            id="real-input" 
-                            onKeyUp={() => updateValue()} 
-                            name="real-input" 
-                            type="number" 
-                            pattern="[0-9]" 
+                        <input
+                            id="real-input"
+                            onKeyUp={() => updateValue()}
+                            name="real-input"
+                            type="number"
+                            pattern="[0-9]"
                             placeholder={Identify.__('Phone')}
                         />
                     </div>
@@ -79,25 +84,28 @@ class OtpForm extends Component {
                 <div className='phone-otp-desc'>
                     {/* {Identify.__('Mobile No. Without Country Code i.e 9898989898')} */}
                 </div>
-                <div role="presentation" style={this.props.isButtonDisabled ? styleInActive : styleActice} className='login-otp' onClick={!this.props.isButtonDisabled ? this.props.handleSendOtp : ''}>
+                <div role="presentation" style={this.props.isButtonDisabled ? styleInActive : styleActice} className='login-otp' onClick={!this.props.isButtonDisabled ? this.props.handleSendOtp : doNothing}>
                     {Identify.__('SEND VERIFICATION CODE').toUpperCase()}
                     {this.props.isButtonDisabled && <CountDown time={30} />}
                 </div>
 
-                <div id="verify-phone-area" className={`verify-phone-area hidden`}>
-                    <div className="login-otp-form-field">
-                        <div className="label">{Identify.__('Enter One Time Password')}</div>
-                        <span className="description">{Identify.__("One Time Password (OTP) has been sent to your mobile,please enter the same here to login.")}</span>
-                        <input type="password" name="logintotp" id="login-input-otp" className="form-control" ref="logintotp" />
-                        <div id="login-input-otp-warning"
-                            className="error-message">{Identify.__("Please enter OTP")}</div>
-                        <div id="return-otp-warning" className="error-message">{Identify.__("OTP Not Verified.")}</div>
+                {this.props.isButtonDisabled ?
+                    <div id="verify-phone-area" className={`verify-phone-area hidden`}>
+                        <div className="login-otp-form-field">
+                            <div className="label">{Identify.__('Enter One Time Password')}</div>
+                            <span className="description">{Identify.__("One Time Password (OTP) has been sent to your mobile,please enter the same here to login.")}</span>
+                            <input type="password" name="logintotp" id="login-input-otp" className="form-control" ref="logintotp" />
+                            <div id="login-input-otp-warning"
+                                className="error-message">{Identify.__("Please enter OTP")}</div>
+                            <div id="return-otp-warning" className="error-message">{Identify.__("OTP Not Verified.")}</div>
+                        </div>
+                        <div role="presentation" className="login-otp"
+                            style={styleActice}
+                            onClick={this.props.handleVerify}
+                        >{this.props.type === 'login' ? Identify.__('Verify & Login').toUpperCase() : Identify.__('Verify Forgot Password')}</div>
                     </div>
-                    <div role="presentation" className="login-otp"
-                        style={styleActice}
-                        onClick={this.props.handleVerify}
-                    >{this.props.type === 'login' ? Identify.__('Verify & Login').toUpperCase() : Identify.__('Verify Forgot Password')}</div>
-                </div>
+                    : ''
+                }
             </div>
         )
     }

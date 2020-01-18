@@ -36,7 +36,7 @@ class CountDown extends React.Component {
     render() {
         const { h, m, s } = this.state;
         return (
-            <div className="time-result" style={{ display: 'inline-block', marginLeft: 3 }}>
+            <div className="time-result" style={{ display: 'inline-block', marginLeft: 10, color: '#101820' }}>
                 {`(${s}s)`}
             </div>
         )

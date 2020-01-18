@@ -7,6 +7,7 @@ import Identify from 'src/simi/Helper/Identify'
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
 import validator from 'validator'
+import * as Constants from 'src/simi/Config/Constants';
 const $ = window.$;
 
 class LoginOTP extends Component {
@@ -35,7 +36,7 @@ class LoginOTP extends Component {
         let phone = this.state.phone;
         console.log(phone)
         $('#login-opt-area #number_phone-not-exist').css({ display: 'none' });
-        $('#login-opt-area #number_phone-invalid').css({ display: 'none' });    
+        $('#login-opt-area #number_phone-invalid').css({ display: 'none' });
         if (!phone && !phone.trim().length === 0) {
             $('#login-opt-area #number_phone-not-exist').css({ display: 'block' })
             return;
@@ -46,7 +47,7 @@ class LoginOTP extends Component {
             return;
         }
 
-        // showFogLoading()
+        showFogLoading()
         phone = phone.replace(/[- )(]/g, '').replace(/\+/g, "").replace(/\,/g, "");
         this.phoneNB = phone
         let params = {
@@ -66,7 +67,7 @@ class LoginOTP extends Component {
 
         if (data.result && data.result === 'true') {
             this.setState({ isButtonDisabled: true });
-            setTimeout(() => this.setState({ isButtonDisabled: false }), 20000);
+            setTimeout(() => this.setState({ isButtonDisabled: false }), 30000);
 
             $('#login-opt-area #number_phone-invalid').css({ display: 'none' });
             $('#login-opt-area #verify-phone-area').removeClass('hidden');
@@ -79,19 +80,9 @@ class LoginOTP extends Component {
 
     handleVerifyLogin = () => {
         const logintotp = $('#login-input-otp').val();
-        let isValid = true;
-        if (typeof logintotp !== 'string' && !logintotp && !logintotp.trim().length === 0) {
-            isValid = false;
-            $('#login-input-otp-warning').css({ display: 'block' })
-        } else {
-            $('#login-input-otp-warning').css({ display: 'none' })
-        }
-
-        if (isValid) {
-
-            showFogLoading();
-            verifyOTPForLogin(this.phoneNB, logintotp, this.handleCallBackLVerifyLogin);
-        }
+        $('#login-input-otp-warning').css({ display: 'none' })
+        showFogLoading();
+        verifyOTPForLogin(this.phoneNB, logintotp, this.handleCallBackLVerifyLogin);
 
     }
 
@@ -99,8 +90,8 @@ class LoginOTP extends Component {
         if (data.result && data.result === 'true' && data.customer_access_token) {
             $('#login-opt-area #return-otp-warning').css({ display: 'none' });
             hideFogLoading();
+            Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, data.customer_identity);
             setToken(data.customer_access_token)
-            // Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, null);
             this.props.onSignIn(data.customer_access_token);
             // getProfileAfterOtp(this.handleSendProfile.bind(this, data.customer_access_token));
         } else {
@@ -111,7 +102,7 @@ class LoginOTP extends Component {
 
     render() {
         const { isButtonDisabled } = this.state;
-
+       
         return (
             <OtpForm
                 handleSendOtp={this.handleSendOtp}
@@ -119,7 +110,7 @@ class LoginOTP extends Component {
                 handleVerify={this.handleVerifyLogin}
                 handleChangePhone={(val1, val2) => this.onChange(val1, val2)}
                 phone={this.state.phone}
-                type="login"
+                type={'login'}
             />
         )
     }
