@@ -348,6 +348,9 @@
             &.action{
                 text-decoration: underline;
                 cursor: pointer;
+                &.disabled{
+                    color: #BDBDBD;
+                }
             }
         }
     }
@@ -1174,6 +1177,9 @@ Order history
                                 }
                                 .action{
                                     text-decoration: underline;
+                                }
+                                .disabled{
+                                    color: #BDBDBD;
                                 }
                             }
                         }

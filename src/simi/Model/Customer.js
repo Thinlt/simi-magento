@@ -50,6 +50,10 @@ export const getMyReserved = (callBack) => {
     sendRequest('/rest/V1/simiconnector/reserve', callBack, 'GET', {});
 }
 
+export const cancelMyReserved = (callBack, id) => {
+    sendRequest('/rest/V1/simiconnector/reserve', callBack, 'PUT', {}, {id: id});
+}
+
 export const addGiftVoucher = (callBack, postData) => {
     sendRequest('/rest/V1/giftcard/mine/addcode', callBack, 'POST', {}, postData);
 }
