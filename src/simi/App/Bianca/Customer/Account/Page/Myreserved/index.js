@@ -82,11 +82,13 @@ const Myreserved = props => {
                     <div className="row-item">
                         <div className="item-label">{Identify.__("Action")}</div>
                         <div className="item-value">
-                            {!item.status.toLowerCase().includes('pending') ?
+                        {item.status && 
+                            (!item.status.toLowerCase().includes('pending') ?
                                 <div className={`action disabled`}>{Identify.__('Cancel')}</div>
                                 :
                                 <div className={`action`} onClick={() => cancelReserved(item.id)}>{Identify.__('Cancel')}</div>
-                            }
+                            )
+                        }
                         </div>
                     </div>
                 </div>
@@ -109,13 +111,17 @@ const Myreserved = props => {
                 <td className="order-status" data-title={Identify.__("Status")} key={item.status}>
                     {Identify.__(item.status)}
                 </td>
-                {!item.status.toLowerCase().includes('pending')?
-                    <td className={`action disabled`} data-title={Identify.__("Action")}>
-                        {Identify.__('Cancel')}
-                    </td> :
-                    <td className={`action`} data-title={Identify.__("Action")} onClick={() => cancelReserved(item.id)}>
-                        {Identify.__('Cancel')}
-                    </td>
+                {item.status ? 
+                    (!item.status.toLowerCase().includes('pending')?
+                        <td className={`action disabled`} data-title={Identify.__("Action")}>
+                            {Identify.__('Cancel')}
+                        </td> :
+                        <td className={`action`} data-title={Identify.__("Action")} onClick={() => cancelReserved(item.id)}>
+                            {Identify.__('Cancel')}
+                        </td>
+                    )
+                    :
+                    <td className={`action`} data-title={Identify.__("Action")}></td>
                 }
             </tr>
         )
