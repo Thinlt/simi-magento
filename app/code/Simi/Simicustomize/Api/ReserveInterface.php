@@ -18,4 +18,12 @@ interface ReserveInterface
      * @return array|boolean
      */
     public function getMyReserved();
+
+    /**
+     * Remove my reserved product
+     * 
+     * @param int $id
+     * @return array|boolean
+     */
+    public function cancelMyReserved($id);
 }

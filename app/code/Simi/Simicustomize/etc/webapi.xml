@@ -13,6 +13,12 @@
             <resource ref="self" />
         </resources>
     </route>
+    <route url="/V1/simiconnector/reserve" method="PUT">
+        <service class="Simi\Simicustomize\Api\ReserveInterface" method="cancelMyReserved"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+    </route>
     <route url="/V1/simiconnector/service" method="POST">
         <service class="Simi\Simicustomize\Api\ServiceInterface" method="save"/>
         <resources>

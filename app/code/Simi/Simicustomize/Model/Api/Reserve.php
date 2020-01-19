@@ -94,6 +94,25 @@ class Reserve extends \Simi\Simiconnector\Model\Api\Apiabstract implements \Simi
     }
 
     /**
+     * @inheritdoc
+     */
+    public function cancelMyReserved($id){
+        if($id){
+            $model = $this->simiObjectManager->get('\Simi\Simicustomize\Model\Reserve')->load($id);
+            if($model->getId()){
+                try{
+                    $model->setStatus('Cancelled');
+                    $model->save();
+                    return $this->getMyReserved();
+                }catch(\Exception $e){
+                    return ['data' => ['status' => false, 'error' => $e->getMessage()]];
+                }
+            }
+        }
+        return ['data' => ['status' => false, 'error' => __('Invalid request value!')]];
+    }
+
+    /**
      * Save Reserve request
      * @return boolean
      */
