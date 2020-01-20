@@ -10,7 +10,7 @@ const Total = props => {
         return
     const total_segments = data.total_segments
     const totalRows = []
-
+    total_segments.sort((a, b)=> (a.code === 'grand_total') ? 1 : -1)
     total_segments.forEach((item, index) => {
         let className = 'custom'
         if (item.code == 'subtotal')

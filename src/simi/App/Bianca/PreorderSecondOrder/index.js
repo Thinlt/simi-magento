@@ -9,6 +9,7 @@ import {
 } from 'src/actions/cart';
 
 var openCheckoutPage = false
+var processingPreorderAPI = false
 
 const PreorderSecondOrder = props => {
     const {history, isSignedIn, cartId, user, getCartDetails, totals} = props
@@ -52,7 +53,8 @@ const PreorderSecondOrder = props => {
         } else if (user && user.currentUser && user.currentUser.email && user.currentUser.email === customer_email) {
             console.log(cartId)
             console.log(totals)
-            if (cartId && totals) { //get cart done then request start pre order
+            if (cartId && totals && !processingPreorderAPI) { //get cart done then request start pre order
+                processingPreorderAPI = true
                 startpreorderscomplete((data) => startPreorderCompleted(data), deposit_order_id, cartId)
             }
         }

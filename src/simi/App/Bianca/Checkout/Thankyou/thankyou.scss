@@ -2,11 +2,13 @@
     text-align: center;
     .header {
         font-size: 24px;
-        font-family: 'Gotham Medium';
+        font-family: 'Gotham Book';
         line-height: 24px;
         margin-top: 60px;
         margin-bottom: 24px;
         color: #101820;
+        font-weight: 600;
+        text-transform: uppercase;
     }
     .email-sending-message {
         font-size: 16px;
@@ -28,16 +30,29 @@
             padding: 16px 40px;
             font-size: 16px;
             color: #fff;
-            font-family: 'Gotham Medium';
+            font-family: 'Gotham Book';
             line-height: 16px;
+            font-weight: 600;
             text-transform: uppercase;
         }
         margin-bottom: 260px;
     }
 
     @media (max-width: 1023px) {
+        .header {
+            font-size: 16px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .email-sending-message {
+            font-size: 14px;
+        }
+
         .order-actions {
+            margin-top: 18px;
             justify-content: center;
+            margin-bottom: 70px;
             > div {
                 margin-top: 12px;
             }

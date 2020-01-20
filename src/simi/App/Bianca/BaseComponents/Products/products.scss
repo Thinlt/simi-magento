@@ -257,6 +257,11 @@ Sort by
   }
 }
 
+@media(min-width: 1920px) {
+    .products-gallery-root .listing-product .siminia-product-image{
+        min-height: 448px;
+    }
+}
 @media (min-width: 1024px) {
   .products-gallery-root .product-list-container-siminia .top-sort-by .sort-by-select {
     margin-top: 0;
@@ -421,15 +426,16 @@ Sort by
             padding-left: 0px;
         }
     }
-    .filter-products .MuiListItem-root {
-        direction: rtl;
-    }
-
-    .filter-products .filter-item {
-        direction: rtl;
-    }
-    .filter-products .selectable-filter .checkbox-item-icon {
-        margin-left: 9px;
+    .filter-products {
+        .MuiListItem-root {
+            direction: rtl;
+        }
+        .filter-item {
+            direction: rtl;
+        }
+        .selectable-filter .checkbox-item-icon {
+            margin-left: 9px;
+        }
     }
     .top-sort-by .sort-by-select .dir-item {
         direction: rtl;
