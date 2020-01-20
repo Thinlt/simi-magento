@@ -148,7 +148,7 @@ const CreateAccount = props => {
                     </button>
                 </div>
                 <div
-                    className={classes['back']}
+                    className={`special-back ${classes['back']}`}
                     id="btn-back"
                     onClick={handleBack}
                 >

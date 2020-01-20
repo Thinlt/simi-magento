@@ -369,7 +369,7 @@ const VendorRegister = (props) => {
 							{Identify.__('Register')}
 						</button>
 					</div>
-					<div className={classes['back']} onClick={handleBack} id="btn-back">
+					<div className={`special-back ${classes['back']}`} onClick={handleBack} id="btn-back">
 						<span>{Identify.__('back'.toUpperCase())}</span>
 					</div>
 				</React.Fragment>
