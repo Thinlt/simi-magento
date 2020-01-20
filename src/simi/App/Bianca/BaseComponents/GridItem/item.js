@@ -159,13 +159,21 @@ class Griditem extends React.Component {
     }
 
     renderVendorName = (item) => {
-        if (item && item.simiExtraField && item.simiExtraField.attribute_values) {
+        const { history } = this.props
+        if (item && item.simiExtraField && item.simiExtraField.attribute_values && !this.vendorName) {
             const {attribute_values} = item.simiExtraField
             if (attribute_values && attribute_values.vendor_name && attribute_values.vendor_id !== 'default') {
                 this.vendorName = attribute_values.vendor_name
+                this.vendor_id = attribute_values.vendor_id
             }
         }
-        return this.vendorName
+        if (this.vendorName) {
+            return (
+                <div className="vendor" onClick={()=>history.push(`/designers/${this.vendor_id}.html`)} role="presentation">
+                    {this.vendorName}
+                </div>
+            )
+        }
     }
 
     wishlistCompareAction = () => {
@@ -310,9 +318,7 @@ class Griditem extends React.Component {
                                 />
                             </div>
                             {depositText}
-                            <div className="vendor">
-                                {this.renderVendorName(item)}
-                            </div>
+                            {this.renderVendorName(item)}
                         </div>
                     </div>
                     <div className="cart-wishlish-compare">
