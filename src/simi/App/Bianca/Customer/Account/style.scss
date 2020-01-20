@@ -343,44 +343,58 @@
     font-size: 16px;
     border: 1px solid #101820;
     tr{
-        border: 1px solid
+        border: 1px solid #101820;
+        td{
+            &.action{
+                text-decoration: underline;
+                cursor: pointer;
+                &.disabled{
+                    color: #BDBDBD;
+                }
+            }
+        }
+    }
+    > thead > tr,
+    > thead > tr > th {
+        background: #E4E4E4;
+        color: #101820;
+        font-family: 'Gotham Book';
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 16px;
+        height: 48px;
+    }
+    > tbody > tr > td,
+    > tbody > tr > th,
+    > tfoot > tr > td,
+    > thead > tr > td {
+        padding: 4px 24px;
+        line-height: 14px;
+        font-family: 'Gotham Book';
+        .view-order{
+            text-decoration: underline;
+        }
+    }
+    > thead > tr > th{
+        padding: 0px 24px;
+    }
+    > tbody > tr > td.order-status{
+        text-transform: capitalize;
+    }
+    > tbody > tr{
+        font-size: 14px;
+        font-weight: 500;
+        color: #101820;
+        height: 48px;
+    }
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background: #fff;
     }
 }
-.table-siminia > thead > tr,
-.table-siminia > thead > tr > th {
-    background: #E4E4E4;
-    color: #101820;
-    font-family: 'Gotham Book';
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 16px;
-    height: 48px;
-}
-.table-siminia > tbody > tr > td,
-.table-siminia > tbody > tr > th,
-.table-siminia > tfoot > tr > td,
-.table-siminia > thead > tr > td {
-    padding: 0px 24px;
-    line-height: 14px;
-    font-family: 'Gotham Book';
-    .view-order{
-        text-decoration: underline;
+.rtl-root .table-siminia{
+    > thead > tr > th {
+        text-align: right;
     }
-}
-.table-siminia > thead > tr > th{
-    padding: 0px 24px;
-}
-.table-siminia > tbody > tr > td.order-status{
-    text-transform: capitalize;
-}
-.table-siminia > tbody > tr{
-    font-size: 14px;
-    font-weight: 500;
-    color: #101820;
-    height: 48px;
-}
-.table-siminia.table-striped > tbody > tr:nth-of-type(odd) {
-    background: #fff;
 }
 .view-order {
     color: #101820;
@@ -955,6 +969,12 @@ Order history
                                 justify-content: flex-end;
                                 a{
                                     text-decoration: underline;
+                                }
+                                .action{
+                                    text-decoration: underline;
+                                }
+                                .disabled{
+                                    color: #BDBDBD;
                                 }
                             }
                         }
