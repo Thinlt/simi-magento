@@ -1,7 +1,7 @@
 .text {
     height: 81px;
     width: 572px;
-    background-color: rgba(71,200,89,0.33);
+    background-color: rgba(71, 200, 89, 0.33);
     padding: 21px 47px 20px 47px !important;
     color: #078018;
     font-family: Gotham;
@@ -39,9 +39,32 @@
 .submitButton:hover {
     opacity: 0.8;
 }
-.continue{
+
+.continue {
     display: block;
     text-transform: uppercase;
     height: fit-content;
     margin-top: 6px;
+}
+
+@media(max-width: 1023px) {
+    .text {
+        width: unset;
+        height: unset;
+        text-align: justify;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+    .submitButton {
+        min-height: 40px;
+        max-width: 279px;
+        margin: auto;
+    }
+    .continue {
+        font-family: Gotham;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 14px;
+        margin-top: 4px;
+    }
 }

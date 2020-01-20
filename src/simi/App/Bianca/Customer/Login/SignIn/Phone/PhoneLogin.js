@@ -1,17 +1,36 @@
 import React, { Component } from 'react';
-import { Form } from 'informed';
-require('./phoneLogin.scss');
+import LoginOTP from './LoginOTP';
+import classify from 'src/classify';
+import { simiSignedIn } from 'src/simi/Redux/actions/simiactions';
+import { connect } from 'src/drivers';
+import { compose } from 'redux';
+import classes from './phoneLogin.css';
 
 class PhoneLogin extends Component {
+
+    constructor(props) {
+        super(props)
+    }
+
     render() {
-        return(
-            <Form>
-                <div className="phone-login">
-                    Buyer Phone Login Form
-                </div>
-            </Form>
+        return (
+            <LoginOTP
+                classes={classes}
+                onSignIn={this.props.simiSignedIn}
+            // getUserDetails={this.props.getUserDetails}
+            />
         )
     }
 }
 
-export default PhoneLogin;
+const mapDispatchToProps = {
+    simiSignedIn
+}
+
+export default compose(
+    classify(classes),
+    connect(
+        null,
+        mapDispatchToProps
+    )
+)(PhoneLogin);

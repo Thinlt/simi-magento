@@ -26,6 +26,7 @@ import TitleHelper from 'src/simi/Helper/TitleHelper';
 require('./header.scss');
 
 const SearchForm = React.lazy(() => import('./Component/SearchForm'));
+const $ = window.$;
 
 class Header extends React.Component {
 	constructor(props) {
@@ -43,6 +44,7 @@ class Header extends React.Component {
 	searchTrigger = () => {
 		if (this.searchFormCallback && typeof this.searchFormCallback === 'function') {
 			console.log('toggle search');
+			$('#btn-back').toggleClass('move-down')
 			this.searchFormCallback();
 		}
 	};
@@ -198,7 +200,7 @@ class Header extends React.Component {
 				</div>
 				<div className="container-header">
 					<div className="container-fluid">
-						<div className={'header'}>
+						<div className={`header ${Identify.isRtl() ? 'rtl-header' : null}`}>
 							<NavTrigger classes={this.classes}>
 								<MenuIcon />
 							</NavTrigger>
@@ -305,7 +307,7 @@ class Header extends React.Component {
 					</div>
 					<div className="container-header">
 						<div className="container sub-container">
-							<div className="header">
+							<div className={`header ${Identify.isRtl() ? 'rtl-header' : null}`}>
 								{!simpleHeader && this.renderSearchForm()}
 								{this.renderLogo()}
 								{!simpleHeader && this.renderRightBar(isSignedIn)}

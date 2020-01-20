@@ -50,3 +50,11 @@ $textColor: #101820;
         line-height: 14px;
     }
 }
+
+@media(max-width:1023px){
+    .search-auto-complete-root {
+        .suggested-products-list{
+            margin-left: unset !important;
+        }
+    }
+}

@@ -61,7 +61,7 @@
 	width: fit-content;
 	border-bottom: 1px solid #101820;
 	position: absolute;
-	top: 312px;
+	top: 278px;
 	left: 139px;
 	cursor: pointer;
 }
@@ -72,7 +72,7 @@
 	color: #101820;
 	font-family: Gotham;
 	font-size: 18px;
-	font-weight: bold;
+	font-weight: 500;
 	line-height: 18px;
 	display: inline-block;
 }
@@ -335,6 +335,18 @@
 	}
 }
 
+@media(max-width: 600px) {
+	.root {
+		padding: 0 40px;
+	}
+	.root div[class *="field-root"] input {
+		min-width: unset !important;
+	}
+	.root .back {
+		top: 122px;
+	}
+}
+
 @media(max-width: 530px) {
 	.root {
 		padding: 0 20px;
@@ -351,9 +363,6 @@
 	.root {
 		margin-top: 20px;
 		padding: 0 20px;
-	}
-	.root .back {
-		top: 93px;
 	}
 	.root .back span {
 		height: 12px;
@@ -414,5 +423,8 @@
     .root,
     .rtl-rootForm{
         padding: unset !important;
-    }
+	}
+	.root .back{
+		left: 15px;
+	}
 }
