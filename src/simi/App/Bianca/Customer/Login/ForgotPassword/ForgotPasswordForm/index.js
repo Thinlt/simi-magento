@@ -36,6 +36,7 @@ const ForgotPasswordForm  =  props => {
             </div>
             <div 
                 className={`${classes['back']} ${Identify.isRtl() ? classes['rtl-back'] : null}`}
+                id="btn-back"
                 onClick={handleBack}
             >
                 <span>{Identify.__('back'.toUpperCase())}</span>

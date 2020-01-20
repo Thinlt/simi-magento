@@ -38,9 +38,8 @@
 }
 .forgot-password-customer .title-form {
   color: #101820;
-  font-family: Gotham;
+  font-family: "Gotham Medium";
   font-size: 18px;
-  font-weight: bold;
   line-height: 18px;
 }
 .forgot-password-customer .description-form {
@@ -59,9 +58,8 @@
 }
 .forgot-password-customer .title-input {
   color: #101820;
-  font-family: Gotham;
+  font-family: "Gotham Medium";
   font-size: 14px;
-  font-weight: bold;
   line-height: 14px;
   text-transform: uppercase !important;
   padding-bottom: 8px;
@@ -112,7 +110,7 @@
   width: fit-content;
   border-bottom: 1px solid #101820;
   position: absolute;
-  top: 312px;
+  top: 278px;
   left: 139px;
   cursor: pointer;
   height: 18px;
@@ -120,7 +118,172 @@
   color: #101820;
   font-family: Gotham;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 500;
   line-height: 18px;
   display: inline-block;
+}
+.forgot-password-customer .back a,
+.forgot-password-customer .back a:hover {
+  text-decoration: none;
+  color: #101820;
+}
+
+@media (max-width: 1023px) {
+  .forgot-password-customer {
+    margin-top: 55px;
+  }
+  .forgot-password-customer .back {
+    top: 100px;
+    left: 5%;
+  }
+}
+
+@media (max-width: 834px) {
+  .forgot-password-customer {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+  .forgot-password-customer .title {
+    padding: 15px 0;
+  }
+  .forgot-password-customer .title span {
+    font-size: 18px;
+    line-height: 18px;
+    font-weight: 500;
+    height: 18px;
+  }
+  .forgot-password-customer .wrap {
+    padding: 0 80px;
+  }
+  .forgot-password-customer input {
+    min-width: unset !important;
+  }
+  .forgot-password-customer .newPassword span,
+  .forgot-password-customer .confirmPassword span {
+    display: inline;
+  }
+  .forgot-password-customer .back {
+    top: 100px;
+    left: 5%;
+  }
+}
+
+@media (max-width: 736px) {
+  .forgot-password-customer {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .forgot-password-customer .wrap {
+    padding: 0 40px;
+  }
+  .forgot-password-customer .back {
+    left: 3%;
+  }
+}
+
+@media (max-width: 600px) {
+  .forgot-password-customer .back {
+    top: 122px;
+  }
+}
+
+@media (max-width: 530px) {
+  .forgot-password-customer .wrap {
+    padding: 0 20px;
+  }
+
+  .forgot-password-customer .back {
+    left: 4%;
+  }
+}
+
+@media (max-width: 470px) {
+  .forgot-password-customer .title-form {
+    font-size: 16px;
+    line-height: 16px;
+  }
+  .forgot-password-customer .description-form {
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 14px;
+  }
+  .forgot-password-customer .title-input {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 14px;
+  }
+  .forgot-password-customer input {
+    min-height: 40px;
+    font-size: 14px;
+    line-height: 14px;
+    height: 14px;
+  }
+  .forgot-password-customer .resetPassword {
+    margin-top: 38px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .forgot-password-customer .resetPassword button {
+    max-width: 249px;
+    font-size: 14px;
+    line-height: 14px !important;
+    padding-top: 13px !important;
+    padding-bottom: 13px !important;
+  }
+  .forgot-password-customer .back {
+    height: 12px;
+    width: 36px;
+    font-size: 12px;
+    font-weight: 500 !important;
+    line-height: 12px;
+  }
+}
+
+@media (max-width: 425px) {
+  .forgot-password-customer {
+    border: unset !important;
+  }
+  .forgot-password-customer .wrap {
+    padding: unset !important;
+  }
+}
+
+@media (max-width: 375px) {
+  .forgot-password-customer {
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+    padding-bottom: 50px !important;
+  }
+  .forgot-password-customer .wrap {
+    padding: unset !important;
+    margin-top: 20px !important;
+  }
+  .forgot-password-customer .title {
+    padding: 12px 0;
+    max-height: 40px;
+    max-width: 343px;
+  }
+  .forgot-password-customer .title span {
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 500;
+    height: 16px;
+  }
+  .forgot-password-customer .back {
+    left: 15px;
+    height: 15px;
+    top: 130px;
+  }
+  .forgot-password-customer .description-form{
+    margin-top: 5px !important;
+  }
+  .forgot-password-customer .form{
+    margin-top: 30px !important;
+  }
+  .forgot-password-customer .confirmPassword{
+    margin-top: 20px !important;
+  }
 }
