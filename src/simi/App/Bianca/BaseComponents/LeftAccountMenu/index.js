@@ -66,7 +66,7 @@ const listAccountMenu = [
     {
         title : Identify.__('My Reserved Products'),
         url : '/myreserved.html',
-        page : 'my-reserved',
+        page : 'myreserved',
         enable : true,
         sort_order : 90
     },
