@@ -18,6 +18,7 @@ class Verifyotpforlogin extends \Simi\Simiconnector\Model\Api\Apiabstract
         $isExist = $helperData->checkLoginOTPCode($mobile, $otp);
         $tokenKey = null;
         $customerIdentity = null;
+        $redirectUrl = null;
         if ($isExist == 1) {
             $customerData = $this->simiObjectManager->get(\Magento\Customer\Model\Customer::class);
             $customer = $customerData->getCollection()->addFieldToFilter("mobilenumber", $mobile)->getFirstItem();
@@ -33,12 +34,16 @@ class Verifyotpforlogin extends \Simi\Simiconnector\Model\Api\Apiabstract
                     $helperData->sendMail($_SERVER['REMOTE_ADDR'], $customer->getEmail(), $_SERVER['HTTP_USER_AGENT']);
                 }
                 $helperData->setOtpVerified($mobile);
+                // get redirect url for login vendor
+                $helper = $this->simiObjectManager->get('Vnecoms\Vendors\Helper\Data');
+                $redirectUrl = $helper->getHomePageUrl();
             }
         }
         return [
             'result' => $result,
             'customer_access_token' => $tokenKey,
-            'customer_identity' => $customerIdentity
+            'customer_identity' => $customerIdentity,
+            'redirect_url' => $redirectUrl . '?simiSessId=' . $customerIdentity
         ];
     }
 }
