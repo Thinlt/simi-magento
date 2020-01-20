@@ -10,7 +10,7 @@ require('./reviewList.scss');
 
 const ReviewList = props => {
     const { product_id } = props;
-    const pageSize = 5;
+    const pageSize = 3;
     const api_data = Identify.ApiDataStorage('product_list_review');
     const initData =
         api_data &&
@@ -30,8 +30,12 @@ const ReviewList = props => {
     }, []);
 
     const loadMorePage = useCallback((page) => {
-        dispatch({page: page, loadingMore: true});
-        sendRequest(`rest/V1/simiconnector/reviews`, apiCallBack, 'GET', {'filter[product_id]': product_id, limit: pageSize, page: page}, {})
+        if (page === 0) {
+            dispatch({page: 1, data: {...state.data, ...{reviews: state.data.reviews.slice(0, 3), from: 0}}}); //Show less
+        } else {
+            dispatch({page: page, loadingMore: true});
+            sendRequest(`rest/V1/simiconnector/reviews`, apiCallBack, 'GET', {'filter[product_id]': product_id, limit: 5, offset: page}, {})
+        }
     });
 
     const renderItem = item => {
@@ -113,7 +117,7 @@ const ReviewList = props => {
             });
             const api_data = {};
             api_data[props.product_id] = newData;
-            Identify.ApiDataStorage('product_list_review', 'update', api_data);
+            // Identify.ApiDataStorage('product_list_review', 'update', api_data);
         }
     };
 
@@ -147,7 +151,7 @@ const ReviewList = props => {
         return (
             <div>
                 {
-                    state.data.errors.length && <p className="error">{state.data.errors[0].message}</p>
+                    state.data.errors.length && <p className="error">{Identify.__(state.data.errors[0].message)}</p>
                 }
             </div>
         );

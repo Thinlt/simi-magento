@@ -48,6 +48,7 @@ import {addRecentViewedProducts} from '../../../Helper/Biancaproduct'
 import { productUrlSuffix } from 'src/simi/Helper/Url';
 import SizeGuide from 'src/simi/App/Bianca/Components/Product/SizeGuide';
 import Select from 'src/simi/App/Bianca/BaseComponents/FormInput/Select';
+import { Link } from 'src/drivers';
 
 import { analyticAddCartGTM, analyticsViewDetailsGTM } from 'src/simi/Helper/Analytics'
 
@@ -635,7 +636,7 @@ class ProductFullDetail extends Component {
     }
 
     vendorName = () => {
-        const { product: {simiExtraField: {attribute_values: attribute_values} }} = this.props;
+        const { product: {simiExtraField: {attribute_values: attribute_values} }, history} = this.props;
         if (attribute_values && attribute_values.vendor_id) {
             const configs = Identify.getStoreConfig();
             if (configs && configs.simiStoreConfig && configs.simiStoreConfig.config && configs.simiStoreConfig.config.vendor_list) {
@@ -648,7 +649,12 @@ class ProductFullDetail extends Component {
                 if (vendor && vendor.lastname) vendorName = `${vendorName} ${vendor.lastname}`;
                 const {profile} = vendor || {}
                 vendorName = profile && profile.store_name || vendorName;
-                if (vendorName) return vendorName;
+                if (vendorName){
+                    if (vendor.vendor_id) {
+                        return <Link to={`/designers/${vendor.vendor_id}.html`} target="blank">{vendorName}</Link>
+                    }
+                    return <Link to={`/designers/${vendor.entity_id}.html`} target="blank">{vendorName}</Link>
+                }
             }
         }
         return null
