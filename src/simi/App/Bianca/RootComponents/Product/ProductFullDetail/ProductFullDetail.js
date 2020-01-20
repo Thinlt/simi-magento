@@ -653,9 +653,9 @@ class ProductFullDetail extends Component {
                 vendorName = profile && profile.store_name || vendorName;
                 if (vendorName){
                     if (vendor.vendor_id) {
-                        return <Link to={`/designers/${vendor.vendor_id}.html`} target="blank">{vendorName}</Link>
+                        return <Link to={`/designers/${vendor.vendor_id}.html`}>{vendorName}</Link>
                     }
-                    return <Link to={`/designers/${vendor.entity_id}.html`} target="blank">{vendorName}</Link>
+                    return <Link to={`/designers/${vendor.entity_id}.html`}>{vendorName}</Link>
                 }
             }
         }

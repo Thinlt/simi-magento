@@ -169,7 +169,7 @@ class Griditem extends React.Component {
                         return parseInt(vendor.entity_id) === parseInt(attribute_values.vendor_id);
                     });
                     if (vendor) {
-                        this.vendorName = <Link to={`/designers/${vendor.vendor_id}.html`} target="blank">{attribute_values.vendor_name}</Link>
+                        this.vendorName = <Link to={`/designers/${vendor.vendor_id}.html`}>{attribute_values.vendor_name}</Link>
                     }
                 } else {
                     this.vendorName = attribute_values.vendor_name
