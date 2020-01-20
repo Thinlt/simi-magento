@@ -919,33 +919,33 @@ body.fixed-scroll {
         }
       }
     }
-    .rtl-header-search{
-        .header-search-form{
-            i{
-                left: unset !important;
-                right: 31px !important;
-            }
-            input{
-                padding-left: unset !important;
-                padding-right: 40px !important;
-            }
-            .search-auto-complete-root{
-                div[class *= "message"]{
-                    text-align: start !important;
-                    padding-left: 18px !important;
-                    padding-right: unset !important;
-                    div[class *= "close-icon"]{
-                        right: unset !important;
-                        left: -2px !important;
-                    }
-                    i[class *= "icon-cross"]{
-                        right: unset !important;
-                        left: -2px !important;
-                        bottom: -5px !important;
-                    }
-                }
-            }
+    .rtl-header-search {
+      .header-search-form {
+        i {
+          left: unset !important;
+          right: 31px !important;
         }
+        input {
+          padding-left: unset !important;
+          padding-right: 40px !important;
+        }
+        .search-auto-complete-root {
+          div[class*="message"] {
+            text-align: start !important;
+            padding-left: 18px !important;
+            padding-right: unset !important;
+            div[class*="close-icon"] {
+              right: unset !important;
+              left: -2px !important;
+            }
+            i[class*="icon-cross"] {
+              right: unset !important;
+              left: -2px !important;
+              bottom: -5px !important;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -999,6 +999,9 @@ body.fixed-scroll {
     }
     .right-bar {
       .right-bar-item {
+        .before-login {
+          position: relative;
+        }
         margin-left: 0px !important;
         margin-right: 0px !important;
       }
@@ -1137,4 +1140,7 @@ Simple header (for checkout and cart)
 
 .minicart-close {
   overflow: visible !important;
+}
+.move-down {
+  top: 178px !important;
 }

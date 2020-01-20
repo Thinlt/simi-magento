@@ -22,6 +22,7 @@ import { async } from 'q';
 
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
+const $ = window.$;
 class Login extends Component {
 	constructor(props) {
 		super(props);
@@ -115,6 +116,7 @@ class Login extends Component {
 			);
 		};
 		this.showVendorRegisterForm();
+		$('#login-background').css('marginTop', '55px')
 	};
 
 	forgotPassword = () => {};
@@ -133,6 +135,7 @@ class Login extends Component {
 			);
 		};
 		this.showForgotPasswordForm();
+		$('#login-background').css('marginTop', '55px')
 	};
 
 	hideDesigner = () => {
@@ -239,7 +242,7 @@ class Login extends Component {
 				{TitleHelper.renderMetaHeader({
 					title: Identify.__('Designer Login')
 				})}
-				<div className={`${classes['login-background']} ${Identify.isRtl() ? classes['rtl-login-background'] : null}`}>
+				<div id="login-background" className={`${classes['login-background']} ${Identify.isRtl() ? classes['rtl-login-background'] : null}`}>
 					<div
 						className={` ${this.state.forgotPassSuccess == 'none'
 							? classes['smallSize']

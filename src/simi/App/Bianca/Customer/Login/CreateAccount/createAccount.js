@@ -149,7 +149,7 @@ const CreateAccount = props => {
                 </div>
                 <div
                     className={classes['back']}
-
+                    id="btn-back"
                     onClick={handleBack}
                 >
                     <span>{Identify.__('back'.toUpperCase())}</span>

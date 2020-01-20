@@ -26,6 +26,7 @@ import TitleHelper from 'src/simi/Helper/TitleHelper';
 require('./header.scss');
 
 const SearchForm = React.lazy(() => import('./Component/SearchForm'));
+const $ = window.$;
 
 class Header extends React.Component {
 	constructor(props) {
@@ -43,6 +44,7 @@ class Header extends React.Component {
 	searchTrigger = () => {
 		if (this.searchFormCallback && typeof this.searchFormCallback === 'function') {
 			console.log('toggle search');
+			$('#btn-back').toggleClass('move-down')
 			this.searchFormCallback();
 		}
 	};
