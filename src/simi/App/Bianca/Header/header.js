@@ -198,7 +198,7 @@ class Header extends React.Component {
 				</div>
 				<div className="container-header">
 					<div className="container-fluid">
-						<div className={'header'}>
+						<div className={`header ${Identify.isRtl() ? 'rtl-header' : null}`}>
 							<NavTrigger classes={this.classes}>
 								<MenuIcon />
 							</NavTrigger>
@@ -305,7 +305,7 @@ class Header extends React.Component {
 					</div>
 					<div className="container-header">
 						<div className="container sub-container">
-							<div className="header">
+							<div className={`header ${Identify.isRtl() ? 'rtl-header' : null}`}>
 								{!simpleHeader && this.renderSearchForm()}
 								{this.renderLogo()}
 								{!simpleHeader && this.renderRightBar(isSignedIn)}
