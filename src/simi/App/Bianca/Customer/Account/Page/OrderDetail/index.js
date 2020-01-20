@@ -292,11 +292,18 @@ const Detail = (props) => {
                             <span className="price">{getFormatPrice(totalPrice.tax)}</span>
                         </div>
                         {
-                                parseInt(data.service_support_fee) && 
+                                parseInt(data.service_support_fee) ? 
                                 <div className="summary-price-line">
                                     <span className="bold">{Identify.__('Service Support Fee')}</span>
                                     <span className="price">{getFormatPrice(data.service_support_fee)}</span>
-                                </div>
+                                </div> : ''
+                        }
+                        {
+                                parseInt(data.preorder_deposit_discount) ? 
+                                <div className="summary-price-line">
+                                    <span className="bold">{Identify.__('Pre-order Deposit Discount')}</span>
+                                    <span className="price">{getFormatPrice(data.preorder_deposit_discount)}</span>
+                                </div> : ''
                         }
                         <div className="summary-price-line total">
                             <span className="bold">{Identify.__('Grand Total')}</span>

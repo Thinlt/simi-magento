@@ -41,6 +41,7 @@
     @media (max-width: 1023px) {
         .header {
             font-size: 16px;
+            margin-top: 20px;
             margin-bottom: 20px;
         }
         
@@ -51,6 +52,7 @@
         .order-actions {
             margin-top: 18px;
             justify-content: center;
+            margin-bottom: 70px;
             > div {
                 margin-top: 12px;
             }
