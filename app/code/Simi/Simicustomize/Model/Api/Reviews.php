@@ -113,13 +113,12 @@ class Reviews extends \Simi\Simiconnector\Model\Api\Apiabstract
         $page       = 1;
         $limit = self::DEFAULT_LIMIT;
         $offset = 0;
-        $this->setPageSize($parameters, $limit, $offset, $collection, $page);
+        $this->setPageSize($collection, $parameters, $limit, $offset, $page);
         $all_ids = [];
         $info    = [];
         $total   = $collection->getSize();
-        
         if ($offset > $total) {
-            throw new \Simi\Simiconnector\Helper\SimiException(__('Invalid method.'), 4);
+            throw new \Simi\Simiconnector\Helper\SimiException(__('No data.'), 4);
         }
         
         $fields = [];
@@ -200,7 +199,7 @@ class Reviews extends \Simi\Simiconnector\Model\Api\Apiabstract
         ];
     }
     
-    private function setPageSize($parameters, &$limit, &$offset, $collection, &$page)
+    private function setPageSize($collection, $parameters, &$limit, &$offset, &$page)
     {
         if (isset($parameters[self::PAGE]) && $parameters[self::PAGE]) {
             $page = $parameters[self::PAGE];
@@ -208,11 +207,11 @@ class Reviews extends \Simi\Simiconnector\Model\Api\Apiabstract
         if (isset($parameters[self::LIMIT]) && $parameters[self::LIMIT]) {
             $limit = $parameters[self::LIMIT];
         }
-        $offset = $limit * ($page - 1);
+        $offset = $limit * ($page - 1) + 1;
         if (isset($parameters[self::OFFSET]) && $parameters[self::OFFSET]) {
             $offset = $parameters[self::OFFSET];
         }
-        $collection->setPageSize($offset + $limit);
+        $collection->getSelect()->limit($limit, $offset);
     }
     
     private function applyStarCount($x, &$star)
