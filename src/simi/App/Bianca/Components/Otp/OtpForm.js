@@ -86,26 +86,7 @@ class OtpForm extends Component {
                 </div>
                 <div role="presentation" style={this.props.isButtonDisabled ? styleInActive : styleActice} className='login-otp' onClick={!this.props.isButtonDisabled ? this.props.handleSendOtp : doNothing}>
                     {Identify.__('SEND VERIFICATION CODE').toUpperCase()}
-                    {this.props.isButtonDisabled && <CountDown time={30} />}
                 </div>
-
-                {this.props.isButtonDisabled ?
-                    <div id="verify-phone-area" className={`verify-phone-area hidden`}>
-                        <div className="login-otp-form-field">
-                            <div className="label">{Identify.__('Enter One Time Password')}</div>
-                            <span className="description">{Identify.__("One Time Password (OTP) has been sent to your mobile,please enter the same here to login.")}</span>
-                            <input type="password" name="logintotp" id="login-input-otp" className="form-control" ref="logintotp" />
-                            <div id="login-input-otp-warning"
-                                className="error-message">{Identify.__("Please enter OTP")}</div>
-                            <div id="return-otp-warning" className="error-message">{Identify.__("OTP Not Verified.")}</div>
-                        </div>
-                        <div role="presentation" className="login-otp"
-                            style={styleActice}
-                            onClick={this.props.handleVerify}
-                        >{this.props.type === 'login' ? Identify.__('Verify & Login').toUpperCase() : Identify.__('Verify Forgot Password')}</div>
-                    </div>
-                    : ''
-                }
             </div>
         )
     }

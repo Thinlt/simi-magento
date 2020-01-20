@@ -34,7 +34,6 @@ class LoginOTP extends Component {
 
     handleSendOtp = () => {
         let phone = this.state.phone;
-        console.log(phone)
         $('#login-opt-area #number_phone-not-exist').css({ display: 'none' });
         $('#login-opt-area #number_phone-invalid').css({ display: 'none' });
         if (!phone && !phone.trim().length === 0) {
@@ -66,11 +65,13 @@ class LoginOTP extends Component {
         hideFogLoading();
 
         if (data.result && data.result === 'true') {
-            this.setState({ isButtonDisabled: true });
-            setTimeout(() => this.setState({ isButtonDisabled: false }), 30000);
-
             $('#login-opt-area #number_phone-invalid').css({ display: 'none' });
             $('#login-opt-area #verify-phone-area').removeClass('hidden');
+            // save numberphone into localstorage
+            localStorage.setItem("numberphone_otp", this.state.phone);
+            // Open modal verify otp
+            this.props.openVModal();
+            setTimeout(() => this.props.closeVModal(), 30000);
         } else {
             $('#login-opt-area #number_phone-invalid').css({ display: 'block' })
             $('#login-opt-area #verify-phone-area').addClass('hidden');
@@ -78,31 +79,9 @@ class LoginOTP extends Component {
 
     }
 
-    handleVerifyLogin = () => {
-        const logintotp = $('#login-input-otp').val();
-        $('#login-input-otp-warning').css({ display: 'none' })
-        showFogLoading();
-        verifyOTPForLogin(this.phoneNB, logintotp, this.handleCallBackLVerifyLogin);
-
-    }
-
-    handleCallBackLVerifyLogin = (data) => {
-        if (data.result && data.result === 'true' && data.customer_access_token) {
-            $('#login-opt-area #return-otp-warning').css({ display: 'none' });
-            hideFogLoading();
-            Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, data.customer_identity);
-            setToken(data.customer_access_token)
-            this.props.onSignIn(data.customer_access_token);
-            // getProfileAfterOtp(this.handleSendProfile.bind(this, data.customer_access_token));
-        } else {
-            hideFogLoading();
-            $('#login-opt-area #return-otp-warning').css({ display: 'block' });
-        }
-    }
-
     render() {
         const { isButtonDisabled } = this.state;
-       
+
         return (
             <OtpForm
                 handleSendOtp={this.handleSendOtp}
