@@ -151,7 +151,7 @@ const ReviewList = props => {
         return (
             <div>
                 {
-                    state.data.errors.length && <p className="error">{Identify.__(state.data.errors[0].message)}</p>
+                    state.data.errors.length && <p className="error">{Identify.__('Review is empty')}</p>
                 }
             </div>
         );
