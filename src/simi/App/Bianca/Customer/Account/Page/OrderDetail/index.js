@@ -15,9 +15,12 @@ const Detail = (props) => {
     console.log(props)
     console.log(data)
     const [loaded, setLoaded] = useState(false)
-    const { history, isPhone } = props
+    const { history } = props
+    const isPhone = window.innerWidth < 1024 
     const id = history.location.state.orderData.increment_id || null;
+    const storeConfig = Identify.getStoreConfig();
 
+    console.log(storeConfig)
     useEffect(() => {
         const api = Identify.ApiDataStorage('quoteOrder') || {}
         if (api.hasOwnProperty(id)) {
@@ -61,12 +64,15 @@ const Detail = (props) => {
         }
     }
 
-    const renderAddress = (address) => {
+    const renderAddress = (address, label) => {
         return (
-            <div className="detail-col  col-md-3">
+            <div className="detail-col">
                 <div className="line-num">
-                    <b>{Identify.__("Delivery Address:")}</b>
+                    <div className="checkout-address-label">{label}</div>
                     <div className="address green">
+                        <span style={{display: 'block'}}>
+                            {address.firstname}  {address.lastname}
+                        </span>
                         {address.street && (
                             <span style={{ display: "block" }}>
                                 {ReactHTMLParse(
@@ -74,14 +80,19 @@ const Detail = (props) => {
                                 )}
                             </span>
                         )}
+                        {address.postcode && (
+                            <span style={{ display: "block" }}>
+                                {address.postcode}
+                            </span>
+                        )}
                         {address.city && (
                             <span style={{ display: "block" }}>
                                 {address.city}
                             </span>
                         )}
-                        {address.postcode && (
+                        {address.telephone && (
                             <span style={{ display: "block" }}>
-                                {address.postcode}
+                                {address.telephone}
                             </span>
                         )}
                     </div>
@@ -90,17 +101,28 @@ const Detail = (props) => {
         )
     }
     
+    const renderMethod = (label, value) => {
+        return <div className="checkout-method">
+            <div className="checkout-method-label">{label}</div>
+            <div className="checkout-method-value">{value}</div>
+        </div>
+
+    }
+
     const renderSummary = () => {
         let html = null;
         if (data) {
+            const colSize = isPhone?'col-xs-6':'col-md-3'
             html = (
                 <div className="order-detail__summary">
                     <div className="summary-title">
                         {Identify.__('Order Information')}
                     </div>
                     <div className="summary-row rows">
-                        {(data.shipping_address && Object.keys(data.shipping_address).length > 0) && <div className="col-md-3">{renderAddress(data.shipping_address)}</div>}
-                        {(data.billing_address && Object.keys(data.billing_address).length > 0) &&  <div className="col-md-3">{renderAddress(data.billing_address)}</div>}
+                        {(data.shipping_address && Object.keys(data.shipping_address).length > 0) && <div className={colSize}>{renderAddress(data.shipping_address, Identify.__("Delivery Address"))}</div>}
+                        {data.shipping_method && <div className={colSize}>{renderMethod(Identify.__('Shipping Method'), data.shipping_method)}</div>}
+                        {(data.billing_address && Object.keys(data.billing_address).length > 0) &&  <div className={colSize}>{renderAddress(data.billing_address, Identify.__("Billing Address"))}</div>}
+                        {data.payment_method && <div className={colSize}>{renderMethod(Identify.__('Payment Method'), data.payment_method)}</div>}
                     </div>
                 </div>
             );
@@ -109,31 +131,44 @@ const Detail = (props) => {
     };
 
     const renderItem = items => {
-        console.log(items);
         let html = null;
         const totalPrice = data.total;
 
         if (items.length > 0) {
             html = items.map((item, index) => {
                 let optionText = [];
-                if (item.option) {
-                    let options = item.option;
+                if (item.product_options && item.product_options.attributes_info) {
+                    let options = item.product_options.attributes_info;
                     for (let i in options) {
                         let option = options[i];
                         optionText.push(
-                            <div key={Identify.makeid()}>
-                                <div className="orderhisoptionlabel">{option.option_title}:</div> <div className="orderhisoptionvalue">{ReactHTMLParse(option.option_value)}</div>
+                            <div key={i}>
+                                <div className="orderhisoptionlabel">{option.label}:</div> <div className="orderhisoptionvalue">{ReactHTMLParse(option.value)}</div>
                             </div>
                         );
                     }
                 }
 
                 const location = `/product.html?sku=${item.simi_sku?item.simi_sku:item.sku}`
+                let vendorName = '';
+                
+                if (item.vendor_id !== 'default' && storeConfig) {
+                    try {
+                        const vendorList = storeConfig.simiStoreConfig.config.vendor_list;
+                        const vendor = vendorList.find(vendor => {
+                            return vendor.entity_id === item.vendor_id
+                        })
+                        if (vendor && vendor.firstname) vendorName = `${vendor.firstname}`;
+                        if (vendor && vendor.lastname) vendorName = `${vendorName} ${vendor.lastname}`;
+                        const {profile} = vendor || {}
+                        vendorName = profile && profile.store_name || vendorName;
+                    } catch (err) { }
+                }
+                
 
                 return (
                     <div className="order-detail-line" key={index}>
                         <div className="detail-order__col img-item">
-                            {isPhone && <b>{Identify.__('Item')}</b>}
                             <div
                                 to={location}
                                 className="img-name-col"
@@ -144,8 +179,10 @@ const Detail = (props) => {
                                         style={{}}
                                     >
                                         <div className="item-name" role="presentation" onClick={()=>handleLink(location)}>
+                                            {isPhone && <b>{Identify.__('Product name')}</b>}
                                             {ReactHTMLParse(item.name)}
                                         </div>
+                                        {vendorName && <div className="vendorName">{isPhone && <b>{Identify.__('Designer name')}</b>} {vendorName}</div>}
                                         <div className="item-options">
                                             {(optionText.length > 0) && optionText}
                                             <div>
@@ -200,23 +237,25 @@ const Detail = (props) => {
         if (data) {
             html = (
                 <div className="order-detail-table">
-                    {!isPhone && <div className="order-header">
-                        <div className="detail-order__col detail-name-col">
-                            {Identify.__("Product Name")}
+                    {!isPhone && (
+                        <div className="order-header">
+                            <div className="detail-order__col detail-name-col">
+                                {Identify.__("Product Name")}
+                            </div>
+                            <div className="detail-order__col detail-sku-col">
+                                {Identify.__("SKU")}
+                            </div>
+                            <div className="detail-order__col">
+                                {Identify.__("Price")}
+                            </div>
+                            <div className="detail-order__col">
+                                {Identify.__("Qty")}
+                            </div>
+                            <div className="detail-order__col">
+                                {Identify.__("Subtotal")}
+                            </div>
                         </div>
-                        <div className="detail-order__col detail-sku-col">
-                            {Identify.__("SKU")}
-                        </div>
-                        <div className="detail-order__col">
-                            {Identify.__("Price")}
-                        </div>
-                        <div className="detail-order__col">
-                            {Identify.__("Qty")}
-                        </div>
-                        <div className="detail-order__col">
-                            {Identify.__("Subtotal")}
-                        </div>
-                    </div>}
+                    )}
                     <div className="order-body">
                         {data.order_items.length > 0
                             ? renderItem(data.order_items)
@@ -276,14 +315,13 @@ const Detail = (props) => {
     return (
         <div className="dashboard-acc-order-detail">
             <div className="customer-page-title">
-                <div className="order-id">{Identify.__("Order")} {data.increment_id}</div>
+                <div className="order-id">{Identify.__("Order #")} {data.increment_id}</div>
                 <div className="created-at">{data.status} {getDateFormat(data.created_at)}</div>
                 
             </div>
             {renderTableItems()}
             {renderSummary()}
         </div>
-        // <div>Hello</div>
     );
 }
 

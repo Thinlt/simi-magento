@@ -50,6 +50,12 @@
                     .item-name {
                         cursor: pointer;
                         margin-bottom: 9px;
+                        font-size: 14px;
+                    }
+                    .vendorName {
+                        margin-bottom: 25px;
+                        font-weight: 600;
+                        font-size: 14px;
                     }
                     .item-options {
                         >div {
@@ -82,6 +88,9 @@
                 }
             }
         }
+        .order-detail-line:not(:last-child) {
+            border-bottom: solid #727272 1px;
+        }
         .detail-order-footer {
             padding: 30px 24px;
             .box-total-price {
@@ -108,12 +117,129 @@
     .order-detail__summary {
         margin-top: 50px;
         width: 100%;
+        font-size: 16px;
+        line-height: 24px;
         .summary-title {
             width: 100%;
             font-size: 20px;
             line-height: 20px;
             padding-bottom: 10px;
             border-bottom: solid 1px #E0E0E0;
+        }
+        .summary-row {
+            padding-top: 35px;
+            .checkout-method-label, .checkout-address-label {
+                font-weight: 600;
+                margin-bottom: 14px;
+            }
+        }
+    }
+
+    @media (max-width: 1023px) {
+        .customer-page-title {
+            margin-bottom: 0px !important;
+            .order-id {
+                font-size: 18px;
+                margin-top: 14px;
+            }
+            .created-at {
+                font-size: 14px;
+                font-weight: 400;
+            }
+        }
+        .order-detail-table {
+            border: none;
+            .order-detail-line {
+                display: block;
+                padding: 15px;
+                padding-top: 12px;
+                padding-bottom: 25px;
+                font-size: 14px;
+                border-bottom: solid 1px #E0E0E0;
+                margin-left: -15px;
+                margin-right: -15px;
+                .detail-order__col {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                }
+                .img-item {
+                    min-width: unset;
+                    max-width: unset;
+                    .order-item-info .vendorName {
+                        margin-bottom: 12px;
+                        font-weight: 400;
+                    }
+                    .order-item-info .item-options>div, .item-name, .vendorName {
+                        display: flex;
+                        justify-content: space-between;
+                        text-align: end;
+                        b {
+                            text-align: start;
+                        }
+                    }
+                    .order-item-info .item-options>div:not(:last-child) {
+                        margin-top: 0px;
+                        margin-bottom: 12px;
+                    }
+                    .order-item-info .item-options>div:last-child {
+                        margin-top: 0px;
+                    }
+                }
+                .detail-order__col:not(:last-child) {
+                    margin-bottom: 12px;
+                }
+                .product-code {
+                    min-width: unset;
+                    max-width: unset;
+                }
+            }
+            .order-detail-line:not(:last-child) {
+                border-bottom: solid 1px #E0E0E0;
+            }
+            
+            .detail-order-footer {
+                padding: 15px;
+                margin-left: -15px;
+                margin-right: -15px;
+                background-color: unset;
+                border-bottom: solid 1px #E0E0E0;
+                .box-total-price {
+                    padding: 0px;
+                    background-color: unset;
+                    .total-sub-price-container  {
+                        max-width: unset;
+                        .summary-price-line {
+                            .bold {
+                                font-weight: 600;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .order-detail__summary {
+            margin-top: 25px;
+            font-size: 16px;
+            line-height: 16px;
+            .summary-title {
+                font-weight: 600;
+                padding-bottom: 15px;
+                border-bottom: none;
+                font-size: 16px;
+            }
+            .summary-row {
+                padding-top: 0px;
+                >div {
+                    padding: 0px;
+                    min-height: 137px;
+                    font-size: 14px;
+                }
+                .checkout-method-label, .checkout-address-label {
+                    margin-bottom: 10px;
+                }
+            }
         }
     }
 }
