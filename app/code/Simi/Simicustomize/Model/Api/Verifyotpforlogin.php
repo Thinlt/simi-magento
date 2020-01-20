@@ -4,6 +4,7 @@ namespace Simi\Simicustomize\Model\Api;
 
 class Verifyotpforlogin extends \Simi\Simiconnector\Model\Api\Apiabstract
 {
+
     public function setBuilderQuery()
     {
         // TODO: Implement setBuilderQuery() method.
@@ -23,27 +24,61 @@ class Verifyotpforlogin extends \Simi\Simiconnector\Model\Api\Apiabstract
             $customerData = $this->simiObjectManager->get(\Magento\Customer\Model\Customer::class);
             $customer = $customerData->getCollection()->addFieldToFilter("mobilenumber", $mobile)->getFirstItem();
             if ($customer) {
-                $session = $this->simiObjectManager->get(\Magento\Customer\Model\Session::class);
-                $session->setCustomerAsLoggedIn($customer);
-                $session->regenerateId();
-                $customerIdentity = $this->simiObjectManager->get('\Magento\Customer\Model\Session')->getSessionId();
-                $result = "true";
-                $customerToken = $this->simiObjectManager->get(\Magento\Integration\Model\Oauth\TokenFactory::class);
-                $tokenKey = $customerToken->create()->createCustomerToken($customer->getId())->getToken();
-                if ($helperData->isEnableLoginEmail()) {
-                    $helperData->sendMail($_SERVER['REMOTE_ADDR'], $customer->getEmail(), $_SERVER['HTTP_USER_AGENT']);
+                if (!$customer->getConfirmation()) {
+                    $session = $this->simiObjectManager->get(\Magento\Customer\Model\Session::class);
+                    $session->setCustomerAsLoggedIn($customer);
+                    $session->regenerateId();
+                    $customerIdentity = $this->simiObjectManager->get('\Magento\Customer\Model\Session')->getSessionId();
+                    $result = "true";
+                    $customerToken = $this->simiObjectManager->get(\Magento\Integration\Model\Oauth\TokenFactory::class);
+                    $tokenKey = $customerToken->create()->createCustomerToken($customer->getId())->getToken();
+                    if ($helperData->isEnableLoginEmail()) {
+                        $helperData->sendMail($_SERVER['REMOTE_ADDR'], $customer->getEmail(), $_SERVER['HTTP_USER_AGENT']);
+                    }
+                    $helperData->setOtpVerified($mobile);
+                    // Check if exist vendor account
+                    $vendorCollection = $this->simiObjectManager
+                        ->get('Vnecoms\Vendors\Model\Vendor')->getCollection()->addFieldToFilter('telephone', $mobile);
+                    if (count($vendorCollection) == 1) {
+                        // get redirect url for login vendor
+                        $helper = $this->simiObjectManager->get('Vnecoms\Vendors\Helper\Data');
+                        $redirectUrl = $helper->getHomePageUrl();
+                    } else {
+                        $message = __("Designer account does not exist !");
+                        return [
+                            [
+                                'status' => 'error',
+                                'is_login' => '0',
+                                'message' => $message
+                            ]
+                        ];
+                    }
+                } else {
+                    $message = __("This account isn't confirmed. Verify and try again.");
+                    return [
+                        [
+                            'status' => 'error',
+                            'is_login' => '0',
+                            'message' => $message
+                        ]
+                    ];
                 }
-                $helperData->setOtpVerified($mobile);
-                // get redirect url for login vendor
-                $helper = $this->simiObjectManager->get('Vnecoms\Vendors\Helper\Data');
-                $redirectUrl = $helper->getHomePageUrl();
+            } else {
+                $message = __("Account does not exist !");
+                return [
+                    [
+                        'status' => 'error',
+                        'is_login' => '0',
+                        'message' => $message
+                    ]
+                ];
             }
         }
         return [
-            'result' => $result,
+            'status' => 'success',
             'customer_access_token' => $tokenKey,
             'customer_identity' => $customerIdentity,
-            'redirect_url' => $redirectUrl . '?simiSessId=' . $customerIdentity
+            'redirect_url' => $redirectUrl ? ($redirectUrl . '?simiSessId=' . $customerIdentity) : null
         ];
     }
 }
