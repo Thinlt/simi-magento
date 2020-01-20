@@ -11,6 +11,8 @@ import TitleHelper from 'src/simi/Helper/TitleHelper'
 require('./thankyou.scss')
 
 const Thankyou = props => {
+    localStorage.removeItem('M2_VENIA_BROWSER_PERSISTENCE__shipping_address');
+    localStorage.removeItem('M2_VENIA_BROWSER_PERSISTENCE__billing_address');
     hideFogLoading()
     const {  history, order } = props;
 

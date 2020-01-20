@@ -20,7 +20,9 @@ class ApplyGiftcard extends Component {
     }
 
     componentDidMount() {
-        getGiftCodes((data) => this.gotVouchers(data), 1, 99999, 'id', 'desc')
+        const { userSignedIn } = this.props
+        if (userSignedIn)
+            getGiftCodes((data) => this.gotVouchers(data), 1, 99999, 'id', 'desc')
     }
 
     gotVouchers(data) {
@@ -151,7 +153,6 @@ class ApplyGiftcard extends Component {
                                     <span className="selectSavedGiftcardInput">
                                         <select 
                                             name="selected_giftcard_field"
-                                            defaultValue={ (giftCode && savedCoupons.includes(giftCode)) ? giftCode : 0}
                                             onChange={(e) => {if (this.savedCouponSelect) this.applyVoucher(this.savedCouponSelect.value)}}
                                             ref={(item)=> {this.savedCouponSelect = item}}
                                         >
