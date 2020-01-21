@@ -111,7 +111,6 @@
     }
 
     .form-fields-body {
-
         .address-field-label {
             margin-top: 0px;
             font-size: 10px;
@@ -137,6 +136,8 @@
             color: #727272;
             font-size: 14px;
             line-height: 14px;
+            font-family: 'Gotham Book';
+            font-weight: 400;
         }
         select {
             background-color: #F2F2F2;
@@ -146,6 +147,8 @@
             font-size: 14px;
             line-height: 14px;
             height: unset;
+            font-family: 'Gotham Book';
+            font-weight: 400;
         }
         .existed-account-label {
             display: block;
@@ -199,10 +202,10 @@
         border-radius: 0;
         background-color: #101820;
         margin-bottom: 16px;
+        font-family: 'Gotham Book';
         span {
-            padding-top: 4px;
+            padding-top: 2px;
             text-transform: uppercase;
-            padding-top: 5px;
         }
     }
     .footer button[type=submit]:hover {

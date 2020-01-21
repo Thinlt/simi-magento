@@ -34,11 +34,6 @@ const SearchForm = props => {
             setShowAC(false)
         }
     }
-    const handleMouseLeave = () => {
-        if(searchField.value){
-            $('.placeholder').css('display', 'none')
-        }
-    }
 
     const classes = props.classes
 
@@ -73,12 +68,8 @@ const SearchForm = props => {
                             className="search"
                             onChange={() => handleSearchField()}
                             onKeyPress={(e) => {if (e.key === 'Enter') startSearch()}}
-                            onMouseLeave={()=> handleMouseLeave()}
+                            placeholder={Identify.__('Search')}
                         />
-                        <span className="placeholder">{Identify.__('Search')}</span>
-                        {/* <div role="button" tabIndex="0" className={classes['search-icon']} onClick={() => startSearch()} onKeyUp={() => startSearch()}>
-                            <Search style={{width: 30, height: 30, display: 'block'}} />
-                        </div> */}
                         <SearchAutoComplete visible={showAC} setVisible={setShowAC} value={searchVal} />
                     </>
                 }
@@ -89,7 +80,9 @@ const SearchForm = props => {
     if (props.outerComponent) {
         const OuterComponent = props.outerComponent
         return (
-            <OuterComponent className={'header-search '+waitingClass}>
+            <OuterComponent
+                className={`header-search ${waitingClass} ${Identify.isRtl() ? 'rtl-header-search' : null}`}
+            >
                 {renderHtml()}
             </OuterComponent>
         )

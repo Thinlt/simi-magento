@@ -20,7 +20,9 @@ class ApplyGiftcard extends Component {
     }
 
     componentDidMount() {
-        getGiftCodes((data) => this.gotVouchers(data), 1, 99999, 'id', 'desc')
+        const { userSignedIn } = this.props
+        if (userSignedIn)
+            getGiftCodes((data) => this.gotVouchers(data), 1, 99999, 'id', 'desc')
     }
 
     gotVouchers(data) {
@@ -85,33 +87,20 @@ class ApplyGiftcard extends Component {
 
     render() {
         let giftCode = '';
-        const {cart} = this.props
+        const { giftCartValue} = this.props
         const {savedCoupons} = this.state
 
-        if (cart && cart.totals && cart.totals.total_segments) {
-            const segment = cart.totals.total_segments.find(item => {
-                if (
-                    item.extension_attributes &&
-                    item.extension_attributes.aw_giftcard_codes
-                )
-                    return true;
-                return false;
-            });
-            if (segment) {
-                const aw_giftcard_codes = segment.extension_attributes
-                    .aw_giftcard_codes[0]
-                    ? segment.extension_attributes.aw_giftcard_codes[0]
-                    : '';
-                if (aw_giftcard_codes) {
-                    const value = JSON.parse(aw_giftcard_codes);
-                    giftCode = value.giftcard_code;
-                }
+        if (giftCartValue) { //equal to cart.totals.total_segments.[giftcartsegment].extension_attributes
+            const aw_giftcard_codes = giftCartValue
+                .aw_giftcard_codes[0]
+                ? giftCartValue.aw_giftcard_codes[0]
+                : '';
+            if (aw_giftcard_codes) {
+                const value = JSON.parse(aw_giftcard_codes);
+                giftCode = value.giftcard_code;
             }
         }
         
-        console.log(giftCode)
-            if (giftCode)
-                console.log(this.props)
         const selections = [<option key="0" value="0">{Identify.__('Choose a Gift Voucher')}</option>]
         if (savedCoupons && Array.isArray(savedCoupons) && savedCoupons.length) {
             savedCoupons.map((savedCoupon) => {
@@ -154,7 +143,6 @@ class ApplyGiftcard extends Component {
                                     <span className="selectSavedGiftcardInput">
                                         <select 
                                             name="selected_giftcard_field"
-                                            defaultValue={ (giftCode && savedCoupons.includes(giftCode)) ? giftCode : 0}
                                             onChange={(e) => {if (this.savedCouponSelect) this.applyVoucher(this.savedCouponSelect.value)}}
                                             ref={(item)=> {this.savedCouponSelect = item}}
                                         >

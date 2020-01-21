@@ -52,7 +52,6 @@ const ClothingService = (props) => {
     const {types, description} = service;
 
     const uploadFileReturn = (data) => {
-        console.log(data)
         hideFogLoading()
         let files = formData && formData.files || {};
         if (data && data.uploadfile && data.uploadfile.title) {
@@ -117,7 +116,6 @@ const ClothingService = (props) => {
     const onChangeInput = (name, value) => {
         let newFormData = {...formData}
         newFormData[name] = value;
-        console.log(newFormData)
         setFormData(newFormData);
     }
 
@@ -143,9 +141,11 @@ const ClothingService = (props) => {
                     setFormData(resetFormData());
                 }
                 hideFogLoading()
+                setIsFormSubmited(false);
             }, postData)
+        } else {
+            setIsFormSubmited(true);
         }
-        setIsFormSubmited(true);
     }
 
     // validate data

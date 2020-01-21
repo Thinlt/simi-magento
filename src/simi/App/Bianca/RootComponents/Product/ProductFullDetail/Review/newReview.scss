@@ -101,3 +101,44 @@
         }
     }
 }
+.mobile{
+    .new-review{
+        .review-form{
+            .your-rating-title{
+                font-size: 14px;
+                line-height: 14px;
+                margin-bottom: 10px;
+            }
+            .table{
+                margin-bottom: 20px;
+            }
+            .label-item{
+                font-size: 14px;
+                line-height: 14px;
+                padding: 0px;
+                padding-right: 0px;
+            }
+            td span svg{
+                height: 20px!important;
+                width: 20px!important;
+            }
+            .form-content{
+                .btn-submit-review-ctn{
+                    margin-top: 30px;
+                    margin-bottom: 17px;
+                    .btn-submit-review{
+                        min-width: 161px;
+                        min-height: 40px;
+                        line-height: 14px;
+                        .siminia-btn{
+                            font-size: 14px;
+                            line-height: 14px;
+                            font-family: 'Gotham Book';
+                            font-weight: 600;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

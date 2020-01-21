@@ -10,7 +10,7 @@ import { simiUseQuery, SimiMutation } from 'src/simi/Network/Query';
 import CUSTOMER_ADDRESS from 'src/simi/queries/customerAddress.graphql';
 import CUSTOMER_ADDRESS_DELETE from 'src/simi/queries/customerAddressDelete.graphql';
 // import GET_COUNTRIES from 'src/simi/queries/getCountries.graphql';
-import List from './list';
+import List from './listbox';
 import Edit from './edit';
 import defaultClasses from './style.scss';
 import { withRouter } from 'react-router-dom';

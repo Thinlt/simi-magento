@@ -72,11 +72,11 @@ $borderMobileColor: #A7A7A7;
         }
     }
 
-    @media(min-width: 1920px) {
-        .siminia-product-image{
-            min-height: 448px;
-        }
-    }
+    // @media(min-width: 1920px) {
+    //     .siminia-product-image{
+    //         min-height: 448px;
+    //     }
+    // }
 
     /* rtl */
     .prices-layout-rtl{
@@ -220,10 +220,17 @@ $borderMobileColor: #A7A7A7;
         }
         .vendor-and-price .vendor {
             color: $titleColor;
-            font-family: "Gotham Medium";
+            font-family: "Gotham Book";
+            font-weight: 600;
             font-size: 14px;
             line-height: 14px;
             margin-top: 12px;
+            a{
+                text-decoration: none;
+                &:visited,&:hover,&:focus{
+                    color: unset;
+                }
+            }
         }
     }
     

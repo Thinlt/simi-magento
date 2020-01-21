@@ -75,3 +75,122 @@
         }
     }
 }
+.mobile {
+    .review-list{
+        .review-list-title{
+            font-size: 14px;
+            line-height: 14px;
+        }
+        .total-rate{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            > div{
+                height: 20px!important;
+                line-height: 20px!important;
+                margin-top: 0px!important;
+                span{
+                    height: 20px!important;
+                    line-height: 20px!important;
+                    svg{
+                        width: 20px!important;
+                        height: 20px!important;
+                    }
+                }
+            }
+            > p{
+                font-size: 14px;
+                line-height: 14px;
+            }
+        }
+        .list-review-item{
+            .item{
+                padding: 20px 0;
+                border-top: 1px solid #E0E0E0;
+                line-height: 14px;
+                &:first-child{
+                    border-top: none;
+                }
+                .item-title{
+                    font-family: 'Gotham Book';
+                    font-size: 14px;
+                    line-height: 14px;
+                    text-transform: uppercase;
+                    margin-bottom: 15px;
+                }
+                .item-detail{
+                    font-size: 14px;
+                    line-height: 24px;
+                    text-align: justify;
+                }
+                .review-item-detail{
+                    margin-top: 15px;
+                    margin-bottom: 0px;
+                    .item-created{
+                        font-size: 14px;
+                        line-height: 14px;
+                        span{
+                            padding-right: 8px;
+                            margin-right: 8px;
+                            line-height: 14px;
+                        }
+                    }
+                    .item-rate{
+                        >div{
+                            height: 14px!important;
+                            margin-top: 0px!important;
+                            span{
+                                height: 14px!important;
+                                line-height: 14px!important;
+                                svg{
+                                    width: 14px!important;
+                                    height: 14px!important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            >div>div:last-child{
+                //pagination
+                margin-bottom: 30px;
+                font-size: 14px;
+                line-height: 14px;
+                span{
+                    font-size: 14px!important;
+                    line-height: 14px!important;
+                    font-weight: 500!important;
+                }
+            }
+        }
+        .load-more{
+            .btn-load-more{
+                text-decoration: underline;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+            }
+        }
+    }
+}
+.rtl-root{
+    .mobile {
+        .review-list{
+            .list-review-item{
+                .item{
+                    .review-item-detail{
+                        .item-created{
+                            span{
+                                padding-right: 0px;
+                                margin-right: 0px;
+                                padding-left: 8px;
+                                margin-left: 8px;
+                                border-right: none;
+                                border-left: 1px solid #808080;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
