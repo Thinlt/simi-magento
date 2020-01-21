@@ -24,6 +24,7 @@ import { removeItemFromCart, removeAllItems } from 'src/simi/Model/Cart';
 import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon';
 import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher';
 import EmptyMiniCart from '../Components/MiniCart/emptyMiniCart';
+import { isArray } from 'util';
 
 require('./cart.scss');
 
@@ -316,7 +317,7 @@ class Cart extends Component {
         }
     }
 
-    get couponCode() {
+    couponCode() {
         const { cart, toggleMessages, getCartDetails } = this.props;
         let value = '';
         if (cart.totals.coupon_code) {
@@ -335,35 +336,14 @@ class Cart extends Component {
         );
     }
 
-    get giftVoucher() {
-        const { cart, toggleMessages, getCartDetails } = this.props;
-        let giftCode = '';
-        if (cart.totals.total_segments) {
-            const segment = cart.totals.total_segments.find(item => {
-                if (
-                    item.extension_attributes &&
-                    item.extension_attributes.aw_giftcard_codes
-                )
-                    return true;
-                return false;
-            });
-            if (segment) {
-                const aw_giftcard_codes = segment.extension_attributes
-                    .aw_giftcard_codes[0]
-                    ? segment.extension_attributes.aw_giftcard_codes[0]
-                    : '';
-                if (aw_giftcard_codes) {
-                    const value = JSON.parse(aw_giftcard_codes);
-                    giftCode = value.giftcard_code;
-                }
-            }
-        }
-
+    giftVoucher(giftCartValue) {
+        const { cart, toggleMessages, getCartDetails, isSignedIn } = this.props;
         const childCPProps = {
-            giftCode,
             toggleMessages,
             getCartDetails,
-            cart
+            cart,
+            isSignedIn,
+            giftCartValue
         };
         return (
             <div className={`cart-voucher-form`}>
@@ -378,9 +358,7 @@ class Cart extends Component {
             productList,
             props,
             total,
-            checkoutButton,
-            couponCode,
-            giftVoucher
+            checkoutButton
         } = this;
         const {
             isCartEmpty,
@@ -418,6 +396,34 @@ class Cart extends Component {
         if (isLoading) showFogLoading();
         else hideFogLoading();
 
+        let is_pre_order = false
+        let is_try_to_buy = false
+        let is_all_gift_card = true //cart only contains giftcard wont show coupon/giftcard
+        if (cart && cart.totals && cart.totals.items && isArray(cart.totals.items)) {
+            cart.totals.items.forEach(cartTotalItem => {
+                if (cartTotalItem.attribute_values && cartTotalItem.attribute_values.type_id !== "aw_giftcard") {
+                    is_all_gift_card = false
+                }
+                if (cartTotalItem.simi_pre_order_option && cartTotalItem.simi_pre_order_option!== '[]') {
+                    is_pre_order = true
+                } else if (cartTotalItem.simi_trytobuy_option && cartTotalItem.simi_trytobuy_option!== '[]') {
+                    is_try_to_buy = true
+                }
+            });
+        }
+        let cpValue = "";
+        if (cart.totals.coupon_code) {
+            cpValue = cart.totals.coupon_code;
+        }
+        let giftCartValue = "";
+        if (cart.totals && cart.totals.total_segments) {
+            cart.totals.total_segments.map(total_segment => {
+                if ((total_segment.code === 'aw_giftcard') && total_segment.value) {
+                    giftCartValue = total_segment.extension_attributes
+                }
+            })
+        }
+
         return (
             <Fragment>
                 {this.state.isPhone
@@ -439,8 +445,8 @@ class Cart extends Component {
                                 {isLoading ? <Loading/>
                                 :
                                     <div>
-                                        {couponCode}
-                                        {giftVoucher}
+                                        {(!is_all_gift_card && !giftCartValue && !is_try_to_buy && !is_pre_order) && this.couponCode()}
+                                        {(!is_all_gift_card && !cpValue && !is_try_to_buy && !is_pre_order) && this.giftVoucher(giftCartValue)}
                                         {total}
                                         {checkoutButton}
                                     </div>
@@ -464,12 +470,12 @@ class Cart extends Component {
                         <div className="body">
                             {productList}
                             <div className="summary-zone">
-                                <div>{Identify.__('Summary'.toUpperCase())}</div>
+                                <div className="summary-title">{Identify.__('Summary'.toUpperCase())}</div>
                                 {isLoading ? <Loading/>
                                 :
                                     <div>
-                                        {couponCode}
-                                        {giftVoucher}
+                                        {(!is_all_gift_card && !giftCartValue && !is_try_to_buy && !is_pre_order) && this.couponCode()}
+                                        {(!is_all_gift_card && !cpValue && !is_try_to_buy && !is_pre_order) && this.giftVoucher(giftCartValue)}
                                         {total}
                                         {checkoutButton}
                                     </div>
@@ -478,9 +484,6 @@ class Cart extends Component {
                         </div>
                     </Fragment>
                 }
-
-                {/* {couponView}
-                {total} */}
             </Fragment>
         );
     }

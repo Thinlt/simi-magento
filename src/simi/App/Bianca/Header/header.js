@@ -33,9 +33,9 @@ class Header extends React.Component {
 		super(props);
 		this._mounted = true;
 		const isPhone = window.innerWidth < 1024;
-		this.state = { 
+		this.state = {
 			isPhone,
-			openCompareModal:false,
+			openCompareModal: false,
 		};
 		// this.classes = mergeClasses(defaultClasses, this.props.classes)
 		this.classes = Object.assign(ProxyClasses, this.props.classes);
@@ -44,10 +44,16 @@ class Header extends React.Component {
 	searchTrigger = () => {
 		if (this.searchFormCallback && typeof this.searchFormCallback === 'function') {
 			console.log('toggle search');
-			$('#btn-back').toggleClass('move-down')
+			if (Identify.isRtl()) {
+					$('.rtl-root #btn-back').toggleClass('move-down')
+			} else {
+				$('#btn-back').toggleClass('move-down')
+			}
 			this.searchFormCallback();
 		}
 	};
+
+
 
 	toggleSearch = (callback) => {
 		this.searchFormCallback = callback;
@@ -55,7 +61,7 @@ class Header extends React.Component {
 
 	setIsPhone() {
 		const obj = this;
-		$(window).resize(function() {
+		$(window).resize(function () {
 			const width = window.innerWidth;
 			const isPhone = width < 1024;
 			if (obj.state.isPhone !== isPhone) {
@@ -69,16 +75,16 @@ class Header extends React.Component {
 	}
 
 	showModalCompare = () => {
-        this.setState({
-            openCompareModal : true
+		this.setState({
+			openCompareModal: true
 		})
-    }
+	}
 
-    closeCompareModal = () =>{
-        this.setState({
-            openCompareModal : false
-        })
-    }
+	closeCompareModal = () => {
+		this.setState({
+			openCompareModal: false
+		})
+	}
 
 	renderLogo = () => {
 		// const {isPhone} = this.state;
@@ -113,8 +119,8 @@ class Header extends React.Component {
 				</Link>
 			</div>
 		) : (
-			''
-		);
+				''
+			);
 	};
 
 	renderRightBar = (isSignedIn) => {
@@ -122,13 +128,13 @@ class Header extends React.Component {
 		const { classes } = this;
 		const compareData = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'compare_product')
 		return (
-			<div className={'right-bar'}>
+			<div className={`right-bar ${Identify.isRtl() ? 'rtl-right-bar' : null}`}>
 				<div className={'right-bar-item'} id="cart">
-					<CartTrigger classes={classes}/>
+					<CartTrigger classes={classes} />
 				</div>
 				{this.renderWishList(isSignedIn)}
-				{compareData 
-				?
+				{compareData
+					?
 					<div className={'right-bar-item'} id="my-account">
 						<div className="compare">
 							<span
@@ -136,12 +142,12 @@ class Header extends React.Component {
 								className="add-to-compare-btn icon-bench-press"
 								onClick={this.showModalCompare}
 							>
-                        	</span>
-							<CompareProduct history={history} openModal={this.state.openCompareModal} closeModal={this.closeCompareModal}/>
-                    	</div>
+							</span>
+							<CompareProduct history={history} openModal={this.state.openCompareModal} closeModal={this.closeCompareModal} />
+						</div>
 
 					</div>
-				:	null
+					: null
 				}
 				<div className={'right-bar-item'} id="my-account">
 					<MyAccount classes={classes} />
@@ -156,35 +162,35 @@ class Header extends React.Component {
 				{props.children}
 			</div>
 		);
-    };
-    
-    renderMetaHeader = () => {
-        const {pathname} = this.props.location
-        if (!pathname)
-            return
-        ga('send', {
-            hitType: 'pageview',
-            page: pathname
-        });
-        if (
-            this.props.location && this.props.storeConfig
-            && this.props.storeConfig && this.props.storeConfig.simiStoreConfig
-            && this.props.storeConfig.simiStoreConfig.config
-            ) {
-                const {custom_pwa_titles} = this.props.storeConfig.simiStoreConfig.config
-                if (custom_pwa_titles && custom_pwa_titles[pathname]) {
-                    const custom_pwa_title = custom_pwa_titles[pathname]
-                    return TitleHelper.renderMetaHeader({
-                        title: custom_pwa_title.meta_title || null,
-                        desc: custom_pwa_title.meta_description || null
-                    })
-                }
-            }
-    }
+	};
 
-	renderViewPhone = (bianca_header_sale_title,bianca_header_sale_link) => {
+	renderMetaHeader = () => {
+		const { pathname } = this.props.location
+		if (!pathname)
+			return
+		ga('send', {
+			hitType: 'pageview',
+			page: pathname
+		});
+		if (
+			this.props.location && this.props.storeConfig
+			&& this.props.storeConfig && this.props.storeConfig.simiStoreConfig
+			&& this.props.storeConfig.simiStoreConfig.config
+		) {
+			const { custom_pwa_titles } = this.props.storeConfig.simiStoreConfig.config
+			if (custom_pwa_titles && custom_pwa_titles[pathname]) {
+				const custom_pwa_title = custom_pwa_titles[pathname]
+				return TitleHelper.renderMetaHeader({
+					title: custom_pwa_title.meta_title || null,
+					desc: custom_pwa_title.meta_description || null
+				})
+			}
+		}
+	}
+
+	renderViewPhone = (bianca_header_sale_title, bianca_header_sale_link) => {
 		return (
-            <React.Fragment>
+			<React.Fragment>
 				<div className="container-global-notice">
 					<div className="container">
 						<div className="global-site-notice">
@@ -205,12 +211,12 @@ class Header extends React.Component {
 								<MenuIcon />
 							</NavTrigger>
 							{this.renderLogo()}
-							<div className={'right-bar'}>
+							<div className={`right-bar ${Identify.isRtl() ? 'rtl-right-bar' : null}`}>
 								<div className={'right-bar-item'}>
 									<SearchFormTrigger searchTrigger={this.searchTrigger} />
 								</div>
 								<div className={'right-bar-item cart'}>
-									<CartTrigger isPhone={this.state.isPhone}/>
+									<CartTrigger isPhone={this.state.isPhone} />
 								</div>
 							</div>
 						</div>
@@ -234,7 +240,7 @@ class Header extends React.Component {
 	};
 
 	render() {
-		const { user, storeConfig, location} = this.props;
+		const { user, storeConfig, location } = this.props;
 		// Check user login to show wish lish
 		var isSignedIn = false;
 		if (user) {
@@ -259,21 +265,21 @@ class Header extends React.Component {
 		const { drawer } = this.props;
 		const cartIsOpen = drawer === 'cart';
 		const storeViewOptions = <Storeview classes={classes} className="storeview" />;
-        const currencyOptions = <Currency classes={classes} className="currency" />;
-        const simpleHeader = (location && location.pathname &&
-                ((location.pathname.indexOf("/checkout.html") !== -1) || (location.pathname.indexOf("/cart.html") !== -1)))
-                
+		const currencyOptions = <Currency classes={classes} className="currency" />;
+		const simpleHeader = (location && location.pathname &&
+			((location.pathname.indexOf("/checkout.html") !== -1) || (location.pathname.indexOf("/cart.html") !== -1)))
+
 		if (window.innerWidth < 1024) {
 			return (
-                <div className={`header-wrapper mobile ${simpleHeader && 'simple-header'}`}>
-                    {this.renderMetaHeader()}
-                    {this.renderViewPhone(bianca_header_sale_title,bianca_header_sale_link)}
-                </div>
-            )
+				<div className={`header-wrapper mobile ${simpleHeader && 'simple-header'}`}>
+					{this.renderMetaHeader()}
+					{this.renderViewPhone(bianca_header_sale_title, bianca_header_sale_link)}
+				</div>
+			)
 		}
 		return (
 			<React.Fragment>
-                {this.renderMetaHeader()}
+				{this.renderMetaHeader()}
 				<div className={`header-wrapper ${simpleHeader && 'simple-header'}`}>
 					<div className="container-global-notice">
 						<div className="container header-container">
@@ -293,9 +299,9 @@ class Header extends React.Component {
 										<div className="storelocator">
 											<div className="storelocator-icon" />
 											<div className="storelocator-title">
-                                                <Link to={'/storelocator.html'}>
-                                                    {Identify.__('Store')}
-                                                </Link>
+												<Link to={'/storelocator.html'}>
+													{Identify.__('Store')}
+												</Link>
 											</div>
 										</div>
 										<div className="storeview-switcher">{storeViewOptions}</div>
@@ -312,7 +318,7 @@ class Header extends React.Component {
 								{this.renderLogo()}
 								{!simpleHeader && this.renderRightBar(isSignedIn)}
 							</div>
-							{!simpleHeader && <MiniCart isOpen={cartIsOpen} history={this.props.history}/>}
+							{!simpleHeader && <MiniCart isOpen={cartIsOpen} history={this.props.history} />}
 						</div>
 					</div>
 				</div>

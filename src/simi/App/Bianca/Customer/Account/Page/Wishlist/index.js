@@ -6,10 +6,10 @@ import Item from "./Item";
 import {getWishlist} from 'src/simi/Model/Wishlist'
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { getCartDetails } from 'src/actions/cart';
-import Pagination from 'src/simi/BaseComponents/Pagination';
+// import Pagination from 'src/simi/BaseComponents/Pagination';
 import Loading from 'src/simi/BaseComponents/Loading'
 import {hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
-import {smoothScrollToView} from 'src/simi/Helper/Behavior'
+// import {smoothScrollToView} from 'src/simi/Helper/Behavior'
 
 require("./index.scss");
 
@@ -70,17 +70,18 @@ const Wishlist = props => {
     if (data && data.wishlistitems) {
         const {wishlistitems, total} = data
         if (total && wishlistitems && wishlistitems.length) {
-            rows = (
-                <Pagination 
-                    data={wishlistitems} 
-                    renderItem={renderItem}  
-                    itemsPerPageOptions={[8, 16, 32]} 
-                    limit={8}
-                    itemCount={total}
-                    changedPage={()=>smoothScrollToView($('#root'))}
-                    changeLimit={()=>smoothScrollToView($('#root'))}
-                />
-            )
+            // rows = (
+            //     <Pagination 
+            //         data={wishlistitems} 
+            //         renderItem={renderItem}  
+            //         itemsPerPageOptions={[8, 16, 32]} 
+            //         limit={8}
+            //         itemCount={total}
+            //         changedPage={()=>smoothScrollToView($('#root'))}
+            //         changeLimit={()=>smoothScrollToView($('#root'))}
+            //     />
+            // )
+            rows = wishlistitems.map((item, index) => renderItem(item, index))
         }
     } else {
         rows = <Loading />

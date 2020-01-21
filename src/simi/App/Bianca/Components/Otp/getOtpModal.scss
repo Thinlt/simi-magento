@@ -1,0 +1,57 @@
+#modal-get-otp-register {
+  width: 80%;
+  max-width: 604px;
+  max-height: 252px;
+  margin-top: 10%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  padding: 24px 32px;
+  button {
+    width: 16px;
+    height: 16px;
+    color: #101820;
+    top: 24px;
+    right: 32px;
+    svg {
+      height: 16px;
+      color: #101820;
+    }
+  }
+  .title {
+    margin-top: 7px;
+    color: #101820;
+    font-family: Gotham;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+  .description {
+    margin-top: 20px;
+    color: #101820;
+    font-family: Gotham;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 18px;
+    max-width: 443px;
+    margin-left: auto;
+    margin-right: auto;
+    .bold-number {
+      font-weight: bold;
+    }
+  }
+  .btn-show-get-modal {
+    margin-top: 60px;
+    height: 48px;
+    width: 180px;
+    background-color: #101820;
+    color: #fff;
+    font-family: Gotham;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+    text-align: center;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+}

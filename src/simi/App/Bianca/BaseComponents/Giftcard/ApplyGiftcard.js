@@ -3,7 +3,7 @@ import { updateGiftVoucher, deleteGiftCode } from 'src/simi/Model/Cart';
 import { getGiftCodes } from 'src/simi/Model/Customer'
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import Identify from 'src/simi/Helper/Identify';
-import { Whitebtn } from 'src/simi/BaseComponents/Button'
+import { Colorbtn } from 'src/simi/BaseComponents/Button'
 import ChevronDownIcon from 'react-feather/dist/icons/chevron-down';
 import Icon from 'src/components/Icon';
 require('./ApplyGiftcard.scss');
@@ -119,13 +119,13 @@ class ApplyGiftcard extends Component {
                         ref={(item)=> {this.couponFieldInput = item}}
                         placeholder={Identify.__('Enter Gift Code')} defaultValue={giftCode} />
                     {!giftCode 
-                    ?   <Whitebtn 
+                    ?   <Colorbtn 
                             id="submit-voucher"
                             className={`${Identify.isRtl() ? "submit-voucher-rtl" : 'submit-voucher'}`}
                             onClick={() => this.handleVoucher()}
                             text={Identify.__('Apply')} 
                         />
-                    :   <Whitebtn 
+                    :   <Colorbtn 
                             id="remove-voucher"
                             className={`${Identify.isRtl() ? "remove-voucher-rtl" : 'remove-voucher'}`}
                             onClick={() => this.deleteVoucher(giftCode)}

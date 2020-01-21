@@ -22,7 +22,7 @@ const ListItem = props => {
     }
 
     return (
-        <div className="dash-column-box additional-address">
+        <div className="address-box dash-column-box additional-address">
             <div className="white-box-content">
                 <div className="box-content">
                     <address>
