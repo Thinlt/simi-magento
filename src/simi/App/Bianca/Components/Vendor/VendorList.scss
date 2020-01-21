@@ -16,6 +16,11 @@ $color1: #101820;
                 border-top: 1px solid #E0E0E0;
                 border-bottom: 1px solid #E0E0E0;
                 margin-top: 30px;
+                @media screen and (min-width: 1441px){
+                    justify-content: space-between;
+                    display: flex;
+                    width: 100%;
+                }
                 span{
                     margin: 14px;
                     line-height: 20px;
@@ -62,6 +67,9 @@ $color1: #101820;
                         max-width: 290px;
                         text-align: left;
                         margin-top: 30px;
+                        @media screen and (min-width: 1024px) and (max-width: 1439px){
+                            max-width: 25%;
+                        }
                     }
                 }
             }
@@ -101,7 +109,7 @@ $color1: #101820;
                     .items{
                         margin-top: 0px;
                         .vendor-name{
-                            max-width: 171.5px;
+                            max-width: 50%;
                         }
                     }
                 }
