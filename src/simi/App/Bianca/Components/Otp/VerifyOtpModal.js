@@ -128,7 +128,9 @@ class VerifyOtpModal extends React.Component {
                 </div>
                 <div className="description">
                     {Identify.__('A text message with 6-digit verifycation code has been sent to ')}
-                    <span className="bold-number">{localStorage.getItem('numberphone_otp')}</span>
+                    <span className="bold-number">
+                        {localStorage.getItem('numberphone_otp') ? localStorage.getItem('numberphone_otp') : localStorage.getItem('numberphone_register')}
+                    </span>
                 </div>
                 <form onSubmit={verifyOtp} method="post" id="form-verify-otp">
                     <div className="otp-form">

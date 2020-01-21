@@ -14,14 +14,22 @@ import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/
 import { validateEmpty } from 'src/simi/Helper/Validation';
 import { red } from '@material-ui/core/colors';
 import { smoothScrollToView } from 'src/simi/Helper/Behavior';
+import VerifyForm from 'src/simi/App/Bianca/Components/Otp/VerifyForm';
+import GetOtpModal from 'src/simi/App/Bianca/Components/Otp/GetOtpModal';
+import { sendOTPForRegister, verifyOTPForRegister } from 'src/simi/Model/Otp';
+import VerifyOtpModal from 'src/simi/App/Bianca/Components/Otp/VerifyOtpModal';
 
 const VendorRegister = (props) => {
-	const [ firstName, setName ] = useState('');
+	const [firstName, setName] = useState('');
 	const { history, createAccountError } = props;
 	const errorMessage =
 		createAccountError && Object.keys(createAccountError).length !== 0
 			? Identify.__('An error occurred. Please try again.')
 			: null;
+	const [allowSubmit, setAllowSubmit] = useState(false)
+	const [phoneRegister, setPhone] = useState("")
+	const [showModalGet, setModalGet] = useState(false)
+	const [showModalVerify, setModalVerify] = useState(false)
 	let registeringEmail = null;
 	let registeringPassword = null;
 
@@ -30,7 +38,7 @@ const VendorRegister = (props) => {
 
 	const storeConfig = Identify.getStoreConfig();
 	const countries = storeConfig.simiStoreConfig.config.allowed_countries;
-	const [ selectedCountry, setCountry ] = useState('');
+	const [selectedCountry, setCountry] = useState('');
 	const SimiSelect = asField(({ fieldState, ...props }) => (
 		<React.Fragment>
 			<BasicSelect
@@ -108,7 +116,7 @@ const VendorRegister = (props) => {
 		}
 	};
 
-	useLayoutEffect(function() {
+	useLayoutEffect(function () {
 		const form = $('#root-designer');
 		var open = form.find(`.${classes['open']}`);
 		// show arrow up
@@ -116,7 +124,7 @@ const VendorRegister = (props) => {
 		var arrowUp1 = form.find(`.${classes['arrow_up1']}`);
 		var arrowDown1 = form.find(`.${classes['arrow_down1']}`);
 		$('#input-country').on({
-			mousedown: function() {
+			mousedown: function () {
 				if (open) {
 					if (arrowUp1.hasClass('hidden')) {
 						arrowUp1.removeClass('hidden');
@@ -126,7 +134,7 @@ const VendorRegister = (props) => {
 					}
 				}
 			},
-			change: function() {
+			change: function () {
 				effectArrowRegion();
 			}
 		});
@@ -134,7 +142,7 @@ const VendorRegister = (props) => {
 	const effectArrowRegion = () => {
 		// show arrow up
 		const form = $('#root-designer');
-		$(document).ready(function() {
+		$(document).ready(function () {
 			// region
 			var openR = form.find(`.${classes['openR']}`);
 			var arrowUp = form.find(`.${classes['arrow_up']}`);
@@ -142,7 +150,7 @@ const VendorRegister = (props) => {
 			var region = form.find(`${'#input-region'}`);
 			if (region) {
 				region.on({
-					mousedown: function() {
+					mousedown: function () {
 						if (openR) {
 							if (arrowUp.hasClass('hidden')) {
 								arrowUp.removeClass('hidden');
@@ -211,6 +219,7 @@ const VendorRegister = (props) => {
 	};
 
 	const handleSubmit = (values) => {
+		values.vendor.telephone = phoneRegister.substring(1)
 		const params = {
 			email: values.email,
 			firstname: values.firstname,
@@ -223,15 +232,26 @@ const VendorRegister = (props) => {
 			// vendor_id: values.vendorId,
 			vendor_registration_agreement: values.vendor_registration_agreement ? 1 : 0
 		};
-
-		showFogLoading();
-		registeringEmail = values.email;
-		registeringPassword = values.password;
-		vendorRegister(registerDone, params);
+		if (!allowSubmit) {
+			$('#must-verify').css('display', 'block')
+			$('#createAccount').css('backgroundColor', '#B91C1C')
+			$('#verify-opt-area .wrap').css('float', 'unset')
+			// do nothing
+		} else {
+			$('#must-verify').css('display', 'none')
+			$('#createAccount').css('backgroundColor', '#101820')
+			$('#verify-opt-area .wrap').css('float', 'right')
+			showFogLoading()
+			registeringEmail = values.email;
+			registeringPassword = values.password;
+			vendorRegister(registerDone, params);
+		}
 	};
 
 	const registerDone = (data) => {
 		hideFogLoading();
+		// Reset form
+		$('.form-create-account-vendor')[0].reset();
 		if (data && data.status === 'error') {
 			let message = Identify.__(data.message);
 			showToastMessage(message);
@@ -245,14 +265,109 @@ const VendorRegister = (props) => {
 		history.push('/designer_login.html');
 	};
 
+	const handleSendOtp = () => {
+		let phone = phoneRegister;
+		// close get modal
+		closeGetModal()
+		$('#must-verify').css('display', 'none')
+		$('#createAccount').css('backgroundColor', '#101820')
+		$('#verify-opt-area .wrap').css('float', 'right')
+
+		showFogLoading()
+		phone = phone.replace(/[- )(]/g, '').replace(/\+/g, "").replace(/\,/g, "");
+		var phoneNB = phone
+		let params = {
+			mobile: phone
+		}
+		const merchant = Identify.getStoreConfig();
+		if (merchant && merchant.hasOwnProperty('storeConfig') && merchant.storeConfig) {
+			const { website_id } = merchant.storeConfig;
+			if (website_id) {
+				params['website_id'] = website_id;
+			}
+		}
+		sendOTPForRegister(params, handleCallBackSendOTP)
+	}
+
+	const handleCallBackSendOTP = (data) => {
+		hideFogLoading();
+		if (data && data.result && (data.result == "exist")) {
+			hideFogLoading();
+			showToastMessage(Identify.__('Already exist account with this phone number !'))
+		} else {
+			hideFogLoading();
+			localStorage.setItem("numberphone_register", phoneRegister);
+			// Open modal verify otp
+			openVModal();
+			setTimeout(() => closeVModal(), 30000);
+		}
+	}
+
+	const openVModal = () => {
+		setModalVerify(true)
+	}
+
+	const closeVModal = () => {
+		setModalVerify(false)
+	}
+
+	const handleVerifyRegister = () => {
+		let logintotp = localStorage.getItem('login_otp');
+		$('#login-input-otp-warning').css({ display: 'none' })
+		showFogLoading();
+		verifyOTPForRegister(phoneRegister.substring(1), logintotp, handleCallBackLVerifyRegister);
+		localStorage.removeItem('login_otp')
+	}
+
+	const handleCallBackLVerifyRegister = (data) => {
+		if (data && data.result && (data.result == "true")) {
+			hideFogLoading();
+			setAllowSubmit(true)
+			showToastMessage(Identify.__('Phone number is Valid !'))
+		} else {
+			hideFogLoading();
+			showToastMessage(Identify.__('Verify OTP fail !'))
+		}
+	}
+
+	const onChange = (val1, val2) => {
+		$('#verify-opt-area #number_phone-invalid').css({ display: 'none' })
+		let value = val1 + val2
+		setPhone(value)
+		localStorage.setItem("numberphone_register", phoneRegister);
+	}
+
+	const openGetModal = () => {
+		if (phoneRegister.length < 10) {
+
+		} else {
+			setModalGet(true)
+		}
+	}
+
+	const closeGetModal = () => {
+		localStorage.removeItem("numberphone_register");
+		setModalGet(false)
+	}
+
 	return (
 		<React.Fragment>
 			{TitleHelper.renderMetaHeader({
 				title: Identify.__('Create Designer Account')
 			})}
-			<Form 
-				id="root-designer" 
-				className={`${classes.root} ${Identify.isRtl() ? classes['rtl-rootForm'] : null}`}
+			<GetOtpModal
+				openGetModal={showModalGet}
+				closeGetModal={closeGetModal}
+				senOtpRegister={handleSendOtp}
+			/>
+			<VerifyOtpModal
+				openVerifyModal={showModalVerify}
+				closeVerifyModal={closeVModal}
+				callApi={(phonenumber) => handleVerifyRegister(phonenumber)}
+			/>
+			<Form
+				id="root-designer"
+				className={`form-create-account-vendor ${classes.root} ${Identify.isRtl() ? classes['rtl-rootForm'] : null}`}
 				onSubmit={handleSubmit}
 			>
 				<React.Fragment>
@@ -296,7 +411,7 @@ const VendorRegister = (props) => {
 						/>
 					</Field>
 					<div className={classes.form_row}>
-						<label className={classes.select}  htmlFor="input-country">{Identify.__('Country *')}</label>
+						<label className={classes.select} htmlFor="input-country">{Identify.__('Country *')}</label>
 						<label className={`${classes.arrow_down1} show`} htmlFor="input-country" />
 						<label className={`${classes.arrow_up1} hidden`} htmlFor="input-country" />
 						<SimiSelect
@@ -327,14 +442,20 @@ const VendorRegister = (props) => {
 						/>
 					</Field>
 					<Regions />
-					<Field label="Phone Number *">
+					{/* <Field label="Phone Number *">
 						<TextInput
 							field="vendor.telephone"
 							validate={validators.get('telephone')}
 							placeholder="Phone"
 							validateOnBlur
 						/>
-					</Field>
+					</Field> */}
+					<VerifyForm
+						openGetModal={openGetModal}
+						handleVerify={handleVerifyRegister}
+						handleChangePhone={(val1, val2) => onChange(val1, val2)}
+						type={'login'}
+					/>
 					<Field label="Website *">
 						<TextInput field="vendor.website" validate={validators.get('website')} validateOnBlur />
 					</Field>
