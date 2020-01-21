@@ -15,6 +15,8 @@ import Instagram from './Instagram';
 // import Chats from 'src/simi/App/Bianca/BaseComponents/Chats';
 require('./home.scss');
 
+console.log(getOS())
+
 if (getOS() === 'MacOS') require('./home-ios.scss');
 
 const Home = props => {
@@ -55,7 +57,7 @@ const Home = props => {
     } 
 
     return (
-        <div className="home-wrapper">
+        <div className={`home-wrapper ${getOS()}`}>
             <div className={`banner-wrap ${isPhone ? 'mobile':''}`}>
                 <Banner data={data} history={history} isPhone={isPhone} />
             </div>
