@@ -45,17 +45,8 @@
                 console.log(e)
                 //version is outdated - old client file not found
                 sessionStorage.clear();
-                localStorage.setItem("CLIENT_VER",data.pwa.pwa_studio_client_ver_number);
-                unregister();
-                if(caches){
-                    caches.keys().then(function(names) {
-                        for (let name of names)
-                            if(name.indexOf('sw-precache') >= 0){
-                                caches.delete(name);
-                            }
-                    });
-                    window.location.reload();
-                }
+                localStorage.setItem("CLIENT_VER", null);
+                window.location.reload();
             }
         }, true);
     </script>
