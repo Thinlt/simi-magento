@@ -201,7 +201,7 @@
 .account-information-area {
     font-size: 16px;
     line-height: 24px;
-    color: #333132;
+    color: #101820;
 }
 .account-information-area .row-edit-profile{
     display: flex;
@@ -221,10 +221,26 @@
 }
 .account-information-area .form-group {
     margin-bottom: 23px;
-}
-.account-information-area .form-group label {
-    font-weight: normal;
-    margin: 0 0 1px;
+    label {
+        font-family: 'Gotham Book';
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 10px;
+        line-height: 10px;
+        text-transform: uppercase;
+    }
+    input{
+        border: 1px solid #E0E0E0;
+        width: 100%;
+        height: 48px;
+        font-size: 14px;
+        line-height: 14px;
+        font-weight: 500;
+        color: #101820;
+        padding: 12px 16px;
+        border-radius: 0px;
+        box-shadow: none;
+    }
 }
 .group-password-strong{
     margin-bottom: 15px;
