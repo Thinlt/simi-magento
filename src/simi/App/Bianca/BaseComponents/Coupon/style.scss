@@ -1,9 +1,6 @@
 .coupon-code {
     margin-left: unset !important;
     margin-top: 20px;
-    .coupon-close{
-        display: none !important;
-    }
     .coupon-code-area-tablet .btn-clear-coupon {
         position: absolute;
         right: 10px;
@@ -12,25 +9,6 @@
         cursor: pointer;
         max-height: 15px;
     }
-    .cart-coupon-form {
-        font-size: 16px;
-        margin-top: 32px
-    }
-
-    .cart-coupon-form .coupon-code-title {
-        font-family: Gotham Medium;
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        svg{
-            vertical-align: middle
-        }
-    }
-    .cart-coupon-form .coupon-code-area-tablet {
-        margin-top: 8px;
-        position: relative;
-        vertical-align: bottom;
-    }
     .coupon-code-area-tablet .btn-clear-coupon {
         position: absolute;
         right: 10px;
@@ -38,14 +16,6 @@
         z-index: 9;
         cursor: pointer;
         max-height: 15px;
-    }
-
-    .cart-coupon-form .coupon-code-area-tablet input {
-        height: 48px;
-        width: 330px;
-        background-color: #F2F2F2;
-        padding: 10px 25px 11px 16px;
-        border: solid 1px #F2F2F2;
     }
 
     .submit-coupon {
@@ -77,11 +47,34 @@
     }
 }
 
+/* cart page */
 .cart-coupon-form {
-    coupon-code-area-tablet {
-        width: 100%;
+    font-size: 16px;
+    margin-top: 32px;
+    .coupon-close{
+        display: none !important;
+    }
+    .coupon-code-title {
+        font-family: 'Gotham Book';
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-weight: 600;
+        font-size: 16px;
+        svg{
+            vertical-align: middle
+        }
+    }
+    .coupon-code-area-tablet {
+        margin-top: 8px;
+        position: relative;
+        vertical-align: bottom;
         input {
-            width: 100%;
+            height: 48px;
+            width: 330px;
+            background-color: #F2F2F2;
+            padding: 10px 25px 11px 16px;
+            border: solid 1px #F2F2F2;
         }
     }
     @media (max-width: 1023px) {
