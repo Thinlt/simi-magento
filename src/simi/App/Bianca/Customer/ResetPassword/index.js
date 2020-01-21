@@ -101,7 +101,7 @@ class ResetPassword extends React.Component {
 								{Identify.__('Reset My Password'.toUpperCase())}
 							</button>
 						</div>
-						<span className="back">
+						<span className="back" id="btn-back">
 							<Link to={'/'}>{Identify.__('back'.toUpperCase())}</Link>
 						</span>
 					</Form>

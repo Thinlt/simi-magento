@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import defaultClasses from './login.css';
 import classify from 'src/classify';
 import Identify from 'src/simi/Helper/Identify';
-import PhoneVendorLogin from './VendorLogin/PhoneVendor/PhoneVendorLogin';
+import PhoneLogin from '../../Customer/Login/SignIn/Phone/PhoneLogin';
 import VendorLogInForm from './VendorLogin';
 import ForgotPassword from './ForgotPassword';
 import { connect } from 'src/drivers';
@@ -22,6 +22,7 @@ import { async } from 'q';
 
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
+const $ = window.$;
 class Login extends Component {
 	constructor(props) {
 		super(props);
@@ -73,7 +74,7 @@ class Login extends Component {
 
 		return (
 			<div className={className}>
-				<PhoneVendorLogin />
+				<PhoneLogin />
 			</div>
 		);
 	}
@@ -115,6 +116,7 @@ class Login extends Component {
 			);
 		};
 		this.showVendorRegisterForm();
+		$('#login-background').css('marginTop', '55px')
 	};
 
 	forgotPassword = () => {};
@@ -133,6 +135,7 @@ class Login extends Component {
 			);
 		};
 		this.showForgotPasswordForm();
+		$('#login-background').css('marginTop', '55px')
 	};
 
 	hideDesigner = () => {
@@ -239,7 +242,7 @@ class Login extends Component {
 				{TitleHelper.renderMetaHeader({
 					title: Identify.__('Designer Login')
 				})}
-				<div className={`${classes['login-background']} ${Identify.isRtl() ? classes['rtl-login-background'] : null}`}>
+				<div id="login-background" className={`${classes['login-background']} ${Identify.isRtl() ? classes['rtl-login-background'] : null}`}>
 					<div
 						className={` ${this.state.forgotPassSuccess == 'none'
 							? classes['smallSize']
