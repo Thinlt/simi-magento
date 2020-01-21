@@ -4,18 +4,18 @@ import Identify from 'src/simi/Helper/Identify';
 import { configColor } from 'src/simi/Config'
 import CountDown from './CountDown';
 import { $CombinedState } from 'redux';
-require('./style.scss')
+require('./verifyForm.scss')
 
 const $ = window.$;
 
-class OtpForm extends Component {
+class VerifyForm extends Component {
 
     constructor(props) {
         super(props)
     }
 
     componentDidMount() {
-        $('.login-opt-area .custom-input .react-tel-input input').attr('readonly', true);
+        $('.verify-opt-area .custom-input .react-tel-input input').attr('readonly', true);
     }
 
     render() {
@@ -35,8 +35,8 @@ class OtpForm extends Component {
         }
 
         const updateValue = () => {
-            let country_code = $('#phone-form-control').val()
-            let new_val = $('#real-input').val()
+            let country_code = $('#verify-opt-area #phone-form-control').val()
+            let new_val = $('#real-input-register').val()
             this.props.handleChangePhone(country_code, new_val)
         }
 
@@ -53,9 +53,9 @@ class OtpForm extends Component {
         }
 
         return (
-            <div id="login-opt-area" className={`login-opt-area ${Identify.isRtl() ? 'login-opt-area-rtl' : ''}`}>
+            <div id="verify-opt-area" className={`verify-opt-area ${Identify.isRtl() ? 'verify-opt-area-rtl' : ''}`}>
                 <div className="label">
-                    {Identify.__('phone *'.toUpperCase())}
+                    {Identify.__('phone number*'.toUpperCase())}
                 </div>
                 <div className="custom-input">
                     <div className="element-1" onClick={() => showOption()}>
@@ -69,7 +69,7 @@ class OtpForm extends Component {
                     />
                     <div className="element-2">
                         <input
-                            id="real-input"
+                            id="real-input-register"
                             onKeyUp={() => updateValue()}
                             name="real-input"
                             type="number"
@@ -84,12 +84,17 @@ class OtpForm extends Component {
                 <div className='phone-otp-desc'>
                     {/* {Identify.__('Mobile No. Without Country Code i.e 9898989898')} */}
                 </div>
-                <div role="presentation" style={this.props.isButtonDisabled ? styleInActive : styleActice} className='login-otp' onClick={!this.props.isButtonDisabled ? this.props.handleSendOtp : doNothing}>
-                    {Identify.__('SEND VERIFICATION CODE').toUpperCase()}
+                <div className="wrap">
+                    <div id="must-verify" className="error-message">
+                        {Identify.__('You must ')}{Identify.__('verify phone number'.toUpperCase())}{Identify.__(' before ')}{Identify.__('register'.toUpperCase())}
+                    </div>
+                    <div role="presentation" id="createAccount" className='login-otp' onClick={this.props.openGetModal}>
+                        {Identify.__('VERIFY PHONE NUMBER').toUpperCase()}
+                    </div>
                 </div>
             </div>
         )
     }
 }
 
-export default OtpForm;
+export default VerifyForm;

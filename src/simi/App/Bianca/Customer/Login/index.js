@@ -21,7 +21,8 @@ import { showToastMessage } from 'src/simi/Helper/Message';
 import firebase, { auth } from 'firebase';
 import firebaseApp from './SocialLogin/base';
 import { smoothScrollToView } from 'src/simi/Helper/Behavior';
-import { async } from 'q';
+import VerifyOtpModal from 'src/simi/App/Bianca/Components/Otp/VerifyOtpModal';
+import { sendOTPForLogin, verifyOTPForLogin } from 'src/simi/Model/Otp';
 
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
@@ -37,7 +38,8 @@ class Login extends Component {
 		isEmailLogin: true,
 		isForgotPasswordOpen: false,
 		isPhoneLogin: false,
-		forgotPassSuccess: 'block'
+		forgotPassSuccess: 'block',
+		openVerifyModal: false
 	};
 
 	stateForgot = () => {
@@ -69,6 +71,46 @@ class Login extends Component {
 		);
 	}
 
+	openVerifyOtpModal = () => {
+		this.setState({
+			openVerifyModal: true
+		})
+	}
+
+	closeVerifyModal = () => {
+		this.setState({
+			openVerifyModal: false
+		})
+		localStorage.removeItem("numberphone_otp")
+	}
+
+	handleVerifyLogin = (phoneNumber) => {
+		let logintotp = localStorage.getItem('login_otp');
+		$('#login-input-otp-warning').css({ display: 'none' })
+		showFogLoading();
+		verifyOTPForLogin(phoneNumber.substring(1), logintotp, this.handleCallBackLVerifyLogin);
+		localStorage.removeItem('login_otp')
+
+	}
+
+	handleCallBackLVerifyLogin = (data) => {
+		if (data && data[0] && data[0].status && data[0].status === "error") {
+			hideFogLoading();
+			showToastMessage(Identify.__(data[0].message))
+		} else {
+			if (data.status && data.status === 'success' && data.customer_access_token) {
+				hideFogLoading();
+				Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, Constants.SIMI_SESS_ID, data.customer_identity);
+				setToken(data.customer_access_token)
+				this.props.simiSignedIn(data.customer_access_token);
+				// getProfileAfterOtp(this.handleSendProfile.bind(this, data.customer_access_token));
+			} else {
+				hideFogLoading();
+				showToastMessage('Invalid login !')
+			}
+		}
+	}
+
 	get phoneLoginForm() {
 		const { isPhoneLogin } = this.state;
 		const { classes } = this.props;
@@ -77,8 +119,15 @@ class Login extends Component {
 
 		return (
 			<div className={className}>
+				<VerifyOtpModal
+					openVerifyModal={this.state.openVerifyModal}
+					closeVerifyModal={this.closeVerifyModal}
+					callApi={(phonenumber) => this.handleVerifyLogin(phonenumber)}
+				/>
 				<PhoneLogin
 					simiSignedIn={this.props.simiSignIn}
+					openVModal={this.openVerifyOtpModal}
+					closeVerifyModal={this.closeVerifyModal}
 				// getUserDetails={}
 				/>
 			</div>
