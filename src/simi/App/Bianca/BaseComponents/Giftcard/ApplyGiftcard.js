@@ -87,27 +87,17 @@ class ApplyGiftcard extends Component {
 
     render() {
         let giftCode = '';
-        const {cart} = this.props
+        const { giftCartValue} = this.props
         const {savedCoupons} = this.state
 
-        if (cart && cart.totals && cart.totals.total_segments) {
-            const segment = cart.totals.total_segments.find(item => {
-                if (
-                    item.extension_attributes &&
-                    item.extension_attributes.aw_giftcard_codes
-                )
-                    return true;
-                return false;
-            });
-            if (segment) {
-                const aw_giftcard_codes = segment.extension_attributes
-                    .aw_giftcard_codes[0]
-                    ? segment.extension_attributes.aw_giftcard_codes[0]
-                    : '';
-                if (aw_giftcard_codes) {
-                    const value = JSON.parse(aw_giftcard_codes);
-                    giftCode = value.giftcard_code;
-                }
+        if (giftCartValue) { //equal to cart.totals.total_segments.[giftcartsegment].extension_attributes
+            const aw_giftcard_codes = giftCartValue
+                .aw_giftcard_codes[0]
+                ? giftCartValue.aw_giftcard_codes[0]
+                : '';
+            if (aw_giftcard_codes) {
+                const value = JSON.parse(aw_giftcard_codes);
+                giftCode = value.giftcard_code;
             }
         }
         

@@ -245,11 +245,19 @@ class Checkout extends Component {
         if (cart.totals.coupon_code) {
             cpValue = cart.totals.coupon_code;
         }
-
         const childCPProps = {
             value: cpValue,
             toggleMessages,
             getCartDetails
+        }
+
+        let giftCartValue = "";
+        if (cart.totals && cart.totals.total_segments) {
+            cart.totals.total_segments.map(total_segment => {
+                if ((total_segment.code === 'aw_giftcard') && total_segment.value) {
+                    giftCartValue = total_segment.extension_attributes
+                }
+            })
         }
 
         if (checkout.step && checkout.step === 'receipt') {
@@ -275,8 +283,12 @@ class Checkout extends Component {
 
         let is_pre_order = false
         let is_try_to_buy = false
+        let is_all_gift_card = true //cart only contains giftcard wont show coupon/giftcard to checkout
         if (cart && cart.totals && cart.totals.items && isArray(cart.totals.items)) {
             cart.totals.items.forEach(cartTotalItem => {
+                if (cartTotalItem.attribute_values && cartTotalItem.attribute_values.type_id !== "aw_giftcard") {
+                    is_all_gift_card = false
+                }
                 if (cartTotalItem.simi_pre_order_option && cartTotalItem.simi_pre_order_option!== '[]') {
                     is_pre_order = true
                 } else if (cartTotalItem.simi_trytobuy_option && cartTotalItem.simi_trytobuy_option!== '[]') {
@@ -322,21 +334,21 @@ class Checkout extends Component {
                         headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                     />
 
-                    <Panel title={<div className='checkout-section-title'>{Identify.__('Coupon Code')}</div>}
+                    {(!is_all_gift_card && !giftCartValue && !is_try_to_buy && !is_pre_order) && <Panel title={<div className='checkout-section-title'>{Identify.__('Coupon Code')}</div>}
                         className='checkout-panel'
                         renderContent={<Coupon {...childCPProps} />}
                         isToggle={true}
                         expanded={false}
                         headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-                    />
+                    />}
 
-                    <Panel title={<div className='checkout-section-title'>{Identify.__('Add a Gift Voucher')}</div>}
+                    {(!is_all_gift_card && !cpValue && !is_try_to_buy && !is_pre_order) && <Panel title={<div className='checkout-section-title'>{Identify.__('Add a Gift Voucher')}</div>}
                         className='checkout-panel'
-                        renderContent={<ApplyGiftcard getCartDetails={getCartDetails} cart={cart} toggleMessages={toggleMessages} userSignedIn={userSignedIn} />}
+                        renderContent={<ApplyGiftcard getCartDetails={getCartDetails} cart={cart} toggleMessages={toggleMessages} userSignedIn={userSignedIn} giftCartValue={giftCartValue} />}
                         isToggle={true}
                         expanded={false}
                         headerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-                    />
+                    />}
 
                 </div>
                 <div className='checkout-col-3'>

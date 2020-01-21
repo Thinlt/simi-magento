@@ -133,6 +133,7 @@ const EditableForm = props => {
                         submitting={submitting}
                         billingForm={true}
                         user={user}
+                        simiSignedIn={simiSignedIn}
                         is_virtual={is_virtual}
                     />
                     {billingAddress && !isObjectEmpty(billingAddress) && !billingAddress.hasOwnProperty('sameAsShippingAddress') ?

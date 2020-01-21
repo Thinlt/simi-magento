@@ -40,8 +40,10 @@ $colorTitle: #101820;
     font-size: 16px;
     line-height: 16px;
     font-family: "Gotham";
+    padding-top: 16px;
+    padding-bottom: 16px;
     .category-top-child {
-      padding: 25px 15px;
+      padding: 9px 15px;
       a {
         color: #101820;
         font-family: "Gotham";
@@ -257,10 +259,10 @@ Sort by
   }
 }
 
-@media(min-width: 1920px) {
-    .products-gallery-root .listing-product .siminia-product-image{
-        min-height: 448px;
-    }
+@media (min-width: 1920px) {
+  .products-gallery-root .listing-product .siminia-product-image {
+    min-height: 448px;
+  }
 }
 @media (min-width: 1024px) {
   .products-gallery-root .product-list-container-siminia .top-sort-by .sort-by-select {
@@ -289,8 +291,24 @@ Sort by
   .full-width-container {
     width: 100vw;
   }
-  .products-gallery-root .gallery {
-    margin-top: 10px;
+  .products-gallery-root {
+    .gallery {
+      margin-top: 10px;
+    }
+
+    .category-top-children {
+      padding-top: 3px;
+      padding-bottom: 3px;
+    }
+    .title {
+      .categoryTitle {
+        margin-top: 16px;
+      }
+    }
+    .product-list-container-siminia {
+      padding: 0;
+      margin-top: 10px;
+    }
   }
   .description-area {
     display: none;
@@ -298,6 +316,7 @@ Sort by
   .mobile-item-count {
     display: none;
   }
+
   .top-sort-by .sort-by-select {
     min-height: 45px;
     margin-top: 30px;
@@ -325,18 +344,6 @@ Sort by
     }
     .dir-item:not(:last-child) {
       border-bottom: solid 1px #f2f2f2;
-    }
-  }
-  .products-gallery-root {
-
-    .title {
-      .categoryTitle {
-        margin-top: 16px;
-      }
-    }
-    .product-list-container-siminia {
-      padding: 0;
-      margin-top: 10px;
     }
   }
   .top-sort-by .items-count {
@@ -416,28 +423,28 @@ Sort by
 }
 
 .rtl-root {
+  .products-gallery-root .product-list-container-siminia .listing-product {
+    padding-right: 16px;
+    padding-left: 0px;
+  }
+  @media (max-width: 1023px) {
     .products-gallery-root .product-list-container-siminia .listing-product {
-        padding-right: 16px;
-        padding-left: 0px;
+      padding-right: 0px;
+      padding-left: 0px;
     }
-    @media (max-width: 1023px) {
-        .products-gallery-root .product-list-container-siminia .listing-product {
-            padding-right: 0px;
-            padding-left: 0px;
-        }
+  }
+  .filter-products {
+    .MuiListItem-root {
+      direction: rtl;
     }
-    .filter-products {
-        .MuiListItem-root {
-            direction: rtl;
-        }
-        .filter-item {
-            direction: rtl;
-        }
-        .selectable-filter .checkbox-item-icon {
-            margin-left: 9px;
-        }
+    .filter-item {
+      direction: rtl;
     }
-    .top-sort-by .sort-by-select .dir-item {
-        direction: rtl;
+    .selectable-filter .checkbox-item-icon {
+      margin-left: 9px;
     }
+  }
+  .top-sort-by .sort-by-select .dir-item {
+    direction: rtl;
+  }
 }

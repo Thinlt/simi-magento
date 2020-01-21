@@ -23,6 +23,7 @@ import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { removeItemFromCart, removeAllItems } from 'src/simi/Model/Cart';
 import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon';
 import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher';
+import EmptyMiniCart from '../Components/MiniCart/emptyMiniCart';
 
 require('./cart.scss');
 
@@ -120,22 +121,28 @@ class Cart extends Component {
         if (cartId) {
             const obj = [];
             obj.push(
-                <div
-                    key={Identify.randomString(5)}
-                    className="cart-item-header"
-                >
-                    <div style={{ width: '52.5%' }}>{Identify.__('Items')}</div>
-                    <div style={{ width: '17%', textAlign: 'left' }}>
-                        {Identify.__('Price')}
-                    </div>
-                    <div style={{ width: '16%', textAlign: 'left' }}>
-                        {Identify.__('Quantity')}
-                    </div>
-                    <div style={{ width: '14%', textAlign: 'right' }}>
-                        {Identify.__('Subtotal')}
-                    </div>
-                    {/* <div style={{width: '7%'}}>{Identify.__('').toUpperCase()}</div> */}
-                </div>
+                <Fragment>
+                    {!this.state.isPhone
+                    ?
+                        <div
+                            key={Identify.randomString(5)}
+                            className="cart-item-header"
+                        >
+                            <div style={{ width: '52.5%' }}>{Identify.__('Items')}</div>
+                            <div style={{ width: '17%', textAlign: 'left' }}>
+                                {Identify.__('Price')}
+                            </div>
+                            <div style={{ width: '16%', textAlign: 'left' }}>
+                                {Identify.__('Quantity')}
+                            </div>
+                            <div style={{ width: '14%', textAlign: 'right' }}>
+                                {Identify.__('Subtotal')}
+                            </div>
+                            {/* <div style={{width: '7%'}}>{Identify.__('').toUpperCase()}</div> */}
+                        </div>
+                    :   null
+                    }
+                </Fragment>
             );
             if(cart.details.items){
                 for (const i in cart.details.items) {
@@ -170,24 +177,28 @@ class Cart extends Component {
             return (
                 <div className="cart-list">
                     {obj}
-                    <div className="cart-list-footer">
-                        <div
-                            role="button"
-                            tabIndex="0"
-                            onClick={this.handleBack}
-                            onKeyDown={this.handleBack}
-                        >
-                            {Identify.__('Continue Shopping')}
+                    {!this.state.isPhone 
+                    ?
+                        <div className="cart-list-footer">
+                            <div
+                                role="button"
+                                tabIndex="0"
+                                onClick={this.handleBack}
+                                onKeyDown={this.handleBack}
+                            >
+                                {Identify.__('Continue Shopping')}
+                            </div>
+                            <div
+                                role="button"
+                                tabIndex="0"
+                                onClick={this.removeAllItemsInCart}
+                                onKeyDown={this.removeAllItemsInCart}
+                            >
+                                {Identify.__('Clear all items')}
+                            </div>
                         </div>
-                        <div
-                            role="button"
-                            tabIndex="0"
-                            onClick={this.removeAllItemsInCart}
-                            onKeyDown={this.removeAllItemsInCart}
-                        >
-                            {Identify.__('Clear all items')}
-                        </div>
-                    </div>
+                    :   null
+                    }
                 </div>
             );
         }
@@ -375,22 +386,33 @@ class Cart extends Component {
             isCartEmpty,
             cart
         } = props;
-        if (
-            isCartEmpty ||
-            !cart.details.items ||
-            !parseInt(cart.details.items_count)
-        ) {
-            if (isLoading) return <Loading />;
-            else
-                return (
-                    <div className="cart-page-siminia">
-                        <div className="empty-cart">
-                            {Identify.__(
-                                'You have no items in your shopping cart'
-                            )}
+        if (isCartEmpty || !cart.details.items || !parseInt(cart.details.items_count)) {
+            if(isLoading){
+                return <Loading />;
+            }
+            else{
+                if(this.state.isPhone){
+                    return(
+                        <div className="cart-page-siminia">
+                            <div className="cart-title-mobile">
+                                {Identify.__("SHOPPING CART")}
+                            </div>
+                            <EmptyMiniCart/>
                         </div>
-                    </div>
-                );
+                    )
+                }
+                else{
+                    return (
+                        <div className="cart-page-siminia">
+                            <div className="empty-cart">
+                                {Identify.__(
+                                    'You have no items in your shopping cart'
+                                )}
+                            </div>
+                        </div>
+                    );
+                }
+            }
         }
 
         if (isLoading) showFogLoading();
@@ -398,32 +420,64 @@ class Cart extends Component {
 
         return (
             <Fragment>
-                {this.state.isPhone && this.breadcrumb}
-                <div className="cart-header">
-                    {cart.details && parseInt(cart.details.items_count) ? (
-                        <div className="cart-title">
-                            <div>{Identify.__('Shopping cart')}</div>
+                {this.state.isPhone
+                ?
+                    <Fragment>
+                        <div className="cart-header">
+                            {cart.details && parseInt(cart.details.items_count) ? (
+                                <div className="cart-title">
+                                    <div>{Identify.__('Shopping cart')}</div>
+                                </div>
+                            ) : (
+                                ''
+                            )}
                         </div>
-                    ) : (
-                        ''
-                    )}
-                </div>
-
-                <div className="body">
-                    {productList}
-                    <div className="summary-zone">
-                        <div>{Identify.__('Summary'.toUpperCase())}</div>
-                        {isLoading ? <Loading/>
-                        :
-                            <div>
-                                {couponCode}
-                                {giftVoucher}
-                                {total}
-                                {checkoutButton}
+                        <div className="body">
+                            {productList}
+                            <div className="summary-zone row">
+                                <div className="summary-title">{Identify.__('Summary'.toUpperCase())}</div>
+                                {isLoading ? <Loading/>
+                                :
+                                    <div>
+                                        {couponCode}
+                                        {giftVoucher}
+                                        {total}
+                                        {checkoutButton}
+                                    </div>
+                                }
                             </div>
-                        }
-                    </div>
-                </div>
+                        </div>
+                    </Fragment>
+                :
+                    <Fragment>
+                        {this.state.isPhone && this.breadcrumb}
+                        <div className="cart-header">
+                            {cart.details && parseInt(cart.details.items_count) ? (
+                                <div className="cart-title">
+                                    <div>{Identify.__('Shopping cart')}</div>
+                                </div>
+                            ) : (
+                                ''
+                            )}
+                        </div>
+
+                        <div className="body">
+                            {productList}
+                            <div className="summary-zone">
+                                <div>{Identify.__('Summary'.toUpperCase())}</div>
+                                {isLoading ? <Loading/>
+                                :
+                                    <div>
+                                        {couponCode}
+                                        {giftVoucher}
+                                        {total}
+                                        {checkoutButton}
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </Fragment>
+                }
 
                 {/* {couponView}
                 {total} */}
