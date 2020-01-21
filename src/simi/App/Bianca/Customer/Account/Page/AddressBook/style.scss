@@ -9,39 +9,61 @@
 }
 .address-book .default-address {
     margin-top: 40px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 .address-book .address-label {
     font-size: 20px;
     line-height: normal;
-    font-weight: bold;
-    border-bottom: 1px solid #dcdcdc;
-    color: #2d2d2d;
-    padding: 5px 0px;
+    font-weight: 600;
 }
 .address-book .address-content {
-    padding: 10px 0px;
-    padding-bottom: 20px;
     display: flex;
     flex-wrap: wrap;
+    margin-top: 15px;
+    .address-box{
+        width: 100%;
+        .box-content{
+            address{
+                margin-bottom: 0px;
+            }
+        }
+    }
+    .billing-address{
+        margin-inline-end: 16px;
+    }
+    .additional-address{
+        &:nth-child(2n+1){
+            margin-inline-end: 16px;
+        }
+        .white-box-content{
+            display: flex;
+            justify-content: space-between;
+            .box-content{
+                address{
+                    margin: 0px;
+                }
+            }
+            .box-action{
+                width: 100%;
+                max-width: 78px;
+                .address-action{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
+                    cursor: pointer;
+                    font-weight: 600;
+                    font-size: 12px;
+                    svg{
+                        margin-inline-end: 8px;
+                    }
+                }
+                .address-remove{
+                    margin-top: 16px;
+                }
+            }
+        }
+    }
 }
-.address-book .billing-address {
-    background-color: #ffffff;
-    padding: 24px;
-    margin-right: 30px;
-    margin-top: 30px;
-    width: 100%;
-    flex: 1 1;
-}
-.address-book .shipping-address {
-    background-color: #ffffff;
-    padding: 24px;
-    margin-right: 30px;
-    margin-top: 30px;
-    width: 100%;
-    flex: 1 1;
-}
-
 .address-book .box-title {
     color: #2d2d2d;
     font-weight: 500;
@@ -62,7 +84,7 @@
 }
 .address-book .additional-address .table-wrap table {
     font-size: 14px;
-    color: #3d3d3d;
+    color: #101820;
     background-color: #fafafa;
     width: 100%;
 }
@@ -84,10 +106,10 @@
     color: #2335c5;
 }
 .address-book .additional-address .table-wrap a.edit {
-    color: #2335c5;
+    color: #101820;
 }
 .address-book .additional-address .table-wrap a.delete {
-    color: #f78787;
+    color: #101820;
 }
 .address-book .additional-address .pagination {
     width: 100%;
@@ -155,27 +177,28 @@
     background-color: #101820;
     color: #ffffff;
     font-size: 16px;
-    font-weight: bold;
-}
-.address-book .btn.add-new-address {
-    background-color: #101820;
-    color: #ffffff;
-    font-size: 16px;
     font-weight: 600;
     text-transform: uppercase;
     border-radius: 0;
     max-width: 278px;
     min-height: 48px;
     width: 100%;
-    >button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    button{
         text-transform: uppercase;
         font-family: 'Gotham Book';
+        font-weight: 600;
         font-size: 16px;
         line-height: 34px;
     }
-}
-.address-book .btn:hover {
-    opacity: 0.8;
+    &.add-new-address {
+        margin-top: 60px;
+    }
+    &:hover {
+        opacity: 0.8;
+    }
 }
 .address-book .edit-address .col-left {
     margin-top: 0px;
@@ -197,14 +220,18 @@
     margin: 5px 0px;
 }
 .address-book .edit-address .form-row label {
-    font-size: 14px;
-    height: 22px;
-    line-height: 22px;
-    margin-right: 10px;
+    font-family: 'Gotham Book';
+    font-weight: 600;
+    // margin-right: 10px;
+    margin-inline-end: 10px;
+    margin-bottom: 8px;
+    font-size: 10px;
+    line-height: 10px;
+    text-transform: uppercase;
 }
 .address-book .edit-address .form-row input {
     width: 100%;
-    height: 34px;
+    height: 48px;
     line-height: 30px;
     margin: 2px 0px;
     padding: 2px 10px;
@@ -214,6 +241,7 @@
 .address-book .edit-address .form-row select {
     user-select: none;
     outline: none;
+    height: 32px;
 }
 .address-book .edit-address .form-row .checkbox {
     padding: 5px 10px;
@@ -235,6 +263,14 @@
 .form-row.state-province .state-option {
     display: flex;
     flex-wrap: wrap;
+    label{
+        margin-bottom: 0px;
+        display: flex;
+        align-items: center;
+    }
+    select{
+        height: 32px;
+    }
 }
 .form-row.state-province .state-option > div {
     display: flex;
@@ -276,4 +312,70 @@
     .address-book .shipping-address {
         margin-right: 0px;
     }
+}
+.mobile{
+    .customer-dashboard{
+        &.address-book{
+            min-height: 536px!important;
+        }
+    }
+    .address-book{
+        h1{
+            font-size: 18px;
+        }
+        .default-address{
+            margin-top: 18px;
+            margin-bottom: 15px;
+            padding-top: 0px;
+        }
+        .address-content{
+            .billing-address{
+                margin-inline-end: 0px;
+                margin-bottom: 10px;
+            }
+            .additional-address:nth-child(2n+1) {
+                margin-inline-end: 0px;
+                margin-bottom: 10px;
+            }
+        }
+        .add-new-address{
+            margin-top: 30px;
+        }
+        .edit-address .form-row{
+            input{
+                height: 38px;
+                border: 1px solid #e0e0e0;
+            }
+            select{
+                width: 100%;
+                height: 38px;
+                border: 1px solid #e0e0e0;
+                border-radius: 0px;
+            }
+            .checkbox{
+                height: 38px;
+                display: flex;
+                flex-direction: row;
+                input{
+                    height: 28px;
+                    margin-right: 0px;
+                    margin-inline-end: 5px;
+                    position: relative;
+                }
+                label{
+                    display: flex;
+                    align-items: center;
+                    height: 28px;
+                }
+            }
+            .state-option{
+                label{
+                    margin-bottom: 8px;
+                }
+                >div{
+                    width: 100%;
+                }
+            }
+        }
+    } 
 }

@@ -162,7 +162,18 @@ class Griditem extends React.Component {
         if (item && item.simiExtraField && item.simiExtraField.attribute_values) {
             const {attribute_values} = item.simiExtraField
             if (attribute_values && attribute_values.vendor_name && attribute_values.vendor_id !== 'default') {
-                this.vendorName = attribute_values.vendor_name
+                const configs = Identify.getStoreConfig();
+                if (configs && configs.simiStoreConfig && configs.simiStoreConfig.config && configs.simiStoreConfig.config.vendor_list) {
+                    const vendorList = configs.simiStoreConfig.config.vendor_list;
+                    const vendor = vendorList.find((vendor) => {
+                        return parseInt(vendor.entity_id) === parseInt(attribute_values.vendor_id);
+                    });
+                    if (vendor) {
+                        this.vendorName = <Link to={`/designers/${vendor.vendor_id}.html`}>{attribute_values.vendor_name}</Link>
+                    }
+                } else {
+                    this.vendorName = attribute_values.vendor_name
+                }
             }
         }
         return this.vendorName

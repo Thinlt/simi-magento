@@ -6,7 +6,7 @@ import {
 } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import { updateCoupon } from 'src/simi/Model/Cart';
 import Identify from 'src/simi/Helper/Identify';
-import { Whitebtn } from 'src/simi/BaseComponents/Button';
+import { Colorbtn } from 'src/simi/BaseComponents/Button';
 import ArrowDown from 'src/simi/BaseComponents/Icon/TapitaIcons/ArrowDown';
 import ArrowUp from 'src/simi/BaseComponents/Icon/TapitaIcons/ArrowUp';
 require('./style.scss');
@@ -80,7 +80,7 @@ const Coupon = props => {
                 <div>{isCouponOpen ? <ArrowUp /> : <ArrowDown />}</div>
             </div>
             <div
-                className={`coupon-code-area-tablet  `}
+                className={`coupon-code-area-tablet  ${isCouponOpen?'coupon-open':'coupon-close'}`}
             >
                 <input
                     className="coupon_field"
@@ -90,13 +90,13 @@ const Coupon = props => {
                     onChange={e => setCoupon(e.target.value)}
                 />
                 {value ? (
-                    <Whitebtn
+                    <Colorbtn
                         className={`submit-coupon ${ Identify.isRtl() && 'submit-coupon-rtl' }`}
                         onClick={() => handleCoupon('clear')}
                         text={Identify.__('Cancel')}
                     />
                 ) : (
-                    <Whitebtn
+                    <Colorbtn
                         className={`submit-coupon ${ Identify.isRtl() && 'submit-coupon-rtl' }`}
                         onClick={() => handleCoupon()}
                         text={Identify.__('Apply')}

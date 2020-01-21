@@ -291,7 +291,7 @@ const FormFields = (props) => {
                             <div className={`address-field-label req`}>{Identify.__("Email")}</div>
                             <input
                                 type="email" name="emailaddress" className="isrequired" id='email'
-                                onBlur={() => !billingForm && !user.isSignedIn && checkMailExist()}
+                                onBlur={() => (!billingForm || is_virtual) && !user.isSignedIn && checkMailExist()}
                                 defaultValue={initialValues.email}
                             />
                             {handlingEmail && <LoadingImg divStyle={{ marginTop: 5 }} />}

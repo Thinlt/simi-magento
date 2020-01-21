@@ -48,6 +48,7 @@ import {addRecentViewedProducts} from '../../../Helper/Biancaproduct'
 import { productUrlSuffix } from 'src/simi/Helper/Url';
 import SizeGuide from 'src/simi/App/Bianca/Components/Product/SizeGuide';
 import Select from 'src/simi/App/Bianca/BaseComponents/FormInput/Select';
+import { Link } from 'src/drivers';
 
 import { analyticAddCartGTM, analyticsViewDetailsGTM } from 'src/simi/Helper/Analytics'
 
@@ -263,7 +264,6 @@ class ProductFullDetail extends Component {
     }
 
     addToCartCallBack = (data) => {
-        hideFogLoading()
         if (data.errors) {
             this.showError(data)
             if (this.isPreorder) {
@@ -272,7 +272,9 @@ class ProductFullDetail extends Component {
         } else {
             this.props.updateItemInCart()
             if (this.isBuy1Click) {
-                (new Promise(resolve => setTimeout(resolve, 1200))).then(() => {
+                showToastMessage(Identify.__('Checkout processing..'));
+                (new Promise(resolve => setTimeout(resolve, 2000))).then(() => {
+                    hideFogLoading();
                     this.props.history.push('/checkout.html');
                 });
                 return;
@@ -280,6 +282,7 @@ class ProductFullDetail extends Component {
             this.showSuccess(data)
             analyticAddCartGTM(this.props.product.name, this.props.product.id, this.props.product.price)
         }
+        hideFogLoading()
     }
 
     addToWishlist = () => {
@@ -635,7 +638,7 @@ class ProductFullDetail extends Component {
     }
 
     vendorName = () => {
-        const { product: {simiExtraField: {attribute_values: attribute_values} }} = this.props;
+        const { product: {simiExtraField: {attribute_values: attribute_values} }, history} = this.props;
         if (attribute_values && attribute_values.vendor_id) {
             const configs = Identify.getStoreConfig();
             if (configs && configs.simiStoreConfig && configs.simiStoreConfig.config && configs.simiStoreConfig.config.vendor_list) {
@@ -648,7 +651,12 @@ class ProductFullDetail extends Component {
                 if (vendor && vendor.lastname) vendorName = `${vendorName} ${vendor.lastname}`;
                 const {profile} = vendor || {}
                 vendorName = profile && profile.store_name || vendorName;
-                if (vendorName) return vendorName;
+                if (vendorName){
+                    if (vendor.vendor_id) {
+                        return <Link to={`/designers/${vendor.vendor_id}.html`}>{vendorName}</Link>
+                    }
+                    return <Link to={`/designers/${vendor.entity_id}.html`}>{vendorName}</Link>
+                }
             }
         }
         return null
@@ -674,7 +682,7 @@ class ProductFullDetail extends Component {
                 text={Identify.__('Add to Cart')} />
         )
         if (simiExtraField && simiExtraField.attribute_values) {
-            if (parseInt(pre_order) && !isProductConfigurable(props.product)) {
+            if (!parseInt(is_salable) && parseInt(pre_order) && !isProductConfigurable(props.product)) {
                 addToCartBtn = (
                     <Colorbtn
                         style={{ backgroundColor: '#101820', color: '#FFF' }}
@@ -764,7 +772,15 @@ class ProductFullDetail extends Component {
                                     <div className="cart-ctn">
                                         {addToCartBtn}
                                     </div>
-                                    {(parseInt(is_salable) === 1 || parseInt(pre_order) === 1) &&
+                                    {parseInt(is_salable) === 1 ? 
+                                        <div className="cart-ctn">
+                                            <Whitebtn className="buy-1-click-btn btn btn__white" 
+                                                onClick={() => this.buy1ClickAction({buy1click: '1'})} 
+                                                text={Identify.__('Buy with 1-click')}
+                                            />
+                                        </div>
+                                        :
+                                        parseInt(pre_order) === 1 && 
                                         <div className="cart-ctn">
                                             <Whitebtn className="buy-1-click-btn btn btn__white" 
                                                 onClick={() => this.buy1ClickAction({buy1click: '1', pre_order: parseInt(pre_order)})} 
@@ -772,6 +788,7 @@ class ProductFullDetail extends Component {
                                             />
                                         </div>
                                     }
+                                    
                                     {parseInt(is_salable) === 1 && reservable === '1' && 
                                         <div className="cart-ctn">
                                             <Whitebtn className="reserve-btn btn btn__white" onClick={reserveAction} text={Identify.__('Reserve')}/>

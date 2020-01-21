@@ -1,108 +1,69 @@
-.checkout-col-2 .gift-voucher-area-tablet{
-    width: 100%;
-    position: relative;
-}
-.checkout-col-2 .gift-voucher-area-tablet input{
-    width: 100%;
-    height: 45px;
-    border-radius: 4px;
-    border: solid 1px rgba(51,49,50,0.4);
-    padding: 10px 16px 11px 16px;
-}
-.checkout-col-2 .gift-voucher-title{
-    display: none;
-}
-.gift-voucher-area-tablet .btn-clear-coupon {
-    position: absolute;
-    right: 10px;
-    top: 12px;
-    z-index: 9;
-    cursor: pointer;
-    max-height: 15px;
-}
-.cart-voucher-form {
-    font-size: 16px;
-    margin-top: 28px;
+.cart-gift-voucher {
+    margin-top: 20px;
     .gift-voucher-title {
-        font-family: Gotham Medium;
+        font-family: 'Gotham Book';
+        font-weight: 600;
         display: flex;
         justify-content: space-between;
         align-items: baseline;
+        font-size: 16px;
         svg{
             vertical-align: middle
         }
     }
-}
 
-.cart-voucher-form .gift-voucher-area-tablet {
-    margin-top: 8px;
-    display: inline-block;
-    position: relative;
-    vertical-align: bottom;
-}
-.gift-voucher-area-tablet .btn-clear-voucher {
-    position: absolute;
-    right: 10px;
-    top: 12px;
-    z-index: 9;
-    cursor: pointer;
-    max-height: 15px;
-}
+    .gift-voucher-area-tablet {
+        width: 100%;
+        margin-top: 8px;
+        display: inline-block;
+        position: relative;
+        vertical-align: bottom;
+        input {
+            
+        }
+        .btn-clear-voucher {
+            position: absolute;
+            right: 10px;
+            top: 12px;
+            z-index: 9;
+            cursor: pointer;
+            max-height: 15px;
+        }
+    }
 
-.gift-voucher {
-    margin-top: 20px;
     .voucher-close{
         display: none;
     }
-}
 
-.cart-voucher-form .gift-voucher-area-tablet input {
-    height: 45px;
-    width: 330px;
-    border-radius: 4px;
-    background-color: #F2F2F2;
-    padding: 10px 25px 11px 16px;
-    border: solid 1px #F2F2F2;
-}
-
-#submit-voucher, #remove-voucher {
-    background-color: #101820;
-    color: #FFF
-}
-
-@media (min-width: 1024px) {
-    .checkout-col-2 #submit-voucher, .checkout-col-2 #remove-voucher {
-        margin-left: 0;
-        margin-top: 8px;
-    }
     #submit-voucher, #remove-voucher {
-        display: inline-block;
-        margin-left: 8px;
-        width: 100px;
+        background-color: #101820;
+        color: #FFF
+    }
 
+    @media (min-width: 1024px) {
+        #submit-voucher, #remove-voucher {
+            display: inline-block;
+            margin-left: 8px;
+            width: 100px;
+
+        }
+        .submit-voucher-rtl, .remove-voucher-rtl{
+            margin-left: 0 !important;
+            margin-right: 8px;
+        }
     }
-    .submit-voucher-rtl, .remove-voucher-rtl{
-        margin-left: 0 !important;
-        margin-right: 8px;
-    }
-}
 
 
-@media (max-width: 1023px) {
-    .cart-voucher-form .gift-voucher-area-tablet {
-        width: 100%;
-    }
-    .cart-voucher-form .gift-voucher-area-tablet input {
-        width: 100%;
-    }
-    .checkout-col-2 .gift-voucher{
-        max-width: unset;
-    }
-    .checkout-col-2 .gift-voucher #submit-voucher{
-        margin-top: 20px;
-    }
-    #remove-voucher, #submit-voucher {
-        width: 100%;
-        margin-top: 8px;
+    @media (max-width: 1023px) {
+        .gift-voucher-area-tablet {
+            width: 100%;
+        }
+        .gift-voucher-area-tablet input {
+            width: 100%;
+        }
+        #remove-voucher, #submit-voucher {
+            width: 100%;
+            margin-top: 8px;
+        }
     }
 }

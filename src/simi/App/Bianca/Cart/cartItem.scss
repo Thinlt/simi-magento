@@ -380,3 +380,92 @@
         cursor: pointer;
     }
 }
+
+@media (max-width: 768px){
+    .cart-siminia-item{
+        display: unset;
+        padding: 0;
+        &:not(:first-child){
+            .designer-name{
+                border-top: 1px #808080 solid;
+                padding-top: 30px;
+            }
+        }
+        .designer-name{
+            font-family: Gotham Medium;
+            color: #101820;
+            font-size: 14px;
+            line-height: 14px;
+            margin-bottom: 16px;
+        }
+        .img-cart-container{
+            margin-right: unset;
+            img{
+                height: 103px;
+                width: 82px;
+            }
+        }
+        
+        .cart-item-detail{
+            margin-left: 36px;
+            width: 100%;
+            .cart-item-info{
+                .item-name{
+                    font-size: 14px;
+                }
+            }
+        }
+
+        .item-options{
+            font-size: 12px;
+            display: flex;
+            div{
+                &:first-child{
+                    margin-right: 12px;
+                }
+            }
+        }
+
+        .item-qty{
+            width: unset;
+            margin-left: unset;
+            margin-bottom: 12px;
+            .minicart-qty-title{
+                padding-left: 0;
+                padding-right: 12px;
+                font-size: 14px;
+            }
+            input{
+                height: 36px;
+                max-width: 48px;
+            }
+            .item-edit{
+                display: flex;
+                padding: 25px 0 0 51px;
+                height: 36px;
+                width: 100%;
+                div{
+                    padding-right: 0;
+                    padding-left: 0;
+                    font-size: 12px;
+                    text-transform: uppercase;
+                }
+            }
+        }
+        .item-delete{
+            div{
+                padding-right: 0;
+                padding-left: 0;
+                padding-top: 11px;
+                font-size: 12px;
+                text-transform: uppercase;
+            }
+        }
+
+        .item-subtotal{
+            .cart-item-value{
+                padding-left: 0;
+            }
+        }
+    }
+}
