@@ -1,4 +1,5 @@
 import React from 'react'
+import Identify from 'src/simi/Helper/Identify'
 class CountDown extends React.Component {
 
     constructor(props) {
@@ -37,7 +38,7 @@ class CountDown extends React.Component {
         const { h, m, s } = this.state;
         return (
             <div className="time-result" style={{ display: 'inline-block', marginLeft: 10, color: '#101820' }}>
-                {`(${s}s)`}
+                {`${s} `}{Identify.__('seconds')}
             </div>
         )
     }

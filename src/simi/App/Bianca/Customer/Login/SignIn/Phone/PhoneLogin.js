@@ -17,6 +17,8 @@ class PhoneLogin extends Component {
             <LoginOTP
                 classes={classes}
                 onSignIn={this.props.simiSignedIn}
+                openVModal={this.props.openVModal}
+                closeVModal={this.props.closeVerifyModal}
             // getUserDetails={this.props.getUserDetails}
             />
         )

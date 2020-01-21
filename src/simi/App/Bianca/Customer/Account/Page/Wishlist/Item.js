@@ -1,15 +1,15 @@
 import React from "react";
 import Identify from "src/simi/Helper/Identify";
-import {Colorbtn} from 'src/simi/BaseComponents/Button'
-import {configColor} from 'src/simi/Config'
+import {Colorbtn} from 'src/simi/BaseComponents/Button';
+// import {configColor} from 'src/simi/Config'
 import ReactHTMLParse from 'react-html-parser';
 import { Link } from 'src/drivers';
 import Trash from 'src/simi/BaseComponents/Icon/Trash';
-import { removeWlItem, addWlItemToCart } from 'src/simi/Model/Wishlist'
-import {hideFogLoading, showFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
-import { resourceUrl } from 'src/simi/Helper/Url'
+import { removeWlItem, addWlItemToCart } from 'src/simi/Model/Wishlist';
+import {hideFogLoading, showFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
+import { resourceUrl } from 'src/simi/Helper/Url';
 import { formatPrice } from 'src/simi/Helper/Pricing';
-import Image from 'src/simi/BaseComponents/Image'
+import Image from 'src/simi/BaseComponents/Image';
 import {productUrlSuffix} from 'src/simi/Helper/Url';
 
 class Item extends React.Component {
@@ -85,30 +85,21 @@ class Item extends React.Component {
             },
         }
         
-        const addToCartString = Identify.__('Buy Now')
+        const addToCartString = Identify.__('Add To Cart')
         
         const image = item.product_image && (
-            <div 
-                className="siminia-product-image"
-                style={{borderColor: configColor.image_border_color,
-                    backgroundColor: 'white'
-                }}>
+            <div className="siminia-product-image">
                 <Link to={this.location}>
-                    <div style={{position:'absolute',top:0,bottom:0,width: '100%', padding: 1}}>
-                        <Image src={resourceUrl(item.product_image, {
-                                type: 'image-product',
-                                width: 100
-                            })} alt={item.product_name}/>
-                    </div>
+                    <Image src={resourceUrl(item.product_image, {
+                        type: 'image-product',
+                        width: 100
+                    })} alt={item.product_name}/>
                 </Link>
                 <span 
                     role="presentation"
                     className="trash-item"
-                    style={{
-                        position: 'absolute', bottom: 1, left: 1, width: 30, height: 30, 
-                        cursor: 'pointer', zIndex: 1}} 
                     onClick={() => this.onTrashItem(item.wishlist_item_id)}>
-                    <Trash style={{fill: '#333132', width: 30, height: 30}} />
+                    <Trash style={{fill: '#101820', width: 30, height: 30}} />
                 </span>
             </div>
         );
@@ -118,28 +109,30 @@ class Item extends React.Component {
                 {
                     item.type_id === 'simple' &&
                     <Colorbtn 
-                        style={{backgroundColor: configColor.button_background, color: configColor.button_text_color}}
                         className="grid-add-cart-btn"
                         onClick={() => this.addToCart(item.wishlist_item_id, this.location)}
                         text={addToCartString}/>
                 }
-                <Link 
+                {/* <Link 
                     className="view-link"
                     to={this.location}
-                >{Identify.__('View')}</Link>
+                >{Identify.__('View')}</Link> */}
             </div>
         
         return (
-            <div className={`'product-item siminia-product-grid-item ${item.type_id !== 'simple'?'two-btn': 'one-btn'}`}>
+            <div id={`product-${item.product_id}`} className={`product-item siminia-product-grid-item ${item.type_id !== 'simple'?'two-btn':'one-btn'}`}>
                 {image}
                 <div className="siminia-product-des">
                     <Link to={this.location} className="product-name">{ReactHTMLParse(item.product_name)}</Link>
-                    <div 
-                        className="prices-layout"
-                        id={`price-${item.product_id}`} 
-                        style={{color: configColor.price_color}}>
-                        {formatPrice(parseFloat(item.product_price))}
-                    </div>
+                    {parseFloat(item.product_price) > 0 &&
+                        <div className="prices-layout"
+                            id={`price-${item.type_id}`}>
+                            <div className="price">{formatPrice(parseFloat(item.product_price))}</div>
+                            {parseFloat(item.product_regular_price) > 0 && parseFloat(item.product_regular_price) !== parseFloat(item.product_price) && 
+                                <div className="price regular">{formatPrice(parseFloat(item.product_regular_price))}</div>
+                            }
+                        </div>
+                    }
                 </div>
                 {itemAction}
             </div>

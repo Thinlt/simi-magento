@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { shape, string } from 'prop-types';
 import { Form } from 'informed';
 
@@ -11,12 +11,20 @@ import TitleHelper from 'src/simi/Helper/TitleHelper'
 import { createAccount } from 'src/simi/Model/Customer'
 import { showToastMessage } from 'src/simi/Helper/Message';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
+import VerifyForm from 'src/simi/App/Bianca/Components/Otp/VerifyForm';
+import GetOtpModal from 'src/simi/App/Bianca/Components/Otp/GetOtpModal';
+import { sendOTPForRegister, verifyOTPForRegister } from 'src/simi/Model/Otp';
+import VerifyOtpModal from 'src/simi/App/Bianca/Components/Otp/VerifyOtpModal';
 
 const $ = window.$;
 
 const CreateAccount = props => {
     const { history, createAccountError } = props;
     const errorMessage = createAccountError && (Object.keys(createAccountError).length !== 0) ? Identify.__('An error occurred. Please try again.') : null
+    const [allowSubmit, setAllowSubmit] = useState(false)
+    const [phoneRegister, setPhone] = useState("")
+    const [showModalGet, setModalGet] = useState(false)
+    const [showModalVerify, setModalVerify] = useState(false)
     var registeringEmail = null
     var registeringPassword = null
 
@@ -31,16 +39,27 @@ const CreateAccount = props => {
     }
 
     const handleSubmit = values => {
+        values.customer.telephone = phoneRegister.substring(1)
         const params = {
             password: values.password,
             confirm_password: values.confirm,
             ...values.customer,
             news_letter: values.subscribe ? 1 : 0
         }
-        showFogLoading()
-        registeringEmail = values.customer.email
-        registeringPassword = values.password
-        createAccount(registerDone, params)
+        if (!allowSubmit) {
+            $('#must-verify').css('display', 'block')
+            $('#createAccount').css('backgroundColor', '#B91C1C')
+            $('#verify-opt-area .wrap').css('float', 'unset')
+            // do nothing
+        } else {
+            $('#must-verify').css('display', 'none')
+            $('#createAccount').css('backgroundColor', '#101820')
+            $('#verify-opt-area .wrap').css('float', 'right')
+            showFogLoading()
+            registeringEmail = values.customer.email
+            registeringPassword = values.password
+            createAccount(registerDone, params)
+        }
     };
 
     const registerDone = (data) => {
@@ -64,11 +83,106 @@ const CreateAccount = props => {
         history.push('/login.html');
     };
 
+    const handleSendOtp = () => {
+        let phone = phoneRegister;
+        // close get modal
+        closeGetModal()
+        $('#must-verify').css('display', 'none')
+        $('#createAccount').css('backgroundColor', '#101820')
+        $('#verify-opt-area .wrap').css('float', 'right')
+
+        showFogLoading()
+        phone = phone.replace(/[- )(]/g, '').replace(/\+/g, "").replace(/\,/g, "");
+        var phoneNB = phone
+        let params = {
+            mobile: phone
+        }
+        const merchant = Identify.getStoreConfig();
+        if (merchant && merchant.hasOwnProperty('storeConfig') && merchant.storeConfig) {
+            const { website_id } = merchant.storeConfig;
+            if (website_id) {
+                params['website_id'] = website_id;
+            }
+        }
+        sendOTPForRegister(params, handleCallBackSendOTP)
+    }
+
+    const handleCallBackSendOTP = (data) => {
+        hideFogLoading();
+        if (data && data.result && (data.result == "exist")) {
+            hideFogLoading();
+            showToastMessage(Identify.__('Already exist account with this phone number !'))
+        } else {
+            hideFogLoading();
+            localStorage.setItem("numberphone_register", phoneRegister);
+            // Open modal verify otp
+            openVModal();
+            setTimeout(() => closeVModal(), 30000);
+        }
+    }
+
+    const openVModal = () => {
+        setModalVerify(true)
+    }
+
+    const closeVModal = () => {
+        setModalVerify(false)
+    }
+
+    const handleVerifyRegister = () => {
+        let logintotp = localStorage.getItem('login_otp');
+        $('#login-input-otp-warning').css({ display: 'none' })
+        showFogLoading();
+        verifyOTPForRegister(phoneRegister.substring(1), logintotp, handleCallBackLVerifyRegister);
+        localStorage.removeItem('login_otp')
+    }
+
+    const handleCallBackLVerifyRegister = (data) => {
+        if (data && data.result && (data.result == "true")) {
+            hideFogLoading();
+            setAllowSubmit(true)
+            showToastMessage(Identify.__('Phone number is Valid !'))
+        } else {
+            hideFogLoading();
+            showToastMessage(Identify.__('Verify OTP fail !'))
+        }
+    }
+
+    const onChange = (val1, val2) => {
+        $('#verify-opt-area #number_phone-invalid').css({ display: 'none' })
+        let value = val1 + val2
+        setPhone(value)
+        localStorage.setItem("numberphone_register", phoneRegister);
+    }
+
+    const openGetModal = () => {
+        if (phoneRegister.length < 10) {
+
+        } else {
+            setModalGet(true)
+        }
+    }
+
+    const closeGetModal = () => {
+        localStorage.removeItem("numberphone_register");
+        setModalGet(false)
+    }
+
     return (
         <React.Fragment>
             {TitleHelper.renderMetaHeader({
                 title: Identify.__('Create Account')
             })}
+            <GetOtpModal
+                openGetModal={showModalGet}
+                closeGetModal={closeGetModal}
+                senOtpRegister={handleSendOtp}
+            />
+            <VerifyOtpModal
+                openVerifyModal={showModalVerify}
+                closeVerifyModal={closeVModal}
+                callApi={(phonenumber) => handleVerifyRegister(phonenumber)}
+            />
             <Form
                 className={`form-create-account ${classes.root} ${Identify.isRtl() ? classes['rtl-rootForm'] : null}`}
                 initialValues={initialValues}
@@ -110,7 +224,7 @@ const CreateAccount = props => {
                         placeholder="Email"
                     />
                 </Field>
-                <Field label="Phone Number *" required={true}>
+                {/* <Field label="Phone Number *" required={true}>
                     <TextInput
                         classes={classes}
                         field="customer.telephone"
@@ -118,7 +232,13 @@ const CreateAccount = props => {
                         validateOnBlur
                         placeholder="Phone"
                     />
-                </Field>
+                </Field> */}
+                <VerifyForm
+                    openGetModal={openGetModal}
+                    handleVerify={handleVerifyRegister}
+                    handleChangePhone={(val1, val2) => onChange(val1, val2)}
+                    type={'login'}
+                />
                 <Field label="Password *">
                     <TextInput
                         classes={classes}
@@ -148,7 +268,7 @@ const CreateAccount = props => {
                     </button>
                 </div>
                 <div
-                    className={classes['back']}
+                    className={`special-back ${classes['back']}`}
                     id="btn-back"
                     onClick={handleBack}
                 >

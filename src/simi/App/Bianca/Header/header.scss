@@ -535,7 +535,18 @@ $textColor3: #e4e4e4;
     }
   }
 }
-
+//  Right to left
+.rtl-right-bar .before-login {
+  position: relative !important;
+}
+.rtl-root #btn-back{
+  left: unset !important;
+  right: 139px !important;
+}
+.rtl-root input{
+  padding-left: 5px !important;
+  padding-right: 24px !important;
+}
 @media (min-width: 1441px) {
   .app-nav {
     .main-nav {
@@ -1038,6 +1049,21 @@ body.fixed-scroll {
         }
       }
     }
+  }
+  .rtl-root #btn-back{
+    right: 12% !important;
+  }
+}
+
+@media(max-width: 834px){
+  .rtl-root #btn-back{
+    right: 40px !important;
+  }
+}
+
+@media(max-width: 736px){
+  .rtl-root #btn-back{
+    right: 20px !important;
   }
 }
 
