@@ -18,7 +18,8 @@ const responsive = {
         minWidth: 1600,
         items: 5,
         chevronWidth: 72,
-        iconWidth: 48
+        iconWidth: 48,
+        gutter: 16
     },
     desktop: {
         minWidth: 1300,

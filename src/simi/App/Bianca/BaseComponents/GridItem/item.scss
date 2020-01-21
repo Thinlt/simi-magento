@@ -220,10 +220,17 @@ $borderMobileColor: #A7A7A7;
         }
         .vendor-and-price .vendor {
             color: $titleColor;
-            font-family: "Gotham Medium";
+            font-family: "Gotham Book";
+            font-weight: 600;
             font-size: 14px;
             line-height: 14px;
             margin-top: 12px;
+            a{
+                text-decoration: none;
+                &:visited,&:hover,&:focus{
+                    color: unset;
+                }
+            }
         }
     }
     

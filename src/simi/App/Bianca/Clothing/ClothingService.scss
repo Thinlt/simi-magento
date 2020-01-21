@@ -43,7 +43,7 @@
                 font-weight: 600;
             }
             .form{
-                margin-top: 4px;
+                margin-top: 24px;
                 margin-bottom: 20px;
                 .form-row{
                     margin-top: 20px;
@@ -70,6 +70,9 @@
                         padding-right: 16px;
                         max-width: 866px;
                         margin-top: 8px;
+                        &.error{
+                            border: 1px solid #b91c1c;
+                        }
                         &.simi-input-select{
                             .icon{
                                 line-height: 16px;
@@ -85,7 +88,8 @@
                             padding: 17px 16px;
                             min-height: 244px;
                             textarea{
-                                min-height: 244px;
+                                min-height: 210px;
+                                display: block;
                             }
                             >span{
                                 display: block;
@@ -214,11 +218,12 @@
                             padding-left: 12px;
                             padding-right: 12px;
                             &.detail,&.files{
-                                padding: 10px 12px;
-                                min-height: 144px;
+                                padding: 17px 16px;
+                                min-height: 214px;
                                 line-height: 24px;
                                 textarea{
-                                    min-height: 144px;
+                                    min-height: 180px;
+                                    line-height: 14px;
                                 }
                                 .upload-file{
                                     min-width: 141px;

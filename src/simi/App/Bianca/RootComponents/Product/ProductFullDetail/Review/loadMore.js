@@ -20,7 +20,7 @@ class Pagination extends React.Component {
                     <div 
                         className="load-more"
                         role="presentation" 
-                        onClick={()=>this.props.updateSetPage(this.props.currentPage + 1)}
+                        onClick={()=>this.props.updateSetPage(items.length)}
                     >
                         <div
                             className="btn-load-more"
@@ -34,6 +34,23 @@ class Pagination extends React.Component {
                     </div>
                 )
             }
+            return (
+                <div 
+                    className="load-more"
+                    role="presentation" 
+                    onClick={()=>this.props.updateSetPage(0)}
+                >
+                    <div
+                        className="btn-load-more"
+                    >
+                        {
+                            (this.props.loading) ?
+                            <Loading /> :
+                            Identify.__('Show less')
+                        }
+                    </div>
+                </div>
+            )
         }
         return null
     }
