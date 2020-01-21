@@ -15,8 +15,6 @@ import Instagram from './Instagram';
 // import Chats from 'src/simi/App/Bianca/BaseComponents/Chats';
 require('./home.scss');
 
-console.log(getOS())
-
 if (getOS() === 'MacOS') require('./home-ios.scss');
 
 const Home = props => {

@@ -25,12 +25,16 @@ const Designers = props => {
     if (data) {
         data.forEach((item, index)=>{
             if (index < 18 && item.logo) {
-                item.url = `/shop-by-desinger.html?id=${item.vendor_id}`;
+                item.url = `/designers/${item.vendor_id}.html`;
                 item.image = item.logo;
                 newData.push(item);
             }
             return false;
         });
+    }
+
+    const onClickItem = () => {
+        smoothScrollToView($('#siminia-main-page'), 350);
     }
 
     const actionViewAll = () => {
@@ -49,7 +53,8 @@ const Designers = props => {
     return (
         <div className={`brand-slider ${isPhone ? 'phone-view':''}`}>
             { data && <h3 className="title">{Identify.__('Shop By Designers')}</h3>}
-            <Scroller data={newData} lastItems={lastItems} history={history} slideSettings={slideSettings} isPhone={isPhone}/>
+            <Scroller data={newData} lastItems={lastItems} history={history} slideSettings={slideSettings} isPhone={isPhone} 
+                onClickItem={onClickItem}/>
         </div>
     );
 }
