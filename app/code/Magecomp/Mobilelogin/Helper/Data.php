@@ -231,7 +231,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			$otpModel->setMobile($mobile);
 			$otpModel->save();		
 		}
-		$apiReturn = $this->curlApiCall($message,$mobile);
+		$apiReturn = $this->curlApiCall($message,$mobile,$randomCode);
     		return $apiReturn;
 	
 		}catch(\Exception $e)
