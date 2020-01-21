@@ -55,3 +55,68 @@
     padding-bottom: 16px;
   }
 }
+
+// Right to left
+.rtl-wrap-modal button {
+  right: unset !important;
+  left: 32px;
+}
+
+@media (max-width: 700px) {
+  #modal-get-otp-register {
+    margin-top: 40%;
+    padding: 24px 10px;
+    .title {
+      font-family: Gotham;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 16px;
+      margin-top: 31px;
+    }
+    button {
+      top: 12px;
+      right: 17px;
+    }
+    .description {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 14px;
+      text-align: center;
+    }
+    .btn-show-get-modal {
+      margin-top: 60px;
+      height: 40px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 16px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+  }
+  .rtl-wrap-modal button {
+    top: 12px !important;
+    right: unset !important;
+    left: 17px !important;
+  }
+}
+
+@media (max-width: 550px) {
+  #modal-get-otp-register {
+    min-width: 303px;
+    padding: 24px 10px;
+    padding-bottom: 30px;
+    .title {
+    }
+    button {
+    }
+    .description {
+      max-width: 193px;
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  #modal-get-otp-register {
+    min-width: 280px;
+  }
+}

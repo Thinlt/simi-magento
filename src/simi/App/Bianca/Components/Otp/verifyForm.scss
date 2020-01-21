@@ -10,7 +10,7 @@
     margin-bottom: 24px;
     font-family: Gotham;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 14px;
     color: #101820;
     border-radius: unset;
@@ -51,11 +51,11 @@
 }
 // if error show, opt-area mat float la ok
 #verify-opt-area {
-    .wrap{
-        display: flex;
-        justify-content: space-between;
-        float: right;
-    }
+  .wrap {
+    display: flex;
+    justify-content: space-between;
+    float: right;
+  }
   .login-otp {
     width: 100%;
     text-align: center;
@@ -114,9 +114,9 @@
   }
 }
 // Nam custom css
-#createAccount{
-    background-color: #101820;
-    color: #fff;
+#createAccount {
+  background-color: #101820;
+  color: #fff;
 }
 .verify-opt-area .label {
   color: #101820;
@@ -209,7 +209,9 @@
 .verify-opt-area-rtl .custom-input .react-tel-input input {
   padding-right: 20px !important;
 }
-
+.verify-opt-area-rtl .wrap {
+  float: left !important;
+}
 // Default style of React-Phone-Input
 .react-tel-input {
   font-family: "Roboto", sans-serif;
@@ -1389,6 +1391,7 @@
     font-weight: 500;
     line-height: 14px;
     padding-left: 6px;
+    padding-right: 7px !important;
   }
   .verify-opt-area .custom-input .element-2 input {
     min-height: 40px;
@@ -1424,8 +1427,8 @@
   }
   #verify-opt-area .login-otp {
     margin-top: 11px !important ;
-    margin-bottom: 5px !important;
-    max-width: 249px;
+    margin-bottom: 2px !important;
+    width: 249px;
     margin-left: auto;
     margin-right: auto;
     color: #fff;
@@ -1436,7 +1439,19 @@
     padding-top: 13px;
     padding-bottom: 13px;
   }
+  .react-tel-input .country-list {
+    max-width: 304px;
+  }
   .verify-opt-area-rtl .country-list {
     right: -17px !important;
+  }
+  .verify-opt-area-rtl .wrap {
+    float: left !important;
+  }
+  .verify-opt-area-rtl .custom-input .element-1 {
+    right: 47px !important;
+  }
+  .verify-opt-area-rtl .custom-input .element-2 {
+    right: 65px !important;
   }
 }
