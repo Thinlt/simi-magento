@@ -279,7 +279,7 @@
   }
 }
 
-.cart-page {
+.container.cart-page {
   .body {
     .summary-zone {
       .summary .grandtotal,
@@ -429,5 +429,48 @@
                 }
             }
         }
+      .cart-header{
+        .cart-title{
+          font-size: 16px;
+          font-weight: 600;
+          margin-top: 20px;
+          margin-bottom: 38px;
+          text-align: left;
+          padding-right: 0;
+          padding-left: 0;
+        }
+      }
+
+      .body {
+        .summary-zone {
+          background-color: #F8F8F8;
+          padding-left: 15px;
+          padding-right: 15px;
+          .summary-title{
+            font-size: 16px;
+            margin-top: 32px;
+          }
+          .grandtotal{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 32px;
+            font-size: 20px;
+            line-height: 20px;
+          }
+          .subtotal{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 32px;
+            font-size: 16px;
+            line-height: 16px;
+          }
+
+          .go-checkout{
+            border: 1px solid #101820;
+            background-color: #101820;
+            color: #FFF;
+          }
+        }
+      }
     }
 }

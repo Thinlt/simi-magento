@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react'
+import React, {useRef, useState, Fragment} from 'react'
 import Identify from 'src/simi/Helper/Identify'
 import Deleteicon from 'src/simi/App/Bianca/BaseComponents/Icon/Trash'
 import EditIcon from 'src/simi/BaseComponents/Icon/Pencil'
@@ -88,7 +88,7 @@ const CartItem = props => {
                     <div className='item-options'>{optionText.reverse()}</div>
                 :   null
                 }
-                {!props.isOpen
+                {!props.isOpen && !isPhone
                 ?   
                     <div className='designer-name'>{item.attribute_values && getVendorName(item.attribute_values.vendor_id)}</div>
                 :
@@ -100,14 +100,14 @@ const CartItem = props => {
 
     const itemPrice = (
         <div className="sub-item item-price">
-            {isPhone && <div className='item-label'>{Identify.__('Unit Price')}</div>}
+            {/* {isPhone && <div className='item-label'>{Identify.__('Unit Price')}</div>} */}
             <div className='cart-item-value'>{itemprice}</div>
         </div>
     )
 
     const itemQty = (
         <div className='sub-item item-qty'>
-            {isPhone && <div className='item-label'>{Identify.__('Qty')}</div>}
+            {/* {isPhone && <div className='item-label'>{Identify.__('Qty')}</div>} */}
             <div className="minicart-qty-title">{Identify.__('Quantity')}</div>
             <input
                 min={1}
@@ -129,80 +129,159 @@ const CartItem = props => {
                     // }
                 }}
             />
+            {isPhone && 
+                <div
+                    role="button"
+                    tabIndex="0"
+                    className="item-edit"
+                    onClick={() => {
+                        handleLink(location)
+                    }}
+                    onKeyUp={() => {}}
+                    >
+                    <EditIcon 
+                        style={{width: '16px', height: '16px', marginRight: '8px', marginLeft: 'auto' }}/>
+                    <div>{Identify.__('Edit')}</div>
+                </div>
+            }
         </div>
     )
 
     const itemSubTotal = (
         <div className='sub-item  item-subtotal'>
-            {isPhone && <div className='item-label'>{Identify.__('Total Price')}</div>}
+            {/* {isPhone && <div className='item-label'>{Identify.__('Total Price')}</div>} */}
             <div className='cart-item-value'>{subtotal}</div>
         </div>
     )
 
+    
     const location = `/product.html?sku=${item.simi_sku ? item.simi_sku : item.sku}`
     const image = (item.image && item.image.file) ? item.image.file : item.simi_image
-    hideFogLoading()
-    return (
+    const renderItemMobile = (
         <div key={Identify.randomString(5)} className='cart-siminia-item'>
-            
-            <div
-                role="presentation"
-                onClick={() => {
-                    handleLink(location)
-                }}
-                className='img-cart-container'
-                style={{ borderColor: configColor.image_border_color }}>
-                <Image
-                    src={
-                        image ?
-                            resourceUrl(image, {
-                                type: 'image-product',
-                                width: 300
-                            }) :
-                            logoUrl()
+            {!props.isOpen
+            ?   
+                <div className='designer-name'>{item.attribute_values && getVendorName(item.attribute_values.vendor_id)}</div>
+            :
+                null
+            }
+            <div style={{display:"flex"}}>
+                <div
+                    role="presentation"
+                    onClick={() => {
+                        handleLink(location)
+                    }}
+                    className='img-cart-container'
+                    style={{ borderColor: configColor.image_border_color }}>
+                    <Image
+                        src={
+                            image ?
+                                resourceUrl(image, {
+                                    type: 'image-product',
+                                    width: 300
+                                }) :
+                                logoUrl()
+                        }
+                        alt={item.name} />
+                </div>
+                <div className="cart-item-detail">
+                    {props.isOpen || isPhone
+                        ?   <div>
+                                {itemInfo}
+                                {itemQty}
+                            </div> 
+                        :   itemInfo
                     }
-                    alt={item.name} />
-            </div>
-            <div className="cart-item-detail">
-                {props.isOpen
-                ?   <div>
-                        {itemInfo}
-                        {itemQty}
-                    </div> 
-                :   itemInfo
-                }
-                {!props.isOpen? itemPrice : null
-                }
-                {!props.isOpen ? itemQty : null}
-                <div>
-                    {itemSubTotal}
-                    <div
-                        role="button"
-                        tabIndex="0"
-                        className="item-edit"
-                        onClick={() => {
-                            handleLink(location)
-                        }}
-                        onKeyUp={() => {}}
-                    >
-                        <EditIcon 
-                            style={{width: '16px', height: '16px', marginRight: '8px', marginLeft: 'auto' }}/>
-                        <div>{Identify.__('Edit')}</div>
-                    </div>
-                    <div
-                        role="button"
-                        tabIndex="0"
-                        className='sub-item item-delete'
-                        onClick={() => props.removeFromCart(item)}
-                        onKeyUp={() => props.removeFromCart(item)}
-                    >
-                        <Deleteicon
-                            style={{ width: '16px', height: '16px', marginRight: '8px' }} />
-                        <div>{Identify.__('Remove')}</div>
+                    {/* {!props.isOpen? itemPrice : null} */}
+                    <div style={{display:'flex'}}>
+                        {itemSubTotal}
+                        <div
+                            role="button"
+                            tabIndex="0"
+                            className='sub-item item-delete'
+                            onClick={() => props.removeFromCart(item)}
+                            onKeyUp={() => props.removeFromCart(item)}
+                        >
+                            <Deleteicon
+                                style={{ width: '16px', height: '16px', marginRight: '8px' }} />
+                            <div>{Identify.__('Remove')}</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    )
+    hideFogLoading()
+    return (
+        <Fragment>
+            {isPhone
+            ?
+                <Fragment>
+                    {renderItemMobile}
+                </Fragment>
+            :
+                <div key={Identify.randomString(5)} className='cart-siminia-item'>
+                    
+                    <div
+                        role="presentation"
+                        onClick={() => {
+                            handleLink(location)
+                        }}
+                        className='img-cart-container'
+                        style={{ borderColor: configColor.image_border_color }}>
+                        <Image
+                            src={
+                                image ?
+                                    resourceUrl(image, {
+                                        type: 'image-product',
+                                        width: 300
+                                    }) :
+                                    logoUrl()
+                            }
+                            alt={item.name} />
+                    </div>
+                    <div className="cart-item-detail">
+                        {props.isOpen
+                        ?   <div>
+                                {itemInfo}
+                                {itemQty}
+                            </div> 
+                        :   itemInfo
+                        }
+                        {!props.isOpen? itemPrice : null
+                        }
+                        {!props.isOpen ? itemQty : null}
+                        <div>
+                            {itemSubTotal}
+                            <div
+                                role="button"
+                                tabIndex="0"
+                                className="item-edit"
+                                onClick={() => {
+                                    handleLink(location)
+                                }}
+                                onKeyUp={() => {}}
+                            >
+                                <EditIcon 
+                                    style={{width: '16px', height: '16px', marginRight: '8px', marginLeft: 'auto' }}/>
+                                <div>{Identify.__('Edit')}</div>
+                            </div>
+                            <div
+                                role="button"
+                                tabIndex="0"
+                                className='sub-item item-delete'
+                                onClick={() => props.removeFromCart(item)}
+                                onKeyUp={() => props.removeFromCart(item)}
+                            >
+                                <Deleteicon
+                                    style={{ width: '16px', height: '16px', marginRight: '8px' }} />
+                                <div>{Identify.__('Remove')}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </Fragment>
     );
 }
 export default CartItem;
