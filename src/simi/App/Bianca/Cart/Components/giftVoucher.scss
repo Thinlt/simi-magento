@@ -1,14 +1,5 @@
 .cart-gift-voucher {
     margin-top: 20px;
-    .gift-voucher-area-tablet .btn-clear-coupon {
-        position: absolute;
-        right: 10px;
-        top: 12px;
-        z-index: 9;
-        cursor: pointer;
-        max-height: 15px;
-    }
-
     .gift-voucher-title {
         font-family: 'Gotham Book';
         font-weight: 600;
@@ -22,17 +13,13 @@
     }
 
     .gift-voucher-area-tablet {
+        width: 100%;
         margin-top: 8px;
         display: inline-block;
         position: relative;
         vertical-align: bottom;
         input {
-            height: 45px;
-            width: 330px;
-            border-radius: 4px;
-            background-color: #F2F2F2;
-            padding: 10px 25px 11px 16px;
-            border: solid 1px #F2F2F2;
+            
         }
         .btn-clear-voucher {
             position: absolute;

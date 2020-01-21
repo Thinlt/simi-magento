@@ -7,17 +7,8 @@ import ApplyGiftcard from 'src/simi/App/Bianca/BaseComponents/Giftcard/ApplyGift
 require ('./giftVoucher.scss')
 
 const GiftVoucher = (props) => {
-    const { toggleMessages, getCartDetails, cart, isSignedIn } = props;
+    const { toggleMessages, getCartDetails, cart, isSignedIn, giftCartValue} = props;
     const [isOpen, setOpen] = useState(false)
-
-    let giftCartValue = "";
-    if (cart && cart.totals && cart.totals.total_segments) {
-        cart.totals.total_segments.map(total_segment => {
-            if ((total_segment.code === 'aw_giftcard') && total_segment.value) {
-                giftCartValue = total_segment.extension_attributes
-            }
-        })
-    }
 
     return (
         <div className='cart-gift-voucher'>

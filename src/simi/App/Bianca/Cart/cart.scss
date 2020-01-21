@@ -119,89 +119,43 @@
 
   @media (max-width: 1023px) {
     .cart-item-header {
-        display: none;
+      display: none;
     }
-}
+  }
 
-@media (min-width: 1441px){
-    .container.cart-page{
-        .cart-list{
-            max-width: unset !important;
-            margin-right: 57px;
-            .cart-siminia-item{
-                max-width: unset !important;
-            }
+  @media (min-width: 1441px) {
+    .container.cart-page {
+      .cart-list {
+        max-width: unset !important;
+        margin-right: 57px;
+        .cart-siminia-item {
+          max-width: unset !important;
         }
-        .cart-item-header > div {
-            padding: 12px 18px;
-            border-bottom: 1px solid #808080;
-            font-size: 14px;
-            font-weight: 500;
-            &:first-child{
-                padding-left: 37px;
-                width: 55% !important;
-            }
-            
-            &:nth-child(2){
-                width: 24% !important;
-            }
-
-            &:nth-child(3){
-                width: 15% !important;
-            }
-
-            &:last-child{
-                text-align: right !important;
-                padding-right: 27px;
-                width: 20% !important;
-            }
+      }
+      .cart-item-header > div {
+        padding: 12px 18px;
+        border-bottom: 1px solid #808080;
+        font-size: 14px;
+        font-weight: 500;
+        &:first-child {
+          padding-left: 37px;
+          width: 55% !important;
         }
-    }
-  }
 
-  .cart-coupon-form .coupon-code-area-tablet {
-    margin-top: 8px;
-    display: inline-block;
-    position: relative;
-  }
-  .cart-coupon-form .coupon-code-area-tablet .btn-clear-coupon {
-    position: absolute;
-    right: 10px;
-    top: 12px;
-    z-index: 9;
-    cursor: pointer;
-    max-height: 15px;
-  }
+        &:nth-child(2) {
+          width: 24% !important;
+        }
 
-  .coupon-code {
-    margin-left: auto;
-    margin-top: 20px;
-  }
+        &:nth-child(3) {
+          width: 15% !important;
+        }
 
-  @media (max-width: 1023px) {
-    .cart-coupon-form .coupon-code-area-tablet {
-      width: 100%;
-    }
-  }
-
-  @media (max-width: 1023px) {
-    .cart-coupon-form .coupon-code-area-tablet input {
-      width: 100%;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .cart-coupon-form .submit-coupon {
-      display: inline-block;
-      margin-left: 8px;
-      width: 100px;
-    }
-  }
-
-  @media (max-width: 1023px) {
-    .cart-coupon-form .submit-coupon {
-      width: 100%;
-      margin-top: 8px;
+        &:last-child {
+          text-align: right !important;
+          padding-right: 27px;
+          width: 20% !important;
+        }
+      }
     }
   }
 
@@ -279,9 +233,14 @@
   }
 }
 
-.cart-page {
+.container.cart-page {
   .body {
     .summary-zone {
+      .summary-title {
+        font-size: 16px;
+        color: #101820;
+        font-family: 'Gotham Book';
+      }
       .summary .grandtotal,
       #go-checkout .siminia-btn {
         font-weight: 500;
@@ -361,18 +320,6 @@
         width: 100%;
       }
 
-      .cart-coupon-form .coupon-code-area-tablet input,
-      .cart-voucher-form .gift-voucher-area-tablet input {
-        max-width: 197px;
-        font-size: 14px;
-        line-height: 14px;
-      }
-
-      .submit-coupon,
-      .submit-voucher {
-        max-width: 84px;
-      }
-
       .summary-zone {
         .summary {
           margin-top: 32px;
@@ -399,5 +346,78 @@
         }
       }
     }
+  }
 }
+
+@media (max-width: 768px) {
+  .container.cart-page {
+    .cart-page-siminia {
+      .cart-title-mobile {
+        font-size: 16px;
+        font-weight: 600;
+        margin-top: 20px;
+      }
+      .empty-mobile {
+        padding: 150px 0 373px;
+        svg {
+          width: 25px !important;
+          height: 25px !important;
+        }
+        h3 {
+          font-size: 16px;
+          margin-bottom: 54px;
+        }
+        button {
+          width: 100%;
+          span {
+            width: 100%;
+            min-width: unset;
+          }
+        }
+      }
+    }
+    .cart-header {
+      .cart-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-top: 20px;
+        margin-bottom: 38px;
+        text-align: left;
+        padding-right: 0;
+        padding-left: 0;
+      }
+    }
+
+    .body {
+      .summary-zone {
+        background-color: #f8f8f8;
+        padding-left: 15px;
+        padding-right: 15px;
+        .summary-title {
+          font-size: 16px;
+          margin-top: 32px;
+        }
+        .grandtotal {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 32px;
+          font-size: 20px;
+          line-height: 20px;
+        }
+        .subtotal {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 32px;
+          font-size: 16px;
+          line-height: 16px;
+        }
+
+        .go-checkout {
+          border: 1px solid #101820;
+          background-color: #101820;
+          color: #fff;
+        }
+      }
+    }
+  }
 }

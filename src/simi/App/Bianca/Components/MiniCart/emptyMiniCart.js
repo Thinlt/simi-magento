@@ -19,7 +19,7 @@ class EmptyMiniCart extends Component {
         const { classes } = this.props;
 
         return (
-            <div className={classes.root}>
+            <div className={`${classes.root} empty-mobile`}>
                 <BasketIcon style={{height: '30px', width: '30px'}}/>
                 <h3 className={classes.emptyTitle}>
                     YOUR CART IS EMPTY

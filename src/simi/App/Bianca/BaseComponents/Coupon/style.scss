@@ -9,14 +9,6 @@
         cursor: pointer;
         max-height: 15px;
     }
-    .coupon-code-area-tablet .btn-clear-coupon {
-        position: absolute;
-        right: 10px;
-        top: 12px;
-        z-index: 9;
-        cursor: pointer;
-        max-height: 15px;
-    }
 
     .submit-coupon {
         background-color: #101820 !important;
@@ -25,17 +17,11 @@
     }
 
     @media (min-width: 1024px) {
-        .checkout-col-2 .submit-coupon {
-            margin-left: 0;
-            margin-top: 8px;
-        }
         .submit-coupon {
             display: inline-block;
-            margin-left: 8px;
             width: 100px;
         }
         .submit-coupon-rtl{
-            margin-left: 0 !important;
             margin-right: 8px;
         }
     }
@@ -69,13 +55,28 @@
         margin-top: 8px;
         position: relative;
         vertical-align: bottom;
+        display: flex;
+        justify-content: space-between;
         input {
             height: 48px;
-            width: 330px;
             background-color: #F2F2F2;
             padding: 10px 25px 11px 16px;
             border: solid 1px #F2F2F2;
+            font-size: 14px;
+            line-height: 14px;
+            width: 59%;
+            font-family: "Gotham Book";
         }
+    }
+
+    .submit-coupon {
+        font-family: 'Gotham Book';
+        text-transform: uppercase;
+        font-size: 16px;
+        width: 39%;
+        min-width: 106px;
+        padding-top: 14px;
+        height: 48px;
     }
     @media (max-width: 1023px) {
         .coupon-code-area-tablet {

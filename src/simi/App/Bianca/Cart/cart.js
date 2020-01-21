@@ -23,6 +23,8 @@ import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { removeItemFromCart, removeAllItems } from 'src/simi/Model/Cart';
 import Coupon from 'src/simi/App/Bianca/BaseComponents/Coupon';
 import GiftVoucher from 'src/simi/App/Bianca/Cart/Components/GiftVoucher';
+import EmptyMiniCart from '../Components/MiniCart/emptyMiniCart';
+import { isArray } from 'util';
 
 require('./cart.scss');
 
@@ -120,22 +122,28 @@ class Cart extends Component {
         if (cartId) {
             const obj = [];
             obj.push(
-                <div
-                    key={Identify.randomString(5)}
-                    className="cart-item-header"
-                >
-                    <div style={{ width: '52.5%' }}>{Identify.__('Items')}</div>
-                    <div style={{ width: '17%', textAlign: 'left' }}>
-                        {Identify.__('Price')}
-                    </div>
-                    <div style={{ width: '16%', textAlign: 'left' }}>
-                        {Identify.__('Quantity')}
-                    </div>
-                    <div style={{ width: '14%', textAlign: 'right' }}>
-                        {Identify.__('Subtotal')}
-                    </div>
-                    {/* <div style={{width: '7%'}}>{Identify.__('').toUpperCase()}</div> */}
-                </div>
+                <Fragment>
+                    {!this.state.isPhone
+                    ?
+                        <div
+                            key={Identify.randomString(5)}
+                            className="cart-item-header"
+                        >
+                            <div style={{ width: '52.5%' }}>{Identify.__('Items')}</div>
+                            <div style={{ width: '17%', textAlign: 'left' }}>
+                                {Identify.__('Price')}
+                            </div>
+                            <div style={{ width: '16%', textAlign: 'left' }}>
+                                {Identify.__('Quantity')}
+                            </div>
+                            <div style={{ width: '14%', textAlign: 'right' }}>
+                                {Identify.__('Subtotal')}
+                            </div>
+                            {/* <div style={{width: '7%'}}>{Identify.__('').toUpperCase()}</div> */}
+                        </div>
+                    :   null
+                    }
+                </Fragment>
             );
             if(cart.details.items){
                 for (const i in cart.details.items) {
@@ -170,24 +178,28 @@ class Cart extends Component {
             return (
                 <div className="cart-list">
                     {obj}
-                    <div className="cart-list-footer">
-                        <div
-                            role="button"
-                            tabIndex="0"
-                            onClick={this.handleBack}
-                            onKeyDown={this.handleBack}
-                        >
-                            {Identify.__('Continue Shopping')}
+                    {!this.state.isPhone 
+                    ?
+                        <div className="cart-list-footer">
+                            <div
+                                role="button"
+                                tabIndex="0"
+                                onClick={this.handleBack}
+                                onKeyDown={this.handleBack}
+                            >
+                                {Identify.__('Continue Shopping')}
+                            </div>
+                            <div
+                                role="button"
+                                tabIndex="0"
+                                onClick={this.removeAllItemsInCart}
+                                onKeyDown={this.removeAllItemsInCart}
+                            >
+                                {Identify.__('Clear all items')}
+                            </div>
                         </div>
-                        <div
-                            role="button"
-                            tabIndex="0"
-                            onClick={this.removeAllItemsInCart}
-                            onKeyDown={this.removeAllItemsInCart}
-                        >
-                            {Identify.__('Clear all items')}
-                        </div>
-                    </div>
+                    :   null
+                    }
                 </div>
             );
         }
@@ -305,7 +317,7 @@ class Cart extends Component {
         }
     }
 
-    get couponCode() {
+    couponCode() {
         const { cart, toggleMessages, getCartDetails } = this.props;
         let value = '';
         if (cart.totals.coupon_code) {
@@ -324,13 +336,14 @@ class Cart extends Component {
         );
     }
 
-    get giftVoucher() {
+    giftVoucher(giftCartValue) {
         const { cart, toggleMessages, getCartDetails, isSignedIn } = this.props;
         const childCPProps = {
             toggleMessages,
             getCartDetails,
             cart,
-            isSignedIn
+            isSignedIn,
+            giftCartValue
         };
         return (
             <div className={`cart-voucher-form`}>
@@ -345,66 +358,132 @@ class Cart extends Component {
             productList,
             props,
             total,
-            checkoutButton,
-            couponCode,
-            giftVoucher
+            checkoutButton
         } = this;
         const {
             isCartEmpty,
             cart
         } = props;
-        if (
-            isCartEmpty ||
-            !cart.details.items ||
-            !parseInt(cart.details.items_count)
-        ) {
-            if (isLoading) return <Loading />;
-            else
-                return (
-                    <div className="cart-page-siminia">
-                        <div className="empty-cart">
-                            {Identify.__(
-                                'You have no items in your shopping cart'
-                            )}
+        if (isCartEmpty || !cart.details.items || !parseInt(cart.details.items_count)) {
+            if(isLoading){
+                return <Loading />;
+            }
+            else{
+                if(this.state.isPhone){
+                    return(
+                        <div className="cart-page-siminia">
+                            <div className="cart-title-mobile">
+                                {Identify.__("SHOPPING CART")}
+                            </div>
+                            <EmptyMiniCart/>
                         </div>
-                    </div>
-                );
+                    )
+                }
+                else{
+                    return (
+                        <div className="cart-page-siminia">
+                            <div className="empty-cart">
+                                {Identify.__(
+                                    'You have no items in your shopping cart'
+                                )}
+                            </div>
+                        </div>
+                    );
+                }
+            }
         }
 
         if (isLoading) showFogLoading();
         else hideFogLoading();
 
+        let is_pre_order = false
+        let is_try_to_buy = false
+        let is_all_gift_card = true //cart only contains giftcard wont show coupon/giftcard
+        if (cart && cart.totals && cart.totals.items && isArray(cart.totals.items)) {
+            cart.totals.items.forEach(cartTotalItem => {
+                if (cartTotalItem.attribute_values && cartTotalItem.attribute_values.type_id !== "aw_giftcard") {
+                    is_all_gift_card = false
+                }
+                if (cartTotalItem.simi_pre_order_option && cartTotalItem.simi_pre_order_option!== '[]') {
+                    is_pre_order = true
+                } else if (cartTotalItem.simi_trytobuy_option && cartTotalItem.simi_trytobuy_option!== '[]') {
+                    is_try_to_buy = true
+                }
+            });
+        }
+        let cpValue = "";
+        if (cart.totals.coupon_code) {
+            cpValue = cart.totals.coupon_code;
+        }
+        let giftCartValue = "";
+        if (cart.totals && cart.totals.total_segments) {
+            cart.totals.total_segments.map(total_segment => {
+                if ((total_segment.code === 'aw_giftcard') && total_segment.value) {
+                    giftCartValue = total_segment.extension_attributes
+                }
+            })
+        }
+
         return (
             <Fragment>
-                {this.state.isPhone && this.breadcrumb}
-                <div className="cart-header">
-                    {cart.details && parseInt(cart.details.items_count) ? (
-                        <div className="cart-title">
-                            <div>{Identify.__('Shopping cart')}</div>
+                {this.state.isPhone
+                ?
+                    <Fragment>
+                        <div className="cart-header">
+                            {cart.details && parseInt(cart.details.items_count) ? (
+                                <div className="cart-title">
+                                    <div>{Identify.__('Shopping cart')}</div>
+                                </div>
+                            ) : (
+                                ''
+                            )}
                         </div>
-                    ) : (
-                        ''
-                    )}
-                </div>
-
-                <div className="body">
-                    {productList}
-                    <div className="summary-zone">
-                        <div>{Identify.__('Summary'.toUpperCase())}</div>
-                        {isLoading ? <Loading/>
-                        :
-                            <div>
-                                {couponCode}
-                                {giftVoucher}
-                                {total}
-                                {checkoutButton}
+                        <div className="body">
+                            {productList}
+                            <div className="summary-zone row">
+                                <div className="summary-title">{Identify.__('Summary'.toUpperCase())}</div>
+                                {isLoading ? <Loading/>
+                                :
+                                    <div>
+                                        {(!is_all_gift_card && !giftCartValue && !is_try_to_buy && !is_pre_order) && this.couponCode()}
+                                        {(!is_all_gift_card && !cpValue && !is_try_to_buy && !is_pre_order) && this.giftVoucher(giftCartValue)}
+                                        {total}
+                                        {checkoutButton}
+                                    </div>
+                                }
                             </div>
-                        }
-                    </div>
-                </div>
+                        </div>
+                    </Fragment>
+                :
+                    <Fragment>
+                        {this.state.isPhone && this.breadcrumb}
+                        <div className="cart-header">
+                            {cart.details && parseInt(cart.details.items_count) ? (
+                                <div className="cart-title">
+                                    <div>{Identify.__('Shopping cart')}</div>
+                                </div>
+                            ) : (
+                                ''
+                            )}
+                        </div>
 
-                {/* {couponView}
-                {total} */}
+                        <div className="body">
+                            {productList}
+                            <div className="summary-zone">
+                                <div className="summary-title">{Identify.__('Summary'.toUpperCase())}</div>
+                                {isLoading ? <Loading/>
+                                :
+                                    <div>
+                                        {(!is_all_gift_card && !giftCartValue && !is_try_to_buy && !is_pre_order) && this.couponCode()}
+                                        {(!is_all_gift_card && !cpValue && !is_try_to_buy && !is_pre_order) && this.giftVoucher(giftCartValue)}
+                                        {total}
+                                        {checkoutButton}
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </Fragment>
+                }
             </Fragment>
         );
     }

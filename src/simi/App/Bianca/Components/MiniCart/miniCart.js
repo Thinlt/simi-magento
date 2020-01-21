@@ -27,6 +27,8 @@ import {
     showFogLoading,
     hideFogLoading
 } from 'src/simi/BaseComponents/Loading/GlobalLoading';
+import { isArray } from 'util';
+
 class MiniCart extends Component {
     static propTypes = {
         cancelCheckout: func.isRequired,
@@ -209,7 +211,7 @@ class MiniCart extends Component {
         ) : null;
     }
 
-    get couponCode() {
+    couponCode() {
         const { cart, toggleMessages, getCartDetails } = this.props;
         let value = '';
         if (cart.totals.coupon_code) {
@@ -228,13 +230,14 @@ class MiniCart extends Component {
         );
     }
 
-    get giftVoucher() {
+    giftVoucher(giftCartValue) {
         const { cart, toggleMessages, getCartDetails, isSignedIn } = this.props;
         const childCPProps = {
             toggleMessages,
             getCartDetails,
             cart,
-            isSignedIn
+            isSignedIn,
+            giftCartValue
         };
         return (
             <div className={`cart-voucher-form`}>
@@ -256,19 +259,45 @@ class MiniCart extends Component {
         const {
             props,
             totalsSummary,
-            couponCode,
-            giftVoucher,
             grandTotal
         } = this;
-        const { classes, closeDrawer } = props;
+        const { classes, closeDrawer, cart } = props;
+
+        let is_pre_order = false
+        let is_try_to_buy = false
+        let is_all_gift_card = true //cart only contains giftcard wont show coupon/giftcard
+        if (cart && cart.totals && cart.totals.items && isArray(cart.totals.items)) {
+            cart.totals.items.forEach(cartTotalItem => {
+                if (cartTotalItem.attribute_values && cartTotalItem.attribute_values.type_id !== "aw_giftcard") {
+                    is_all_gift_card = false
+                }
+                if (cartTotalItem.simi_pre_order_option && cartTotalItem.simi_pre_order_option!== '[]') {
+                    is_pre_order = true
+                } else if (cartTotalItem.simi_trytobuy_option && cartTotalItem.simi_trytobuy_option!== '[]') {
+                    is_try_to_buy = true
+                }
+            });
+        }
+        let cpValue = "";
+        if (cart.totals.coupon_code) {
+            cpValue = cart.totals.coupon_code;
+        }
+        let giftCartValue = "";
+        if (cart.totals && cart.totals.total_segments) {
+            cart.totals.total_segments.map(total_segment => {
+                if ((total_segment.code === 'aw_giftcard') && total_segment.value) {
+                    giftCartValue = total_segment.extension_attributes
+                }
+            })
+        }
 
         return (
             <div className={classes.summary}>
                 <h2 className={classes.titleSummary}>
                     <span>{Identify.__('Summary')}</span>
                 </h2>
-                {couponCode}
-                {giftVoucher}
+                {(!is_all_gift_card && !giftCartValue && !is_try_to_buy && !is_pre_order) && this.couponCode()}
+                {(!is_all_gift_card && !cpValue && !is_try_to_buy && !is_pre_order) && this.giftVoucher(giftCartValue)}
                 {totalsSummary}
                 {grandTotal}
 
