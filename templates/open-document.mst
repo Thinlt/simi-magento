@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="/simistatic/bootstrap.min.css">
     <link async id="rtl-stylesheet" rel="stylesheet" href="/simistatic/rtl.css">
     <script src="/simistatic/config.js"></script>
-    {{! <script src="https://www.simicart.com/appdashboard/rest/app_configs?bear_token=f95d84b5S2IHxHQxbl3HWg3kGQaw9zQpJVDSZOX&pwa=1&js=1"></script> }}
+    <script src="https://www.simicart.com/appdashboard/rest/app_configs?bear_token=daFTRsQRPorHZYAADSoXkYaJlXfzbnBoyhipJ8h&pwa=1&js=1"></script>
     <script src="/simistatic/jquery.min.js"></script>
     <link rel="stylesheet" href="/simistatic/owlcarousel/owl.carousel.min.css" />
     <link rel="stylesheet" href="/simistatic/style.css" />
@@ -51,6 +51,14 @@
         }, true);
     </script>
 
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-KTRTPPQ');</script>
+    <!-- End Google Tag Manager -->
+
     <!-- Google Analytics -->
     <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -61,14 +69,6 @@
     ga('create', 'UA-100231407-1', 'auto');
     </script>
     <!-- End Google Analytics -->
-
-    <!--GTM-->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-KWG9PWG');</script>
-    <!--GTM-->
 
     <!-- OneSignal Notification -->
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>

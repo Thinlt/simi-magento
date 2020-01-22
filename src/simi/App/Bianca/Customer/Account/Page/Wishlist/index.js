@@ -45,9 +45,7 @@ const Wishlist = props => {
         return (
             <div
                 key={item.wishlist_item_id}
-                className={`${
-                    index % 4 === 0 ? "first" : ""
-                } 'siminia-wishlist-item'`}
+                className={`siminia-wishlist-item`}
             >
                 <Item
                     item={item}
@@ -70,17 +68,6 @@ const Wishlist = props => {
     if (data && data.wishlistitems) {
         const {wishlistitems, total} = data
         if (total && wishlistitems && wishlistitems.length) {
-            // rows = (
-            //     <Pagination 
-            //         data={wishlistitems} 
-            //         renderItem={renderItem}  
-            //         itemsPerPageOptions={[8, 16, 32]} 
-            //         limit={8}
-            //         itemCount={total}
-            //         changedPage={()=>smoothScrollToView($('#root'))}
-            //         changeLimit={()=>smoothScrollToView($('#root'))}
-            //     />
-            // )
             rows = wishlistitems.map((item, index) => renderItem(item, index))
         }
     } else {

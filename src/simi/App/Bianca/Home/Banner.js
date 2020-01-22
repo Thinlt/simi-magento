@@ -21,10 +21,11 @@ const Banner = props => {
         rtl: Identify.isRtl() === true,
         lazyLoad: true,
         dynamicHeight : true,
-        transitionTime : 500
+        transitionTime : 500,
+        selectedItem: 0
     }
 
-    const bannerData = [];
+    let bannerData = [];
     if (homebanners instanceof Array) {
         homebanners.forEach((item, index) => {
             if (item.banner_name || item.banner_name_tablet) {
@@ -39,9 +40,12 @@ const Banner = props => {
             }
         });
     }
-
+    if (Identify.isRtl()) {
+        bannerData = bannerData.reverse()
+        slideSettings.selectedItem = (bannerData.length - 1)
+    }
     return (
-        <div className={`banner-homepage ${Identify.isRtl() ? 'banner-home-rtl' : ''}`}>
+        <div className={`banner-homepage ${Identify.isRtl() ? 'banner-home-rtl' : ''}`} style={{direction: 'ltr'}}>
             <div className={`container home-container`}>
                 <Carousel {...slideSettings}>
                     {bannerData}
