@@ -33,8 +33,8 @@ import {sendRequest} from 'src/simi/Network/RestMagento';
 import { compose } from 'redux';
 import { connect } from 'src/drivers';
 import { getOS } from 'src/simi/App/Bianca/Helper';
-import CompareProduct from 'src/simi/App/Bianca/BaseComponents/CompareProducts'
-
+import CompareProduct from 'src/simi/App/Bianca/BaseComponents/CompareProducts';
+import { getProductDetail } from 'src/simi/Model/Product';
 
 const ConfigurableOptions = React.lazy(() => import('./Options/ConfigurableOptions'));
 const CustomOptions = React.lazy(() => import('./Options/CustomOptions'));
@@ -328,17 +328,29 @@ class ProductFullDetail extends Component {
         let compareProducts;
         if(storeageData){
             compareProducts = storeageData;
-            const result = compareProducts.find(item => item.id === product.id)
+            const result = compareProducts.find(item => item.entity_id == product.id)
             if(result){
                 showToastMessage(Identify.__('Product has already added'.toUpperCase()))
             } else {
-                compareProducts.push(product);
-                Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
-                showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
+                getProductDetail(this.compareCallBack, product.id)
             }
         } else {
+            getProductDetail(this.compareCallBack,product.id)
+        }
+    }
+
+    compareCallBack = (data) => {
+        const storeageData = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE,'compare_product');
+        let compareProducts;
+
+        if(storeageData){
+            compareProducts = storeageData;
+            compareProducts.push(data.product);
+            Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
+            showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
+        } else {
             compareProducts = [];
-            compareProducts.push(product);
+            compareProducts.push(data.product);
             Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
             showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
         }
