@@ -504,7 +504,7 @@ class AccountManagement extends \Magento\Framework\Model\AbstractModel
         return $customer;
     }
 
-     /**
+    /**
      * Update customer data
      *
      * @param \Magento\Customer\Api\Data\CustomerInterface $customer
@@ -622,16 +622,11 @@ class AccountManagement extends \Magento\Framework\Model\AbstractModel
         );
         if ($found->getTotalCount() > 1) {
             //Failed to generated unique RP token
-            throw new ExpiredException(
-                new Phrase('Reset password token expired.')
-            );
+            throw new \Simi\Simiconnector\Helper\SimiException(__('Reset password token expired !'), 4);
         }
         if ($found->getTotalCount() === 0) {
             //Customer with such token not found.
-            throw NoSuchEntityException::singleField(
-                'rp_token',
-                $rpToken
-            );
+            throw new \Simi\Simiconnector\Helper\SimiException(__('Invalid token reset password !'), 4);
         }
         //Unique customer found.
         return $found->getItems()[0];
@@ -668,32 +663,37 @@ class AccountManagement extends \Magento\Framework\Model\AbstractModel
             $customer = $this->customerRepository->get($email);
         }
 
-        // No need to validate customer and customer address while saving customer reset password token
-        $this->disableAddressValidation($customer);
-        $this->setIgnoreValidationFlag($customer);
+        if (!$customer->getId()) {
+            throw new \Simi\Simiconnector\Helper\SimiException(__('Not found account with your token !'), 4);
+            return false;
+        } else {
+            // No need to validate customer and customer address while saving customer reset password token
+            $this->disableAddressValidation($customer);
+            $this->setIgnoreValidationFlag($customer);
 
-        //Validate Token and new password strength
-        $this->validateResetPasswordToken($customer->getId(), $resetToken);
-        $this->credentialsValidator->checkPasswordDifferentFromEmail(
-            $email,
-            $newPassword
-        );
-        $this->checkPasswordStrength($newPassword);
-        //Update secure data
-        $customerSecure = $this->customerRegistry->retrieveSecureData($customer->getId());
-        $customerSecure->setRpToken(null);
-        $customerSecure->setRpTokenCreatedAt(null);
-        $customerSecure->setPasswordHash($this->createPasswordHash($newPassword));
-        $this->destroyCustomerSessions($customer->getId());
-        if ($this->sessionManager->isSessionExists()) {
-            //delete old session and move data to the new session
-            //use this instead of $this->sessionManager->regenerateId because last one doesn't delete old session
-            // phpcs:ignore Magento2.Functions.DiscouragedFunction
-            session_regenerate_id(true);
+            //Validate Token and new password strength
+            $this->validateResetPasswordToken($customer->getId(), $resetToken);
+            $this->credentialsValidator->checkPasswordDifferentFromEmail(
+                $email,
+                $newPassword
+            );
+            $this->checkPasswordStrength($newPassword);
+            //Update secure data
+            $customerSecure = $this->customerRegistry->retrieveSecureData($customer->getId());
+            $customerSecure->setRpToken(null);
+            $customerSecure->setRpTokenCreatedAt(null);
+            $customerSecure->setPasswordHash($this->createPasswordHash($newPassword));
+            $this->destroyCustomerSessions($customer->getId());
+            if ($this->sessionManager->isSessionExists()) {
+                //delete old session and move data to the new session
+                //use this instead of $this->sessionManager->regenerateId because last one doesn't delete old session
+                // phpcs:ignore Magento2.Functions.DiscouragedFunction
+                session_regenerate_id(true);
+            }
+            $this->customerRepository->save($customer);
+
+            return true;
         }
-        $this->customerRepository->save($customer);
-
-        return true;
     }
 
     /**
@@ -1115,12 +1115,7 @@ class AccountManagement extends \Magento\Framework\Model\AbstractModel
     public function validateResetPasswordToken($customerId, $resetPasswordLinkToken)
     {
         if ($customerId !== null && $customerId <= 0) {
-            throw new InputException(
-                __(
-                    'Invalid value of "%value" provided for the %fieldName field.',
-                    ['value' => $customerId, 'fieldName' => 'customerId']
-                )
-            );
+            throw new \Simi\Simiconnector\Helper\SimiException(__('Invalid Token !'), 4);
         }
 
         if ($customerId === null) {
@@ -1128,17 +1123,13 @@ class AccountManagement extends \Magento\Framework\Model\AbstractModel
             $customerId = $this->matchCustomerByRpToken($resetPasswordLinkToken)
                 ->getId();
         }
-        if (!is_string($resetPasswordLinkToken) || empty($resetPasswordLinkToken)) {
-            $params = ['fieldName' => 'resetPasswordLinkToken'];
-            throw new InputException(__('"%fieldName" is required. Enter and try again.', $params));
-        }
         $customerSecureData = $this->customerRegistry->retrieveSecureData($customerId);
         $rpToken = $customerSecureData->getRpToken();
         $rpTokenCreatedAt = $customerSecureData->getRpTokenCreatedAt();
         if (!Security::compareStrings($rpToken, $resetPasswordLinkToken)) {
-            throw new InputMismatchException(__('The password token is mismatched. Reset and try again.'));
+            throw new \Simi\Simiconnector\Helper\SimiException(__('The password token is mismatched. Reset and try again !'), 4);
         } elseif ($this->isResetPasswordLinkTokenExpired($rpToken, $rpTokenCreatedAt)) {
-            throw new ExpiredException(__('The password token is expired. Reset and try again.'));
+            throw new \Simi\Simiconnector\Helper\SimiException(__('The password token is expired. Reset and try again !'), 4);
         }
         return true;
     }

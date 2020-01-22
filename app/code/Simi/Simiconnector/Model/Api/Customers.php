@@ -178,7 +178,7 @@ class Customers extends Apiabstract
         }
 
         $this->simiObjectManager
-            ->get('Magento\Customer\Model\AccountManagement')
+            ->get('Simi\Simicustomize\Model\AccountManagement')
             ->resetPassword(
                 '',
                 $resetPasswordToken,
