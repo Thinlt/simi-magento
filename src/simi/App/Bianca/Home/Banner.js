@@ -22,7 +22,7 @@ const Banner = props => {
         lazyLoad: true,
         dynamicHeight : true,
         transitionTime : 500,
-        verticalSwipe: 'natural'
+        selectedItem: 0
     }
 
     const bannerData = [];
@@ -43,6 +43,7 @@ const Banner = props => {
 
     if (Identify.isRtl()) {
         bannerData.reverse();
+        slideSettings.selectedItem = (bannerData.length - 1)
     }
 
     return (
