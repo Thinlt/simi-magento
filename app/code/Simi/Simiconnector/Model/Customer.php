@@ -35,7 +35,8 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
-    public function reindexCustomerGrid() {
+    public function reindexCustomerGrid()
+    {
         $indexerFactory = $this->simiObjectManager->get('Magento\Indexer\Model\IndexerFactory');
         $indexerIds = array(
             'customer_grid',
@@ -93,15 +94,15 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     public function login($data)
     {
         return $this->simiObjectManager->get('Simi\Simiconnector\Helper\Customer')
-                ->loginByEmailAndPass($data['params']['email'], $data['params']['password']);
+            ->loginByEmailAndPass($data['params']['email'], $data['params']['password']);
     }
 
     public function logout()
     {
         $lastCustomerId = $this->_getSession()->getId();
         $this->_getSession()->logout()->setBeforeAuthUrl($this->simiObjectManager
-                ->get('Magento\Framework\UrlInterface')->getUrl())
-                ->setLastCustomerId($lastCustomerId);
+            ->get('Magento\Framework\UrlInterface')->getUrl())
+            ->setLastCustomerId($lastCustomerId);
         if ($this->getCookieManager()->getCookie('mage-cache-sessid')) {
             $metadata = $this->getCookieMetadataFactory()->createCookieMetadata();
             $metadata->setPath('/');
@@ -122,7 +123,6 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         try {
             $this->reindexCustomerGrid();
         } catch (\Exception $e) {
-
         }
         $confirmationStatus = $this->getAccountManagement()->getConfirmationStatus($customer->getId());
         if ($confirmationStatus === \Magento\Customer\Api\AccountManagementInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
@@ -166,7 +166,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         $this->setCustomerData($customer, $data);
         $customerForm   = $this->simiObjectManager->get('Magento\Customer\Model\Form');
         $customerForm->setFormCode('customer_account_edit')
-                ->setEntity($customer);
+            ->setEntity($customer);
         $customerErrors = $customerForm->validateData($customer->getData());
         if ($customerErrors !== true) {
             if (is_array($customerErrors)) {
@@ -182,6 +182,19 @@ class Customer extends \Magento\Framework\Model\AbstractModel
             throw new \Simi\Simiconnector\Helper\SimiException(__('Invalid profile information'), 4);
         }
         $customer->setConfirmation(null);
+        if ($data->telephone) {
+            $CollectionCustomer = $this->simiObjectManager->create('Magento\Customer\Model\ResourceModel\Customer\CollectionFactory');
+            $resultCollection = $CollectionCustomer->create()
+                ->addAttributeToFilter('mobilenumber', $data->telephone)
+                ->load();
+            if (count($resultCollection) > 0) {
+                $message = __('Aready exist phone number !');
+                throw new \Simi\Simiconnector\Helper\SimiException(__($message), 4);
+            } else {
+                $customer->setData('mobilenumber', $data->telephone);
+            }
+        }
+
         $customer->save();
         $this->_getSession()->setCustomer($customer);
         return $customer;
@@ -223,14 +236,14 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     {
         $data = (object) $data['params'];
         if (!isset($data->password) || !$this->simiObjectManager
-                ->get('Simi\Simiconnector\Helper\Customer')->validateSimiPass($data->email, $data->password,'social_login')) {
+            ->get('Simi\Simiconnector\Helper\Customer')->validateSimiPass($data->email, $data->password, 'social_login')) {
             throw new \Simi\Simiconnector\Helper\SimiException(__('Password is not Valid'), 4);
         }
         if (!$data->email) {
             throw new \Simi\Simiconnector\Helper\SimiException(__('Cannot Get Your Email'), 4);
         }
         $customer = $this->simiObjectManager
-                ->get('Simi\Simiconnector\Helper\Customer')->getCustomerByEmail($data->email);
+            ->get('Simi\Simiconnector\Helper\Customer')->getCustomerByEmail($data->email);
         if (!$customer->getId()) {
             if (!$data->firstname) {
                 $data->firstname = __('Firstname');
@@ -266,7 +279,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         if (isset($data->password) && $data->password) {
             $password = $data->password;
         }
-        $customer = $this->getAccountManagement()->createAccount($customer,$password,'');
+        $customer = $this->getAccountManagement()->createAccount($customer, $password, '');
         $subscriberFactory = $this->simiObjectManager->get('Magento\Newsletter\Model\SubscriberFactory');
         if (isset($data->news_letter) && ($data->news_letter == '1')) {
             $subscriberFactory->create()->subscribeCustomerById($customer->getId());
