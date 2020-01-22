@@ -264,6 +264,7 @@ $color1: #101820;
                     // max-width: 200px;
                     flex: 1 1 20%;
                     text-align: center;
+                    span{display: block;}
                 }
                 .cate-btn{
                     flex: 1 1 20%;
@@ -709,6 +710,22 @@ $color1: #101820;
     .mobile{
         h3.title{
             margin-top: 30px;
+        }
+        &.iOS{
+            .popular-categories-wrap{
+                .home-container{
+                    .home-cate-item{
+                        .cate-title{
+                            span{
+                                display: block;
+                                line-height: 30px;
+                                padding-top: 9px;
+                                height: auto;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

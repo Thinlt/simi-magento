@@ -6,6 +6,9 @@ const ScrollerItem = props => {
 
     const handleClick = (e) => {
         if (url) {
+            if(props.onClick){
+                props.onClick(e, item, index);
+            }
             history.push(url);
         }
         e.preventDefault();

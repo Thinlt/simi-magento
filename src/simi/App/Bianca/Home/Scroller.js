@@ -48,6 +48,7 @@ const Scroller = props => {
         rightChevron: showChevron === false ? null : slideSettings.rightChevron,
     }
 
+    const onClickItem = props.onClickItem || null;
     let items = [];
     if(data){
         items = data.filter((item) => {
@@ -55,7 +56,7 @@ const Scroller = props => {
         }).map((item, index) => {
             return (
                 <div key={index} style={{cursor: 'pointer'}}>
-                    <ScrollerItem item={item} history={history} isPhone={isPhone} renderItem={renderItem} index={index}/>
+                    <ScrollerItem item={item} history={history} isPhone={isPhone} renderItem={renderItem} index={index} onClick={onClickItem}/>
                 </div>
             );
         });

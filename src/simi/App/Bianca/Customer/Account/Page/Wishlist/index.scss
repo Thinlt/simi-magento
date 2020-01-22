@@ -55,19 +55,12 @@
     margin-top: 8px;
     margin-bottom: 15px;
 }
-.product-item-action .view-link:hover{
-    border-width: 2px;
-}
 .account-favourites .product-item-action .grid-add-cart-btn{
     margin-bottom: 0;
 }
 @media (min-width: 1024px) {
     .siminia-product-grid-item .product-item-action {
         margin-top: 15px;
-        opacity: 0;
-    }
-    .siminia-product-grid-item:hover .product-item-action {
-        opacity: 1;
     }
 }
 
