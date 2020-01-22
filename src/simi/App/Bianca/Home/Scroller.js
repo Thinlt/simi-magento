@@ -14,9 +14,9 @@ import ChevronRight from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronRight';
  * props.lastItems - to add more items to slider
  */
 const Scroller = props => {
-    const {history, isPhone, renderItem, lastItems} = props;
+    const {history, isPhone, renderItem, lastItems, initItemIndex} = props;
     const data = props.data;
-    const [activeItemIndex, setActiveItemIndex] = useState(0);
+    const [activeItemIndex, setActiveItemIndex] = useState(initItemIndex || 0);
 
     const slideSettings = {
         infiniteLoop: false,
@@ -24,7 +24,6 @@ const Scroller = props => {
         firstAndLastGutter: false,
         activePosition: 'center',
         disableSwipe: false,
-        alwaysShowChevrons: false,
         numberOfCards: 6,
         slidesToScroll: 1,
         outsideChevron: true,
@@ -69,13 +68,22 @@ const Scroller = props => {
     }
 
     if (lastItems && lastItems instanceof Array) {
-        lastItems.forEach(item => {
-            items.push(item);
-        });
+        if (Identify.isRtl()) {
+            items.unshift(lastItems);
+        } else {
+            lastItems.forEach(item => {
+                items.push(item);
+            });
+        }
+    }
+
+    let rtlStyle = {};
+    if (Identify.isRtl()) {
+        rtlStyle = {direction: 'ltr'}
     }
 
     return (
-        <div className={`scroller ${Identify.isRtl() ? 'scroller-rtl' : ''}`}>
+        <div className={`scroller ${Identify.isRtl() ? 'scroller-rtl' : ''}`} style={rtlStyle}>
             <div className={`container scroller-container`}>
                 <ItemsCarousel
                     {..._settings}>

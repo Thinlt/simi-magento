@@ -17,10 +17,16 @@ const Brands = props => {
         item.url = `/brands.html?filter=%7B"brand"%3A"${item.option_id}"%7D`;
     });
 
+    let startItemIndex = 0;
+    if (Identify.isRtl()) {
+        data.reverse();
+        startItemIndex = (data.length - 1)
+    }
+
     return (
         <div className="brand-slider">
             <h3 className="title">{Identify.__('Shop By Brands')}</h3>
-            <Scroller data={data} slideSettings={slideSettings} history={history} isPhone={isPhone}/>
+            <Scroller data={data} initItemIndex={startItemIndex} slideSettings={slideSettings} history={history} isPhone={isPhone}/>
         </div>
     );
 }

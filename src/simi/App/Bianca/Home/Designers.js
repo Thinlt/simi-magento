@@ -14,7 +14,7 @@ const Designers = props => {
     const {vendor_list: data} = config || {};
 
     const slideSettings = {
-        chevronWidth: isPhone ? 16 : 72,
+        chevronWidth: isPhone ? 16 : 54,
         showChevron: true,
         numberOfCards: isPhone ? 3 : 6,
         slidesToScroll: 3,
@@ -50,10 +50,16 @@ const Designers = props => {
         </div>
     )];
 
+    let startItemIndex = 0;
+    if (Identify.isRtl()) {
+        newData.reverse();
+        startItemIndex = (newData.length - 1)
+    }
+
     return (
         <div className={`brand-slider ${isPhone ? 'phone-view':''}`}>
             { data && <h3 className="title">{Identify.__('Shop By Designers')}</h3>}
-            <Scroller data={newData} lastItems={lastItems} history={history} slideSettings={slideSettings} isPhone={isPhone} 
+            <Scroller data={newData} initItemIndex={startItemIndex} lastItems={lastItems} history={history} slideSettings={slideSettings} isPhone={isPhone} 
                 onClickItem={onClickItem}/>
         </div>
     );
