@@ -7,6 +7,7 @@ import { Whitebtn } from 'src/simi/BaseComponents/Button';
 import { editCustomer } from 'src/simi/Model/Customer';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import validator from 'validator'
+import { smoothScrollToView } from 'src/simi/Helper/Behavior';
 const $ = window.$;
 
 const ProfileForm = props => {
@@ -18,6 +19,7 @@ const ProfileForm = props => {
     }
     // const [data, setData] = useState(data);
     const [changeForm, handleChangeForm] = useState(false);
+    const [isChangePass, setChangePass] = useState(false);
 
     useEffect(() => {
         if (
@@ -127,6 +129,7 @@ const ProfileForm = props => {
             });
 
         if (!formCheck) {
+            smoothScrollToView($("#id-message"));
             props.toggleMessages([{ type: 'error', message: msg, auto_dismiss: true }]);
         }
 
@@ -140,10 +143,20 @@ const ProfileForm = props => {
             })
             props.toggleMessages(messages)
         } else if (data.message && data.hasOwnProperty('customer')) {
+            if (isChangePass) {
+                // Remove saved user email and password at localStorage
+                let savedUser = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_email');
+                let savedPassword = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_password');
+                if (savedUser && savedPassword) {
+                    localStorage.removeItem('user_email');
+                    localStorage.removeItem('user_password');
+                }
+            }
             props.getUserDetails();
             props.toggleMessages([{ type: 'success', message: data.message, auto_dismiss: true }])
         }
         hideFogLoading()
+        smoothScrollToView($("#id-message"));
     }
 
     const handleSaveProfile = (e) => {
@@ -156,6 +169,7 @@ const ProfileForm = props => {
             }
             if (changeForm === 'password') {
                 params['change_password'] = 1;
+                setChangePass(true)
             }
             if (changeForm === 'email') {
                 params['change_email'] = 1;
@@ -163,6 +177,10 @@ const ProfileForm = props => {
             for (let index in formValue) {
                 let field = formValue[index];
                 params[field.name] = field.value;
+            }
+            if (formValue[2].value !== telephone) {
+            } else {
+                delete params.telephone
             }
             showFogLoading()
             editCustomer(processData, params);
