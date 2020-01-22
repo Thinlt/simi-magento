@@ -118,7 +118,7 @@ class Reviews extends \Simi\Simiconnector\Model\Api\Apiabstract
         $info    = [];
         $total   = $collection->getSize();
         if ($offset > $total) {
-            throw new \Simi\Simiconnector\Helper\SimiException(__('No data.'), 4);
+            throw new \Simi\Simiconnector\Helper\SimiException(__('Review is empty.'), 4);
         }
         
         $fields = [];
