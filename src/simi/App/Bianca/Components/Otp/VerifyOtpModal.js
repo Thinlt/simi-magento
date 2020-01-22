@@ -57,6 +57,7 @@ class VerifyOtpModal extends React.Component {
     }
 
     componentDidMount() {
+        $('#form-verify-otp').reset();
         $('#form-verify-otp .otp1').focus();
         if (Identify.isRtl()) {
             $('#verify-otp-modal').addClass('rtl-modal')
@@ -120,7 +121,7 @@ class VerifyOtpModal extends React.Component {
                 modalId="verify-otp-modal"
                 open={openVerifyModal}
                 onClose={closeVerifyModal}
-                classNames={{overlay: Identify.isRtl()?"rtl-wrap-modal":""}}
+                classNames={{ overlay: Identify.isRtl() ? "rtl-wrap-modal" : "" }}
             >
                 <div className="title">
                     {Identify.__('verify your mobile number'.toUpperCase())}
