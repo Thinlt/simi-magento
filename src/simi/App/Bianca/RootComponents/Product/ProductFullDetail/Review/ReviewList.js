@@ -92,9 +92,9 @@ const ReviewList = props => {
                 const error = errors[i];
                 text += error.message + ' ';
             }
-            if (text !== '') {
-                showToastMessage(text);
-            }
+            // if (text !== '') {
+            //     showToastMessage(text);
+            // }
             dispatch({
                 data: state.data || data,
                 loadingMore: false
