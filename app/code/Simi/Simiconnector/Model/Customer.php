@@ -182,7 +182,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
             throw new \Simi\Simiconnector\Helper\SimiException(__('Invalid profile information'), 4);
         }
         $customer->setConfirmation(null);
-        if ($data->telephone) {
+        if (isset($data->telephone)) {
             $CollectionCustomer = $this->simiObjectManager->create('Magento\Customer\Model\ResourceModel\Customer\CollectionFactory');
             $resultCollection = $CollectionCustomer->create()
                 ->addAttributeToFilter('mobilenumber', $data->telephone)
