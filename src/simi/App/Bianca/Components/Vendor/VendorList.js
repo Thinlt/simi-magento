@@ -44,6 +44,7 @@ const VendorList = (props) => {
     const getVendorGroups = () => {
         let groups = {};
         if (vendor_list && vendor_list.length) {
+            vendor_list.sort((vendorA, vendorB)=> getStoreName(vendorA).localeCompare(getStoreName(vendorB)));//sort by alphabet
             vendor_list.map((vendor) => {
                 const name = getStoreName(vendor).toUpperCase();
                 if(!(groups[name[0]] instanceof Array)) groups[name[0]] = [];
