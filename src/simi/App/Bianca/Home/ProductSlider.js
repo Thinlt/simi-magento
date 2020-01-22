@@ -112,9 +112,15 @@ const ProductSlider = props => {
 
     const renderProductGrid = (items) => {
         const itemsAfterSort = sortItemDesc(items);
-        const products = itemsAfterSort.map((item, index) => {
+        let products = itemsAfterSort.map((item, index) => {
             return renderProductItem(item, (index % 4 === 3))
         });
+
+        let _activeItemIndex = activeItemIndex;
+        if (Identify.isRtl() && itemsAfterSort) {
+            if (activeItemIndex === 0) _activeItemIndex = (itemsAfterSort.length - 1);
+            products.reverse();
+        }
         
         return (
             <ItemsCarousel
@@ -128,7 +134,7 @@ const ProductSlider = props => {
                 slidesToScroll={1}
                 outsideChevron={true}
                 showSlither={false}
-                activeItemIndex={activeItemIndex}
+                activeItemIndex={_activeItemIndex}
                 requestToChangeActive={setActiveItemIndex}
                 chevronWidth={chevWidth}
                 leftChevron={<ChevronLeft className="chevron-left" style={{width: `${iconWidth}px`, height: `${iconWidth}px`}} />}
@@ -144,7 +150,7 @@ const ProductSlider = props => {
         const productItem = applySimiProductListItemExtraField(data.simiproducts);
         return (
             <div className="product-list">
-                <div className="product-horizotal">
+                <div className="product-horizotal" style={Identify.isRtl()?{direction:'ltr'}:{}}>
                     {renderProductGrid(productItem.items)}
                 </div>
             </div>

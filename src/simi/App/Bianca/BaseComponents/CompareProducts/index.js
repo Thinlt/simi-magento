@@ -8,6 +8,7 @@ import { getProductDetail } from 'src/simi/Model/Product';
 import { Colorbtn } from 'src/simi/BaseComponents/Button';
 import {showToastMessage} from 'src/simi/Helper/Message';
 import { productUrlSuffix } from 'src/simi/Helper/Url';
+import Loading from 'src/simi/BaseComponents/Loading';
 
 require('./styles.scss');
 
@@ -19,41 +20,12 @@ const CompareProduct = props => {
         'compare_product'
     );
 
-    const apiCallBack = (data) => {
-        const itemToUpdate = listItem.find((item)=>{
-            if(item.id === parseInt(data.product.entity_id)){
-                item["configurable_options"] = data.product.app_options.configurable_options.attributes;
-                return item;
-            }
-        })
-
-        const indexObj = listItem.findIndex((item)=>{
-           return item.id === parseInt(data.product.entity_id)
-        })
-        if(indexObj !== -1){
-            listItem[indexObj] = itemToUpdate
-        }
-        
-        Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product',listItem)
-        listItem = Identify.getDataFromStoreage(
-            Identify.LOCAL_STOREAGE,
-            'compare_product'
-        );
-    }
-
-    if(openModal){
-        listItem.map(item => {
-            if(item.type_id === 'configurable'){
-                getProductDetail(apiCallBack, item.id);
-            }
-        })
-    }
     useEffect(()=>{
         setHasRemoved(false);
     },[hasRemoved])
 
     const removeItem = (itemId) => {
-        const itemToRemove = listItem.findIndex(item=>itemId === item.id);
+        const itemToRemove = listItem.findIndex(item=>itemId === item.entity_id);
         setHasRemoved(true)
 
         if(itemToRemove !== -1){
@@ -130,21 +102,32 @@ const CompareProduct = props => {
                         )
                 }
             }
+
             return(
-                <div key={item.id} className="td compare-img">
-                        <div className="compare-remove-btn" onClick={() => removeItem(item.id)}>
+                <div key={item.entity_id} className="td compare-img">
+                        <div className="compare-remove-btn" onClick={() => removeItem(item.entity_id)}>
                             <Deleteicon
                                 style={{ width: '16px', height: '16px', marginRight: '8px', color:'#727272' }} />
                             {Identify.__('Remove')}
                         </div>
-                        <img src={item.small_image} alt={item.name}/>
-                        
-                            
+                        <img src={item.images[0].url} alt={item.name}/>
                         <div className="compare-item-name">{item.name}</div>
                         <div className="compare-item-price">
-                            <span>{item.price.regularPrice.amount.currency}</span>
-                            {item.price.regularPrice.amount.value}
-                            <span className="vendor-name">{item.simiExtraField.attribute_values.vendor_name}</span>
+                            <span>
+                                { item.app_options && item.app_options.length > 0
+                                ?
+                                item.app_options.configurable_options.currencyFormat
+                                : 
+                                item.price
+                                }
+                            </span>
+                            {item.app_options && item.app_options.length > 0
+                            ?
+                                item.app_options.configurable_options.prices.basePrice.amount
+                            :   
+                                null
+                            }
+                            {/* <span className="vendor-name">{item.simiExtraField.attribute_values.vendor_name}</span> */}
                         </div>
                         {addToCartBtn}
                         {/* <div className="compare-add-to-cart">Add to cart</div> */}
@@ -157,8 +140,8 @@ const CompareProduct = props => {
     const renderDescription = () => {
         const descriptions = listItem.map(item => {
             return(
-                <div key={item.id} className="td">
-                    {ReactHTMLParse(item.short_description.html)}
+                <div key={item.entity_id} className="td">
+                    {ReactHTMLParse(item.meta_description.html)}
                 </div>
         )})
         return descriptions;
@@ -167,7 +150,7 @@ const CompareProduct = props => {
     const renderSKU = () => {
         const skuItem = listItem.map(item => {
             return (
-                <div key={item.id} className="td">
+                <div key={item.entity_id} className="td">
                     {item.sku}
                 </div>
             )
@@ -177,14 +160,14 @@ const CompareProduct = props => {
 
     const renderQtyInStock = () => {
         const qtyInStock = listItem.map(item => {
-            if(item.simiExtraField){
+            if(item.quantity_and_stock_status){
                 return (
-                    <div key={item.id} className="td">
-                        {item.simiExtraField.attribute_values.quantity_and_stock_status.qty} in stock
+                    <div key={item.entity_id} className="td">
+                        {item.quantity_and_stock_status.qty} in stock
                     </div>
                 )
             } else {
-                <div key={item.id} className="td"></div>
+                <div key={item.entity_id} className="td"></div>
             }
         })
 
@@ -195,12 +178,8 @@ const CompareProduct = props => {
         const weight = listItem.map(item => {
             let weightItem;
                 
-            if(item.simiExtraField){
-                if(item.simiExtraField.attribute_values){
-                    weightItem = item.simiExtraField.attribute_values.weight;
-                } else {
-                    weightItem = null;
-                }
+            if(item.weight){
+                weightItem = item.weight;
             } else {
                 weightItem = null;
             }
@@ -219,9 +198,8 @@ const CompareProduct = props => {
         const colors = listItem.map(item => {
             let itemColors;
 
-            if(item.configurable_options){
-                const colorObj = item.configurable_options['93']
-
+            if(item.app_options && item.app_options.configurable_options){
+                const colorObj = item.app_options.configurable_options.attributes[93]
                 if(colorObj){
                     itemColors = colorObj.options.map(obj=>{
                         return obj.label;
@@ -235,7 +213,7 @@ const CompareProduct = props => {
                 )
             } else {
                 return (
-                    <div key={item.id} className="td"></div>
+                    <div key={item.entity_id} className="td"></div>
                 )
             }
         })
@@ -247,8 +225,8 @@ const CompareProduct = props => {
         const size = listItem.map(item => {
             let itemSize;
 
-            if(item.configurable_options){
-                const sizeObj = item.configurable_options['141']
+            if(item.app_options && item.app_options.configurable_options){
+                const sizeObj = item.app_options.configurable_options.attributes[141]
 
                 if(sizeObj){
                     itemSize = sizeObj.options.map(obj=>{
@@ -257,13 +235,13 @@ const CompareProduct = props => {
                 }
 
                 return (
-                    <div key={item.id} className="td">
+                    <div key={item.entity_id} className="td">
                         {itemSize}
                     </div>
                 )
             } else {
                 return (
-                    <div key={item.id} className="td"></div>
+                    <div key={item.entity_id} className="td"></div>
                 )
             }
         })
@@ -274,7 +252,7 @@ const CompareProduct = props => {
     const renderList = () => {
         return (
             <React.Fragment>
-                {listItem ? (
+                {listItem && listItem.length > 0 ? (
                     <div id="compare-table">
                         <div className="tr">
                             <div className="td td-header">
@@ -319,6 +297,7 @@ const CompareProduct = props => {
             </React.Fragment>
         );
     };
+
     return (
         <Modal
             modalId="modal-compare"
@@ -328,7 +307,9 @@ const CompareProduct = props => {
             classNames={{overlay: Identify.isRtl()?"rtl-root":""}}
         >
             <div className="title">{Identify.__("COMPARE PRODUCTS")}</div>
-            
+            {/* {listItem
+            :<Loading/>
+        } */}
             <div className="modal-compare-inner">{renderList()}</div>
         </Modal>
     );

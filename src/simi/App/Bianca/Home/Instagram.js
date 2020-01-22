@@ -99,7 +99,7 @@ const Instagram = (props) => {
         margin: isPhone ? 15 : 16,
         nav: true,
         autoplay: false,
-        navText: [left, right],
+        navText: Identify.isRtl() ? [right, left] : [left, right],
         responsive:{
             0:{
                 items:1
@@ -116,7 +116,9 @@ const Instagram = (props) => {
             1600:{
                 items:7
             }
-        }
+        },
+        startPosition: 0,
+        rtl: Identify.isRtl()
     };
 
     return (

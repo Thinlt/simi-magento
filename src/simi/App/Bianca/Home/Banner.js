@@ -25,7 +25,7 @@ const Banner = props => {
         selectedItem: 0
     }
 
-    let bannerData = [];
+    const bannerData = [];
     if (homebanners instanceof Array) {
         homebanners.forEach((item, index) => {
             if (item.banner_name || item.banner_name_tablet) {
@@ -40,10 +40,12 @@ const Banner = props => {
             }
         });
     }
+
     if (Identify.isRtl()) {
-        bannerData = bannerData.reverse()
+        bannerData.reverse();
         slideSettings.selectedItem = (bannerData.length - 1)
     }
+
     return (
         <div className={`banner-homepage ${Identify.isRtl() ? 'banner-home-rtl' : ''}`} style={{direction: 'ltr'}}>
             <div className={`container home-container`}>
