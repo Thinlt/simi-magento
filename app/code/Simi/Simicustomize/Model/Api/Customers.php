@@ -39,6 +39,9 @@ class Customers extends \Simi\Simiconnector\Model\Api\Customers
                         ->get('Magento\Customer\Model\Session')
                         ->setRpToken($resetPasswordToken);
                     $this->createPassword($newPW, $resetPasswordToken);
+                    $this->simiObjectManager
+                        ->get('Magento\Customer\Model\Session')
+                        ->setRpToken(null);
                     $this->builderQuery    = $this->simiObjectManager
                         ->get('Magento\Customer\Model\Session')->getCustomer();
                     $this->RETURN_MESSAGE = $message = __('You updated your password.');
