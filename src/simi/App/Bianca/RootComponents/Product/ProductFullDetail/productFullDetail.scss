@@ -746,16 +746,11 @@ $colorRed: #b91c1c;
                                     }
                                     .special{
                                         position: relative;
-                                        &:before{
-                                            position: absolute;
-                                            top: calc(50% - 2px);
-                                            height: 1px;
-                                            width: 100%;
-                                            background-color: $color2;
-                                            content: '';
-                                        }
                                         .price{
                                             text-decoration: initial!important;
+                                            &:after{
+                                                top: calc(50% - 1px);
+                                            }
                                         }
                                     }
                                 }
@@ -938,57 +933,6 @@ $colorRed: #b91c1c;
                                     font-size: 14px;
                                 }
                             }
-                            .vendor-and-price{
-                                // margin-top: 0px;
-                                // display: inline-flex;
-                                // justify-content: space-between;
-                                // width: 100%;
-                                .prices-layout{
-                                    // font-size: 10px;
-                                    // line-height: 10px;
-                                    .product-prices{
-                                        // display: inline-flex;
-                                        // flex-wrap: wrap;
-                                        // font-size: 10px;
-                                        // line-height: 10px;
-                                        .regular{
-                                            // margin-right: 5px;
-                                            .price{
-                                                // font-size: 10px;
-                                                // line-height: 10px;
-                                            }
-                                        }
-                                        .special{
-                                            // line-height: 10px;
-                                            // margin-top: 0px;
-                                            // margin-right: 5px;
-                                            .price{
-                                                // font-size: 10px;
-                                                // line-height: 10px;
-                                            }
-                                        }
-                                    }
-                                }
-                                .item-deposit{
-                                    // margin-top: 0px;
-                                    // font-size: 8px;
-                                    // line-height: 8px;
-                                }
-                                .vendor{
-                                    // margin-top: 0px;
-                                    // font-size: 10px;
-                                    // line-height: 10px;
-                                }
-                            }
-                        }
-                        .cart-wishlish-compare{
-                            // margin-top: 0px;
-                        }
-                        .add-to-cart-btn{
-                            // margin-top: 10px;
-                            // font-size: 8px;
-                            // line-height: 8px;
-                            // height: 22px;
                         }
                     }
                 }
@@ -1387,6 +1331,48 @@ $colorRed: #b91c1c;
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+            }
+        }
+        &.mobile{
+            .detail-top .top-col{
+                .image-carousel .product-carousel .carousel .thumbs-wrapper{
+                    margin-left: 0px;
+                    width: auto;
+                    .thumbs{
+                        margin-left: 0px;
+                        direction: ltr;
+                        // direction: rtl;
+                        display: flex;
+                        flex-wrap: nowrap;
+                        flex-direction: row;
+                        .thumb{
+                            width: 56px;
+                            flex: 0 0 56px;
+                            margin-bottom: 0px;
+                            >img{
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+                .main-actions{
+                    .product-price .prices-container .prices-layout .product-prices .regular{
+                        margin-right: 0px;
+                    }
+                    .top-review .review-rate .review-count{
+                        margin-left: auto;
+                        margin-right: 16px;
+                    }
+                    .cart-actions .cart-ctn{
+                        &:first-child{
+                            margin-left: 100%;
+                            margin-right: 0%;
+                        }
+                        .btn{
+                            margin-left: 0px;
                         }
                     }
                 }
