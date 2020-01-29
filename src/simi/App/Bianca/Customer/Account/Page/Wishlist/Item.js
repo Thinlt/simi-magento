@@ -4,12 +4,11 @@ import {Colorbtn} from 'src/simi/BaseComponents/Button';
 // import {configColor} from 'src/simi/Config'
 import ReactHTMLParse from 'react-html-parser';
 import { Link } from 'src/drivers';
-import Trash from 'src/simi/BaseComponents/Icon/Trash';
+import Deleteicon from 'src/simi/App/Bianca/BaseComponents/Icon/Trash';
 import { removeWlItem, addWlItemToCart } from 'src/simi/Model/Wishlist';
 import {hideFogLoading, showFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading';
 import { resourceUrl } from 'src/simi/Helper/Url';
 import { formatPrice } from 'src/simi/Helper/Pricing';
-import Image from 'src/simi/BaseComponents/Image';
 import {productUrlSuffix} from 'src/simi/Helper/Url';
 
 class Item extends React.Component {
@@ -71,11 +70,17 @@ class Item extends React.Component {
         removeWlItem(id, this.processData.bind(this))
     }
 
+    handleLink(url) {
+        if (url && this.props.history) {
+            this.props.history.push(url)
+        }
+    }
+
     render() {
         const storeConfig = Identify.getStoreConfig()
         if (!this.currencyCode)
             this.currencyCode = storeConfig?storeConfig.simiStoreConfig?storeConfig.simiStoreConfig.currency:storeConfig.storeConfig.default_display_currency_code:null
-        const {item, classes} = this.props;
+        const {item} = this.props;
         this.location = {
             pathname: item.product_url_key + productUrlSuffix(),
             state: {
@@ -88,18 +93,17 @@ class Item extends React.Component {
         const addToCartString = Identify.__('Add To Cart')
         
         const image = item.product_image && (
-            <div className="siminia-product-image">
-                <Link to={this.location}>
-                    <Image src={resourceUrl(item.product_image, {
-                        type: 'image-product',
-                        width: 100
-                    })} alt={item.product_name}/>
-                </Link>
+            <div className="wishlist-siminia-product-image">
+                    <div className="product-image-ctn" role="presentation"
+                        onClick={()=>this.handleLink(item.product_url_key + productUrlSuffix())}
+                        style={{backgroundImage: `url('${resourceUrl(item.product_image, {type: 'image-product', width: 100})}')`}}>
+                    </div>
+                
                 <span 
                     role="presentation"
                     className="trash-item"
                     onClick={() => this.onTrashItem(item.wishlist_item_id)}>
-                    <Trash style={{fill: '#101820', width: 30, height: 30}} />
+                    <Deleteicon style={{ width: '16px', height: '16px', marginRight: '8px', color:'#727272' }} />
                 </span>
             </div>
         );
@@ -113,16 +117,12 @@ class Item extends React.Component {
                         onClick={() => this.addToCart(item.wishlist_item_id, this.location)}
                         text={addToCartString}/>
                 }
-                {/* <Link 
-                    className="view-link"
-                    to={this.location}
-                >{Identify.__('View')}</Link> */}
             </div>
         
         return (
-            <div id={`product-${item.product_id}`} className={`product-item siminia-product-grid-item ${item.type_id !== 'simple'?'two-btn':'one-btn'}`}>
+            <div className='wishlist-product-grid-item'>
                 {image}
-                <div className="siminia-product-des">
+                <div className="wishlistitem-product-des">
                     <Link to={this.location} className="product-name">{ReactHTMLParse(item.product_name)}</Link>
                     {parseFloat(item.product_price) > 0 &&
                         <div className="prices-layout"

@@ -2,6 +2,10 @@
 {{> templates/js-unavailable}}
 {{#urlResolver}}
 <body data-model-type="{{type}}" data-model-id="{{id}}" data-model-relative_url="{{relative_url}}"  data-model-canonical_url="{{canonical_url}}">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KTRTPPQ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <div style="display: none">
     <div class="addthis_inline_share_toolbox" id="social-share"></div>
 </div>
