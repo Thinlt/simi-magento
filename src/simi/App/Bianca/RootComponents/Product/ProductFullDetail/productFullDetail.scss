@@ -93,7 +93,7 @@ $colorRed: #b91c1c;
                                 overflow-y: auto;
                                 /* width */
                                 &::-webkit-scrollbar {
-                                    width: 3px;
+                                    width: 0px;
                                 }
                                 &::-webkit-scrollbar * {
                                     background: transparent;
@@ -109,10 +109,10 @@ $colorRed: #b91c1c;
                                 &::-webkit-scrollbar-thumb {
                                     background: #10182080;
                                     border-radius: 5px;
-                                }
-                                /* Handle on hover */
-                                &::-webkit-scrollbar-thumb:hover {
-                                    background: #101820db;
+                                    /* Handle on hover */
+                                    &:hover {
+                                        background: #101820db;
+                                    }
                                 }
                                 .thumb{
                                     margin: 0;
@@ -219,9 +219,18 @@ $colorRed: #b91c1c;
                                         .price{
                                             color: $color2;
                                             font-family: 'Gotham Book';
-                                            text-decoration: line-through;
                                             margin-left: 32px;
                                             padding-top: 0;
+                                            position: relative;
+                                            &:after{
+                                                content: '';
+                                                width: 100%;
+                                                height: 2px;
+                                                background-color: $color2;
+                                                position: absolute;
+                                                top: calc(50% - 2px);
+                                                left: 0;
+                                            }
                                             @media (max-width: 546px){
                                                 margin-left: 0px;
                                             }
@@ -1286,6 +1295,100 @@ $colorRed: #b91c1c;
                     outline: none;
                     text-decoration: none;
                     color: inherit;
+                }
+            }
+        }
+    }
+}
+.rtl-root{
+    .product-detail-root {
+        .detail-top{
+            .top-col{
+                .title{
+                    margin-left: 0px;
+                    margin-right: 16px;
+                }
+                .main-actions{
+                    margin-left: 0px;
+                    margin-right: 16px;
+                    .top-review .review-rate .review-count{
+                        margin-left: 64px;
+                        margin-right: 16px;
+                    }
+                    .product-price .prices-container .prices-layout .price-simple .product-prices .special .price{
+                        margin-left: 0px;
+                        margin-right: 32px;
+                    }
+                    .cart-actions{
+                        .cart-ctn .btn{
+                            margin-left: 16px;
+                            margin-right: 0px;
+                        }
+                        .compare-actions{
+                            margin-right: 16px;
+                        }
+                    }
+                    .social-share [class~="at-share-btn-elements"]>a{
+                        margin-left: 16px;
+                        margin-right: 0px;
+                    }
+                }
+                .image-carousel {
+                    .product-carousel{
+                        .carousel.carousel-slider{
+                            direction: ltr;
+                        }
+                        .carousel{
+                            .thumbs-wrapper{
+                                margin-left: 16px;
+                                margin-right: 0px;
+                                width: 82px;
+                                overflow-y: auto;
+                                max-height: 593px;
+                                /* width */
+                                &::-webkit-scrollbar {
+                                    width: 0px;
+                                }
+                                &::-webkit-scrollbar * {
+                                    background: transparent;
+                                }
+                                &::-webkit-scrollbar-track-piece {
+                                    background: transparent!important;
+                                }
+                                /* Track */
+                                &::-webkit-scrollbar-track {
+                                    background: #7272722b;
+                                }
+                                /* Handle */
+                                &::-webkit-scrollbar-thumb {
+                                    background: #10182080;
+                                    border-radius: 5px;
+                                    /* Handle on hover */
+                                    &:hover {
+                                        background: #101820db;
+                                    }
+                                }
+                                .thumbs{
+                                    margin-right: 0px;
+                                    margin-left: 16px;
+                                    flex-direction: column-reverse;
+                                    flex-wrap: nowrap;
+                                    max-height: unset;
+                                    overflow-y: unset;
+                                    .thumb{
+                                        width: 82px;
+                                        margin-bottom: 16px;
+                                        &:first-child{
+                                            margin-bottom: 0px;
+                                        }
+                                        >img{
+                                            width: 80px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
