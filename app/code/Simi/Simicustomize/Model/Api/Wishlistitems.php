@@ -259,6 +259,7 @@ class Wishlistitems extends \Simi\Simiconnector\Model\Api\Wishlistitems
 			/*var_dump($resultLayout->getLayout()->createBlock('Magento\Wishlist\Block\Share\Email\Items')->setTemplate('Magento_Wishlist::email/items.phtml')->toHtml());*/
 
 			try {
+				$storeBase = $this->getStoreConfig('simiconnector/general/pwa_studio_url');
 				foreach ($emails as $email) {
 					$transport = $this->simiObjectManager->get('\Magento\Framework\Mail\Template\TransportBuilder')->setTemplateIdentifier(
 						$this->scopeConfig->getValue(
@@ -275,9 +276,8 @@ class Wishlistitems extends \Simi\Simiconnector\Model\Api\Wishlistitems
 							'customer' => $customer,
 							'customerName' => $customerName,
 							'salable' => $wishlist->isSalable() ? 'yes' : '',
-							'items' => $resultLayout->getLayout()->createBlock('Magento\Wishlist\Block\Share\Email\Items')->setTemplate('Magento_Wishlist::email/items.phtml')->toHtml(),
-							'viewOnSiteLink' => $this->simiObjectManager->get('Magento\Framework\UrlInterface')
-							                                            ->getUrl('wishlist/shared/index', ['code' => $sharingCode]),
+							'items' => '',//$resultLayout->getLayout()->createBlock('Magento\Wishlist\Block\Share\Email\Items')->setTemplate('Magento_Wishlist::email/items.phtml')->toHtml(),
+							'viewOnSiteLink' => $storeBase . 'sharedwishlist.html?code=' . $sharingCode,
 							'message' => $message,
 							'store' => $this->storeManager->getStore(),
 						]
