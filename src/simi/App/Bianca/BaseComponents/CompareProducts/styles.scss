@@ -98,9 +98,10 @@
             padding-bottom: 18px;
             font-size: 16px;
 
-            .vendor-name{
-                font-size: 12px;
-                margin-left: 17.5px;
+            .compare-item-old-price{
+                color: #727272;
+                text-decoration: line-through;
+                font-weight: 500;
             }
         }
 
