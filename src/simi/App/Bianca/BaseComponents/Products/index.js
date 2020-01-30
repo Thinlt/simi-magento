@@ -134,6 +134,12 @@ class Products extends React.Component {
         )
     }
 
+    componentDidMount(){
+        if (this.state.isPhone) {
+            $('.footer-app').addClass('has-bottom-filter');
+        }
+    }
+
     showModalSortby = () => {
         this.setState({
             openMobileModel : 'sortby'

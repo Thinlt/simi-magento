@@ -533,6 +533,13 @@ $errorFormBgColor: #ece2e2;
         font-size: 7px;
     }
 }
+.footer-app{
+    &.on-mobile{
+        &.has-bottom-filter{
+            padding-bottom: 45px;
+        }
+    }
+}
 .rtl-root{
     .footer-app{
         .footer-wrapper{
