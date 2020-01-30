@@ -202,7 +202,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		    ->addFieldToFilter("mobilenumber", $mobile)
 			->addFieldToFilter("website_id", $websiteid);
 		if(count($customer) > 0){
-			return "exist";
+			// valid because user can create customer account before create vendor account => do nothing
+			// return "exist";
 		}
 	
 		$otpModels = $this->_modelRegOtpFactory->create();		

@@ -126,8 +126,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         }
         $confirmationStatus = $this->getAccountManagement()->getConfirmationStatus($customer->getId());
         if ($confirmationStatus === \Magento\Customer\Api\AccountManagementInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
-            throw new \Simi\Simiconnector\Helper\SimiException(__('Account confirmation is required. '
-                . 'Please, check your email.'), 4);
+            throw new \Simi\Simiconnector\Helper\SimiException(__('Account confirmation is required. Please, check your email !'), 4);
         }
         return $customer;
     }
@@ -269,6 +268,20 @@ class Customer extends \Magento\Framework\Model\AbstractModel
 
     protected function _createCustomer($data)
     {
+        // var_dump($data); die();
+        // Check numberphone
+        $websiteid = $data->website_id ?? null;
+        $mobile = $data->telephone ?? null;
+        if ($websiteid && $mobile) {
+            $customerData = $this->simiObjectManager->create('\Magento\Customer\Model\Customer');
+            $customerSearch = $customerData->getCollection()->addFieldToFilter("mobilenumber", $mobile)
+                ->addFieldToFilter("website_id", $websiteid);
+
+            if (count($customerSearch) > 0) {
+                throw new \Simi\Simiconnector\Helper\SimiException(__('Already exist account with this phone number !'), 4);
+            }
+        }
+
         $customer = $this->simiObjectManager->create('Magento\Customer\Api\Data\CustomerInterface')
             ->setFirstname($data->firstname)
             ->setLastname($data->lastname)

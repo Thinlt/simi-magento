@@ -46,20 +46,45 @@ class VendorRegister extends RegisterPost implements VendorRegisterInterface
 
             if ($vendorData && is_array($vendorData)) {
                 try {
+                    $simiObjectManager = $this->_objectManager;
+                    $websiteid = $vendorData['vendor_data']['website_id'] ?? null;
+                    $mobile = $vendorData['vendor_data']['telephone'] ?? null;
+
                     $vendor = $this->_vendorFactory->create();
                     $vendor->setData($vendorData);
                     $vendor->setVendorId($vendorData['vendor_data']['vendor_id']);
                     $vendor->setGroupId($this->_vendorHelper->getDefaultVendorGroup());
 
                     // $customer = $this->_vendorSession->getCustomer();
-                    $simiObjectManager = $this->_objectManager;
                     $helperCustomer = $simiObjectManager->create('Simi\Simicustomize\Override\Helper\Customer');
                     $customer = $helperCustomer->getCustomerByEmail($vendorData['email']);
                     if (!$customer->getId()) {
-                        // Not exist customer account. Create new customer account
+                        // Not exist customer account. Find by phone number
+                        if ($websiteid && $mobile) {
+                            $customerData = $simiObjectManager->create('\Magento\Customer\Model\Customer');
+                            $customerSearch = $customerData->getCollection()->addFieldToFilter("mobilenumber", $mobile)
+                                ->addFieldToFilter("website_id", $websiteid);
+
+                            if (count($customerSearch) > 0) {
+                                return [[
+                                    'status' => 'error',
+                                    'message' => __('Already exist account with this phone number !')
+                                ]];
+                            }
+                        }
+                        // Create new customer account
                         $customer = $helperCustomer->createCustomer($vendorData);
                     } else {
-                        // exist customer -> check password vendor as same as password of customer or not ?
+                        // exist customer 
+                        // check phone number the same or not ?
+                        $customerTelephone = $customer->getData('mobilenumber');
+                        if ($customerTelephone != $vendorData['vendor_data']['telephone']) {
+                            return [[
+                                'status' => 'error',
+                                'message' => __('Your telephone number does not match !')
+                            ]];
+                        }
+                        // check password vendor as same as password of customer or not ?
                         if (!$customer->validatePassword($vendorData['password'])) {
                             // throw new \Simi\Simiconnector\Helper\SimiException(__('Your password does not match your customer account password !'), 4);
                             return [[
@@ -104,7 +129,7 @@ class VendorRegister extends RegisterPost implements VendorRegisterInterface
 
                     if ($this->_vendorHelper->isRequiredVendorApproval()) {
                         $vendor->setStatus(Vendor::STATUS_PENDING);
-                        $message = __("Your seller account has been created and awaiting for approval. You may be need to check mailbox to activate your account. ");
+                        $message = __("Your seller account has been created and awaiting for approval. You may be need to check mailbox to activate your account.");
                     } else {
                         $vendor->setStatus(Vendor::STATUS_APPROVED);
                         $message = __("Your seller account has been created. You may be need to check mailbox to activate your account.");
