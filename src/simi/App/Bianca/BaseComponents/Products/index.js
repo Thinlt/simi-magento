@@ -140,6 +140,10 @@ class Products extends React.Component {
         }
     }
 
+    componentWillUnmount(){
+        $('.footer-app').removeClass('has-bottom-filter');
+    }
+
     showModalSortby = () => {
         this.setState({
             openMobileModel : 'sortby'
