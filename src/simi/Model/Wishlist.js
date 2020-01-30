@@ -15,3 +15,7 @@ export const removeWlItem = (id, callBack) => {
 export const addWlItemToCart = (id, callBack) =>{
     sendRequest(`rest/V1/simiconnector/wishlistitems/${id}`, callBack, 'GET', {add_to_cart: 1})
 }
+
+export const shareWishlist = (callBack , params) => {
+    sendRequest('/rest/V1/simiconnector/wishlistitems', callBack, 'POST',{}, params)
+}

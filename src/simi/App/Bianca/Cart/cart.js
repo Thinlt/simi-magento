@@ -129,14 +129,14 @@ class Cart extends Component {
                             key={Identify.randomString(5)}
                             className="cart-item-header"
                         >
-                            <div style={{ width: '52.5%' }}>{Identify.__('Items')}</div>
-                            <div style={{ width: '17%', textAlign: 'left' }}>
+                            <div style={{ width: '52.32%' }}>{Identify.__('Items')}</div>
+                            <div style={{ width: '18.5%', textAlign: 'left' }}>
                                 {Identify.__('Price')}
                             </div>
-                            <div style={{ width: '16%', textAlign: 'left' }}>
+                            <div style={{ width: '17.38%', textAlign: 'left' }}>
                                 {Identify.__('Quantity')}
                             </div>
-                            <div style={{ width: '14%', textAlign: 'right' }}>
+                            <div style={{ width: '12.8%', textAlign: 'right' }}>
                                 {Identify.__('Subtotal')}
                             </div>
                             {/* <div style={{width: '7%'}}>{Identify.__('').toUpperCase()}</div> */}

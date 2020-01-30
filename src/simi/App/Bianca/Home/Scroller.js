@@ -69,7 +69,9 @@ const Scroller = props => {
 
     if (lastItems && lastItems instanceof Array) {
         if (Identify.isRtl()) {
-            items.unshift(lastItems);
+            lastItems.reverse().forEach(item => {
+                items.unshift(item);
+            });
         } else {
             lastItems.forEach(item => {
                 items.push(item);

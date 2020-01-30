@@ -1,0 +1,21 @@
+.shared-wl-ctn {
+    margin-top: 34px;
+    margin-bottom: 40px;
+    .shared-wishlist-title {
+        text-align: center;
+        font-family: 'Gotham Book';
+        font-weight: 600;
+        font-size: 20px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+    }
+    .trash-item {
+        display: none !important;
+    }
+    .product-item-action {
+        display: none !important;
+    }
+    .wishlist-action {
+        display: none !important;
+    }
+}

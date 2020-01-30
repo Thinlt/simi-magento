@@ -38,7 +38,7 @@ const VendorList = (props) => {
     const getStoreName = (vendor) => {
         let storeName = vendor.middlename ? `${vendor.firstname} ${vendor.middlename}` : vendor.firstname;
         storeName = vendor.lastname ? `${storeName} ${vendor.lastname}` : storeName;
-        return vendor && vendor.profile && vendor.profile.storeName || storeName;
+        return vendor && vendor.profile && vendor.profile.store_name || storeName;
     }
 
     const getVendorGroups = () => {
