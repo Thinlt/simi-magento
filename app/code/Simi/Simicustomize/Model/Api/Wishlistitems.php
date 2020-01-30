@@ -87,11 +87,30 @@ class Wishlistitems extends \Simi\Simiconnector\Model\Api\Apiabstract
             } else {
                 $width  = $height = 200;
             }
+            $vendor_id = $product->getData('vendor_id');
+            $vendorName = '';
+            if ($vendor_id) {
+	            if (class_exists('Vnecoms\Vendors\Model\Vendor')) {
+	                $vendor = \Magento\Framework\App\ObjectManager::getInstance()
+	                    ->get(\Vnecoms\Vendors\Model\Vendor::class)
+	                    ->load($vendor_id);
+	                if ($vendorId = $vendor->getId()) {
+	                    // productExtraData
+	                    $vendorHelper = \Magento\Framework\App\ObjectManager::getInstance()
+	                        ->get(\Simi\Simicustomize\Helper\Vendor::class);
+	                    $profile = $vendorHelper->getProfile($vendorId);
+	                    $vendorName =
+	                        ($profile && isset($profile['store_name']) && $profile['store_name']) ? $profile['store_name'] : $vendor->getName();
+	                }
+	            }
+	        }
+
             $addition_info[$itemModel->getData('wishlist_item_id')] = [
                 'type_id'                       => $product->getTypeId(),
                 'product_regular_price'         => $product->getPrice(),
                 'product_price'                 => $product->getFinalPrice(),
-                'vendor_id'                 => $product->getData('vendor_id'),
+                'vendor_id'                 => $vendor_id,
+                'vendor_name'                 => $vendorName,
                 'stock_status'                  => $isSaleAble,
                 'product_image'                 => $this->simiObjectManager
                     ->get('\Simi\Simiconnector\Helper\Products')->getImageProduct($product, null, $width, $height),
