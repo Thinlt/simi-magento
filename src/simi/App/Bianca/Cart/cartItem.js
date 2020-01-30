@@ -88,6 +88,34 @@ const CartItem = props => {
                     <div className='item-options'>{optionText.reverse()}</div>
                 :   null
                 }
+                {!props.isOpen && item.giftcard_values ?
+                    <React.Fragment>
+                    {item.giftcard_values.aw_gc_amount && 
+                        <div className='item-options-extra'>
+                            <span>{Identify.__('Card Value')}</span>:&nbsp;<Price
+                                    currencyCode={currencyCode}
+                                    value={item.giftcard_values.aw_gc_amount}
+                                />
+                        </div>
+                    }
+                    {item.giftcard_values.aw_gc_recipient_name && 
+                        <div className='item-options-extra'>
+                            <span>{Identify.__('Recipient Name')}</span>: {item.giftcard_values.aw_gc_recipient_name}
+                        </div>
+                    }
+                    {item.giftcard_values.aw_gc_recipient_email && 
+                        <div className='item-options-extra'>
+                            <span>{Identify.__('Recipient Email')}</span>: {item.giftcard_values.aw_gc_recipient_email}
+                        </div>
+                    }
+                    {item.giftcard_values.aw_gc_delivery_date && 
+                        <div className='item-options-extra'>
+                            <span>{Identify.__('Send Date')}</span>: {item.giftcard_values.aw_gc_delivery_date}
+                        </div>
+                    }
+                    </React.Fragment>
+                    : null
+                }
                 {!props.isOpen && !isPhone
                 ?   
                     <div className='designer-name'>{item.attribute_values && getVendorName(item.attribute_values.vendor_id)}</div>
@@ -117,7 +145,6 @@ const CartItem = props => {
                 defaultValue={item.qty}
                 onBlur={(event) => {
                     if (parseInt(event.target.value, 10) !== parseInt(item.qty, 10)){
-                        console.log(parseInt(event.target.value,10))
                         props.updateCartItem(item,parseInt(event.target.value, 10))
                     }
                 }

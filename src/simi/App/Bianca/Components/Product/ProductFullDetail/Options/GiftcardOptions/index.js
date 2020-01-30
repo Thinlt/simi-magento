@@ -32,12 +32,13 @@ class GiftcardOptions extends OptionBase {
         this.classes = {};
         this.extraField = props.extraField;
         this.timezoneOption = [];
-        this.deliveryDateRef = React.createRef();
         this.awGcTemplateRef = React.createRef();
         this.awGcSenderNameRef = React.createRef();
         this.awGcRecipientNameRef = React.createRef();
         this.awGcRecipientEmailRef = React.createRef();
         this.awGcRecipientPhoneRef = React.createRef();
+        this.awGcDeliveryDateRef = React.createRef();
+        this.awGcMessageRef = React.createRef();
         this.required = ['aw_gc_amount', 'aw_gc_custom_amount', 'aw_gc_recipient_name', 'aw_gc_recipient_email', 'aw_gc_sender_name', 
             'aw_gc_sender_email', 'aw_gc_delivery_method', 'aw_gc_delivery_date', 'aw_gc_delivery_date_timezone'];
         this.isCheckOptionRequired = false;
@@ -94,6 +95,7 @@ class GiftcardOptions extends OptionBase {
         if (this.isCheckOptionRequired) {
             this.checkOptionRequired()
         }
+        // this.setState({aw_gc_delivery_date: this.deliveryDateRef.current.value});
     };
 
     gcAmountChange = (value) => {
@@ -214,9 +216,9 @@ class GiftcardOptions extends OptionBase {
             aw_gc_sender_email: this.props.email || 'guest@guest.com',
             aw_gc_template: this.state.aw_gc_template,
             aw_gc_delivery_method: this.state.deliveryMethod,
-            aw_gc_delivery_date: this.state.aw_gc_delivery_date,
             aw_gc_delivery_date_timezone: this.state.aw_gc_delivery_date_timezone,
-            aw_gc_message: this.state.aw_gc_message
+            aw_gc_delivery_date: this.awGcDeliveryDateRef.current && this.awGcDeliveryDateRef.current.value || '',
+            aw_gc_message: this.awGcMessageRef.current && this.awGcMessageRef.current.value || '',
         }
         if (this.state.aw_gc_custom_amount) {
             aw_gc_params.aw_gc_amount = 'custom';
@@ -284,7 +286,9 @@ class GiftcardOptions extends OptionBase {
             let amountsOptions = aw_gc_amounts.map((amount) => {
                 return {label: this.formatPrice(parseFloat(amount.price)), value: amount.percent}
             })
-            amountsOptions.push({label: Identify.__('Other Amount...'), value: 'other_amount'});
+            if (parseInt(aw_gc_allow_open_amount)) {
+                amountsOptions.push({label: Identify.__('Other Amount...'), value: 'other_amount'});
+            }
             return (
                 <div className="product-options giftcard-type">
                     <div id="giftcard-option" className="giftcard-option">
@@ -308,7 +312,7 @@ class GiftcardOptions extends OptionBase {
                                         <input type="number" name="aw_gc_custom_amount" onChange={this.onGcCustomAmountChange} value={this.state.aw_gc_custom_amount} 
                                             id="aw_gc_custom_amount"
                                             validate_func={"validateGcCustomAmount"}
-                                            min="100" max="200"
+                                            min={aw_gc_open_amount_min} max={aw_gc_open_amount_max}
                                             placeholder={Identify.__(`Min: ${this.round10(aw_gc_open_amount_min, -2)} - Max: ${this.round10(aw_gc_open_amount_max, -2)}`)} />
                                     </div>
                                 </div>
@@ -388,12 +392,12 @@ class GiftcardOptions extends OptionBase {
                                     </div>
                                     <div className="option-row option-delivery-date">
                                         <label>{Identify.__('Send date *')}</label>
-                                        <input type="hidden" ref={this.deliveryDateRef} name="aw_gc_delivery_date" placeholder={Identify.__('Send date')}/>
-                                        <DatePicker datetime={false} id='aw_gc_delivery_date' inputRef={this.deliveryDateRef} onChange={this.deliveryDateChange} parent={this} classes={classes}/>
+                                        <input type="hidden" ref={this.awGcDeliveryDateRef} name="aw_gc_delivery_date" placeholder={Identify.__('Send date')}/>
+                                        <DatePicker datetime={false} id='aw_gc_delivery_date' inputRef={this.awGcDeliveryDateRef} onChange={this.deliveryDateChange} parent={this} classes={classes}/>
                                     </div>
                                     <div className="option-row option-message">
                                         <label>{Identify.__('Message')}</label>
-                                        <input type="text" name="aw_gc_message" placeholder={Identify.__('Custom message')}/>
+                                        <input type="text" name="aw_gc_message" ref={this.awGcMessageRef} placeholder={Identify.__('Custom message')}/>
                                     </div>
                                 </React.Fragment>
                             }

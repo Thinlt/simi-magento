@@ -64,20 +64,19 @@
       font-size: 16px;
       white-space: nowrap;
       width: 100%;
+      border-bottom: 1px solid #808080;
     }
 
     .cart-item-header > div {
-      padding: 12px 18px;
-      border-bottom: 1px solid #808080;
+      padding: 12px 12.5px;
       font-size: 14px;
       font-weight: 500;
       &:first-child {
-        padding-left: 37px;
+        padding-left: 25px;
       }
-
       &:last-child {
         text-align: right !important;
-        padding-right: 46px;
+        padding-right: 25px;
       }
     }
   }
@@ -307,7 +306,7 @@
 
   @media (min-width: 1024px) {
     .cart-list {
-      max-width: 728px;
+      max-width: 726px;
       width: 100%;
     }
 
