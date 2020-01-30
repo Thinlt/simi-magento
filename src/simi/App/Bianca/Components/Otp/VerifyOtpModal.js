@@ -57,7 +57,6 @@ class VerifyOtpModal extends React.Component {
     }
 
     componentDidMount() {
-        $('#form-verify-otp').reset();
         $('#form-verify-otp .otp1').focus();
         if (Identify.isRtl()) {
             $('#verify-otp-modal').addClass('rtl-modal')

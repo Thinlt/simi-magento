@@ -90,7 +90,7 @@
     margin-bottom: 24px;
     font-family: Gotham;
     font-size: 14px;
-    font-weight: 300;
+    font-weight: 500;
     line-height: 14px;
     color: #101820;
 }
@@ -161,7 +161,6 @@
     line-height: 16px;
     padding: 1px 0;
     margin-left: 3px;
-    width: 51px;
     margin-top: 2px;
 }
 
@@ -187,7 +186,6 @@
     font-weight: 500;
     line-height: 16px;
     margin-left: 3px;
-    width: 45px;
     margin-top: 2px;
 }
 
@@ -507,10 +505,8 @@
         margin-top: 1px;
     }
     .login-background .select-type .phone-type .title-phone {
-        width: 44px;
     }
     .login-background .select-type .email-type .title-email {
-        width: 39px;
     }
     .login-background div[class~="signInAction"] button {
         margin-top: 25px;
