@@ -80,6 +80,35 @@
     @media screen and (max-width: 1023px){
         .product-grid {
             grid-template-columns: repeat(2, 1fr);
+
+            .wishlist-product-grid-item {
+                .wishlistitem-product-des {
+                    padding: 8px 9px;
+                    border: solid #CECECE 1px;
+                    .prices-layout {
+                        margin-top: 12px;
+                        .price.regular {
+                            margin-top: 2px;
+                        }
+                    }
+                    .vendor-name {
+                        margin-top: 10px;
+                    }
+                    .grid-add-cart-btn {
+                        margin-top: 10px;
+                        font-size: 12px;
+                        line-height: 12px;
+                        padding-top: 8px;
+                        padding-bottom: 7px;
+                    }
+                }
+            }
+        }
+
+        .wishlist-action {
+            justify-content: flex-start;
+            margin-top: 30px;
+            margin-bottom: 0px;
         }
     }
 }
