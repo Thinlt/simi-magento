@@ -1,12 +1,8 @@
 <?php
 
-/**
- * Copyright © 2016 Simi. All rights reserved.
- */
+namespace Simi\Simicustomize\Model\Api;
 
-namespace Simi\Simiconnector\Model\Api;
-
-class Wishlistitems extends Apiabstract
+class Wishlistitems extends \Simi\Simiconnector\Model\Api\Apiabstract
 {
 
     public $DEFAULT_ORDER = 'wishlist_item_id';
@@ -95,6 +91,7 @@ class Wishlistitems extends Apiabstract
                 'type_id'                       => $product->getTypeId(),
                 'product_regular_price'         => $product->getPrice(),
                 'product_price'                 => $product->getFinalPrice(),
+                'vendor_id'                 => $product->getData('vendor_id'),
                 'stock_status'                  => $isSaleAble,
                 'product_image'                 => $this->simiObjectManager
                     ->get('\Simi\Simiconnector\Helper\Products')->getImageProduct($product, null, $width, $height),
@@ -130,16 +127,6 @@ class Wishlistitems extends Apiabstract
                 ->get('\Simi\Simiconnector\Model\Api\Quoteitems')->convertParams((array) $data['contents']);
         $product = $this->simiObjectManager->create('Magento\Catalog\Model\Product')->load(($params['product']));
         $buyRequest = $this->simiObjectManager->create('\Magento\Framework\DataObject', ['data'=>$params]);
-        /** fix for wishlist add Giftcard */
-        if($product->getTypeId() == 'aw_giftcard'){
-            $amounts = $product->getTypeInstance()->getAmountOptions($product);
-            if (!empty($amounts)) {
-                $value = array_pop($amounts);
-                $buyRequest['aw_gc_amount'] = $value;
-            } elseif($product->getData('aw_gc_allow_open_amount') && $product->getData('aw_gc_open_amount_max')) {
-                $buyRequest['aw_gc_amount'] = $product->getData('aw_gc_open_amount_max');
-            }
-        }
         $this->builderQuery = $this->WISHLIST->addNewItem($product, $buyRequest);
         return $this->show();
     }
