@@ -4,6 +4,7 @@
         grid-gap: 16px;
         grid-template-columns: repeat(4, 1fr);
         .wishlist-product-grid-item {
+            font-family: 'Gotham Book';
             .wishlist-siminia-product-image {
                 position: relative;
                 .product-image-ctn {
@@ -16,15 +17,98 @@
                     position: absolute;
                     bottom: 10px;
                     left: 10px;
-                    z-index: 999;
+                    cursor: pointer;
                 }
             }
-        }
+            .wishlistitem-product-des {
+                padding: 16px 12px;
+                border: solid #808080 1px;
+                .product-name {
+                    font-size: 14px;
+                    color: #101820;
+                }
+                .prices-layout {
+                    margin-top: 12px;
+                    .price {
+                        font-size: 14px;
+                        font-weight: 600;
+                        color: #101820;
+                    }
+                    .price.regular {
+                        font-weight: 400;
+                        margin-top: 12px;
+                        color: #727272;
+                        text-decoration: line-through;
+                    }
+                }
+                .vendor-name {
+                    margin-top: 12px;
+                    color: #101820;
+                    font-weight: 600;
+                }
+                .grid-add-cart-btn {
+                    color: white;
+                    background-color: #101820;
+                    text-transform: uppercase;
+                    font-size: 12px;
+                    height: unset;
+                    padding-top: 13px;
+                    padding-bottom: 11px;
+                    line-height: 12px;
+                    margin-top: 17px;
+                }
 
+            }
+        }
+    }
+    .wishlist-action {
+        display: flex;
+        justify-content: flex-end;
+        color: #101820;
+        font-size: 12px;
+        font-family: 'Gotham Book';
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-top: 60px;
+        margin-bottom: 70px;
+        .wishlist-sharing {
+            display: block;
+            text-decoration: underline;
+            cursor: pointer;
+        }
     }
     @media screen and (max-width: 1023px){
         .product-grid {
             grid-template-columns: repeat(2, 1fr);
+
+            .wishlist-product-grid-item {
+                .wishlistitem-product-des {
+                    padding: 8px 9px;
+                    border: solid #CECECE 1px;
+                    .prices-layout {
+                        margin-top: 12px;
+                        .price.regular {
+                            margin-top: 2px;
+                        }
+                    }
+                    .vendor-name {
+                        margin-top: 10px;
+                    }
+                    .grid-add-cart-btn {
+                        margin-top: 10px;
+                        font-size: 12px;
+                        line-height: 12px;
+                        padding-top: 8px;
+                        padding-bottom: 7px;
+                    }
+                }
+            }
+        }
+
+        .wishlist-action {
+            justify-content: flex-start;
+            margin-top: 30px;
+            margin-bottom: 0px;
         }
     }
 }

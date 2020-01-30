@@ -14,8 +14,8 @@ import {hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 require("./index.scss");
 
 const Wishlist = props => {    
-    const { history, toggleMessages, getCartDetails} = props    
-    const [data, setData] = useState(null)
+    const { history, toggleMessages, getCartDetails, wishlistCode} = props    
+    const [data, setData] = useState(null) 
 
     const gotWishlist = (data) => {
         hideFogLoading()
@@ -34,7 +34,10 @@ const Wishlist = props => {
     }
 
     const getWishlistItem = () => {
-        getWishlist(gotWishlist, {limit: 9999, no_price: 1})
+        const params = {limit: 9999, no_price: 1}
+        if (wishlistCode)
+            params.code = wishlistCode
+        getWishlist(gotWishlist, params)
     }
 
     if (!data) {
@@ -78,9 +81,6 @@ const Wishlist = props => {
             {TitleHelper.renderMetaHeader({
                     title:Identify.__('Favourites')
             })}
-            <div className="customer-page-title">
-                {Identify.__("Favourites")}
-            </div>
             <div className="account-favourites">
                 <div className="product-grid">
                     {rows ? rows : (
@@ -93,6 +93,11 @@ const Wishlist = props => {
                         </div>
                     )}
                 </div>
+                {(rows && rows.length) && 
+                    <div className="wishlist-action">
+                        <div role="presentation" className="wishlist-sharing" onClick={() => history.push('/sharewishlist.html')}>{Identify.__('Share wishlist')}</div>
+                    </div>
+                }
             </div>
         </div>
     )
