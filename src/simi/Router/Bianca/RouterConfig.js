@@ -89,6 +89,9 @@ const Blog = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Blog"*/'src/simi/App/Bianca/Blog')} {...props}/>
 }
 
+const Sharedwishlist = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "Sharedwishlist"*/'src/simi/App/Bianca/Sharedwishlist')} {...props}/>
+}
 
 
 const router = {
@@ -187,6 +190,10 @@ const router = {
     sharewishlist : {
         path: '/sharewishlist.html',
         render : (location) => <Account {...location} page={`sharewishlist`}/>
+    },
+    sharedwishlist : {
+        path: '/sharedwishlist.html',
+        render : (location) => <Sharedwishlist {...location}/>
     },
     my_gift_vouchers: {
         path: '/mygiftvouchers.html',

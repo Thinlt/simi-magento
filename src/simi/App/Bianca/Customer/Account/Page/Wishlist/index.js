@@ -14,7 +14,7 @@ import {hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 require("./index.scss");
 
 const Wishlist = props => {    
-    const { history, toggleMessages, getCartDetails} = props    
+    const { history, toggleMessages, getCartDetails, wishlistCode} = props    
     const [data, setData] = useState(null) 
 
     const gotWishlist = (data) => {
@@ -34,7 +34,10 @@ const Wishlist = props => {
     }
 
     const getWishlistItem = () => {
-        getWishlist(gotWishlist, {limit: 9999, no_price: 1})
+        const params = {limit: 9999, no_price: 1}
+        if (wishlistCode)
+            params.code = wishlistCode
+        getWishlist(gotWishlist, params)
     }
 
     if (!data) {
