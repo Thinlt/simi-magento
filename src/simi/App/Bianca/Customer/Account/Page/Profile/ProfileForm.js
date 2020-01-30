@@ -5,23 +5,31 @@ import Identify from 'src/simi/Helper/Identify';
 import Checkbox from 'src/simi/BaseComponents/Checkbox';
 import { Whitebtn } from 'src/simi/BaseComponents/Button';
 import { editCustomer } from 'src/simi/Model/Customer';
-import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
+import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading'
+import validator from 'validator'
+import { smoothScrollToView } from 'src/simi/Helper/Behavior';
 const $ = window.$;
 
 const ProfileForm = props => {
-    const {history, isPhone, data} = props;
+    const { history, isPhone, data } = props;
+    const { custom_attributes } = data
+    var telephone = null
+    if (custom_attributes && custom_attributes["0"] && custom_attributes["0"].attribute_code == "mobilenumber") {
+        telephone = custom_attributes["0"].value
+    }
     // const [data, setData] = useState(data);
     const [changeForm, handleChangeForm] = useState(false);
+    const [isChangePass, setChangePass] = useState(false);
 
     useEffect(() => {
-        if(
+        if (
             history.location.state
-            && history.location.state.hasOwnProperty('profile_edit') 
+            && history.location.state.hasOwnProperty('profile_edit')
             && history.location.state.profile_edit
         ) {
-            const {profile_edit} = history.location.state;
+            const { profile_edit } = history.location.state;
             handleChangeForm(profile_edit);
-        } 
+        }
     })
 
     const scorePassword = pass => {
@@ -31,7 +39,7 @@ const ProfileForm = props => {
 
         // award every unique letter until 5 repetitions
         let letters = {};
-        for (let i=0; i<pass.length; i++) {
+        for (let i = 0; i < pass.length; i++) {
             letters[pass[i]] = (letters[pass[i]] || 0) + 1;
             score += 5.0 / letters[pass[i]];
         }
@@ -50,12 +58,12 @@ const ProfileForm = props => {
         }
         score += (variationCount - 1) * 10;
 
-        return parseInt(score,10);
+        return parseInt(score, 10);
     }
 
     const checkPassStrength = pass => {
         let score = scorePassword(pass);
-        switch (true){
+        switch (true) {
             case score > 70:
                 return "Strong";
             case score > 50:
@@ -68,7 +76,7 @@ const ProfileForm = props => {
     }
 
     const handleOnChange = (e) => {
-        if(e.target.name === 'new_password'){
+        if (e.target.name === 'new_password') {
             let str = checkPassStrength(e.target.value);
             $('#strength-value').html(Identify.__(str))
         }
@@ -82,7 +90,7 @@ const ProfileForm = props => {
         let msg = "";
         $("#harlows-edit-profile")
             .find(".required")
-            .each(function() {
+            .each(function () {
                 if ($(this).val() === "" || $(this).val().length === 0) {
                     formCheck = false;
                     $(this).addClass("is-invalid");
@@ -97,14 +105,21 @@ const ProfileForm = props => {
                             msg = Identify.__("Email field is invalid");
                         }
                     }
-                    if($(this).attr("name") === "new_password" && new_pass_val && new_pass_val.length < 6){
+                    if ($(this).attr("name") === "telephone") {
+                        if (!validator.isMobilePhone($(this).val())) {
+                            formCheck = false;
+                            $(this).addClass("is-invalid");
+                            msg = Identify.__("Phone number is invalid");
+                        }
+                    }
+                    if ($(this).attr("name") === "new_password" && new_pass_val && new_pass_val.length < 6) {
                         formCheck = false;
                         $(this).addClass("is-invalid");
                         msg = Identify.__("Password need least 6 characters!");
                     }
                     if ($(this).attr("name") === "com_password") {
                         if (
-                            $(this).val() !== new_pass_val ) {
+                            $(this).val() !== new_pass_val) {
                             formCheck = false;
                             $(this).addClass("is-invalid");
                             msg = Identify.__("Confirm password is not match");
@@ -114,23 +129,34 @@ const ProfileForm = props => {
             });
 
         if (!formCheck) {
-            props.toggleMessages([{type: 'error', message: msg, auto_dismiss: true}]);
+            smoothScrollToView($("#id-message"));
+            props.toggleMessages([{ type: 'error', message: msg, auto_dismiss: true }]);
         }
 
         return formCheck;
     };
 
     const processData = (data) => {
-        if(data.hasOwnProperty('errors') && data.errors) {
+        if (data.hasOwnProperty('errors') && data.errors) {
             const messages = data.errors.map(value => {
-                return {type: 'error', message: value.message, auto_dismiss: true}
+                return { type: 'error', message: value.message, auto_dismiss: true }
             })
             props.toggleMessages(messages)
-        } else if(data.message && data.hasOwnProperty('customer')) {
+        } else if (data.message && data.hasOwnProperty('customer')) {
+            if (isChangePass) {
+                // Remove saved user email and password at localStorage
+                let savedUser = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_email');
+                let savedPassword = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_password');
+                if (savedUser && savedPassword) {
+                    localStorage.removeItem('user_email');
+                    localStorage.removeItem('user_password');
+                }
+            }
             props.getUserDetails();
-            props.toggleMessages([{type: 'success', message: data.message, auto_dismiss: true}])
+            props.toggleMessages([{ type: 'success', message: data.message, auto_dismiss: true }])
         }
         hideFogLoading()
+        smoothScrollToView($("#id-message"));
     }
 
     const handleSaveProfile = (e) => {
@@ -141,15 +167,20 @@ const ProfileForm = props => {
             let params = {
                 email: data.email
             }
-            if(changeForm === 'password'){
+            if (changeForm === 'password') {
                 params['change_password'] = 1;
+                setChangePass(true)
             }
-            if(changeForm === 'email'){
+            if (changeForm === 'email') {
                 params['change_email'] = 1;
             }
             for (let index in formValue) {
                 let field = formValue[index];
                 params[field.name] = field.value;
+            }
+            if (formValue[2].value !== telephone) {
+            } else {
+                delete params.telephone
             }
             showFogLoading()
             editCustomer(processData, params);
@@ -157,7 +188,7 @@ const ProfileForm = props => {
     }
 
     const renderAlternativeForm = () => {
-        switch(changeForm) {
+        switch (changeForm) {
             case 'email':
                 return (
                     <React.Fragment>
@@ -180,7 +211,7 @@ const ProfileForm = props => {
                         {/* <div className='email-not-edit'>{Identify.__('Email cannot be edit')}</div> */}
                     </React.Fragment>
                 );
-            case 'password': 
+            case 'password':
                 return (
                     <React.Fragment>
                         <h4 className="title">{Identify.__("Change Password")}</h4>
@@ -201,7 +232,7 @@ const ProfileForm = props => {
                                 required
                                 onChange={e => handleOnChange(e)}
                             />
-                            <div className="password-strength"><span>{Identify.__('Password strength:')}</span><span id="strength-value" style={{marginLeft: 3}}>{Identify.__('no password')}</span></div>
+                            <div className="password-strength"><span>{Identify.__('Password strength:')}</span><span id="strength-value" style={{ marginLeft: 3 }}>{Identify.__('no password')}</span></div>
                         </div>
                         <TextBox
                             label={Identify.__("Confirm new password")}
@@ -239,6 +270,14 @@ const ProfileForm = props => {
                         required={true}
                         onChange={handleOnChange}
                     />
+                    <TextBox
+                        defaultValue={telephone}
+                        label={Identify.__("Telephone")}
+                        name="telephone"
+                        className="required"
+                        required={true}
+                        onChange={handleOnChange}
+                    />
                     <Checkbox
                         className="first"
                         label={Identify.__("Change email")}
@@ -252,21 +291,21 @@ const ProfileForm = props => {
                         selected={changeForm === 'password'}
                     />
                     {!isPhone && <Whitebtn
-                                text={Identify.__("Save")}
-                                className="save-profile"
-                                type="submit"
-                            />}
+                        text={Identify.__("Save")}
+                        className="save-profile"
+                        type="submit"
+                    />}
                 </div>
                 <div className='alternative__edit-column'>
                     {renderAlternativeForm()}
                 </div>
                 {isPhone && <Whitebtn
-                                text={Identify.__("Save")}
-                                className="save-profile"
-                                type="submit"
-                            />}
+                    text={Identify.__("Save")}
+                    className="save-profile"
+                    type="submit"
+                />}
             </div>
-            
+
         </form>
     )
 }

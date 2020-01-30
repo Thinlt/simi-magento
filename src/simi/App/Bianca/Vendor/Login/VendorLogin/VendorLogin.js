@@ -4,7 +4,6 @@ import { Form } from 'informed';
 import TextInput from 'src/components/TextInput';
 import { isRequired } from 'src/util/formValidators';
 import Identify from 'src/simi/Helper/Identify';
-import { configColor } from 'src/simi/Config';
 import TitleHelper from 'src/simi/Helper/TitleHelper';
 import Checkbox from 'src/simi/BaseComponents/Checkbox';
 
@@ -30,6 +29,21 @@ class VendorLogin extends Component {
 		onForgotPassword: func.isRequired,
 		signIn: func
 	};
+
+	componentDidMount() {
+		var savedUser = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_email');
+		var savedPassword = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_password');
+		if (savedUser && savedPassword) {
+			this.setState({ isSeleted: true })
+			// Prepare decode password and fill username and password into form (remember me)
+			var crypto = require('crypto-js');
+			var bytes = crypto.AES.decrypt(savedPassword, '@_1_namronaldomessi_privatekey_$');
+			// Decode password to plaintext
+			var plaintextPassword = bytes.toString(crypto.enc.Utf8);
+			this.formApi.setValue('email', savedUser);
+			this.formApi.setValue('password', plaintextPassword);
+		}
+	}
 
 	render() {
 		const { isSeleted } = this.state;
@@ -81,7 +95,7 @@ class VendorLogin extends Component {
 							priority="high"
 							className="signInButton"
 							type="submit"
-							style={{ backgroundColor: '#101820', color: configColor.button_text_color }}
+							style={{ backgroundColor: '#101820', color: '#fff' }}
 						>
 							{Identify.__('Sign In'.toUpperCase())}
 						</button>
@@ -98,6 +112,33 @@ class VendorLogin extends Component {
 	onSignIn() {
 		const username = this.formApi.getValue('email');
 		const password = this.formApi.getValue('password');
+
+		if (this.state.isSeleted === true) {
+			// Import extension crypto to encode password
+			var crypto = require('crypto-js');
+			// Encode password
+			var hashedPassword = crypto.AES.encrypt(password, '@_1_namronaldomessi_privatekey_$').toString();
+			// Save username to local storage 
+			Identify.storeDataToStoreage(
+				Identify.LOCAL_STOREAGE,
+				'user_email',
+				username
+			);
+			// Save hashed password to local storage
+			Identify.storeDataToStoreage(
+				Identify.LOCAL_STOREAGE,
+				'user_password',
+				hashedPassword
+			);
+		} else {
+			var savedUser = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_email');
+			var savedPassword = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_password');
+			if (savedUser && savedPassword) {
+				localStorage.removeItem('user_email');
+				localStorage.removeItem('user_password');
+			}
+		}
+
 		this.props.onSignIn(username, password);
 	}
 
