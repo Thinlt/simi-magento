@@ -94,7 +94,7 @@ const CartItem = props => {
                         <div className='item-options-extra'>
                             <span>{Identify.__('Card Value')}</span>:&nbsp;<Price
                                     currencyCode={currencyCode}
-                                    value={item.giftcard_values.aw_gc_amount}
+                                    value={parseFloat(item.giftcard_values.aw_gc_amount)}
                                 />
                         </div>
                     }
