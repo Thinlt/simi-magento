@@ -106,6 +106,7 @@
 
         .compare-description{
             font-weight: 500;
+            height: 90px;
             p{
                 margin: 34px 11px;
             }
@@ -118,8 +119,7 @@
     }
 
     .td {
-        max-width: 213px;
-        min-width: 212px;
+        width: 212px;
         display: table-cell;
         border: #E4E4E4 solid 1px;
         text-align: center;
