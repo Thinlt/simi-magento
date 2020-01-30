@@ -99,6 +99,16 @@ class SimiSystemRestModify implements ObserverInterface {
                         ->load($quoteItem->getData('product_id'));
                     $contentArray['items'][$index]['attribute_values'] = $product->toArray();
                     $contentArray['items'][$index]['is_buy_service'] = $quoteItem->getData('is_buy_service');
+                    //add giftcard info to quote item
+                    if ($product->getTypeId() == 'aw_giftcard'){
+                        $quoteItemCollection = $this->simiObjectManager->get('Magento\Quote\Model\Quote\Item\Option')->getCollection();
+                        $quoteItemCollection->addFieldToFilter('item_id', $quoteItem->getId());
+                        $requestData = [];
+                        foreach ($quoteItemCollection as $option) {
+                            $requestData[$option->getCode()] = $option->getValue();
+                        }
+                        $contentArray['items'][$index]['giftcard_values'] = $requestData;
+                    }
                 }
                 //modify option values for special products (preorder, trytobuy)
                 if (isset($item['options']) && is_string($item['options']) && $optionArray = json_decode($item['options'], true)) {
