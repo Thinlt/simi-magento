@@ -152,7 +152,7 @@ const CreateAccount = props => {
         $('#verify-opt-area #number_phone-invalid').css({ display: 'none' })
         let value = val1 + val2
         setPhone(value)
-        localStorage.setItem("numberphone_register", phoneRegister);
+        localStorage.setItem("numberphone_register", value);
     }
 
     const openGetModal = () => {

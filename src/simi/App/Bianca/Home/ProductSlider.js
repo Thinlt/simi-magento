@@ -69,6 +69,7 @@ const ProductSlider = props => {
     if(!data) return <Loading />
 
     const renderProductItem = (item,lastInRow) => {
+        const {openCompareModal} = props
         const itemData =  {
             ...item,
             small_image:
@@ -83,6 +84,7 @@ const ProductSlider = props => {
                     item={itemData}
                     handleLink={handleAction}
                     lazyImage={true}
+                    openCompareModal={openCompareModal}
                 />
             </div>
         );

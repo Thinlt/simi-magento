@@ -15,7 +15,7 @@ class SignIn extends Component {
     }
 
     handleCheckBox = () => {
-        this.setState({isSeleted: !this.state.isSeleted})
+        this.setState({ isSeleted: !this.state.isSeleted })
     }
 
     static propTypes = {
@@ -24,12 +24,12 @@ class SignIn extends Component {
         signIn: func
     };
 
-    componentDidMount(){
+    componentDidMount() {
         var savedUser = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_email');
         var savedPassword = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_password');
-        if(savedUser && savedPassword){
-            this.setState({isSeleted: true})
-             // Prepare decode password and fill username and password into form (remember me)
+        if (savedUser && savedPassword) {
+            this.setState({ isSeleted: true })
+            // Prepare decode password and fill username and password into form (remember me)
             var crypto = require('crypto-js');
             var bytes = crypto.AES.decrypt(savedPassword, '@_1_namronaldomessi_privatekey_$');
             // Decode password to plaintext
@@ -40,50 +40,50 @@ class SignIn extends Component {
     }
 
     render() {
-        const {isSeleted} = this.state;
-        const {classes} = this.props;
+        const { isSeleted } = this.state;
+        const { classes } = this.props;
 
         return (
             <div className={`root sign-in-form ${Identify.isRtl() ? 'rtl-signInForm' : null}`}>
                 {TitleHelper.renderMetaHeader({
-                    title:Identify.__('Sign In')
+                    title: Identify.__('Sign In')
                 })}
                 <Form
                     className='form'
                     getApi={this.setFormApi}
                     onSubmit={() => this.onSignIn()}
                 >
-                <div className='userInput'>
-                    <div className='title-input'>
-                        {Identify.__('EMAIL *')}
+                    <div className='userInput'>
+                        <div className='title-input'>
+                            {Identify.__('EMAIL *')}
+                        </div>
+                        <TextInput
+                            classes={classes}
+                            style={{ paddingLeft: "56px" }}
+                            autoComplete="email"
+                            field="email"
+                            validate={isRequired}
+                            validateOnBlur
+                            placeholder="Email"
+                        />
                     </div>
-                    <TextInput
-                        classes={classes}
-                        style={{paddingLeft:"56px"}}
-                        autoComplete="email"
-                        field="email"
-                        validate={isRequired}
-                        validateOnBlur
-                        placeholder="Email"
-                    />
-                </div>
-                <div className='passwordInput'>
-                    <div className='title-input'>
-                        {Identify.__('PASSWORD *')}
+                    <div className='passwordInput'>
+                        <div className='title-input'>
+                            {Identify.__('PASSWORD *')}
+                        </div>
+                        <TextInput
+                            classes={classes}
+                            style={{ paddingLeft: "56px" }}
+                            autoComplete="current-password"
+                            field="password"
+                            type="password"
+                            validate={isRequired}
+                            validateOnBlur
+                            placeholder="Password"
+                        />
                     </div>
-                    <TextInput
-                        classes={classes}
-                        style={{paddingLeft:"56px"}}
-                        autoComplete="current-password"
-                        field="password"
-                        type="password"
-                        validate={isRequired}
-                        validateOnBlur
-                        placeholder="Password"
-                    />
-                </div>
                     <div className={`${Identify.isRtl() ? 'rtl-signInAction' : null} signInAction`} >
-                        <Checkbox onClick={this.handleCheckBox} label={Identify.__("Remember me")} selected={isSeleted}/>
+                        <Checkbox onClick={this.handleCheckBox} label={Identify.__("Remember me")} selected={isSeleted} />
                         <button
                             type="button"
                             className='forgotPassword'
@@ -93,9 +93,9 @@ class SignIn extends Component {
                         </button>
                     </div>
                     <div className='signInButtonCtn'>
-                        <button 
-                            priority="high" className='signInButton' type="submit" 
-                            style={{backgroundColor: '#101820', color: '#fff'}}
+                        <button
+                            priority="high" className='signInButton' type="submit"
+                            style={{ backgroundColor: '#101820', color: '#fff' }}
                         >
                             {Identify.__('Sign In'.toUpperCase())}
                         </button>
@@ -112,8 +112,8 @@ class SignIn extends Component {
     onSignIn() {
         const username = this.formApi.getValue('email');
         const password = this.formApi.getValue('password');
-        
-        if(this.state.isSeleted === true){
+
+        if (this.state.isSeleted === true) {
             // Import extension crypto to encode password
             var crypto = require('crypto-js');
             // Encode password
@@ -130,10 +130,10 @@ class SignIn extends Component {
                 'user_password',
                 hashedPassword
             );
-        }else{
+        } else {
             var savedUser = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_email');
             var savedPassword = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_password');
-            if(savedUser && savedPassword){
+            if (savedUser && savedPassword) {
                 localStorage.removeItem('user_email');
                 localStorage.removeItem('user_password');
             }

@@ -15,6 +15,7 @@ require('./styles.scss');
 const CompareProduct = props => {
     const { openModal, closeModal } = props;
     const [hasRemoved, setHasRemoved] = useState(false);
+    const storeConfig = Identify.getStoreConfig();
     let listItem = Identify.getDataFromStoreage(
         Identify.LOCAL_STOREAGE,
         'compare_product'
@@ -23,6 +24,26 @@ const CompareProduct = props => {
     useEffect(()=>{
         setHasRemoved(false);
     },[hasRemoved])
+
+    const getVendorName = (vendorId) => {
+        let vendorList;
+        if(storeConfig){
+            vendorList = storeConfig.simiStoreConfig.config.vendor_list;
+            const vendor = vendorList.find(vendor => {
+                if(vendorId === 'default'){
+                    return null;
+                }
+                return vendor.entity_id === vendorId; //entity_id is Vendor ID in vendor model
+            })
+            let vendorName = '';
+            if (vendor && vendor.firstname) vendorName = `${vendor.firstname}`;
+            if (vendor && vendor.lastname) vendorName = `${vendorName} ${vendor.lastname}`;
+            const {profile} = vendor || {}
+            vendorName = profile && profile.store_name || vendorName;
+            if (vendorName) return vendorName;
+            // return (vendorName && vendorName.vendor_id)?vendorName.vendor_id:'';
+        }
+    }
 
     const removeItem = (itemId) => {
         const itemToRemove = listItem.findIndex(item=>itemId === item.entity_id);
@@ -110,26 +131,28 @@ const CompareProduct = props => {
                                 style={{ width: '16px', height: '16px', marginRight: '8px', color:'#727272' }} />
                             {Identify.__('Remove')}
                         </div>
-                        <img src={item.images[0].url} alt={item.name}/>
-                        <div className="compare-item-name">{item.name}</div>
-                        <div className="compare-item-price">
-                            <span>
-                                { item.app_options && item.app_options.length > 0
-                                ?
-                                item.app_options.configurable_options.currencyFormat
-                                : 
-                                item.price
-                                }
-                            </span>
-                            {item.app_options && item.app_options.length > 0
-                            ?
-                                item.app_options.configurable_options.prices.basePrice.amount
-                            :   
-                                null
-                            }
-                            {/* <span className="vendor-name">{item.simiExtraField.attribute_values.vendor_name}</span> */}
+                        <div className="compare-item-img">
+                            <img src={item.images[0].url} alt={item.name}/>
                         </div>
-                        {addToCartBtn}
+                        <div>
+                            <div className="compare-item-name">{item.name}</div>
+                            <div className="compare-item-price">
+                                <span>
+                                    {storeConfig.simiStoreConfig.currency}&nbsp;
+                                </span>
+                                <span>
+                                    {item.app_options && item.app_options.configurable_options
+                                    ?
+                                        item.app_options.configurable_options.prices.basePrice.amount
+                                    :   
+                                        item.price
+                                    }
+                                </span>
+                                {/* <span className="vendor-name">{item.simiExtraField.attribute_values.vendor_name}</span> */}
+                            </div>
+                            <div className="compare-designer-name">{getVendorName(item.vendor_id)}</div>
+                            {addToCartBtn} 
+                        </div>
                         {/* <div className="compare-add-to-cart">Add to cart</div> */}
                 
                 </div>
@@ -140,8 +163,8 @@ const CompareProduct = props => {
     const renderDescription = () => {
         const descriptions = listItem.map(item => {
             return(
-                <div key={item.entity_id} className="td">
-                    {ReactHTMLParse(item.meta_description.html)}
+                <div key={item.entity_id} className="td compare-description">
+                    {ReactHTMLParse(item.description)}
                 </div>
         )})
         return descriptions;
@@ -185,7 +208,7 @@ const CompareProduct = props => {
             }
 
             return (
-                <div key={item.id} className="td">{weightItem}</div>
+                <div key={item.entity_id} className="td">{weightItem}</div>
             )
         }) 
 
@@ -207,7 +230,7 @@ const CompareProduct = props => {
                 }
 
                 return (
-                    <div key={item.id} className="td">
+                    <div key={item.entity_id} className="td">
                         {itemColors}
                     </div>
                 )

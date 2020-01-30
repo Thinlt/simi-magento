@@ -13,6 +13,7 @@ import { createPassword } from 'src/simi/Model/Customer';
 import { Link } from 'react-router-dom';
 require('./index.scss');
 
+const $ = window.$;
 class ResetPassword extends React.Component {
 	constructor(props) {
 		super(props);
@@ -54,7 +55,16 @@ class ResetPassword extends React.Component {
 				hideFogLoading();
 				smoothScrollToView($('#id-message'));
 				let successMsg = Identify.__('Updated new password successfully !');
-				this.props.toggleMessages([ { type: 'success', message: successMsg, auto_dismiss: true } ]);
+				// reset form
+				$('.form')[0].reset();
+				// clear user name and password save in local storage
+				let savedUser = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_email');
+				let savedPassword = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'user_password');
+				if (savedUser && savedPassword) {
+					localStorage.removeItem('user_email');
+					localStorage.removeItem('user_password');
+				}
+				this.props.toggleMessages([{ type: 'success', message: successMsg, auto_dismiss: true }]);
 			}
 		};
 

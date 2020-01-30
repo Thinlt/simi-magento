@@ -1141,3 +1141,9 @@
     padding: 7px 10px 11px;
     opacity: .7
 }
+
+@media(max-width: 375px) {
+    .react-tel-input .country-list {
+        max-width: 304px;
+    }
+}

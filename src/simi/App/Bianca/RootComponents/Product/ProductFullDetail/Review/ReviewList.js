@@ -60,7 +60,7 @@ const ReviewList = props => {
                         <span>{item.nickname}</span>
                     </div>
                     <div className="item-rate">
-                        <StaticRate rate={item.rate_points} />
+                        <StaticRate rate={item.rate_points} isRtl={Identify.isRtl()}/>
                     </div>
                 </div>
             </div>
@@ -137,7 +137,7 @@ const ReviewList = props => {
         }
         return (
             <div className="total-rate">
-                <StaticRate rate={averageStar} size={24} width={137}/>
+                <StaticRate rate={averageStar} size={24} width={137} isRtl={Identify.isRtl()}/>
                 <p>{Identify.__(`This has a rating of ${roundedAverageStar}/5`)}</p>
             </div>
         );

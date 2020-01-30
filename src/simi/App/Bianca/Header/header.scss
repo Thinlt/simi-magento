@@ -539,11 +539,11 @@ $textColor3: #e4e4e4;
 .rtl-right-bar .before-login {
   position: relative !important;
 }
-.rtl-root #btn-back{
+.rtl-root #btn-back {
   left: unset !important;
   right: 139px !important;
 }
-.rtl-root input{
+.rtl-root input {
   padding-left: 5px !important;
   padding-right: 24px !important;
 }
@@ -917,7 +917,9 @@ body.fixed-scroll {
           line-height: 16px;
           position: absolute;
           top: 11px;
-          left: 31px;
+        }
+        i.icon-magnifier {
+          left: 32px;
         }
         input {
           background-color: #f2f2f2;
@@ -1050,19 +1052,19 @@ body.fixed-scroll {
       }
     }
   }
-  .rtl-root #btn-back{
+  .rtl-root #btn-back {
     right: 12% !important;
   }
 }
 
-@media(max-width: 834px){
-  .rtl-root #btn-back{
+@media (max-width: 834px) {
+  .rtl-root #btn-back {
     right: 40px !important;
   }
 }
 
-@media(max-width: 736px){
-  .rtl-root #btn-back{
+@media (max-width: 736px) {
+  .rtl-root #btn-back {
     right: 20px !important;
   }
 }
@@ -1071,7 +1073,6 @@ body.fixed-scroll {
   .header-wrapper.mobile {
     .container-global-notice {
       .notice-inner {
-        height: 54px;
         .notice-msg {
           margin-bottom: 7px;
         }

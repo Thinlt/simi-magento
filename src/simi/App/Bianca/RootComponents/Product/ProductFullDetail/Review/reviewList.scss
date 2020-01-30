@@ -173,6 +173,18 @@
     }
 }
 .rtl-root{
+    .review-list{
+        .item-created{
+            span{
+                padding-right: 0px;
+                margin-right: 0px;
+                border-right: none;
+                padding-left: 10px;
+                margin-left: 10px;
+                border-left: 1px solid #808080;
+            }
+        }
+    }
     .mobile {
         .review-list{
             .list-review-item{

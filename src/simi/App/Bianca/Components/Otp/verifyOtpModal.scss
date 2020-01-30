@@ -32,7 +32,7 @@
     color: #101820;
     font-family: Gotham;
     font-size: 18px;
-    font-weight: 300;
+    font-weight: 500;
     line-height: 18px;
     max-width: 443px;
     margin-left: auto;
@@ -84,9 +84,86 @@
     color: #727272;
     font-family: Gotham;
     font-size: 18px;
-    font-weight: 300;
+    font-weight: 500;
     line-height: 18px;
     text-align: center;
     margin-top: 25px;
+  }
+}
+
+@media (max-width: 700px) {
+  #verify-otp-modal {
+    margin-top: 40%;
+    padding: 24px 10px;
+    .title {
+      font-family: Gotham;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 16px;
+      margin-top: 31px;
+    }
+    button {
+      top: 12px;
+      right: 17px;
+    }
+    .description {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 14px;
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  #verify-otp-modal {
+    min-width: 303px;
+    padding: 24px 10px;
+    .title {
+    }
+    button {
+    }
+    .description {
+      max-width: 193px;
+    }
+    form {
+      margin-top: 60px;
+      .otp-form {
+        input {
+          width: 29px;
+          margin-left: 6px;
+          margin-right: 6px;
+        }
+      }
+      button {
+        margin-top: 40px;
+        height: 40px;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 16px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+    }
+    .count-down {
+      margin-top: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 14px;
+      text-align: center;
+    }
+  }
+  .rtl-modal {
+    height: 341px;
+    min-height: unset !important;
+    form {
+      margin-top: 38px !important;
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  #verify-otp-modal {
+    min-width: 280px;
   }
 }

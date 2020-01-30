@@ -196,26 +196,34 @@ class ProductImage extends React.Component {
 
     render() {
         this.images = this.sortedImages()
+        if (!this.images) {
+            return null
+        }
+        let selectedItem = 0;
+        let renderImages = this.renderImage()
+        if (Identify.isRtl()) {
+            renderImages.reverse();
+            selectedItem = (renderImages.length - 1)
+        }
         const {images} = this
         return (
             <React.Fragment>
                 <Carousel className="product-carousel"
-                            key={(images && images[0] && images[0].file) ? images[0].file : Identify.randomString(5)}
-                            showArrows={this.showArrows}  
-                            showThumbs={this.showThumbs}
-                            showIndicators={this.showIndicators}
-                            showStatus={this.showStatus}
-                            onClickItem={(e) => this.openImageLightbox(e)}
-                            onClickThumb={(e) => this.onClickThumbDefault(e)}
-                            onChange={(e) => this.onChangeItemDefault(e)}
-                            infiniteLoop={true}
-                            autoPlay={this.autoPlay}
-                            thumbWidth={82}
-                            statusFormatter={this.statusFormatter}
-                            // axis={'vertical'}
-                            verticalSwipe={'natural'}
+                        selectedItem={selectedItem}
+                        key={(images && images[0] && images[0].file) ? images[0].file : Identify.randomString(5)}
+                        showArrows={this.showArrows}  
+                        showThumbs={this.showThumbs}
+                        showIndicators={this.showIndicators}
+                        showStatus={this.showStatus}
+                        onClickItem={(e) => this.openImageLightbox(e)}
+                        onClickThumb={(e) => this.onClickThumbDefault(e)}
+                        onChange={(e) => this.onChangeItemDefault(e)}
+                        infiniteLoop={true}
+                        autoPlay={this.autoPlay}
+                        thumbWidth={82}
+                        statusFormatter={this.statusFormatter}
                     >
-                    {this.renderImage()}
+                    {renderImages}
                 </Carousel>
                 {this.renderImageLighboxBlock()}
             </React.Fragment>
