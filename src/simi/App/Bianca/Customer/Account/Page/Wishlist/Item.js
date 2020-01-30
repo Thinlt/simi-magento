@@ -119,6 +119,13 @@ class Item extends React.Component {
                 }
             </div>
         
+        let vendorName = ''
+        if (item.vendor_id && item.vendor_id !== 'default' && item.vendor_name) {
+            vendorName = <div className="vendor-name"><Link to={`/designers/${item.vendor_id}.html`}>{item.vendor_name}</Link></div>
+        }  else if (item.vendor_id !== 'default') {
+            vendorName = <div className="vendor-name">{item.vendor_name}</div>
+        }
+
         return (
             <div className='wishlist-product-grid-item'>
                 {image}
@@ -133,8 +140,9 @@ class Item extends React.Component {
                             }
                         </div>
                     }
+                    {vendorName}
+                    {itemAction}
                 </div>
-                {itemAction}
             </div>
         );
     }

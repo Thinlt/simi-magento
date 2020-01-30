@@ -11,6 +11,7 @@ import { compose } from 'redux';
 import { connect } from 'src/drivers';
 import Dashboard from './Page/Dashboard';
 import Wishlist from './Page/Wishlist'
+import ShareWishlist from './Page/Wishlist/shareWishlist'
 import Newsletter from './Page/Newsletter';
 import AddressBook from './Page/AddressBook';
 import Profile from './Page/Profile';
@@ -222,6 +223,9 @@ class CustomerLayout extends React.Component{
                 break;
             case 'wishlist':
                 content = <Wishlist isPhone={this.state.isPhone} history={this.props.history}/>
+                break;
+            case 'sharewishlist':
+                content = <ShareWishlist isPhone={this.state.isPhone} history={this.props.history}/>
                 break;
             case 'giftvoucher':
                 content = <MyGiftVouchers isPhone={this.state.isPhone} history={this.props.history}/>
