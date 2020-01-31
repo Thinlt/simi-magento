@@ -4,16 +4,18 @@ import Identify from 'src/simi/Helper/Identify';
 import ReactHTMLParse from 'react-html-parser';
 import Deleteicon from 'src/simi/App/Bianca/BaseComponents/Icon/Trash';
 import { addToCart as simiAddToCart } from 'src/simi/Model/Cart';
-import { getProductDetail } from 'src/simi/Model/Product';
 import { Colorbtn } from 'src/simi/BaseComponents/Button';
 import {showToastMessage} from 'src/simi/Helper/Message';
 import { productUrlSuffix } from 'src/simi/Helper/Url';
 import Loading from 'src/simi/BaseComponents/Loading';
+import { getCartDetails } from 'src/actions/cart';
+import { connect } from 'src/drivers';
 
 require('./styles.scss');
 
 const CompareProduct = props => {
     const { openModal, closeModal } = props;
+    console.log(props)
     const [hasRemoved, setHasRemoved] = useState(false);
     const storeConfig = Identify.getStoreConfig();
     let listItem = Identify.getDataFromStoreage(
@@ -64,10 +66,9 @@ const CompareProduct = props => {
     const renderImgItem = () => {
         const imgItem = listItem.map(item => {
             const addToCart = (pre_order = false) => {
-                if (item && item.simiExtraField && item.simiExtraField.attribute_values) {
-                    const {attribute_values} = item.simiExtraField
-                    if ((!parseInt(attribute_values.has_options)) && attribute_values.type_id === 'simple') {
-                        const params = {product: String(item.id), qty: '1'}
+                if (item) {
+                    if ((!parseInt(item.has_options)) && item.type_id === 'simple') {
+                        const params = {product: String(item.entity_id), qty: '1'}
                         if (pre_order)
                             params.pre_order = 1
                         // showFogLoading()
@@ -93,7 +94,7 @@ const CompareProduct = props => {
                 } else {
                     if (data.message)
                         showToastMessage(data.message)
-                    this.props.getCartDetails()
+                    props.getCartDetails()
                 }
             }
 
@@ -104,25 +105,25 @@ const CompareProduct = props => {
                     onClick={() => addToCart(false)}
                     text={Identify.__('Add to Cart')} />
             )
-            if (item.simiExtraField && item.simiExtraField.attribute_values) {
-                if (!parseInt(item.simiExtraField.attribute_values.is_salable)) {
-                    if (parseInt(item.simiExtraField.attribute_values.pre_order)) {
-                        addToCartBtn = (
-                            <Colorbtn
-                                style={{ backgroundColor: '#101820', color: '#FFF' }}
-                                className="compare-add-to-cart"
-                                onClick={() => addToCart(true)}
-                                text={Identify.__('Pre-order')} />
-                        )
-                    } else
-                        addToCartBtn = (
-                            <Colorbtn
-                                style={{ backgroundColor: '#101820', color: '#FFF', opacity: 0.5 }}
-                                className="compare-add-to-cart"
-                                text={Identify.__('Out of stock')} />
-                        )
-                }
+            
+            if (!parseInt(item.is_salable)) {
+                if (parseInt(item.pre_order)) {
+                    addToCartBtn = (
+                        <Colorbtn
+                            style={{ backgroundColor: '#101820', color: '#FFF' }}
+                            className="compare-add-to-cart"
+                            onClick={() => addToCart(true)}
+                            text={Identify.__('Pre-order')} />
+                    )
+                } else
+                    addToCartBtn = (
+                        <Colorbtn
+                            style={{ backgroundColor: '#101820', color: '#FFF', opacity: 0.5 }}
+                            className="compare-add-to-cart"
+                            text={Identify.__('Out of stock')} />
+                    )
             }
+            
 
             return(
                 <div key={item.entity_id} className="td compare-img">
@@ -367,4 +368,11 @@ const CompareProduct = props => {
     );
 };
 
-export default CompareProduct;
+const mapDispatchToProps = {
+    getCartDetails,
+};
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(CompareProduct);
