@@ -24,6 +24,9 @@ class SpecialOrder extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     public function submitQuotFromRestToSession($quoteId = null) {
+        $appState = $this->simiObjectManager->get('\Magento\Framework\App\State');
+        if($appState->getAreaCode() == 'adminhtml') return;//not allowed admin area
+
         $inputParams = $this->inputParamsResolver->resolve();
         if ($this->foundQuoteId)
             return;
