@@ -28,6 +28,7 @@ use Aheadworks\Giftcard\Api\Data\Giftcard\InvoiceInterface as GiftcardInvoiceInt
 use Magento\Sales\Model\Order\Invoice;
 use Aheadworks\Giftcard\Model\Statistics;
 use Magento\Sales\Model\Order\Invoice\Item;
+use Magento\Quote\Model\QuoteFactory;
 use Aheadworks\Giftcard\Api\PoolManagementInterface;
 use Aheadworks\Giftcard\Model\ResourceModel\Giftcard as ResourceGiftcard;
 use Aheadworks\Giftcard\Model\Source\History\EntityType as SourceHistoryEntityType;
@@ -101,6 +102,11 @@ class InvoicePlugin
     private $historyEntityFactory;
 
     /**
+     * @var QuoteFactory
+     */
+    private $quoteFactory;
+
+    /**
      * @param GiftcardRepositoryInterface $giftcardRepository
      * @param GiftcardInterfaceFactory $giftcardDataFactory
      * @param OptionInterfaceFactory $optionFactory
@@ -126,7 +132,8 @@ class InvoicePlugin
         PoolManagementInterface $poolManagement,
         ResourceGiftcard $resourceGiftcard,
         HistoryActionInterfaceFactory $historyActionFactory,
-        HistoryEntityInterfaceFactory $historyEntityFactory
+        HistoryEntityInterfaceFactory $historyEntityFactory,
+        QuoteFactory $quoteFactory
     ) {
         $this->giftcardRepository = $giftcardRepository;
         $this->giftcardDataFactory = $giftcardDataFactory;
@@ -140,6 +147,7 @@ class InvoicePlugin
         $this->resourceGiftcard = $resourceGiftcard;
         $this->historyActionFactory = $historyActionFactory;
         $this->historyEntityFactory = $historyEntityFactory;
+        $this->quoteFactory = $quoteFactory;
     }
 
     /**
@@ -201,6 +209,15 @@ class InvoicePlugin
             return;
         }
 
+        /** Add recipient email if null */
+        $order = $invoice->getOrder();
+        $quote = $this->quoteFactory->create()->load($order->getQuoteId());
+        $billingAddress = $quote->getBillingAddress();
+        $customerName = $billingAddress->getFirstname();
+        $customerName = $billingAddress->getMiddlename()?$customerName.' '.$billingAddress->getMiddlename():$customerName;
+        $customerName = $billingAddress->getLastname()?$customerName.' '.$billingAddress->getLastname():$customerName;
+        $customerEmail = $billingAddress->getEmail();
+
         foreach ($invoice->getAllItems() as $item) {
             /** @var $item \Magento\Sales\Model\Order\Invoice\Item */
             if ($item->getOrderItem()->getProductType() != ProductGiftcard::TYPE_CODE) {
@@ -252,6 +269,12 @@ class InvoicePlugin
                         ->setHeadline($options->getAwGcHeadline())
                         ->setMessage($options->getAwGcMessage())
                         ->setCurrentHistoryAction($historyObject);
+
+                    /** Add recipient email if null */
+                    if (!$giftcardObject->getSenderName()) $giftcardObject->setSenderName($customerName);
+                    if (!$giftcardObject->getSenderEmail()) $giftcardObject->setSenderEmail($customerEmail);
+                    if (!$giftcardObject->getRecipientName()) $giftcardObject->setRecipientName($customerName);
+                    if (!$giftcardObject->getRecipientEmail()) $giftcardObject->setRecipientEmail($customerEmail);
 
                     $expireAt = new \DateTime();
                     $expireAt->setTime(0, 0, 0);
