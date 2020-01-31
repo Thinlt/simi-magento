@@ -14,6 +14,7 @@ class Verifyotpforlogin extends \Simi\Simiconnector\Model\Api\Apiabstract
         $result = "false";
         $data = $this->getData();
         $helperData = $this->simiObjectManager->get(\Magecomp\Mobilelogin\Helper\Data::class);
+        $typeLogin = $data['params']['type'];
         $mobile = $data['params']['mobile'];
         $otp = $data['params']['otp'];
         $isExist = $helperData->checkLoginOTPCode($mobile, $otp);
@@ -36,22 +37,24 @@ class Verifyotpforlogin extends \Simi\Simiconnector\Model\Api\Apiabstract
                         $helperData->sendMail($_SERVER['REMOTE_ADDR'], $customer->getEmail(), $_SERVER['HTTP_USER_AGENT']);
                     }
                     $helperData->setOtpVerified($mobile);
-                    // Check if exist vendor account
-                    $vendorCollection = $this->simiObjectManager
-                        ->get('Vnecoms\Vendors\Model\Vendor')->getCollection()->addFieldToFilter('telephone', $mobile);
-                    if (count($vendorCollection) == 1) {
-                        // get redirect url for login vendor
-                        $helper = $this->simiObjectManager->get('Vnecoms\Vendors\Helper\Data');
-                        $redirectUrl = $helper->getHomePageUrl();
-                    } else {
-                        $message = __("Designer account does not exist !");
-                        return [
-                            [
-                                'status' => 'error',
-                                'is_login' => '0',
-                                'message' => $message
-                            ]
-                        ];
+                    if ($typeLogin === "vendor") {
+                        // Check if exist vendor account
+                        $vendorCollection = $this->simiObjectManager
+                            ->get('Vnecoms\Vendors\Model\Vendor')->getCollection()->addFieldToFilter('telephone', $mobile);
+                        if (count($vendorCollection) == 1) {
+                            // get redirect url for login vendor
+                            $helper = $this->simiObjectManager->get('Vnecoms\Vendors\Helper\Data');
+                            $redirectUrl = $helper->getHomePageUrl();
+                        } else {
+                            $message = __("Designer account does not exist !");
+                            return [
+                                [
+                                    'status' => 'error',
+                                    'is_login' => '0',
+                                    'message' => $message
+                                ]
+                            ];
+                        }
                     }
                 } else {
                     $message = __("This account isn't confirmed. Verify and try again.");
