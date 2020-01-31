@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import Modal from 'react-responsive-modal';
 import Identify from 'src/simi/Helper/Identify';
 import ReactHTMLParse from 'react-html-parser';
@@ -137,18 +137,47 @@ const CompareProduct = props => {
                         <div>
                             <div className="compare-item-name">{item.name}</div>
                             <div className="compare-item-price">
-                                <span>
-                                    {storeConfig.simiStoreConfig.currency}&nbsp;
-                                </span>
-                                <span>
-                                    {item.app_options && item.app_options.configurable_options
-                                    ?
-                                        item.app_options.configurable_options.prices.basePrice.amount
-                                    :   
-                                        item.price
-                                    }
-                                </span>
-                                {/* <span className="vendor-name">{item.simiExtraField.attribute_values.vendor_name}</span> */}
+                                {item.special_price
+                                ?
+                                    <Fragment>
+                                        <span>
+                                            {storeConfig.simiStoreConfig.currency}&nbsp;
+                                        </span>
+                                        <span>
+                                            { item.special_price
+                                            ? parseFloat(item.special_price).toFixed(2)
+                                            : null
+                                            }
+                                        </span>
+                                        <span className="compare-item-old-price">
+                                            <span>
+                                                {storeConfig.simiStoreConfig.currency}&nbsp;
+                                            </span>
+                                            <span>
+                                                {item.app_options && item.app_options.configurable_options
+                                                ?
+                                                    item.app_options.configurable_options.prices.basePrice.amount
+                                                :   
+                                                    parseFloat(item.price).toFixed(2)
+                                                }
+                                            </span>
+                                        </span>
+                                    </Fragment>
+                                :
+                                    <span>
+                                        <span>
+                                            {storeConfig.simiStoreConfig.currency}&nbsp;
+                                        </span>
+                                        <span>
+                                            {item.app_options && item.app_options.configurable_options
+                                            ?
+                                                item.app_options.configurable_options.prices.basePrice.amount
+                                            :   
+                                                parseFloat(item.price).toFixed(2)
+                                            }
+                                        </span>
+                                    </span>
+                                }
                             </div>
                             <div className="compare-designer-name">{getVendorName(item.vendor_id)}</div>
                             {addToCartBtn} 
