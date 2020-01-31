@@ -64,7 +64,8 @@ class ResetPassword extends React.Component {
 					localStorage.removeItem('user_email');
 					localStorage.removeItem('user_password');
 				}
-				this.props.toggleMessages([{ type: 'success', message: successMsg, auto_dismiss: true }]);
+				showToastMessage(successMsg);
+				// this.props.toggleMessages([{ type: 'success', message: successMsg, auto_dismiss: true }]);
 			}
 		};
 
