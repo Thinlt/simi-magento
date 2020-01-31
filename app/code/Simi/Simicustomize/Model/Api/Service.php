@@ -113,9 +113,10 @@ class Service extends Apiabstract implements ServiceInterface
                 try{
                     $error = false;
                     // send email to admin
-                    $this->inlineTranslation->suspend();
+                    // $this->inlineTranslation->suspend();
                     $postObject = new \Magento\Framework\DataObject();
                     $postObject->setData($model->getData());
+                    $postObject->setData('base_url', $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB));
                     $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
                     $sender = [
                         'name' => $this->config->getValue('trans_email/ident_sales/name', $storeScope),
@@ -125,7 +126,7 @@ class Service extends Apiabstract implements ServiceInterface
                     $transport = $this->transportBuilder
                         ->setTemplateIdentifier($this->config->getValue('sales/service/email_template_admin', $storeScope))
                         ->setTemplateOptions([
-                            'area' => \Magento\Framework\App\Area::AREA_ADMINHTML, // this is using frontend area to get the template file
+                            'area' => \Magento\Framework\App\Area::AREA_FRONTEND, // this is using frontend area to get the template file
                             'store' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
                         ])
                         ->setTemplateVars(['data' => $postObject])
@@ -133,16 +134,16 @@ class Service extends Apiabstract implements ServiceInterface
                         ->addTo($adminEmail)
                         ->getTransport();
                     $transport->sendMessage();
-                    $this->inlineTranslation->resume();
+                    // $this->inlineTranslation->resume();
                     // send email to customer
-                    $this->inlineTranslation->suspend();
+                    // $this->inlineTranslation->suspend();
                     $customerEmail = $data['email'];
                     $data['name'] = isset($data['name']) ? $data['name'] : ucfirst(array_shift(explode('@', $data['email'])));
                     $postObject->setData('name', $data['name']);
                     $transport = $this->transportBuilder
                         ->setTemplateIdentifier($this->config->getValue('sales/service/email_template_customer', $storeScope))
                         ->setTemplateOptions([
-                            'area' => \Magento\Framework\App\Area::AREA_ADMINHTML, // this is using frontend area to get the template file
+                            'area' => \Magento\Framework\App\Area::AREA_FRONTEND, // this is using frontend area to get the template file
                             'store' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
                         ])
                         ->setTemplateVars(['data' => $postObject])
@@ -150,9 +151,9 @@ class Service extends Apiabstract implements ServiceInterface
                         ->addTo($customerEmail)
                         ->getTransport();
                     $transport->sendMessage();
-                    $this->inlineTranslation->resume();
+                    // $this->inlineTranslation->resume();
                 }catch(\Exception $e){
-                    // return ['data' => ['status' => false, 'message' => $e->getMessage()]];
+                    return ['data' => ['status' => false, 'message' => $e->getMessage()]];
                 }
                 return true;
             }catch(\Exception $e){
