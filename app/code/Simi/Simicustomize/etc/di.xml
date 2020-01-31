@@ -39,7 +39,7 @@
     <virtualType name="SimiSizechartGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
             <argument name="mainTable" xsi:type="string">simi_size_chart</argument>
-            <argument name="resourceModel" xsi:type="string">Simi\Simicustomize\Model\ResourceModel\Sizechart</argument>
+            <argument name="resourceModel" xsi:type="string">Simi\Simicustomize\Model\ResourceModel\SizeChart</argument>
         </arguments>
     </virtualType>
     <virtualType name="SimiContactGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
