@@ -1,0 +1,94 @@
+.sharewishlist {
+    #share-my-wishlist {
+        font-family: 'Gotham Book';
+        color: #101820;
+        .customer-page-title {
+            text-transform: uppercase;
+            font-size: 24px;
+            font-weight: 500;
+        }
+        h3.title {
+            margin-top: 40px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .share-wishlist-content {
+            margin-top: 20px;
+            > .field,
+            > .fields > .field {
+                margin: 0 0 20px;
+
+                > .label {
+                    font-size: 10px;
+                    text-transform: uppercase;
+                    color: #101820;
+                    padding: 0px;
+                }
+
+                &.required {
+                    > .label {
+                        &::after {
+                            content: '*';
+                            margin: 0 0 0 4.5px;
+                            color: #101820;
+                        }
+                    }
+                }
+            }
+            textarea {
+                border: 1px solid #E0E0E0;
+                border-radius: 0px;
+                font-size: 10px;
+                padding: 9px;
+                width: 100%;
+            }
+
+            .actions-toolbar {
+                button {
+                    color: white;
+                    margin-top: 40px;
+                    background-color: #101820;
+                    border: none;
+                    font-size: 16px;
+                    text-transform: uppercase;
+                    font-family: 'Gotham Book';
+                    padding: 16px 65px;
+                    line-height: 16px;
+                }
+            }
+        }
+    } 
+    @media screen and (max-width: 1023px){
+        .welcome-customer {
+            display: none;
+        }
+
+        #share-my-wishlist {
+            .customer-page-title {
+                text-transform: none;
+                margin-top: 14px;
+                font-size: 18px;
+                line-height: 18px;
+            }
+            h3.title {
+                margin-top: 18px;
+                font-size: 14px;
+                line-height: 14px;
+            }
+            .share-wishlist-content {
+                margin-top: 10px;
+                textarea {
+                    margin-top: 10px;
+                }
+
+                .actions-toolbar {
+                    button {
+                        margin-top: 10px;
+                        padding: 17px 18.5px;
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+}

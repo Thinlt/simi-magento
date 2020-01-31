@@ -3,14 +3,27 @@
     .cart-item-value, .item-edit, .item-delete {
         font-weight: 600;
     }
-
-    .item-options{
-        color: #727272;
-    }
-
-    .item-name{
-        font-family: Gotham Book;
-        font-size: 14px;
+    .cart-item-info{
+        .des-cart{
+            display: grid;
+            .item-options{
+                display: flex;
+                color: #727272;
+                font-family: 'Gotham Book';
+                font-weight: 500;
+            }
+            .item-options-extra{
+                display: inline;
+                color: #727272;
+                font-family: 'Gotham Book';
+                font-weight: 500;
+                font-size: 12px;
+            }
+            .item-name{
+                font-family: Gotham Book;
+                font-size: 14px;
+            }
+        }
     }
 }
 
@@ -69,21 +82,19 @@
             margin-bottom: 48px;
         }
         .cart-siminia-item{
-            max-width: 728px;
-            padding-left: 38px;
+            max-width: 726px;
+            padding-left: 25.5px;
             margin: 0;
             border-bottom: 1px solid #808080;
             margin-top: 23px;
             padding-bottom: 29px;
-
             .cart-item-value, .item-edit{
-                text-align: right;
+                text-align: start;
             }
-
-            .cart-item-value{
+            .item-subtotal .cart-item-value{
                 color: #101820;
+                text-align: end;
             }
-
             .item-edit{
                 margin-top: 24px;
                 font-size: 12px;
@@ -126,15 +137,12 @@
         .minicart-qty-title{
             display: none;
         }
-
-        .cart-item-info{
-            max-width: 213px;
-        }
-
+        
         .cart-item-detail{
-            display: flex;
+            display: grid;
+            grid-template-columns: 44% 24% 10% 22%;
             width: 100%;
-            padding-right: 27px;
+            padding-right: 25px;
             justify-content: space-between;
             .item-name{
                 font-size: 14px;
@@ -183,7 +191,8 @@
 
 @media(min-width: 1024px) {
     .cart-siminia-item .img-cart-container{
-        width: 82px;
+        width: 13.9%;
+        max-width: 82px;
         height: 103px;
         display: block;
         margin-right: 24px;
@@ -203,6 +212,7 @@
     height: inherit;
     width: inherit;
     object-fit: contain;
+    width: 100%;
 }
 
 .cart-siminia-item .cart-item-info {
