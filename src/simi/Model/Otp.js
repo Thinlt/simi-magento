@@ -4,8 +4,8 @@ export const sendOTPForLogin = (params, callBack) => {
     sendRequest('/rest/V1/simiconnector/sentotpforlogin', callBack, 'GET', params)
 }
 
-export const verifyOTPForLogin = (mobile, otp, callBack) => {
-    sendRequest('/rest/V1/simiconnector/verifyotpforlogin', callBack, 'GET', {mobile, otp})
+export const verifyOTPForLogin = (type, mobile, otp, callBack) => {
+    sendRequest('/rest/V1/simiconnector/verifyotpforlogin', callBack, 'GET', {type, mobile, otp})
 }
 
 export const sendOTPForRegister = (params, callBack) => {
