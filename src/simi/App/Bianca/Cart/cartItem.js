@@ -88,7 +88,7 @@ const CartItem = props => {
                     <div className='item-options'>{optionText.reverse()}</div>
                 :   null
                 }
-                {!props.isOpen && item.giftcard_values ?
+                {item.giftcard_values ?
                     <React.Fragment>
                     {item.giftcard_values.aw_gc_amount && 
                         <div className='item-options-extra'>
