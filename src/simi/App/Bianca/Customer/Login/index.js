@@ -88,7 +88,13 @@ class Login extends Component {
 		let logintotp = localStorage.getItem('login_otp');
 		$('#login-input-otp-warning').css({ display: 'none' })
 		showFogLoading();
-		verifyOTPForLogin(phoneNumber.substring(1), logintotp, this.handleCallBackLVerifyLogin);
+		var typeLogin = null;
+		if (window.location.pathname === "/login.html") {
+			typeLogin = 'customer';
+		} else {
+			typeLogin = 'vendor';
+		}
+		verifyOTPForLogin(typeLogin, phoneNumber.substring(1), logintotp, this.handleCallBackLVerifyLogin);
 		localStorage.removeItem('login_otp')
 
 	}

@@ -18,6 +18,8 @@ import VerifyForm from 'src/simi/App/Bianca/Components/Otp/VerifyForm';
 import GetOtpModal from 'src/simi/App/Bianca/Components/Otp/GetOtpModal';
 import { sendOTPForRegister, verifyOTPForRegister } from 'src/simi/Model/Otp';
 import VerifyOtpModal from 'src/simi/App/Bianca/Components/Otp/VerifyOtpModal';
+import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+import { connect } from 'src/drivers';
 
 const VendorRegister = (props) => {
 	const [firstName, setName] = useState('');
@@ -220,6 +222,13 @@ const VendorRegister = (props) => {
 
 	const handleSubmit = (values) => {
 		values.vendor.telephone = phoneRegister.substring(1)
+		const merchant = Identify.getStoreConfig();
+		if (merchant && merchant.hasOwnProperty('storeConfig') && merchant.storeConfig) {
+			const { website_id } = merchant.storeConfig;
+			if (website_id) {
+				values.vendor.website_id = website_id;
+			}
+		}
 		const params = {
 			email: values.email,
 			firstname: values.firstname,
@@ -250,15 +259,18 @@ const VendorRegister = (props) => {
 
 	const registerDone = (data) => {
 		hideFogLoading();
-		// Reset form
-		$('.form-create-account-vendor')[0].reset();
 		if (data && data.status === 'error') {
 			let message = Identify.__(data.message);
 			showToastMessage(message);
 		} else {
 			let message = Identify.__(data.message);
+			smoothScrollToView($('#id-message'));
 			showToastMessage(message);
+			// props.toggleMessages([{ type: 'success', message: message, auto_dismiss: true }]);
+			// Reset form
+			$('.form-create-account-vendor')[0].reset();
 		}
+		setAllowSubmit(false)
 	};
 
 	const handleBack = () => {
@@ -295,6 +307,7 @@ const VendorRegister = (props) => {
 			hideFogLoading();
 			showToastMessage(Identify.__('Already exist account with this phone number !'))
 		} else {
+			// Always run here, allow exist phone number, only check real number phone.
 			hideFogLoading();
 			localStorage.setItem("numberphone_register", phoneRegister);
 			// Open modal verify otp
@@ -334,6 +347,7 @@ const VendorRegister = (props) => {
 		$('#verify-opt-area #number_phone-invalid').css({ display: 'none' })
 		let value = val1 + val2
 		setPhone(value)
+		setAllowSubmit(false)
 		localStorage.setItem("numberphone_register", value);
 	}
 
@@ -499,6 +513,10 @@ const VendorRegister = (props) => {
 	);
 };
 
+const mapDispatchToProps = {
+	toggleMessages
+};
+
 VendorRegister.propTypes = {
 	createAccountError: shape({
 		message: string
@@ -509,4 +527,4 @@ VendorRegister.defaultProps = {
 	initialValues: {}
 };
 
-export default VendorRegister;
+export default connect(null, mapDispatchToProps)(VendorRegister);
