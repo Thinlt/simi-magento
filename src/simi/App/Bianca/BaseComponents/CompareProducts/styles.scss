@@ -98,14 +98,16 @@
             padding-bottom: 18px;
             font-size: 16px;
 
-            .vendor-name{
-                font-size: 12px;
-                margin-left: 17.5px;
+            .compare-item-old-price{
+                color: #727272;
+                text-decoration: line-through;
+                font-weight: 500;
             }
         }
 
         .compare-description{
             font-weight: 500;
+            height: 90px;
             p{
                 margin: 34px 11px;
             }
@@ -118,8 +120,7 @@
     }
 
     .td {
-        max-width: 213px;
-        min-width: 212px;
+        width: 212px;
         display: table-cell;
         border: #E4E4E4 solid 1px;
         text-align: center;

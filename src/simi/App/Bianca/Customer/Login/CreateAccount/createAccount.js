@@ -15,6 +15,9 @@ import VerifyForm from 'src/simi/App/Bianca/Components/Otp/VerifyForm';
 import GetOtpModal from 'src/simi/App/Bianca/Components/Otp/GetOtpModal';
 import { sendOTPForRegister, verifyOTPForRegister } from 'src/simi/Model/Otp';
 import VerifyOtpModal from 'src/simi/App/Bianca/Components/Otp/VerifyOtpModal';
+import { smoothScrollToView } from 'src/simi/Helper/Behavior';
+import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+import { connect } from 'src/drivers';
 
 const $ = window.$;
 
@@ -46,6 +49,13 @@ const CreateAccount = props => {
             ...values.customer,
             news_letter: values.subscribe ? 1 : 0
         }
+        const merchant = Identify.getStoreConfig();
+        if (merchant && merchant.hasOwnProperty('storeConfig') && merchant.storeConfig) {
+            const { website_id } = merchant.storeConfig;
+            if (website_id) {
+                params['website_id'] = website_id;
+            }
+        }
         if (!allowSubmit) {
             $('#must-verify').css('display', 'block')
             $('#createAccount').css('backgroundColor', '#B91C1C')
@@ -64,19 +74,27 @@ const CreateAccount = props => {
 
     const registerDone = (data) => {
         hideFogLoading()
-        // Reset form
-        $('.form-create-account')[0].reset();
         if (data.errors) {
             let errorMsg = ''
             if (data.errors.length) {
                 data.errors.map(error => {
                     errorMsg += error.message
                 })
-                showToastMessage(errorMsg)
+                let message = Identify.__(errorMsg);
+                if (errorMsg === 'Account confirmation is required. Please, check your email !') {
+                    smoothScrollToView($('#id-message'));
+                    showToastMessage(message)
+                    // props.toggleMessages([{ type: 'success', message: message, auto_dismiss: true }]);
+                    // Reset form
+                    $('.form-create-account')[0].reset();
+                } else {
+                    showToastMessage(message)
+                }
             }
         } else {
 
         }
+        setAllowSubmit(false)
     }
 
     const handleBack = () => {
@@ -113,6 +131,7 @@ const CreateAccount = props => {
             hideFogLoading();
             showToastMessage(Identify.__('Already exist account with this phone number !'))
         } else {
+            // Always run here, allow exist phone number, only check real number phone.
             hideFogLoading();
             localStorage.setItem("numberphone_register", phoneRegister);
             // Open modal verify otp
@@ -152,6 +171,7 @@ const CreateAccount = props => {
         $('#verify-opt-area #number_phone-invalid').css({ display: 'none' })
         let value = val1 + val2
         setPhone(value)
+        setAllowSubmit(false)
         localStorage.setItem("numberphone_register", value);
     }
 
@@ -279,6 +299,10 @@ const CreateAccount = props => {
     );
 }
 
+const mapDispatchToProps = {
+    toggleMessages
+};
+
 CreateAccount.propTypes = {
     createAccountError: shape({
         message: string
@@ -294,4 +318,4 @@ CreateAccount.defaultProps = {
     initialValues: {}
 };
 
-export default CreateAccount;
+export default connect(null, mapDispatchToProps)(CreateAccount);
