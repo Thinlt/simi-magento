@@ -124,14 +124,17 @@ class Griditem extends React.Component {
             compareProducts = storeageData;
             const result = compareProducts.find(product => product.entity_id == item.id)
             if(result){
+                openCompareModal()
                 showToastMessage(Identify.__('Product has already added'.toUpperCase()))
             } else {
+                showFogLoading()
                 getProductDetail(this.compareCallBack, item.id)
                 // compareProducts.push(item);
                 // Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
                 // showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
             }
         } else {
+            showFogLoading()
             getProductDetail(this.compareCallBack,item.id)
             // compareProducts = [];
             // compareProducts.push(item);
@@ -149,11 +152,15 @@ class Griditem extends React.Component {
             compareProducts.push(data.product);
             Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
             showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
+            hideFogLoading()
+            openCompareModal()
         } else {
             compareProducts = [];
             compareProducts.push(data.product);
             Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
             showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
+            hideFogLoading()
+            openCompareModal()
         }
     }
 
@@ -222,7 +229,7 @@ class Griditem extends React.Component {
                             className="add-to-compare-btn icon-bench-press"
                             onClick={()=>{
                                 addToCompare();
-                                openCompareModal()
+                                // openCompareModal()
                             }}
                         >
                         </span>

@@ -48,8 +48,10 @@ class GiftcardOptions extends OptionBase {
             if (options.aw_gc_amounts) {
                 this.state.aw_gc_amount = options.aw_gc_amounts[0].price;
             }
+            if (options.aw_gc_email_templates && options.aw_gc_email_templates instanceof Array && options.aw_gc_email_templates.length) {
+                this.state.aw_gc_template = options.aw_gc_email_templates[0].template;
+            }
         }
-
         const aw_gc_timezones = this.extraField.aw_gc_timezones || null;
         if (aw_gc_timezones) {
             for (const key in aw_gc_timezones) {
@@ -207,12 +209,13 @@ class GiftcardOptions extends OptionBase {
         if(!this.checkOptionRequired()){
             return false;
         }
+        const currentCustomerName = `${this.props.firstname}${this.props.lastname?' '+this.props.lastname:''}`;
         let aw_gc_params = {
             aw_gc_amount: this.state.aw_gc_amount,
-            aw_gc_recipient_name: this.awGcRecipientNameRef.current && this.awGcRecipientNameRef.current.value || '',
-            aw_gc_recipient_email: this.awGcRecipientEmailRef.current && this.awGcRecipientEmailRef.current.value || '',
+            aw_gc_recipient_name: this.awGcRecipientNameRef.current && this.awGcRecipientNameRef.current.value || currentCustomerName,
+            aw_gc_recipient_email: this.awGcRecipientEmailRef.current && this.awGcRecipientEmailRef.current.value || this.props.email,
             aw_gc_recipient_phone: this.awGcRecipientPhoneRef.current && this.awGcRecipientPhoneRef.current.value || '',
-            aw_gc_sender_name: this.awGcSenderNameRef.current && this.awGcSenderNameRef.current.value || '',
+            aw_gc_sender_name: this.awGcSenderNameRef.current && this.awGcSenderNameRef.current.value || currentCustomerName,
             aw_gc_sender_email: this.props.email || 'guest@guest.com',
             aw_gc_template: this.state.aw_gc_template,
             aw_gc_delivery_method: this.state.deliveryMethod,
