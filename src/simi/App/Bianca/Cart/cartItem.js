@@ -91,25 +91,25 @@ const CartItem = props => {
                 {item.giftcard_values ?
                     <React.Fragment>
                     {item.giftcard_values.aw_gc_amount && 
-                        <div className='item-options-extra'>
+                        <div className='item-options-extra' key={1}>
                             <span>{Identify.__('Card Value')}</span>:&nbsp;<Price
                                     currencyCode={currencyCode}
                                     value={parseFloat(item.giftcard_values.aw_gc_amount)}
                                 />
                         </div>
                     }
-                    {item.giftcard_values.aw_gc_recipient_name && 
-                        <div className='item-options-extra'>
+                    {item.giftcard_values.aw_gc_recipient_name && item.giftcard_values.aw_gc_recipient_email !== props.email && 
+                        <div className='item-options-extra' key={2}>
                             <span>{Identify.__('Recipient Name')}</span>: {item.giftcard_values.aw_gc_recipient_name}
                         </div>
                     }
-                    {item.giftcard_values.aw_gc_recipient_email && 
-                        <div className='item-options-extra'>
+                    {item.giftcard_values.aw_gc_recipient_email && item.giftcard_values.aw_gc_recipient_email !== props.email && 
+                        <div className='item-options-extra' key={3}>
                             <span>{Identify.__('Recipient Email')}</span>: {item.giftcard_values.aw_gc_recipient_email}
                         </div>
                     }
                     {item.giftcard_values.aw_gc_delivery_date && 
-                        <div className='item-options-extra'>
+                        <div className='item-options-extra' key={4}>
                             <span>{Identify.__('Send Date')}</span>: {item.giftcard_values.aw_gc_delivery_date}
                         </div>
                     }

@@ -169,6 +169,7 @@ class Cart extends Component {
                                 updateCartItem={this.updateItemCart}
                                 history={this.props.history}
                                 handleLink={this.handleLink.bind(this)}
+                                email={this.props.email}
                             />
                         );
                         obj.push(element);
@@ -514,11 +515,15 @@ Cart.propTypes = {
 
 const mapStateToProps = state => {
     const { cart, user} = state;
-    const { isSignedIn } = user;
+    const { isSignedIn, currentUser } = user;
+    const { firstname, lastname, email } = currentUser;
     return {
         cart,
         isCartEmpty: isEmptyCartVisible(state),
         isSignedIn,
+        firstname,
+        lastname,
+        email,
     };
 };
 

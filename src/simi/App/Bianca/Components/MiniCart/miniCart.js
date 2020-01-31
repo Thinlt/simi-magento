@@ -146,6 +146,7 @@ class MiniCart extends Component {
                             itemTotal={itemTotal}
                             handleLink={this.handleLink.bind(this)}
                             isOpen={isOpen}
+                            email={this.props.email}
                         />
                     );
                     obj.push(element);
@@ -397,7 +398,8 @@ class MiniCart extends Component {
 
 const mapStateToProps = state => {
     const { cart, user, app } = state;
-    const { isSignedIn } = user;
+    const { isSignedIn, currentUser } = user;
+    const { firstname, lastname, email } = currentUser;
     const { drawer } = app 
     return {
         cart,
@@ -405,6 +407,9 @@ const mapStateToProps = state => {
         isCartEmpty: isEmptyCartVisible(state),
         isMiniCartMaskOpen: isMiniCartMaskOpen(state),
         isSignedIn,
+        firstname,
+        lastname,
+        email,
     };
 };
 
