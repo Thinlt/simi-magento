@@ -216,7 +216,7 @@ class GiftcardOptions extends OptionBase {
             aw_gc_recipient_email: this.awGcRecipientEmailRef.current && this.awGcRecipientEmailRef.current.value || this.props.email,
             aw_gc_recipient_phone: this.awGcRecipientPhoneRef.current && this.awGcRecipientPhoneRef.current.value || '',
             aw_gc_sender_name: this.awGcSenderNameRef.current && this.awGcSenderNameRef.current.value || currentCustomerName,
-            aw_gc_sender_email: this.props.email || 'guest@guest.com',
+            aw_gc_sender_email: this.props.email || '',
             aw_gc_template: this.state.aw_gc_template,
             aw_gc_delivery_method: this.state.deliveryMethod,
             aw_gc_delivery_date_timezone: this.state.aw_gc_delivery_date_timezone,
