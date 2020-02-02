@@ -15,7 +15,6 @@ require('./styles.scss');
 
 const CompareProduct = props => {
     const { openModal, closeModal } = props;
-    console.log(props)
     const [hasRemoved, setHasRemoved] = useState(false);
     const storeConfig = Identify.getStoreConfig();
     let listItem = Identify.getDataFromStoreage(
