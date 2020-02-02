@@ -35,6 +35,13 @@ class Customers extends \Simi\Simiconnector\Model\Api\Customers
                         throw new \Simi\Simiconnector\Helper\SimiException(__('Missing reset password token'), 4);
                     $newPW = $data->password;
                     $resetPasswordToken = $data->rptoken;
+                    // Check rp_token in database exist or not
+                    $customerData = $this->simiObjectManager->create('\Magento\Customer\Model\Customer');
+                    $customerSearch = $customerData->getCollection()->addFieldToFilter("rp_token", $resetPasswordToken);
+                    if (count($customerSearch) == 0) {
+                        throw new \Simi\Simiconnector\Helper\SimiException(__('Token expired or invalid !'), 4);
+                    }
+                    // If exist, create new password
                     $this->simiObjectManager
                         ->get('Magento\Customer\Model\Session')
                         ->setRpToken($resetPasswordToken);
