@@ -146,6 +146,7 @@ class MiniCart extends Component {
                             itemTotal={itemTotal}
                             handleLink={this.handleLink.bind(this)}
                             isOpen={isOpen}
+                            email={this.props.email}
                         />
                     );
                     obj.push(element);
@@ -168,6 +169,19 @@ class MiniCart extends Component {
         const totalPrice = cart.totals.subtotal;
         const hasDiscount = cartId && cart.totals.discount_amount;
         const discount = (Math.abs(cart.totals.discount_amount)/totalPrice) * 100;
+        let hasGiftVoucher;
+        let giftCardObj;
+        let giftCard;
+
+        
+        if(cart.totals.total_segments){
+            giftCardObj = cart.totals.total_segments.filter(obj => obj.code === 'aw_giftcard');
+            if (giftCardObj && giftCardObj.length) {
+                giftCard = JSON.parse(giftCardObj[0].extension_attributes.aw_giftcard_codes[0]);
+            }
+            hasGiftVoucher = cartId && cart.totals.total_segments && giftCard || null;
+        }
+
         return (
             <div>
                 {hasDiscount ? 
@@ -177,6 +191,18 @@ class MiniCart extends Component {
                             <Price
                                 currencyCode={cartCurrencyCode}
                                 value={discount}
+                            />
+                        </div>
+                    </div>
+                    : null
+                }
+                {hasGiftVoucher ?
+                    <div className={classes.subtotal}>
+                    <div className={classes.subtotalLabel}>Discount({giftCard.giftcard_code})</div>
+                        <div>
+                            <Price
+                                currencyCode={cartCurrencyCode}
+                                value={giftCard.value}
                             />
                         </div>
                     </div>
@@ -397,7 +423,8 @@ class MiniCart extends Component {
 
 const mapStateToProps = state => {
     const { cart, user, app } = state;
-    const { isSignedIn } = user;
+    const { isSignedIn, currentUser } = user;
+    const { firstname, lastname, email } = currentUser;
     const { drawer } = app 
     return {
         cart,
@@ -405,6 +432,9 @@ const mapStateToProps = state => {
         isCartEmpty: isEmptyCartVisible(state),
         isMiniCartMaskOpen: isMiniCartMaskOpen(state),
         isSignedIn,
+        firstname,
+        lastname,
+        email,
     };
 };
 

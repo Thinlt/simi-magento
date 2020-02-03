@@ -169,6 +169,7 @@ class Cart extends Component {
                                 updateCartItem={this.updateItemCart}
                                 history={this.props.history}
                                 handleLink={this.handleLink.bind(this)}
+                                email={this.props.email}
                             />
                         );
                         obj.push(element);
@@ -217,6 +218,18 @@ class Cart extends Component {
             cartId && cart.totals.discount_amount;
         const discount =
             (Math.abs(cart.totals.discount_amount) / totalPrice) * 100;
+        let hasGiftVoucher;
+        let giftCardObj;
+        let giftCard;
+
+        
+        if(cart.totals.total_segments){
+            giftCardObj = cart.totals.total_segments.filter(obj => obj.code === 'aw_giftcard');
+            if (giftCardObj && giftCardObj.length) {
+                giftCard = JSON.parse(giftCardObj[0].extension_attributes.aw_giftcard_codes[0]);
+            }
+            hasGiftVoucher = cartId && cart.totals.total_segments && giftCard || null;
+        }
         return (
             <div>
                 {hasSubtotal ? (
@@ -243,6 +256,19 @@ class Cart extends Component {
                         </div>
                     </div>
                 ) : null}
+                {
+                    hasGiftVoucher ?
+                    <div className='subtotal'>
+                    <div className='subtotal-label'>Discount({giftCard.giftcard_code})</div>
+                        <div>
+                            <Price
+                                currencyCode={cartCurrencyCode}
+                                value={giftCard.value}
+                            />
+                        </div>
+                    </div>
+                    : null
+                }
                 {hasGrandtotal ? (
                     <div className="grandtotal">
                         <div className="grandtotal-label">Grand Total</div>
@@ -514,11 +540,15 @@ Cart.propTypes = {
 
 const mapStateToProps = state => {
     const { cart, user} = state;
-    const { isSignedIn } = user;
+    const { isSignedIn, currentUser } = user;
+    const { firstname, lastname, email } = currentUser;
     return {
         cart,
         isCartEmpty: isEmptyCartVisible(state),
         isSignedIn,
+        firstname,
+        lastname,
+        email,
     };
 };
 

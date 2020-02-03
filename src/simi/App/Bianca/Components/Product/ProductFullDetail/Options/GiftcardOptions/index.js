@@ -24,6 +24,7 @@ class GiftcardOptions extends OptionBase {
         this.state = {
             isSendToFriend: false,
             deliveryMethod: "email",
+            deliveryMethodLabel: Identify.__("Email"),
             aw_gc_template: "aw_giftcard_email_template",
             aw_gc_amount: "",
             aw_gc_custom_amount: "",
@@ -71,8 +72,8 @@ class GiftcardOptions extends OptionBase {
         this.setState({isSendToFriend: !this.state.isSendToFriend});
     }
 
-    chooseDeliveryMethod = (value) => {
-        this.setState({deliveryMethod: value});
+    chooseDeliveryMethod = (item) => {
+        this.setState({deliveryMethod: item.value, deliveryMethodLabel: item.label});
     }
 
     chooseTimeZone = (value) => {
@@ -216,7 +217,7 @@ class GiftcardOptions extends OptionBase {
             aw_gc_recipient_email: this.awGcRecipientEmailRef.current && this.awGcRecipientEmailRef.current.value || this.props.email,
             aw_gc_recipient_phone: this.awGcRecipientPhoneRef.current && this.awGcRecipientPhoneRef.current.value || '',
             aw_gc_sender_name: this.awGcSenderNameRef.current && this.awGcSenderNameRef.current.value || currentCustomerName,
-            aw_gc_sender_email: this.props.email || 'guest@guest.com',
+            aw_gc_sender_email: this.props.email || '',
             aw_gc_template: this.state.aw_gc_template,
             aw_gc_delivery_method: this.state.deliveryMethod,
             aw_gc_delivery_date_timezone: this.state.aw_gc_delivery_date_timezone,
@@ -355,10 +356,10 @@ class GiftcardOptions extends OptionBase {
                                     <div className="option-row option-delivery-method">
                                         <label>{Identify.__('Delivery method *')}</label>
                                         <Select className="aw_gc_delivery_method"
-                                            selected={{label: Identify.__('Email'), value: this.state.deliveryMethod}}
+                                            selected={{label: this.state.deliveryMethodLabel, value: this.state.deliveryMethod}}
                                             showSelected={true} 
                                             placeholder={''} 
-                                            onChange={this.chooseDeliveryMethod} 
+                                            onChangeItem={this.chooseDeliveryMethod} 
                                             icon={<ArrowDown />}
                                             hiddenInput={{name: 'aw_gc_delivery_method'}}
                                         >

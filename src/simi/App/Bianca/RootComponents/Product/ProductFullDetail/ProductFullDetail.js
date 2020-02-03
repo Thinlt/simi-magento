@@ -330,11 +330,14 @@ class ProductFullDetail extends Component {
             compareProducts = storeageData;
             const result = compareProducts.find(item => item.entity_id == product.id)
             if(result){
+                this.showModalCompare();
                 showToastMessage(Identify.__('Product has already added'.toUpperCase()))
             } else {
+                showFogLoading();
                 getProductDetail(this.compareCallBack, product.id)
             }
         } else {
+            showFogLoading();
             getProductDetail(this.compareCallBack,product.id)
         }
     }
@@ -348,11 +351,15 @@ class ProductFullDetail extends Component {
             compareProducts.push(data.product);
             Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
             showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
+            hideFogLoading();
+            this.showModalCompare();
         } else {
             compareProducts = [];
             compareProducts.push(data.product);
             Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
             showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
+            hideFogLoading();
+            this.showModalCompare();
         }
     }
 
@@ -739,7 +746,6 @@ class ProductFullDetail extends Component {
                                 <div className="compare-actions action-icon">
                                     <button onClick={()=>{
                                         addToCompare();
-                                        this.showModalCompare()
                                     }} title={Identify.__('Compare')}><CompareIcon /></button>
                                     <CompareProduct openModal={this.state.openCompareModal} closeModal={this.closeCompareModal}/>
                                 </div>
@@ -815,7 +821,6 @@ class ProductFullDetail extends Component {
                                         <div className="compare-actions action-icon">
                                             <button onClick={()=>{
                                                 addToCompare();
-                                                this.showModalCompare()
                                             }} title={Identify.__('Compare')}><CompareIcon /></button>
                                             <CompareProduct openModal={this.state.openCompareModal} closeModal={this.closeCompareModal}/>
                                         </div>

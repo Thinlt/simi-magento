@@ -129,21 +129,16 @@ class Griditem extends React.Component {
             } else {
                 showFogLoading()
                 getProductDetail(this.compareCallBack, item.id)
-                // compareProducts.push(item);
-                // Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
-                // showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
             }
         } else {
             showFogLoading()
             getProductDetail(this.compareCallBack,item.id)
-            // compareProducts = [];
-            // compareProducts.push(item);
-            // Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE,'compare_product', compareProducts);
-            // showToastMessage(Identify.__('Product has added to your compare list'.toUpperCase()),)
         }
     }
 
     compareCallBack = (data) => {
+        const { openCompareModal } = this.props;
+
         const storeageData = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE,'compare_product');
         let compareProducts;
 
