@@ -208,13 +208,22 @@
 .account-information-area .row-edit-profile{
     display: flex;
     margin-top: 40px;
+    .verify-opt-area{
+        .react-tel-input input {
+            min-width: unset !important;
+        }
+        .login-otp{
+            width: 151px !important;
+        }
+    }
 }
 .row-edit-profile .main__edit-column,
 .row-edit-profile .alternative__edit-column{
     flex-basis: 328px;
 }
 .row-edit-profile .alternative__edit-column{
-    margin-left: 80px;
+    margin-left: 64px;
+    // max-width: 328px;
 }
 .account-information-area .title {
     color: #101820;
@@ -225,10 +234,10 @@
     margin-bottom: 10px;
 }
 .account-information-area .form-group {
-    margin-bottom: 23px;
+    margin-bottom: 12px;
     label {
-        font-family: 'Gotham Book';
-        font-weight: 600;
+        font-family: 'Gotham Medium';
+        font-weight: 500;
         margin-bottom: 8px;
         font-size: 10px;
         line-height: 10px;
@@ -261,9 +270,16 @@
 }
 .account-information-area .checkbox-item {
     align-items: center;
+    margin-top: 25px;
+}
+.account-information-area .checkbox-item span{
+    font-family: Gotham;
+  font-size: 16px !important;
+  font-weight: 500;
+  line-height: 16px !important;
 }
 .account-information-area .checkbox-item.first {
-    margin-top: 1px;
+    margin-top: 25px;
 }
 .account-information-area .checkbox-item .checkbox-item-icon,
 .account-information-area .checkbox-item.selected .checkbox-item-icon {
@@ -271,12 +287,46 @@
     width: 24px;
     height: 24px;
 }
+.account-information-area .checkbox-item.selected .checkbox-item-icon{
+    color: #fff;
+    background-color: black;
+    .checkbox-item-icon-inside{
+        color: #fff;
+        background-color: black;
+    }
+}
+
 .account-information-area button.save-profile {
-    margin: 24px 0 16px;
-    padding: 10px 18px;
-    width: 100px;
+    margin: 60px 0 16px;
+    padding: 16px 68px;
+    width: 180px;
     color: #FFFFFF;
     background: #101820;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    span{
+        font-family: Gotham;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 16px;
+        text-transform: uppercase;
+    }
+}
+
+.account-information-area #readOnlyInput{
+    font-family: "Gotham Book";
+    font-size: 14px;
+    line-height: 14px;
+    border: 1px solid #E0E0E0;
+    background-color: #fff;
+}
+.account-information-area #real-input-register{
+    font-family: "Gotham Book";
+    font-size: 14px;
+    line-height: 14px;
+    background-color: #fff;
 }
 
 /* book addresses */
@@ -642,8 +692,63 @@
     display: none;
 }
 
+.is-invalid {
+    border-color: #d7282f;
+}
+.email-not-edit {
+    color: #d7282f;
+    text-align: center;
+    margin-top: 10px;
+}
+/*
+Order history
+*/
+.my-order{
+    .table-siminia > tbody > tr{
+        font-size: 14px;
+        font-weight: 500;
+    }
+}
 
+
+.product-grid .siminia-product-list-item{
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    margin-top: 16px;
+    vertical-align: top;
+    width: 48%;
+}
+
+@media (min-width: 1920px) {
+    .product-grid .siminia-product-list-item{
+        padding: 0;
+        margin-left: 75px;
+        width: 240px;
+    }
+
+    .product-grid .no-product{
+        margin-left: 40px;
+    }
+
+    .product-grid .siminia-product-list-item.first{
+        margin-left: 40px;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1919px) {
+    .product-grid .no-product{
+        margin-left: 22px;
+    }
+}
 @media (max-width: 1023px) {
+    .account-information-area .form-group {
+        input{
+            font-family: "Gotham Book";
+            font-size: 14px;
+            line-height: 14px;
+        }
+    }
     .customer-dashboard .container {
         padding: 0;
     }
@@ -679,10 +784,11 @@
     }
     .account-information-area .row-edit-profile{
         display: block;
+        margin-top: 18px;
     }
     .row-edit-profile .alternative__edit-column{
         margin-left: 0;
-        margin-top: 17px;
+        margin-top: 25px;
         width: 100%;
     }
     .row-edit-profile .alternative__edit-column.active{
@@ -690,9 +796,12 @@
     }
     .account-information-area .title {
         margin-bottom: 15px;
+        font-size: 16px;
+        line-height: 16px;
+        margin-bottom: 0px;
     }
     .account-information-area .checkbox-item {
-        margin-top: 16px;
+        margin-top: 15px;
         .checkbox-item-icon{
             width: 24px;
             height: 24px;
@@ -875,60 +984,18 @@
         margin-right: 8px;
     }
 }
-
-.is-invalid {
-    border-color: #d7282f;
-}
-.email-not-edit {
-    color: #d7282f;
-    text-align: center;
-    margin-top: 10px;
-}
-/*
-Order history
-*/
-.my-order{
-    .table-siminia > tbody > tr{
-        font-size: 14px;
-        font-weight: 500;
+@media(max-width: 500px){
+    .account-information-area .checkbox-item span{
+        font-size: 14px !important;
+        line-height: 14px !important;
     }
 }
-
-@media (min-width: 1024px) and (max-width: 1919px) {
-    .product-grid .no-product{
-        margin-left: 22px;
-    }
-}
-.product-grid .siminia-product-list-item{
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-    margin-top: 16px;
-    vertical-align: top;
-    width: 48%;
-}
-
-@media (min-width: 1920px) {
-    .product-grid .siminia-product-list-item{
-        padding: 0;
-        margin-left: 75px;
-        width: 240px;
-    }
-
-    .product-grid .no-product{
-        margin-left: 40px;
-    }
-
-    .product-grid .siminia-product-list-item.first{
-        margin-left: 40px;
-    }
-}
-
 .customer-dashboard {
     &.mobile{
         padding-top: 0;
         padding-bottom: 50px;
         .welcome-customer {
+            display: none;
             background: unset;
             margin-right: auto;
             white-space: nowrap;
@@ -938,6 +1005,7 @@ Order history
             font-size: 18px;
         }
         .dashboard-layout {
+            margin-top: 14px;
             display: block;
             .dashboard-menu {
                 display: none;
@@ -950,10 +1018,12 @@ Order history
                 padding: 0px 16px;
                 .customer-page-title {
                     margin-bottom: 16px;
-                    font-family: 'Gotham Book';
-                    font-weight: 600;
+                    font-family: 'Gotham Medium';
+                    font-weight: 500;
                     font-size: 18px;
-                    margin-bottom: 18px;
+                    margin-bottom: 0px;
+                    text-transform: capitalize;
+                    line-height: 18px;
                 }
                 .table-group{
                     padding: 0px;
