@@ -256,7 +256,7 @@ const ProfileForm = props => {
             localStorage.setItem("numberphone_register", phoneChange);
             // Open modal verify otp
             openVModal();
-            setTimeout(() => closeVModal(), 30000);
+            setTimeout(() => closeVModal(), 120000);
         }
     }
 
