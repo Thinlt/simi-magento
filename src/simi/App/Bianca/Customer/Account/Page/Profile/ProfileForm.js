@@ -164,7 +164,7 @@ const ProfileForm = props => {
                 }
             }
             props.getUserDetails();
-            $('#readOnlyInput').val('+' + phoneChange)
+            $('#readOnlyInput').val(phoneChange)
             $('#real-input-register').val('')
             localStorage.removeItem('numberphone_register')
             props.toggleMessages([{ type: 'success', message: data.message, auto_dismiss: true }])
