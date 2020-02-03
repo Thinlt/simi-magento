@@ -218,6 +218,16 @@ class Cart extends Component {
             cartId && cart.totals.discount_amount;
         const discount =
             (Math.abs(cart.totals.discount_amount) / totalPrice) * 100;
+        let hasGiftVoucher;
+        let giftCardObj;
+        let giftCard;
+
+        
+        if(cart.totals.total_segments){
+            giftCardObj = cart.totals.total_segments.filter(obj => obj.code === 'aw_giftcard');
+            giftCard = JSON.parse(giftCardObj[0].extension_attributes.aw_giftcard_codes[0]);
+            hasGiftVoucher = cartId && cart.totals.total_segments && giftCard;
+        }
         return (
             <div>
                 {hasSubtotal ? (
@@ -244,6 +254,19 @@ class Cart extends Component {
                         </div>
                     </div>
                 ) : null}
+                {
+                    hasGiftVoucher ?
+                    <div className='subtotal'>
+                    <div className='subtotal-label'>Discount({giftCard.giftcard_code})</div>
+                        <div>
+                            <Price
+                                currencyCode={cartCurrencyCode}
+                                value={giftCard.value}
+                            />
+                        </div>
+                    </div>
+                    : null
+                }
                 {hasGrandtotal ? (
                     <div className="grandtotal">
                         <div className="grandtotal-label">Grand Total</div>

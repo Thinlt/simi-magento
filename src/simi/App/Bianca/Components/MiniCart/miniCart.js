@@ -169,6 +169,17 @@ class MiniCart extends Component {
         const totalPrice = cart.totals.subtotal;
         const hasDiscount = cartId && cart.totals.discount_amount;
         const discount = (Math.abs(cart.totals.discount_amount)/totalPrice) * 100;
+        let hasGiftVoucher;
+        let giftCardObj;
+        let giftCard;
+
+        
+        if(cart.totals.total_segments){
+            giftCardObj = cart.totals.total_segments.filter(obj => obj.code === 'aw_giftcard');
+            giftCard = JSON.parse(giftCardObj[0].extension_attributes.aw_giftcard_codes[0]);
+            hasGiftVoucher = cartId && cart.totals.total_segments && giftCard;
+        }
+
         return (
             <div>
                 {hasDiscount ? 
@@ -178,6 +189,18 @@ class MiniCart extends Component {
                             <Price
                                 currencyCode={cartCurrencyCode}
                                 value={discount}
+                            />
+                        </div>
+                    </div>
+                    : null
+                }
+                {hasGiftVoucher ?
+                    <div className={classes.subtotal}>
+                    <div className={classes.subtotalLabel}>Discount({giftCard.giftcard_code})</div>
+                        <div>
+                            <Price
+                                currencyCode={cartCurrencyCode}
+                                value={giftCard.value}
                             />
                         </div>
                     </div>
