@@ -38,7 +38,7 @@ class CountDown extends React.Component {
         const { h, m, s } = this.state;
         return (
             <div className="time-result" style={{ display: 'inline-block', marginLeft: 10, color: '#101820' }}>
-                {`${s} `}{Identify.__('seconds')}
+                {`${m} `}{Identify.__('min')} {`${s} `}{Identify.__('seconds')}
             </div>
         )
     }
