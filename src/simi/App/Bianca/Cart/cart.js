@@ -225,8 +225,10 @@ class Cart extends Component {
         
         if(cart.totals.total_segments){
             giftCardObj = cart.totals.total_segments.filter(obj => obj.code === 'aw_giftcard');
-            giftCard = JSON.parse(giftCardObj[0].extension_attributes.aw_giftcard_codes[0]);
-            hasGiftVoucher = cartId && cart.totals.total_segments && giftCard;
+            if (giftCardObj && giftCardObj.length) {
+                giftCard = JSON.parse(giftCardObj[0].extension_attributes.aw_giftcard_codes[0]);
+            }
+            hasGiftVoucher = cartId && cart.totals.total_segments && giftCard || null;
         }
         return (
             <div>
