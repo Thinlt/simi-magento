@@ -8,6 +8,12 @@ import { editCustomer } from 'src/simi/Model/Customer';
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import validator from 'validator'
 import { smoothScrollToView } from 'src/simi/Helper/Behavior';
+import PhoneInputReadonly from './PhoneInputReadonly';
+import PhoneInputVerify from './PhoneInputVerify';
+import { sendOTPForRegister, verifyOTPForRegister } from 'src/simi/Model/Otp';
+import GetOtpModal from 'src/simi/App/Bianca/Components/Otp/GetOtpModal';
+import VerifyOtpModal from 'src/simi/App/Bianca/Components/Otp/VerifyOtpModal';
+import { showToastMessage } from 'src/simi/Helper/Message';
 const $ = window.$;
 
 const ProfileForm = props => {
@@ -20,6 +26,10 @@ const ProfileForm = props => {
     // const [data, setData] = useState(data);
     const [changeForm, handleChangeForm] = useState(false);
     const [isChangePass, setChangePass] = useState(false);
+    const [allowSubmit, setAllowSubmit] = useState(true)
+    const [phoneChange, setPhone] = useState("")
+    const [showModalGet, setModalGet] = useState(false)
+    const [showModalVerify, setModalVerify] = useState(false)
 
     useEffect(() => {
         if (
@@ -137,6 +147,7 @@ const ProfileForm = props => {
     };
 
     const processData = (data) => {
+        smoothScrollToView($("#id-message"));
         if (data.hasOwnProperty('errors') && data.errors) {
             const messages = data.errors.map(value => {
                 return { type: 'error', message: value.message, auto_dismiss: true }
@@ -153,38 +164,136 @@ const ProfileForm = props => {
                 }
             }
             props.getUserDetails();
+            $('#readOnlyInput').val('+' + phoneChange)
+            $('#real-input-register').val('')
+            localStorage.removeItem('numberphone_register')
             props.toggleMessages([{ type: 'success', message: data.message, auto_dismiss: true }])
         }
         hideFogLoading()
-        smoothScrollToView($("#id-message"));
     }
 
     const handleSaveProfile = (e) => {
         e.preventDefault();
-        const formValue = $("#harlows-edit-profile").serializeArray();
-        const isValidForm = validateForm(formValue);
-        if (isValidForm) {
-            let params = {
-                email: data.email
+        if (allowSubmit) {
+            const formValue = $("#harlows-edit-profile").serializeArray();
+            const isValidForm = validateForm(formValue);
+            if (isValidForm) {
+                let params = {
+                    email: data.email
+                }
+                if (changeForm === 'password') {
+                    params['change_password'] = 1;
+                    setChangePass(true)
+                }
+                if (changeForm === 'email') {
+                    params['change_email'] = 1;
+                }
+                for (let index in formValue) {
+                    let field = formValue[index];
+                    params[field.name] = field.value;
+                }
+                if (changeForm === 'phone') {
+                    params.telephone = phoneChange.substring(1)
+                }
+                showFogLoading()
+                editCustomer(processData, params);
             }
-            if (changeForm === 'password') {
-                params['change_password'] = 1;
-                setChangePass(true)
-            }
-            if (changeForm === 'email') {
-                params['change_email'] = 1;
-            }
-            for (let index in formValue) {
-                let field = formValue[index];
-                params[field.name] = field.value;
-            }
-            if (formValue[2].value !== telephone) {
-            } else {
-                delete params.telephone
-            }
-            showFogLoading()
-            editCustomer(processData, params);
+        } else {
+            showToastMessage(Identify.__('You must verify your phone number before change !'))
         }
+    }
+
+    const openGetModal = () => {
+        let countryCode = $('.verify-opt-area #phone-form-control').val()
+        let realPhone = $('#real-input-register').val()
+        let fullPhoneNumber = (countryCode + realPhone).substring(1)
+        if (fullPhoneNumber === telephone) {
+            showToastMessage(Identify.__('New phone number must be difference the old one !'))
+        } else if (phoneChange.length < 10 || fullPhoneNumber < 10 || !validator.isMobilePhone(fullPhoneNumber)) {
+            showToastMessage(Identify.__('Invalid phone number !'))
+        } else {
+            setModalGet(true)
+        }
+    }
+
+    const closeGetModal = () => {
+        localStorage.removeItem("numberphone_register");
+        setModalGet(false)
+    }
+
+    const handleSendOtp = () => {
+        let phone = phoneChange;
+        // close get modal
+        closeGetModal()
+        $('#must-verify').css('display', 'none')
+        $('#createAccount').css('backgroundColor', '#101820')
+        $('#verify-opt-area .wrap').css('float', 'right')
+
+        showFogLoading()
+        phone = phone.replace(/[- )(]/g, '').replace(/\+/g, "").replace(/\,/g, "");
+        var phoneNB = phone
+        let params = {
+            mobile: phone
+        }
+        const merchant = Identify.getStoreConfig();
+        if (merchant && merchant.hasOwnProperty('storeConfig') && merchant.storeConfig) {
+            const { website_id } = merchant.storeConfig;
+            if (website_id) {
+                params['website_id'] = website_id;
+            }
+        }
+        sendOTPForRegister(params, handleCallBackSendOTP)
+    }
+
+    const handleCallBackSendOTP = (data) => {
+        hideFogLoading();
+        if (data && data.result && (data.result == "exist")) {
+            hideFogLoading();
+            showToastMessage(Identify.__('Already exist account with this phone number !'))
+        } else {
+            // Always run here, allow exist phone number, only check real number phone.
+            hideFogLoading();
+            localStorage.setItem("numberphone_register", phoneChange);
+            // Open modal verify otp
+            openVModal();
+            setTimeout(() => closeVModal(), 30000);
+        }
+    }
+
+    const openVModal = () => {
+        setModalVerify(true)
+    }
+
+    const closeVModal = () => {
+        setModalVerify(false)
+    }
+
+    const handleVerifyChangePhone = () => {
+        let changePhoneOtp = localStorage.getItem('login_otp');
+        $('#login-input-otp-warning').css({ display: 'none' })
+        showFogLoading();
+        verifyOTPForRegister(phoneChange.substring(1), changePhoneOtp, handleCallBackLVerifyChangePhone);
+        localStorage.removeItem('login_otp')
+    }
+
+    const handleCallBackLVerifyChangePhone = (data) => {
+        if (data && data.result && (data.result == "true")) {
+            hideFogLoading();
+            setAllowSubmit(true)
+            showToastMessage(Identify.__('Phone number is Valid !'))
+        } else {
+            hideFogLoading();
+            showToastMessage(Identify.__('Verify OTP fail !'))
+            localStorage.removeItem('numberphone_register')
+        }
+    }
+
+    const onChange = (val1, val2) => {
+        $('#verify-opt-area #number_phone-invalid').css({ display: 'none' })
+        let value = val1 + val2
+        setPhone(value)
+        setAllowSubmit(false)
+        localStorage.setItem("numberphone_register", value);
     }
 
     const renderAlternativeForm = () => {
@@ -207,10 +316,12 @@ const ProfileForm = props => {
                             type="password"
                             className='required'
                             onChange={e => handleOnChange(e)}
+                            required
                         />
                         {/* <div className='email-not-edit'>{Identify.__('Email cannot be edit')}</div> */}
                     </React.Fragment>
                 );
+                break;
             case 'password':
                 return (
                     <React.Fragment>
@@ -244,6 +355,49 @@ const ProfileForm = props => {
                         />
                     </React.Fragment>
                 )
+                break;
+            case 'phone':
+                return (
+                    <React.Fragment>
+                        <GetOtpModal
+                            openGetModal={showModalGet}
+                            closeGetModal={closeGetModal}
+                            senOtpRegister={handleSendOtp}
+                        />
+                        <VerifyOtpModal
+                            openVerifyModal={showModalVerify}
+                            closeVerifyModal={closeVModal}
+                            callApi={(phonenumber) => handleVerifyChangePhone(phonenumber)}
+                        />
+                        <h4 className="title">{Identify.__("Change Phone Number")}</h4>
+                        <TextBox
+                            id={'readOnlyInput'}
+                            label={Identify.__("Current phone number*")}
+                            defaultValue={'+' + telephone}
+                            readOnly
+                        />
+                        {/* <PhoneInputReadonly
+                            telephone={telephone}
+                        /> */}
+                        <PhoneInputVerify
+                            openGetModal={openGetModal}
+                            handleVerify={handleVerifyChangePhone}
+                            handleChangePhone={(val1, val2) => onChange(val1, val2)}
+                            type={'login'}
+                        />
+                    </React.Fragment>
+                )
+                break;
+        }
+    }
+
+    const changeFormPhone = () => {
+        handleChangeForm(changeForm === 'phone' ? false : 'phone')
+        if (changeForm === 'phone') {
+            setAllowSubmit(true)
+        }
+        if (changeForm === false) {
+            setAllowSubmit(false)
         }
     }
 
@@ -252,7 +406,7 @@ const ProfileForm = props => {
             <div className='row-edit-profile'>
                 <div className="main__edit-column">
                     <h4 className="title">
-                        {Identify.__("Edit account information")}
+                        {Identify.__("Account information")}
                     </h4>
                     <TextBox
                         defaultValue={data.firstname}
@@ -270,19 +424,17 @@ const ProfileForm = props => {
                         required={true}
                         onChange={handleOnChange}
                     />
-                    <TextBox
-                        defaultValue={telephone}
-                        label={Identify.__("Telephone")}
-                        name="telephone"
-                        className="required"
-                        required={true}
-                        onChange={handleOnChange}
-                    />
                     <Checkbox
                         className="first"
                         label={Identify.__("Change email")}
                         onClick={() => handleChangeForm(changeForm === 'email' ? false : 'email')}
                         selected={changeForm === 'email'}
+                    />
+                    <Checkbox
+                        className=""
+                        label={Identify.__("Change phone number")}
+                        onClick={() => changeFormPhone()}
+                        selected={changeForm === 'phone'}
                     />
                     <Checkbox
                         className=""
