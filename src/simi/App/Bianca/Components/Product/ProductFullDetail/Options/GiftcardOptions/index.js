@@ -40,7 +40,7 @@ class GiftcardOptions extends OptionBase {
         this.awGcRecipientPhoneRef = React.createRef();
         this.awGcDeliveryDateRef = React.createRef();
         this.awGcMessageRef = React.createRef();
-        this.required = ['aw_gc_amount', 'aw_gc_custom_amount', 'aw_gc_recipient_name', 'aw_gc_recipient_email', 'aw_gc_sender_name', 
+        this.required = ['aw_gc_amount', 'aw_gc_custom_amount', 'aw_gc_recipient_name', 'aw_gc_recipient_email', 'aw_gc_recipient_phone', 'aw_gc_sender_name', 
             'aw_gc_sender_email', 'aw_gc_delivery_method', 'aw_gc_delivery_date', 'aw_gc_delivery_date_timezone'];
         this.isCheckOptionRequired = false;
 
@@ -223,6 +223,9 @@ class GiftcardOptions extends OptionBase {
             aw_gc_delivery_date_timezone: this.state.aw_gc_delivery_date_timezone,
             aw_gc_delivery_date: this.awGcDeliveryDateRef.current && this.awGcDeliveryDateRef.current.value || '',
             aw_gc_message: this.awGcMessageRef.current && this.awGcMessageRef.current.value || '',
+        }
+        if (aw_gc_params.aw_gc_delivery_method !== 'email') {
+            aw_gc_params.aw_gc_recipient_email = '';
         }
         if (this.state.aw_gc_custom_amount) {
             aw_gc_params.aw_gc_amount = 'custom';
