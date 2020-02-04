@@ -62,6 +62,16 @@ const CompareProduct = props => {
         }
     }
 
+    const addZeroes = ( num ) => {
+        const numStr = num.toString()
+        const res = numStr.split(".");
+        let value;
+        if(res.length == 1 || (res[1].length < 3)) {
+            value = num.toFixed(2);
+        }
+        return value
+    }
+
     const renderImgItem = () => {
         const imgItem = listItem.map(item => {
             const addToCart = (pre_order = false) => {
@@ -135,7 +145,7 @@ const CompareProduct = props => {
                             <img src={item.images[0].url} alt={item.name}/>
                         </div>
                         <div>
-                            <div className="compare-item-name">{item.name}</div>
+                            <div className="compare-item-name">{ReactHTMLParse(item.name)}</div>
                             <div className="compare-item-price">
                                 {item.special_price
                                 ?
@@ -171,7 +181,9 @@ const CompareProduct = props => {
                                         <span>
                                             {item.app_options && item.app_options.configurable_options
                                             ?
-                                                item.app_options.configurable_options.prices.basePrice.amount
+                                                <Fragment>
+                                                    {addZeroes(item.app_options.configurable_options.prices.basePrice.amount)}
+                                                </Fragment>
                                             :   
                                                 parseFloat(item.price).toFixed(2)
                                             }
@@ -344,7 +356,7 @@ const CompareProduct = props => {
                         </div>
                     </div>
                 ) : (
-                    <div>{Identify.__('NO ITEMS TO COMPARE')}</div>
+                    <div style={{fontWeight:"500"}}>{Identify.__('NO ITEMS TO COMPARE')}</div>
                 )}
             </React.Fragment>
         );
