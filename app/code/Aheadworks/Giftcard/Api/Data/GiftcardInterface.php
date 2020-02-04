@@ -36,6 +36,8 @@ interface GiftcardInterface extends ExtensibleDataInterface
     const SENDER_EMAIL = 'sender_email';
     const RECIPIENT_NAME = 'recipient_name';
     const RECIPIENT_EMAIL = 'recipient_email';
+    const RECIPIENT_PHONE = 'recipient_phone';
+    const DELIVERY_METHOD = 'delivery_method';
     const DELIVERY_DATE = 'delivery_date';
     const DELIVERY_DATE_TIMEZONE = 'delivery_date_timezone';
     const EMAIL_SENT = 'email_sent';
@@ -321,6 +323,36 @@ interface GiftcardInterface extends ExtensibleDataInterface
      * @return $this
      */
     public function setRecipientEmail($recipientEmail);
+
+    /**
+     * Get recipient phone
+     *
+     * @return string
+     */
+    public function getRecipientPhone();
+
+    /**
+     * Set recipient phone
+     *
+     * @param string $recipientPhone
+     * @return $this
+     */
+    public function setRecipientPhone($recipientPhone);
+
+    /**
+     * Get delivery method
+     *
+     * @return string
+     */
+    public function getDeliveryMethod();
+
+    /**
+     * Set delivery method
+     *
+     * @param string $deliveryMethod
+     * @return $this
+     */
+    public function setDeliveryMethod($deliveryMethod);
 
     /**
      * Get delivery date

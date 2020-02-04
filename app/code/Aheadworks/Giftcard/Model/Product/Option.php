@@ -149,6 +149,22 @@ class Option extends AbstractExtensibleModel implements OptionInterface
     /**
      * {@inheritdoc}
      */
+    public function getAwGcRecipientPhone()
+    {
+        return $this->getData(self::RECIPIENT_PHONE);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAwGcRecipientPhone($recipientPhone)
+    {
+        return $this->setData(self::RECIPIENT_PHONE, $recipientPhone);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getAwGcHeadline()
     {
         return $this->getData(self::HEADLINE);
@@ -192,6 +208,22 @@ class Option extends AbstractExtensibleModel implements OptionInterface
     public function setAwGcType($giftcardType)
     {
         return $this->setData(self::GIFTCARD_TYPE, $giftcardType);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAwGcDeliveryMethod()
+    {
+        return $this->getData(self::DELIVERY_METHOD);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAwGcDeliveryMethod($deliveryMethod)
+    {
+        return $this->setData(self::DELIVERY_METHOD, $deliveryMethod);
     }
 
     /**

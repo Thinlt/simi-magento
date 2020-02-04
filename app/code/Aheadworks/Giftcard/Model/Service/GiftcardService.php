@@ -195,7 +195,9 @@ class GiftcardService implements GiftcardManagementInterface
         foreach ($giftcardCodes as $giftcardCode) {
             try {
                 $giftcard = $this->giftcardRepository->getByCode($giftcardCode);
-                if ($giftcard->getEmailTemplate() == EmailTemplate::DO_NOT_SEND
+                if (($giftcard->getEmailTemplate() == EmailTemplate::DO_NOT_SEND 
+                        && $giftcard->getDeliveryMethod() == 'email')
+                    || ($giftcard->getDeliveryMethod() != 'email' && !$giftcard->getRecipientPhone())
                     || !$this->giftcardValidator->isValid($giftcard)
                     || ($validateDeliveryDate && !$this->isSendToday($giftcard->getDeliveryDate()))
                 ) {

@@ -442,9 +442,13 @@ class Giftcard extends AbstractType
         if (!$this->isTypePhysical($product)) {
             $senderEmail = $buyRequest->getData(OptionInterface::SENDER_EMAIL);
             $recipientEmail = $buyRequest->getData(OptionInterface::RECIPIENT_EMAIL);
+            $recipientPhone = $buyRequest->getData(OptionInterface::RECIPIENT_PHONE);
+            $deliveryMethod = $buyRequest->getData(OptionInterface::DELIVERY_METHOD);
 
             $product->addCustomOption(OptionInterface::SENDER_EMAIL, $senderEmail, $product);
             $product->addCustomOption(OptionInterface::RECIPIENT_EMAIL, $recipientEmail, $product);
+            $product->addCustomOption(OptionInterface::RECIPIENT_PHONE, $recipientPhone, $product);
+            $product->addCustomOption(OptionInterface::DELIVERY_METHOD, $deliveryMethod, $product);
 
             $emailTemplateId = $buyRequest->getData(OptionInterface::TEMPLATE);
             $emailTemplateName = null;

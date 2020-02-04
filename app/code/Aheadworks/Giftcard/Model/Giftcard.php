@@ -389,6 +389,38 @@ class Giftcard extends AbstractModel implements GiftcardInterface
     /**
      * {@inheritdoc}
      */
+    public function getRecipientPhone()
+    {
+        return $this->getData(self::RECIPIENT_PHONE);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setRecipientPhone($recipientPhone)
+    {
+        return $this->setData(self::RECIPIENT_PHONE, $recipientPhone);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDeliveryMethod()
+    {
+        return $this->getData(self::DELIVERY_METHOD);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDeliveryMethod($deliveryMethod)
+    {
+        return $this->setData(self::DELIVERY_METHOD, $deliveryMethod);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getDeliveryDate()
     {
         return $this->getData(self::DELIVERY_DATE);
@@ -572,7 +604,8 @@ class Giftcard extends AbstractModel implements GiftcardInterface
         if ((($this->getOrigData('state')
                     && $this->getOrigData('state') != Status::ACTIVE && $this->getState() == Status::ACTIVE)
                 || ($this->getOrigData('email_template') == EmailTemplate::DO_NOT_SEND
-                    && $this->getEmailTemplate() != EmailTemplate::DO_NOT_SEND))
+                    && $this->getEmailTemplate() != EmailTemplate::DO_NOT_SEND)
+                || ($this->getOrigData('delivery_method') != 'email'))
             && $this->getEmailSent() != EmailStatus::SENT
         ) {
             $this->setEmailSent(EmailStatus::AWAITING);
@@ -581,6 +614,7 @@ class Giftcard extends AbstractModel implements GiftcardInterface
             $this
                 ->setSenderEmail('')
                 ->setRecipientEmail('')
+                ->setRecipientPhone('')
                 ->setEmailTemplate(EmailTemplate::DO_NOT_SEND)
                 ->setEmailSent(EmailStatus::NOT_SEND);
         }

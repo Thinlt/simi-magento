@@ -29,6 +29,12 @@
                     <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
                 </field>
             </group>
+            <group id="sms" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>SMS Settings</label>
+                <field id="template" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Gift Card Message Template</label>
+                </field>
+            </group>
             <group id="code_pattern" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Gift Card Code Pattern</label>
                 <field id="code_length" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">

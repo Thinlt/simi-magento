@@ -449,6 +449,16 @@
                 </item>
             </argument>
         </column>
+        <column name="recipient_phone">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Recipient Phone</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="filter" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </column>
         <column name="delivery_date" class="Magento\Ui\Component\Listing\Columns\Date">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -477,7 +487,7 @@
                 <item name="config" xsi:type="array">
                     <item name="dataType" xsi:type="string">select</item>
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
-                    <item name="label" xsi:type="string" translate="true">Email Sent</item>
+                    <item name="label" xsi:type="string" translate="true">Email/SMS Sent</item>
                 </item>
             </argument>
         </column>

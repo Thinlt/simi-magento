@@ -249,13 +249,16 @@ class Save extends \Magento\Backend\App\Action
             $dataObject->setId(null);
         }
         $giftcard = $this->giftcardRepository->save($dataObject);
-        if ($saveAction == 'save_and_send' && $giftcard->getEmailTemplate() != EmailTemplate::DO_NOT_SEND) {
+        if ($saveAction == 'save_and_send' && (
+                $giftcard->getEmailTemplate() != EmailTemplate::DO_NOT_SEND || 
+                $giftcard->getDeliveryMethod() != 'email'
+            )) {
             $giftcards = $this->giftcardManagement->sendGiftcardByCode($giftcard->getCode(), false);
             $giftcard = count($giftcards) ? array_shift($giftcards) : null;
             if ($giftcard && $giftcard->getEmailSent() == EmailStatus::SENT) {
                 $this->messageManager->addSuccessMessage(__('Email was successfully sent'));
             } else {
-                $this->messageManager->addErrorMessage(__('Could not send email'));
+                $this->messageManager->addErrorMessage(__('Could not send email/sms'));
             }
         }
         return $giftcard;

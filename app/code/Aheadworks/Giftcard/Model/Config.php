@@ -22,6 +22,7 @@ class Config
      */
     const XML_PATH_GIFTCARD_EXPIRE_DAYS = 'aw_giftcard/general/expire_days';
     const XML_PATH_EMAIL_SENDER = 'aw_giftcard/email/sender';
+    const XML_PATH_SMS_TEMPLATE = 'aw_giftcard/sms/template';
     const XML_PATH_GIFTCARD_CODE_LENGTH = 'aw_giftcard/code_pattern/code_length';
     const XML_PATH_GIFTCARD_CODE_FORMAT = 'aw_giftcard/code_pattern/code_format';
     const XML_PATH_GIFTCARD_CODE_PREFIX = 'aw_giftcard/code_pattern/code_prefix';
@@ -68,6 +69,21 @@ class Config
     {
         return $this->scopeConfig->getValue(
             self::XML_PATH_EMAIL_SENDER,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Get sms template
+     *
+     * @param int|null $storeId
+     * @return string
+     */
+    public function getSmsTemplate($storeId = null)
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_SMS_TEMPLATE,
             ScopeInterface::SCOPE_STORE,
             $storeId
         );

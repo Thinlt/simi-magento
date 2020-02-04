@@ -66,6 +66,11 @@ class Sender
     private $cardImageBaseUrlRender;
 
     /**
+     * @var Magento\Framework\ObjectManagerInterface
+     */
+    private $objectManager;
+
+    /**
      * @param TransportBuilder $transportBuilder
      * @param Config $config
      * @param TimezoneInterface $localeDate
@@ -81,7 +86,8 @@ class Sender
         AppEmulation $appEmulation,
         PriceCurrencyInterface $priceCurrency,
         StoreManagerInterface $storeManager,
-        CardImageBaseUrlRender $cardImageBaseUrlRender
+        CardImageBaseUrlRender $cardImageBaseUrlRender,
+        \Magento\Framework\ObjectManagerInterface $objectManager
     ) {
         $this->transportBuilder = $transportBuilder;
         $this->config = $config;
@@ -90,6 +96,7 @@ class Sender
         $this->priceCurrency = $priceCurrency;
         $this->storeManager = $storeManager;
         $this->cardImageBaseUrlRender = $cardImageBaseUrlRender;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -108,35 +115,78 @@ class Sender
         }
         /** @var GiftcardInterface $giftcard */
         $giftcard = $giftcards[0];
-        $template = $giftcard->getEmailTemplate();
-        $recipientName = $giftcard->getRecipientName();
-        $recipientEmail = $giftcard->getRecipientEmail();
-        if (!$storeId) {
-            $storeId = $this->storeManager->getWebsite($giftcard->getWebsiteId())->getDefaultStore()->getId();
-        }
-        /** @var StoreInterface $store */
-        $store = $this->storeManager->getStore($storeId);
-        $senderEmail = $this->config->getEmailSender($store->getId());
-
-        $sendStatus = $this->send(
-            $template,
-            [
-                'area' => Area::AREA_FRONTEND,
-                'store' => $store->getId()
-            ],
-            $this->prepareTemplateVars(
+        if ($giftcard->getDeliveryMethod() == 'email') {
+            $template = $giftcard->getEmailTemplate();
+            $recipientName = $giftcard->getRecipientName();
+            $recipientEmail = $giftcard->getRecipientEmail();
+            if (!$storeId) {
+                $storeId = $this->storeManager->getWebsite($giftcard->getWebsiteId())->getDefaultStore()->getId();
+            }
+            /** @var StoreInterface $store */
+            $store = $this->storeManager->getStore($storeId);
+            $senderEmail = $this->config->getEmailSender($store->getId());
+    
+            $sendStatus = $this->send(
+                $template,
                 [
-                    'store' => $store,
-                    'giftcards' => $giftcards
+                    'area' => Area::AREA_FRONTEND,
+                    'store' => $store->getId()
+                ],
+                $this->prepareTemplateVars(
+                    [
+                        'store' => $store,
+                        'giftcards' => $giftcards
+                    ]
+                ),
+                $senderEmail,
+                [
+                    'name' => $recipientName,
+                    'email' => $recipientEmail
                 ]
-            ),
-            $senderEmail,
-            [
-                'name' => $recipientName,
-                'email' => $recipientEmail
-            ]
-        );
-        return $sendStatus;
+            );
+            return $sendStatus;
+        } else {
+            return $this->sendSMS($giftcards, $storeId);
+        }
+    }
+
+    /**
+     * Send SMS
+     *
+     * @param array $giftcards
+     * @return boolean
+     */
+    private function sendSMS($giftcards, $storeId = null){
+        if (empty($giftcards)) return false;
+        $smsSender = $this->objectManager->get('\Magecomp\Mobilelogin\Helper\Apicall');
+        if ($smsSender) {
+            $randomCode = substr(str_shuffle("0123456789"), 0, 6);
+            $codes = [];
+            foreach($giftcards as $gc){
+                $codes[] = $gc->getCode();
+            }
+            $codes = implode(', ', $codes);
+            /** @var StoreInterface $store */
+            $store = $this->storeManager->getStore($storeId);
+            $messageTemplate = $this->config->getSmsTemplate($store->getId());
+            $templateVars = $this->prepareTemplateVars(
+                    [
+                        'store' => $store,
+                        'giftcards' => $giftcards
+                    ]
+                );
+            $templateVars['codes'] = $codes;
+            //Magento\Email\Model\Template
+            $emailTemplate = $this->objectManager->create(\Magento\Email\Model\Template::class);
+            $emailTemplate->setTemplateText($messageTemplate);
+            $emailTemplate->setType(\Magento\Framework\App\TemplateTypesInterface::TYPE_TEXT);
+            $message = $emailTemplate->getProcessedTemplate($templateVars);
+            if (isset($giftcards[0]) && $giftcards[0]->getRecipientPhone()) {
+                $mobilenumbers = $giftcards[0]->getRecipientPhone();
+                return $smsSender->curlApiCall($message, $mobilenumbers, $randomCode);
+            }
+        }
+        return false;
     }
 
     /**

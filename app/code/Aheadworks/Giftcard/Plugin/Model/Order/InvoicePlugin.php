@@ -265,6 +265,8 @@ class InvoicePlugin
                         ->setSenderEmail($options->getAwGcSenderEmail())
                         ->setRecipientName($options->getAwGcRecipientName())
                         ->setRecipientEmail($options->getAwGcRecipientEmail())
+                        ->setRecipientPhone($options->getAwGcRecipientPhone())
+                        ->setDeliveryMethod($options->getAwGcDeliveryMethod())
                         ->setEmailTemplate($options->getAwGcTemplate())
                         ->setHeadline($options->getAwGcHeadline())
                         ->setMessage($options->getAwGcMessage())
@@ -274,7 +276,10 @@ class InvoicePlugin
                     if (!$giftcardObject->getSenderName()) $giftcardObject->setSenderName($customerName);
                     if (!$giftcardObject->getSenderEmail()) $giftcardObject->setSenderEmail($customerEmail);
                     if (!$giftcardObject->getRecipientName()) $giftcardObject->setRecipientName($customerName);
-                    if (!$giftcardObject->getRecipientEmail()) $giftcardObject->setRecipientEmail($customerEmail);
+                    if (!$giftcardObject->getRecipientEmail() && $giftcardObject->getDeliveryMethod() == 'email') 
+                        $giftcardObject->setRecipientEmail($customerEmail);
+                    if (!$giftcardObject->getRecipientPhone() && $giftcardObject->getDeliveryMethod() != 'email') 
+                        $giftcardObject->setRecipientPhone(''); // get customer signedin and get phone number to here
 
                     $expireAt = new \DateTime();
                     $expireAt->setTime(0, 0, 0);

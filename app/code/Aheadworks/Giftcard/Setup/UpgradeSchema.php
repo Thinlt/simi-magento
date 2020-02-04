@@ -156,6 +156,32 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 ]
             );
         }
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.2.10', '<')) {
+            //add column to aw_giftcard
+            $giftcardTable = $setup->getTable('aw_giftcard');
+            $setup->getConnection()->addColumn(
+                $giftcardTable,
+                'recipient_phone',
+                [
+                    'type' => Table::TYPE_TEXT,
+                    'nullable' => true,
+                    'default' => null,
+                    'comment' => 'Recipient phone number',
+                    'after' => 'recipient_email'
+                ]
+            );
+            $setup->getConnection()->addColumn(
+                $giftcardTable,
+                'delivery_method',
+                [
+                    'type' => Table::TYPE_TEXT,
+                    'nullable' => true,
+                    'default' => null,
+                    'comment' => 'Delivery method',
+                    'after' => 'recipient_email'
+                ]
+            );
+        }
     }
 
     /**

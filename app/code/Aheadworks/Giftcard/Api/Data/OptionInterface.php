@@ -24,11 +24,13 @@ interface OptionInterface extends ExtensibleDataInterface
     const TEMPLATE_NAME = 'aw_gc_template_name';
     const RECIPIENT_NAME = 'aw_gc_recipient_name';
     const RECIPIENT_EMAIL = 'aw_gc_recipient_email';
+    const RECIPIENT_PHONE = 'aw_gc_recipient_phone';
     const SENDER_NAME = 'aw_gc_sender_name';
     const SENDER_EMAIL = 'aw_gc_sender_email';
     const HEADLINE = 'aw_gc_headline';
     const MESSAGE = 'aw_gc_message';
     const GIFTCARD_TYPE = 'aw_gc_type';
+    const DELIVERY_METHOD = 'aw_gc_delivery_method';
     const DELIVERY_DATE = 'aw_gc_delivery_date';
     const DELIVERY_DATE_TIMEZONE = 'aw_gc_delivery_date_timezone';
     const GIFTCARD_CODES = 'aw_gc_created_codes';
@@ -155,6 +157,21 @@ interface OptionInterface extends ExtensibleDataInterface
     public function setAwGcRecipientEmail($recipientEmail);
 
     /**
+     * Get recipient phone
+     *
+     * @return string
+     */
+    public function getAwGcRecipientPhone();
+
+    /**
+     * Set recipient phone
+     *
+     * @param string $recipientPhone
+     * @return $this
+     */
+    public function setAwGcRecipientPhone($recipientPhone);
+
+    /**
      * Get headline
      *
      * @return string|null
@@ -198,6 +215,21 @@ interface OptionInterface extends ExtensibleDataInterface
      * @return $this
      */
     public function setAwGcType($giftcardType);
+
+    /**
+     * Get gift card delivery method
+     *
+     * @return string
+     */
+    public function getAwGcDeliveryMethod();
+
+    /**
+     * Set gift card delivery method
+     *
+     * @param string $deliveryMethod
+     * @return $this
+     */
+    public function setAwGcDeliveryMethod($deliveryMethod);
 
     /**
      * Get gift card delivery date

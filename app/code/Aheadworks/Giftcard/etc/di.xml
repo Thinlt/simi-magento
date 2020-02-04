@@ -203,8 +203,9 @@
                 <item name="5" xsi:type="const">Aheadworks\Giftcard\Api\Data\GiftcardInterface::SENDER_EMAIL</item>
                 <item name="6" xsi:type="const">Aheadworks\Giftcard\Api\Data\GiftcardInterface::RECIPIENT_NAME</item>
                 <item name="7" xsi:type="const">Aheadworks\Giftcard\Api\Data\GiftcardInterface::RECIPIENT_EMAIL</item>
-                <item name="8" xsi:type="const">Aheadworks\Giftcard\Api\Data\GiftcardInterface::HEADLINE</item>
-                <item name="9" xsi:type="const">Aheadworks\Giftcard\Api\Data\GiftcardInterface::MESSAGE</item>
+                <item name="8" xsi:type="const">Aheadworks\Giftcard\Api\Data\GiftcardInterface::RECIPIENT_PHONE</item>
+                <item name="9" xsi:type="const">Aheadworks\Giftcard\Api\Data\GiftcardInterface::HEADLINE</item>
+                <item name="10" xsi:type="const">Aheadworks\Giftcard\Api\Data\GiftcardInterface::MESSAGE</item>
             </argument>
         </arguments>
     </type>
