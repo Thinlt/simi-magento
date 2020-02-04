@@ -452,3 +452,44 @@ $color3: #F2F2F2;
         }
     }
 }
+.rtl-root{
+    .vendor-detail{
+        .vendor-header{
+            .container{
+                .cont-left{
+                    float: right;
+                    margin-right: 0px;
+                    margin-left: 16px;
+                    .store-info{
+                        .phone,.email{
+                            svg{
+                                margin-right: 0px;
+                                margin-left: 16px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .vendor-body{
+            .container{
+                .cont-left{
+                    float: right;
+                    margin-right: 0px;
+                    margin-left: 16px;
+                }
+            }
+        }
+        &.mobile{
+            .vendor-body{
+                .container{
+                    .cont-left{
+                        float: unset;
+                        margin-right: auto;
+                        margin: 0 auto;
+                    }
+                }
+            }
+        }
+    }
+}

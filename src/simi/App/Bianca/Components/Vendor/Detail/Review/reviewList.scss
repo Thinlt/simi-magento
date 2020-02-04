@@ -130,31 +130,34 @@
 .mobile{
     .review-list{
         margin-top: 6px;
-        .review-item{
-            padding: 24px 0;
-            .item-title{
-                font-size: 14px;
-                line-height: 14px;
-            }
-            .item-detail{
-                margin-top: 15px;
-                font-size: 14px;
-            }
-            .review-item-detail{
-                margin-top: 15px;
-                .item-created{
+        .list-review-item{
+            .review-item{
+                padding: 24px 0;
+                .item-title{
                     font-size: 14px;
                     line-height: 14px;
-                    span{
+                }
+                .item-detail{
+                    margin-top: 15px;
+                    font-size: 14px;
+                }
+                .review-item-detail{
+                    margin-top: 15px;
+                    .item-created{
                         font-size: 14px;
                         line-height: 14px;
+                        span{
+                            font-size: 14px;
+                            line-height: 14px;
+                        }
                     }
                 }
-            }
-            .product{
-                span{
-                    font-size: 14px;
-                    line-height: 14px;
+                .product{
+                    span{
+                        font-size: 14px!important;
+                        line-height: 14px!important;
+                        font-weight: 600!important;
+                    }
                 }
             }
         }
