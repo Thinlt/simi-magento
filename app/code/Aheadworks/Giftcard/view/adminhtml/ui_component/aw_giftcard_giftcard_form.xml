@@ -605,6 +605,113 @@
                 </item>
             </argument>
         </field>
+        <field name="delivery_method" class="Aheadworks\Giftcard\Ui\Component\Form\Field">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="array">
+                    <item name="email" xsi:type="array">
+                        <item name="label" xsi:type="string">Email</item>
+                        <item name="value" xsi:type="string">email</item>
+                    </item>
+                    <item name="sms" xsi:type="array">
+                        <item name="label" xsi:type="string">SMS</item>
+                        <item name="value" xsi:type="string">sms</item>
+                    </item>
+                    <item name="whatsapp" xsi:type="array">
+                        <item name="label" xsi:type="string">Whatsapp</item>
+                        <item name="value" xsi:type="string">whatsapp</item>
+                    </item>
+                </item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Delivery Method</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">giftcard</item>
+                    <item name="sortOrder" xsi:type="number">19</item>
+                    <item name="dataScope" xsi:type="string">delivery_method</item>
+                    <item name="switcherConfig" xsi:type="array">
+                        <item name="component" xsi:type="string">Aheadworks_Giftcard/js/ui/form/switcher</item>
+                        <item name="enabled" xsi:type="boolean">true</item>
+                        <item name="rules" xsi:type="array">
+                            <item name="0" xsi:type="array">
+                                <item name="value" xsi:type="string">email</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.ns }.${ $.ns }.recipient_details.recipient_email</item>
+                                        <item name="callback" xsi:type="string">show</item>
+                                    </item>
+                                    <item name="1" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.ns }.${ $.ns }.recipient_details.recipient_phone</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="2" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.ns }.${ $.ns }.recipient_details.email_template</item>
+                                        <item name="callback" xsi:type="string">show</item>
+                                    </item>
+                                    <item name="3" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.ns }.${ $.ns }.recipient_details.headline</item>
+                                        <item name="callback" xsi:type="string">show</item>
+                                    </item>
+                                    <!-- <item name="4" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.ns }.${ $.ns }.recipient_details.message</item>
+                                        <item name="callback" xsi:type="string">show</item>
+                                    </item> -->
+                                </item>
+                            </item>
+                            <item name="1" xsi:type="array">
+                                <item name="value" xsi:type="string">sms</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.ns }.${ $.ns }.recipient_details.recipient_email</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="1" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.ns }.${ $.ns }.recipient_details.recipient_phone</item>
+                                        <item name="callback" xsi:type="string">show</item>
+                                    </item>
+                                    <item name="2" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.ns }.${ $.ns }.recipient_details.email_template</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="3" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.ns }.${ $.ns }.recipient_details.headline</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <!-- <item name="4" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.ns }.${ $.ns }.recipient_details.message</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item> -->
+                                </item>
+                            </item>
+                            <item name="2" xsi:type="array">
+                                <item name="value" xsi:type="string">whatsapp</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.ns }.${ $.ns }.recipient_details.recipient_email</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="1" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.ns }.${ $.ns }.recipient_details.recipient_phone</item>
+                                        <item name="callback" xsi:type="string">show</item>
+                                    </item>
+                                    <item name="2" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.ns }.${ $.ns }.recipient_details.email_template</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="3" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.ns }.${ $.ns }.recipient_details.headline</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <!-- <item name="4" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.ns }.${ $.ns }.recipient_details.message</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item> -->
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </field>
         <field name="recipient_email" class="Aheadworks\Giftcard\Ui\Component\Form\Field">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -634,32 +741,6 @@
                         <!-- <item name="required-entry" xsi:type="boolean">true</item> -->
                         <item name="validate-phone" xsi:type="boolean">true</item>
                     </item>
-                </item>
-            </argument>
-        </field>
-        <field name="delivery_method" class="Aheadworks\Giftcard\Ui\Component\Form\Field">
-            <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="array">
-                    <item name="email" xsi:type="array">
-                        <item name="label" xsi:type="string">Email</item>
-                        <item name="value" xsi:type="string">email</item>
-                    </item>
-                    <item name="sms" xsi:type="array">
-                        <item name="label" xsi:type="string">SMS</item>
-                        <item name="value" xsi:type="string">sms</item>
-                    </item>
-                    <item name="whatsapp" xsi:type="array">
-                        <item name="label" xsi:type="string">Whatsapp</item>
-                        <item name="value" xsi:type="string">whatsapp</item>
-                    </item>
-                </item>
-                <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Delivery Method</item>
-                    <item name="formElement" xsi:type="string">select</item>
-                    <item name="source" xsi:type="string">giftcard</item>
-                    <item name="sortOrder" xsi:type="number">19</item>
-                    <item name="dataScope" xsi:type="string">delivery_method</item>
                 </item>
             </argument>
         </field>

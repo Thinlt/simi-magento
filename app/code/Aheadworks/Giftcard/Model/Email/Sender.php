@@ -182,8 +182,8 @@ class Sender
             $emailTemplate->setType(\Magento\Framework\App\TemplateTypesInterface::TYPE_TEXT);
             $message = $emailTemplate->getProcessedTemplate($templateVars);
             if (isset($giftcards[0]) && $giftcards[0]->getRecipientPhone()) {
-                $mobilenumbers = $giftcards[0]->getRecipientPhone();
-                return $smsSender->curlApiCall($message, $mobilenumbers, $randomCode);
+                $mobilenumbers = trim($giftcards[0]->getRecipientPhone());
+                return ($smsSender->curlApiCall($message."\r\n#".$randomCode, $mobilenumbers, $randomCode) == 'true');
             }
         }
         return false;
