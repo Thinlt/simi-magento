@@ -391,6 +391,11 @@ const ProfileForm = props => {
         }
     }
 
+    const changeFormEmail = () => {
+        handleChangeForm(changeForm === 'email' ? false : 'email')
+        setAllowSubmit(true)
+    }
+
     const changeFormPhone = () => {
         handleChangeForm(changeForm === 'phone' ? false : 'phone')
         if (changeForm === 'phone') {
@@ -399,6 +404,11 @@ const ProfileForm = props => {
         if (changeForm === false) {
             setAllowSubmit(false)
         }
+    }
+
+    const changeFormPassword = () => {
+        handleChangeForm(changeForm === 'password' ? false : 'password')
+        setAllowSubmit(true)
     }
 
     return (
@@ -429,7 +439,7 @@ const ProfileForm = props => {
                     <Checkbox
                         className="first"
                         label={Identify.__("Change email")}
-                        onClick={() => handleChangeForm(changeForm === 'email' ? false : 'email')}
+                        onClick={() => changeFormEmail()}
                         selected={changeForm === 'email'}
                     />
                     <Checkbox
@@ -441,7 +451,7 @@ const ProfileForm = props => {
                     <Checkbox
                         className=""
                         label={Identify.__("Change password")}
-                        onClick={() => handleChangeForm(changeForm === 'password' ? false : 'password')}
+                        onClick={() => changeFormPassword()}
                         selected={changeForm === 'password'}
                     />
                     {!isPhone && <Whitebtn
