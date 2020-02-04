@@ -415,6 +415,7 @@ const ProfileForm = props => {
                         className="required"
                         required={true}
                         onChange={handleOnChange}
+                        placeholder={Identify.__("First Name")}
                     />
                     <TextBox
                         defaultValue={data.lastname}
@@ -423,6 +424,7 @@ const ProfileForm = props => {
                         className="required"
                         required={true}
                         onChange={handleOnChange}
+                        placeholder={Identify.__("Last Name")}
                     />
                     <Checkbox
                         className="first"

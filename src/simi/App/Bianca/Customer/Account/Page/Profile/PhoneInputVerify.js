@@ -42,7 +42,7 @@ class PhoneInputVerify extends Component {
         return (
             <div id="verify-opt-area" className={`verify-opt-area ${Identify.isRtl() ? 'verify-opt-area-rtl' : ''}`}>
                 <div className="label">
-                    {Identify.__('phone number*'.toUpperCase())}
+                    {Identify.__('new phone number*'.toUpperCase())}
                 </div>
                 <div className="custom-input">
                     <div className="element-1" onClick={() => showOption()}>
@@ -77,7 +77,9 @@ class PhoneInputVerify extends Component {
                         {Identify.__('You must ')}{Identify.__('verify phone number'.toUpperCase())}{Identify.__(' before ')}{Identify.__('change'.toUpperCase())}
                     </div>
                     <div role="presentation" id="createAccount" className='login-otp' onClick={this.props.openGetModal}>
-                        {Identify.__('verify PHONE NUMBER').toUpperCase()}
+                        <div className='title'>
+                            {Identify.__('verify PHONE NUMBER').toUpperCase()}
+                        </div>
                     </div>
                 </div>
             </div>

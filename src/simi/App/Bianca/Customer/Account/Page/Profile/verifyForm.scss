@@ -1,10 +1,9 @@
 .verify-opt-area {
     justify-items: stretch;
-    margin-top: 50px;
+    margin-top: 15px;
     .react-tel-input input {
       min-height: 48px;
       background-color: #e4e4e4;
-      min-width: 572px;
       width: 50%;
       border: unset;
       margin-bottom: 24px;
@@ -27,6 +26,7 @@
     .react-tel-input input {
       padding-left: 0 !important;
       padding-right: 48px !important;
+      min-width: unset !important;
     }
     .react-tel-input .selected-flag .arrow {
       left: unset;
@@ -62,15 +62,22 @@
       margin-top: 12px;
       margin-bottom: -7px;
       cursor: pointer;
-      color: #fff;
-      font-family: Gotham;
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 16px;
-      padding-top: 16px;
-      padding-bottom: 16px;
-      width: 239px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 34px;
+      width: 151px;
       float: right;
+      .title{
+        color: #fff;
+        text-align: center;
+        font-family: Gotham;
+        font-size: 10px;
+        font-weight: 500;
+        line-height: 10px;
+        width: fit-content;
+        margin-bottom: unset;
+      }
     }
   
     .login-otp:hover {
@@ -120,10 +127,10 @@
   }
   .verify-opt-area .label {
     color: #101820;
-    font-family: "Gotham Medium";
-    font-size: 14px;
+    font-family: 'Gotham Medium';
+    font-size: 10px;
     font-weight: 500;
-    line-height: 14px;
+    line-height: 10px;
     padding: 0;
   }
   .verify-opt-area .custom-input .element-1 {
@@ -149,13 +156,13 @@
   .verify-opt-area .custom-input {
     position: relative;
     margin-top: 5px;
+    border: 1px solid #E0E0E0;
   }
   .verify-opt-area .custom-input .element-2 {
     max-width: 480px;
     position: absolute;
     top: 0;
     left: 92px;
-    width: 100%;
     z-index: 12;
   }
   .verify-opt-area .custom-input .element-2 input {
@@ -194,23 +201,37 @@
     z-index: 10;
   }
   // Right to left
-  .verify-opt-area-rtl .custom-input .element-1 {
-    left: unset !important;
-    right: 62px !important;
-  }
-  .verify-opt-area-rtl .custom-input .element-2 {
-    left: unset !important;
-    right: 92px !important;
-  }
-  .verify-opt-area-rtl .custom-input .react-tel-input .flag-dropdown {
-    left: unset !important;
-    right: 60px !important;
-  }
-  .verify-opt-area-rtl .custom-input .react-tel-input input {
-    padding-right: 20px !important;
-  }
-  .verify-opt-area-rtl .wrap {
-    float: left !important;
+  .rtl-root {
+    .row-edit-profile .alternative__edit-column{
+      margin-left: unset !important;
+      margin-right: 64px;
+    }
+    .verify-opt-area-rtl .custom-input .element-1 {
+      left: unset !important;
+      right: 62px !important;
+    }
+    .verify-opt-area-rtl .custom-input .element-2 {
+      left: unset !important;
+      right: 92px !important;
+    }
+    .verify-opt-area-rtl .custom-input .react-tel-input .flag-dropdown {
+      left: unset !important;
+      right: 60px !important;
+    }
+    .verify-opt-area-rtl .custom-input .react-tel-input input {
+      padding-right: 20px !important;
+    }
+    .verify-opt-area-rtl .wrap {
+      float: left !important;
+    }
+    .country-list{
+      left: unset !important;
+      right: -58px;
+    }
+    .account-information-area .checkbox-item .checkbox-item-icon, .account-information-area .checkbox-item.selected .checkbox-item-icon{
+      margin-right: unset !important;
+      margin-left: 9px !important;
+    }
   }
   // Default style of React-Phone-Input
   .react-tel-input {
@@ -218,7 +239,7 @@
     font-size: 15px;
     position: relative;
     width: 100%;
-    background-color: #f2f2f2;
+    background-color: #fff;
   }
   
   .react-tel-input :disabled {
@@ -1281,10 +1302,11 @@
     margin: 10px 0 10px -1px;
     box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.35);
     background-color: white;
-    width: 500px;
     max-height: 200px;
     overflow-y: scroll;
     border-radius: 0 0 3px 3px;
+    left: -58px;
+    width: 328px;
   }
   
   .react-tel-input .country-list .flag {
@@ -1349,6 +1371,43 @@
   }
   
   // Nam css responsive and mobile
+  @media(max-width: 1192px){
+    .react-tel-input .country-list{
+      width: 240px;
+    }
+  }
+  @media(max-width: 1023px){
+    .verify-opt-area {
+      .react-tel-input input{
+        width: 100%;
+      }
+      .custom-input{
+        .element-2{
+          position: unset !important;
+        }
+      }
+      .wrap{
+        .login-otp{
+          width: auto !important;
+          margin-top: unset !important;
+          height: 48px !important;
+          .title{
+            font-size: 16px !important;
+            font-weight: 500 !important;
+            line-height: 16px !important;
+            margin: 16px !important;
+            margin-bottom: 16px !important;
+          }
+        }
+      }
+    }
+    .rtl-root{
+      .row-edit-profile .alternative__edit-column{
+        margin-right: unset !important;
+      }
+    }
+  }
+
   @media (max-width: 834px) {
     .verify-opt-area .custom-input .element-2 {
       width: 80%;
@@ -1371,6 +1430,33 @@
   }
   
   @media (max-width: 500px) {
+    .verify-opt-area .custom-input .react-tel-input {
+      width: 50% !important;
+    }
+    .verify-opt-area .custom-input .element-2 {
+      position: absolute !important;
+    }
+    .verify-opt-area {
+      .wrap{
+        width: 100%;
+        .login-otp{
+          width: 151px !important;
+          height: 34px !important;
+          float: left !important;
+          .title{
+            font-size: 10px !important;
+            font-weight: 500 !important;
+            line-height: 10px !important;
+            margin: 0px !important;
+            margin-bottom: 0px !important;
+          }
+        }
+      }
+    }
+    .account-information-area button.save-profile{
+      margin-top: 85px;
+      padding: 16px 61px;
+    }
   }
   
   @media (max-width: 425px) {
@@ -1381,7 +1467,17 @@
   
   @media (max-width: 375px) {
     .verify-opt-area {
-      margin-top: 25px;
+      margin-top: -5px;
+      .wrap{
+        display: block !important;
+        justify-content: unset !important;
+        float: left !important;
+        .login-otp{
+          .title{
+            
+          }
+        }
+      }
     }
     .verify-opt-area .custom-input .react-tel-input input {
       min-height: 40px;
@@ -1417,6 +1513,7 @@
     }
     .verify-opt-area .custom-input .element-2 {
       left: 64px;
+      position: absolute !important;
     }
     .verify-opt-area .custom-input .react-tel-input .flag-dropdown {
       left: 42px;
@@ -1428,19 +1525,14 @@
     #verify-opt-area .login-otp {
       margin-top: 11px !important ;
       margin-bottom: 2px !important;
-      width: 249px;
       margin-left: auto;
       margin-right: auto;
       color: #fff;
       font-family: Gotham;
-      font-size: 14px;
-      font-weight: 500;
-      line-height: 14px;
-      padding-top: 13px;
-      padding-bottom: 13px;
     }
     .react-tel-input .country-list {
       max-width: 304px;
+      left: -42px !important;
     }
     .verify-opt-area-rtl .country-list {
       right: -17px !important;
@@ -1453,6 +1545,17 @@
     }
     .verify-opt-area-rtl .custom-input .element-2 {
       right: 65px !important;
+    }
+    .rtl-root{
+      .verify-opt-area-rtl .country-list{
+        right: -62px !important;
+      }
+      #verify-opt-area .wrap{
+        float: right !important;
+        .login-otp{
+          float: right !important;
+        }
+      }
     }
   }
   
