@@ -133,7 +133,7 @@ class Header extends React.Component {
 					<CartTrigger classes={classes} />
 				</div>
 				{this.renderWishList(isSignedIn)}
-				{compareData
+				{compareData && compareData.length > 0
 					?
 					<div className={'right-bar-item'} id="my-account">
 						<div className="compare">
