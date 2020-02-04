@@ -731,6 +731,9 @@ $color1: #101820;
 }
 .rtl-root{
     .home-wrapper{
+        .featured-products-wrap .default-home-product-list .product-list .product-horizotal .siminia-product-grid-item{
+            direction: rtl;
+        }
         .shop-our-instagram-wrap{
             .instagram-slider{
                 .instagram-container{

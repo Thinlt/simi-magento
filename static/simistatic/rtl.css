@@ -1,3 +1,6 @@
 #root {
    direction: rtl;
 }
+.rtl-root{
+   direction: rtl;
+}

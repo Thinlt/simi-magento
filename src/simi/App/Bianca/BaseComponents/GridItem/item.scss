@@ -79,16 +79,16 @@ $borderMobileColor: #A7A7A7;
     // }
 
     /* rtl */
-    .prices-layout-rtl{
-        text-align: right;
-    }
+    // .prices-layout-rtl{
+    //     text-align: right;
+    // }
 
     /* Prices */
      .prices-layout {
         font-size: 14px;
         line-height: 24px;
         height: fit-content;
-        display: inline-block;
+        // display: inline-block;
         .product-prices {
             font-family: "Gotham";
             font-size: 14px;
@@ -103,7 +103,7 @@ $borderMobileColor: #A7A7A7;
                 font-weight: 600;
             }
             .special {
-                margin-left: 10px;
+                margin-inline-start: 10px;
                 display: inline-block;
                 .sale_off {
                     display: none;
@@ -150,7 +150,7 @@ $borderMobileColor: #A7A7A7;
                 line-height: 12px;
                 text-align: center;
                 text-transform: uppercase;
-                margin-right: 13px;
+                margin-inline-end: 13px;
             }
             .wishlistAction{
                 margin: auto 12px;
@@ -208,10 +208,10 @@ $borderMobileColor: #A7A7A7;
             display: block;
         }
         .special-price-label {
-            margin-left: 8px !important;
+            margin-inline-start: 8px !important;
         }
         .incl-tax-label {
-            margin-left: 8px;
+            margin-inline-start: 8px;
         }
         .product-short-description {
             display: inline-block;
@@ -225,6 +225,7 @@ $borderMobileColor: #A7A7A7;
             font-size: 14px;
             line-height: 14px;
             margin-top: 12px;
+            text-align: start;
             a{
                 text-decoration: none;
                 &:visited,&:hover,&:focus{
@@ -379,4 +380,8 @@ $borderMobileColor: #A7A7A7;
 .product-horizotal .siminia-product-grid-item .siminia-product-des{
     display: flex;
     justify-content: space-between;
+}
+
+.rtl-root{
+
 }
