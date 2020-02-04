@@ -40,7 +40,7 @@ const ProfileForm = props => {
             const { profile_edit } = history.location.state;
             handleChangeForm(profile_edit);
         }
-    })
+    }, [0])
 
     const scorePassword = pass => {
         let score = 0;
