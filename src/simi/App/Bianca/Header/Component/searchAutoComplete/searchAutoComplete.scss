@@ -51,6 +51,19 @@ $textColor: #101820;
     }
 }
 
+// Right to left 
+.rtl-root{
+    .search-auto-complete-root{
+        .suggested-products-list{
+            span.right-label{
+                span.price{
+                    direction: ltr;
+                }
+            }
+        }
+    }
+}
+
 @media(max-width:1023px){
     .search-auto-complete-root {
         .suggested-products-list{

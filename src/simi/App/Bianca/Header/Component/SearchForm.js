@@ -56,7 +56,7 @@ const SearchForm = props => {
             formClass = ' '+waitingClass
         }
         return (
-            <div className={classes['header-search-form']+formClass}>
+            <div id="header-search-form" className={classes['header-search-form']+formClass}>
                 { !isWaiting &&
                     <>
                         <label htmlFor="siminia-search-field" className="hidden">{Identify.__('Search')}</label>

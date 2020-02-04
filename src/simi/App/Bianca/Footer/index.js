@@ -12,6 +12,7 @@ import { Link } from 'src/drivers';
 import { footerLogoUrl, footerLogoAlt } from 'src/simi/App/Bianca/Helper/Url';
 import Subscriber from './Subscriber';
 import Chats from 'src/simi/App/Bianca/BaseComponents/Chats';
+import { smoothScrollToView } from 'src/simi/Helper/Behavior';
 
 require('./footer.scss');
 
@@ -75,7 +76,7 @@ const Footer = (props) => {
             if (services.length > 0) {
                 result = services.map((service, index) => {
                     return (
-                        <li key={index}>
+                        <li onClick={scrollTop} key={index}>
                             <Link to={service.service_link}>{Identify.__(service.service_title)}</Link>
                         </li>
                     );
@@ -100,7 +101,11 @@ const Footer = (props) => {
     if(footer_information){
         const inf = JSON.parse(footer_information)
         informations = Object.values(inf)
-    }
+	}
+	
+	const scrollTop = () =>{
+		smoothScrollToView($("#id-message"));
+	}
 
     const listInfos = (infos) => {
 		let result = null;
@@ -108,7 +113,7 @@ const Footer = (props) => {
             if (infos.length > 0) {
                 result = infos.map((info, index) => {
                     return (
-                        <li key={index}>
+                        <li onClick={scrollTop} key={index}>
                             <Link to={info.information_link}>{Identify.__(info.information_title)}</Link>
                         </li>
                     );
