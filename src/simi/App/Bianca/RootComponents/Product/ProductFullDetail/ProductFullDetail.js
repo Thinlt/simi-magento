@@ -51,10 +51,17 @@ import Select from 'src/simi/App/Bianca/BaseComponents/FormInput/Select';
 import { Link } from 'src/drivers';
 
 import { analyticAddCartGTM, analyticsViewDetailsGTM } from 'src/simi/Helper/Analytics'
+import { resourceUrl } from 'src/simi/Helper/Url'
 
 require('./productFullDetail.scss');
 if (getOS() === 'MacOS') {
     require('src/simi/App/Bianca/Components/Product/ProductFullDetail/style-macos.scss');
+}
+
+/* Product data structure for SEO */
+window.productDataStructure = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
 }
 
 class ProductFullDetail extends Component {  
@@ -108,6 +115,73 @@ class ProductFullDetail extends Component {
         }
         this.resizePhone();
         this.isPhone = window.innerWidth < 1024;
+
+        const { product } = this.props;
+        //add google structure data for SEO
+        if(product){
+            console.log(product)
+            var stData = document.createElement("script");
+            stData.type = "application/ld+json";
+            var image = product.media_gallery_entries && product.media_gallery_entries.length && product.media_gallery_entries[0] || null;
+            const src = image && image.file ? window.location.origin+resourceUrl(image.file, { type: 'image-product', width: 640 }) : '';
+            const storeConfig = Identify.getStoreConfig()
+            const config = storeConfig && storeConfig.simiStoreConfig && storeConfig.simiStoreConfig.config || {};
+            const extraAttributes = product.simiExtraField && product.simiExtraField.attribute_values || {};
+            const reviewRating = product.simiExtraField && product.simiExtraField.app_reviews || {};
+            const { brands } = config;
+            const { brand, url_key, pre_order, is_salable } = extraAttributes;
+            const pBrand = brands.find((br)=>br.option_id === brand);
+            const price = product.price && (product.price.minimalPrice || product.price.regularPrice) || {};
+            const sellerName = this.getVendorStoreName();
+            window.productDataStructure = {...window.productDataStructure,
+                "name": product.name,
+                "image": [src],
+                "description": product.short_description && product.short_description.html.replace(/(<([^>]+)>)/ig,"") 
+                            || product.description && product.description.html.replace(/(<([^>]+)>)/ig,"") || '',
+                "sku": product.sku,
+                "mpn": product.mpn || '',
+                "mpn": product.gtin || '',
+                "mpn": product.isbn || '',
+                "brand": {
+                    "@type": "Thing",
+                    "name": pBrand && pBrand.name || ''
+                },
+                "review": [
+                    {
+                        "@type": "Review",
+                        "reviewRating": {
+                            "@type": "Rating",
+                            "ratingValue": reviewRating.rate || '1',
+                            "bestRating": "5"
+                        },
+                        "author": {
+                            "@type": "Person",
+                            "name": "Bianca Nera"
+                        }
+                    },
+                ],
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": reviewRating.rate || '1',
+                    "reviewCount": reviewRating.number || ''
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "url": url_key && window.location.origin+'/'+url_key+'.'+productUrlSuffix() || '',
+                    "priceCurrency": price.amount && price.amount.currency,
+                    "price": price.amount && price.amount.value,
+                    "priceValidUntil": "2020-11-05",
+                    "itemCondition": product.itemCondition || '',
+                    "availability": parseInt(pre_order) === 1 && !is_salable ? 'PreOrder': !is_salable?'OutOfStock':'InStock',
+                    "seller": {
+                        "@type": sellerName ? "Person":"Organization",//or Organization
+                        "name": sellerName
+                    }
+                }
+            }
+            stData.innerHTML = JSON.stringify(window.productDataStructure);
+            document.head.appendChild(stData);
+        }
     }
 
     getStoreLocations = (callback) => {
@@ -656,7 +730,7 @@ class ProductFullDetail extends Component {
         }
     }
 
-    vendorName = () => {
+    getVendor = () => {
         const { product: {simiExtraField: {attribute_values: attribute_values} }, history} = this.props;
         if (attribute_values && attribute_values.vendor_id) {
             const configs = Identify.getStoreConfig();
@@ -665,18 +739,31 @@ class ProductFullDetail extends Component {
                 const vendor = vendorList.find((vendor) => {
                     return parseInt(vendor.entity_id) === parseInt(attribute_values.vendor_id);
                 });
-                let vendorName = '';
-                if (vendor && vendor.firstname) vendorName = `${vendor.firstname}`;
-                if (vendor && vendor.lastname) vendorName = `${vendorName} ${vendor.lastname}`;
-                const {profile} = vendor || {}
-                vendorName = profile && profile.store_name || vendorName;
-                if (vendorName){
-                    if (vendor.vendor_id) {
-                        return <Link to={`/designers/${vendor.vendor_id}.html`}>{vendorName}</Link>
-                    }
-                    return <Link to={`/designers/${vendor.entity_id}.html`}>{vendorName}</Link>
-                }
+                return vendor;
             }
+        }
+        return null
+    }
+
+    getVendorStoreName = () => {
+        const vendor = this.getVendor();
+        let vendorName = '';
+        if(vendor){
+            if (vendor && vendor.firstname) vendorName = `${vendor.firstname}`;
+            if (vendor && vendor.lastname) vendorName = `${vendorName} ${vendor.lastname}`;
+            vendorName = vendor.profile && vendor.profile.store_name || vendorName;
+        }
+        return vendorName;
+    }
+
+    vendorName = () => {
+        const vendor = this.getVendor();
+        let vendorName = this.getVendorStoreName();
+        if(vendor && vendorName){
+            if (vendor.vendor_id) {
+                return <Link to={`/designers/${vendor.vendor_id}.html`}>{vendorName}</Link>
+            }
+            return <Link to={`/designers/${vendor.entity_id}.html`}>{vendorName}</Link>
         }
         return null
     }
