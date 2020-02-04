@@ -87,6 +87,8 @@ const CreateAccount = props => {
                     // props.toggleMessages([{ type: 'success', message: message, auto_dismiss: true }]);
                     // Reset form
                     $('.form-create-account')[0].reset();
+                    // Make button opacity = 1
+                    $('.form-create-account button').css('opacity', '1');
                 } else {
                     showToastMessage(message)
                 }
