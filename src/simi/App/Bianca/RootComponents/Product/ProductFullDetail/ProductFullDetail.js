@@ -119,7 +119,6 @@ class ProductFullDetail extends Component {
         const { product } = this.props;
         //add google structure data for SEO
         if(product){
-            console.log(product)
             var stData = document.createElement("script");
             stData.type = "application/ld+json";
             var image = product.media_gallery_entries && product.media_gallery_entries.length && product.media_gallery_entries[0] || null;
