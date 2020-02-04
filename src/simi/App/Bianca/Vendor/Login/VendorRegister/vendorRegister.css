@@ -75,6 +75,7 @@
 	font-weight: 500;
 	line-height: 18px;
 	display: inline-block;
+	text-transform: uppercase;
 }
 
 .root .root_error {}
@@ -343,7 +344,7 @@
 		min-width: unset !important;
 	}
 	.root .back {
-		top: 122px;
+		/* top: 122px; */
 	}
 }
 

@@ -269,6 +269,8 @@ const VendorRegister = (props) => {
 			// props.toggleMessages([{ type: 'success', message: message, auto_dismiss: true }]);
 			// Reset form
 			$('.form-create-account-vendor')[0].reset();
+			// Set opacity button register = 1 after register done
+			$('.form-create-account-vendor button').css('opacity', '1');
 		}
 		setAllowSubmit(false)
 	};

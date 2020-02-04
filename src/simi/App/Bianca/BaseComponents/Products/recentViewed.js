@@ -5,7 +5,8 @@ import ItemsCarousel from 'react-items-carousel';
 import ChevronLeft from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronLeft';
 import ChevronRight from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronRight';
 import {getRecentViewedProducts} from '../../Helper/Biancaproduct'
-import Identify from 'src/simi/Helper/Identify'
+import Identify from 'src/simi/Helper/Identify';
+import CompareProduct from '../CompareProducts/index';
 
 require('./recentViewed.scss');
 
@@ -39,9 +40,19 @@ const responsive = {
 const RecentViewed = props => {
     const isPhone = window.innerWidth < 1024 
     const [activeItemIndex, setActiveItemIndex] = useState(0);
+    const [openCompareModal, setOpenCompareModal] = useState(false);
     const {width} = useWindowSize();
     const maxItem = 8 //max 10 items
-    const productsRecent = getRecentViewedProducts()
+    const productsRecent = getRecentViewedProducts();
+
+    const closeCompareModal = () => {
+        setOpenCompareModal(false);
+    }
+
+    const showModalCompare = () => {
+        setOpenCompareModal(true);
+    }
+
     if (productsRecent && productsRecent.length) {
         let count = 0
         const recentProducts = productsRecent.map((item, index) => {
@@ -54,6 +65,7 @@ const RecentViewed = props => {
                         <GridItem
                             item={itemData}
                             lazyImage={true}
+                            openCompareModal={showModalCompare}
                         />
                     </div>
                 )
@@ -78,7 +90,6 @@ const RecentViewed = props => {
             iconWidth = breakPoint.iconWidth;
             if (breakPoint.gutter) gutter = breakPoint.gutter;
         }
-    
 
         return (
             <React.Fragment>
@@ -88,6 +99,7 @@ const RecentViewed = props => {
                             {Identify.__('Recently Viewed Products')}
                         </div>
                         <div className="recent-products">
+                            <CompareProduct history={history} openModal={openCompareModal} closeModal={closeCompareModal}/> 
                             <ItemsCarousel
                                 infiniteLoop={false}
                                 gutter={gutter}

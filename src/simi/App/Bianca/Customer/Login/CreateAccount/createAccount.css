@@ -75,6 +75,7 @@
     font-weight: 500;
     line-height: 18px;
     display: inline-block;
+    text-transform: uppercase;
 }
 
 .root div[class *="field-root"] {
@@ -195,7 +196,7 @@
 
 @media(max-width: 600px){
     .root .back{
-        top: 122px;
+        /* top: 122px; */
     }
 }
 

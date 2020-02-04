@@ -10,6 +10,7 @@ import useWindowSize from 'src/simi/App/Bianca/Hooks';
 import ItemsCarousel from 'react-items-carousel';
 import ChevronLeft from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronLeft';
 import ChevronRight from 'src/simi/App/Bianca/BaseComponents/Icon/ChevronRight';
+import CompareProduct from 'src/simi/App/Bianca/BaseComponents/CompareProducts';
 
 require('./linkedProduct.scss');
 
@@ -46,6 +47,7 @@ const responsive = {
 const LinkedProducts = props => {
     const {product, history} = props
     const [activeItemIndex, setActiveItemIndex] = useState(0);
+    const [openCompareModal, setOpenCompareModal] = useState(false);
     const {width} = useWindowSize();
     const link_type = props.link_type?props.link_type:'related'
     const maxItem = 20 //max 10 items
@@ -71,6 +73,14 @@ const LinkedProducts = props => {
         })
     }, [])
 
+    const showModalCompare = () => {
+        setOpenCompareModal(true);
+    }
+
+    const closeCompareModal = () => {
+        setOpenCompareModal(false);
+    }
+
     let linkedProducts = [<Loading key={Identify.randomString(3)}/>]
     if (data && data.simiproducts && data.simiproducts.items) {
         let count = 0
@@ -86,6 +96,7 @@ const LinkedProducts = props => {
                             item={itemData}
                             handleLink={handleLink}
                             lazyImage={true}
+                            openCompareModal={showModalCompare}
                         />
                     </div>
                 )
@@ -138,6 +149,7 @@ const LinkedProducts = props => {
                     rightChevron={<ChevronRight className="chevron-right" style={{width: `${iconWidth}px`}} />}
                     classes={{ wrapper: "wrapper", itemsWrapper: 'items-wrapper', itemsInnerWrapper: 'items-inner-wrapper', itemWrapper: 'item-wrapper', rightChevronWrapper: 'right-chevron-wrapper', leftChevronWrapper: 'left-chevron-wrapper' }}
                 >
+                    <CompareProduct history={history} openModal={openCompareModal} closeModal={closeCompareModal}/> 
                     {linkedProducts}
                 </ItemsCarousel>
             </div>
