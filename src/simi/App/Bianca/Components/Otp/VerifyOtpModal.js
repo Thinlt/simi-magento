@@ -148,7 +148,7 @@ class VerifyOtpModal extends React.Component {
                     {Identify.__('Invalid otp code !')}
                 </div>
                 <div className="count-down">
-                    {Identify.__('Resend after')}<CountDown time={30} />
+                    {Identify.__('Resend after')}<CountDown time={120} />
                 </div>
             </Modal>
         )

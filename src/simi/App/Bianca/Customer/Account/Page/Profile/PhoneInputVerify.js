@@ -5,7 +5,7 @@ require('./verifyForm.scss')
 
 const $ = window.$;
 
-class VerifyForm extends Component {
+class PhoneInputVerify extends Component {
 
     constructor(props) {
         super(props)
@@ -49,6 +49,7 @@ class VerifyForm extends Component {
                         <div className="custom-arrow"></div>
                     </div>
                     <ReactPhoneInput
+                        id={'phone-form-control-1'}
                         country={"vn"}
                         onlyCountries={listAllowedCountry}
                         countryCodeEditable={false}
@@ -61,7 +62,7 @@ class VerifyForm extends Component {
                             name="real-input"
                             type="number"
                             pattern="[0-9]"
-                            placeholder={Identify.__('Phone')}
+                            placeholder={Identify.__('Telephone')}
                         />
                     </div>
                 </div>
@@ -73,7 +74,7 @@ class VerifyForm extends Component {
                 </div>
                 <div className="wrap">
                     <div id="must-verify" className="error-message">
-                        {Identify.__('You must ')}{Identify.__('verify phone number'.toUpperCase())}{Identify.__(' before ')}{Identify.__('register'.toUpperCase())}
+                        {Identify.__('You must ')}{Identify.__('verify phone number'.toUpperCase())}{Identify.__(' before ')}{Identify.__('change'.toUpperCase())}
                     </div>
                     <div role="presentation" id="createAccount" className='login-otp' onClick={this.props.openGetModal}>
                         {Identify.__('verify PHONE NUMBER').toUpperCase()}
@@ -84,4 +85,4 @@ class VerifyForm extends Component {
     }
 }
 
-export default VerifyForm;
+export default PhoneInputVerify;
