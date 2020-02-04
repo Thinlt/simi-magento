@@ -200,6 +200,7 @@ $color1: #101820;
                 color: $color1;
                 text-transform: uppercase;
                 text-align: center;
+                font-family: 'Gotham Book';
             }
             .header-text{
                 display: flex;
@@ -413,6 +414,23 @@ $color1: #101820;
                             min-height: 40px;
                         }
                     }
+                }
+            }
+        }
+    }
+    &.rtl-root{
+        #contact-modal{
+            #contact-modal-close{
+                right: unset;
+                left: 32px;
+            }
+            .contact-wrap .contact-form{
+                .contact-input.phone-input .arrow-down{
+                    left: 0;
+                }
+                .form-row.time .contact-input:before{
+                    right: unset;
+                    left: 16px;
                 }
             }
         }
