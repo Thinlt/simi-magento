@@ -1,0 +1,16 @@
+#!/bin/bash -xe
+
+pushd /Users/robert/Simi-Workspace/projects/PWA_Ramez
+docker-compose up -d
+popd
+
+sleep 3
+
+#export NODE_ENV="production"
+export MAGENTO_BACKEND_URL="http://magento.localhost.com/"
+export MAGENTO_BUILDPACK_PROVIDE_SECURE_HOST=0
+
+#yarn install
+# cp -f .env-siminia ./packages/siminia/.env
+yarn run build
+yarn run watch:siminia
