@@ -119,7 +119,6 @@ class ProductFullDetail extends Component {
         const { product } = this.props;
         //add google structure data for SEO
         if(product){
-            console.log(product)
             var stData = document.createElement("script");
             stData.type = "application/ld+json";
             var image = product.media_gallery_entries && product.media_gallery_entries.length && product.media_gallery_entries[0] || null;
@@ -151,7 +150,7 @@ class ProductFullDetail extends Component {
                         "@type": "Review",
                         "reviewRating": {
                             "@type": "Rating",
-                            "ratingValue": reviewRating.rate || '1',
+                            "ratingValue": reviewRating.rate || '5',
                             "bestRating": "5"
                         },
                         "author": {
@@ -162,15 +161,14 @@ class ProductFullDetail extends Component {
                 ],
                 "aggregateRating": {
                     "@type": "AggregateRating",
-                    "ratingValue": reviewRating.rate || '1',
-                    "reviewCount": reviewRating.number || ''
+                    "ratingValue": reviewRating.rate || '5',
+                    "ratingCount": reviewRating.number || '1'
                 },
                 "offers": {
                     "@type": "Offer",
                     "url": url_key && window.location.origin+'/'+url_key+'.'+productUrlSuffix() || '',
                     "priceCurrency": price.amount && price.amount.currency,
                     "price": price.amount && price.amount.value,
-                    "priceValidUntil": "2020-11-05",
                     "itemCondition": product.itemCondition || '',
                     "availability": parseInt(pre_order) === 1 && !is_salable ? 'PreOrder': !is_salable?'OutOfStock':'InStock',
                     "seller": {
