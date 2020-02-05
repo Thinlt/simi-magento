@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-    <event name="ves_pdfpro_data_prepare_after">
-        <observer name="customvariable_set_pdfpro_data_prepare_after" instance="Vnecoms\PdfProCustomVariables\Observer\Adminhtml\PdfProPrepareDataAfter" />
-    </event>
-    <event name="pdfpro_modifier_variable_after">
-        <observer name="customvariable_modifi_variable" instance="Vnecoms\PdfProCustomVariables\Observer\Variables" />
-    </event>
-</config>

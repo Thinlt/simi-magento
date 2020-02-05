@@ -1,9 +1,0 @@
-<?php 
-    $step = $block->getStep();
-    foreach($block->getFieldsetBlocks() as $fieldset){
-        echo $fieldset->setStep($step)->toHtml();
-       $step++;
-    }
-    
-    $block->setStep($step);
-?>

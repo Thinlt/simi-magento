@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
-    <module name="Vnecoms_Vendors" setup_version="2.2.1">
-    	<sequence>
-    		<module name="Magento_Customer"/>
-        <module name="Vnecoms_Core"/>
-    	</sequence>
-    </module>
-</config>
