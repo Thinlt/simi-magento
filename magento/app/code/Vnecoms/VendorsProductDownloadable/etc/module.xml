@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
+    <module name="Vnecoms_VendorsProductDownloadable" setup_version="2.0.0">
+        <sequence>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_CatalogInventory"/>
+            <module name="Vnecoms_Vendors"/>
+            <module name="Vnecoms_VendorsProduct"/>
+        </sequence>
+    </module>
+</config>

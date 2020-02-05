@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Vnecoms_PageBulder:etc/vcms_section_include.xsd">
+    <!-- Header 1 -->
+    <section name="pdf_other_2cols">
+        <type>pdf_other</type>
+        <template>Vnecoms_PdfPro/section/pdf-other-2cols</template>
+        <component>Vnecoms_PageBuilder/js/section/default</component>
+        <block_template>Vnecoms_PdfPro::section/pdf-other-2cols.phtml</block_template>
+        <preview_height>80px</preview_height>
+        <fields>
+           	<element name="col1_text">
+                <label>Text</label>
+                <type>editor</type>
+                <is_active>1</is_active>
+                <data>
+                    <code><![CDATA[<strong>Lorem Ipsum</strong> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.]]></code>
+                    <frontend_class>pdf-other-text</frontend_class>
+                </data>
+            </element>
+            <element name="col2_text">
+                <label>Text</label>
+                <type>editor</type>
+                <is_active>1</is_active>
+                <data>
+                    <code><![CDATA[<strong>Nulla consequat</strong> massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.]]></code>
+                    <frontend_class>pdf-other-text</frontend_class>
+                </data>
+            </element>
+        </fields>
+    </section>
+</include>

@@ -1,0 +1,272 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="sales">
+            <group id="preorder" translate="label" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Pre-order Settings</label>
+                <field id="deposit_amount" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1">
+                    <label>Pre-order amount (%)</label>
+                    <comment>Percent (%) amount to pre-pay of the product price.</comment>
+                </field>
+                <field id="deposit_product_id" translate="label" type="text" sortOrder="199" showInDefault="1" showInWebsite="1">
+                    <label>Pre-order Deposit product Id</label>
+                    <comment>Id of deposit product.</comment>
+                </field>
+                <field id="emailTemplate" translate="label" type="text" sortOrder="299" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Email template</label>
+                    <comment>Email template send to customer to pay #2 order.</comment>
+                </field>
+            </group>
+            <group id="trytobuy" translate="label" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Try-to-buy Settings</label>
+                <field id="trytobuy_product_id" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1">
+                    <label>Try-to-buy Fee product Id</label>
+                    <comment>Id of deposit product.</comment>
+                </field>
+            </group>
+            <group id="reserve" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Reserve Settings</label>
+                <field id="working_days" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Working days</label>
+                    <comment>mon,tue,wed,thu,fri,sat,sun</comment>
+                </field>
+                <field id="holiday" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Holiday</label>
+                    <comment>date/month, use commas to separate between dates - example: 1/12,2/12.</comment>
+                </field>
+                <field id="emailTemplate" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Email template ID</label>
+                    <comment>Default value: send_email_reserve_template</comment>
+                </field>
+                <field id="state" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Status</label>
+                    <comment>Use commas to separate between status type - example: Processing,Complete.</comment>
+                </field>
+            </group>
+            <group id="service" translate="label" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Service Settings</label>
+                <field id="types" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Type Of Services</label>
+                    <comment>Use commas to separate between dates - example: service 1,service 2.</comment>
+                </field>
+                <field id="description" translate="label" type="textarea" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Description</label>
+                </field>
+                <field id="email_template_admin" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Email template send to Admin</label>
+                    <source_model>Simi\Simicustomize\Model\Config\Source\Email\Template</source_model>
+                    <comment>Default value: send_email_service_admin</comment>
+                </field>
+                <field id="email_template_customer" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Email template send to Customer</label>
+                    <source_model>Simi\Simicustomize\Model\Config\Source\Email\Template</source_model>
+                    <comment>Default value: send_email_service_customer</comment>
+                </field>
+            </group>
+            <group id="policy" translate="label" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Delivery and Returns</label>
+                <field id="delivery_returns" translate="label" type="textarea" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Content</label>
+                </field>
+            </group>
+            <group id="service_support" translate="label" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Service Support</label>
+                <field id="service_support_fee" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Service Support Fee</label>
+                    <comment>Service Support Fee (base currency)</comment>
+                </field>
+            </group>
+        </section>
+        <section id="simiconnector">
+            <group id="customchat">
+                <field id="license" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Livechat License</label>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+                <field id="head_script" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="body_script" showInDefault="0" showInWebsite="0" showInStore="0" />
+            </group>
+            <group id="instant_contact">
+                <label>Whatsapp Configuration</label>
+                <field id="email" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="message" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="website" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="style" showInDefault="0" showInWebsite="0" showInStore="0" />
+                <field id="icon_color" showInDefault="0" showInWebsite="0" showInStore="0" />
+            </group>
+            <group id="sizeguide" translate="label" type="text" sortOrder="1500" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Size Guide Configuration</label>
+                <field id="image_file" type="image" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Upload image</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">sizeguide</upload_dir>
+                    <base_url type="media" scope_info="1">sizeguide</base_url>
+                    <comment>width: 768px</comment>
+                </field>
+                <field id="image_file_mobile" type="image" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Upload image (mobile)</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">sizeguide_mobile</upload_dir>
+                    <base_url type="media" scope_info="1">sizeguide_mobile</base_url>
+                    <comment>width: 300px</comment>
+                </field>
+                <field id="email_template" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Template</label>
+                    <source_model>Simi\Simicustomize\Model\Config\Source\Email\Template</source_model>
+                    <comment>Send email to admin.</comment>
+                </field>
+            </group>
+            <group id="pwa_header" translate="label" type="text" sortOrder="1600" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Header PWA Studio</label>
+                <field id="bianca_header_phone" translate="label" type="text" sortOrder="1601" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Phone number on header</label>
+                    <comment>Example: +0965 555 5455 731</comment>
+                </field>
+                <field id="bianca_header_sale_title" translate="label" type="text" sortOrder="1602" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Header sale title</label>
+                    <comment>Example: Sale up to 50% : on selected items</comment>
+                </field>
+                <field id="bianca_header_sale_link" translate="label" type="text" sortOrder="1603" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Header sale link</label>
+                    <comment>Note: use relative link</comment>
+                </field>
+                <field id="bianca_header_storelocator" translate="label" type="text" sortOrder="1604" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Link to storelocator</label>
+                    <comment>Note: use relative link</comment>
+                </field>
+            </group>
+            <group id="pwa_footer_subcribe" translate="label" type="text" sortOrder="1700" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Config footer-logo and subcribe description at footer</label>
+                <field id="bianca_subcribe_description" translate="label" type="textarea" sortOrder="1701" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Subcribe description</label>
+                </field>
+                <field id="footer_logo" translate="label" type="Magento\Config\Block\System\Config\Form\Field\File" sortOrder="1702" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Upload footer logo</label>
+                    <backend_model>Simi\Simicustomize\Model\Config\Backend\FooterLogo</backend_model>
+                    <upload_dir config="system" scope_info="1">footer_logo</upload_dir>
+                    <comment>Only accept extensions: PNG, JPG, JEPG, SVG. And size of bianca footer logo is: 255x72</comment>
+                </field>
+                <field id="footer_logo_alt" translate="label" type="text" sortOrder="1703" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Footer logo alt</label>
+                    <comment>Example: footer-bianca</comment>
+                </field>
+            </group>
+            <group id="pwa_footer" translate="label" type="text" sortOrder="1800" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Contact us at Footer</label>
+                <field id="bianca_footer_phone" translate="label" type="text" sortOrder="1801" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Phone number at footer</label>
+                    <comment>Example: +0965 555 5455 731</comment>
+                </field>
+                <field id="bianca_footer_email" translate="label" type="text" sortOrder="1802" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email at footer</label>
+                    <comment>Example: Example@gmail.com</comment>
+                </field>
+                <field id="bianca_footer_facebook" translate="label" type="text" sortOrder="1803" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Facebook link at footer</label>
+                    <comment>Example: https://...</comment>
+                </field>
+                <field id="bianca_footer_instagram" translate="label" type="text" sortOrder="1804" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Instagram link at footer</label>
+                    <comment>Example: https://...</comment>
+                </field>
+                <field id="bianca_footer_twitter" translate="label" type="text" sortOrder="1805" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Twitter link at footer</label>
+                    <comment>Example: https://...</comment>
+                </field>
+                <field id="bianca_footer_linkedin" translate="label" type="text" sortOrder="1806" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Linked in link at footer</label>
+                    <comment>Example: https://...</comment>
+                </field>
+                <field id="bianca_footer_google" translate="label" type="text" sortOrder="1807" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Google link at footer</label>
+                    <comment>Example: https://...</comment>
+                </field>
+            </group>
+            <group id="footer_customer_service" translate="label" type="text" sortOrder="1900" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Customer Services and Informations at Footer</label>
+                <field id="customer_service" translate="label" sortOrder="1901" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Customer Service</label>
+                    <frontend_model>Simi\Simicustomize\Block\Adminhtml\Form\Field\CustomerServiceLink</frontend_model>
+                    <backend_model>Simi\Simicustomize\Config\Backend\FooterConfig</backend_model>
+                    <comment>Use relative link. Example: service.html</comment>
+                </field>
+                <field id="more_information" translate="label" sortOrder="1902" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Information</label>
+                    <frontend_model>Simi\Simicustomize\Block\Adminhtml\Form\Field\MoreInformationLink</frontend_model>
+                    <backend_model>Simi\Simicustomize\Config\Backend\FooterConfig</backend_model>
+                    <comment>Use relative link. Example: information.html</comment>
+                </field>
+            </group>
+            <group id="footer_app" translate="label" type="text" sortOrder="2000" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Config links 's apps Android and IOS at footer (OUR APP)</label>
+                <field id="bianca_android_app" translate="label" type="text" sortOrder="2001" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Android app</label>
+                    <comment>Example: https://play.google.com/...</comment>
+                </field>
+                <field id="bianca_ios_app" translate="label" type="text" sortOrder="2002" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>IOS app</label>
+                    <comment>Example: https://app.apple.com/...</comment>
+                </field>
+            </group>
+            <group id="url_logout" translate="label" type="text" sortOrder="2050" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Redirect to url after logout from vendor 's dashboard</label>
+                <field id="url" translate="label" type="text" sortOrder="2003" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>URL PWA site</label>
+                    <comment>Example: https://biancanera-pwa.com/...</comment>
+                </field>
+            </group>
+            <group id="instagram" translate="label" type="text" sortOrder="1310" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Instagram Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="userid" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>User ID</label>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="product_brands" translate="label" type="text" sortOrder="2100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Brand Details</label>
+                <field id="brand_details" translate="label" sortOrder="1901" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Brand Details</label>
+                    <frontend_model>Simi\Simicustomize\Block\Adminhtml\Form\Field\Branddetails</frontend_model>
+                    <backend_model>Simi\Simicustomize\Config\Backend\Branddetails</backend_model>
+                </field>
+            </group>
+        </section>
+        <section id="contact">
+            <group id="time" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Time Options</label>
+                <field id="times" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Contact Time</label>
+                    <comment>Times. Seperate phone numbers with comma. Ex: Now,Next day</comment>
+                </field>
+            </group>
+        </section>
+        <section id="pwa_titles" translate="label" sortOrder="131" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>PWA Titles Settings</label>
+            <tab>simi</tab>
+            <resource>Simi_Simi::config_simi</resource>
+            <group id="pwa_titles" translate="label" type="text" sortOrder="2100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>PWA Titles</label>
+                <field id="pwa_titles" translate="label" sortOrder="1901" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>PWA Titles</label>
+                    <frontend_model>Simi\Simicustomize\Block\Adminhtml\Form\Field\Pwatitles</frontend_model>
+                    <backend_model>Simi\Simicustomize\Config\Backend\Pwatitles</backend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

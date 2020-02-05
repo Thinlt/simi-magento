@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+<!--     <event name="adminhtml_catalog_product_edit_element_types">
+        <observer name="vnecoms_credit_product_edit" instance="Vnecoms\Credit\Observer\AdditionalElementTypes" />
+    </event> -->
+    <event name="adminhtml_catalog_product_edit_prepare_form">
+    	<observer name="vnecoms_credit_product_edit_tab_attributes" instance="Vnecoms\Credit\Observer\SetRenderer" />
+    </event>
+    
+    <!-- Refund order, add credit to customer credit account -->
+    <event name="adminhtml_sales_order_creditmemo_register_before">
+    	<observer name="vnecoms_credit_creditmemo_register_before" instance="Vnecoms\Credit\Observer\RegisterCreditmemo" />
+    </event>
+    
+    <event name="sales_order_creditmemo_save_after">
+    	<observer name="vnecoms_credit_creditmemo_save_after" instance="Vnecoms\Credit\Observer\CreditmemoSaveAfter" />
+    </event>
+</config>

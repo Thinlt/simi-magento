@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	
+	<type name="Magento\Catalog\Model\Layer">
+		<plugin name="addApprovalOnPrepareFrontCollection" type="Vnecoms\VendorsProduct\Model\Plugin\Layer"/>
+	</type>
+	<!-- <type name="Magento\Catalog\Model\Product">
+        <plugin name="getVendorModel" type="Vnecoms\VendorsProduct\Model\Plugin\Product" />
+    </type> -->
+    
+    <!-- These attribute will not be removed from add product form -->
+    <type name="Vnecoms\VendorsProduct\Model\Entity\Product\Attribute\Group\AttributeMapper">
+    	<arguments>
+            <argument name="unassignableAttributes" xsi:type="array">
+                <item name="name" xsi:type="string">name</item>
+                <item name="sku" xsi:type="string">sku</item>
+                <item name="price" xsi:type="string">price</item>
+                <item name="image" xsi:type="string">image</item>
+                <item name="quantity_and_stock_status" xsi:type="string">quantity_and_stock_status</item>
+                <item name="weight" xsi:type="string">weight</item>
+                <item name="category_ids" xsi:type="string">category_ids</item>
+                <item name="description" xsi:type="string">description</item>
+                <item name="status" xsi:type="string">status</item>
+                <item name="visibility" xsi:type="string">visibility</item>
+                <item name="gallery" xsi:type="string">gallery</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <!-- These attributes will not be displayed/saved from vendor cpanel. -->
+	<type name="Vnecoms\VendorsProduct\Helper\Data">
+        <arguments>
+            <argument name="notAllowedProductAttributes" xsi:type="array">
+                <item name="vendor_id" xsi:type="string">vendor_id</item>
+                <item name="approval" xsi:type="string">approval</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Magento\Catalog\Model\ResourceModel\Layer\Filter\Price"
+                type="Vnecoms\VendorsProduct\Model\ResourceModel\Layer\Filter\Price"/>
+
+     <preference for="Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation\DataProvider"
+                type="Vnecoms\VendorsProduct\Model\Adapter\Mysql\Aggregation\DataProvider"/>  
+     <preference for="Magento\CatalogSearch\Model\Adapter\Mysql\Dynamic\DataProvider"
+                type="Vnecoms\VendorsProduct\Model\Adapter\Mysql\Dynamic\DataProvider"/>  								
+                
+    <type name="Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation\DataProvider">
+        <plugin name="categoryIdAggregation" disabled="true" />
+    </type>            
+
+    <type name="Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation\DataProvider">
+         <arguments>
+            <argument name="range" xsi:type="object">Magento\Catalog\Model\Layer\Filter\Price\Range\Proxy</argument>
+        </arguments>
+        <plugin name="categoryIdAggregationCustom" type="Vnecoms\VendorsProduct\Model\Plugin\Aggregation\Category\DataProvider" sortOrder="2" />
+    </type> 
+
+
+     <type name="Vnecoms\VendorsProduct\Helper\Data">
+        <arguments>
+            <argument name="joinProductAttribute" xsi:type="array">
+                <item name="vendor_id" xsi:type="string">static</item>
+                <item name="approval" xsi:type="string">int</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

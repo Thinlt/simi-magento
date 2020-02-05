@@ -1,0 +1,41 @@
+Bestseller,Bestseller
+Product,Product
+Price,Price
+Quantity,Quantity
+Amounts,Amounts
+"Credit Receive - Spend","Credit Receive - Spend"
+Orders,Orders
+"Vendor Data","Vendor Data"
+"Most Viewed Products","Most Viewed Products"
+Views,Views
+"Last Orders","Last Orders"
+ID,ID
+"Purchased Date","Purchased Date"
+Customer,Customer
+"Grand Total","Grand Total"
+Status,Status
+"Last Transactions","Last Transactions"
+"Created at","Created at"
+Type,Type
+Description,Description
+Amount,Amount
+Balance,Balance
+"Transaction Id","Transaction Id"
+Credits,Credits
+"Recently Added Products","Recently Added Products"
+"Seller Panel","Seller Panel"
+Dashboard,Dashboard
+"Credit Amount","Credit Amount"
+"Lifetime Sales","Lifetime Sales"
+"Average Orders","Average Orders"
+"Total Products","Total Products"
+"Last 24 Hours","Last 24 Hours"
+"Last 7 Days","Last 7 Days"
+"Current Month","Current Month"
+YTD,YTD
+2YTD,2YTD
+"We couldn't find any records.","We couldn't find any records."
+"View All Products","View All Products"
+"No Data Found","No Data Found"
+"Credits Received","Credits Received"
+"Credits Spent","Credits Spent"

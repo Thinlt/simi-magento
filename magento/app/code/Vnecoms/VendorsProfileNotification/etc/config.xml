@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <vendors>
+        	<design>
+        		<vendor_profile_message>1</vendor_profile_message>
+        		<vendor_profile_message_setting>all_time</vendor_profile_message_setting>
+        	</design>
+       	</vendors>
+    </default>
+</config>

@@ -1,0 +1,13 @@
+<?php
+if($block->getLayoutType())
+{
+?>
+<div class="leftimage">
+    <?php $image = $block->getTemplateImage(); ?>
+    <?php if($block->getImageType()) { ?>
+        <img  class="leftimg" src="<?php echo $this->getViewFileUrl('Magecomp_Mobilelogin::images/'.$image.'.png'); ?>"  alt="mobile login popup image"/>
+    <?php }else { ?>
+        <img class="leftimg" src="<?php echo $block->getMediaUrl().'mobilelogin/image/'.$image ?>"  alt="mobile login popup image"/>
+    <?php } ?>
+</div>
+<?php } ?>

@@ -1,0 +1,70 @@
+<?php $notificationCount = $block->getNotifiationCount();?>
+<li class="dropdown notifications-menu">
+    <a href="#" class="dropdown-toggle">
+      <i class="fa fa-bell-o"></i>
+      <?php if($notificationCount):?><span id="notification-count" class="label label-warning"><?php echo $notificationCount?></span><?php endif;?>
+    </a>
+    <ul class="dropdown-menu notifications-dropdown-menu">
+        <li class="header">
+            <!--<?php echo $notificationCount>1?__("You have %1 unread notifications", $notificationCount):__("You have %1 new notification", $notificationCount);?>--> 
+            <strong><?php echo __("Notifications")?></strong>
+            <a class="mark-as-read pull-right" href="#"><?php echo __("Mark all as read")?></a>
+        </li> 
+        <?php if(!$block->getNotificationCollection()->count()):?>
+            <li class="header"><?php echo __("You have no notification");?></li>
+        <?php endif;?>
+        <li>
+            <ul class="menu">
+                <?php foreach($block->getNotificationCollection() as $notification):?>
+                <?php $notificationType = $notification->getNotificationType();?>
+                <li<?php if(!$notification->getData('is_read')):?> class="unread"<?php endif;?>>
+                    <a data-toggle="tooltip" title="<?php echo strip_tags($notificationType->getMessage())?>" href="<?php echo $block->getViewUrl($notification)?>"><i class="<?php echo $notificationType->getIconClass()?>"></i> <?php echo $notificationType->getMessage()?></a>
+                </li>
+                <?php endforeach;?>
+            </ul>
+          </li>
+        <li class="footer"><a href="<?php echo $block->getViewAllUrl()?>"><?php echo __("View all")?></a></li>
+    </ul>
+</li>
+<script type="text/javascript">
+var URL_MARK_AS_READ = '<?php echo $block->getMarkAllAsReadUrl()?>';
+require([
+         'jquery',
+         'domReady!'
+     ], function($){
+    jQuery(".notifications-menu a.dropdown-toggle").click(function(){
+        $(this).parent().toggleClass('open');
+    });
+
+    $('body').click(function(event){
+        var elms = [
+            '.dropdown-menu .header',
+            '.dropdown-menu .header strong',
+            '.notifications-menu .dropdown-toggle',
+            '.notifications-menu .dropdown-toggle i',
+            '.notifications-menu .dropdown-toggle span',
+            '.notifications-menu .mark-as-read'
+        ];
+    	if (!event.target.matches(elms.join())) {
+        	$('.notifications-menu').removeClass('open');
+    	}
+    });
+
+    $('.notifications-menu .mark-as-read').click(function(){
+    	$.ajax({
+  		  url: URL_MARK_AS_READ,
+  		  method: "POST",
+  		  dataType: "json"
+		}).done(function( response ){
+	  	  	if(response.ajaxExpired){
+	  	  	  	window.location = response.ajaxRedirect;
+	  	  	  	return;
+	  	  	}
+	  	  	if(response.success){
+		  	  	$('.notifications-menu .unread').removeClass('unread');
+		  	  	$('#notification-count').hide();
+	  	  	}	  	  	
+		});
+    });
+});
+</script>

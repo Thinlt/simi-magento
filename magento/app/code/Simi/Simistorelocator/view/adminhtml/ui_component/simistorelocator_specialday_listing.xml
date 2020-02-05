@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../../../Magento/Ui/etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing_data_source</item>
+            <item name="deps" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">simistorelocator_specialday_columns</item>
+        <item name="buttons" xsi:type="array">
+            <item name="add" xsi:type="array">
+                <item name="name" xsi:type="string">add</item>
+                <item name="label" xsi:type="string" translate="true">Add New Special day</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">*/*/new</item>
+            </item>
+        </item>
+    </argument>
+    <dataSource name="simistorelocator_specialday_listing_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">SpecialdayGridDataProvider</argument>
+            <argument name="name" xsi:type="string">simistorelocator_specialday_listing_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">specialday_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">specialday_id</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <container name="listing_top">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="template" xsi:type="string">ui/grid/toolbar</item>
+            </item>
+        </argument>
+        <bookmark name="bookmarks">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/controls/bookmarks/bookmarks</item>
+                    <item name="displayArea" xsi:type="string">dataGridActions</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="saveUrl" xsi:type="url" path="mui/bookmark/save"/>
+                        <item name="deleteUrl" xsi:type="url" path="mui/bookmark/delete"/>
+                        <item name="namespace" xsi:type="string">simistorelocator_specialday_listing</item>
+                    </item>
+                </item>
+            </argument>
+        </bookmark>
+        <container name="columns_controls">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="columnsData" xsi:type="array">
+                        <item name="provider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing.simistorelocator_specialday_columns</item>
+                    </item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/controls/columns</item>
+                    <item name="displayArea" xsi:type="string">dataGridActions</item>
+                </item>
+            </argument>
+        </container>
+        <exportButton name="export_button">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="displayArea" xsi:type="string">dataGridActions</item>
+                    <item name="options" xsi:type="array">
+                        <item name="cvs" xsi:type="array">
+                            <item name="value" xsi:type="string">csv</item>
+                            <item name="label" xsi:type="string" translate="true">CSV</item>
+                            <item name="url" xsi:type="string">simistorelocatoradmin/specialday/exportCsv</item>
+                        </item>
+                        <item name="xml" xsi:type="array">
+                            <item name="value" xsi:type="string">xml</item>
+                            <item name="label" xsi:type="string" translate="true">Excel XML</item>
+                            <item name="url" xsi:type="string">simistorelocatoradmin/specialday/exportExcel</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </exportButton>
+        <filterSearch name="fulltext">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/search/search</item>
+                    <item name="displayArea" xsi:type="string">dataGridFilters</item>
+                    <item name="provider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing_data_source</item>
+                    <item name="chipsProvider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing.listing_top.listing_filters_chips</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.search</item>
+                    </item>
+                </item>
+            </argument>
+        </filterSearch>
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="displayArea" xsi:type="string">dataGridFilters</item>
+                    <item name="dataScope" xsi:type="string">filters</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.filters</item>
+                    </item>
+                    <item name="childDefaults" xsi:type="array">
+                        <item name="provider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing.listing_top.listing_filters</item>
+                        <item name="imports" xsi:type="array">
+                            <item name="visible" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing.simistorelocator_specialday_columns.${ $.index }:visible</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+            <filterRange name="specialday_id">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="dataScope" xsi:type="string">specialday_id</item>
+                        <item name="label" xsi:type="string" translate="true">Special day ID</item>
+                        <item name="childDefaults" xsi:type="array">
+                            <item name="provider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing.listing_top.listing_filters</item>
+                        </item>
+                    </item>
+                </argument>
+                <filterInput name="from">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="dataScope" xsi:type="string">from</item>
+                            <item name="label" xsi:type="string" translate="true">From</item>
+                            <item name="placeholder" xsi:type="string" translate="true">From</item>
+                        </item>
+                    </argument>
+                </filterInput>
+                <filterInput name="to">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="dataScope" xsi:type="string">to</item>
+                            <item name="label" xsi:type="string" translate="true">To</item>
+                            <item name="placeholder" xsi:type="string" translate="true">To</item>
+                        </item>
+                    </argument>
+                </filterInput>
+            </filterRange>
+            <filterInput name="specialday_name">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="dataScope" xsi:type="string">specialday_name</item>
+                        <item name="label" xsi:type="string" translate="true">Special day Name</item>
+                        <item name="placeholder" xsi:type="string" translate="true">Special day Name</item>
+                    </item>
+                </argument>
+            </filterInput>
+            <filterRange name="date_from" class="Magento\Ui\Component\Filters\Type\DateRange">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="dataScope" xsi:type="string">date_from</item>
+                        <item name="label" xsi:type="string" translate="true">Date Start</item>
+                        <item name="childDefaults" xsi:type="array">
+                            <item name="provider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing.listing_top.listing_filters</item>
+                        </item>
+                    </item>
+                </argument>
+                <filterDate name="from">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="dataScope" xsi:type="string">from</item>
+                            <item name="label" xsi:type="string" translate="true">From</item>
+                            <item name="placeholder" xsi:type="string" translate="true">From</item>
+                            <item name="dateFormat" xsi:type="string" translate="true">MM/dd/YYYY</item>
+                        </item>
+                    </argument>
+                </filterDate>
+                <filterDate name="to">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="dataScope" xsi:type="string">to</item>
+                            <item name="label" xsi:type="string" translate="true">To</item>
+                            <item name="placeholder" xsi:type="string" translate="true">To</item>
+                            <item name="dateFormat" xsi:type="string" translate="true">MM/dd/YYYY</item>
+                        </item>
+                    </argument>
+                </filterDate>
+            </filterRange>
+            <filterRange name="date_to" class="Magento\Ui\Component\Filters\Type\DateRange">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="dataScope" xsi:type="string">date_to</item>
+                        <item name="label" xsi:type="string" translate="true">Date End</item>
+                        <item name="childDefaults" xsi:type="array">
+                            <item name="provider" xsi:type="string">
+                                storelocator_specialday_listing.simistorelocator_specialday_listing.listing_top.listing_filters
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+                <filterDate name="from">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="dataScope" xsi:type="string">from</item>
+                            <item name="label" xsi:type="string" translate="true">From</item>
+                            <item name="placeholder" xsi:type="string" translate="true">From</item>
+                            <item name="dateFormat" xsi:type="string" translate="true">MM/dd/YYYY</item>
+                        </item>
+                    </argument>
+                </filterDate>
+                <filterDate name="to">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="dataScope" xsi:type="string">to</item>
+                            <item name="label" xsi:type="string" translate="true">To</item>
+                            <item name="placeholder" xsi:type="string" translate="true">To</item>
+                            <item name="dateFormat" xsi:type="string" translate="true">MM/dd/YYYY</item>
+                        </item>
+                    </argument>
+                </filterDate>
+            </filterRange>
+            <filterInput name="specialday_comment">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="dataScope" xsi:type="string">specialday_comment</item>
+                        <item name="label" xsi:type="string" translate="true">Comment</item>
+                    </item>
+                </argument>
+            </filterInput>
+        </filters>
+        <massaction name="listing_massaction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing.simistorelocator_specialday_columns.ids</item>
+                    <item name="displayArea" xsi:type="string">bottom</item>
+                    <item name="indexField" xsi:type="string">specialday_id</item>
+                </item>
+            </argument>
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="simistorelocatoradmin/specialday/massDelete"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Delete items</item>
+                            <item name="message" xsi:type="string" translate="true">Are you sure you wan't to delete selected items?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+            <action name="edit">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">edit</item>
+                        <item name="label" xsi:type="string" translate="true">Edit</item>
+                        <item name="callback" xsi:type="array">
+                            <item name="provider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing.simistorelocator_specialday_columns_editor</item>
+                            <item name="target" xsi:type="string">editSelected</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+        </massaction>
+        <paging name="listing_paging">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.paging</item>
+                    </item>
+                    <item name="selectProvider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing.simistorelocator_specialday_columns.ids</item>
+                </item>
+            </argument>
+        </paging>
+    </container>
+    <columns name="simistorelocator_specialday_columns">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="storageConfig" xsi:type="array">
+                    <item name="provider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing.listing_top.bookmarks</item>
+                    <item name="namespace" xsi:type="string">current</item>
+                </item>
+                <item name="editorConfig" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing.simistorelocator_specialday_columns.ids</item>
+                    <item name="enabled" xsi:type="boolean">true</item>
+                    <item name="indexField" xsi:type="string">specialday_id</item>
+                    <item name="clientConfig" xsi:type="array">
+                        <item name="saveUrl" xsi:type="url" path="simistorelocatoradmin/specialday/inlineEdit"/>
+                        <item name="validateBeforeSave" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+                <item name="childDefaults" xsi:type="array">
+                    <item name="fieldAction" xsi:type="array">
+                        <item name="provider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing.simistorelocator_specialday_columns_editor</item>
+                        <item name="target" xsi:type="string">startEdit</item>
+                        <item name="params" xsi:type="array">
+                            <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
+                            <item name="1" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">simistorelocator_specialday_listing.simistorelocator_specialday_listing.listing_top.bookmarks</item>
+                        <item name="root" xsi:type="string">columns.${ $.index }</item>
+                        <item name="namespace" xsi:type="string">current.${ $.storageConfig.root }</item>
+                    </item>
+                </item>
+            </item>
+        </argument>
+        <selectionsColumn name="ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">55</item>
+                    <item name="indexField" xsi:type="string">specialday_id</item>
+                </item>
+            </argument>
+        </selectionsColumn>
+        <column name="specialday_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/column</item>
+                    <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                    <item name="sortable" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="align" xsi:type="string">left</item>
+                    <item name="label" xsi:type="string" translate="true">Special day ID</item>
+                </item>
+            </argument>
+        </column>
+        <column name="specialday_name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/column</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="align" xsi:type="string">left</item>
+                    <item name="label" xsi:type="string" translate="true">Special day Name</item>
+                </item>
+            </argument>
+        </column>
+        <column name="date_from">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">dateRange</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">date</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                    <item name="dataType" xsi:type="string">date</item>
+                    <item name="align" xsi:type="string">left</item>
+                    <item name="label" xsi:type="string" translate="true">Date Start</item>
+                    <item name="dateFormat" xsi:type="string" translate="true">MM/dd/YYYY</item>
+                </item>
+            </argument>
+        </column>
+        <column name="date_to">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">dateRange</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">date</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                    <item name="dataType" xsi:type="string">date</item>
+                    <item name="align" xsi:type="string">left</item>
+                    <item name="label" xsi:type="string" translate="true">Date End</item>
+                    <item name="dateFormat" xsi:type="string" translate="true">MM/dd/YYYY</item>
+                </item>
+            </argument>
+        </column>
+        <column name="time_open">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/column</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="align" xsi:type="string">left</item>
+                    <item name="label" xsi:type="string" translate="true">Open Time</item>
+                </item>
+            </argument>
+        </column>
+        <column name="time_close">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/column</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="align" xsi:type="string">left</item>
+                    <item name="label" xsi:type="string" translate="true">Close Time</item>
+                </item>
+            </argument>
+        </column>
+        <column name="specialday_comment">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/column</item>
+                    <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="align" xsi:type="string">left</item>
+                    <item name="label" xsi:type="string" translate="true">Comment</item>
+                </item>
+            </argument>
+        </column>
+        <actionsColumn name="actions" class="Simi\Simistorelocator\Ui\Component\Listing\Column\Actions">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="draggable" xsi:type="boolean">false</item>
+                    <item name="indexField" xsi:type="string">specialday_id</item>
+                    <item name="align" xsi:type="string">left</item>
+                    <item name="label" xsi:type="string" translate="true">Action</item>
+                    <item name="filterable" xsi:type="boolean">false</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
+                </item>
+                <item name="itemsAction" xsi:type="array">
+                    <item name="edit" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Edit</item>
+                        <item name="path"  xsi:type="string">simistorelocatoradmin/specialday/edit</item>
+                    </item>
+                    <item name="delete" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="path"  xsi:type="string">simistorelocatoradmin/specialday/delete</item>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Delete "${ $.$data.specialday_name }"</item>
+                            <item name="message" xsi:type="string" translate="true">Are you sure you wan\'t to delete a "${ $.$data.specialday_name }" record?</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </actionsColumn>
+    </columns>
+</listing>

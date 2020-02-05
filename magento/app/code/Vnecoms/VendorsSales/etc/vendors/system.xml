@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+    	<tab id="sales" translate="label" sortOrder="100">
+            <label>Sales</label>
+        </tab>
+		
+        <!-- Store Information Section -->
+        <section id="sales_email" translate="label" type="text" sortOrder="10" showInDefault="1">
+            <label>Sales Email</label>
+            <tab>sales</tab>
+            <resource>Vnecoms_VendorsSales::sales_email</resource>
+            
+            <group id="order" translate="label tooltip" type="text" sortOrder="10" showInDefault="1">
+				<label>Order</label>
+				<field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <tooltip>If you set this option to no, there will be no order notification email will be sent to you.</tooltip>
+                </field>
+				<field id="copy_to" translate="label" type="text" sortOrder="20" showInDefault="1">
+	            	<label>Send Order Email Copy To</label>
+	            	<comment>Comma-separated</comment>
+	        	</field>
+	        	<field id="copy_method" translate="label" type="select" sortOrder="30" showInDefault="1">
+	            	<label>Send Order Email Copy Method</label>
+	            	<source_model>Magento\Config\Model\Config\Source\Email\Method</source_model>
+	        	</field>
+			</group>
+			
+			<group id="invoice" translate="label tooltip" type="text" sortOrder="20" showInDefault="1">
+				<label>Invoice</label>
+				<field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <tooltip>If you set this option to no, there will be no invoice notification email will be sent to you.</tooltip>
+                </field>
+				<field id="copy_to" translate="label" type="text" sortOrder="20" showInDefault="1">
+	            	<label>Send Invoice Email Copy To</label>
+	            	<comment>Comma-separated</comment>
+	        	</field>
+	        	<field id="copy_method" translate="label" type="select" sortOrder="30" showInDefault="1">
+	            	<label>Send Invoice Email Copy Method</label>
+	            	<source_model>Magento\Config\Model\Config\Source\Email\Method</source_model>
+	        	</field>
+			</group>
+			
+			<group id="shipment" translate="label tooltip" type="text" sortOrder="20" showInDefault="1">
+				<label>Shipment</label>
+				<field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <tooltip>If you set this option to no, there will be no shipment notification email will be sent to you.</tooltip>
+                </field>
+				<field id="copy_to" translate="label" type="text" sortOrder="20" showInDefault="1">
+	            	<label>Send Shipment Email Copy To</label>
+	            	<comment>Comma-separated</comment>
+	        	</field>
+	        	<field id="copy_method" translate="label" type="select" sortOrder="30" showInDefault="1">
+	            	<label>Send Shipment Email Copy Method</label>
+	            	<source_model>Magento\Config\Model\Config\Source\Email\Method</source_model>
+	        	</field>
+			</group>
+			
+			<group id="creditmemo" translate="label tooltip" type="text" sortOrder="20" showInDefault="1">
+				<label>Credit Memo</label>
+				<field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <tooltip>If you set this option to no, there will be no credit memo notification email will be sent to you.</tooltip>
+                </field>
+				<field id="copy_to" translate="label" type="text" sortOrder="20" showInDefault="1">
+	            	<label>Send Credit Memo Email Copy To</label>
+	            	<comment>Comma-separated</comment>
+	        	</field>
+	        	<field id="copy_method" translate="label" type="select" sortOrder="30" showInDefault="1">
+	            	<label>Send Credit Memo Email Copy Method</label>
+	            	<source_model>Magento\Config\Model\Config\Source\Email\Method</source_model>
+	        	</field>
+			</group>
+		</section>
+    </system>
+</config>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+        <css src="Vnecoms_Vendors::css/vendor-edit.css"/>
+    </head>
+    <body>
+        <referenceContainer name="left">
+            <block class="Vnecoms\Vendors\Block\Adminhtml\Vendor\Edit\Tabs" name="vendors_edit_tabs">
+                <block class="Vnecoms\Vendors\Block\Adminhtml\Vendor\Edit\Tab\Main" name="vendors_edit_tab_main">
+                	<container name="maintab-header" as="maintab_header" htmlTag="div" htmlClass="ves-maintab-header" />
+                	<container name="maintab-content" as="maintab_content" htmlTag="div" htmlClass="ves-maintab-content" />
+                	<container name="maintab-footer" as="maintab_footer" htmlTag="div" htmlClass="ves-maintab-footer" />
+                </block>
+                <block class="Vnecoms\Vendors\Block\Adminhtml\Vendor\Edit\Tab\Info" name="vendors_edit_tab_info" />
+                
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="string">vendors_edit_tab_main</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">info_section</argument>
+                    <argument name="block" xsi:type="string">vendors_edit_tab_info</argument>
+                </action>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Vnecoms\Vendors\Block\Adminhtml\Vendor\Edit" name="vendors_edit"/>
+        </referenceContainer>
+        <referenceContainer name="maintab-content">
+        	<!-- <block class="Vnecoms\Vendors\Block\Adminhtml\Vendor\Edit\Tab\Main\Info" template="Vnecoms_Vendors::vendor/edit/tab/main/info.phtml" name="vendor-info" as="vendor_info" /> -->
+        </referenceContainer>
+    </body>
+</page>

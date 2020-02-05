@@ -1,0 +1,24 @@
+{
+    "name": "vnecoms/module-vendors-commission-preview",
+    "description": "N/A",
+		"authors": [
+			{
+					"name": "VNECOMS",
+					"email": "support@vnecoms.com"
+			}
+		],
+		"require": {
+				"magento/framework": "*",
+        "vnecoms/module-core": "2.0.*"
+    },
+    "type": "magento2-module",
+    "version": "2.0.0",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Vnecoms\\VendorsCommissionPreview\\": ""
+        }
+    }
+}

@@ -1,0 +1,34 @@
+<section class="pb-section pb-section-welcome1" data-bind="attr: {id: sectionId}">
+	<div class="row">
+		<div class="col-md-9">
+		    <div class="pb-welcome1-title-container">
+		        <!-- ko foreach: getRegion('title_welcome') -->
+					<!-- ko template: getTemplate() --><!-- /ko -->
+				<!--/ko-->
+		    </div>
+		    <div class="pb-welcome1-content-container">
+		        <div class="pb-welcome1-img">
+		        	<!-- ko foreach: getRegion('image') -->
+						<!-- ko template: getTemplate() --><!-- /ko -->
+					<!--/ko-->
+				</div>
+		        <!-- ko foreach: getRegion('description') -->
+					<!-- ko template: getTemplate() --><!-- /ko -->
+				<!--/ko-->
+		    </div>
+		</div>
+		
+		<div class="col-md-3 pb-chooseus1">
+		    <div class="pb-welcome1-title-container">
+		        <!-- ko foreach: getRegion('title_chooseus') -->
+					<!-- ko template: getTemplate() --><!-- /ko -->
+				<!--/ko-->
+		    </div>
+		    <div class="content-why">
+		    	<!-- ko foreach: getRegion('why_choose_us') -->
+					<!-- ko template: getTemplate() --><!-- /ko -->
+				<!--/ko-->
+		    </div>
+		</div>
+	</div>
+</section>

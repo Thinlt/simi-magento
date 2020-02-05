@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<add id="Vnecoms_Credit::credit" title="Store Credit" module="Vnecoms_Credit" sortOrder="30" resource="Vnecoms_Credit::credit" dependsOnModule="Vnecoms_Credit"/>
+    	<add id="Vnecoms_Credit::credit_dashboard" title="Dashboard" sortOrder="10" module="Vnecoms_Credit" parent="Vnecoms_Credit::credit" action="storecredit/dashboard" dependsOnModule="Vnecoms_Credit" resource="Vnecoms_Credit::credit"/>
+    	<add id="Vnecoms_Credit::credit_account" title="Credit Accounts" sortOrder="20" module="Vnecoms_Credit" parent="Vnecoms_Credit::credit" action="storecredit/account" dependsOnModule="Vnecoms_Credit" resource="Vnecoms_Credit::credit"/>
+    	<add id="Vnecoms_Credit::credit_product" title="Credit Products" sortOrder="30" module="Vnecoms_Credit" parent="Vnecoms_Credit::credit" action="storecredit/product" dependsOnModule="Vnecoms_Credit" resource="Vnecoms_Credit::credit"/>
+    	<add id="Vnecoms_Credit::credit_transactions" title="Credit Transactions" sortOrder="40" module="Vnecoms_Credit" parent="Vnecoms_Credit::credit" action="storecredit/transaction" dependsOnModule="Vnecoms_Credit" resource="Vnecoms_Credit::credit"/>
+        <add id="Vnecoms_Credit::credit_setting" title="Settings" sortOrder="1000" module="Vnecoms_Credit" parent="Vnecoms_Credit::credit" action="adminhtml/system_config/edit/section/credit" dependsOnModule="Vnecoms_Credit" resource="Vnecoms_Credit::credit"/>
+    </menu>
+</config>

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+   		<css src="Vnecoms_Credit::css/credit.css"/>
+   	</head>
+    <body>
+        <referenceContainer name="checkout.cart.container">
+            <block class="Vnecoms\Credit\Block\Cart\Credit" name="checkout.cart.credit" as="credit" template="cart/credit.phtml"/>
+        </referenceContainer>
+        <move element="checkout.cart.credit" destination="cart.discount" />
+        
+        <referenceBlock name="checkout.cart.totals">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="block-totals" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="before_grandtotal" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="credit" xsi:type="array">
+                                            <item name="component"  xsi:type="string">Vnecoms_Credit/js/view/cart/totals/credit</item>
+                                            <item name="config" xsi:type="array">
+                                                <item name="title" xsi:type="string" translate="true">Store Credit</item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,12 @@
+<div class="update_mob">
+	<div class="update_mob_text">
+    	<input type="text" value="<?php echo $block->getMobilenumber(); ?>" class="updatemobnumber"/>
+		<input type="hidden" value="<?php echo $this->getUrl("mobilelogin/index/updatemobilenumber"); ?>" class="url" />
+        <input type="hidden" value="<?php echo $block->getCustomerid();?>" class="userId" />
+        <span><?php echo __("You will get all the sms on this number"); ?></span>
+    </div>
+    <div class="update_mob_btn">
+    	<input type="button" value="Update Mobile Number" class="updatemobbtn action primary"/>
+         <img class="sms-request-load" src="<?php echo $block->getViewFileUrl('images/loader-1.gif'); ?>" alt="Please Wait..." id="updatemobile_img"/>
+    </div>
+</div>

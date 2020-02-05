@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Vnecoms_Vendors:etc/menu.xsd">
+    <menu>
+    	<add id="Vnecoms_VendorsConfig::configuration" icon="fa fa-cog" title="Configuration" module="Vnecoms_VendorsConfig" action="config" sortOrder="100" resource="Vnecoms_VendorsConfig::configuration" dependsOnModule="Vnecoms_Vendors" />
+    </menu>
+</config>

@@ -1,0 +1,129 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Create account form template
+ *
+ * @var $block \Magento\Customer\Block\Form\Register
+ */
+?>
+<?php echo $block->getChildHtml('form_fields_before')?>
+<?php /* Extensions placeholder */ ?>
+<?php echo $block->getChildHtml('vendor.form.register.extra')?>
+<form class="form" action="<?php /* @escapeNotVerified */ echo $block->getPostActionUrl() ?>" method="post" id="form-validate" enctype="multipart/form-data" autocomplete="off">
+    <?php /* @noEscape */ echo $block->getBlockHtml('formkey'); ?>
+    <?php if($blockId = $block->getStaticBlockId()):?>
+        <div class="vendor-static-container">
+            <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($blockId)->toHtml();?>
+        </div>
+    <?php endif;?>
+    <div class="vendor-2columns-form">
+        <?php if(!$block->isLoggedIn()):?>
+        <div class="vendor-register vendor-register-col1">
+            <fieldset class="fieldset create info">
+                <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Personal Information') ?></span></legend><br>
+                <input type="hidden" name="success_url" value="<?php /* @escapeNotVerified */ echo $block->getSuccessUrl() ?>">
+                <input type="hidden" name="error_url" value="<?php /* @escapeNotVerified */ echo $block->getErrorUrl() ?>">
+                <input type="hidden" name="is_seller" value="1">
+                <?php echo $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($block->getFormData())->setForceUseCustomerAttributes(true)->toHtml() ?>
+                
+                <?php $_dob = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob') ?>
+                <?php if ($_dob->isEnabled()): ?>
+                    <?php echo $_dob->setDate($block->getFormData()->getDob())->toHtml() ?>
+                <?php endif ?>
+        
+                <?php $_taxvat = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Taxvat') ?>
+                <?php if ($_taxvat->isEnabled()): ?>
+                    <?php echo $_taxvat->setTaxvat($block->getFormData()->getTaxvat())->toHtml() ?>
+                <?php endif ?>
+        
+                <?php $_gender = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Gender') ?>
+                <?php if ($_gender->isEnabled()): ?>
+                    <?php echo $_gender->setGender($block->getFormData()->getGender())->toHtml() ?>
+                <?php endif ?>
+            </fieldset>
+            <fieldset class="fieldset create account" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>">
+                <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Sign-in Information') ?></span></legend><br>
+                <div class="field required">
+                    <label for="email_address" class="label"><span><?php /* @escapeNotVerified */ echo __('Email') ?></span></label>
+                    <div class="control">
+                        <input type="email" name="email" autocomplete="email" id="email_address" value="<?php echo $block->escapeHtml($block->getFormData()->getEmail()) ?>" title="<?php /* @escapeNotVerified */ echo __('Email') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}">
+                    </div>
+                </div>
+                <div class="field password required" data-mage-init='{"passwordStrengthIndicator": {}}'>
+                    <label for="password" class="label"><span><?php /* @escapeNotVerified */ echo __('Password') ?></span></label>
+                    <div class="control">
+                        <input type="password" name="password" id="password"
+                               title="<?php /* @escapeNotVerified */ echo __('Password') ?>"
+                               class="input-text"
+                               data-password-min-length="<?php echo $block->escapeHtml($block->getMinimumPasswordLength()) ?>"
+                               data-password-min-character-sets="<?php echo $block->escapeHtml($block->getRequiredCharacterClassesNumber()) ?>"
+                               data-validate="{required:true, 'validate-customer-password':true}"
+                               autocomplete="off">
+                        <div id="password-strength-meter-container" data-role="password-strength-meter" >
+                            <div id="password-strength-meter" class="password-strength-meter">
+                                <?php /* @escapeNotVerified */ echo __('Password Strength'); ?>:
+                                <span id="password-strength-meter-label" data-role="password-strength-meter-label" >
+                                    <?php /* @escapeNotVerified */ echo __('No Password'); ?>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+        
+                </div>
+                <div class="field confirmation required">
+                    <label for="password-confirmation" class="label"><span><?php /* @escapeNotVerified */ echo __('Confirm Password') ?></span></label>
+                    <div class="control">
+                        <input type="password" name="password_confirmation" title="<?php /* @escapeNotVerified */ echo __('Confirm Password') ?>" id="password-confirmation" class="input-text" data-validate="{required:true, equalTo:'#password'}" autocomplete="off">
+                    </div>
+                </div>
+                <?php echo $block->getChildHtml('vendor_register_form_additional_info'); ?>
+            </fieldset>
+        </div>
+        <?php endif;?>
+            
+        <div class="vendor-register vendor-register-col2">
+            <!-- Vendor register form -->
+            <?php echo $block->getChildHtml('vendor_register_form_before')?>
+            <?php echo $block->getChildHtml('vendor_create_form')?>
+            <?php echo $block->getChildHtml('vendor_register_form_after')?>
+            
+            <?php if($block->isEnableAgreement()):?>
+            <fieldset class="fieldset create info">
+                <div class="field field-vendor-registration">
+                    <input type="checkbox" id="vendor-registration-agreement" name="vendor_data[vendor_registration_agreement]" value="1" class="input-text vendor-agreement" data-validate="{'validate-one-required-by-name':true}"/><label for="vendor-registration-agreement"><?php echo $block->getAgreementLabel()?></label>
+                </div>
+            </fieldset>
+            <?php endif;?>
+        </div>
+    </div>
+    <?php echo $block->getChildHtml('vendor_register_form_actions_before')?>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" class="action submit primary" title="<?php /* @escapeNotVerified */ echo __('Create Seller Account') ?>"><span><?php /* @escapeNotVerified */ echo __('Create Seller Account') ?></span></button>
+        </div>
+    </div>
+</form>
+<script>
+require([
+    'jquery',
+    'mage/mage'
+], function($){
+
+    var dataForm = $('#form-validate');
+    var ignore = false;
+    
+    dataForm.mage('validation', {
+    	validationUrl: '<?php echo $this->getValidationUrl()?>',
+        ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+    }).find('input:text').attr('autocomplete', 'off');
+
+});
+</script>

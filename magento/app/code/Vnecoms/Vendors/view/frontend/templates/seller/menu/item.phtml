@@ -1,0 +1,54 @@
+<?php
+/**
+ * Category view template
+ *
+ * @var $block \Vnecoms\Vendors\Block\Seller\Menu
+ */
+
+$highlight = '';
+$highlight = '';
+
+if ($block->getIsHighlighted()) {
+    $highlight = ' current';
+}
+?>
+
+<?php if ($block->isCurrent()):?>
+<li class="nav item seller-item <?php echo $block->getHtmlClass()?> current">
+    <?php if($block->hasChildItems()):?>
+    <a href="<?php echo $block->escapeHtml($block->getHref())?>" title="<?php echo $block->getTitle()?>" <?php echo $block->getAttributesHtml()?>>
+    <?php endif;?>
+    <strong>
+        <?php if($block->getIconClass()):?>
+            <i class="fa <?php echo $block->getIconClass()?>"></i>
+        <?php endif;?>
+        <span><?php echo $block->escapeHtml((string)new \Magento\Framework\Phrase($block->getLabel()))?></span>
+    </strong>
+    <?php if($block->hasChildItems()):?>
+    </a>
+    <?php endif;?>
+<?php else:?>
+<li class="nav item seller-item <?php echo $block->getHtmlClass()?> <?php echo $highlight?>">
+    <a href="<?php echo $block->escapeHtml($block->getHref())?>" title="<?php echo $block->getTitle()?>" <?php echo $block->getAttributesHtml()?>>
+        <?php if($block->getIconClass()):?>
+            <i class="fa <?php echo $block->getIconClass()?>"></i>
+        <?php endif;?>
+        <?php if($block->getIsHighlighted()):?>
+        <strong>
+        <?php endif;?>
+            <?php echo $block->escapeHtml((string)new \Magento\Framework\Phrase($block->getLabel()));?>
+        <?php if($block->getIsHighlighted()):?>
+        </strong>
+        <?php endif;?>
+    </a>
+<?php endif;?>
+
+<?php if($block->hasChildItems()):?>
+    <ul class="seller-submenu">
+    <?php foreach($block->getChildrenItems() as $menuItem):?>
+        <?php echo $menuItem->toHtml()?>
+    <?php endforeach;?>
+    </ul>
+<?php endif;?>
+</li>
+

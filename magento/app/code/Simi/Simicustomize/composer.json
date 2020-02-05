@@ -1,0 +1,26 @@
+{
+    "name": "simi/module-simicustomize",
+    "description": "SimiCart Customize",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "authors": [
+        {
+            "name": "SimiCart Company",
+            "email": "max@simicart.com",
+            "homepage": "https://www.simicart.com/",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Simi\\Simicustomize\\": ""
+        }
+    }
+}

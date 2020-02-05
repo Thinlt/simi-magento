@@ -1,0 +1,19 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<div class="user-panel">
+    <div class="pull-left image">
+      <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('images/user.png')?>" class="img-circle" alt="User Image">
+    </div>
+    <div class="pull-left info">
+      <p><?php echo $block->getVendorName();?></p>
+      <a href="#"><i class="fa fa-circle text-success"></i> <?php echo __('Online') ?></a>
+    </div>
+</div>
+<div class="divider"></div>

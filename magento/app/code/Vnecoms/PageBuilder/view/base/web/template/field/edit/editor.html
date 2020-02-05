@@ -1,0 +1,7 @@
+<button class="primary vpb-toggle-editor" data-bind="click: toggleEditor.bind($data)"><span><i class="fa fa-navicon"></i> <span data-bind="text: getButtonLabel()"></span></span></button>
+<div class="vpb-field-editor" data-bind="css:{hide: isCodeEditor()}">
+	<textarea data-bind="value: code, attr: {id:getFieldId()}, afterRender: initEditor"></textarea>
+</div>
+<div class="vpb-field-editor" data-bind="css:{hide: !isCodeEditor()}">
+	<div data-bind="attr: {id:getFieldId()+'_codeEditor'}"></div>
+</div>

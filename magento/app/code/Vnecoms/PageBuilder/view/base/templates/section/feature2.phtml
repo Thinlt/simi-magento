@@ -1,0 +1,23 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/** @var \Vnecoms\PageBuilder\Block\Section\DefaultSection $block */
+?>
+
+<section class="pb-section pb-section-feature2" id="<?php echo $block->getNameInLayout()?>">
+    <div class="pb-section-title">
+    	<?php echo $this->getChildHtml('title')?>
+    	<?php echo $this->getChildHtml('subtitle')?>
+	</div>
+	<?php echo $this->getChildHtml('description')?>
+	<div class="pb-section-col1-2">
+	   <?php echo $this->getChildHtml('group1_title')?>
+	   <?php echo $this->getChildHtml('group1_description')?>
+	   <?php echo $this->getChildHtml('group2_title')?>
+	   <?php echo $this->getChildHtml('key_features')?>
+	</div>
+	<div class="pb-section-col2-2">
+	   <?php echo $this->getChildHtml('feature_list')?>
+	</div>
+	
+</section>

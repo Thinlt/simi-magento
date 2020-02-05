@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <update handle="formkey"/>
+    <update handle="simistorelocatoradmin_holiday_grid_block"/>
+    <referenceBlock name="simistorelocatoradmin.holiday.grid">
+        <arguments>
+            <argument name="serialize_grid" xsi:type="boolean">true</argument>
+        </arguments>
+        <action method="setRowClickCallback">
+            <argument name="value" xsi:type="string">null</argument>
+        </action>
+        <action method="unsetChild">
+            <argument name="alias" xsi:type="string">grid.massaction</argument>
+        </action>
+        <action method="unsetChild">
+            <argument name="alias" xsi:type="string">grid.export</argument>
+        </action>
+    </referenceBlock>
+    <referenceBlock name="simistorelocatoradmin.holiday.grid.columnSet">
+        <block class="Simi\Simistorelocator\Block\Adminhtml\Widget\Grid\Column\Checkboxes" as="checkbox_id" before="holiday_id">
+            <arguments>
+                <argument name="header_css_class" xsi:type="string">a-center</argument>
+                <argument name="type" xsi:type="string">checkbox</argument>
+                <argument name="index" xsi:type="string">holiday_id</argument>
+                <argument name="id" xsi:type="string">checkbox_id</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
+</layout>

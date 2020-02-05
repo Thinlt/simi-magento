@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <columns name="sales_order_columns">
+        <column name="order_type">
+            <settings>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <options class="Simi\Simicustomize\Ui\Component\Sales\Order\Column\OrderType"/>
+                <label translate="true">Order Type</label>
+                <visible>false</visible>
+            </settings>
+        </column>
+        <column name="deposit_order_increment_id">
+            <settings>
+                <label translate="true">Deposit Order Id</label>
+            </settings>
+        </column>
+        <column name="service_support_fee">
+            <settings>
+                <label translate="true">Service Support Fee</label>
+            </settings>
+        </column>
+    </columns>
+</listing>

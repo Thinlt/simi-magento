@@ -1,0 +1,96 @@
+"Total Refund","Total Refund"
+"You are trying to add a quantity for some products that doesn't match the quantity that was shipped.","You are trying to add a quantity for some products that doesn't match the quantity that was shipped."
+"Products should be added to package(s)","Products should be added to package(s)"
+"The value that you entered is not valid.","The value that you entered is not valid."
+"Create Shipping Label...","Create Shipping Label..."
+"Print Shipping Label","Print Shipping Label"
+"Add Tracking Number","Add Tracking Number"
+"Custom Value","Custom Value"
+"View Memo for #%1","View Memo for #%1"
+"View Memo","View Memo"
+"There are no printable documents related to selected orders.","There are no printable documents related to selected orders."
+"You created the shipping label.","You created the shipping label."
+"There are no shipping labels related to selected orders.","There are no shipping labels related to selected orders."
+"We don't recognize or support the file extension in this shipment: %1.","We don't recognize or support the file extension in this shipment: %1."
+"An error occurred while creating shipping label.","An error occurred while creating shipping label."
+"We can't save the shipment right now.","We can't save the shipment right now."
+"The shipment has been created.","The shipment has been created."
+"Cannot save shipment.","Cannot save shipment."
+"Shipment Document Validation Error(s):\n","Shipment Document Validation Error(s):\n"
+Shipments,Shipments
+"We can't remove the item.","We can't remove the item."
+"There are no shipping labels related to selected shipments.","There are no shipping labels related to selected shipments."
+"No detail for number ""%1""","No detail for number ""%1"""
+"Maximum shipping amount allowed to refund is: %1","Maximum shipping amount allowed to refund is: %1"
+"Shipping labels is not available.","Shipping labels is not available."
+"Response info is not exist.","Response info is not exist."
+"Invalid carrier: %1","Invalid carrier: %1"
+"We don't have enough information to create shipping labels. Please make sure your store information and settings are complete.","We don't have enough information to create shipping labels. Please make sure your store information and settings are complete."
+"Payment &amp; Shipping Method","Payment &amp; Shipping Method"
+"Payment Information","Payment Information"
+"The order was placed using %1.","The order was placed using %1."
+"Shipping Information","Shipping Information"
+"Total Shipping Charges","Total Shipping Charges"
+"Incl. Tax","Incl. Tax"
+"Items Refunded","Items Refunded"
+"No Items","No Items"
+"Memo Total","Memo Total"
+"Credit Memo History","Credit Memo History"
+"Credit Memo Totals","Credit Memo Totals"
+"Items to Ship","Items to Ship"
+Product,Product
+Qty,Qty
+"Qty to Ship","Qty to Ship"
+Ship,Ship
+"Shipment Total","Shipment Total"
+"Shipment Comments","Shipment Comments"
+"Comment Text","Comment Text"
+"Shipment Options","Shipment Options"
+"Create Shipping Label","Create Shipping Label"
+"Append Comments","Append Comments"
+"Email Copy of Shipment","Email Copy of Shipment"
+"Invalid value(s) for Qty to Ship","Invalid value(s) for Qty to Ship"
+Package,Package
+Type,Type
+"Customs Value","Customs Value"
+"Total Weight","Total Weight"
+Size,Size
+Length,Length
+Width,Width
+Height,Height
+"Signature Confirmation","Signature Confirmation"
+Contents,Contents
+Girth,Girth
+"Items in the Package","Items in the Package"
+Weight,Weight
+"Qty Ordered","Qty Ordered"
+Packages,Packages
+"Create Packages","Create Packages"
+Cancel,Cancel
+Save,Save
+"Add Package","Add Package"
+Delete,Delete
+Carrier,Carrier
+Title,Title
+Number,Number
+Action,Action
+"Shipping and Tracking Information","Shipping and Tracking Information"
+"Track this shipment","Track this shipment"
+"Items Shipped","Items Shipped"
+"Order Total","Order Total"
+"Shipment History","Shipment History"
+"Sorry, no quotes are available for this order at this time","Sorry, no quotes are available for this order at this time"
+"Select Method","Select Method"
+Price,Price
+"Method Title","Method Title"
+"Carrier Title","Carrier Title"
+"Shipping Method","Shipping Method"
+"Shipping Address","Shipping Address"
+"New Address","New Address"
+"Shipping Methods","Shipping Methods"
+"You are buying from more than one seller. Please select the shipping method from each seller.","You are buying from more than one seller. Please select the shipping method from each seller."
+"Sorry, no quotes are available for this vendor at this time.","Sorry, no quotes are available for this vendor at this time."
+"Remove all items from this vendor","Remove all items from this vendor"
+Next,Next
+"Select All","Select All"
+"Product Name","Product Name"

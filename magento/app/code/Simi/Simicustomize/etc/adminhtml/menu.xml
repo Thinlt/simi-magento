@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Backend/etc/menu.xsd">
+    <menu>
+        <add id="Simi_Simicustomize::sales_reserve" title="Reserve" translate="title" module="Simi_Simicustomize" sortOrder="100" parent="Magento_Sales::sales_operation" action="simi/reserve" resource="Simi_Simicustomize::sales_reserve" />
+        <add id="Simi_Simicustomize::sales_service" title="Cloting Alteration" translate="title" module="Simi_Simicustomize" sortOrder="105" parent="Magento_Sales::sales_operation" action="simi/service" resource="Simi_Simicustomize::sales_service" />
+        <add id="Simi_Simicustomize::sales_sizechart" title="Size Chart" translate="title" module="Simi_Simicustomize" sortOrder="110" parent="Magento_Sales::sales_operation" action="simi/sizechart" resource="Simi_Simicustomize::sales_sizechart" />
+        <add id="Simi_Simicustomize::sales_contact" title="Instant Contact" translate="title" module="Simi_Simicustomize" sortOrder="120" parent="Magento_Sales::sales_operation" action="simi/contact" resource="Simi_Simicustomize::sales_contact" />
+        
+        <!-- Add New Collections menu to SimiCart module menu -->
+        <add id="Simi_Simicustomize::newcollections" title="New Collections" module="Simi_Simicustomize" sortOrder="32" parent="Simi_Simiconnector::themes" action="simicustomize/newcollections/" resource="Simi_Simiconnector::manage"/>
+    </menu>
+</config>

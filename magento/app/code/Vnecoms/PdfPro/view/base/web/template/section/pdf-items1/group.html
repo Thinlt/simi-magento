@@ -1,0 +1,11 @@
+<div class="vpb-component-container vpb-component-group pdf-info-container" data-bind="
+	visible: isActive,
+	css:editable?(isMouseOver()?'vpb-component-editable hover':'vpb-component-editable'):''
+">
+
+	<!-- ko foreach: { data: getRegion('value'), afterRender: elementChanged.bind($data)}-->
+		<!-- ko template: getTemplate() --><!-- /ko -->
+	<!--/ko-->
+
+	<div class="vpb-component-info" data-bind="html: id+':'+label"></div>
+</div>

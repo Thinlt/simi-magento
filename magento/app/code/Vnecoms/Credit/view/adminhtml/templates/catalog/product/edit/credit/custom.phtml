@@ -1,0 +1,79 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * @see \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\Element
+ */
+?>
+<?php
+/* @var $block \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element */
+$element = $block->getElement();
+$note = $element->getNote() ? '<div class="note">' . $element->getNote() . '</div>' : '';
+$elementBeforeLabel = $element->getExtType() == 'checkbox' || $element->getExtType() == 'radio';
+$addOn = $element->getBeforeElementHtml() || $element->getAfterElementHtml();
+$fieldId = ($element->getHtmlId()) ? ' id="attribute-' . $element->getHtmlId() . '-container"' : '';
+$entity = $element->getEntityAttribute();
+$fieldClass = "field field-{$element->getId()} {$element->getCssClass()}";
+$fieldClass .= ($elementBeforeLabel) ? ' choice' : '';
+$fieldClass .= ($addOn) ? ' with-addon' : '';
+$fieldClass .= ($element->getRequired()) ? ' required' : '';
+$fieldClass .= ($note) ? ' with-note' : '';
+$fieldClass .= ($entity && $entity->getIsUserDefined()) ? ' user-defined type-' . $entity->getFrontendInput() : '';
+
+$fieldAttributes = $fieldId . ' class="' . $fieldClass . '" '
+    . $block->getUiId('form-field', $element->getId());
+?>
+
+<?php $block->checkFieldDisable() ?>
+<?php
+    $elementToggleCode = $element->getToggleCode() ? $element->getToggleCode()
+        : 'toggleValueElements(this, this.parentNode.parentNode.parentNode)';
+?>
+<?php if (!$element->getNoDisplay()): ?>
+    <?php if ($element->getType() == 'hidden'): ?>
+        <?php echo $element->getElementHtml() ?>
+    <?php else: ?>
+    <div<?php /* @escapeNotVerified */ echo $fieldAttributes ?> data-attribute-code="<?php echo $element->getHtmlId() ?>"
+        data-apply-to="<?php echo $block->escapeHtml($this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode(
+            $element->hasEntityAttribute() ? $element->getEntityAttribute()->getApplyTo() : []
+        ))?>"
+        >
+
+        <?php echo $element->getLabelHtml() ?>
+        <?php $value = $element->getValue();?>
+        <div class="control">
+            <div class="col-xs-6 col-m-6">
+                <div class="control"><input type="text" class="input-text admin__control-text validate-greater-than-zero" value="<?php echo isset($value['from'])?$value['from']:''?>" name="product[credit_value_custom][from]" id="credit_value_custom_from" placeholder="<?php echo __("From")?>" /></div>
+            </div>
+            <div class="col-xs-6 col-m-6">
+                <div class="control"><input type="text" class="input-text admin__control-text validate-greater-than-zero" value="<?php echo isset($value['to'])?$value['to']:''?>" name="product[credit_value_custom][to]" id="credit_value_custom_to" placeholder="<?php echo __("To")?>" /></div>
+            </div>
+            <div style="clear: both;"></div>
+            <?php /* @escapeNotVerified */ echo $note ?>
+        </div>
+
+        <div class="field-service" value-scope="<?php /* @escapeNotVerified */ echo $block->getScopeLabel()?>">
+            <?php if ($block->canDisplayUseDefault()): ?>
+                <label for="<?php echo $element->getHtmlId() ?>_default" class="choice use-default">
+                    <input <?php if ($element->getReadonly()):?> disabled="disabled"<?php endif; ?>
+                            type="checkbox"
+                            name="use_default[]"
+                            class="use-default-control"
+                            id="<?php echo $element->getHtmlId() ?>_default"
+                            <?php if ($block->usedDefault()): ?> checked="checked"<?php endif; ?>
+                            onclick="<?php /* @escapeNotVerified */ echo $elementToggleCode; ?>"
+                            value="<?php /* @escapeNotVerified */ echo $block->getAttributeCode() ?>"/>
+                    <span class="use-default-label"><?php /* @escapeNotVerified */ echo __('Use Default Value') ?></span>
+                </label>
+            <?php endif; ?>
+        </div>
+    </div>
+    <?php endif; ?>
+<?php endif; ?>

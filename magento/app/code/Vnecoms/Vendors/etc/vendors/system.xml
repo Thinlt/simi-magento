@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+    	<tab id="general" translate="label" sortOrder="10">
+            <label>General</label>
+        </tab>
+		
+        <!-- Store Information Section -->
+        <section id="general" translate="label" type="text" sortOrder="10" showInDefault="1">
+            <label>General</label>
+            <tab>general</tab>
+            <resource>Vnecoms_VendorsConfig::general</resource>
+            <group id="store_information" translate="label tooltip" type="text" sortOrder="10" showInDefault="1">
+				<label>Store Information</label>
+				<field id="logo" translate="label" type="image" sortOrder="10" showInDefault="1">
+	            	<label>Logo</label>
+	            	<comment>Allowed file types: PNG, GIF, JPG, JPEG</comment>
+	            	<backend_model>Vnecoms\VendorsConfig\Model\Config\Backend\Image</backend_model>
+	            	<upload_dir config="system/filesystem/media" scope_info="1">ves_vendors/logo</upload_dir>
+                    <base_url type="media">ves_vendors/logo</base_url>
+	        	</field>
+				<field id="name" translate="label" type="text" sortOrder="20" showInDefault="1">
+	            	<label>Store Name</label>
+	        	</field>
+	        	<field id="short_description" translate="label" type="textarea" sortOrder="30" showInDefault="1">
+	            	<label>Short Description</label>
+	            	<backend_model>Vnecoms\Vendors\Model\Config\Backend\StoreDescription</backend_model>
+	        	</field>
+	        	<field id="phone" translate="label" type="text" sortOrder="40" showInDefault="1">
+	            	<label>Store Phone Number</label>
+	        	</field>
+	        	<field id="hours" translate="label" type="text" sortOrder="50" showInDefault="1">
+	            	<label>Store Hours of Operation</label>
+	        	</field>
+			</group>
+		</section>
+    </system>
+</config>

@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="\Simi\Simiconnector\Helper\Products" type="\Simi\Simicustomize\Override\Helper\Products" />
+    <preference for="\Simi\Simiconnector\Helper\Customer" type="\Simi\Simicustomize\Override\Helper\Customer" />
+    <preference for="\Simi\Simiconnector\Model\Api\Customers" type="\Simi\Simicustomize\Model\Api\Customers" />
+    <preference for="\Simi\Simiconnector\Model\Customer" type="\Simi\Simicustomize\Model\Customer" />
+    <preference for="\Simi\Simicustomize\Api\ReserveInterface" type="\Simi\Simicustomize\Model\Api\Reserve" />
+    <preference for="\Simi\Simicustomize\Api\ServiceInterface" type="\Simi\Simicustomize\Model\Api\Service" />
+    <preference for="\Simi\Simicustomize\Api\ContactInterface" type="\Simi\Simicustomize\Model\Api\Contact" />
+    <preference for="\Simi\Simicustomize\Api\SizechartInterface" type="\Simi\Simicustomize\Model\Api\Sizechart" />
+    <preference for="\Simi\Simicustomize\Api\ProxyInstagramInterface" type="\Simi\Simicustomize\Model\Api\ProxyInstagram" />
+    <preference for="Magento\Customer\Controller\Account\Confirm" type="Simi\Simicustomize\Controller\Account\Confirm" />
+    <preference for="Magento\Customer\Controller\Account\CreatePassword" type="Simi\Simicustomize\Controller\Account\CreatePassword" />
+    <preference for="Vnecoms\Vendors\Block\Vendors\Page\Toplinks\Users" type="Simi\Simicustomize\Block\Vendors\Page\Toplinks\Users" />
+    <preference for="Magento\Customer\Controller\Account\Logout" type="Simi\Simicustomize\Controller\Account\VendorLogout" />
+    <type name="Magento\Quote\Model\Quote\Item\Repository">
+        <plugin name="simi_cart_plugin_quote_item_repository" type="Simi\Simicustomize\Plugin\QuoteItemRepository" />
+    </type>
+    <!--update urlResolver -->
+    <type name="Magento\UrlRewriteGraphQl\Model\Resolver\EntityUrl">
+        <plugin name="simi_cart_plugin_urlrewrite_urlresover_entityurl" type="Simi\Simicustomize\Plugin\ResolverEntityUrl" />
+    </type>
+    <!-- Add order column sync to order grid -->
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="order_type" xsi:type="string">sales_order.order_type</item>
+                <item name="deposit_order_increment_id" xsi:type="string">sales_order.deposit_order_increment_id</item>
+                <item name="service_support_fee" xsi:type="string">sales_order.service_support_fee</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SimiReserveGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">simi_reserve</argument>
+            <argument name="resourceModel" xsi:type="string">Simi\Simicustomize\Model\ResourceModel\Reserve</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SimiSizechartGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">simi_size_chart</argument>
+            <argument name="resourceModel" xsi:type="string">Simi\Simicustomize\Model\ResourceModel\SizeChart</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SimiContactGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">simi_contact</argument>
+            <argument name="resourceModel" xsi:type="string">Simi\Simicustomize\Model\ResourceModel\Contact</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SimiServiceGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">simi_service</argument>
+            <argument name="resourceModel" xsi:type="string">Simi\Simicustomize\Model\ResourceModel\Service</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="simi_reserve_data_source" xsi:type="string">SimiReserveGridDataProvider</item>
+                <item name="simi_sizechart_data_source" xsi:type="string">SimiSizechartGridDataProvider</item>
+                <item name="simi_contact_data_source" xsi:type="string">SimiContactGridDataProvider</item>
+                <item name="simi_service_data_source" xsi:type="string">SimiServiceGridDataProvider</item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- change admin order detail product option -->
+    <type name="Magento\Sales\Block\Adminhtml\Items\Column\Name">
+        <plugin name="simi_cart_customize_plugin_sales_block_admin_item_col_name" type="Simi\Simicustomize\Plugin\Adminhtml\SalesBlockItemsColumnName" />
+    </type>
+    <type name="Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder">
+        <plugin name="simi_cart_customize_plugin_sales_block_order_email_items_defaultitems" type="Simi\Simicustomize\Plugin\SalesBlockOrderEmailItemsDefaultItems" />
+    </type>
+    <!-- apply is_by_service to order item -->
+    <type name='Magento\Quote\Model\Quote\Item\ToOrderItem'>
+        <plugin name='SimiAddOrderItemPlugin' type='Simi\Simicustomize\Plugin\QuoteItemToOrderItem' sortOrder='99'/>
+    </type>
+</config>

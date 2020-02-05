@@ -1,0 +1,18 @@
+<!--@subject A new withdrawal request has been submited @-->
+
+{{template config_path="design/email/header_template"}}
+
+<p>{{trans "There is a new withdrawal request has been submited"}}</p>
+<p>{{trans "This is the detail:"}} </p>
+<div style="border:1px solid #e0e0e0;font-size:12px;line-height:16px;margin:0;padding:13px 18px;background:#f9f9f9;margin-top:0;margin-bottom:10px">
+    <strong>{{trans "Payment Method:"}}</strong> {{var withdrawal.method_title}}<br />
+    <strong>{{trans "Amount:"}}</strong> {{var withdrawal.amount_formated}}<br />
+    <strong>{{trans "Fee:"}}</strong> {{var withdrawal.fee_formated}}<br />
+    <strong>{{trans "Net Amount:"}}</strong> {{var withdrawal.net_amount_formated}}<br />
+    <strong>{{trans "Created At:"}}</strong> {{var withdrawal.created_at_formated}}<br />
+    {{layout handle="withdrawal_additional_info" withdrawal=$withdrawal area="frontend"}}
+</div>
+
+{{var additional_info}}
+
+{{template config_path="design/email/footer_template"}}

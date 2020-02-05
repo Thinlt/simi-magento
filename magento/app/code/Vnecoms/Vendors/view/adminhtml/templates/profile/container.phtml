@@ -1,0 +1,341 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+
+/** @var $block \Magento\Backend\Block\Widget\Form\Container */
+?>
+<?php /* @escapeNotVerified */ echo $block->getFormInitScripts() ?>
+<?php if ($block->getButtonsHtml('header')): ?>
+    <div class="page-form-actions" <?php /* @escapeNotVerified */ echo $block->getUiId('content-header') ?>><?php echo $block->getButtonsHtml('header') ?></div>
+<?php endif; ?>
+
+<script type="text/javascript">
+var SAVE_FIELDSET_URL = '<?php echo $this->getSaveFieldsetUrl()?>';
+var DELETE_FIELDSET_URL = '<?php echo $this->getDeleteFieldsetUrl()?>';
+var RELOAD_FIELDSET_FORM_URL = '<?php echo $this->getReloadFormUrl()?>';
+var SAVE_FIELDS_ORDER_URL = '<?php echo $this->getSaveFieldsOrderUrl()?>';
+var SAVE_FIELDSETS_ORDER_URL = '<?php echo $this->getSaveFieldsetsOrderUrl()?>';
+require([
+    "jquery",
+    "jquery/ui",
+    "Magento_Ui/js/modal/prompt",
+    "Magento_Ui/js/modal/alert",
+    "Magento_Ui/js/modal/confirm"
+], function(jQuery,jui, prompt,alert,confirm){
+    function vesUpdateEvents(){
+    	jQuery( ".ves-fieldset-attributes" ).sortable({
+		    connectWith: ".ves-fieldset-attributes",
+		    placeholder: "portlet-placeholder",
+		    update: function( event, ui ) {
+			    var fieldsDestinationContainer = ui.item.parent();
+			    var fieldsSenderContainer = ui.sender;
+			    if(fieldsSenderContainer){
+    			    if(fieldsSenderContainer.data('fieldset_id')){
+    			    	vesUpdateFieldPosition(fieldsSenderContainer.data('fieldset_id'), fieldsSenderContainer.sortable( "toArray",{attribute:"data-attr_id"}),fieldsSenderContainer);
+    			    }
+			    }else{
+			        if(fieldsDestinationContainer.data('fieldset_id')) vesUpdateFieldPosition(fieldsDestinationContainer.data('fieldset_id'), fieldsDestinationContainer.sortable( "toArray",{attribute:"data-attr_id"}),fieldsDestinationContainer);
+			    }
+			}
+	   }).disableSelection();
+	   
+	   jQuery(".ves-fieldsets" ).sortable({
+            connectWith: ".ves-fieldsets",
+            handle: ".legend",
+            cancel: ".portlet-toggle",
+            placeholder: "portlet-placeholder",
+            update: function( event, ui ) {
+            	var container = ui.item.parent();
+            	vesUpdateFieldsetsPosition(container);
+			}
+	    });
+	   jQuery(".ves-fieldset" ).disableSelection();
+    }
+
+    function vesUpdateFieldsetsPosition(container){
+    	var fieldsets = container.sortable( "toArray",{attribute:"data-fieldset_id"});
+    	var sortedFieldsets = {};
+    	for(i = 0; i< fieldsets.length; i++){
+    		sortedFieldsets[fieldsets[i]] = i+1;
+    	}
+
+    	jQuery.ajax( {
+    		showLoader: true,
+    		dataType: 'json',
+    	    url: SAVE_FIELDSETS_ORDER_URL,
+    	    data: {fieldsets:sortedFieldsets, form_key: window.FORM_KEY},
+    	    type: 'POST'
+    	}).done(function(response) {
+    		if(typeof response =='object'){
+        		if(response.success){
+
+        		}else{
+            		/*Error while adding fieldset*/
+        			fieldsContainer.sortable( "cancel" );
+        			alert({
+        				modalClass: 'confirm ves-error',
+                        title: "<?php echo __("Profile Form");?>",
+                        content: response.err_msg,
+                    });
+        		}
+    		}else{
+        		/*Other error*/
+    			fieldsContainer.sortable( "cancel" );
+        		alert({
+        			modalClass: 'confirm ves-error',
+                    title: "<?php echo __("Profile Form");?>",
+                    content: "<?php echo __("There is a problem occurred. Please try again.");?>",
+                });
+    		}
+    	});
+    }
+    
+    function vesUpdateFieldPosition(fieldsetId, fields,fieldsContainer){
+    	/*Update fields position by fieldset.*/
+    	var sortedFields = {};
+    	for(i = 0; i< fields.length; i++){
+        	sortedFields[fields[i]] = i;
+    	}
+
+    	jQuery.ajax( {
+    		showLoader: true,
+    		dataType: 'json',
+    	    url: SAVE_FIELDS_ORDER_URL,
+    	    data: {fieldset_id:fieldsetId, fields:sortedFields, form_key: window.FORM_KEY},
+    	    type: 'POST'
+    	}).done(function(response) {
+    		if(typeof response =='object'){
+        		if(response.success){
+
+        		}else{
+            		/*Error while adding fieldset*/
+        			fieldsContainer.sortable( "cancel" );
+        			alert({
+        				modalClass: 'confirm ves-error',
+                        title: "<?php echo __("Profile Form");?>",
+                        content: response.err_msg,
+                    });
+        		}
+    		}else{
+        		/*Other error*/
+    			fieldsContainer.sortable( "cancel" );
+        		alert({
+        			modalClass: 'confirm ves-error',
+                    title: "<?php echo __("Profile Form");?>",
+                    content: "<?php echo __("There is a problem occurred. Please try again.");?>",
+                });
+    		}
+    	});
+    }
+    
+	function vesSaveFieldset(title,id){
+		/*The code to add fieldset here.*/   	
+    	jQuery.ajax( {
+    		showLoader: true,
+    		dataType: 'json',
+    	    url: SAVE_FIELDSET_URL,
+    	    data: {fieldset_id:id, fieldset:title, form_key: window.FORM_KEY},
+    	    type: 'POST'
+    	}).done(function(response) {
+    		if(typeof response =='object'){
+        		if(response.success){
+            		/*Update the fieldset*/
+            		window.vesFieldsets[response.saved_fieldset.fieldset_id] = response.saved_fieldset;
+            		
+            		jQuery('#fieldset-container').html(response.form_html);
+            		vesUpdateEvents();
+            		/*Add fieldset successfully*/
+        			alert({
+            			modalClass: 'alert ves-success',
+                        title: '<?php echo __("Add/Edit Fieldset");?>',
+                        content: '<?php echo __("The fieldset is saved!");?>',
+                    });
+        		}else{
+            		/*Error while adding fieldset*/
+        			alert({
+        				modalClass: 'confirm ves-error',
+                        title: "<?php echo __("Add/Edit Fieldset");?>",
+                        content: response.err_msg,
+                    });
+        		}
+    		}else{
+        		/*Other error*/
+        		alert({
+        			modalClass: 'confirm ves-error',
+                    title: "<?php echo __("Add/Edit Fieldset");?>",
+                    content: "<?php echo __("There is a problem occurred. Please try again.");?>",
+                });
+    		}
+    	});
+	}
+    function vesAddFieldset(){
+    	prompt({
+    		modalClass: 'prompt ves-info',
+    		title: "<?php echo __("Add Fieldset");?>",
+            content: "<?php echo __("Please enter a fieldset title.");?>",
+            value: "",
+            actions: {
+                confirm: function (fieldset_name) {
+                    fieldset_name = fieldset_name.trim();
+                    if( fieldset_name != false && fieldset_name != null && fieldset_name != '' ) {
+                        vesSaveFieldset(fieldset_name);
+                    }else {
+                    	alert({
+                    		title: "<?php echo __("Add Fieldset");?>",
+                            content: "<?php echo __('The entered title is not valid !');?>",
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    function vesEditFieldset(fieldsetId){
+    	prompt({
+    		modalClass: 'prompt ves-info',
+    		title: "<?php echo __("Edit Fieldset");?>",
+            content: "<?php echo __("Please enter a fieldset title.");?>",
+            value: vesFieldsets[fieldsetId].title,
+            actions: {
+                confirm: function (fieldset_name) {
+                    fieldset_name = fieldset_name.trim();
+                    if( fieldset_name != false && fieldset_name != null && fieldset_name != '' ) {
+                        vesSaveFieldset(fieldset_name,fieldsetId);
+                    }else {
+                    	alert({
+                    		title: "<?php echo __("Edit Fieldset");?>",
+                            content: "<?php echo __('The entered title is not valid !');?>",
+                        });
+                    }
+                }
+            }
+        });
+    }
+    
+    function vesDeleteFieldset(fieldsetId){
+    	confirm({
+    		modalClass: 'confirm ves-warning',
+            title: "<?php echo __("Delete Fieldset");?>",
+            content: "<?php echo __("Are you sure?");?>",
+            actions: {
+                confirm: function () {
+                	jQuery.ajax( {
+                		showLoader: true,
+                		dataType: 'json',
+                	    url: DELETE_FIELDSET_URL,
+                	    data: {fieldset:fieldsetId,form_key: window.FORM_KEY},
+                	    type: 'POST'
+                	}).done(function(response) {
+                		if(typeof response =='object'){
+                    		if(response.success){
+                        		/*Add fieldset successfully*/
+                    			jQuery('#fieldset-container').html(response.form_html);
+                        		vesUpdateEvents();
+                        		
+                    			alert({
+                        			modalClass: 'alert ves-success',
+                                    title: '<?php echo __("Delete Fieldset");?>',
+                                    content: '<?php echo __("The fieldset is deleted!");?>',
+                                });
+                    		}else{
+                        		/*Error while adding fieldset*/
+                    			alert({
+                    				modalClass: 'confirm ves-error',
+                                    title: "<?php echo __("Delete Fieldset");?>",
+                                    content: response.err_msg,
+                                });
+                    		}
+                		}else{
+                    		/*Other error*/
+                    		alert({
+                    			modalClass: 'confirm ves-error',
+                                title: "<?php echo __("Delete Fieldset");?>",
+                                content: "<?php echo __("There is a problem occurred. Please try again.");?>",
+                            });
+                		}
+                	});
+                },
+                cancel: function () {}
+            }
+        });
+    }
+
+    function reloadFieldsetForm(){
+    	/*The code to add fieldset here.*/
+    	jQuery.ajax( {
+    		showLoader: true,
+    	    url: RELOAD_FIELDSET_FORM_URL,
+    	    data: {form_key: window.FORM_KEY},
+    	    type: 'POST'
+    	}).done(function(response) {
+    		jQuery('#fieldset-container').html(response);
+    	});
+    }
+
+
+    jQuery(function() {
+		vesUpdateEvents();
+    });
+    
+    window.vesAddFieldset = vesAddFieldset;
+    window.vesEditFieldset = vesEditFieldset;
+    window.vesDeleteFieldset = vesDeleteFieldset;
+    window.reloadFieldsetForm = reloadFieldsetForm;
+    window.vesUpdateEvents = vesUpdateEvents;
+    
+    window.vesFieldsets = <?php echo $this->getFieldsetsJSON();?>;
+});
+</script>
+<div id="fieldset-container" class="admin__scope-old ves-fieldset-container">
+    <div class="ves-fieldsets">
+        <?php $assignedAttributes = $this->getExcludedAttributes();?>
+        <?php foreach($this->getFieldsetCollection() as $fieldset):?>
+        <fieldset id="fieldset-<?php echo $fieldset->getId();?>" class="fieldset admin__fieldset user-defined" data-fieldset_id="<?php echo $fieldset->getId()?>">
+            <legend class="admin__legend legend">
+                <span><?php echo $fieldset->getTitle();?></span>
+            </legend>
+            <div class="fieldset-ctrl"><a href="javascript: void(0);" class="icon icon-edit" onclick="vesEditFieldset(<?php echo $fieldset->getId();?>)"></a><a href="javascript: void(0);" class="icon icon-delete" onclick="vesDeleteFieldset(<?php echo $fieldset->getId();?>)"></a></div>
+            <div class="ves-fieldset-content">
+                <?php $attributes = $fieldset->getAttributes();?>
+                <ul id="sortable<?php echo $fieldset->getId()?>" class="ves-fieldset-attributes" data-fieldset_id="<?php echo $fieldset->getId()?>">
+                    <?php foreach($attributes as $attribute):?>
+                        <?php $assignedAttributes[] = $attribute->getAttributeCode()?>
+                        <?php if(!$this->canUseAttribute($attribute)) continue;?>
+                        <li id="<?php echo $attribute->getAttributeCode()?>" data-attr_id="<?php echo $attribute->getId()?>"><?php echo $attribute->getFrontendLabel()?></li>
+                    <?php endforeach;?>
+                </ul>
+            </div>
+         </fieldset>
+         <?php endforeach;?>
+    </div>
+    <div class="ves-attributes">
+        <fieldset class="fieldset admin__fieldset user-defined">
+            <legend class="admin__legend legend">
+                <span><?php echo __('Available Attributes')?></span>
+            </legend>
+            <div class="ves-fieldset-content">
+                <ul class="ves-fieldset-attributes ves-fieldset-available-attributes">
+                    <?php foreach($this->getVendorAttributeCollection() as $attribute):?>
+                        <?php if(in_array($attribute->getAttributeCode(), $assignedAttributes)) continue;;?>
+                        <?php if(!$this->canUseAttribute($attribute)) continue;?>
+                        
+                        <li id="<?php echo $attribute->getAttributeCode();?>" data-attr_id="<?php echo $attribute->getId()?>"><?php echo $attribute->getFrontendLabel();?></li>
+                    <?php endforeach;?>
+                </ul>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+<?php if ($block->hasFooterButtons()): ?>
+    <div class="content-footer">
+        <p class="form-buttons"><?php echo $block->getButtonsHtml('footer') ?></p>
+    </div>
+<?php endif; ?>
+
+<?php /* @escapeNotVerified */ echo $block->getFormScripts() ?>

@@ -1,0 +1,17 @@
+<div id="<?php echo $block->getNameInLayout()?>">
+<?php $i = 0; $size = sizeof($this->getFields());foreach($this->getFields() as $fieldId => $fieldData):?>
+    <?php echo $block->getChildHtml($fieldId);?>
+    <?php if(($i % 3) == 2 || $i == ($size-1)):?>
+        <div class="pb-feature-break-row"></div>
+    <?php endif;?>
+    <?php $i ++?>
+<?php endforeach?>
+</div>
+
+<?php if($block->getData('titleColor')):?>
+<style type="text/css">
+    <?php if($block->getData('titleColor')):?>
+    .pb-section-faq2 #<?php echo $block->getNameInLayout()?> .pb-feature-title{color: <?php echo $block->getData('titleColor');?>}
+    <?php endif;?>
+</style>
+<?php endif;?>

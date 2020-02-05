@@ -1,0 +1,229 @@
+"Update Changes","Update Changes"
+"Reject Changes","Reject Changes"
+"Are you sure you want to do this?","Are you sure you want to do this?"
+"Approve Changes","Approve Changes"
+"Review Product '%1'","Review Product '%1'"
+"All Websites","All Websites"
+"All Group","All Group"
+"Edit Attribute Set Name","Edit Attribute Set Name"
+Name,Name
+"Based On","Based On"
+"%1Click here%2 to edit product attribute set","%1Click here%2 to edit product attribute set"
+Back,Back
+"Restore to Default","Restore to Default"
+"You are about to restore this product form to default form. ","You are about to restore this product form to default form. "
+Empty,Empty
+"ID #","ID #"
+Type,Type
+"Attribute Set","Attribute Set"
+SKU,SKU
+Price,Price
+QTY,QTY
+Status,Status
+Approval,Approval
+Action,Action
+Edit,Edit
+Enabled,Enabled
+Disabled,Disabled
+Products,Products
+"Submit for Approval","Submit for Approval"
+"Save Product","Save Product"
+"Save & Submit for Approval","Save & Submit for Approval"
+"Save & New","Save & New"
+"Save & Duplicate","Save & Duplicate"
+"Save & Close","Save & Close"
+"Category Name","Category Name"
+"Parent Category","Parent Category"
+"If there are no custom parent categories, please use the default parent category. ","If there are no custom parent categories, please use the default parent category. "
+"YouTube and Vimeo supported.","YouTube and Vimeo supported."
+"Vimeo and Youtube are supported.<br />","Vimeo and Youtube are supported.<br />"
+Websites,Websites
+"Advanced Inventory","Advanced Inventory"
+"Close Window","Close Window"
+Reset,Reset
+"New Product","New Product"
+"Save as Draft","Save as Draft"
+"start typing to search category","start typing to search category"
+"New Category","New Category"
+"Images (.gif, .jpg, .png)","Images (.gif, .jpg, .png)"
+Weight,Weight
+"Manage Products","Manage Products"
+"Add Product","Add Product"
+"This product no longer exists.","This product no longer exists."
+"Updates of %1 are approved","Updates of %1 are approved"
+"The product %1 has been approved","The product %1 has been approved"
+"Pending Products","Pending Products"
+"Product %1 is approved","Product %1 is approved"
+"A total of %1 product(s) have been approved.","A total of %1 product(s) have been approved."
+"Updates of %1 are rejected","Updates of %1 are rejected"
+"Product %1 is rejected","Product %1 is rejected"
+"A total of %1 product(s) have been unapproved.","A total of %1 product(s) have been unapproved."
+"The product %1 is rejected","The product %1 is rejected"
+"The attribute set has been restored.","The attribute set has been restored."
+"We can't delete this set right now.","We can't delete this set right now."
+"Attribute Sets","Attribute Sets"
+"New Set","New Set"
+Catalog,Catalog
+"Manage Product Sets","Manage Product Sets"
+"Add Product Form","Add Product Form"
+Marketplace,Marketplace
+"This attribute set no longer exists.","This attribute set no longer exists."
+"You saved the add product form set.","You saved the add product form set."
+"Something went wrong while saving the add product form.","Something went wrong while saving the add product form."
+"Default Values","Default Values"
+"Seller Panel","Seller Panel"
+"Your product %1 has been submited for approval.","Your product %1 has been submited for approval."
+"Something went wrong while updating the product(s) status.","Something went wrong while updating the product(s) status."
+"Could not get preview image information. Please check your connection and try again.","Could not get preview image information. Please check your connection and try again."
+"A total of %1 record(s) have been deleted.","A total of %1 record(s) have been deleted."
+"Please make sure to define SKU values for all processed products.","Please make sure to define SKU values for all processed products."
+"A total of %1 record(s) have been updated.","A total of %1 record(s) have been updated."
+"You are not allowed to use this product type: ""%1""","You are not allowed to use this product type: ""%1"""
+"Unable to save product","Unable to save product"
+"You saved the product.","You saved the product."
+"SKU for product %1 has been changed to %2.","SKU for product %1 has been changed to %2."
+"You duplicated the product.","You duplicated the product."
+"The image cannot be removed as it has been assigned to the other image role","The image cannot be removed as it has been assigned to the other image role"
+"Vertical Tabs","Vertical Tabs"
+"Horizontal Tabs","Horizontal Tabs"
+"Click here to add videos.","Click here to add videos."
+"New Video","New Video"
+"Not Submited","Not Submited"
+"Pending New","Pending New"
+"Pending Update","Pending Update"
+Approved,Approved
+Unapproved,Unapproved
+"This attribute value is changed but has not been approved yet.","This attribute value is changed but has not been approved yet."
+"Current working value is: %1","Current working value is: %1"
+"There are <strong style=""color: #ef672f"">%1</strong> products awaiting for your approval.<br /><a href=""%2"">Click here</a> to review the products.","There are <strong style=""color: #ef672f"">%1</strong> products awaiting for your approval.<br /><a href=""%2"">Click here</a> to review the products."
+"Product Approval","Product Approval"
+"There is a product awaiting for your approval.<br /><a href='%1'>Click here</a> to review the product.","There is a product awaiting for your approval.<br /><a href='%1'>Click here</a> to review the product."
+"View Update Changes","View Update Changes"
+"Tier Price","Tier Price"
+Website,Website
+"Customer Group","Customer Group"
+Quantity,Quantity
+"Customizable Options","Customizable Options"
+"Custom options let customers choose the product variations they want.","Custom options let customers choose the product variations they want."
+"Import Options","Import Options"
+"Add Option","Add Option"
+"New Option","New Option"
+"Select Product","Select Product"
+Import,Import
+"Option Title","Option Title"
+"Add Value","Add Value"
+Title,Title
+"Option Type","Option Type"
+"-- Please select --","-- Please select --"
+Required,Required
+"Price Type","Price Type"
+"Max Characters","Max Characters"
+"Compatible File Extensions","Compatible File Extensions"
+"Maximum Image Size","Maximum Image Size"
+"Please leave blank if it is not an image.","Please leave blank if it is not an image."
+px.,px.
+%1,%1
+Groups,Groups
+"Double click on a group to rename it.","Double click on a group to rename it."
+"Unassigned Attributes","Unassigned Attributes"
+"A name is required.","A name is required."
+"This group contains system attributes. Please move system attributes to another group and try again.","This group contains system attributes. Please move system attributes to another group and try again."
+"Please enter a new group name.","Please enter a new group name."
+"An attribute group named ""/name/"" already exists"".","An attribute group named ""/name/"" already exists""."
+"Sorry, we're unable to complete this request.","Sorry, we're unable to complete this request."
+"You can't remove attributes from this attribute set.","You can't remove attributes from this attribute set."
+"Store: %1","Store: %1"
+Attribute,Attribute
+"Current Value","Current Value"
+"New Value","New Value"
+"Browse to find or drag image here","Browse to find or drag image here"
+"Delete image","Delete image"
+Hidden,Hidden
+"Alt Text","Alt Text"
+Role,Role
+"Image Size","Image Size"
+{size},{size}
+"Image Resolution","Image Resolution"
+"{width}^{height} px","{width}^{height} px"
+"Hide from Product Page","Hide from Product Page"
+"Browse Files...","Browse Files..."
+"We could not detect a size.","We could not detect a size."
+"We don't recognize or support this file extension type.","We don't recognize or support this file extension type."
+"You can't upload more than ","You can't upload more than "
+"New Attribute","New Attribute"
+"Insert Variable...","Insert Variable..."
+"Image Detail","Image Detail"
+"Add to Cart","Add to Cart"
+"In stock","In stock"
+"Out of stock","Out of stock"
+"Add to Wish List","Add to Wish List"
+"Add to Compare","Add to Compare"
+"New Products","New Products"
+"Learn More","Learn More"
+"Use Default Value","Use Default Value"
+"Web Site","Web Site"
+"Item Price","Item Price"
+"Delete Tier","Delete Tier"
+"and above","and above"
+Delete,Delete
+"Product In Websites","Product In Websites"
+"To hide an item in catalog or search results, set the status to ""Disabled"".","To hide an item in catalog or search results, set the status to ""Disabled""."
+"(Copy data from: %1)","(Copy data from: %1)"
+"start typing to search template","start typing to search template"
+"Product online","Product online"
+"Product offline","Product offline"
+"Product online status","Product online status"
+"Product Alerts","Product Alerts"
+"Manage Stock","Manage Stock"
+Yes,Yes
+No,No
+"Use Config Settings","Use Config Settings"
+[GLOBAL],[GLOBAL]
+Qty,Qty
+"Out-of-Stock Threshold","Out-of-Stock Threshold"
+"Minimum Qty Allowed in Shopping Cart","Minimum Qty Allowed in Shopping Cart"
+"Maximum Qty Allowed in Shopping Cart","Maximum Qty Allowed in Shopping Cart"
+"Qty Uses Decimals","Qty Uses Decimals"
+"Allow Multiple Boxes for Shipping.","Allow Multiple Boxes for Shipping."
+Backorders,Backorders
+"Notify for Quantity Below","Notify for Quantity Below"
+"Enable Qty Increments","Enable Qty Increments"
+"Qty Increments","Qty Increments"
+"Stock Availability","Stock Availability"
+"WYSIWYG Editor","WYSIWYG Editor"
+Cancel,Cancel
+Submit,Submit
+"Credit Amount","Credit Amount"
+"Lifetime Sales","Lifetime Sales"
+"Average Orders","Average Orders"
+"Total Products","Total Products"
+Amount,Amount
+Orders,Orders
+Sales,Sales
+Title:,Title:
+Uploaded:,Uploaded:
+Uploader:,Uploader:
+Duration:,Duration:
+"Basic Settings","Basic Settings"
+"Advanced Settings","Advanced Settings"
+"Changes have been made to this section that have not been saved.","Changes have been made to this section that have not been saved."
+"This tab contains invalid data. Please resolve this before saving.","This tab contains invalid data. Please resolve this before saving."
+"Configure Product","Configure Product"
+OK,OK
+"Select type of option.","Select type of option."
+"Please add rows to option.","Please add rows to option."
+"Please select items.","Please select items."
+"Choose existing category.","Choose existing category."
+"Create Category","Create Category"
+"Video Error","Video Error"
+"Unknown video type","Unknown video type"
+"Invalid video url","Invalid video url"
+"Youtube API key is invalid","Youtube API key is invalid"
+"Video cant be shown due to the following reason: ","Video cant be shown due to the following reason: "
+"Video not found","Video not found"
+Save,Save
+"Edit Video","Edit Video"
+"Delete video","Delete video"
+"Images and Videos","Images and Videos"
+"Previous Page","Previous Page"
+"Next Page","Next Page"

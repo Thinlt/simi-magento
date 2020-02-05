@@ -1,0 +1,262 @@
+General Instructions,General Instructions
+-------- Please select a Schedule --------,-------- Please select a Schedule --------
+%1 isn\'t instance of Magento\Framework\Model\AbstractModel,%1 isn\'t instance of Magento\Framework\Model\AbstractModel
+%1 isn\'t instance of Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection,%1 isn\'t instance of Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
+"<![CDATA[<strong>Default</strong> - Based on Sort Order of each store.<br/><strong>Distance</strong> - Based on the distances between customers' location & stores. If customers don't enter their location, stores will be listed by Default (Sort Order).<br/><strong>Alphabetical order</strong> - Based on alphabetical order of store name.]]>","<![CDATA[<strong>Default</strong> - Based on Sort Order of each store.<br/><strong>Distance</strong> - Based on the distances between customers' location & stores. If customers don't enter their location, stores will be listed by Default (Sort Order).<br/><strong>Alphabetical order</strong> - Based on alphabetical order of store name.]]>"
+A total of %1 record(s) have been deleted.,A total of %1 record(s) have been deleted.
+A total of %1 record(s) have been enabled.,A total of %1 record(s) have been enabled.
+Add domain,Add domain
+Additional Settings,Additional Settings
+Address,Address
+Address:,Address:
+Allow Facebook comment,Allow Facebook comment
+Alphabetical order,Alphabetical order
+Apply to Form,Apply to Form
+"At least one of the origin, destination, or waypoints could not be geocoded.","At least one of the origin, destination, or waypoints could not be geocoded."
+"At least one of the origin, destination, or waypoints could not be geocoded.","At least one of the origin, destination, or waypoints could not be geocoded."
+City,City
+City,City
+Click here,Click here
+Click here or drag and drop to add images,Click here or drag and drop to add images
+Click on map or drag the marker to set store position.,Click on map or drag the marker to set store position.
+Close,Close
+Close Break Time,Close Break Time
+Close Time,Close Time
+Close Time,Close Time
+Closed,Closed
+Comment,Comment
+Comments,Comments
+Contact Information,Contact Information
+Country,Country
+Country,Country
+Create Facebook app,Create Facebook app
+Create Facebook app,Create Facebook app
+Date End,Date End
+Date End,Date End
+Date Start,Date Start
+Date Start,Date Start
+day(s). Store's holidays and special days within this period will be shown in frontend.,day(s). Store's holidays and special days within this period will be shown in frontend.
+Default,Default
+Default Radius for Search,Default Radius for Search
+Delete,Delete
+Delete image,Delete image
+Description,Description
+Disabled,Disabled
+Display holidays and special days in the next,Display holidays and special days in the next
+Display Top Link,Display Top Link
+Distance,Distance
+Distance Unit,Distance Unit
+Edit Holiday,Edit Holiday
+Edit Holiday %1,Edit Holiday %1
+Edit Schedule,Edit Schedule
+Edit Schedule %1,Edit Schedule %1
+Edit Special day,Edit Special day
+Edit Special day %1,Edit Special day %1
+Edit Store,Edit Store
+Edit Store %1,Edit Store %1
+Edit Tag,Edit Tag
+Edit Tag %1,Edit Tag %1
+Email Address,Email Address
+Email:,Email:
+Enable,Enable
+Enable/Disable extension in frontend,Enable/Disable extension in frontend
+Enabled,Enabled
+Enter a location to search,Enter a location to search
+Enter a location...,Enter a location...
+Error: The Geolocation service failed.,Error: The Geolocation service failed.
+Facbook comment,Facbook comment
+Facebook API key,Facebook API key
+Fax Number,Fax Number
+Fax:,Fax:
+File extension not known or unsupported type.,File extension not known or unsupported type.
+Fri,Fri
+Friday,Friday
+Friday Status,Friday Status
+General,General
+General Information,General Information
+Get Directions,Get Directions
+Get Directions,Get Directions
+Go,Go
+Go,Go
+Google API Active,Google API Active
+Google comment,Google comment
+Google Map API key,Google Map API key
+Google Map Location,Google Map Location
+Hidden,Hidden
+Holiday Information,Holiday Information
+Holiday Name,Holiday Name
+Holidays,Holidays
+Icon,Icon
+Image Gallery,Image Gallery
+Images,Images
+Images of %1,Images of %1
+Instructions to create Facebook API Key,Instructions to create Facebook API Key
+Instructions to create Facebook API Key,Instructions to create Facebook API Key
+Instructions to create Google Map API Key,Instructions to create Google Map API Key
+Instructions to create Google Map API Key,Instructions to create Google Map API Key
+Kilometers,Kilometers
+Latitude,Latitude
+Limit the number of image for each store when uploading image.,Limit the number of image for each store when uploading image.
+Link:,Link:
+List Stores by,List Stores by
+Loading...,Loading...
+Locale,Locale
+Location Information,Location Information
+Longitude,Longitude
+simi,simi
+Make Base,Make Base
+Manage Holiday,Manage Holiday
+Manage Holiday,Manage Holiday
+Manage Schedule,Manage Schedule
+Manage Special day,Manage Special day
+Manage Store,Manage Store
+Manage Tag,Manage Tag
+Marker Icon,Marker Icon
+Meta Description,Meta Description
+Meta Information,Meta Information
+Meta Keywords,Meta Keywords
+Meta Title,Meta Title
+Method of %1 is not exists !,Method of %1 is not exists !
+Miles,Miles
+Mon,Mon
+Monday,Monday
+Monday Status,Monday Status
+New Holiday,New Holiday
+New Schedule,New Schedule
+New Special day,New Special day
+New Store,New Store
+New Tag,New Tag
+Next,Next
+None,None
+Open,Open
+Open Break Time,Open Break Time
+Open Time,Open Time
+Open Time,Open Time
+Opening hours,Opening hours
+Page title,Page title
+Phone Number,Phone Number
+Phone:,Phone:
+Please wait...,Please wait...
+Prev,Prev
+"Recommended size: 400x600 px. Supported format: jpg, jpeg, gif, png.","Recommended size: 400x600 px. Supported format: jpg, jpeg, gif, png."
+"Recommended size: 400x600 px. Supported format: jpg, jpeg, gif, png.","Recommended size: 400x600 px. Supported format: jpg, jpeg, gif, png."
+Reset,Reset
+Reset Map,Reset Map
+Sat,Sat
+Saturday,Saturday
+Saturday Status,Saturday Status
+Save and Continue Edit,Save and Continue Edit
+Save and New,Save and New
+Save Holiday,Save Holiday
+Save Schedule,Save Schedule
+Save Special day,Save Special day
+Save Store,Save Store
+Save Tag,Save Tag
+Schedule,Schedule
+Schedule Information,Schedule Information
+Schedule Name,Schedule Name
+Schedule Table,Schedule Table
+Search,Search
+Search,Search
+Search by area,Search by area
+Search by distance,Search by distance
+Search Criteria,Search Criteria
+Select All,Select All
+Select Country,Select Country
+Select criteria to search for store in frontend.,Select criteria to search for store in frontend.
+Service API,Service API
+Something went wrong while saving the Holiday.,Something went wrong while saving the Holiday.
+Something went wrong while saving the Schedule.,Something went wrong while saving the Schedule.
+Something went wrong while saving the Special day.,Something went wrong while saving the Special day.
+Something went wrong while saving the Store.,Something went wrong while saving the Store.
+Something went wrong while saving the Tag.,Something went wrong while saving the Tag.
+Sort Order,Sort Order
+Special day Information,Special day Information
+Special day Name,Special day Name
+Special Days,Special Days
+State/ Province,State/ Province
+State/Province,State/Province
+Status,Status
+Store Infomation,Store Infomation
+Store Information,Store Information
+Store list,Store list
+Store Locator,Store Locator
+Store Map,Store Map
+Store Name,Store Name
+Store Name,Store Name
+Store Search,Store Search
+Store\'s Link,Store\'s Link
+Store\'s Schedule,Store\'s Schedule
+Stores,Stores
+Stores of Holiday,Stores of Holiday
+Stores of Schedule,Stores of Schedule
+Stores of Special day,Stores of Special day
+Stores of Tag,Stores of Tag
+Street Not Found !,Street Not Found !
+Sun,Sun
+Sunday,Sunday
+Sunday Status,Sunday Status
+Swap locations A-B,Swap locations A-B
+Swap locations A-B,Swap locations A-B
+Tag Information,Tag Information
+Tag Name,Tag Name
+The class uploader is invalid !,The class uploader is invalid !
+The Holiday has been saved.,The Holiday has been saved.
+The information in popup will help you to get location information of your store in Google Map faster.,The information in popup will help you to get location information of your store in Google Map faster.
+The Schedule has been saved.,The Schedule has been saved.
+The Special day has been saved.,The Special day has been saved.
+The Store has been saved.,The Store has been saved.
+The Tag has been saved.,The Tag has been saved.
+The url key is already exists and system can not generate it automatic. You need to specified an other url key!,The url key is already exists and system can not generate it automatic. You need to specified an other url key!
+This Holiday no longer exists.,This Holiday no longer exists.
+This Holiday no longer exists.,This Holiday no longer exists.
+This Schedule no longer exists.,This Schedule no longer exists.
+This Schedule no longer exists.,This Schedule no longer exists.
+This Special day no longer exists.,This Special day no longer exists.
+This Store no longer exists.,This Store no longer exists.
+This Tag no longer exists.,This Tag no longer exists.
+Thur,Thur
+Thursday,Thursday
+Thursday Status,Thursday Status
+Time Schedule,Time Schedule
+Title of the Store List page and Store Details pages.,Title of the Store List page and Store Details pages.
+to go to page create new schedule.,to go to page create new schedule.
+"To register a Facebook API key, please follow the guide <a href=""%1"">here</a>","To register a Facebook API key, please follow the guide <a href=""%1"">here</a>"
+"To register a Google Map API key, please follow the guide <a href=""%1"">here</a>","To register a Google Map API key, please follow the guide <a href=""%1"">here</a>"
+Tue,Tue
+Tuesday,Tuesday
+Tuesday Status,Tuesday Status
+Unmark All,Unmark All
+Unit to measure distance between store and customer.,Unit to measure distance between store and customer.
+URL Key,URL Key
+Used with Google Suggest to search nearest store from customer location. Max raidus is 2000.,Used with Google Suggest to search nearest store from customer location. Max raidus is 2000.
+View all images of %1,View all images of %1
+We can\'t find a Holiday to delete.,We can\'t find a Holiday to delete.
+We can\'t find a Schedule to delete.,We can\'t find a Schedule to delete.
+We can\'t find a Special day to delete.,We can\'t find a Special day to delete.
+We can\'t find a Store to delete.,We can\'t find a Store to delete.
+We can\'t find a Tag to delete.,We can\'t find a Tag to delete.
+Wed,Wed
+Wednesday,Wednesday
+Wednesday Status,Wednesday Status
+You deleted the Holiday.,You deleted the Holiday.
+You deleted the Schedule.,You deleted the Schedule.
+You deleted the Special day.,You deleted the Special day.
+You deleted the Store.,You deleted the Store.
+You deleted the Tag.,You deleted the Tag.
+Zip Code,Zip Code
+Zip Code,Zip Code
+Zoom Level,Zoom Level
+"
+    Magento Store Locator extension allows locating stores and getting directions with Google Map integrated:<br />
+        1. To add/ import stores with location, time schedule and other information, go to <strong>Store Locator</strong> -> <strong>Manage Stores</strong>.<br />
+        2. To set days off for store(s), go to <strong>Store Locator</strong> -> <strong>Manage Holidays</strong>.<br />
+        3. To set days with special working time for store(s), go to <strong>Store Locator</strong> -> <strong>Manage Special Days</strong>.<br />
+        4. To configure Store Locator extension, go to <strong>Store Locator</strong> -> <strong>Settings</strong>.
+    ","
+    Magento Store Locator extension allows locating stores and getting directions with Google Map integrated:<br />
+        1. To add/ import stores with location, time schedule and other information, go to <strong>Store Locator</strong> -> <strong>Manage Stores</strong>.<br />
+        2. To set days off for store(s), go to <strong>Store Locator</strong> -> <strong>Manage Holidays</strong>.<br />
+        3. To set days with special working time for store(s), go to <strong>Store Locator</strong> -> <strong>Manage Special Days</strong>.<br />
+        4. To configure Store Locator extension, go to <strong>Store Locator</strong> -> <strong>Settings</strong>.
+    "

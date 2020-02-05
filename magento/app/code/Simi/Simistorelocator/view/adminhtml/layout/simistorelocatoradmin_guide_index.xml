@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Store Locator Guide</title>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Simi\Simistorelocator\Block\Adminhtml\Guide" name="simistorelocator_guide">
+                <block class="Simi\Simistorelocator\Block\Adminhtml\Guide\Form" name="form">
+                    <block class="Simi\Simistorelocator\Block\Adminhtml\Guide\Renderer" name="guide.general" template="Simi_Simistorelocator::guide/general.phtml"/>
+                    <block class="Simi\Simistorelocator\Block\Adminhtml\Guide\Renderer" name="guide.google" template="Simi_Simistorelocator::guide/google.phtml"/>
+                    <block class="Simi\Simistorelocator\Block\Adminhtml\Guide\Renderer" name="guide.facebook" template="Simi_Simistorelocator::guide/facebook.phtml"/>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

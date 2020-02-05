@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="simi" translate="label" sortOrder="1000">
+            <label>Simiconnector</label>
+        </tab>
+        <section id="simiconnector" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>General Settings</label>
+            <tab>simi</tab>
+            <resource>Simi_Simi::config_simi</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <!--<field id="secret_key" translate="label" type="text" sortOrder="199" showInDefault="1" showInWebsite="1" showInStore="1">-->
+                    <!--<label>Secret Key</label>-->
+                    <!--<comment>Your secret key (get from your Building Dashboard)</comment>-->
+                <!--</field>-->
+                <!--<field id="token_key" translate="label" type="text" sortOrder="249" showInDefault="1" showInWebsite="1" showInStore="1">-->
+                    <!--<label>Token Key</label>-->
+                    <!--<comment>Your token key (get from your Building Dashboard)</comment>-->
+                <!--</field>-->
+                <!--<field id="base_url" translate="label" type="text" sortOrder="299" showInDefault="1" showInWebsite="1" showInStore="1">-->
+                    <!--<label>Base URL</label>-->
+                    <!--<comment>eg. http://simicart.com/, leave it blank if you want to use default value from Building Dashboard</comment>-->
+                <!--</field>-->
+                <field id="pwa_studio_url" translate="label" type="text" sortOrder="329" showInDefault="1">
+                    <label>PWA Studio URL</label>
+                    <comment>URL of pwa-studio site</comment>
+                </field>
+                <field id="pwa_studio_client_ver_number" translate="label" type="text" sortOrder="349" showInDefault="1">
+                    <label>PWA Studio Client version number</label>
+                    <comment>Use for pwa client using Pwa-studio. example value: 4.3.1 or 1563345513232</comment>
+                </field>
+                <!--<field id="is_show_price_zero" translate="label" type="select" sortOrder="399" showInDefault="1" showInWebsite="1" showInStore="1">-->
+                    <!--<label>Show option price if it's $0.00?</label>-->
+                    <!--<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
+                <!--</field>-->
+                <!--<field id="is_show_all_product" translate="label" type="select" sortOrder="499" showInDefault="1" showInWebsite="1" showInStore="1">-->
+                    <!--<label>Show "All Products" link in Category?</label>-->
+                    <!--<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
+                <!--</field>-->
+                <!--
+                <field id="cms_shipping_condition" translate="label" type="text" sortOrder="599" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show CMS content in product detail</label>
+                    <comment>Please enter its CMS ID SimiCart Simiconnector/CMS</comment>
+                </field>
+                -->
+                <!--<field id="is_show_sample_data" translate="label" type="select" sortOrder="699" showInDefault="1" showInWebsite="1" showInStore="1">-->
+                    <!--<label>Update order review when select payment method</label>-->
+                    <!--<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
+                <!--</field>-->
+                <!--<field id="show_product_type" translate="label" type="select" sortOrder="799" showInDefault="1" showInWebsite="1" showInStore="1">-->
+                    <!--<label>View products default</label>-->
+                    <!--<source_model>Simi\Simiconnector\Model\Config\Source\ViewType</source_model>-->
+                <!--</field>-->
+                <field id="is_rtl" translate="label" type="select" sortOrder="899" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Use RTL language</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <!--<field id="filter_categories_by_include_in_menu" translate="label" type="select" sortOrder="949" showInDefault="1" showInWebsite="1" showInStore="1">-->
+                    <!--<label>Filter categories by 'Include in Menu' values</label>-->
+                    <!--<comment>Category would be shown if only its 'Include in Menu' value is 'Yes'</comment>-->
+                    <!--<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
+                <!--</field>-->
+                <!--<field id="categories_in_app" translate="label" type="text" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">-->
+                    <!--<label>Hidden categories on app</label>-->
+                    <!--<comment>Category IDs (separated by comma). Eg. 2, 4, 15</comment>-->
+                <!--</field>-->
+                <!--<field id="is_show_home_title" translate="label" type="select" sortOrder="1099" showInDefault="1" showInWebsite="1" showInStore="1">-->
+                    <!--<label>Show Title For Banners, Categories and Product Lists on Home Screen</label>-->
+                    <!--<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
+                <!--</field>-->
+                <!--<field id="image_aspect_ratio" translate="label" type="select" sortOrder="1149" showInDefault="1" showInWebsite="1" showInStore="1">-->
+                    <!--<label>Banner Aspect Ratio</label>-->
+                    <!--<source_model>Simi\Simiconnector\Model\Config\Source\Aspectratio</source_model>-->
+                <!--</field>-->
+                <!--<field id="app_dedicated_coupon" translate="label" type="text" sortOrder="1199" showInDefault="1" showInWebsite="1" showInStore="1">-->
+                    <!--<label>Mobile App Dedicated Coupon</label>-->
+                <!--</field>-->
+                <!--<field id="open_url_in_app" translate="label" type="select" sortOrder="1299" showInDefault="1" showInWebsite="1" showInStore="1">-->
+                    <!--<label>Open url in app</label>-->
+                    <!--<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
+                <!--</field>-->
+                <!--<field id="show_discount_label_in_product" translate="label" type="select" sortOrder="1399" showInDefault="1" showInWebsite="1" showInStore="1">-->
+                    <!--<label>Show discount label in product</label>-->
+                    <!--<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
+                <!--</field>-->
+            </group>
+            <group id="instant_contact" translate="label" type="text" sortOrder="399" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Instant Contact Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="email" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email</label>
+                    <comment>Used to send email. Seperate emails with comma.</comment>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+                <field id="phone" translate="label" type="text" sortOrder="199" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Phone Number</label>
+                    <comment>Used to call. Seperate phone numbers with comma</comment>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+                <field id="message" translate="label" type="text" sortOrder="299" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Message Number</label>
+                    <comment>Used to send message. Seperate phone numbers with comma</comment>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+                <field id="website" translate="label" type="text" sortOrder="399" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Website Url</label>
+                    <comment>Please enter the URL with http or https. For example: http://yourwebsite.com or https://yourwebsite.com</comment>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+                <field id="style" translate="label" type="select" sortOrder="499" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Style</label>
+                    <source_model>Simi\Simiconnector\Model\Config\Source\ViewType</source_model>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+                <field id="icon_color" translate="label" type="text" sortOrder="599" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Text Color</label>
+                    <comment>Select the color of contact icons displayed in Contact page of your app. Eg. 0F0FFF</comment>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="methods_support" translate="label" type="text" sortOrder="1199" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Supported Methods</label>
+                <field id="delete" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Support DELETE method</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="put" translate="label" type="select" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Support PUT method</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="customchat" translate="label" type="text" sortOrder="1299" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Live chat Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="head_script" translate="label" type="textarea" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Head Script</label>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+                <field id="body_script" translate="label" type="textarea" sortOrder="199" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Body Script</label>
+                    <depends>
+                        <field id="*/*/enable">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

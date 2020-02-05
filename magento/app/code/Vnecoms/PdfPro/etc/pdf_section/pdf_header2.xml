@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Vnecoms_PageBulder:etc/vcms_section_include.xsd">
+    <!-- Header 2 -->
+    <section name="pdf_header2">
+        <type>pdf_header</type>
+        <template>Vnecoms_PdfPro/section/pdf-header2</template>
+        <component>Vnecoms_PageBuilder/js/section/default</component>
+        <block_template>Vnecoms_PdfPro::section/pdf-header2.phtml</block_template>
+        <preview_height>80px</preview_height>
+        <fields>
+        	<element name="logo">
+           		<label>Logo</label>
+           		<type>img</type>
+           		<class>Vnecoms\PdfPro\Block\PdfBuilder\Img</class>
+           		<data>
+           			<imgType>static</imgType> <!-- static, media, url -->
+           			<imgFile>Vnecoms_PdfPro/images/vnecoms_logo.png</imgFile>
+           		</data>
+           		<is_active>1</is_active>
+           	</element>
+           	<element name="header_text">
+                <label>Header Text</label>
+                <type>editor</type>
+                <is_active>1</is_active>
+                <data>
+                    <code>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet purus quis metus.</code>
+                    <frontend_class>pdf-header-text</frontend_class>
+                </data>
+            </element>
+        </fields>
+    </section>
+</include>

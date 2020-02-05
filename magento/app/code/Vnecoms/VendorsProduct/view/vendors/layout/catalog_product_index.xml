@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <!-- <update handle="product_grid"/> -->
+    <body>
+        <referenceContainer name="content">
+			<uiComponent name="vendor_product_listing"/>
+			<block class="Vnecoms\VendorsProduct\Block\Vendors\Product" name="products_list"/>
+        </referenceContainer>
+    </body>
+</page>

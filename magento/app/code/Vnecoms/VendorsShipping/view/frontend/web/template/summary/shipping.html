@@ -1,0 +1,100 @@
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!-- ko if: quoteIsVirtual == 0 -->
+    <!-- ko if: isBothPricesDisplayed() -->
+    <tr class="totals shipping excl">
+        <th class="mark" scope="row">
+            <span class="label" data-bind="text: title+ ' ' + excludingTaxMessage"></span>
+        </th>
+        <td class="amount">
+            <!-- ko if: isCalculated() -->
+            <span class="price"
+                  data-bind="text: getExcludingValue(), attr: {'data-th': excludingTaxMessage}"></span>
+            <!-- /ko -->
+            <!-- ko ifnot: isCalculated() -->
+            <span class="not-calculated"
+                  data-bind="text: getExcludingValue(), attr: {'data-th': excludingTaxMessage}"></span>
+            <!-- /ko -->
+        </td>
+    </tr>
+    <tr class="totals shipping incl">
+        <th class="mark" scope="row">
+            <span class="label" data-bind="text: title + ' ' + includingTaxMessage"></span>
+        </th>
+        <td class="amount">
+            <!-- ko if: isCalculated() -->
+            <span class="price"
+                  data-bind="text: getIncludingValue(), attr: {'data-th': title + ' ' + excludingTaxMessage}"></span>
+            <!-- /ko -->
+            <!-- ko ifnot: isCalculated() -->
+            <span class="not-calculated"
+                  data-bind="text: getIncludingValue(), attr: {'data-th': title + ' ' + excludingTaxMessage}"></span>
+            <!-- /ko -->
+        </td>
+    </tr>
+    <!-- /ko -->
+    <!-- ko if: isIncludingDisplayed() -->
+    <tr class="totals totals-tax-summary shipping incl"
+         data-bind="mageInit: {'toggleAdvanced':{'selectorsToggleClass': 'shown', 'baseToggleClass': 'expanded', 'toggleContainers': '.totals-shipping-details-incl'}}">
+        <th class="mark" scope="row">
+            <span class="label" data-bind="i18n: title"></span>
+        </th>
+        <td class="amount">
+            <!-- ko if: isCalculated() -->
+            <span class="price"
+                  data-bind="text: getIncludingValue(), attr: {'data-th': title}"></span>
+            <!-- /ko -->
+            <!-- ko ifnot: isCalculated() -->
+            <span class="not-calculated"
+                  data-bind="text: getIncludingValue(), attr: {'data-th': title}"></span>
+            <!-- /ko -->
+        </td>
+    </tr>
+    
+    <!-- /ko -->
+    <!-- ko if: isExcludingDisplayed() -->
+    <tr class="totals totals-tax-summary shipping excl" 
+        data-bind="mageInit: {'toggleAdvanced':{'selectorsToggleClass': 'shown', 'baseToggleClass': 'expanded', 'toggleContainers': '.totals-shipping-details-excl'}}">
+        <th class="mark" scope="row">
+            <span class="label" data-bind="i18n: title"></span>
+        </th>
+        <td class="amount">
+            <!-- ko if: isCalculated() -->
+            <span class="price"
+                  data-bind="text: getValue(), attr: {'data-th': title}"></span>
+            <!-- /ko -->
+            <!-- ko ifnot: isCalculated() -->
+            <span class="not-calculated"
+                  data-bind="text: getValue(), attr: {'data-th': title}"></span>
+            <!-- /ko -->
+        </td>
+    </tr>
+    <!-- /ko -->
+    
+    <!-- ko foreach: getDetails() -->
+        <tr class="totals-shipping-details totals-shipping-details-excl">
+            <th class="mark" scope="row">
+                <label class="vendor-title" data-bind="text: vendor.shipping_title"></label> - <span class="vendor-method" data-bind="text: method_title"></span>
+            </th>
+            <td class="amount">
+                <span class="price"
+                      data-bind="text: $parent.formatPrice(price_excl_tax)"></span>
+            </td>
+        </tr>
+    <!-- /ko -->
+    <!-- ko foreach: getDetails() -->
+        <tr class="totals-shipping-details totals-shipping-details-incl">
+            <th class="mark" scope="row">
+                <label class="vendor-title" data-bind="text: vendor.shipping_title"></label> - <span class="vendor-method" data-bind="text: method_title"></span>
+            </th>
+            <td class="amount">
+                <span class="price"
+                      data-bind="text: $parent.formatPrice(price_incl_tax)"></span>
+            </td>
+        </tr>
+    <!-- /ko -->
+<!-- /ko -->

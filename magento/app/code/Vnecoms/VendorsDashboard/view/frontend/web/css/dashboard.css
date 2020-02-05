@@ -1,0 +1,85 @@
+
+.small-box {
+    border-radius: 2px;
+    position: relative;
+    display: block;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    margin-right: 10px;
+}
+.small-box > .inner {
+  padding: 10px;
+}
+.small-box > .small-box-footer {
+  position: relative;
+  text-align: center;
+  padding: 3px 0;
+  color: #fff;
+  color: rgba(255, 255, 255, 0.8);
+  display: block;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+.small-box > .small-box-footer:hover {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.15);
+}
+.small-box h3 {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  white-space: nowrap;
+  padding: 0;
+  color: #FFF;
+}
+.small-box p {
+  font-size: 15px;
+  color: #FFF;
+}
+.small-box p > small {
+  display: block;
+  color: #f9f9f9;
+  font-size: 13px;
+  margin-top: 5px;
+}
+.small-box h3,
+.small-box p {
+  z-index: 5px;
+}
+.small-box .credit-icon {
+  -webkit-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+  position: absolute;
+  top: -4px;
+  right: 10px;
+  z-index: 0;
+  font-size: 70px;
+  color: rgba(0, 0, 0, 0.15);
+}
+.small-box:hover {
+  text-decoration: none;
+  color: #f9f9f9;
+}
+.small-box:hover .credit-icon {
+  font-size: 75px;
+}
+
+
+.ves-tab-content .chart{min-height: 250px;}
+
+.block-new-products{padding-left: 15px;}
+.block-new-products ul{list-style: none; padding: 0; margin: 0;}
+.block-new-products li:after{display: block; clear: both; content: "."; font-size: 0; height: 0; overflow: hidden; width: 0;}
+.block-new-products .product-img,
+.block-new-products .product-info{float: left;}
+.block-new-products .product-img{width: 30%;}
+.block-new-products .product-img img{width: 100%;}
+.block-new-products .product-info{width: 70%;}
+.block-new-products .block-footer{text-align: center; border-top: 1px solid #d3d3d3; margin-top: 10px; padding-top: 10px;}
+.block-new-products .price-label{padding: 0 5px; border-radius: 3.5px; -moz-border-radius: 3.5px;-webkit-border-radius: 3.5px;}
+
+.dashboard-state,
+.graph-tabs-container,
+.sellstate-tabs-container{margin-bottom: 40px;}

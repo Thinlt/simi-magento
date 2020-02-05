@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="vendors_edit_tabs">
+        	<block class="Vnecoms\VendorsProduct\Block\Adminhtml\Vendor\Edit\Tab\Products" name="vendors_edit_tab_products" />
+        	<action method="addTab">
+                <argument name="name" xsi:type="string">products</argument>
+                <argument name="block" xsi:type="string">vendors_edit_tab_products</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>

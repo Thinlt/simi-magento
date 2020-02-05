@@ -1,0 +1,17 @@
+<?php 
+/**
+ * See \Vnecoms\VendorsCredit\Block\Vendors\Withdraw\Method\Paypal
+ */
+?>
+<?php $method = $block->getPaymentMethod();?>
+<?php $vendorId = $block->getVendor()->getId()?>
+<label class="col-sm-5 control-label" for="general_store_information_name"><?php echo __("Your Bank Info")?></label>
+<div class="col-sm-6 control value">
+    <div class="control-text">
+            <div><label><?php echo __("Bank Name:")?></label> <?php echo $method->getBankName($vendorId);?></div>
+            <div><label><?php echo __("SWIFT Code:")?></label> <?php echo $method->getSwiftCode($vendorId);?></div>
+            <div><label><?php echo __("Account Holder:")?></label> <?php echo $method->getAccountHolder($vendorId);?></div>
+            <div><label><?php echo __("Account Number:")?></label> <?php echo $method->getAccountNumber($vendorId);?></div>
+        <?php if($block->canShowEditLink()):?> <a href="<?php echo $block->getEditUrl()?>"><?php echo __("Edit")?></a><?php endif;?>
+    </div>
+</div>

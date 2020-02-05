@@ -1,0 +1,187 @@
+<?php
+// @codingStandardsIgnoreFile
+$updatesByPath  = $block->getUpdatesByPath();
+$usedSections   = $block->getUsedSections();
+$usedFieldsets  = $block->getUsedFieldsets();
+$sections       = $block->getVendorConfigSections();
+
+?>
+<?php foreach($sections as $sectionId=>$section):?>
+<?php if(!in_array($sectionId, $usedSections)) continue;?>
+
+<?php $sectionLabel = isset($section['label'])?__($section['label']):$sectionId;?>
+<section class="admin__page-section order-view-account-information">
+    <div class="admin__page-section-title">
+        <span class="title"><?php echo __("Section: %1",$sectionLabel)?></span>
+    </div>
+    <div class="admin__page-section-content">
+      <table class="data-table admin__table-primary vendorconfig-approval">
+        <tbody>
+            <?php if(is_array($section['children'])):?>
+                <?php foreach($section['children'] as $fieldsetId=>$fieldset):?>
+                    <?php $path = $sectionId.'/'.$fieldsetId?>
+                    <?php if(!in_array($path, $usedFieldsets)) continue;?>
+                    <?php $fieldsetLabel = $fieldset['label']?__($fieldset['label']):$fieldsetId;?>
+                    <tr>
+                        <td colspan="4" class="fieldset-name"><?php echo $fieldsetLabel;?></td>
+                    </tr>
+                    <tr class="headings">
+                        <th class="col-attribute"><span><?php echo __("Field")?></span></th>
+                        <th class="col-current-value"><span><?php echo __("Current Value")?></span></th>
+                        <th class="col-new-value"><span><?php echo __("New Value")?></span></th>
+                        <th class="col-action"><span><?php echo __("Action")?></span></th>
+                    </tr>
+                    <?php if(is_array($fieldset['children'])):?>
+                    <?php foreach($fieldset['children'] as $fieldId=>$field):?>
+                        <?php $path = $sectionId.'/'.$fieldsetId.'/'.$field['id'];?>
+                        <?php if(!isset($updatesByPath[$path])) continue;?>
+                        <?php $fieldLabel = isset($field['label'])?$field['label']:$fieldId;?>
+                        <?php $updateChange = $updatesByPath[$path];?>
+                        <tr class="configapproval-item configapproval-item-<?php echo $updateChange->getId()?>">
+                            <td class="col-attribute"><span><strong><?php echo $fieldLabel?></strong></span></td>
+                            <td class="col-current-value">
+                                <?php if($field['type'] == 'image' && $block->getVendorConfig($path)):?>
+                                    <?php $baseUrl = $block->getBaseUrlByType($field['base_url']['type'])?>
+                                    <?php $imageUrl = $baseUrl.trim($field['base_url']['value'],'/').'/'.$block->getVendorConfig($path);?>
+                                    <a href="<?php echo $imageUrl?>" onclick="imagePreview('configapproval-image-old-<?php echo $updateChange->getId()?>'); return false;">
+                                        <img src="<?php echo $imageUrl?>" id="configapproval-image-old-<?php echo $updateChange->getId()?>"/>
+                                    </a>
+                                <?php elseif($field['type'] == 'select'):?>
+                                    <?php if(isset($field['source_model'])):?>
+                                        <?php 
+                                            $options = $this->getSourceModelOptions($field['source_model']);
+                                            echo isset($options[$block->getVendorConfig($path)])?$options[$block->getVendorConfig($path)]:'';
+                                        ?>
+                                    <?php else:?>
+                                        <span><?php echo $block->getVendorConfig($path)?></span>
+                                    <?php endif;?>
+                                <?php else:?>
+                                    <span><?php echo $block->getVendorConfig($path)?></span>
+                                <?php endif;?>
+                            </td>
+                            <td class="col-new-value">
+                                <div class="new-value-container">
+                                    <?php if($field['type'] == 'image'):?>
+                                        <?php $baseUrl = $block->getBaseUrlByType($field['base_url']['type'])?>
+                                        <?php $imageUrl = $baseUrl.trim($field['base_url']['value'],'/').'/'.$updateChange->getValue();?>
+                                        <a href="<?php echo $imageUrl?>" onclick="imagePreview('configapproval-image-new-<?php echo $updateChange->getId()?>'); return false;">
+                                            <img src="<?php echo $imageUrl?>" id="configapproval-image-new-<?php echo $updateChange->getId()?>"/>
+                                        </a>
+                                    <?php elseif($field['type'] == 'select'):?>
+                                        <?php if(isset($field['source_model'])):?>
+                                            <?php 
+                                                $options = $this->getSourceModelOptions($field['source_model']);
+                                                echo isset($options[$updateChange->getValue()])?$options[$updateChange->getValue()]:'';
+                                            ?>
+                                        <?php else:?>
+                                            <span><?php echo $updateChange->getValue()?></span>
+                                        <?php endif;?>
+                                    <?php else:?>
+                                        <span><?php echo $updateChange->getValue()?></span>
+                                    <?php endif;?>
+                                </div>
+             
+                                <div class="new-value-editable-container">
+                                    <?php if(in_array($field['type'], ['text'])):?>
+                                        <input type="text" class="input-text admin__control-text" id="configapproval_new-value-input-<?php echo $updateChange->getId()?>" value="<?php echo $updateChange->getValue()?>" />
+                                    <?php elseif(in_array($field['type'], ['editor','textarea'])):?>
+                                        <textarea class="input-text admin__control-text" id="configapproval_new-value-input-<?php echo $updateChange->getId()?>"><?php echo $updateChange->getValue()?></textarea>
+                                    <?php elseif(in_array($field['type'], ['select'])):?>
+                                        <?php if(isset($field['source_model'])):?>
+                                        <?php $options = $this->getSourceModelOptions($field['source_model'])?>
+                                            <select class="select admin__control-select" id="configapproval_new-value-input-<?php echo $updateChange->getId()?>">
+                                                <?php foreach($options as $value=>$label):?>
+                                                    <option value="<?php echo $value?>"<?php if($value == $updateChange->getValue()):?> selected="selected"<?php endif;?>><?php echo $label?></option>
+                                                <?php endforeach;?>
+                                            </select>
+                                        <?php endif;?>
+                                    <?php endif;?>
+                                    <button title="<?php echo __("Save")?>" type="button" class="action-default scalable save primary" onclick="saveChange('<?php echo $updateChange->getId()?>');"><span class="ui-button-text"><span><?php echo __("Save")?></span></span></button>
+                                    <button title="<?php echo __("Save")?>" type="button" class="action-cancel scalable save primary"><span class="ui-button-text"><span><?php echo __("Cancel")?></span></span></button>
+                                </div>
+                            </td>
+                            <td class="col-action">
+                                <?php if($updateChange->getStatus() == \Vnecoms\VendorsConfigApproval\Model\Config::STATUS_PENDING):?>
+                                    <?php if(in_array($field['type'], ['text','editor','textarea','select'])):?>
+                                    <a href="javascript: void(0);" onclick="editChange('<?php echo $updateChange->getId()?>');"><?php echo __("Edit")?></a> | 
+                                    <?php endif;?>
+                                    <a href="<?php echo $block->getApproveUrl($updateChange)?>"><?php echo __("Approve")?></a> | 
+                                    <a href="javascript: void(0);" onclick="rejectChange('<?php echo $updateChange->getId()?>');"><?php echo __("Reject")?></a>
+                                <?php else:?>
+                                    <span class="label-rejected"><?php echo __("Rejected")?></span>
+                                <?php endif;?>
+                            </td>
+                        </tr>
+                    <?php endforeach;?>
+                    <?php endif;?>
+                <?php endforeach;?>
+            <?php endif;?>
+        </tbody>
+      </table>
+    </div>
+</section>
+<?php endforeach;?>
+
+<script type="text/javascript">
+require([
+         "jquery",
+         "jquery/ui",
+         "Magento_Ui/js/modal/prompt",
+         "Magento_Ui/js/modal/alert",
+         "Magento_Ui/js/modal/confirm",
+         "prototype"
+     ], function($,jui, prompt,alert,confirm){
+
+    function rejectChange(id){
+    	prompt({
+    		modalClass: 'prompt ves-info',
+    		title: "<?php echo __("Reject Change");?>",
+            content: "<?php echo __("Please enter the reason.");?>",
+            value: "",
+            actions: {
+                confirm: function (reason) {
+                	doRejection(id, reason);
+                }
+            }
+        });
+    }
+
+    function doRejection(id, reason){
+    	$.ajax( {
+    		showLoader: true,
+    		dataType: 'json',
+    	    url: '<?php echo $block->getRejectUrl()?>',
+    	    data: {id: id, reason: reason},
+    	    type: 'POST'
+    	}).done(function(response) {
+    		window.location.reload();
+    	});
+    }
+
+    function editChange(id){
+        $('.configapproval-item').removeClass('configapproval-item-edit');
+        $('.configapproval-item-'+id).addClass('configapproval-item-edit');
+    }
+
+    function saveChange(id){
+        var value = $('#configapproval_new-value-input-'+id).val();
+        $.ajax( {
+    		showLoader: true,
+    		dataType: 'json',
+    	    url: '<?php echo $block->getSaveChangeUrl()?>',
+    	    data: {id: id, value: value},
+    	    type: 'POST'
+    	}).done(function(response) {
+    		window.location.reload();
+    	});
+    }
+    
+    $('.configapproval-item .action-cancel').click(function(){
+    	$('.configapproval-item').removeClass('configapproval-item-edit');
+    });
+    window.rejectChange = rejectChange;
+    window.editChange = editChange;
+    window.saveChange = saveChange;
+});
+
+</script>

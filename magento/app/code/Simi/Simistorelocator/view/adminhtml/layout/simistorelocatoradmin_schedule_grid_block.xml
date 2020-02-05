@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="simistorelocatoradmin_schedule.grid.container">
+            <block class="Simi\Simistorelocator\Block\Adminhtml\Widget\Grid" name="simistorelocatoradmin.schedule.grid" as="grid">
+                <arguments>
+                    <argument name="id" xsi:type="string">simistorelocatoradmin_schedule_grid</argument>
+                    <argument name="dataSource" xsi:type="object">Simi\Simistorelocator\Model\ResourceModel\Schedule\Grid\Collection</argument>
+                    <argument name="use_ajax" xsi:type="string">true</argument>
+                    <argument name="default_sort" xsi:type="string">schedule_id</argument>
+                    <argument name="default_dir" xsi:type="string">ASC</argument>
+                    <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+                    <argument name="grid_url" xsi:type="url" path="*/*/grid">
+                        <param name="_current">1</param>
+                    </argument>
+                </arguments>
+                <block class="Magento\Backend\Block\Widget\Grid\Massaction"
+                       name="simistorelocatoradmin.schedule.grid.massaction" as="grid.massaction">
+                    <arguments>
+                        <argument name="massaction_id_field" xsi:type="string">entity_id</argument>
+                        <argument name="form_field_name" xsi:type="string">schedule</argument>
+                        <argument name="use_select_all" xsi:type="string">0</argument>
+                        <argument name="options" xsi:type="array">
+                            <item name="delete" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Delete</item>
+                                <item name="url" xsi:type="string">simistorelocatoradmin/schedule/massDelete</item>
+                            </item>
+                        </argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Backend\Block\Widget\Grid\Export" name="simistorelocatoradmin.schedule.grid.export"
+                       as="grid.export">
+                    <arguments>
+                        <argument name="exportTypes" xsi:type="array">
+                            <item name="csv" xsi:type="array">
+                                <item name="urlPath" xsi:type="string">simistorelocatoradmin/*/exportCsv</item>
+                                <item name="label" xsi:type="string" translate="true">CSV</item>
+                            </item>
+                            <item name="excel" xsi:type="array">
+                                <item name="urlPath" xsi:type="string">simistorelocatoradmin/*/exportExcel</item>
+                                <item name="label" xsi:type="string" translate="true">Excel XML</item>
+                            </item>
+                        </argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet"
+                       name="simistorelocatoradmin.schedule.grid.columnSet">
+                    <arguments>
+                        <argument name="id" xsi:type="string">simistorelocatoradmin_schedule_grid</argument>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">simistorelocatoradmin/schedule/edit</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="schedule_id" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
+                    </arguments>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="schedule_id">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Schedule ID</argument>
+                            <argument name="type" xsi:type="string">number</argument>
+                            <argument name="index" xsi:type="string">schedule_id</argument>
+                            <argument name="id" xsi:type="string">schedule_id</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="schedule_name">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Schedule Name</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">schedule_name</argument>
+                            <argument name="id" xsi:type="string">schedule_name</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="monday_status">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Monday Status</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="index" xsi:type="string">monday_status</argument>
+                            <argument name="id" xsi:type="string">monday_status</argument>
+                            <argument name="options" xsi:type="options"
+                                      model="Simi\Simistorelocator\Model\Schedule\Option\WeekdayStatus"/>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="monday_open">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Monday Open Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">monday_open</argument>
+                            <argument name="id" xsi:type="string">monday_open</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="monday_open_break">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Monday Open Break Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">monday_open_break</argument>
+                            <argument name="id" xsi:type="string">monday_open_break</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="monday_close_break">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Monday Close Break Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">monday_close_break</argument>
+                            <argument name="id" xsi:type="string">monday_close_break</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="monday_close">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Monday Close Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">monday_close</argument>
+                            <argument name="id" xsi:type="string">monday_close</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="tuesday_status">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Tuesday Status</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="index" xsi:type="string">tuesday_status</argument>
+                            <argument name="id" xsi:type="string">tuesday_status</argument>
+                            <argument name="options" xsi:type="options"
+                                      model="Simi\Simistorelocator\Model\Schedule\Option\WeekdayStatus"/>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="tuesday_open">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Tuesday Open Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">tuesday_open</argument>
+                            <argument name="id" xsi:type="string">tuesday_open</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="tuesday_open_break">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Tuesday Open Break Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">tuesday_open_break</argument>
+                            <argument name="id" xsi:type="string">tuesday_open_break</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="tuesday_close_break">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Tuesday Close Break Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">tuesday_close_break</argument>
+                            <argument name="id" xsi:type="string">tuesday_close_break</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="tuesday_close">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Tuesday Close Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">tuesday_close</argument>
+                            <argument name="id" xsi:type="string">tuesday_close</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="wednesday_status">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Wednesday Status</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="index" xsi:type="string">wednesday_status</argument>
+                            <argument name="id" xsi:type="string">wednesday_status</argument>
+                            <argument name="options" xsi:type="options"
+                                      model="Simi\Simistorelocator\Model\Schedule\Option\WeekdayStatus"/>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="wednesday_open">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Wednesday Open Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">wednesday_open</argument>
+                            <argument name="id" xsi:type="string">wednesday_open</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="wednesday_open_break">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Wednesday Open Break Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">wednesday_open_break</argument>
+                            <argument name="id" xsi:type="string">wednesday_open_break</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="wednesday_close_break">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Wednesday Close Break Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">wednesday_close_break</argument>
+                            <argument name="id" xsi:type="string">wednesday_close_break</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="wednesday_close">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Wednesday Close Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">wednesday_close</argument>
+                            <argument name="id" xsi:type="string">wednesday_close</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="thursday_status">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Thursday Status</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="index" xsi:type="string">thursday_status</argument>
+                            <argument name="id" xsi:type="string">thursday_status</argument>
+                            <argument name="options" xsi:type="options"
+                                      model="Simi\Simistorelocator\Model\Schedule\Option\WeekdayStatus"/>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="thursday_open">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Thursday Open Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">thursday_open</argument>
+                            <argument name="id" xsi:type="string">thursday_open</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="thursday_open_break">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Thursday Open Break Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">thursday_open_break</argument>
+                            <argument name="id" xsi:type="string">thursday_open_break</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="thursday_close_break">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Thursday Close Break Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">thursday_close_break</argument>
+                            <argument name="id" xsi:type="string">thursday_close_break</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="thursday_close">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Thursday Close Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">thursday_close</argument>
+                            <argument name="id" xsi:type="string">thursday_close</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="friday_status">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Friday Status</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="index" xsi:type="string">friday_status</argument>
+                            <argument name="id" xsi:type="string">friday_status</argument>
+                            <argument name="options" xsi:type="options"
+                                      model="Simi\Simistorelocator\Model\Schedule\Option\WeekdayStatus"/>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="friday_open">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Friday Open Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">friday_open</argument>
+                            <argument name="id" xsi:type="string">friday_open</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="friday_open_break">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Friday Open Break Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">friday_open_break</argument>
+                            <argument name="id" xsi:type="string">friday_open_break</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="friday_close_break">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Friday Close Break Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">friday_close_break</argument>
+                            <argument name="id" xsi:type="string">friday_close_break</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="friday_close">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Friday Close Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">friday_close</argument>
+                            <argument name="id" xsi:type="string">friday_close</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="saturday_status">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Saturday Status</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="index" xsi:type="string">saturday_status</argument>
+                            <argument name="id" xsi:type="string">saturday_status</argument>
+                            <argument name="options" xsi:type="options"
+                                      model="Simi\Simistorelocator\Model\Schedule\Option\WeekdayStatus"/>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="saturday_open">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Saturday Open Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">saturday_open</argument>
+                            <argument name="id" xsi:type="string">saturday_open</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="saturday_open_break">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Saturday Open Break Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">saturday_open_break</argument>
+                            <argument name="id" xsi:type="string">saturday_open_break</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="saturday_close_break">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Saturday Close Break Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">saturday_close_break</argument>
+                            <argument name="id" xsi:type="string">saturday_close_break</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="saturday_close">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Saturday Close Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">saturday_close</argument>
+                            <argument name="id" xsi:type="string">saturday_close</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="sunday_status">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Sunday Status</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="index" xsi:type="string">sunday_status</argument>
+                            <argument name="id" xsi:type="string">sunday_status</argument>
+                            <argument name="options" xsi:type="options"
+                                      model="Simi\Simistorelocator\Model\Schedule\Option\WeekdayStatus"/>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="sunday_open">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Sunday Open Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">sunday_open</argument>
+                            <argument name="id" xsi:type="string">sunday_open</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="sunday_open_break">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Sunday Open Break Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">sunday_open_break</argument>
+                            <argument name="id" xsi:type="string">sunday_open_break</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="sunday_close_break">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Sunday Close Break Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">sunday_close_break</argument>
+                            <argument name="id" xsi:type="string">sunday_close_break</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="sunday_close">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Sunday Close Time</argument>
+                            <argument name="type" xsi:type="string">text</argument>
+                            <argument name="index" xsi:type="string">sunday_close</argument>
+                            <argument name="id" xsi:type="string">sunday_close</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="action"
+                           acl="Magento_Storelocator::schedule_edit">
+                        <arguments>
+                            <argument name="id" xsi:type="string">action</argument>
+                            <argument name="header" xsi:type="string" translate="true">Action</argument>
+                            <argument name="type" xsi:type="string">action</argument>
+                            <argument name="getter" xsi:type="string">getId</argument>
+                            <argument name="filter" xsi:type="string">0</argument>
+                            <argument name="sortable" xsi:type="string">0</argument>
+                            <argument name="index" xsi:type="string">schedule_id</argument>
+                            <argument name="is_system" xsi:type="string">1</argument>
+                            <argument name="actions" xsi:type="array">
+                                <item name="edit" xsi:type="array">
+                                    <item name="caption" xsi:type="string" translate="true">Edit</item>
+                                    <item name="url" xsi:type="array">
+                                        <item name="base" xsi:type="string">simistorelocatoradmin/schedule/edit</item>
+                                    </item>
+                                    <item name="field" xsi:type="string">schedule_id</item>
+                                </item>
+                            </argument>
+                            <argument name="header_css_class" xsi:type="string">col-actions</argument>
+                            <argument name="column_css_class" xsi:type="string">col-actions</argument>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

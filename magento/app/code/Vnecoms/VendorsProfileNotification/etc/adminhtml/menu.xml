@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Vnecoms_VendorsProfileNotification::manage_process" title="Manage Profile Process" sortOrder="100" module="Vnecoms_VendorsProfileNotification" parent="Vnecoms_Vendors::vendors" action="vendors/profile_process" dependsOnModule="Vnecoms_VendorsProfileNotification" resource="Vnecoms_VendorsProfileNotification::manage_process"/>
+    </menu>
+</config>

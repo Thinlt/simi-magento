@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="vendor-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+        	<block class="Vnecoms\Vendors\Block\Vendors\Account" name="vendor.myaccount" template="Vnecoms_Vendors::account.phtml">
+        		<container name="vendor.myaccount.left" as="myaccount_left">
+        			<block class="Vnecoms\Vendors\Block\Vendors\Account\Profile" name="vendor.myaccount.left.profile" template="Vnecoms_Vendors::account/profile.phtml">
+        				<block class="Vnecoms\Vendors\Block\Vendors\Account\Profile" name="vendor.myaccount.left.profile.logo" template="Vnecoms_Vendors::account/profile/logo.phtml"/>
+        				<block class="Vnecoms\Vendors\Block\Vendors\Account\Profile" name="vendor.myaccount.left.profile.title" template="Vnecoms_Vendors::account/profile/title.phtml"/>
+        				<block class="Vnecoms\Vendors\Block\Vendors\Account\Profile" name="vendor.myaccount.left.profile.description" template="Vnecoms_Vendors::account/profile/description.phtml"/>
+        				<block class="Vnecoms\Vendors\Block\Vendors\Account\Profile" name="vendor.myaccount.left.profile.joinedtime" template="Vnecoms_Vendors::account/profile/joined-time.phtml"/>
+        				<block class="Vnecoms\Vendors\Block\Vendors\Account\Profile" name="vendor.myaccount.left.profile.phone" template="Vnecoms_Vendors::account/profile/phone.phtml"/>
+        				<block class="Vnecoms\Vendors\Block\Vendors\Account\Profile" name="vendor.myaccount.left.profile.salescount" template="Vnecoms_Vendors::account/profile/sales.phtml"/>
+        				<block class="Vnecoms\Vendors\Block\Vendors\Account\Profile" name="vendor.myaccount.left.profile.address" template="Vnecoms_Vendors::account/profile/address.phtml"/>
+        			</block>
+        		</container>
+        		<container name="vendor.myaccount.content" as="myaccount_content">
+        			<block class="Vnecoms\Vendors\Block\Vendors\Account\Edit" name="vendor.myaccount.form"/>
+        		</container>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,13 @@
+.vendorconfig-approval .col-action{width: 180px; text-align: right;}
+.vendorconfig-approval .col-attribute{width: 280px;}
+.vendorconfig-approval .col-current-value{width: 40%;}
+.vendorconfig-approval .fieldset-name{text-align: center; font-weight: bold; font-size: 18px; background: #eee;}
+.vendorconfig-approval .label-rejected{color: #aaa;}
+.new-value-editable-container{display: none;}
+.new-value-editable-container textarea{width: 100%;}
+.vendorconfig-approval .configapproval-item-edit .new-value-editable-container{display: block;}
+.vendorconfig-approval .configapproval-item-edit .new-value-container{display: none;}
+.new-value-editable-container button{margin-top: 10px;}
+.vendorconfig-approval th{color: #F26326;}
+.col-new-value img,
+.col-current-value img{max-width: 200px; max-height: 100px;}

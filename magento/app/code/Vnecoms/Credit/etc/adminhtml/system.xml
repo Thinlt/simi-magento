@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+    	<tab id="vnecoms" translate="label" sortOrder="101">
+            <label>VNECOMS</label>
+        </tab>
+        <!-- Credit section -->
+        <section id="credit" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Store Credit</label>
+            <tab>vnecoms</tab>
+            <resource>Vnecoms_Credit::credit</resource>
+            <group id="general" translate="label tooltip" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>General</label>
+				<field id="display_credit_top_links" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+	            	<label>Display My Credit link on top links</label>
+	        	</field>
+	        	<field id="credit_group" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+					<source_model>Vnecoms\Credit\Model\Source\CustomerGroup</source_model>
+					<can_be_empty>1</can_be_empty>
+	            	<label>Customer groups can use credit</label>
+	            	<tooltip>Only selected customer groups can use credit.</tooltip>
+	        	</field>
+			</group>
+			
+            <group id="buy_credit_page" translate="label tooltip" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Buy Credit Page</label>
+				<field id="page_title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+	            	<label>Page Title</label>
+	        	</field>
+	        	<field id="meta_keyword" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+	            	<label>Meta Keywords</label>
+	            	<tooltip>Separate keywords by comma</tooltip>
+	        	</field>
+	        	<field id="meta_description" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+	            	<label>Meta Description</label>
+	        	</field>
+			</group>
+			
+			<group id="email" translate="label tooltip" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Email Configuration</label>
+				<field id="sender_email_identity" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+				<field id="credit_balance_change" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Credit balance changes</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <tooltip>This email is sent to customer when his credit balance is changed.</tooltip>
+                </field>
+			</group>
+		</section>
+		
+        <!-- Sales section -->
+        <section id="sales">
+            <group id="totals_sort">
+                <field id="credit" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Credit</label>
+                </field>
+            </group>
+        </section>
+        
+    </system>
+</config>

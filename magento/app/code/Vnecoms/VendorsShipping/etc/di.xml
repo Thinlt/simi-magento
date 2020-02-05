@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Shipping\Model\Shipping">
+        <plugin name="vendor.shipping" type="Vnecoms\VendorsShipping\Plugin\Shipping" sortOrder="1" disabled="false"/>
+    </type>
+
+    <preference for="Magento\Sales\Model\Order\Invoice\Total\Shipping"
+                type="Vnecoms\VendorsShipping\Model\Sales\Order\Invoice\Total\Shipping" />
+
+    <preference for="Magento\Sales\Model\Order\Creditmemo\Total\Shipping"
+                type="Vnecoms\VendorsShipping\Model\Sales\Order\Creditmemo\Total\Shipping" />
+
+    <preference for="Vnecoms\VendorsSales\Controller\Vendors\Order\Shipment\Save"
+                type="Vnecoms\VendorsShipping\Controller\Vendors\Order\Shipment\Save" />
+
+    <preference for="Vnecoms\VendorsSales\Controller\Vendors\Order\Shipment\GetShippingItemsGrid"
+                type="Vnecoms\VendorsShipping\Controller\Vendors\Order\Shipment\GetShippingItemsGrid" />
+
+    <preference for="Vnecoms\VendorsSales\Controller\Vendors\Order\Shipment\CreateLabel"
+                type="Vnecoms\VendorsShipping\Controller\Vendors\Order\Shipment\CreateLabel" />
+
+    <preference for="Vnecoms\VendorsSales\Block\Vendors\Order\Packaging"
+                type="Vnecoms\VendorsShipping\Block\Vendors\Order\Packaging" />
+
+    <preference for="Vnecoms\VendorsSales\Block\Vendors\Order\Shipment\View\Form"
+                type="Vnecoms\VendorsShipping\Block\Vendors\Order\Shipment\View\Form" />
+
+    <preference for="Vnecoms\VendorsSales\Controller\Vendors\Order\Shipment\PrintLabel"
+                type="Vnecoms\VendorsShipping\Controller\Vendors\Order\Shipment\PrintLabel" />
+
+    <preference for="Vnecoms\VendorsSales\Controller\Vendors\Order\Shipment\MassPrintShippingLabel"
+                type="Vnecoms\VendorsShipping\Controller\Vendors\Order\Shipment\MassPrintShippingLabel" />
+
+    <preference for="Vnecoms\VendorsSales\Controller\Vendors\Shipment\MassPrintShippingLabel"
+                type="Vnecoms\VendorsShipping\Controller\Vendors\Shipment\MassPrintShippingLabel" />
+
+
+    <preference for="Magento\Shipping\Model\Order\Track"
+                type="Vnecoms\VendorsShipping\Model\Order\Track" />
+
+    <preference for="Magento\Shipping\Model\Info"
+                type="Vnecoms\VendorsShipping\Model\Info" />
+
+
+    <type name="Magento\Sales\Model\Order">
+        <plugin name="vendor_sales_shipping_description" type="Vnecoms\VendorsShipping\Plugin\ShippingDescription"/>
+    </type>
+
+</config>

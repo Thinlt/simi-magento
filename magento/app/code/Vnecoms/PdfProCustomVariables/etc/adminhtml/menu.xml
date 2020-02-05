@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!--
+{{License}}
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Vnecoms_PdfProCustomVariables::customvariables_index" title="Manage Custom Variables" action="ves_customvariable/variables/index" parent="Vnecoms_PdfPro::pdfpro" dependsOnModule="Vnecoms_PdfPro" module="Vnecoms_PdfProCustomVariables" sortOrder="30" resource="Vnecoms_PdfProCustomVariables::customvariables" />
+    </menu>
+</config>

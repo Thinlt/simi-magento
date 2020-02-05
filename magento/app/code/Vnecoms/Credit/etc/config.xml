@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+    	<credit>
+    		<general>
+    			<display_credit_top_links>1</display_credit_top_links>
+    		</general>
+    		<buy_credit_page>
+    			<page_title>Buy Credit</page_title>
+    			<meta_keyword></meta_keyword>
+    			<meta_description></meta_description>
+    		</buy_credit_page>
+    		<email>
+    			<sender_email_identity>general</sender_email_identity>
+    			<credit_balance_change>credit_email_credit_balance_change</credit_balance_change>
+    		</email>
+    	</credit>
+        <sales>
+            <totals_sort>
+                <credit>25</credit>
+            </totals_sort>
+        </sales>
+    </default>
+</config>

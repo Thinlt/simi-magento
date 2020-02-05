@@ -1,0 +1,1043 @@
+/* The Modal (background) */
+@font-face {
+    font-family: Montserrat-Bold;
+    src: url(../font/Montserrat-Bold.ttf)
+}
+
+@font-face {
+    font-family: Montserrat-Regular;
+    src: url(../font/Montserrat-Regular.ttf)
+}
+
+#blankerror, #mobileNotValid, #otpNotValid,
+#validmsg, #reg_mob_error_msg, #reg-sms-please-wait,
+#regi_otp_cont, #reg-submit-please-wait, #checkforgototperror,
+#blankerror_forgorpass, #forgotmobileerror, #mobile-forgot-email,
+#valid-msg, #forgot-mob-error-msg, #forgot-sms-please-wait,
+#otp-cont, #passresetbyotp, #passresetbyemail, #forgot-sms-verify-please-wait,
+#forgototpverify, #checkforgototperror, #blankerror_forgot1,
+#forgot-sms-verify-please-wait, #setnewpass, #passmatcherror, #resetpassvalidation,
+#blankerror_forgot2, #set-new-pass-please-wait {
+    display: none;
+}
+
+#loginotpmobbtnerror, #loginsendotperror, #updatepasssuccess,
+#sendemail_success, #checkloginotperror, #emptyotp, #valid-msg,
+#login-mob-error-msg, #login-sms-please-wait, #loginotpverify, #login-verify-please-wait {
+    display: none;
+}
+
+#notice {
+    margin-left: 44px !important;
+}
+
+#forgotmob-div {
+    float: left;
+    width: 100%;
+}
+
+#updatepasssuccess, #sendemail_success, #emailpasswrong_error1, #progress-indicator {
+    display: none;
+}
+
+#form-list {
+    padding: 0;
+}
+
+#input-box-login, #input-box-password {
+    position: relative;
+}
+
+#notice1 {
+    margin-left: 5px;
+}
+
+#progress_indecator {
+    float: right;
+}
+
+#blankpage_customer_register, #mobileNotValid, #reg-sms-please-wait, #otpverify, #reg-otp-verify-please-wait, #customer-progress-indicator {
+    display: none;
+}
+
+#sending {
+    display: none;
+    cursor: pointer;
+}
+
+#submitbtnajax1 {
+    float: left;
+}
+
+#submitbtnajax {
+    float: left;
+}
+
+#emailpasswrong_msg, #customer-login-please-wait {
+    display: none;
+}
+
+#updatemobile_img {
+    display: none;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 9999999999; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.71); /* Black w/ opacity */
+}
+
+.left {
+    float: left !important;
+    margin-right: 15px;
+}
+
+.mobile-modal-content .input-text {
+
+}
+
+select:focus {
+    outline: none;
+}
+
+.modal .error1 {
+    color: #f44242;
+    padding: 9px;
+    margin-top: 10px;
+    clear: both;
+}
+
+.modal .success {
+    color: #30b201;
+    font-weight: 600;
+    width: 90%;
+    padding: 2px;
+    clear: both;
+}
+
+.customer-progress-indicator {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 100%;
+    z-index: 10003;
+}
+
+.customer-please-wait {
+    display: block;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+}
+
+.page_title {
+    color: #169fc8;
+    font-family: Montserrat-Bold;
+    font-size: 30px;
+    font-variant-caps: all-small-caps;
+    font-weight: bold;
+    text-align: center;
+}
+
+.modal .page-title {
+    color: #169fc8;
+    font-family: Montserrat-Bold;
+    font-size: 30px;
+    font-variant-caps: all-small-caps;
+    font-weight: bold;
+    text-align: center;
+}
+
+.modal .error span {
+    font-size: 12px;
+    margin-left: 11px;
+}
+
+.mobile-modal-content .form-list {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.modal .button {
+    font-weight: bold !important;
+}
+
+/* Modal Content/Box */
+.mobile-modal-content {
+    background-color: #ffffff;
+    font-family: Montserrat-Regular;
+    height: 550px;
+    left: 0;
+    margin: 0 auto;
+    padding: 20px;
+    position: absolute;
+    right: 0;
+    top: 25%;
+    max-width: 460px;
+}
+
+.ajax-register-form .ultimate, .ajax-forgot-form .ultimate, .ajax-login-form .ultimate {
+    width: 800px;
+    height: 600px;
+}
+
+.ultimate {
+    background-color: #ffffff;
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    top: 25%;
+    font-family: Montserrat-Regular;
+}
+
+.submitbtnajax, .progress-indicator {
+    text-align: center;
+}
+
+.ultimate .email, .ultimate .mobilenumber {
+    width: 100% !important;
+}
+
+.ultimate .notice {
+    margin-left: 5px;
+    margin-bottom: 10px;
+}
+
+.progress-indicator {
+    /*margin-right: 53px;*/
+}
+
+.mobile-modal-content .progress-indicator {
+
+}
+
+.model-bottom {
+    float: left;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.notice {
+    font-size: 11px;
+}
+
+.submitbtnajax {
+    margin: 0 auto;
+    width: 97px;
+}
+
+.buttons-set a:hover {
+    text-decoration: none !important;
+}
+
+/* The Close Button */
+.close {
+    color: #000;
+    font-size: 26px;
+    font-weight: bold;
+    position: absolute;
+    right: 10px;
+
+}
+
+.closediv {
+    float: right;
+    height: 20px;
+    position: relative;
+    right: -20px;
+    text-align: center;
+    top: -10px;
+    vertical-align: middle;
+}
+
+.mobile-modal-content .action {
+    background-color: rgb(255, 255, 255);
+    border: medium none;
+    border-radius: 8px;
+    box-shadow: 0 3px 13.05px 1.95px rgba(0, 0, 0, 0.21);
+    color: #169fc8;
+    font-family: Montserrat-Bold;
+    font-size: 26px;
+    height: 50px;
+    text-transform: uppercase;
+    width: 100%;
+    padding: 0;
+}
+
+.mobbtn {
+    background-color: rgb(255, 255, 255);
+    border: medium none;
+    border-radius: 6px;
+    box-shadow: 0 3px 13.05px 1.95px rgba(0, 0, 0, 0.21);
+    color: #169fc8;
+    font-family: Montserrat-Bold;
+    height: 40px;
+    text-transform: uppercase;
+    width: 100%;
+    padding: 0;
+    max-width: 150px;
+}
+
+.ajax-register-form .sendotp {
+    float: right;
+}
+
+.progress-indicator.forgot-mobile-progress-indicator {
+    float: right !important;
+    margin-right: 60px;
+    margin-top: 18px;
+}
+
+.forogotlink a {
+    color: #169fc8;
+    font-size: 12px;
+}
+
+.close:hover, .close:focus {
+
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.ajax-login-form .mobile-modal-content {
+    font-family: Montserrat-Regular;
+    height: auto;
+    /*  max-width: 550px;
+      width: 60%;*/
+}
+
+.right {
+    float: left;
+    padding: 20px;
+    width: 53%;
+}
+
+.leftimg {
+    float: left;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+    display: inline-block;
+}
+
+.closediv-ultimate {
+    float: right;
+    height: 20px;
+    position: relative;
+    right: -25px;
+    text-align: center;
+    top: -10px;
+    vertical-align: middle;
+    width: 20px;
+}
+
+.register-ultimate {
+    float: left;
+    font-size: 11px;
+    margin-left: 24px;
+}
+
+.leftimage {
+    float: left;
+    width: 47%;
+    height: 600px;
+    max-width: 330px;
+}
+
+.ajax-register-form .ultimate .leftimage {
+    height: 600px !important;
+}
+
+/*.ajax-register-form .mobile-modal-content  {
+  width: 41%;
+}
+.ajax-forgot-form .mobile-modal-content {
+  width: 41%;
+}*/
+.reg-form {
+    /*  margin-left: 8%;*/
+}
+
+.register {
+    font-size: 12px;
+}
+
+.reg-form .register {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.reg-form .reginput {
+    width: 47%;
+    float: left;
+    margin-bottom: 12px;
+}
+
+.setnewpass .reginput {
+    margin-bottom: 12px;
+}
+
+/* For Login Type Tab Start */
+
+#myModal input::-webkit-input-placeholder {
+    color: grey !important;
+}
+
+#myModal input:-moz-placeholder {
+    /* Firefox 18- */
+    color: grey !important;
+}
+
+#myModal input::-moz-placeholder {
+    /* Firefox 19+ */
+    color: grey !important;
+}
+
+#myModal input:-ms-input-placeholder {
+    color: red !important;
+}
+
+#login-type {
+    height: 33px;
+    padding-right: 2px;
+    margin-top: 30px;
+    margin-bottom: 0px;
+    padding-left: 0px;
+    margin-left: 9px;
+}
+
+#login-type li {
+    float: left;
+    list-style: none;
+    outline: none;
+    width: 49%;
+    text-align: center;
+}
+
+#login-type li a {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: small;
+    font-weight: bold;
+    color: #5685bc;;
+    padding-top: 12px;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-bottom: 6%;
+    display: block;
+    background: #FFF;
+    text-decoration: none;
+    outline: none;
+    text-transform: uppercase;
+    font-size: 13px !important;
+    background-color: #169fc8 !important;
+    color: white;
+    border-radius: 6px;
+    box-shadow: 0 3px 13.05px 1.95px rgba(0, 0, 0, 0.21);
+    font-family: Montserrat-Regular;
+}
+
+#login-type .login-type-last {
+    margin-left: 2% !important;
+}
+
+#login-type li a.inactive {
+    padding-top: 12px;
+    padding-bottom: 5.4%;
+    padding-left: 8px;
+    padding-right: 8px;
+    color: #333 !important;
+    background: #EEE !important;
+    outline: none;
+    text-transform: uppercase;
+    box-shadow: none !important;
+}
+
+#login-type li a:hover, #tabs li a.inactive:hover {
+    color: #169fc8 !important;
+    outline: none;
+    background-color: rgb(255, 255, 255) !important;
+    border: medium none;
+    border-radius: 8px;
+    color: #169fc8;
+    box-shadow: 0 3px 13.05px 1.95px rgba(0, 0, 0, 0.21) !important;
+}
+
+.login-container h2 {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    color: #5685bc;
+}
+
+.login-container p {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    line-height: 1.3;
+    font-size: small;
+}
+
+.login-container ul {
+    margin-left: 4px;
+    font-size: small;
+    line-height: 1.4;
+    list-style-type: disc;
+}
+
+.login-container li {
+    padding-bottom: 5px;
+    margin-left: 5px;
+}
+
+/* For Login Type Tab End  */
+/* for custom drop down */
+
+.custom-select {
+    position: relative;
+    font-family: Arial;
+    width: 26%;
+    float: left;
+    border: 2px solid #d2dae2;
+    border-radius: 8px;
+    box-shadow: 0 3px 13.05px 1.95px rgba(0, 0, 0, 0.21);
+    font-weight: bold;
+    margin-bottom: 31px;
+    margin-left: 5%;
+    margin-right: 2%;
+}
+
+.custom-select select {
+    display: none; /*hide original SELECT element:*/
+}
+
+.select-selected {
+    background-color: white;
+    border-radius: 8px;
+}
+
+/*style the arrow inside the select element:*/
+.select-selected:after {
+    position: absolute;
+    content: "";
+    top: 14px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: #000 transparent transparent transparent;
+}
+
+/*point the arrow upwards when the select box is open (active):*/
+.select-selected.select-arrow-active:after {
+    border-color: transparent transparent #fff transparent;
+    top: 7px;
+}
+
+/*style the items (options), including the selected item:*/
+.select-items div, .select-selected {
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    user-select: none;
+
+}
+
+.select-items {
+    background-color: rgb(255, 255, 255);
+    border: medium none;
+    box-shadow: 0 3px 13.05px 1.95px rgba(0, 0, 0, 0.21);
+    font-family: Montserrat-Bold;
+    border-radius: 4px;
+}
+
+/*style items (options):*/
+.select-items {
+    position: absolute;
+    background-color: white;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+}
+
+/*hide the items when the select box is closed:*/
+.select-hide {
+    display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* */
+
+.reset-type {
+    border: 2px solid #d2dae2;
+    border-radius: 8px;
+    box-shadow: 0 3px 13.05px 1.95px rgba(0, 0, 0, 0.21);
+    float: none;
+    font-weight: bold;
+    height: 43px;
+    margin-bottom: 31px;
+    margin-left: 5%;
+    margin-right: 2%;
+    width: 28%;
+}
+
+.reset-msg {
+    font-size: 14px;
+    float: left;
+    width: 64%;
+}
+
+.reg-form .send-otp-button {
+    float: right;
+    margin-right: 0.5%;
+    margin-bottom: 12px;
+}
+
+.ultimate .reg-form .send-otp-button {
+    margin-right: 0.5% !important;
+}
+
+#ajaxlogin-forgot-window .send-otp-button {
+    float: right;
+    margin-right: 9.5%;
+    margin-bottom: 12px;
+    margin-top: 18px;
+}
+
+#ajaxlogin-forgot-window .reset-passwd {
+    /* float: right;*/
+}
+
+.reg-form .otp-content {
+    width: 100%;
+    margin: 0;
+}
+
+.reg-form .even {
+    margin-left: 6%;
+}
+
+.ajax-forgot-form .mobile-modal-content {
+    height: 550px;
+}
+
+.modal input[type="text"], .modal input[type="password"] {
+    border: 2px solid #d2dae2;
+    border-radius: 6px;
+    max-width: 600px;
+    padding-right: 50px;
+    box-shadow: 0px 3px 8.55px 0.45px rgba(0, 0, 0, 0.21);
+    height: 40px !important;
+    font-size: 12px;
+    font-family: Montserrat-Bold;
+}
+
+.reg-submit {
+    padding-top: 0px;
+    width: 190px !important;
+}
+
+.registraionform .content {
+    margin-top: 23px !important;
+}
+
+.create-account-page-main-div .progress-indicator {
+    float: left;
+    position: absolute;
+
+}
+
+.create-account-resend-otp {
+    float: right;
+    cursor: pointer;
+}
+
+.create-account-page-main-div .error {
+    color: #e02b27;
+}
+
+.ajax-register-form .error {
+    color: #903;
+}
+
+.forgotmobileerror {
+    color: #903;
+}
+
+#forgotmob {
+    font-family: Montserrat-Regular !important;
+}
+
+.option {
+    background-color: rgb(255, 255, 255);
+    border: medium none;
+    border-radius: 8px;
+    box-shadow: 0 3px 13.05px 1.95px rgba(0, 0, 0, 0.21);
+    color: #169fc8;
+    font-family: Montserrat-Bold;
+    height: 50px;
+    text-transform: uppercase;
+}
+
+.mobileotpsenderror, .checkotperror, .mobileExist, .regcontollererror {
+    display: none;
+}
+
+.forogotlink {
+    float: right;
+}
+
+.modal .button {
+    font-weight: bold;
+}
+
+.modal .buttons-set button.button {
+    float: right;
+}
+
+.modal .buttons-set {
+    margin: 31px auto 80px;
+    max-width: 510px;
+    width: 88%;
+}
+
+.mobile-modal-content .buttons-set {
+    margin: 31px auto 80px !important;
+    max-width: 578px !important;
+    width: 100% !important;
+}
+
+.modal .buttons-set-ultimate {
+    margin: 31px auto 80px;
+    max-width: 450px;
+    width: 95%;
+    font-size: 12px;
+}
+
+.ajax-login-form ul li {
+    list-style: outside none none !important;
+}
+
+.login-window .content {
+    margin-top: 47px;
+}
+
+.register {
+    float: left;
+}
+
+.notice {
+    margin-left: 3px;
+    margin-bottom: 10px;
+}
+
+.ajax-login-form .mobile-modal-content .notice, .ajax-forgot-form .mobile-modal-content .notice {
+    margin-left: 43px;
+    margin-bottom: 10px;
+    text-align: left;
+    margin-top: 10px;
+}
+
+label.reset-msg {
+    line-height: 40px;
+}
+
+.passresetbyemail {
+    margin-right: 8.5%;
+}
+
+input.forgotverifyotp.reset-password.mobbtn {
+    width: 140px !important;
+}
+
+.forgotverifyotp.reset-password .model-bottom {
+    width: 95% !important;
+    float: none !important;
+}
+
+.ajax-login-form .mobile-modal-content .notice {
+    margin-left: 6px !important;
+}
+
+.ajax-login-form .ultimate .notice, .ajax-forgot-form .ultimate .notice {
+    margin-left: 40px;
+    margin-bottom: 10px;
+    text-align: left;
+    margin-top: 10px;
+}
+
+.ajax-forgot-form .ultimate .notice {
+    margin-left: 40px !important;
+}
+
+.modal input[type="text"]::-moz-placeholder, .modal input[type="password"]::-moz-placeholder {
+    color: #313131;
+    font-family: Montserrat-Regular;
+    opacity: 1;
+}
+
+.modal input[type="text"]::-webkit-input-placeholder, .modal input[type="password"]::-webkit-input-placeholder {
+    color: #000;
+    font-family: Montserrat-Regular;
+}
+
+.createlinking {
+    color: #fa6000 !important;
+}
+
+.loginlink {
+    margin: 0 auto;
+    width: 97px;
+}
+
+.mobbtn {
+    font-size: 13px !important;
+    background-color: #169fc8;
+    color: white;
+}
+
+.ajax-register-form .verifyotp {
+    max-width: 192px !important;
+}
+
+.user-icon, .pass-icon {
+    background-image: url("../images/icons.png");
+    background-repeat: no-repeat;
+    padding: 20px;
+    position: absolute;
+    right: 4px;
+    top: -18px;
+}
+
+.user-icon {
+    background-position: -15px 10px;
+}
+
+.pass-icon {
+    background-position: -104px 11px;
+}
+
+.close {
+    background-image: url("../images/icons.png");
+    background-position: -65px -2px;
+    padding: 11px;
+}
+
+.ajax-login-form .page-title {
+    margin-top: 20px;
+}
+
+.otp-content {
+    margin: 30px auto 0;
+    width: 83%;
+}
+
+.loginotpverify {
+    float: left;
+    width: 100%;
+}
+
+.info {
+    margin: 29px auto 0;
+    width: 85%;
+}
+
+.loginotpverify .submitbtnajax {
+    width: 250px;
+}
+
+.info > p {
+    margin-bottom: 0;
+}
+
+.form-create-account .info {
+    margin: 0;
+    width: 100%;
+}
+
+.form-create-account .otp-content {
+    margin: 0;
+    width: 100%;
+}
+
+.form-create-account .submitbtnajax {
+    width: 0;
+}
+
+.mobbtn:hover {
+    background-color: rgb(255, 255, 255) !important;
+    border: medium none;
+    border-radius: 8px;
+    color: #169fc8;
+    font-family: Montserrat-Bold;
+    padding: 0;
+    text-transform: uppercase;
+}
+
+.reg-email, .reg-mobile {
+    width: 100% !important;
+}
+
+.forgotsendotp.mobbtn {
+    float: right;
+}
+
+@media screen and (max-width: 1500px) {
+    .ultimate {
+        top: 5%;
+    }
+
+    .mobile-modal-content {
+        top: 2%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .ajax-login-form .mobile-modal-content, .ajax-register-form .mobile-modal-content, .ajax-forgot-form .mobile-modal-content {
+        width: 95%;
+    }
+
+    .ajax-register-form .ultimate, .ajax-forgot-form .ultimate, .ajax-login-form .ultimate {
+        width: 95%;
+    }
+
+    .right {
+        width: 46%;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .ajax-login-form .mobile-modal-content, .ajax-register-form .mobile-modal-content, .ajax-forgot-form .mobile-modal-content {
+        width: 85%;
+    }
+
+    .ajax-register-form .ultimate, .ajax-forgot-form .ultimate, .ajax-login-form .ultimate {
+        width: 85%;
+    }
+
+    .leftimage {
+        display: none;
+    }
+
+    .right {
+        padding: 0px;
+    }
+
+    .ajax-login-form .ultimate {
+        max-width: 550px;
+        width: 80%;
+    }
+
+    .right {
+        width: 100%;
+        float: left;
+        margin: 0 auto;
+    }
+
+    .closediv-ultimate {
+        top: -6px;
+    }
+
+    .ultimate {
+        padding: 20px;
+    }
+
+    .ajax-login-form .right {
+        float: left;
+        margin: 0 auto;
+        padding: 7px;
+        width: 93%;
+    }
+}
+
+@media screen and (max-width: 585px) {
+    .forogotlink {
+        font-size: 12px;
+        float: left;
+        width: 100%;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+    .ajax-login-form .mobile-modal-content, .ajax-register-form .mobile-modal-content, .ajax-forgot-form .mobile-modal-content {
+        width: 85%;
+        height: auto;
+    }
+
+    #login-type li a {
+        padding-bottom: 8.7%;
+        font-size: 11px !important;
+    }
+
+    #login-type li a.inactive {
+        padding-bottom: 7.7%;
+    }
+
+    .modal .buttons-set {
+        width: 100%;
+    }
+
+    .mobile-modal-content .input-text {
+        height: 55px !important;
+    }
+
+    .forogotlink {
+        font-size: 12px;
+        float: left;
+        width: 100%;
+    }
+
+    .modal .buttons-set {
+        font-size: 12px;
+    }
+
+    .mobile-modal-content {
+        top: 3%;
+    }
+
+    .reset-type {
+        margin-top: 10px;
+        margin-left: 0px;
+    }
+
+    .reg-form {
+        margin-left: 0;
+    }
+
+    .reg-form .reginput {
+        width: 100% !important;
+    }
+
+    .ultimate .reg-form .reginput {
+        width: 98% !important;
+    }
+
+    .reg-form .even {
+        margin-left: 0;
+    }
+
+    .reg-form .otp-content {
+        width: 100%;
+    }
+
+    .reg-form .send-otp-button {
+        margin-right: 1%;
+    }
+}

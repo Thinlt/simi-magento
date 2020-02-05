@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    
+    <columns name="customer_columns" class="Magento\Customer\Ui\Component\Listing\Columns">
+        <column name="credit_balance">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Credit Balance</item>
+                    <item name="sortOrder" xsi:type="number">270</item>
+                </item>
+            </argument>
+        </column>
+        
+    </columns>
+</listing>

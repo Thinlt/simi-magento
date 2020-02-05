@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<add id="Vnecoms_VendorsCredit::credit" title="Credit" module="Vnecoms_VendorsCredit" sortOrder="40" parent="Vnecoms_Vendors::marketplace" dependsOnModule="Vnecoms_VendorsCredit" resource="Vnecoms_VendorsCredit::credit"/>
+    	<add id="Vnecoms_VendorsCredit::credit_pending" title="Escrow Transactions" sortOrder="10" module="Vnecoms_VendorsCredit" parent="Vnecoms_VendorsCredit::credit" action="vendors/credit/pending" dependsOnModule="Vnecoms_VendorsCredit" resource="Vnecoms_VendorsCredit::credit_pending"/>
+    	<add id="Vnecoms_VendorsCredit::credit_transactions" title="Credit Transactions" sortOrder="20" module="Vnecoms_VendorsCredit" parent="Vnecoms_VendorsCredit::credit" action="storecredit/transaction" dependsOnModule="Vnecoms_VendorsCredit" resource="Vnecoms_VendorsCredit::credit_transactions"/>
+    	<add id="Vnecoms_VendorsCredit::credit_pending_withdrawal" title="Pending Withdrawal" sortOrder="30" module="Vnecoms_VendorsCredit" parent="Vnecoms_VendorsCredit::credit" action="vendors/credit_withdrawal/pending" dependsOnModule="Vnecoms_VendorsCredit" resource="Vnecoms_VendorsCredit::credit_pending_withdrawal"/>
+    	<add id="Vnecoms_VendorsCredit::credit_all_withdrawal" title="All Withdrawal" sortOrder="40" module="Vnecoms_VendorsCredit" parent="Vnecoms_VendorsCredit::credit" action="vendors/credit_withdrawal" dependsOnModule="Vnecoms_VendorsCredit" resource="Vnecoms_VendorsCredit::credit_all_withdrawal"/>
+    </menu>
+</config>

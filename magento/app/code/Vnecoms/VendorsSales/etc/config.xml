@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <vendors>
+        	<sales>
+				<split_cart>0</split_cart>
+        		<sender_email_identity>general</sender_email_identity>
+        		<order_new_template>vendors_sales_order_new_template</order_new_template>
+        		<shipment_new_template>vendors_sales_shipment_new_template</shipment_new_template>
+        		<invoice_new_template>vendors_sales_invoice_new_template</invoice_new_template>
+				<creditmemo_new_template>vendors_sales_creditmemo_new_template</creditmemo_new_template>
+        	</sales>
+        </vendors>
+    </default>
+</config>

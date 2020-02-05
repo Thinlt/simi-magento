@@ -1,0 +1,617 @@
+<?xml version="1.0"?>
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <!--Other Vendor-->
+    <route url="/V1/vendors/me" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\VendorRepositoryInterface" method="getById"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/notifications/unreadCount" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\NotificationRepositoryInterface" method="getUnreadCount"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/notifications" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\NotificationRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/notifications/markAllAsRead" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\NotificationRepositoryInterface" method="markAllAsRead"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/notifications/:notificationId" method="DELETE">
+        <service class="Vnecoms\VendorsApi\Api\NotificationRepositoryInterface" method="deleteById"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/notifications/massDelete" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\NotificationRepositoryInterface" method="massDelete"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <!--Dashboard-->
+    <route url="/V1/vendors/dashboard" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\DashboardRepositoryInterface" method="getDashboardInfo"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <!-- Orders -->
+    <route url="/V1/vendors/order" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\OrderRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/order/:orderId" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\OrderRepositoryInterface" method="getOrder"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/order/:orderId/cancel" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\OrderRepositoryInterface" method="cancel"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/order/createInvoice" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\InvoiceRepositoryInterface" method="createInvoice"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/order/invoice" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\InvoiceRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/order/creditMemo" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\MemoRepositoryInterface" method="createMemo"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/order/memo" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\MemoRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/order/createShipment" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\ShipmentRepositoryInterface" method="createShipment"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/order/shipment" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\ShipmentRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <!-- Credit -->
+    <route url="/V1/vendors/credit/transaction" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\CreditRepositoryInterface" method="getTransactions"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/credit/createWithdrawal" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\WithdrawalRepositoryInterface" method="createWithdrawal"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/credit/withdrawal" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\WithdrawalRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <!-- Product -->
+    <route url="/V1/vendors/product" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\ProductRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/product/save" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\ProductRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/product/save" method="PUT">
+        <service class="Vnecoms\VendorsApi\Api\ProductRepositoryInterface" method="update"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/product/:sku" method="DELETE">
+        <service class="Magento\Catalog\Api\ProductRepositoryInterface" method="deleteById"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/product/submitApproval" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\ProductRepositoryInterface" method="submit"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/product/options/types" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\ProductCustomOptionTypeListInterface" method="getItems"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/product/:sku/options" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductCustomOptionRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/product/:sku/options/:optionId" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductCustomOptionRepositoryInterface" method="get"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/product/options" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductCustomOptionRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/product/options/:optionId" method="PUT">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductCustomOptionRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/product/:sku/options/:optionId" method="DELETE">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductCustomOptionRepositoryInterface"
+                 method="deleteByIdentifier"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/product/:sku/media/:entryId" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductAttributeMediaGalleryManagementInterface" method="get"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/product/:sku/media" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductAttributeMediaGalleryManagementInterface" method="create"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/product/:sku/media/:entryId" method="PUT">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductAttributeMediaGalleryManagementInterface" method="update"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/product/:sku/media/:entryId" method="DELETE">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductAttributeMediaGalleryManagementInterface" method="remove"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/product/:sku/media" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductAttributeMediaGalleryManagementInterface" method="getList"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <!-- Tier Price -->
+    <route url="/V1/vendors/product/:sku/group-prices/:customerGroupId/tiers" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductTierPriceManagementInterface" method="getList"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/product/:sku/group-prices/:customerGroupId/tiers/:qty/price/:price" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductTierPriceManagementInterface" method="add"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/product/:sku/group-prices/:customerGroupId/tiers/:qty" method="DELETE">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductTierPriceManagementInterface" method="remove"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/product/tier-prices-information" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\VendorTierPriceStorageInterface" method="get"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/product/tier-prices" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\VendorTierPriceStorageInterface" method="update"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/product/tier-prices" method="PUT">
+        <service class="Vnecoms\VendorsApi\Api\VendorTierPriceStorageInterface" method="replace"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/product/tier-prices-delete" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\VendorTierPriceStorageInterface" method="delete"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/product/base-prices-information" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\VendorBasePriceStorageInterface" method="get"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/product/base-prices" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\VendorBasePriceStorageInterface" method="update"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+
+
+
+
+
+    <route url="/V1/vendors/product/cost-information" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\VendorCostStorageInterface" method="get"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/product/cost" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\VendorCostStorageInterface" method="update"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/product/cost-delete" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\VendorCostStorageInterface" method="delete"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/product/special-price-information" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\VendorSpecialPriceStorageInterface" method="get"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/product/special-price" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\VendorSpecialPriceStorageInterface" method="update"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/product/special-price-delete" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\VendorSpecialPriceStorageInterface" method="delete"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+
+    <!-- Bundle Product -->
+    <route url="/V1/vendors/bundle-product/:sku/links/:optionId" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductLinkManagementInterface" method="addChildByProductSku"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/bundle-product/:sku/links/:id" method="PUT">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductLinkManagementInterface" method="saveChild"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/bundle-product/:productSku/children" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductLinkManagementInterface" method="getChildren"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/bundle-product/:sku/options/:optionId/children/:childSku" method="DELETE">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductLinkManagementInterface" method="removeChild"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/bundle-product/:sku/options/all" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductOptionRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/bundle-product/:sku/options/:optionId" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductOptionRepositoryInterface" method="get"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/bundle-product/:sku/options/:optionId" method="DELETE">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductOptionRepositoryInterface" method="deleteById"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/bundle-product/options/types" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductOptionTypeListInterface" method="getItems"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/bundle-product/options/add" method="POST">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductOptionManagementInterface" method="save"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/vendors/bundle-product/options/:optionId" method="PUT">
+        <service class="Vnecoms\VendorsApi\Api\VendorProductOptionManagementInterface" method="update"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <!-- Report -->
+    <route url="/V1/vendors/report/bestselling" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\ReportRepositoryInterface" method="getBestSelling"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/vendors/report/mostViewed" method="GET">
+        <service class="Vnecoms\VendorsApi\Api\ReportRepositoryInterface" method="getMostViewed"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+</routes>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2019 SimiCart. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<!-- <type name="Vnecoms\VendorsShippingFlatRate\Model\Carrier\Flatrate">
+      	<plugin name="simiVendorMappingPluginCarrierFlatrate" type="Simi\VendorMapping\Plugin\Carrier\Flatrate"/>
+	</type> -->
+
+	<type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="simi_vendors_shipping" xsi:type="object">Simi\VendorMapping\Model\ShippingConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

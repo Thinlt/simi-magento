@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+    	<section id="vendors">
+    		<group id="shipping">
+            	<group id="vendors_flatrate">
+					<field id="shipping_method_flatrate_rates" translate="label" sortOrder="110" showInDefault="1" showInWebsite="0" showInStore="0">
+						<label>Shipping Rates</label>
+						<frontend_class>required-entry</frontend_class>
+						<config_path>shipping_method/flatrate/rates</config_path>
+						<frontend_model>Simi\VendorMapping\Block\Adminhtml\Form\Field\ShippingMethod\Flatrate\Rates</frontend_model>
+						<backend_model>Simi\VendorMapping\Model\Config\Backend\ShippingMethod\Flatrate\Rates</backend_model>
+						<comment>Free Shipping: Minimum order amount for free shipping</comment>
+					</field>
+	            </group>
+           	</group>
+    	</section>
+		<section id="carriers">
+			<group id="flatrate" showInDefault="0" showInWebsite="0" showInStore="0" />
+			<!-- vendor flatrate module move here -->
+			<group id="vendors_flatrate" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Vendor Flat Rate</label>
+				<field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+					<label>Enable</label>
+					<config_path>carriers/vflatrate/active</config_path>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+
+				<field id="name" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+					<config_path>carriers/vflatrate/name</config_path>
+					<label>Method Name</label>
+				</field>
+				<field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+					<config_path>carriers/vflatrate/sort_order</config_path>
+					<label>Sort Order</label>
+				</field>
+				<field id="sallowspecific" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+					<label>Ship to Applicable Countries</label>
+					<config_path>carriers/vflatrate/sallowspecific</config_path>
+					<frontend_class>shipping-applicable-country</frontend_class>
+					<source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
+				</field>
+				<field id="specificcountry" translate="label" type="multiselect" sortOrder="91" showInDefault="1" showInWebsite="1" showInStore="0">
+					<label>Ship to Specific Countries</label>
+					<config_path>carriers/vflatrate/specificcountry</config_path>
+					<source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+					<can_be_empty>1</can_be_empty>
+				</field>
+				<field id="showmethod" translate="label" type="select" sortOrder="92" showInDefault="1" showInWebsite="1" showInStore="0">
+					<label>Show Method if Not Applicable</label>
+					<config_path>carriers/vflatrate/showmethod</config_path>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="specificerrmsg" translate="label" type="textarea" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+					<config_path>carriers/vflatrate/specificerrmsg</config_path>
+					<label>Displayed Error Message</label>
+				</field>
+				<field id="shipping_method_flatrate_rates" translate="label" sortOrder="110" showInDefault="1" showInWebsite="0" showInStore="0">
+					<label>Shipping Rates</label>
+					<frontend_class>required-entry</frontend_class>
+					<config_path>shipping_method/flatrate/rates</config_path>
+					<frontend_model>Simi\VendorMapping\Block\Adminhtml\Form\Field\ShippingMethod\Flatrate\Rates</frontend_model>
+					<backend_model>Simi\VendorMapping\Model\Config\Backend\ShippingMethod\Flatrate\Rates</backend_model>
+					<comment>Free Shipping: Minimum order amount for free shipping</comment>
+				</field>
+			</group>
+
+			<!-- custom aramex shipping method -->
+			<group id="aramex">
+                <field id="sallowfromspecific" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ship from Applicable Countries</label>
+                    <frontend_class>shipping-from-applicable-country</frontend_class>
+                    <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+				<field id="fromspecificcountry" translate="label" type="multiselect" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ship from Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <can_be_empty>1</can_be_empty>
+					<depends>
+                        <field id="carriers/aramex/sallowfromspecific">1</field>
+                    </depends>
+                </field>
+			</group>
+		</section>
+    </system>
+</config>

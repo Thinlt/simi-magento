@@ -1,0 +1,16 @@
+<div class="vpb-component-container vpb-component-list" data-bind="
+	visible: isActive,
+	css:{[frontend_class]:true,'vpb-component-editable':editable},
+	attr: {id: getPreviewFieldId()}
+">
+	<div class="team-container">
+		<div class="row">
+			<!-- ko foreach: getItems() -->
+				<!-- ko template: getTemplate() --><!-- /ko -->
+				<!-- ko if: ($index() %4)== 3 || $index()== ($parent.getItemsSize()-1)-->
+					<div class="pb-break-row"></div>
+				<!-- /ko -->
+			<!-- /ko -->
+		</div>
+	</div>
+</div>

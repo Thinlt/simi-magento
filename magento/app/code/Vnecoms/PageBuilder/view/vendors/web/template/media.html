@@ -1,0 +1,79 @@
+<div class="vpb-im-container" visible="getCurrentMediaElm()" afterRender="bindScrollEvent.bind($data)" data-bind="attr: {id: getFieldId()}">
+	<div class="vpb-im-mask"></div>
+	<div class="animated zoomIn vpb-im-box">
+		<div class="vpb-im-header">
+			<h3 class="vpb-im-title" data-bind="text: $t('Change Image')"></h3>
+			<div class="vpb-im-menu">
+				<ul>
+					<li class="first" data-bind="click: setMyImageTab.bind($data), css: {active: isMyImageTab()}"><span data-bind="text: $t('My Images')"></span></li>
+					<li data-bind="click: setPexelsTab.bind($data), css: {active: isPexelsTab()}"><span data-bind="text: $t('Free from Pexels')"></span></li>
+					<li data-bind="click: setWebUrlTab.bind($data), css: {active: isWebUrlTab()}"><span data-bind="text: $t('Web Address (URL)')"></span></li>
+				</ul>
+			</div>
+			<div class="vpb-im-close" data-bind="click: close.bind($data)"><i class="fa fa-close"></i></div>
+			<div class="file-uploader vpb-im-uploader" css="_loading: isLoading" data-bind="visible: isMyImageTab()">
+				<div class="file-uploader-area">
+	                <input type="file" afterRender="onElementRender" attr="id: uid, multiple: isMultipleFiles" name="pagebuilder_image" disable="disabled" />
+	                <label class="btn btn-primary file-uploader-button action-default" attr="for: uid">
+	                	<i class="fa fa-cloud-upload"></i> <!-- ko text: $t('Upload') --><!-- /ko -->
+	                </label>
+	
+	                <span class="file-uploader-spinner"/>
+	                <render args="fallbackResetTpl" if="$data.showFallbackReset && $data.isDifferedFromDefault"/>
+	            </div>
+			</div>
+			<div class="vpb-im-pexels-search" data-bind="visible: isPexelsTab()">
+				<input class="admin__control-text" data-bind="value: pexelsSearch, valueUpdate: 'keyup', attr:{placeholder:$t('Search for free photos')}, event:{keypress: pexelsSearchboxKeyPress.bind($data)}" type="text">
+				<a href="#" class="vpb-im-pexels-searchbtn" data-bind="click: doPexelsSearch.bind($data)"><i class="fa fa-search"></i></a>
+			</div>
+		</div>
+		<div class="vpb-im-content">
+			<div class="vpb-im-drop-zone" css="_loading: isLoading" visible="isMyImageTab()">
+				<div class="vpb-im-selected-container">
+					<!-- ko if: selectedImage() -->
+						<each args="data: [selectedImage()], as: '$file'" render="$parent.getSelectedPreviewTmpl($file)"/>
+					<!-- /ko -->
+					<!-- ko if: !selectedImage() -->
+						<div class="vpb-file-uploader-summary">
+							<div class="vpb-file-uploader-preview vpb-img-noselected">
+								<span data-bind="text: $t('No Selected Image')"></span>
+							</div>
+						</div>
+					<!-- /ko -->
+				</div>
+				<each args="data: getImages(), as: '$file'" render="$parent.getPreviewTmpl($file)"/>
+			</div>
+			
+			<div class="vpb-im-pexels" css="_loading: isLoading" visible="isPexelsTab()">
+				<!-- ko template: getPexelsTemplate() --><!-- /ko -->
+			</div>
+
+			
+			<!-- ko if: isWebUrlTab() -->
+				<div class="vpb-im-weburl">
+					<label class="vpb-im-weburl-label" data-bind="text: $t('Paste an image URL here:'),attr:{for: getFieldId()+'_image_url'}"></label>
+					<input type="text" class="admin__control-text vpb-im-weburl-input" data-bind="value: imageUrl,valueUpdate: 'keyup', event: {change: validateImage.bind($data)}, attr:{id: getFieldId()+'_image_url'}"/>
+					<i class="fa" data-bind="css:{'fa-exclamation-triangle':isValidUrl()===false, 'fa-check': isValidUrl()===true, 'fa-spinner fa-pulse':isCheckingImageUrl()}"></i>
+					
+					<div class="vpb-im-weburl-preview">
+						<!-- ko if: isValidUrl()===true -->
+							<img data-bind="attr: {src: imageUrl()}" />
+						<!-- /ko -->
+						<!-- ko if:  isValidUrl()===false-->
+							<div class="vpb-im-weburl-preview-invalid" data-bind="html: $t('We can\'t find the image at that URL')"></div>
+						<!-- /ko -->
+					</div>
+				</div>
+			<!-- /ko -->
+			
+		</div>
+		<div class="vpb-im-footer">
+			<!-- ko if: isPexelsTab() -->
+			<div class="vpb-im-pexels-photosby">Photos provided by <a href="https://www.pexels.com/" target="_blank">Pexels</a></div>
+			<!-- /ko -->
+			<!-- ko if: isMyImageTab() || isWebUrlTab() -->
+			<button class="btn btn-success scalable apply primary" click="applySelectedImage.bind($data)"><i class="fa fa-check-circle"></i> <span data-bind="text: $t('Apply')"></span></button>
+			<!-- /ko -->
+		</div>
+	</div>
+</div>

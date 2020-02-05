@@ -1,0 +1,112 @@
+<div class="vpb-pagebuilder-container" visible="enablePageBuilder">
+	<div class="vpb-container" data-bind="css: sectionEditVisible()===true?'editing':''">
+		<div class="pdf-header-container">
+			<!-- ko if: !hasHeaderSection() -->
+			<section class="vpb-section pdf-header">
+				<div class="vpb-section-content pb-section-container vpb-section-empty-content">
+					<div class="pb-section vpb-section-empty">
+						<div class="vpb-section-content">
+							<button type="button" class="vpb-btn vpb-btn-addsection" data-bind="click: chooseHeaderSectionTemplate"><span><span data-bind="text: $t('Choose a Header Template')"></span></span></button>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- /ko -->
+			<!-- ko if: hasHeaderSection() -->
+				<!-- ko foreach: {data: getHeaderSections(), as: 'section'} -->
+				<section class="vpb-section pdf-header">
+					<div class="vpb-section-content pb-section-container">
+						<!-- ko template: getTemplate() --><!-- /ko -->
+						<div class="vpb-section-toolbar">
+							<a href="#" data-bind="click: $parent.editSection.bind($parent, section)"><i class="fa fa-edit"></i></a>
+							<a href="#" data-bind="click: $parent.deleteSection.bind($parent, section)"><i class="fa fa-trash-o"></i></a>
+						</div>
+						<!-- 
+						<div class="vpb-section-add vpb-section-add-before"><a href="#" data-bind="text: $t('+'), click: $parent.chooseSectionTemplateBefore.bind($parent, section)"></a></div>
+						<div class="vpb-section-add vpb-section-add-after"><a href="#" data-bind="text: $t('+'), click: $parent.chooseSectionTemplateAfter.bind($parent, section)"></a></div>
+						
+						<div class="vpb-section-move vpb-section-move-up"><a href="#" data-bind="text: $t('Up'), click: $parent.moveSectionUp.bind($parent, section)"></a></div>
+						<div class="vpb-section-move vpb-section-move-down"><a href="#" data-bind="text: $t('Down'), click: $parent.moveSectionDown.bind($parent, section)"></a></div>
+						 -->
+					</div>
+				</section>
+				<!-- /ko -->
+			<!-- /ko -->
+		</div>
+		<div class="pdf-content-container" data-bind="attr:{id: elementId+'content_container'}">
+			<!-- ko if: !hasSection() -->
+			<section class="vpb-section pdf-content">
+				<div class="vpb-section-content pb-section-container vpb-section-empty-content">
+					<div class="pb-section vpb-section-empty">
+						<div class="vpb-section-content">
+							<button type="button" class="vpb-btn vpb-btn-addsection" data-bind="click: chooseSectionTemplate"><span><span data-bind="text: $t('Add a Section')"></span></span></button>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- /ko -->
+			
+			<!-- ko if: hasSection() -->
+				<!-- ko foreach: {data: getSections(), as: 'section'} -->
+				<section class="vpb-section pdf-content">
+					<div class="vpb-section-content pb-section-container">
+						<!-- ko template: getTemplate() --><!-- /ko -->
+						<div class="vpb-section-toolbar">
+							<a href="#" data-bind="click: $parent.editSection.bind($parent, section)"><i class="fa fa-edit"></i></a>
+							<a href="#" data-bind="click: $parent.deleteSection.bind($parent, section)"><i class="fa fa-trash-o"></i></a>
+						</div>
+						<div class="vpb-section-add vpb-section-add-before"><a href="#" data-bind="text: $t('+'), click: $parent.chooseSectionTemplateBefore.bind($parent, section)"></a></div>
+						<div class="vpb-section-add vpb-section-add-after"><a href="#" data-bind="text: $t('+'), click: $parent.chooseSectionTemplateAfter.bind($parent, section)"></a></div>
+						
+						<div class="vpb-section-move vpb-section-move-up"><a href="#" data-bind="click: $parent.moveSectionUp.bind($parent, section)"><i class="fa fa-chevron-up"></i></a></div>
+						<div class="vpb-section-move vpb-section-move-down"><a href="#" data-bind="click: $parent.moveSectionDown.bind($parent, section)"><i class="fa fa-chevron-down"></i></a></div>
+					</div>
+				</section>
+				<!-- /ko -->
+			<!-- /ko -->
+		</div>
+		<div class="pdf-footer-container">
+			<!-- ko if: !hasFooterSection() -->
+			<section class="vpb-section pdf-footer">
+				<div class="vpb-section-content pb-section-container vpb-section-empty-content">
+					<div class="pb-section vpb-section-empty">
+						<div class="vpb-section-content">
+							<button type="button" class="vpb-btn vpb-btn-addsection" data-bind="click: chooseFooterSectionTemplate"><span><span data-bind="text: $t('Choose a Footer Template')"></span></span></button>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- /ko -->
+			
+			<!-- ko if: hasFooterSection() -->
+				<!-- ko foreach: {data: getFooterSections(), as: 'section'} -->
+				<section class="vpb-section pdf-footer">
+					<div class="vpb-section-content pb-section-container">
+						<!-- ko template: getTemplate() --><!-- /ko -->
+						<div class="vpb-section-toolbar">
+							<a href="#" data-bind="click: $parent.editSection.bind($parent, section)"><i class="fa fa-edit"></i></a>
+							<a href="#" data-bind="click: $parent.deleteSection.bind($parent, section)"><i class="fa fa-trash-o"></i></a>
+						</div>
+						<!-- 
+						<div class="vpb-section-add vpb-section-add-before"><a href="#" data-bind="text: $t('+'), click: $parent.chooseSectionTemplateBefore.bind($parent, section)"></a></div>
+						<div class="vpb-section-add vpb-section-add-after"><a href="#" data-bind="text: $t('+'), click: $parent.chooseSectionTemplateAfter.bind($parent, section)"></a></div>
+						
+						<div class="vpb-section-move vpb-section-move-up"><a href="#" data-bind="text: $t('Up'), click: $parent.moveSectionUp.bind($parent, section)"></a></div>
+						<div class="vpb-section-move vpb-section-move-down"><a href="#" data-bind="text: $t('Down'), click: $parent.moveSectionDown.bind($parent, section)"></a></div>
+						 -->
+					</div>
+				</section>
+				<!-- /ko -->
+			<!-- /ko -->
+		</div>
+	</div>
+	
+	<!-- ko template: selectSectionTmpl --><!-- /ko -->
+	<!-- ko template: editSectionTmpl --><!-- /ko -->
+	
+	<!-- ko template: addVariableTmpl --><!-- /ko -->
+	
+	<!-- ko foreach: getRegion('media_manager') -->
+		<!-- ko template: getTemplate() --><!-- /ko -->
+	<!--/ko-->	
+</div>

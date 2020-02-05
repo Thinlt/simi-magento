@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Event/etc/events.xsd">
+    <event name="simi_simiconnector_model_server_initialize">
+        <observer name="Simi_Simicustomize_Simiconnector_Model_Server_Initialize" 
+                  instance="Simi\Simicustomize\Observer\SimiconnectorModelServerInitialize" />
+    </event>
+    <event name="simi_simiconnector_graphql_simi_product_list_item_after">
+        <observer name="Simi_Simicustomize_simiconnector_graphql_simi_product_list_item_after"
+                  instance="Simi\Simicustomize\Observer\SimiGraphqlListItemAfter" />
+    </event>
+    <event name="simi_simiconnector_graphql_simi_product_list_after">
+        <observer name="Simi_Simicustomize_simiconnector_graphql_simi_product_list_after"
+                  instance="Simi\Simicustomize\Observer\SimiGraphqlListAfter" />
+    </event>
+    <event name="simi_simiconnector_graphql_product_detail_extra_field_after">
+        <observer name="Simi_Simicustomize_simiconnector_graphql_product_detail_extra_field_after"
+                  instance="Simi\Simicustomize\Observer\SimiGraphqProductDetailExtraFieldAfter" />
+    </event>
+    <event name="simiconnector_get_storeview_info_after">
+        <observer name="Simi_Simicustomize_simiconnector_get_storeview_info_after"
+                  instance="Simi\Simicustomize\Observer\SimiGetStoreviewInfoAfter" />
+    </event>
+    <event name="simiconnector_system_rest_modify">
+        <observer name="Simi_Simicustomize_simiconnector_system_rest_modify"
+                  instance="Simi\Simicustomize\Observer\SimiSystemRestModify" />
+    </event>
+    <!--<event name="checkout_cart_product_add_before">-->
+        <!--<observer name="Simi_Simicustomize_Simiconnector_Observer_CheckoutCartProductAddBefore" -->
+                  <!--instance="Simi\Simicustomize\Observer\CheckoutCartProductAddBefore" />-->
+    <!--</event>-->
+    <!--<event name="sales_quote_address_collect_totals_before">-->
+        <!--<observer name="Simi_Simicustomize_Simiconnector_Observer_Quote_Address_Collect_Total_Before" -->
+                  <!--instance="Simi\Simicustomize\Observer\QuoteAddressCollectTotalBefore" />-->
+    <!--</event>-->
+    <event name="sales_model_service_quote_submit_before">
+        <observer name="Simi_Simicustomize_sales_model_service_quote_submit_before"
+                  instance="Simi\Simicustomize\Observer\SalesModelServiceQuoteSubmitBefore" />
+    </event>
+    <!--<event name="sales_quote_address_collect_totals_after">-->
+        <!--<observer name="Simi_Simicustomize_sales_quote_address_collect_totals_after" -->
+                  <!--instance="Simi\Simicustomize\Observer\SalesQuoteAddressCollectTotalsAfter" />-->
+    <!--</event>-->
+    <!--<event name="sales_order_place_after">-->
+        <!--<observer name="Simi_Simicustomize_Simiconnector_Observer_Sales_Order_Place_After" -->
+                  <!--instance="Simi\Simicustomize\Observer\SalesOrderPlaceAfter" />-->
+    <!--</event>-->
+    <event name="checkout_cart_product_add_after">
+        <observer name="Simi_Simicustomize_Checkout_Cart_Add_After"
+                  instance="Simi\Simicustomize\Observer\CheckoutCartProductAddAfter" />
+    </event>
+    <event name="payment_method_is_active">
+        <observer name="simicustomize_payment_method_is_active"
+                  instance="Simi\Simicustomize\Observer\PaymentMethodIsActive" />
+    </event>
+</config>

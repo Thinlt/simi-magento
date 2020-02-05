@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <head>
+        <css src="Vnecoms_PdfPro::jquery-filer/css/jquery.filer.css"/>
+        <css src="jquery/fileUploader/css/jquery.fileupload-ui.css"/>
+
+        <css src="Vnecoms_PdfPro::jquery-filer/css/themes/jquery.filer-dragdropbox-theme.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Vnecoms\PdfPro\Block\Adminhtml\Template\Edit" name="vnecoms_advancedpdfprocessor_template_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Vnecoms\PdfPro\Block\Adminhtml\Template\Edit\Tabs" name="advancedpdfprocessor_key_tabs">
+                <block class="Vnecoms\PdfPro\Block\Adminhtml\Template\Edit\Tab\Form" name="advancedpdfprocessor_template_edit_tab_form"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,46 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!--@styles
+   .example-style { color: green; }
+ @-->
+<!--@vars {
+"var data.name":"Name",
+"var data.email":"Email",
+"var data.service":"Type Of Service"
+} @-->
+<!--@subject {{trans "We got one Clothing Alteration Request."}}  @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table>
+  <tr class="email-intro">
+      <td>
+        <p class="greeting">{{trans "Dear Team," }}</p>
+        <p>
+          {{trans "One of our clients just made a request for Clothing Alteration."}}
+        </p>
+        <p>
+          {{trans "Please take a note that %service has been request by Mr/ Ms %customer_name" service=$data.service customer_name=$data.name }}
+        </p>
+      </td>
+  </tr>
+  <tr class="email-summary">
+      <td>
+        <p>
+          {{trans "Make all the necessary arrangements and proceed with the orders by coordinating with the concerned departments."}}
+        </p>
+      </td>
+  </tr>
+  <tr class="email-information">
+      <td>
+        <p>{{trans "Stay Focused."}}</p>
+        <p>{{trans "Cheers"}}</p>
+      </td>
+  </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

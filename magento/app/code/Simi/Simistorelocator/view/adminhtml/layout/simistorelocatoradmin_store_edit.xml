@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Store Locator</title>
+        <css src="Simi_Simistorelocator::css/gallery.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Simi\Simistorelocator\Block\Adminhtml\Store\Edit" name="simistorelocator_store_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Simi\Simistorelocator\Block\Adminhtml\Store\Edit\Tabs" name="store_edit_tabs">
+                <block class="Simi\Simistorelocator\Block\Adminhtml\Store\Edit\Tab\GeneralTab" name="store_edit_tab_general"/>
+                <block class="Simi\Simistorelocator\Block\Adminhtml\Store\Edit\Tab\GmapTab" name="store_edit_tab_gmap">
+                    <block class="Simi\Simistorelocator\Block\Adminhtml\Store\Edit\Tab\GmapTab\Region" name="store_edit_region_updater"/>
+                </block>
+                <block class="Simi\Simistorelocator\Block\Adminhtml\Store\Edit\Tab\ImageGalleryTab" name="store_edit_tab_imagegallery"/>
+                <block class="Simi\Simistorelocator\Block\Adminhtml\Store\Edit\Tab\ScheduleTab" name="store_edit_tab_schedule"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

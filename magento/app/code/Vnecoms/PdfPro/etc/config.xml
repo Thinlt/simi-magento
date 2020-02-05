@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <pdfpro>
+            <general>
+                <enabled>1</enabled>
+                <processor>\Vnecoms\PdfPro\Model\Processors\Mpdf</processor>
+                <default_key>1</default_key>
+                <admin_print_order>1</admin_print_order>
+                <remove_default_print>1</remove_default_print>
+                <allow_customer_print>1</allow_customer_print>
+                <order_email_attach>1</order_email_attach>
+                <invoice_email_attach>1</invoice_email_attach>
+                <shipment_email_attach>1</shipment_email_attach>
+                <creditmemo_email_attach>1</creditmemo_email_attach>
+                <detect_language>1</detect_language>
+                <number_format>2</number_format>
+                <currency_position>8</currency_position>
+                <pdf_title>VnEcoms Team PDF Pro</pdf_title>
+                <pdf_author>VnEcoms Team</pdf_author>
+                <download_lib>https://vnecoms.com/</download_lib><!--change later -->
+            </general>
+            <advanced>
+                <orientation>P</orientation>
+                <minify>1</minify>
+                <page_size>A4</page_size>
+                <autolang>1</autolang>
+            </advanced>
+            <barcode>
+                <symbology>CINcode39</symbology>
+                <thickness>38</thickness>
+                <rotation>0</rotation>
+                <font_family>Arial.ttf</font_family>
+                <font_size>8</font_size>
+                <dpi>96</dpi>
+                <scale>1</scale>
+            </barcode>
+            <qrcode>
+                <level>low</level>
+                <size>70</size>
+                <padding>0</padding>
+                <font_size>6</font_size>
+            </qrcode>
+            <upload>
+                <max_size>5000</max_size>
+                <limit>1</limit>
+                <extensions>zip,rar,tar.gz,tar,bz2</extensions>
+            </upload>
+            <custom>
+                <custom1>Print Custom 1</custom1>
+                <custom2>Print Custom 2</custom2>
+                <custom3>Print Custom 3</custom3>
+            </custom>
+            <filename_format>
+                <order>order_$ID_$y-$M-$d_$H-$m-$s</order>
+                <orders>orders_$y-$M-$d_$H-$m-$s</orders>
+                <invoice>invoice_$ID_$y-$M-$d_$H-$m-$s</invoice>
+                <invoices>invoices_$y-$M-$d_$H-$m-$s</invoices>
+                <shipment>packingslip_$ID_$y-$M-$d_$H-$m-$s</shipment>
+                <shipments>packingslips_$y-$M-$d_$H-$m-$s</shipments>
+                <creditmemo>creditmemo_$ID_$y-$M-$d_$H-$m-$s</creditmemo>
+                <creditmemos>creditmemos_$y-$M-$d_$H-$m-$s</creditmemos>
+                <all>docs_$y-$M-$d_$H-$m-$s</all>
+                <custom1>custom1_$y-$M-$d_$H-$m-$s</custom1>
+                <custom2>custom2_$y-$M-$d_$H-$m-$s</custom2>
+                <custom3>custom3_$y-$M-$d_$H-$m-$s</custom3>
+            </filename_format>
+            <notification>
+                <notice>1</notice>
+                <news>1</news>
+            </notification>
+        </pdfpro>
+    </default>
+</config>

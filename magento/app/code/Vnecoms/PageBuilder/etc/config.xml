@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+    	<pagebuilder>
+    		<general>
+    			<pexels_categories><![CDATA[Abstract
+Animals
+Architecture
+Baby
+Backgrounds
+Business
+Car
+Communication
+Computers
+Conceptual
+Editorial
+Education
+Family
+Food
+Health
+Holiday
+Industry
+Internet
+Landscapes
+Miscellaneous
+Musical
+Nature
+Objects
+Office
+People
+Phone
+Places
+Sports
+Tablet
+Transportation]]></pexels_categories>
+    		</general>
+    	</pagebuilder>
+    </default>
+</config>

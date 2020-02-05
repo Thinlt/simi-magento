@@ -1,0 +1,106 @@
+"Escrow Transaction","Escrow Transaction"
+"ID #","ID #"
+Amount,Amount
+Status,Status
+"Invoice #","Invoice #"
+"Order #","Order #"
+"Created At","Created At"
+"Updated At","Updated At"
+"Are you sure you want to do this?","Are you sure you want to do this?"
+Release,Release
+Cancel,Cancel
+"Escrow Transaction '#%1'","Escrow Transaction '#%1'"
+"Credit Transactions","Credit Transactions"
+"Transaction Id","Transaction Id"
+"Created at","Created at"
+Type,Type
+Description,Description
+Balance,Balance
+Method,Method
+Fee,Fee
+"Net Amount","Net Amount"
+"Withdrawal Requests","Withdrawal Requests"
+"Withdrawal Request","Withdrawal Request"
+"Payment Method","Payment Method"
+"Additional Info","Additional Info"
+"Mark as Completed","Mark as Completed"
+"Cancel Withdrawal Request","Cancel Withdrawal Request"
+"Withdrawal Request '%1'","Withdrawal Request '%1'"
+"Model is not defined in the withdrawal method %1","Model is not defined in the withdrawal method %1"
+"The pending transaction is not exist.","The pending transaction is not exist."
+"The pending credit is canceled.","The pending credit is canceled."
+"The pending credit is released.","The pending credit is released."
+"View Escrow Transaction","View Escrow Transaction"
+"The escrow transaction is not exist.","The escrow transaction is not exist."
+Credit,Credit
+"Escrow Transactions","Escrow Transactions"
+"The withdrawal request is not exist.","The withdrawal request is not exist."
+"The withdrawal request has been canceled.","The withdrawal request has been canceled."
+"The withdrawal request has been completed.","The withdrawal request has been completed."
+"Withdrawal Reqests","Withdrawal Reqests"
+"All Withdrawal Reqests","All Withdrawal Reqests"
+"Pending Withdrawal Reqests","Pending Withdrawal Reqests"
+"View Withdrawal","View Withdrawal"
+"Pending Credit","Pending Credit"
+Sales,Sales
+Transactions,Transactions
+"Withdrawal method is not valid.","Withdrawal method is not valid."
+"Withdrawal method is not available.","Withdrawal method is not available."
+"You need to enter all of your %1 info to use this method.","You need to enter all of your %1 info to use this method."
+"Withdraw Funds","Withdraw Funds"
+"You need to enter your %1 info to use this method.","You need to enter your %1 info to use this method."
+"Your withdrawal amount must be less than your balance amount.","Your withdrawal amount must be less than your balance amount."
+"Your withdrawal amount must be greater than zero","Your withdrawal amount must be greater than zero"
+"Your withdrawal amount must be between %1 - %2","Your withdrawal amount must be between %1 - %2"
+"The withdrawal request is not valid.","The withdrawal request is not valid."
+Withdraw,Withdraw
+"View Withdrawal Request","View Withdrawal Request"
+"Withdrawal History","Withdrawal History"
+"The params is not valid.","The params is not valid."
+Review,Review
+"Your withdrawal request has been submited.","Your withdrawal request has been submited."
+"Escrow cron is ran","Escrow cron is ran"
+"Escrow transaction #%1 is released","Escrow transaction #%1 is released"
+"Amout is not set in %1 on line %2","Amout is not set in %1 on line %2"
+"Item Commission","Item Commission"
+"Commission of order #%1, item %2 x %3","Commission of order #%1, item %2 x %3"
+"Order Payment","Order Payment"
+"Credit from order #%1, invoice #%2","Credit from order #%1, invoice #%2"
+"Withdraw Money","Withdraw Money"
+"Can not cancel this transaction.","Can not cancel this transaction."
+"Can not release this transaction.","Can not release this transaction."
+Fixed,Fixed
+Percent,Percent
+Pending,Pending
+Completed,Completed
+Canceled,Canceled
+Rejected,Rejected
+%1%,%1%
+"Method code of '%1' is not defined.","Method code of '%1' is not defined."
+"Can not cancel this withdrawal request.","Can not cancel this withdrawal request."
+"Can not complete this withdrawal request.","Can not complete this withdrawal request."
+"There are %1 withdrawal requests awaiting for your approval.<br /><a href=""%2"">Click here</a> to review the requests.","There are %1 withdrawal requests awaiting for your approval.<br /><a href=""%2"">Click here</a> to review the requests."
+Withdrawal,Withdrawal
+"There is a withdrawal request awaiting for your approval.<br /><a href='%1'>Click here</a> to review the request.","There is a withdrawal request awaiting for your approval.<br /><a href='%1'>Click here</a> to review the request."
+"Seller Review","Seller Review"
+View,View
+Submit,Submit
+"Seller Dashboard","Seller Dashboard"
+"Add / Subtract Credit","Add / Subtract Credit"
+"Add or subtract credit by entering a positive or negative value. For example: enter 10 to add $10 and -10 to subtract $10","Add or subtract credit by entering a positive or negative value. For example: enter 10 to add $10 and -10 to subtract $10"
+"Add / Edit Credit","Add / Edit Credit"
+"Additional Information","Additional Information"
+"Your balance","Your balance"
+"%1 fee is taken","%1 fee is taken"
+"Withdrawal Amount","Withdrawal Amount"
+Back,Back
+Continue,Continue
+"Your withdrawal amount must be greater than or equal %1","Your withdrawal amount must be greater than or equal %1"
+"Paypal Email Account","Paypal Email Account"
+%1,%1
+Edit,Edit
+"Your Bank Info","Your Bank Info"
+"Bank Name:","Bank Name:"
+"SWIFT Code:","SWIFT Code:"
+"Account Holder:","Account Holder:"
+"Account Number:","Account Number:"

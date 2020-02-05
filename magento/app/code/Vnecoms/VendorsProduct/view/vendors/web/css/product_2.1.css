@@ -1,0 +1,14 @@
+.admin__field-control .update-pending-approval{border:1px solid #f39c12; padding: 5px; display: inline-block;margin-top: 7px;}
+.admin__field-control .update-pending-approval:before{width: 0;height: 0;border-left: 5px solid transparent;border-right: 5px solid transparent;border-bottom: 5px solid #f39c12; display: block; content:''; margin-top: -10px; margin-left: -6px;position: absolute;}
+.admin__control-wysiwig textarea {
+    width: 100%;
+}
+.admin__control-fields .control-grouped {
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+.admin__control-fields .control-grouped .admin__field{margin-top: 0px;}

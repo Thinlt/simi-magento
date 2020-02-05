@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2019 SimiCart. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="catalog_product_load_after">
+        <observer name="simi_vendor_catalog_product_load_after" instance="Simi\VendorMapping\Observer\Catalog\Product\LoadAfterVendor" />
+    </event>
+    
+    <!-- <event name="sales_quote_add_item">
+        <observer name="simi_vendor_sales_quote_add_item" instance="Simi\VendorMapping\Observer\Sales\Quote\AddItem" />
+    </event> -->
+    <event name="simi_simiconnector_graphql_product_detail_extra_field_after">
+        <observer name="simi_vendormapping_simiconnector_graphql_product_detail_extra_field_after"
+                  instance="Simi\VendorMapping\Observer\SimiGraphqProductDetailExtraFieldAfter" />
+    </event>
+
+    <!-- Add vendors list -->
+    <event name="simi_simiconnector_graphql_simi_product_list_item_after">
+        <observer name="simi_vendormapping_simi_simiconnector_graphql_simi_product_list_item_after"
+                  instance="Simi\VendorMapping\Observer\SimiSimiconnectorGraphqlSimiProductListItemAfter" />
+    </event>
+
+    <!-- <event name="simiconnector_get_storeview_info_after">
+        <observer name="simi_vendormapping_simiconnector_get_storeview_info_after"
+                  instance="Simi\VendorMapping\Observer\SimiconnectorGetStoreviewInfoAfter" />
+    </event> -->
+</config>

@@ -1,0 +1,23 @@
+{
+  "name": "vnecoms/module-page-builder",
+  "description": "A Magento 2 module to allow customize pdf blocks",
+  "authors": [
+    {
+      "name": "VNECOMS",
+      "email": "support@vnecoms.com"
+    }
+  ],
+  "require": {
+    "magento/framework": "*"
+  },
+  "type": "magento2-module",
+  "version": "2.3.2",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Vnecoms\\PageBuilder\\": ""
+    }
+  }
+}

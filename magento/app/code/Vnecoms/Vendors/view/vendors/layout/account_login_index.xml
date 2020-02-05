@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="vendor-login" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+    	<css src="Vnecoms_Vendors::css/login.css"/>
+    </head>
+    <body>
+    	<attribute name="class" value="login-page"/>
+        <referenceContainer name="login.content">
+        	<block class="Vnecoms\Vendors\Block\Vendors\Login" name="vendor.login" template="Vnecoms_Vendors::login.phtml">
+        		<block class="Vnecoms\Vendors\Block\Vendors\Messages" name="messages" as="messages"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Copyright 2019 magento. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Ui/etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">simi_sizechart_grid.simi_sizechart_data_source</item>
+            <item name="deps" xsi:type="string">simi_sizechart_grid.simi_sizechart_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">simi_sizechart_listing_columns</item>
+    </argument>
+    <dataSource name="simi_sizechart_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <argument name="name" xsi:type="string">simi_sizechart_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">id</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="sticky" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+        <exportButton name="export_button"/>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="displayArea" xsi:type="string">dataGridFilters</item>
+                    <item name="dataScope" xsi:type="string">filters</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">
+                            simi_sizechart_grid.simi_sizechart_grid.listing_top.bookmarks
+                        </item>
+                        <item name="namespace" xsi:type="string">current.filters</item>
+                    </item>
+                    <item name="childDefaults" xsi:type="array">
+                        <item name="provider" xsi:type="string">
+                            simi_sizechart_grid.simi_sizechart_grid.listing_top.listing_filters
+                        </item>
+                        <item name="imports" xsi:type="array">
+                            <item name="visible" xsi:type="string">
+                                simi_sizechart_grid.simi_sizechart_grid.simi_sizechart_listing_columns.${ $.index }:visible
+                            </item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </filters>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="simi_sizechart_listing_columns">
+        <selectionsColumn name="ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">id</item>
+                    <item name="controlVisibility" xsi:type="boolean">false</item>
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">55</item>
+                    <item name="draggable" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </selectionsColumn>
+        <column name="id" sortOrder="10">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">ID</item>
+                </item>
+            </argument>
+        </column>
+        <column name="product_id" sortOrder="20" class="Simi\Simicustomize\Ui\Component\Listing\Columns\ProductActions" component="Magento_Ui/js/grid/columns/link">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="fieldAction" xsi:type="boolean">false</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Product</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="fieldName" xsi:type="string">product_id</item>
+                    <item name="link" xsi:type="string">product_url</item>
+                </item>
+            </argument>
+        </column>
+        <column name="customer_id" sortOrder="30" class="Simi\Simicustomize\Ui\Component\Listing\Columns\CustomerActions" component="Magento_Ui/js/grid/columns/link">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="fieldAction" xsi:type="boolean">false</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Customer</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="fieldName" xsi:type="string">customer_id</item>
+                    <item name="link" xsi:type="string">customer_url</item>
+                </item>
+            </argument>
+        </column>
+        <column name="bust" sortOrder="40">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="fieldAction" xsi:type="boolean">false</item>
+                    <item name="sortable" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Bust (in cm)</item>
+                    <item name="fieldName" xsi:type="string">bust</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                </item>
+            </argument>
+        </column>
+        <column name="waist" sortOrder="50">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="fieldAction" xsi:type="boolean">false</item>
+                    <item name="sortable" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Waist (in cm)</item>
+                    <item name="fieldName" xsi:type="string">waist</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                </item>
+            </argument>
+        </column>
+        <column name="hip" sortOrder="60">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="fieldAction" xsi:type="boolean">false</item>
+                    <item name="sortable" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Hip (in cm)</item>
+                    <item name="fieldName" xsi:type="string">hip</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                </item>
+            </argument>
+        </column>
+
+        <!-- <column name="store_id" sortOrder="60">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Store ID</item>
+                    <item name="fieldName" xsi:type="string">store_id</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column> -->
+        
+        <column name="created_time" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date" sortOrder="100">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <dateFormat>MMM d, YYYY</dateFormat>
+                <label translate="true">Created Date</label>
+            </settings>
+        </column>
+    </columns>
+</listing>

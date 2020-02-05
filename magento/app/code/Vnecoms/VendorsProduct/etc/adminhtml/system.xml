@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+
+        <section id="vendors">
+            <group id="catalog" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Catalog</label>
+                
+                <field id="product_type_restriction" translate="label tooltip comment" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Product Type Restriction</label>
+                    <source_model>Vnecoms\VendorsProduct\Model\Source\Product\Type</source_model>
+                    <can_be_empty>1</can_be_empty>
+                    <tooltip>Select product types which you DON'T want vendor to use.</tooltip>
+                </field>
+                
+                <field id="attribute_set_restriction" translate="label tooltip comment" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Attribute Set Restriction</label>
+                    <source_model>Vnecoms\VendorsProduct\Model\Source\Product\Set</source_model>
+                    <can_be_empty>1</can_be_empty>
+                    <tooltip>Select attribute sets which you DON'T want vendor to use.</tooltip>
+                </field>
+                
+                <field id="can_set_website" translate="label tooltip" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Allow vendor to set website for product.</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <tooltip>If this option is set to yes, vendor can choose website for the product.</tooltip>
+                </field>
+                
+				<field id="new_product_approval" translate="label tooltip" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>New Product Approval</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <tooltip>If this option is set to "Yes", when vendor add new product the product will need to be reviewed and approved before it is showing on website.</tooltip>
+                </field>
+                
+                <field id="update_product_approval" translate="label tooltip" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Update Product Approval</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <tooltip>If this option is set to "Yes", Anytime vendor update product info the product will need to be reviewed and approved before it is showing on website.</tooltip>
+                </field>
+
+                <field id="attribute_approval_flag" translate="label tooltip" type="select" sortOrder="41" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Attribute Approval Flag</label>
+                    <source_model>Vnecoms\VendorsProduct\Model\Source\Product\Flag</source_model>
+                    <depends>
+                        <field id="update_product_approval">1</field>
+                    </depends>
+                </field>
+
+                <field id="attribute_approval" translate="label tooltip" type="multiselect" sortOrder="42" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Attributes for Approval.</label>
+                    <source_model>Vnecoms\VendorsProduct\Model\Source\Product\Attributes</source_model>
+                    <can_be_empty>1</can_be_empty>
+                    <depends>
+                        <field id="update_product_approval">1</field>
+                    </depends>
+                </field>
+
+                <field id="attribute_restriction" translate="label tooltip" type="multiselect" sortOrder="43" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Hide these attributes in vendor's product form</label>
+                    <source_model>Vnecoms\VendorsProduct\Model\Source\Product\Attributes</source_model>
+                    <can_be_empty>1</can_be_empty>
+                    <tooltip></tooltip>
+                </field>
+                
+                <field id="sender_email_identity" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                
+                <field id="new_product_approval_email_admin" translate="label comment" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>New Product Approval Email Template (Send to admin)</label>
+                    <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                    <tooltip>This email is sent to admin when a vendor submit a new product for approval.</tooltip>
+                    <depends>
+                        <field id="new_product_approval">1</field>
+                    </depends>
+                </field>
+
+                <field id="update_product_approval_email_admin" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Update Product Approval Email Template (Send to admin)</label>
+                    <tooltip>This email is sent to admin when a vendor update an exist product.</tooltip>
+                    <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="update_product_approval">1</field>
+                    </depends>
+                </field>
+                
+                <field id="admin_email_identity" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Admin Email</label>
+                    <comment>Comma-separated</comment>
+                </field>
+                
+                <field id="product_approved_email_vendor" translate="label comment" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>New Product Approved Email Template (Send to vendor)</label>
+                    <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                    <tooltip>This email is sent to vendor when admin approved a vendor's product.</tooltip>
+                    <depends>
+                        <field id="new_product_approval">1</field>
+                    </depends>
+                </field>
+                <field id="update_product_approved_email_vendor" translate="label comment" type="select" sortOrder="95" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Update Product Approved Email Template (Send to vendor)</label>
+                    <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                    <tooltip>This email is sent to vendor when admin approved a vendor's product.</tooltip>
+                    <depends>
+                        <field id="update_product_approval">1</field>
+                    </depends>
+                </field>
+                
+                <field id="product_denied_email_vendor" translate="label comment" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>New Product Denied Email Template (Send to vendor)</label>
+                    <tooltip>This email is sent to vendor when admin deny a vendor product.</tooltip>
+                    <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="new_product_approval">1</field>
+                    </depends>
+                </field>
+                <field id="update_product_denied_email_vendor" translate="label comment" type="select" sortOrder="105" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Update Product Denied Email Template (Send to vendor)</label>
+                    <tooltip>This email is sent to vendor when admin deny a vendor product.</tooltip>
+                    <source_model>Vnecoms\Vendors\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="update_product_approval">1</field>
+                    </depends>
+                </field>
+                <!-- 
+                <field id="product_edit_tabs_template" translate="label tooltip" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Product Edit Tabs Template</label>
+                    <source_model>Vnecoms\VendorsProduct\Model\Config\Source\Tab\Template</source_model>
+                    <tooltip>Change the template of product edit form in vendor cpanel.</tooltip>
+                </field>
+				 -->
+            </group>
+        </section>
+    </system>
+</config>

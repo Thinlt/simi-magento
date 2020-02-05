@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Vnecoms_Vendors:etc/menu.xsd">
+    <menu>    	
+    	<add id="Vnecoms_VendorsSales::sales" icon="fa fa-cart-plus" title="Sales" translate="title" module="Vnecoms_VendorsSales" sortOrder="20" resource="Vnecoms_VendorsSales::sales" dependsOnModule="Vnecoms_VendorsSales" />
+    	<add id="Vnecoms_VendorsSales::sales_orders" title="Orders" translate="title" sortOrder="10" module="Vnecoms_VendorsSales" action="sales/order" parent="Vnecoms_VendorsSales::sales" dependsOnModule="Vnecoms_VendorsSales" resource="Vnecoms_VendorsSales::sales_orders"/>
+    	<add id="Vnecoms_VendorsSales::sales_invoices" title="Invoices" translate="title" sortOrder="20" module="Vnecoms_VendorsSales" action="sales/order_invoice" parent="Vnecoms_VendorsSales::sales" dependsOnModule="Vnecoms_VendorsSales" resource="Vnecoms_VendorsSales::sales_invoices"/>
+    	<add id="Vnecoms_VendorsSales::sales_shipments" title="Shipments" translate="title" sortOrder="30" module="Vnecoms_VendorsSales" action="sales/order_shipment" parent="Vnecoms_VendorsSales::sales" dependsOnModule="Vnecoms_VendorsSales" resource="Vnecoms_VendorsSales::sales_shipments"/>
+    	<add id="Vnecoms_VendorsSales::sales_creditmemo" title="Credit Memos" translate="title" sortOrder="40" module="Vnecoms_VendorsSales" action="sales/order_creditmemo" parent="Vnecoms_VendorsSales::sales" dependsOnModule="Vnecoms_VendorsSales" resource="Vnecoms_VendorsSales::sales_creditmemo"/>
+    </menu>
+</config>

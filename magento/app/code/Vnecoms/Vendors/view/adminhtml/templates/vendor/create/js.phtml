@@ -1,0 +1,71 @@
+<script type="text/javascript">
+    var URL_VERIFY_VENDOR_ID = '<?php echo $block->getUrl('vendors/index/validateVendor');?>';
+    var KEY = '';
+    require([
+        'jquery',
+        'mage/mage',
+        'mage/validation'
+    ], function($){
+
+        $('#vendor_vendor_id').change(function(){
+            $(this).removeClass('valid-vendor');
+            $(this).removeClass('notvalid-vendor');
+            $(this).removeClass('verifying');
+        });
+
+        $('#vendor_vendor_id').blur(function(){
+            var vendorId = $("#vendor_vendor_id").val();
+            if(!vendorId) return;
+
+            KEY = Math.floor((Math.random() * 10000) + 1);
+
+            $(this).addClass('verifying');
+            $.ajax({
+                url: URL_VERIFY_VENDOR_ID,
+                method: "POST",
+                data: {
+                    vendor_id : vendorId,
+                    key_val: KEY
+                },
+                dataType: "json"
+            }).done(function( response ){
+                if(response.key_val != KEY) return;
+                $('#vendor_vendor_id').removeClass('verifying');
+                if(response.valid){
+                    $('#vendor_vendor_id').addClass('valid-vendor').validation().validation('isValid');
+                }else{
+                    $('#vendor_vendor_id').addClass('notvalid-vendor').validation().validation('isValid');
+                }
+
+            });
+        });
+
+
+        var rules = {
+            'validate-vendor-id': [
+                function (value, element) {
+                    if(!$(element).hasClass('valid-vendor')){
+                        return false;
+                    }
+                    return true;
+                },
+                '<?php echo __("The vendor id is not available.")?>'
+            ],
+            'validate-cpassword-customer': [
+                function (value, element) {
+                    var pass = false;
+                    if ($('.validate-customer-password').size()) {
+                        pass = $('.validate-customer-password')[0];
+                    }
+                    return (pass.value == value);
+                },
+                '<?php echo __("Please make sure your passwords match.")?>'
+            ]
+        };
+
+        $.each(rules, function (i, rule) {
+            rule.unshift(i);
+            $.validator.addMethod.apply($.validator, rule);
+        });
+    });
+</script>

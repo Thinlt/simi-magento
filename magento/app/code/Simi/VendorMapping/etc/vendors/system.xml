@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <!-- Store Information Section -->
+        <section id="general">
+            <group id="locale" showInDefault="0"></group>
+            <group id="store_information" translate="label tooltip" type="text" sortOrder="10" showInDefault="1">
+				<label>Store Information</label>
+				<field id="banner" translate="label" type="image" sortOrder="12" showInDefault="1">
+	            	<label>Banner</label>
+	            	<comment>Allowed file types: PNG, GIF, JPG, JPEG</comment>
+	            	<backend_model>Vnecoms\VendorsConfig\Model\Config\Backend\Image</backend_model>
+	            	<upload_dir config="system/filesystem/media" scope_info="1">ves_vendors/banner</upload_dir>
+                    <base_url type="media">ves_vendors/banner</base_url>
+	        	</field>
+			</group>
+		</section>
+
+		<!-- <tab id="store" translate="label" sortOrder="100">
+            <label>Store</label>
+        </tab> -->
+        <!-- About Store Section -->
+        <!-- <section id="about" translate="label" type="text" sortOrder="10" showInDefault="1">
+            <label>About Store</label>
+            <tab>store</tab>
+            <resource>Vnecoms_VendorsConfig::general</resource>
+            <group id="about_information" translate="label tooltip" type="text" sortOrder="10" showInDefault="1">
+				<label>About Information</label>
+	        	<field id="short_description" translate="label" type="textarea" sortOrder="30" showInDefault="1">
+	            	<label>Short Description</label>
+	            	<backend_model>Vnecoms\Vendors\Model\Config\Backend\StoreDescription</backend_model>
+	        	</field>
+			</group>
+		</section> -->
+        <!-- FAQs Section -->
+        <!-- <section id="faqs" translate="label" type="text" sortOrder="100" showInDefault="1">
+            <label>FAQs</label>
+            <tab>store</tab>
+            <resource>Vnecoms_VendorsConfig::general</resource>
+            <group id="faqs_information" translate="label tooltip" type="text" sortOrder="10" showInDefault="1">
+				<label>Store Information</label>
+	        	<field id="short_description" translate="label" type="editor" sortOrder="30" showInDefault="1">
+	            	<label>Short Description</label>
+	            	<frontend_model>Vnecoms\Vendors\Block\System\Config\Form\Field\Editor</frontend_model>
+	        	</field>
+			</group>
+		</section> -->
+    </system>
+</config>

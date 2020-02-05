@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <!-- Store Information Section -->
+        <section id="general" translate="label" type="text" sortOrder="10" showInDefault="1">
+            <label>General</label>
+            <tab>general</tab>
+            <resource>Vnecoms_VendorsConfig::general</resource>
+            <group id="locale" translate="label tooltip" type="text" sortOrder="10" showInDefault="1">
+				<label>Locale Options</label>
+	        	<field id="code" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Locale</label>
+                    <source_model>Vnecoms\VendorsLanguage\Model\Config\Source\Locale</source_model>
+                </field>
+			</group>
+		</section>
+    </system>
+</config>

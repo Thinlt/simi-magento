@@ -1,0 +1,7 @@
+<div class="team-container">
+	<div class="row">
+		<?php foreach($this->getFields() as $fieldId => $fieldData):?>
+            <?php echo $block->getChildHtml($fieldId);?>
+        <?php endforeach?>
+	</div>
+</div>

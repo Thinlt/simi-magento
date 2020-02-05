@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--add notice when Mpdf lib unavailable-->
+    <!--<type name="Magento\Framework\Notification\MessageList">-->
+        <!--<arguments>-->
+            <!--<argument name="messages" xsi:type="array">-->
+                <!--<item name="mpdfOufOfDate" xsi:type="string">Vnecoms\PdfPro\Model\System\Message\MpdfOutOfDate</item>-->
+            <!--</argument>-->
+        <!--</arguments>-->
+    <!--</type>-->
+    <!--<type name="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="sales_order_gridx_data_source" xsi:type="string">Magento\Sales\Model\ResourceModel\Order\Grid\Collection</item>
+                <item name="sales_order_invoice_grid_data_source" xsi:type="string">Magento\Sales\Model\ResourceModel\Order\Invoice\Grid\Collection</item>
+                <item name="sales_order_shipment_grid_data_source" xsi:type="string">Magento\Sales\Model\ResourceModel\Order\Shipment\Grid\Collection</item>
+                <item name="sales_order_creditmemo_grid_data_source" xsi:type="string">Magento\Sales\Model\ResourceModel\Order\Creditmemo\Grid\Collection</item>
+                <item name="sales_order_view_invoice_grid_data_source" xsi:type="string">Magento\Sales\Model\ResourceModel\Order\Invoice\Orders\Grid\Collection</item>
+                <item name="sales_order_view_shipment_grid_data_source" xsi:type="string">Magento\Sales\Model\ResourceModel\Order\Shipment\Order\Grid\Collection</item>
+                <item name="sales_order_view_creditmemo_grid_data_source" xsi:type="string">Magento\Sales\Model\ResourceModel\Order\Creditmemo\Order\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>-->
+
+    <!--upload logo-->
+    <virtualType name="Vnecoms\PdfPro\LogoImageUpload" type="Magento\Catalog\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">ves_pdfpro/logos/tmp</argument>
+            <argument name="basePath" xsi:type="string">ves_pdfpro/logos</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Vnecoms\PdfPro\Controller\Adminhtml\Key\Logo\Upload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Vnecoms\PdfPro\LogoImageUpload</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Vnecoms\PdfPro\ThemeUpload" type="Magento\Catalog\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">ves_pdfpro/templates/tmp</argument>
+            <argument name="basePath" xsi:type="string">ves_pdfpro/templates</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="zip" xsi:type="string">zip</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Vnecoms\PdfPro\Controller\Adminhtml\Key\Theme\Upload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Vnecoms\PdfPro\ThemeUpload</argument>
+        </arguments>
+    </type>
+
+    <!--for after save-->
+    <type name="Vnecoms\PdfPro\Controller\Adminhtml\Key\Save">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Vnecoms\PdfPro\LogoImageUpload</argument>
+        </arguments>
+    </type>
+
+    <!--upload watermark-->
+    <virtualType name="Vnecoms\PdfPro\WatermarkImageUpload" type="Magento\Catalog\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">ves_pdfpro/watermarks/tmp</argument>
+            <argument name="basePath" xsi:type="string">ves_pdfpro/watermarks</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Vnecoms\PdfPro\Controller\Adminhtml\Key\Watermark\Upload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Vnecoms\PdfPro\WatermarkImageUpload</argument>
+        </arguments>
+    </type>
+
+    <!--add some special fieldsets to pdf edit page-->
+    <!--<virtualType name="Vnecoms\PdfPro\Ui\DataProvider\Key\Form\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">-->
+        <!--<arguments>-->
+            <!--<argument name="modifiers" xsi:type="array">-->
+<!--&lt;!&ndash;                <item name="general" xsi:type="array">-->
+                    <!--<item name="class" xsi:type="string">Vnecoms\PdfPro\Ui\DataProvider\Key\Form\Modifier\General</item>-->
+                    <!--<item name="sortOrder" xsi:type="number">10</item>-->
+                <!--</item>&ndash;&gt;-->
+<!--&lt;!&ndash;                <item name="advanced" xsi:type="array">-->
+                    <!--<item name="class" xsi:type="string">Vnecoms\PdfPro\Ui\DataProvider\Key\Form\Modifier\Advanced</item>-->
+                    <!--<item name="sortOrder" xsi:type="number">20</item>-->
+                <!--</item>&ndash;&gt;-->
+            <!--</argument>-->
+        <!--</arguments>-->
+    <!--</virtualType>-->
+
+    <!--<type name="Vnecoms\PdfPro\Ui\DataProvider\Key\Form\KeyDataProvider">-->
+        <!--<arguments>-->
+            <!--<argument name="pool" xsi:type="object">Vnecoms\PdfPro\Ui\DataProvider\Key\Form\Modifier\Pool</argument>-->
+        <!--</arguments>-->
+    <!--</type>-->
+
+    <!--<type name="Vnecoms\PdfPro\Ui\DataProvider\Key\Form\Modifier\General">-->
+        <!--<arguments>-->
+            <!--<argument name="scopeName" xsi:type="string">pdfpro_key_form.pdfpro_key_form</argument>-->
+        <!--</arguments>-->
+    <!--</type>-->
+
+    <!--<type name="Vnecoms\PdfPro\Ui\DataProvider\Key\Form\Modifier\Advanced">-->
+        <!--<arguments>-->
+            <!--<argument name="scopeName" xsi:type="string">pdfpro_key_form.pdfpro_key_form</argument>-->
+        <!--</arguments>-->
+    <!--</type>-->
+
+    <!--<type name="Magento\Sales\Controller\Adminhtml\Invoice\Pdfinvoices">-->
+        <!--<arguments>-->
+            <!--<argument name="pdfInvoice" xsi:type="object">Vnecoms\PdfPro\Model\Order\Pdf\Invoice</argument>-->
+        <!--</arguments>-->
+    <!--</type>-->
+</config>

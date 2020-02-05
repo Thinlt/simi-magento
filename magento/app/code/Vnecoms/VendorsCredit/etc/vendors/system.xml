@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <!-- Store Information Section -->
+        <section id="withdrawal" translate="label" type="text" sortOrder="30" showInDefault="1">
+            <label>Withdrawal Accounts</label>
+            <tab>general</tab>
+            <resource>Vnecoms_VendorsCredit::withdrawal_accounts</resource>
+            
+            <group id="paypal" translate="label tooltip" type="text" sortOrder="10" showInDefault="1">
+				<label>Paypal</label>
+				<field id="email" translate="label" type="text" sortOrder="10" showInDefault="1">
+	            	<label>Paypal Email Account</label>
+	            	<frontend_class>validate-email</frontend_class>
+	        	</field>
+			</group>
+			<group id="wire_transfer" translate="label tooltip" type="text" sortOrder="20" showInDefault="1">
+				<label>Wire Transfer</label>
+				<field id="bank_name" translate="label" type="text" sortOrder="10" showInDefault="1">
+	            	<label>Bank Name</label>
+	        	</field>
+	        	<field id="swift_code" translate="label" type="text" sortOrder="20" showInDefault="1">
+	            	<label>SWIFT Code</label>
+	        	</field>
+	        	
+	        	<field id="account_holder" translate="label" type="text" sortOrder="30" showInDefault="1">
+	            	<label>Account Holder</label>
+	        	</field>
+	        	<field id="account_number" translate="label" type="text" sortOrder="40" showInDefault="1">
+	            	<label>Account Number</label>
+	        	</field>
+			</group>
+		</section>
+    </system>
+</config>

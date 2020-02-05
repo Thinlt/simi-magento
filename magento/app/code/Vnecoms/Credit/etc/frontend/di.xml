@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Catalog\Helper\Product\ConfigurationPool">
+        <arguments>
+            <argument name="instancesByType" xsi:type="array">
+                <item name="store_credit" xsi:type="object">Vnecoms\Credit\Helper\Product\Configuration</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <!-- Add new checkout config to shopping cart / onepage checkout -->
+	<type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="vnecoms_credit_config_provider" xsi:type="object">Vnecoms\Credit\Model\CreditConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Checkout\Block\Onepage">
+        <arguments>
+            <argument name="layoutProcessors" xsi:type="array">
+                <item name="creditFormAttributes" xsi:type="object">Vnecoms\Credit\Block\Checkout\LayoutProcessor</item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+   	<!-- <update handle="vendors_grid"/>
+    <body>
+        <referenceContainer name="content">
+			<block class="Vnecoms\Vendors\Block\Adminhtml\Vendor" name="adminhtml.vendors.grid.container"/>
+        </referenceContainer>
+    </body> -->
+    
+    <update handle="styles"/>
+    <body>
+        <referenceBlock name="page.title">
+            <action method="setTitleClass">
+                <argument name="class" xsi:type="string">complex</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <uiComponent name="vendor_account_listing"/>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,36 @@
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!--@subject {{trans "Welcome to %store_name" store_name=$store.getFrontendName()}} @-->
+<!--@vars {
+"var customer.email":"Customer Email",
+"var customer.name":"Customer Name"
+} @-->
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">{{trans "%name," name=$customer.getName()}}</p>
+<p>{{trans "Welcome to %store_name. Your account is approved" store_name=$store.getFrontendName()}}</p>
+<p>
+    {{trans
+    'To sign in to vendor cpanel, use these credentials during checkout or on the <a href="%customer_url">My Account</a> page:'
+
+    customer_url=$this.getUrl($store,'customer/account/',[_nosid:1])
+    |raw}}
+</p>
+<ul>
+    <li><strong>{{trans "Email:"}}</strong> {{var customer.email}}</li>
+    <li><strong>{{trans "Password:"}}</strong> <em>{{trans "Password you set when creating account"}}</em></li>
+</ul>
+<p>{{trans "When you log in to your account, you will be able to do the following:"}}</p>
+<ul>
+    <li>{{trans "Manage your products"}}</li>
+    <li>{{trans "Manage your orders,shipments"}}</li>
+    <li>{{trans "View invoice, creditmemo"}}</li>
+    <li>{{trans "Make changes to your account information"}}</li>
+    <li>{{trans "Change your password"}}</li>
+    <li>{{trans "Manage your credit and transactions."}}</li>
+</ul>
+{{template config_path="design/email/footer_template"}}

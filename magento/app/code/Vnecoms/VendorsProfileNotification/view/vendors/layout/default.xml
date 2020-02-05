@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="vendor-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+        <css src="Vnecoms_VendorsProfileNotification::css/styles.css"/>
+    </head>
+    <body>
+    	<referenceBlock name="vendor.toplinks">
+            <block class="Vnecoms\VendorsProfileNotification\Block\Vendors\Toplinks\Notifications" after="vendor.toplinks.notification" before="vendor.toplinks.credit" name="vendor.toplinks.profile_notification" template="toplinks/notifications.phtml" />
+   		</referenceBlock>
+    </body>
+</page>

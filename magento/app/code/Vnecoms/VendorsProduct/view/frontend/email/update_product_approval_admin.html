@@ -1,0 +1,29 @@
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<!--@subject Product "{{var product.name}}" has been submited for approval @-->
+<!--@vars {
+"var product_name":"Product name",
+"var email":"Recipient Email address",
+"var name":"Recipient name",
+"var message|raw":"Sender custom message",
+"var sender_email":"Sender email",
+"var sender_name":"Sender name",
+"var product_url":"URL for Product",
+"var product_image":"URL for product small image (75 px)"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<p>{{trans "Vendor %sender_name updated the product \"%product_name\" and submited it for approval. Please review it." sender_name=$vendor.vendor_id product_name=$product.name}}.</p>
+<p>
+	{{trans "Product SKU:"}} <strong>{{var product.sku}}</strong><br />
+	{{trans "Product Name:"}} <strong>{{var product.name}}</strong><br />
+	{{trans "Product Price:"}} <strong>{{var product.price}}</strong><br />
+</p>
+
+{{template config_path="design/email/footer_template"}}

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="Vnecoms_VendorsSales::css/custom.css"/>
+	</head>
+    <body>
+    	<referenceBlock name="order_items">
+			<block class="Vnecoms\VendorsSales\Block\Adminhtml\Order\View" name="vendors_update_order_button"/>
+    		<action method="setTemplate">
+		        <argument name="template" xsi:type="string">Vnecoms_VendorsSales::order/view/items.phtml</argument>
+		    </action>
+    	</referenceBlock>
+    </body>
+</page>

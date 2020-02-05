@@ -1,0 +1,36 @@
+"Manage Pending Config","Manage Pending Config"
+"Review config changes from vendor '%1'","Review config changes from vendor '%1'"
+"Config Changes","Config Changes"
+"This change no longer exists.","This change no longer exists."
+"Update of %1 is approved","Update of %1 is approved"
+"The change is approved.","The change is approved."
+"This vendor no longer exists.","This vendor no longer exists."
+"Manage Seller Config Changes","Manage Seller Config Changes"
+Sellers,Sellers
+"Manage Pending Configurations","Manage Pending Configurations"
+"Update of %1 is rejected","Update of %1 is rejected"
+"The change is rejected.","The change is rejected."
+"You save the change request.","You save the change request."
+label,label
+"The value of this field is changed but it has not been approved yet.","The value of this field is changed but it has not been approved yet."
+"Current working value is: %1","Current working value is: %1"
+"Your update for this field is rejected.","Your update for this field is rejected."
+"Section: %1","Section: %1"
+Field,Field
+"Current Value","Current Value"
+"New Value","New Value"
+Action,Action
+Save,Save
+Cancel,Cancel
+Edit,Edit
+Approve,Approve
+Reject,Reject
+Rejected,Rejected
+"Reject Change","Reject Change"
+"Please enter the reason.","Please enter the reason."
+"Vendor Config","Vendor Config"
+"Approval Fields","Approval Fields"
+ID,ID
+Vendor,Vendor
+"Number of Changes","Number of Changes"
+"Last Update","Last Update"

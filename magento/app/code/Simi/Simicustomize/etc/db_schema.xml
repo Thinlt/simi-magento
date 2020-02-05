@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="sales_order_grid">
+        <column xsi:type="varchar" name="order_type" nullable="true" length="100" comment="Order type"/>
+        <column xsi:type="varchar" name="deposit_order_increment_id" nullable="true" length="100" comment="Deposit Order Id"/>
+        <column xsi:type="varchar" name="service_support_fee" nullable="true" length="100" comment="Service Support Fee"/>
+    </table>
+    <table name="simi_reserve" comment="Sales Product Reserve">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity Id"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" padding="10" nullable="true" comment="Customer ID"/>
+        <column xsi:type="text" name="customer_name" nullable="true" comment="Customer Name"/>
+        <column xsi:type="int" name="product_id" unsigned="true" padding="10" nullable="true" comment="Product ID"/>
+        <column xsi:type="varchar" name="product_name" nullable="true" length="255" comment="Product Name"/>
+        <column xsi:type="int" name="storelocator_id" unsigned="true" padding="10" nullable="true" comment="StoreLocator ID"/>
+        <column xsi:type="varchar" name="store_name" nullable="true" length="255" comment="Store Locator Name"/>
+        <column xsi:type="text" name="request_info" nullable="true" comment="Request Info"/>
+        <column xsi:type="varchar" name="status" nullable="true" length="255" comment="Status"/>
+        <column xsi:type="datetime" name="date" nullable="true" comment="Request date"/>
+        <column xsi:type="datetime" name="reservation_date" nullable="true" comment="Reservation date"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+    <table name="simi_size_chart" comment="Sales Product Size Guide/Chart">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity Id"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" padding="10" nullable="true" comment="Customer ID"/>
+        <column xsi:type="text" name="customer_name" nullable="true" comment="Customer Name"/>
+        <column xsi:type="int" name="product_id" unsigned="true" padding="10" nullable="true" comment="Product ID"/>
+        <column xsi:type="varchar" name="product_name" nullable="true" length="255" comment="Product Name"/>
+        <column xsi:type="float" name="bust" nullable="true" comment="Bust in cm"/>
+        <column xsi:type="float" name="waist" nullable="true" comment="Waist in cm"/>
+        <column xsi:type="float" name="hip" nullable="true" comment="Hip in cm"/>
+        <column xsi:type="datetime" name="created_time" nullable="true" comment="Created date"/>
+        <column xsi:type="int" name="store_id" unsigned="true" padding="10" nullable="true" comment="Store/Website ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+    <table name="simi_contact" comment="Sales Instant Contact">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary Id"/>
+        <column xsi:type="varchar" name="name" nullable="true" length="255" comment="Contact Name"/>
+        <column xsi:type="varchar" name="phone" nullable="true" length="255" comment="Phone Number"/>
+        <column xsi:type="varchar" name="time" nullable="true" length="255" comment="Contact Date Time"/>
+        <column xsi:type="datetime" name="created_time" nullable="true" comment="Created Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+    <table name="simi_service" comment="Clothing alteration services">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary Id"/>
+        <column xsi:type="varchar" name="increment_id" nullable="true" length="32" comment="Increment Id"/>
+        <column xsi:type="text" name="name" nullable="true" comment="Customer Name"/>
+        <column xsi:type="text" name="phone" nullable="true" comment="Customer Phone"/>
+        <column xsi:type="text" name="email" nullable="true" comment="Customer Email"/>
+        <column xsi:type="text" name="address" nullable="true" comment="Customer Address"/>
+        <column xsi:type="text" name="service_text" nullable="true" comment="Type of service"/>
+        <column xsi:type="int" name="service_id" unsigned="true" padding="10" nullable="true" comment="Type of service ID"/>
+        <column xsi:type="int" name="qty" unsigned="true" padding="10" nullable="true" comment="Quantity"/>
+        <column xsi:type="text" name="detail" nullable="true" comment="Details"/>
+        <column xsi:type="text" name="files" nullable="true" comment="Files uploaded"/>
+        <column xsi:type="datetime" name="date" nullable="true" comment="Created At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+</schema>

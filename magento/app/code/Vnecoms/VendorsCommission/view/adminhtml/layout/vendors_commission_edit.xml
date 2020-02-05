@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="left">
+            <block class="Vnecoms\VendorsCommission\Block\Adminhtml\Rule\Edit\Tabs" name="commission_rule_tabs">
+                <block class="Vnecoms\VendorsCommission\Block\Adminhtml\Rule\Edit\Tab\Main" name="commission_rule_tab_main"/>
+                <block class="Vnecoms\VendorsCommission\Block\Adminhtml\Rule\Edit\Tab\Conditions" name="commission_rule_tab_conditions"/>
+                <block class="Vnecoms\VendorsCommission\Block\Adminhtml\Rule\Edit\Tab\Actions" name="commission_rule_tab_actions"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="string">commission_rule_tab_main</argument>
+                </action>
+               <action method="addTab">
+                    <argument name="name" xsi:type="string">conditions_section</argument>
+                    <argument name="block" xsi:type="string">commission_rule_tab_conditions</argument>
+                </action>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">actions_section</argument>
+                    <argument name="block" xsi:type="string">commission_rule_tab_actions</argument>
+                </action>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Vnecoms\VendorsCommission\Block\Adminhtml\Rule\Edit" name="commission_rule_edit"/>
+        </referenceContainer>
+        <referenceContainer name="js">
+            <block class="Vnecoms\VendorsCommission\Block\Adminhtml\Rule\Edit\Js" template="commission/js.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

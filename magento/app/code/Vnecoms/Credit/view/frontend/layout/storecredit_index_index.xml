@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Vnecoms\Credit\Block\Customer\Credit" name="customer.credit" template="customer/credit.phtml" cacheable="false">
+               	<block class="Vnecoms\Credit\Block\Customer\Credit" name="customer.credit.balance" template="customer/credit/balance.phtml" cacheable="false"/>
+               	<block class="Vnecoms\Credit\Block\Customer\Credit\Transaction" name="customer.credit.transactions" template="customer/credit/transactions.phtml" cacheable="false"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

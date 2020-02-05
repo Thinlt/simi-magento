@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="vendors_sales_order_new_template" label="New Order - vendor" file="new_order_vendor.html" type="html" module="Vnecoms_VendorsSales" area="frontend"/>
+    <template id="vendors_sales_shipment_new_template" label="New Shipment Order - vendor" file="new_order_shipment_vendor.html" type="html" module="Vnecoms_VendorsSales" area="frontend"/>
+    <template id="vendors_sales_invoice_new_template" label="New Invoice Order - vendor" file="new_order_invoice_vendor.html" type="html" module="Vnecoms_VendorsSales" area="frontend"/>
+    <template id="vendors_sales_creditmemo_new_template" label="New Creditmemo Order - vendor" file="new_order_creditmemo_vendor.html" type="html" module="Vnecoms_VendorsSales" area="frontend"/>
+</config>

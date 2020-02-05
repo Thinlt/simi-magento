@@ -1,0 +1,73 @@
+<div class="field field-<?php echo $block->getFieldId()?><?php if($block->isAttributeRequired()):?> required<?php endif;?>">
+    <label for="<?php echo $block->getFieldId()?>" class="label">
+        <span><?php echo $block->getStoreLabel()?></span>
+    </label>
+
+    <div class="control">
+        <input type="text" class="<?php echo $block->getFrontendClass()?> validate-vendor-id" title="<?php echo $block->getStoreLabel()?>" value="<?php echo $block->getFieldValue();?>" name="<?php echo $block->getFieldName();?>" id="<?php echo $block->getFieldId()?>">
+    </div>
+</div>
+
+<script type="text/javascript">
+var URL_VERIFY_VENDOR_ID = '<?php echo $block->getVerifyVendorIdUrl();?>';
+var KEY = '';
+require([
+     'jquery',
+     'mage/mage',
+     'mage/validation'
+], function($){
+	
+	$('#<?php echo $block->getFieldId()?>').change(function(){
+		$(this).removeClass('valid-vendor');
+		$(this).removeClass('notvalid-vendor');
+		$(this).removeClass('verifying');
+	});
+
+	function vaidateVendorId(){
+        var vendorId = $("#<?php echo $block->getFieldId()?>").val();
+        if(!vendorId) return;
+        
+        KEY = Math.floor((Math.random() * 10000) + 1);
+        
+        $(this).addClass('verifying');
+    	$.ajax({
+  		  url: URL_VERIFY_VENDOR_ID,
+  		  method: "POST",
+  		  data: {
+      		  vendor_id : vendorId,
+      		  key: KEY
+		  },
+  		  dataType: "json"
+		}).done(function( response ){
+			if(response.key != KEY) return;
+			$('#<?php echo $block->getFieldId()?>').removeClass('verifying');
+			if(response.valid){
+				$('#<?php echo $block->getFieldId()?>').addClass('valid-vendor').validation().validation('isValid');
+			}else{
+				$('#<?php echo $block->getFieldId()?>').addClass('notvalid-vendor').validation().validation('isValid');
+			}
+			
+		});
+    }
+    
+    $('#<?php echo $block->getFieldId()?>').blur(vaidateVendorId);
+    vaidateVendorId();
+    
+    var rules = {
+	   'validate-vendor-id': [
+          function (value, element) {
+        	  if(!$(element).hasClass('valid-vendor')){
+           		   return false;
+       		   }
+            return true;
+          },
+          '<?php echo __("The vendor id is not available.")?>'
+        ],
+    };
+    
+    $.each(rules, function (i, rule) {
+        rule.unshift(i);
+        $.validator.addMethod.apply($.validator, rule);
+    });
+});
+</script>

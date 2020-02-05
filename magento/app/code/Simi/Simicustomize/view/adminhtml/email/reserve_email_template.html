@@ -1,0 +1,25 @@
+<!--@vars {
+"var data.customer_email":"Sender Email",
+"var data.customer_name":"Sender Name"
+"var data.store_name":"Store Name"
+"var data.store_address":"Store address"
+"var data.reservation_date":"Reservation date"
+"var data.product_name":"Product Name"
+"var data.category_name":"Category Name"
+} @-->
+<!--@subject {{trans "Confirmed - Your Reservation for the Dress is Safe with us."}}  @-->
+
+Hi {{trans "%name" name=$data.customer_name}},
+
+Greetings of the day from BIANCA NERA.
+
+Thank you for making the reservation for your dress through our website.
+
+Your reserved product {{trans "%product_name" product_name=$data.product_name}} {{trans "%info" info=$data.request_info}} from our {{trans "%category_name" category_name=$data.category_name}} Category has been safely kept aside.
+
+We request you to visit our showroom at {{trans "%store_address" store_address=$data.store_address}} on {{trans "%date" date=$data.reservation_date}} to try out the dress.
+
+We will be ready to welcome you.
+
+Happy Shopping
+Team Bianca Nera

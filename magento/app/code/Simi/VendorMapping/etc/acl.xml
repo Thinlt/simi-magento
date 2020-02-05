@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Simi_VendorMapping::vendorMapping" title="Simi VendorMapping" sortOrder="10">
+                    <resource id="Simi_VendorMapping::vendor_giftcard" title="Voucher" sortOrder="10">
+                        <resource id="Simi_VendorMapping::vendor_giftcard_pools" title="Manage Gift Card Pools" sortOrder="10" />
+                        <resource id="Simi_VendorMapping::vendor_giftcard_codes" title="Manage Gift Card Codes" sortOrder="20" />
+                        <resource id="Simi_VendorMapping::vendor_giftcard_products" title="Manage Gift Card Products" sortOrder="30" />
+                    </resource>
+                    <resource id="Simi_VendorMapping::configuration" title="Configuration" sortOrder="1000" />
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

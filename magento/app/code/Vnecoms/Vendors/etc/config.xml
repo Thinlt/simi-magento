@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <vendors>
+        	<general>
+        		<enabled>1</enabled>
+        		<start_page>dashboard</start_page>
+        	</general>
+        	
+        	<design>
+        		<panel_type>1</panel_type>
+        		<skin>blue</skin>
+        		<head_default_title>Vnecoms Marketplace</head_default_title>
+        		<footer_text><![CDATA[<strong>Copyright &copy; 2016 <a href="http://www.vnecoms.com">Vnecoms</a>.</strong> All rights reserved.]]></footer_text>
+        	</design>
+        	<profile>
+        		<show_short_description>1</show_short_description>
+        		<description_size>54</description_size>
+        		<address_template>{{var region}}, {{var country}}</address_template>
+        		<show_phone>1</show_phone>
+        		<show_operation_time>1</show_operation_time>
+        	</profile>
+        	<create_account>
+        		<vendor_register>1</vendor_register>
+        		<vendor_register_type>0</vendor_register_type>
+        		<enable_agreement>1</enable_agreement>
+        		<agreement_label><![CDATA[I agree to the <a target="_blank" href="https://www.vnecoms.com/customer-service/">Seller Registration Agreement</a>.]]></agreement_label>
+        		<vendor_approval>1</vendor_approval>
+        		<default_group>1</default_group>
+				<send_approved>1</send_approved>
+				<email_template_approved>vendors_create_account_email_template_approved</email_template_approved>
+				<email_template>vendors_create_account_email_template</email_template>
+				<email_identity>general</email_identity>
+        	</create_account>
+            <url>
+            	<use_custom>0</use_custom>
+                <use_custom_path>0</use_custom_path>
+            </url>
+			<admin_notification>
+				<email_template_approved>vendors_admin_notification_email_template_approved</email_template_approved>
+				<email_template_pending>vendors_admin_notification_email_template_pending</email_template_pending>
+			</admin_notification>
+        </vendors>
+    </default>
+    <websites>
+        <vendors>
+            <web>
+                <routers>
+                    <frontend>
+                        <disabled>true</disabled>
+                    </frontend>
+                </routers>
+                <default>
+                    <no_route>vendors/noroute/index</no_route>
+                </default>
+            </web>
+        </vendors>
+    </websites>
+</config>

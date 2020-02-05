@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+        <update id="Aheadworks_Giftcard::home" title="Gift Voucher" translate="title" module="Aheadworks_Giftcard" sortOrder="50" parent="Vnecoms_Vendors::marketplace" resource="Aheadworks_Giftcard::home"/>
+        <update id="Aheadworks_Giftcard::code_pools" title="Gift Code Pools" translate="title" module="Aheadworks_Giftcard" sortOrder="10" parent="Aheadworks_Giftcard::home" action="aw_giftcard_admin/pool/index" resource="Aheadworks_Giftcard::code_pools"/>
+    </menu>
+</config>

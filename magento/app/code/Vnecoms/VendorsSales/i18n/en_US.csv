@@ -1,0 +1,321 @@
+"Update Qty's","Update Qty's"
+Refund,Refund
+"Refund Offline","Refund Offline"
+"Paid Amount","Paid Amount"
+"Refund Amount","Refund Amount"
+"Shipping Amount","Shipping Amount"
+"Shipping Refund","Shipping Refund"
+"Order Grand Total","Order Grand Total"
+"New Credit Memo for Invoice #%1","New Credit Memo for Invoice #%1"
+"New Credit Memo for Order #%1","New Credit Memo for Order #%1"
+"Shipping & Handling","Shipping & Handling"
+"Adjustment Refund","Adjustment Refund"
+"Adjustment Fee","Adjustment Fee"
+Edit,Edit
+Cancel,Cancel
+"Are you sure you want to send an order email to customer?","Are you sure you want to send an order email to customer?"
+"Send Email","Send Email"
+"This will create an offline refund. ","This will create an offline refund. "
+"Credit Memo","Credit Memo"
+"Are you sure you want to void the payment?","Are you sure you want to void the payment?"
+Void,Void
+Hold,Hold
+hold,hold
+Unhold,Unhold
+unhold,unhold
+"Are you sure you want to accept this payment?","Are you sure you want to accept this payment?"
+"Accept Payment","Accept Payment"
+"Are you sure you want to deny this payment?","Are you sure you want to deny this payment?"
+"Deny Payment","Deny Payment"
+"Get Payment Update","Get Payment Update"
+"Invoice and Ship","Invoice and Ship"
+Invoice,Invoice
+Ship,Ship
+Reorder,Reorder
+"Submit Shipment","Submit Shipment"
+"New Shipment for Order #%1","New Shipment for Order #%1"
+"You are trying to add a quantity for some products that doesn't match the quantity that was shipped.","You are trying to add a quantity for some products that doesn't match the quantity that was shipped."
+"Products should be added to package(s)","Products should be added to package(s)"
+"The value that you entered is not valid.","The value that you entered is not valid."
+"Add Tracking Number","Add Tracking Number"
+"Custom Value","Custom Value"
+Order,Order
+Purchased,Purchased
+"Bill-to Name","Bill-to Name"
+"Ship-to Name","Ship-to Name"
+"Order Total","Order Total"
+"Purchase Point","Purchase Point"
+Orders,Orders
+Home,Home
+"Seller Dashboard","Seller Dashboard"
+"No Vendor","No Vendor"
+"Total Paid","Total Paid"
+"Total Refunded","Total Refunded"
+"Total Due","Total Due"
+"Are you sure you want to send a credit memo email to customer?","Are you sure you want to send a credit memo email to customer?"
+Print,Print
+"The credit memo email was sent.","The credit memo email was sent."
+"The credit memo email wasn't sent.","The credit memo email wasn't sent."
+"Credit Memo #%1 | %3 | %2 (%4)","Credit Memo #%1 | %3 | %2 (%4)"
+"Submit Invoice and Shipment","Submit Invoice and Shipment"
+"Submit Invoice","Submit Invoice"
+"New Invoice and Shipment for Order #%1","New Invoice and Shipment for Order #%1"
+"New Invoice for Order #%1","New Invoice for Order #%1"
+"Are you sure you want to send an invoice email to customer?","Are you sure you want to send an invoice email to customer?"
+Capture,Capture
+"The invoice email was sent.","The invoice email was sent."
+"The invoice email wasn't sent.","The invoice email wasn't sent."
+"Invoice #%1 | %2 | %4 (%3)","Invoice #%1 | %2 | %4 (%3)"
+"Send Tracking Information","Send Tracking Information"
+"Are you sure you want to send a Shipment email to customer?","Are you sure you want to send a Shipment email to customer?"
+"the shipment email was sent","the shipment email was sent"
+"the shipment email is not sent","the shipment email is not sent"
+"Shipment #%1 | %3 (%2)","Shipment #%1 | %3 (%2)"
+Add,Add
+"Submit Comment","Submit Comment"
+"We can't get the order instance right now.","We can't get the order instance right now."
+"Order View","Order View"
+"Order # %1 %2 | %3","Order # %1 %2 | %3"
+"This order contains (%1) items and therefore cannot be edited through the admin interface. ","This order contains (%1) items and therefore cannot be edited through the admin interface. "
+"Are you sure? This order will be canceled and a new one will be created instead.","Are you sure? This order will be canceled and a new one will be created instead."
+"Are you sure you want to cancel this order?","Are you sure you want to cancel this order?"
+"The order no longer exists.","The order no longer exists."
+"We can't create credit memo for the order.","We can't create credit memo for the order."
+"Credit Memos","Credit Memos"
+"New Memo for #%1","New Memo for #%1"
+"New Memo (%1)","New Memo (%1)"
+"The credit memo's total must be positive.","The credit memo's total must be positive."
+"Cannot create online refund for Refund to Store Credit.","Cannot create online refund for Refund to Store Credit."
+"You created the credit memo.","You created the credit memo."
+"We can't save the credit memo right now.","We can't save the credit memo right now."
+"We can't update the item's quantity right now.","We can't update the item's quantity right now."
+"View Memo for #%1","View Memo for #%1"
+"View Memo","View Memo"
+"Manage Seller's Invoices","Manage Seller's Invoices"
+"Manage Seller's Orders","Manage Seller's Orders"
+"You created the shipping label.","You created the shipping label."
+Shipments,Shipments
+"New Shipment (%1)","New Shipment (%1)"
+"We can't save the shipment right now.","We can't save the shipment right now."
+"The shipment has been created.","The shipment has been created."
+"An error occurred while creating shipping label.","An error occurred while creating shipping label."
+"Cannot save shipment.","Cannot save shipment."
+"Shipment Document Validation Error(s):\n","Shipment Document Validation Error(s):\n"
+"Cannot do shipment for the order separately from invoice.","Cannot do shipment for the order separately from invoice."
+"Cannot do shipment for the order.","Cannot do shipment for the order."
+"Seller Panel","Seller Panel"
+"%1 order(s) cannot be canceled.","%1 order(s) cannot be canceled."
+"You cannot cancel the order(s).","You cannot cancel the order(s)."
+"We canceled %1 order(s).","We canceled %1 order(s)."
+"There are no printable documents related to selected orders.","There are no printable documents related to selected orders."
+"There are no shipping labels related to selected orders.","There are no shipping labels related to selected orders."
+"Exception occurred during order load","Exception occurred during order load"
+Sales,Sales
+"This order does not exists.","This order does not exists."
+"This order no longer exists.","This order no longer exists."
+"You sent the message.","You sent the message."
+Invoices,Invoices
+Creditmemos,Creditmemos
+"Please enter a comment.","Please enter a comment."
+"We cannot add order history.","We cannot add order history."
+"You canceled the order.","You canceled the order."
+"You have not canceled the item.","You have not canceled the item."
+"Cannot add new comment.","Cannot add new comment."
+"The credit memo has been canceled.","The credit memo has been canceled."
+"Credit memo has not been canceled.","Credit memo has not been canceled."
+Creditmemo,Creditmemo
+"New Creditmemo","New Creditmemo"
+"New Memo","New Memo"
+"View Creditmemo","View Creditmemo"
+"The order does not allow an invoice to be created.","The order does not allow an invoice to be created."
+"You can't create an invoice without products.","You can't create an invoice without products."
+"New Invoice","New Invoice"
+"We can't save the invoice right now.","We can't save the invoice right now."
+"The invoice and the shipment  have been created. ","The invoice and the shipment  have been created. "
+"You created the invoice and shipment.","You created the invoice and shipment."
+"The invoice has been created.","The invoice has been created."
+"We can't send the invoice email right now.","We can't send the invoice email right now."
+"We can't send the shipment right now.","We can't send the shipment right now."
+"Cannot update item quantity.","Cannot update item quantity."
+"Please specify a carrier.","Please specify a carrier."
+"Please enter a tracking number.","Please enter a tracking number."
+"We can't initialize shipment for adding tracking number.","We can't initialize shipment for adding tracking number."
+"Cannot add tracking number.","Cannot add tracking number."
+"You sent the shipment.","You sent the shipment."
+"Cannot send shipment information.","Cannot send shipment information."
+"New Shipment","New Shipment"
+"We don't recognize or support the file extension in this shipment: %1.","We don't recognize or support the file extension in this shipment: %1."
+"We can't initialize shipment for delete tracking number.","We can't initialize shipment for delete tracking number."
+"We can't delete tracking number.","We can't delete tracking number."
+"We can't load track with retrieving identifier right now.","We can't load track with retrieving identifier right now."
+"There are no shipping labels related to selected shipments.","There are no shipping labels related to selected shipments."
+"Credit Memo # ","Credit Memo # "
+"Order # ","Order # "
+"Order Date: ","Order Date: "
+"Sold to:","Sold to:"
+"Ship to:","Ship to:"
+"Payment Method:","Payment Method:"
+"Payment Method","Payment Method"
+"Shipping Method:","Shipping Method:"
+"Total Shipping Charges","Total Shipping Charges"
+"Invoice # ","Invoice # "
+Products,Products
+Qty,Qty
+SKU,SKU
+"Packing Slip # ","Packing Slip # "
+Carrier,Carrier
+Title,Title
+Number,Number
+"We cannot cancel this order.","We cannot cancel this order."
+"We cannot register an existing credit memo.","We cannot register an existing credit memo."
+"The most money available to refund is %1.","The most money available to refund is %1."
+"New order #%1 is placed","New order #%1 is placed"
+View,View
+"Payment &amp; Shipping Method","Payment &amp; Shipping Method"
+"Payment Information","Payment Information"
+"The order was placed using %1.","The order was placed using %1."
+"Shipping Information","Shipping Information"
+"Incl. Tax","Incl. Tax"
+"Items to Refund","Items to Refund"
+Product,Product
+Price,Price
+"Return to Stock","Return to Stock"
+"Qty to Refund","Qty to Refund"
+Subtotal,Subtotal
+"Tax Amount","Tax Amount"
+"Discount Amount","Discount Amount"
+"Row Total","Row Total"
+"No Items To Refund","No Items To Refund"
+"Credit Memo Comments","Credit Memo Comments"
+"Comment Text","Comment Text"
+"Refund Totals","Refund Totals"
+"Append Comments","Append Comments"
+"Email Copy of Credit Memo","Email Copy of Credit Memo"
+"Please enter a positive number in this field.","Please enter a positive number in this field."
+"Seller: %1","Seller: %1"
+"No Seller","No Seller"
+"Items to Ship","Items to Ship"
+"Qty to Ship","Qty to Ship"
+"Shipment Total","Shipment Total"
+"Shipment Comments","Shipment Comments"
+"Shipment Options","Shipment Options"
+"Create Shipping Label","Create Shipping Label"
+"Email Copy of Shipment","Email Copy of Shipment"
+"Invalid value(s) for Qty to Ship","Invalid value(s) for Qty to Ship"
+"Select All","Select All"
+"Product Name","Product Name"
+Weight,Weight
+"Customs Value","Customs Value"
+"Qty Ordered","Qty Ordered"
+Delete,Delete
+Package,Package
+Type,Type
+"Total Weight","Total Weight"
+Size,Size
+Length,Length
+Width,Width
+Height,Height
+"Signature Confirmation","Signature Confirmation"
+Contents,Contents
+Girth,Girth
+"Items in the Package","Items in the Package"
+Packages,Packages
+"Create Packages","Create Packages"
+Save,Save
+"Add Package","Add Package"
+Action,Action
+"Shopping Cart Items","Shopping Cart Items"
+Item,Item
+"Continue Shopping","Continue Shopping"
+"Clear Shopping Cart","Clear Shopping Cart"
+"Update Shopping Cart","Update Shopping Cart"
+Items,Items
+"Gift Message","Gift Message"
+From:,From:
+To:,To:
+Message:,Message:
+"Gift Message for this Order","Gift Message for this Order"
+"Shipped By","Shipped By"
+"Tracking Number","Tracking Number"
+"Items Ordered","Items Ordered"
+Close,Close
+From,From
+To,To
+Tax,Tax
+Ordered,Ordered
+Invoiced,Invoiced
+Shipped,Shipped
+Refunded,Refunded
+Canceled,Canceled
+"Excl. Tax","Excl. Tax"
+"Items Refunded","Items Refunded"
+"No Items","No Items"
+"Memo Total","Memo Total"
+"Credit Memo History","Credit Memo History"
+"Credit Memo Totals","Credit Memo Totals"
+"Create Shipment","Create Shipment"
+"Invoice and shipment types do not match for some items on this order. You can create a shipment only after creating the invoice.","Invoice and shipment types do not match for some items on this order. You can create a shipment only after creating the invoice."
+%1,%1
+"Qty to Invoice","Qty to Invoice"
+"Invoice History","Invoice History"
+"Invoice Comments","Invoice Comments"
+"Invoice Totals","Invoice Totals"
+"Capture Amount","Capture Amount"
+Amount,Amount
+"Capture Online","Capture Online"
+"Capture Offline","Capture Offline"
+"Not Capture","Not Capture"
+"The invoice will be created offline without the payment gateway.","The invoice will be created offline without the payment gateway."
+"Email Copy of Invoice","Email Copy of Invoice"
+"Items Invoiced","Items Invoiced"
+"Add Selected Product(s) to Package","Add Selected Product(s) to Package"
+"Add Products to Package","Add Products to Package"
+"USPS domestic shipments don't use package types.","USPS domestic shipments don't use package types."
+in,in
+cm,cm
+lb,lb
+kg,kg
+"Delete Package","Delete Package"
+Explanation,Explanation
+"Shipping and Tracking Information","Shipping and Tracking Information"
+"Track this shipment","Track this shipment"
+"Items Shipped","Items Shipped"
+"Shipment History","Shipment History"
+"Qty Shipped","Qty Shipped"
+"Total Tax","Total Tax"
+"Are you sure?","Are you sure?"
+Status,Status
+Comment,Comment
+"Notify Customer by Email","Notify Customer by Email"
+"Visible on Storefront","Visible on Storefront"
+Customer,Customer
+"Notification Not Applicable","Notification Not Applicable"
+Notified,Notified
+"Not Notified","Not Notified"
+"Shipping &amp; Handling Information","Shipping &amp; Handling Information"
+"Track Order","Track Order"
+"No shipping information available","No shipping information available"
+"Order & Account Information","Order & Account Information"
+"The order confirmation email was sent","The order confirmation email was sent"
+"The order confirmation email is not sent","The order confirmation email is not sent"
+"Order # %1","Order # %1"
+"Order Date","Order Date"
+"Order Date (%1)","Order Date (%1)"
+"Order Status","Order Status"
+"Purchased From","Purchased From"
+"Link to the New Order","Link to the New Order"
+"Link to the Previous Order","Link to the Previous Order"
+"%1 / %2 rate:","%1 / %2 rate:"
+"Account Information","Account Information"
+"Customer Name","Customer Name"
+Email,Email
+"Customer Group","Customer Group"
+"Address Information","Address Information"
+"Billing Address","Billing Address"
+"Shipping Address","Shipping Address"
+"Item Status","Item Status"
+"Original Price","Original Price"
+"Tax Percent","Tax Percent"
+"Notes for this Order","Notes for this Order"
+"Comment added","Comment added"
+"Order Totals","Order Totals"

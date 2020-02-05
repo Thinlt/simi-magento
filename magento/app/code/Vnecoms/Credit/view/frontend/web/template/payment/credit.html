@@ -1,0 +1,70 @@
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!-- ko if: canUseCredit() -->
+<div class="payment-option opc-payment-additional payment-credit-container" data-bind="blockLoader: isLoading">
+	<div class="payment-method-title field choice" data-role="title">
+		<!-- ko foreach: getRegion('messages') -->
+	    <!-- ko template: getTemplate() --><!-- /ko -->
+	    <!--/ko-->
+	    
+     	<input class="input-text"
+                    type="checkbox"
+                    id="use-store-credit"
+                    name="use_store_credit" 
+                    value="1"
+                    data-bind="attr:{checked: isApplied()?'checked':null} ,click: toggleUseCredit()"/>
+
+
+         <label class="label" for="use-store-credit">
+             <span data-bind="text:$t('Use store credit to checkout (%1 available)').replace('%1',getAvailableCredit()), click: toggleUseCredit()"></span>
+         </label>
+    </div>
+    <div class="payment-option-content credit-option-content" data-role="content" id="use-credit-container" data-bind="css:{_show: isApplied()}">
+        <form class="form form-credit" id="credit-form">
+            <div class="payment-option-inner">
+                <div class="field">
+                    <div class="control">
+                    	<div class="credit-label">
+                    		<!-- ko i18n: 'You\'re spending: '--><!-- /ko -->
+                    		<div class="used-credit-container">
+	                    		<span class="used-credit" data-bind="text:formatBasePrice(baseCreditAmount())"></span> 
+	                    		<!-- ko ifnot: currentCurrencyIsBaseCurrency() -->
+	                    		<span data-bind="text:'('+formatPrice(creditAmount())+')'"></span>
+	                    		<!-- /ko -->
+                    			<a class="credit-icon credit-edit" href="javascript: void(0)" data-bind="click: setEditMode,attr: {title: $t('Edit')}"><!-- ko i18n: 'Edit'--><!-- /ko --></a>
+                    			
+                    			<!-- ko if: isApplied() -->
+		                        <a class="credit-icon credit-delete" href="javascript: void(0)" data-bind="click: cancel,attr: {title: $t('Cancel Credit')}">
+		                            <span><!-- ko i18n: 'Cancel Credit'--><!-- /ko --></span>
+		                        </a>
+		                    	<!-- /ko -->
+                    		</div>
+                    	</div>
+                    	<div class="credit-amount-cotainer">
+	                        <input class="input-text"
+	                               type="text"
+	                               id="credit-amount"
+	                               name="credit_amount"
+	                               data-validate="{'required-entry':true, 'validate-number':true}"
+	                               data-bind="value: baseCreditAmount, attr:{placeholder: $t('Enter credit amount')} " />
+	                        
+	                        <a class="credit-icon credit-apply" href="javascript: void(0)" data-bind="click: apply,attr: {title: $t('Apply Credit')}">
+	                            <span><!-- ko i18n: 'Apply Credit'--><!-- /ko --></span>
+	                        </a>
+	                        
+	                        <a class="credit-icon credit-close" href="javascript: void(0)" data-bind="click: setReadOnlyMode,attr: {title: $t('Close')}">
+	                            <span><!-- ko i18n: 'Close'--><!-- /ko --></span>
+	                        </a>
+                    	</div>
+                    </div>
+                </div>
+            </div>
+			<div data-bind="text:initTooltip()"></div>
+        </form>
+    </div>
+</div>
+<!-- /ko -->

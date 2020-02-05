@@ -1,0 +1,19 @@
+<?php 
+
+$om = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $om->get('\Magento\Customer\Model\Session');
+$customer = $customerSession->getCustomer();
+echo $customer->getEmail();
+?>
+
+this is test message 1
+
+<script>
+require([
+    'jquery',
+    'jquery/ui',
+
+], function(jQuery, ui){
+    console.log('ran here!');
+});
+</script>

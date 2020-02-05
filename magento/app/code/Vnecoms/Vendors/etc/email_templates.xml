@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="vendors_create_account_email_template" label="Vendor New account" file="account_new.html" type="html" module="Vnecoms_Vendors" area="frontend"/>
+    <template id="vendors_create_account_email_template_approved" label="Vendor Approved account" file="account_approved.html" type="html" module="Vnecoms_Vendors" area="frontend"/>
+    <template id="vendors_admin_notification_email_template_pending" label="Vendor New account" file="admin_account_new.html" type="html" module="Vnecoms_Vendors" area="frontend"/>
+    <template id="vendors_admin_notification_email_template_approved" label="Vendor Approved account" file="admin_account_approved.html" type="html" module="Vnecoms_Vendors" area="frontend"/>
+
+</config>

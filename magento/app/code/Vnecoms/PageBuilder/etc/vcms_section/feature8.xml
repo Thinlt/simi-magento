@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Vnecoms_PageBulder:etc/vcms_section_include.xsd">
+    <!-- Section Feature 1 -->
+    <section name="feature8">
+        <type>features</type>
+        <template>Vnecoms_PageBuilder/section/feature8</template>
+        <component>Vnecoms_PageBuilder/js/section/default</component>
+        <block_template>Vnecoms_PageBuilder::section/feature8.phtml</block_template>
+        <preview_height>150px</preview_height>
+        <fields>
+            <element name="title">
+                <label>Title</label>
+                <type>h2</type>
+                <is_active>1</is_active>
+                <data>
+                    <text>Feature Title</text>
+                    <frontend_class>pb-title</frontend_class>
+                </data>
+            </element>
+            <element name="subtitle">
+                <label>Subtitle</label>
+                <type>h3</type>
+                <is_active>1</is_active>
+                <data>
+                    <text>Lorem ipsum dolor sit amet dabipus</text>
+                    <frontend_class>pb-subtitle</frontend_class>
+                </data>
+            </element>
+            <element name="description">
+                <label>Description</label>
+                <type>div</type>
+                <is_active>1</is_active>
+                <data>
+                    <frontend_class>pb-description</frontend_class>
+                    <code><![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet purus quis metus imperdiet fermentum. Suspendisse hendrerit id lacus id lobortis. Vestibulum quam elit, dapibus ac augue ut, porttitor viverra dui.</p>
+				<p>Pellentesque imperdiet purus quis metus imperdiet fermentum. Suspendisse hendrerit id lacus id lobortis. Vestibulum quam elit, apibus ac augue ut, porttitor viverra dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>]]></code>
+                </data>
+            </element>
+            <element name="view_more">
+				<label>Sign Up</label>
+				<type>link</type>
+				<is_active>1</is_active>
+				<data>
+					<text>Sign Up</text>
+					<href>#</href>
+					<frontend_class>pb-btn-view-more</frontend_class>
+				</data>
+			</element>
+			<element name="image">
+           		<label>Image</label>
+           		<type>img</type>
+           		<data>
+           			<imgType>static</imgType> <!-- static, media, url -->
+           			<imgFile>Vnecoms_PageBuilder/images/500-500.jpg</imgFile>
+           		</data>
+           		<is_active>1</is_active>
+           	</element>
+        </fields>
+    </section>
+</include>

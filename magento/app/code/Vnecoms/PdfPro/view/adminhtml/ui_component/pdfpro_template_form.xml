@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">pdfpro_template_form.template_form_data_source</item>
+            <item name="deps" xsi:type="string">pdfpro_template_form.template_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Template Information</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">pdfpro_template_form</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">Vnecoms\PdfPro\Block\Adminhtml\Template\Edit\BackButton</item>
+            <item name="delete" xsi:type="string">Vnecoms\PdfPro\Block\Adminhtml\Template\Edit\DeleteButton</item>
+            <item name="reset" xsi:type="string">Vnecoms\PdfPro\Block\Adminhtml\Template\Edit\ResetButton</item>
+            <item name="save" xsi:type="string">Vnecoms\PdfPro\Block\Adminhtml\Template\Edit\SaveButton</item>
+            <item name="save_and_continue" xsi:type="string">Vnecoms\PdfPro\Block\Adminhtml\Template\Edit\SaveAndContinueButton</item>
+        </item>
+    </argument>
+    <dataSource name="template_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Vnecoms\PdfPro\Model\Template\DataProvider</argument>
+            <argument name="name" xsi:type="string">template_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="cms/page/save"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    
+</form>

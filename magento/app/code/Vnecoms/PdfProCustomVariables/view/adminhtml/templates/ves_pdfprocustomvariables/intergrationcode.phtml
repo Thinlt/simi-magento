@@ -1,0 +1,50 @@
+<?php
+    /** @var $block \Vnecoms\PdfProCustomVariables\Block\Adminhtml\Variables\Edit\Tab\Intergration  */
+    $_currentVariable = $block->getPdfProCustomVariables();
+?>
+<?php if ($_currentVariable->getCustomVariableId()) :?>
+<div class="notices-wrapper">
+    <div class="messages">
+        <div class="message">
+            <div class="notice-msg">
+                <strong><?php echo __("Now you can add this below code to your PDF template to display your custom variable.")?></strong>
+            </div>
+        </div>
+    </div>
+</div>
+<?php $variableType = $_currentVariable->getVariableType();?>
+<?php if ($variableType == 'attribute') :?>
+    <?php if ($block->getModel()->checkAttributeFrontendType('date')) :?>
+        <pre>{{var item.product.<?php echo $_currentVariable->getName()?>.full}}</pre><br />
+        <pre>{{var item.product.<?php echo $_currentVariable->getName()?>.long}}</pre><br />
+        <pre>{{var item.product.<?php echo $_currentVariable->getName()?>.medium}}</pre><br />
+        <pre>{{var item.product.<?php echo $_currentVariable->getName()?>.short}}</pre>
+    <?php elseif ($block->getModel()->checkAttributeFrontendType('media_image')) :?>
+        <pre>&lt;img src="{{var item.product.<?php echo $_currentVariable->getName()?>}}" width="50" height="50"/&gt;</pre>
+    <?php else :?>
+        <pre>{{var item.product.<?php echo $_currentVariable->getName()?>}}</pre>
+    <?php endif;?>
+<?php elseif ($_currentVariable->getVariableType() == 'static') :?>
+    <pre>{{var item.<?php echo $_currentVariable->getName()?>}}</pre>
+<?php elseif ($variableType == 'customer') :?>
+    <?php if ($block->getModel()->checkAttributeFrontendType('date')) :?>
+        <pre>{{var customer.<?php echo $_currentVariable->getName()?>.full}}</pre><br />
+        <pre>{{var customer.<?php echo $_currentVariable->getName()?>.long}}</pre><br />
+        <pre>{{var customer.<?php echo $_currentVariable->getName()?>.medium}}</pre><br />
+        <pre>{{var customer.<?php echo $_currentVariable->getName()?>.short}}</pre>
+    <?php else :?>
+        <pre>{{var customer.<?php echo $_currentVariable->getName()?>}}</pre>
+    <?php endif;?>
+<?php endif;?>
+<br />
+<?php else :?>
+<div class="notices-wrapper">
+    <div class="messages">
+        <div class="message">
+            <div class="notice-msg">
+                <strong><?php echo __("You need to save this variable before you can see the implementation code.")?></strong>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif;?>

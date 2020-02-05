@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Vnecoms_PageBulder:etc/vcms_section_include.xsd">
+   	<section name="default">
+		<type>about</type>
+		<template>Vnecoms_PageBuilder/section/default</template>
+		<component>Vnecoms_PageBuilder/js/section/default</component>
+		<block_template>Vnecoms_PageBuilder::section/default.phtml</block_template>
+		<preview_height>85px</preview_height>
+		<fields>
+			<element name="title">
+				<label>Title</label>
+				<type>h2</type>
+				<is_active>1</is_active>
+				<data>
+					<text>About Us</text>
+					<frontend_class>pb-title</frontend_class>
+				</data>
+			</element>
+			<element name="subtitle">
+				<label>Subtitle</label>
+				<type>p</type>
+				<is_active>1</is_active>
+				<data>
+					<code>This is a sample subtitle</code>
+					<frontend_class>pb-subtitle</frontend_class>
+				</data>
+			</element>
+			<element name="description">
+				<label>Description</label>
+				<type>editor</type>
+				<is_active>1</is_active>
+				<data>
+					<frontend_class>pb-description</frontend_class>
+					<code><![CDATA[Our Magento2 Marketplace extension turns any Magento2 store into a thriving online marketplace similar to Amazon. 
+					Your sellers will have full control using a Seller Cpanel to manage their own products, sales, invoices, shipments and credit memos. 
+					Each of your sellers receives a customizable storefront within your Magento2 Marketplace. 
+					As the marketplace owner you earn a set fee for each order received by a sellers. 
+					Customers can leave reviews and ratings for sellers every time an order is placed, allowing for a very safe shopping experience and reputable marketplace.
+					The Magento Marketplace extension is the most comprehensive solution of its kind.]]></code>
+				</data>
+			</element>
+			<element name="view_more">
+				<label>View More</label>
+				<type>link</type>
+				<is_active>1</is_active>
+				<data>
+					<text>View More</text>
+					<href>#</href>
+					<frontend_class>pb-link pb-view-more</frontend_class>
+				</data>
+			</element>
+		</fields>
+	</section>
+</include>

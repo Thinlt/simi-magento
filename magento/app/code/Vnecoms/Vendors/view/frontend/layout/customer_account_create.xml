@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+        <css src="Vnecoms_Vendors::css/register.css"/>
+    </head>
+    <body>
+        <referenceBlock name="customer_form_register">
+        	<container name="customer.form.register.newsletter">
+            	<block class="Vnecoms\Vendors\Block\Account\Create\Vendor" name="vendor_create_form" template="account/create/vendor.phtml">
+            		<arguments>
+	                    <argument name="register_form_type" xsi:type="string">customer_seller</argument>
+	               	</arguments>
+	               	<container name="vendor_register_form_before" />
+                	<container name="vendor_register_form_after" />
+            	</block>
+            </container>
+        </referenceBlock>
+    </body>
+</page>

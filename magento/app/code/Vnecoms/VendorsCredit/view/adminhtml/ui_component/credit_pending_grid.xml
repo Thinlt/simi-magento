@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">credit_pending_grid.credit_pending_grid_data_source</item>
+            <item name="deps" xsi:type="string">credit_pending_grid.credit_pending_grid_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">credit_pending_columns</item>
+    </argument>
+    <dataSource name="credit_pending_grid_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <argument name="name" xsi:type="string">credit_pending_grid_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">escrow_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <!-- <item name="filter_url_params" xsi:type="array">
+                        <item name="status" xsi:type="string">*</item>
+                    </item> -->
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">escrow_id</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+    <container name="listing_top">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="template" xsi:type="string">ui/grid/toolbar</item>
+            </item>
+        </argument>
+       	<bookmark name="bookmarks">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="namespace" xsi:type="string">vendor_credit_pending</item>
+                    </item>
+                </item>
+            </argument>
+        </bookmark>
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="templates" xsi:type="array">
+                        <item name="filters" xsi:type="array">
+                            <item name="select" xsi:type="array">
+                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
+                                <item name="template" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+                <item name="observers" xsi:type="array">
+                    <item name="column" xsi:type="string">column</item>
+                </item>
+            </argument>
+        </filters>
+        <!-- <massaction name="listing_massaction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                   <item name="selectProvider" xsi:type="string">credit_pending_grid.credit_pending_grid.credit_pending_columns.ids</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/tree-massactions</item>
+                    <item name="indexField" xsi:type="string">withdrawal_id</item>
+                </item>
+            </argument>
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Cancel</item>
+                            <item name="message" xsi:type="string" translate="true"><![CDATA[Cancel selected request?<br /> This action is also return the holded credit to vendor's credit account.]]></item>
+                        </item>
+                        <item name="type" xsi:type="string">canceled</item>
+                        <item name="label" xsi:type="string" translate="true">Cancel</item>
+                        <item name="url" xsi:type="url" path="credit/withdraw_history/massCancel"/>
+                    </item>
+                </argument>
+            </action>
+        </massaction> -->
+        <paging name="listing_paging">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">credit_pending_grid.credit_pending_grid.credit_pending_columns.ids</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">credit_pending_grid.credit_pending_grid.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.paging</item>
+                    </item>
+                </item>
+            </argument>
+        </paging>
+    </container>
+    <columns name="credit_pending_columns">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="childDefaults" xsi:type="array">
+                    <item name="fieldAction" xsi:type="array">
+                        <item name="provider" xsi:type="string">credit_pending_grid.credit_pending_grid.credit_pending_columns.actions</item>
+                        <item name="target" xsi:type="string">applyAction</item>
+                        <item name="params" xsi:type="array">
+                            <item name="0" xsi:type="string">edit</item>
+                            <item name="1" xsi:type="string">${ $.$data.rowIndex }</item>
+                        </item>
+                    </item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">credit_pending_grid.credit_pending_grid.listing_top.bookmarks</item>
+                        <item name="root" xsi:type="string">columns.${ $.index }</item>
+                        <item name="namespace" xsi:type="string">current.${ $.storageConfig.root}</item>
+                    </item>
+                </item>
+            </item>
+        </argument>
+        <selectionsColumn name="ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">escrow_id</item>
+                </item>
+            </argument>
+        </selectionsColumn>
+        
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">dateRange</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                    <item name="dateFormat" xsi:type="string">MMM d, YYYY</item>
+                    <item name="dataType" xsi:type="string">date</item>
+                    <item name="label" xsi:type="string" translate="true">Created Date</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                    <item name="sorting" xsi:type="string">desc</item>
+                </item>
+            </argument>
+        </column>
+        
+        <column name="vendor">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Vendor Id</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                </item>
+            </argument>
+        </column>
+        
+        <column name="increment_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Invoice Id</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                </item>
+            </argument>
+        </column>
+        <column name="amount" class="Vnecoms\VendorsCredit\Ui\Component\Listing\Column\Price">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Amount</item>
+                    <item name="sortOrder" xsi:type="number">40</item>
+                    <item name="component" xsi:type="string">Vnecoms_Credit/js/grid/columns/balance</item>
+                </item>
+            </argument>
+        </column>
+		<column name="status">
+            <argument name="data" xsi:type="array">
+            	<item name="options" xsi:type="object">Vnecoms\VendorsCredit\Model\Source\Status</item>
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">select</item>
+                    <item name="component" xsi:type="string">Vnecoms_VendorsCredit/js/grid/columns/status</item>
+                    <!-- <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item> -->
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Status</item>
+                    <item name="sortOrder" xsi:type="number">60</item>
+                </item>
+            </argument>
+        </column>
+        <actionsColumn name="actions" class="Vnecoms\VendorsCredit\Ui\Component\Listing\Column\CreditPendingActions">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">escrow_id</item>
+                    <item name="sortOrder" xsi:type="number">200</item>
+                </item>
+            </argument>
+        </actionsColumn>
+    </columns>
+</listing>

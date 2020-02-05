@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="ves_vendorscredit_calculate_commission">
+		<observer name="vnecoms_vendorscommission_calculate_commission" instance="Vnecoms\VendorsCommission\Observer\CalculateCommission" />
+	</event>
+</config>

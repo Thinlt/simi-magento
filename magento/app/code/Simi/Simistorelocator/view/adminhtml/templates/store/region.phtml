@@ -1,0 +1,19 @@
+<?php
+/** @var \Simi\Simistorelocator\Block\Adminhtml\Store\Edit\Tab\GmapTab\Region $block */
+$store  = $block->getStore();
+?>
+<select id="state_id" name="state_id" style="width:100%;" class="select admin__control-select" title="<?php echo __('State/Province') ?>">
+</select>
+<input type="text" id="state"  name="state" style="width:100%;" class="input-text admin__control-text" value="<?php echo $store->getStateId() ? '' : $store->getState() ?>" placeholder="<?php echo __('State/Province') ?>"  title="<?php echo __('State/Province') ?>" class="input-text" />
+
+<script type="text/javascript">
+    require(['jquery', 'Simi/Simistorelocator/js/store/region-updater'], function($){
+        $('#store_region_updater').css('width', '100%');
+        $('#store_country_id').regionUpdater({
+            regionListId: '#state_id',
+            regionInputId: '#state',
+            regionJson: <?php echo $block->getRegionJson() ?>,
+            currentRegion: '<?php echo $store->getStateId() ?>',
+        });
+    });
+</script>

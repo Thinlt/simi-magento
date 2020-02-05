@@ -1,0 +1,83 @@
+@font-face {
+    font-family: 'vendor-profile';
+    src:    url('../fonts/vendor-profile.eot?fc87wr');
+    src:    url('../fonts/vendor-profile.eot?fc87wr#iefix') format('embedded-opentype'),
+        url('../fonts/vendor-profile.ttf?fc87wr') format('truetype'),
+        url('../fonts/vendor-profile.woff?fc87wr') format('woff'),
+        url('../fonts/vendor-profile.svg?fc87wr#vendor-profile') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.vendor-profile-container{
+    display: block;
+    padding: 10px;
+    background-color: #FBFBFB;
+}
+
+.vendor-profile-container:after{
+    display: block;
+    content: ".";
+    clear: both;
+    font-size: 0px;
+    width: 0;
+    height: 0;
+}
+.vendor-profile-logo{
+    width: 20.6667%;
+    display: block;
+    float: left;
+    text-align: center;
+}
+
+.vendor-profile-description{
+    display: block;
+    width: calc(79.3333% - 40px);
+    float: right;
+    padding: 0 20px;
+}
+.vendor-headline{
+    display: block;
+    margin-bottom: 15px;
+}
+.vendor-profile-description h3.vendor-title{
+    font-size: 25px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+.vendor-profile-description h3.vendor-title a{
+    color: inherit;
+}
+.vendor-profile-description .vendor-info{
+    color: #888;
+    margin-top: 10px;
+}
+.vendor-profile-description .vendor-sales-count:before,
+.vendor-profile-description .vendor-location:before,
+.vendor-profile-description .vendor-phone:before,
+.vendor-profile-description .vendor-operation-time:before,
+.vendor-profile-description .vendor-joined-date:before
+{
+    font-family: "vendor-profile";
+    content: "\f041";
+    padding-right: 6px;
+}
+.vendor-profile-description .vendor-sales-count:before{
+    content: "\e63f";
+}
+.vendor-profile-description .vendor-joined-date:before{
+    content: "\f073";
+}
+.vendor-profile-description .vendor-phone:before{
+    content: "\e902";
+}
+.vendor-profile-description .vendor-operation-time:before{
+    content: "\e900";
+}
+
+.vendor-info > span:nth-child(n+2){
+    margin-left: 15px;
+    padding-left: 15px;
+    border-left: 1px solid #e1e3df;
+}
+

@@ -1,0 +1,57 @@
+<div id="myModal" class="modal ajax-login-form">
+  <!-- Modal content -->
+    <div class="<?php if($block->getLayoutType()){echo 'ultimate';}else{ echo 'mobile-modal-content';} ?>">
+        <?php include ($block->getTemplateFile('Magecomp_Mobilelogin::image.phtml')) ?>
+        <div class="<?php if($block->getLayoutType()) echo 'right' ?>">
+    <div class="closediv"><span class="close"></span></div>
+    <div class="ajax-login-conten">
+        <div class="page_title">
+            <span><?php echo __('Login') ?></span>
+        </div>
+        <ul id="login-type">
+            <li class="login-type-first"><a href="#ajaxotplogin" id="loginwithotp"><?php echo __('Login With Otp') ?></a></li>
+            <li class="login-type-last"><a href="#ajaxpasswordlogin" id="loginwithajax"><?php echo __('Login With Password') ?></a></li>
+            <input type="hidden" value="<?php echo $block->getLoginType() ?> " id="backendlogintype" name="selectedtab" />
+        </ul>
+        <div  id="ajaxotplogin" class="login-container"><?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Magecomp_Mobilelogin::ajaxotplogin.phtml")->toHtml(); ?></div>
+        <div  id="ajaxpasswordlogin" class="login-container"><?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Magecomp_Mobilelogin::ajaxpasswordlogin.phtml")->toHtml(); ?></div>
+    </div>
+  </div>
+ </div>
+</div>
+<script>
+    var ajoinput = document.querySelector("#loginotpmob"),
+        loginerrorMsg = document.querySelector("#login-mob-error-msg");
+    // here, the index maps to the error code returned from getValidationError - see readme
+    var loginerrorMap = [ "Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+
+    // initialise plugin
+    var ajoiti = window.intlTelInput(ajoinput, {
+        utilsScript: "<?php echo $this->getViewFileUrl('Magecomp_Mobilelogin::js/utils.js'); ?>"
+    });
+
+    require(['jquery', 'jquery/ui','mage/mage','mage/validation'], function($){
+        jQuery.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+            countryCode = (resp && resp.country) ? resp.country : "";
+            ajoiti.setCountry(countryCode);
+        });
+    });
+
+    var reset = function() {
+        ajoinput.classList.remove("error");
+        loginerrorMsg.innerHTML = "";
+    };
+
+    // on blur: validate
+    ajoinput.addEventListener('blur', function() {
+        reset();
+        if (ajoinput.value.trim()) {
+            if (ajoiti.isValidNumber()) {
+				loginerrorMsg.innerHTML = "";
+            } else {
+                var errorCode = ajoiti.getValidationError();
+                loginerrorMsg.innerHTML = loginerrorMap[errorCode];
+            }
+        }
+    });
+</script>

@@ -1,0 +1,14 @@
+.admin__data-grid-header-row{width: 100%;display: inline-block;}
+.action-select-wrap .action-menu-items > .action-menu{overflow: initial;}
+.action-select-wrap .action-menu-items > .action-menu .action-submenu{top:0}
+.image.image-placeholder{background: #ffffff;
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 1.2rem;
+    position: relative;
+    vertical-align: top;
+    width: 150px;
+}
+.aw_gc_template_image .image.image-placeholder input[type="file"] {
+    border: 1px solid transparent;
+}

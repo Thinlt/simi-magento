@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <update handle="formkey"/>
+    <update handle="simistorelocatoradmin_tag_grid_block"/>
+    <referenceBlock name="simistorelocatoradmin.tag.grid">
+        <arguments>
+            <argument name="serialize_grid" xsi:type="boolean">true</argument>
+        </arguments>
+        <action method="setRowClickCallback">
+            <argument name="value" xsi:type="string">null</argument>
+        </action>
+        <action method="unsetChild">
+            <argument name="alias" xsi:type="string">grid.massaction</argument>
+        </action>
+        <action method="unsetChild">
+            <argument name="alias" xsi:type="string">grid.export</argument>
+        </action>
+    </referenceBlock>
+    <referenceBlock name="simistorelocatoradmin.tag.grid.columnSet">
+        <block class="Simi\Simistorelocator\Block\Adminhtml\Widget\Grid\Column\Checkboxes" as="checkbox_id" before="tag_id">
+            <arguments>
+                <argument name="header_css_class" xsi:type="string">a-center</argument>
+                <argument name="type" xsi:type="string">checkbox</argument>
+                <argument name="index" xsi:type="string">tag_id</argument>
+                <argument name="id" xsi:type="string">checkbox_id</argument>
+            </arguments>
+        </block>
+        <action method="unsetChild">
+            <argument name="alias" xsi:type="string">tag_icon</argument>
+        </action>
+        <block class="Magento\Backend\Block\Widget\Grid\Column" as="tag_icon_view" after="tag_description">
+            <arguments>
+                <argument name="header" xsi:type="string" translate="true">Icon</argument>
+                <argument name="type" xsi:type="string">text</argument>
+                <argument name="index" xsi:type="string">tag_icon</argument>
+                <argument name="id" xsi:type="string">tag_icon_view</argument>
+                <argument name="renderer" xsi:type="string">Simi\Simistorelocator\Block\Adminhtml\Widget\Grid\Column\Renderer\Image</argument>
+                <argument name="filter" xsi:type="string">0</argument>
+                <argument name="sortable" xsi:type="string">0</argument>
+                <argument name="width" xsi:type="string">200px</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
+</layout>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="ves_vendorsconfig_form_fieldset_prepare_before">
+        <observer name="vendor_cofig_approval" instance="Vnecoms\VendorsConfigApproval\Observer\FieldsetPrepareBefore"/>
+    </event>
+</config>

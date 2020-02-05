@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+    	<css src="Vnecoms_PageBuilder::css/bootstrap-grid.css"/>
+    	<css src="Vnecoms_PageBuilder::css/animate.css"/>
+        <css src="Vnecoms_PageBuilder::css/pagebuilder.css"/>
+        <css src="Vnecoms_PageBuilder::css/styles.css"/>
+        <css src="Vnecoms_PageBuilder::css/font-awesome.css"/>
+        <css src="Vnecoms_PageBuilder::css/etline.css"/>
+        <css src="Vnecoms_PageBuilder::css/captainicon.css"/>
+        <css src="Vnecoms_PageBuilder::owlcarousel/assets/owl.carousel.css"/>
+        <css src="Vnecoms_PageBuilder::owlcarousel/assets/owl.theme.default.css"/>
+        
+        <css src="Vnecoms_PageBuilder::codemirror/lib/codemirror.css"/>
+        <css src="Vnecoms_PageBuilder::codemirror/addon/hint/show-hint.css"/>
+        <css src="Vnecoms_PageBuilder::codemirror/theme/dracula.css"/>
+        <css src="jquery/colorpicker/css/colorpicker.css" />        
+    </head>
+</page>

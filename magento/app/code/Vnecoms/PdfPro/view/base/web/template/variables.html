@@ -1,0 +1,29 @@
+<div class="vpb-im-container vpb-variables-container" visible="editingVariable()">
+	<div class="vpb-im-mask"></div>
+	<div class="animated zoomIn vpb-im-box">
+		<div class="vpb-im-header">
+			<h3 class="vpb-im-title" data-bind="text: $t('Variable Manager')"></h3>
+			<div class="vpb-im-close" data-bind="click: closeVariablesDialog.bind($data)"><i class="fa fa-close"></i></div>
+			<div class="vpb-variable-search"><input class="admin__control-text data-grid-search-control" type="text" data-bind="value: variableFilter, valueUpdate: 'keyup', attr:{placeholder: $t('Search by keyword')}"></div>
+		</div>
+		<div class="vpb-im-content">
+			<div class="vpb-im-drop-zone">
+				<!-- ko foreach: {data: pdfVariables, as: '$category'} -->
+					<div class="vpb-variable-category">
+						<h3 data-bind="text: $category.title"></h3>
+						<ul class="variables-list">
+							<!-- ko foreach: {data: $category.variables, as: '$variable'} -->
+								<!-- ko if: $parents[1].canShowVariable($variable) -->
+									<li data-bind="click: $parents[1].insertVariable.bind($parents[1], $variable)">
+										<i class="fa fa-angle-right"></i>
+										<span data-bind="html: $parents[1].getVariableTitle($variable)"></span>
+									</li>
+								<!-- /ko -->
+							<!-- /ko -->
+						</ul>
+					</div>
+				<!-- /ko -->
+			</div>
+		</div>
+	</div>
+</div>

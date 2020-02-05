@@ -1,0 +1,76 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/** @var $block \Magento\ConfigurableProduct\Block\Product\View\Type\Configurable*/
+$_product    = $block->getProduct();
+?>
+<?php if ($_product->isSaleable() && $block->hasOptions()):?>
+<div class="field configurable required">
+    <?php if($this->isFixedType()):?>
+         <label class="label" for="vnecoms_credit_value">
+            <span><?php echo __("Credit Value") ?></span>
+        </label>
+        <div class="control">
+            <?php echo $this->getProduct()->getData('credit_value_fixed')?>
+        </div>
+    <?php elseif($this->isOptionType()):?>
+        <label class="label" for="vnecoms_credit_value">
+            <span><?php echo __("Credit Value") ?></span>
+        </label>
+        <div class="control">
+            <select name="store_credit[credit_value]"
+                    data-validate="{required:true}"
+                    id="vnecoms_credit_value"
+                    class="super-attribute-select">
+            </select>
+        </div>
+        <script type="text/x-magento-init">
+        {
+            "#vnecoms_credit_value": {
+                "vnecomsCredit": {
+                    "valueFieldSelector": "#vnecoms_credit_value",
+                    "priceHolderSelector": ".price-box",
+                    "creditType": "<?php echo $this->getCreditType();?>",
+                    "creditTypes": <?php echo $this->getCreditTypesJSON();?>,
+                    "creditOptions": <?php /* @escapeNotVerified */ echo $block->getOptionsJSON() ?>
+                }
+            }
+        }
+        </script>
+    <?php elseif($this->isRangeType()):?>
+         <label class="label" for="vnecoms_credit_value">
+            <span><?php echo __("Credit Value") ?></span>
+        </label>
+        <div class="control">
+            <input type="number"
+                    name="store_credit[credit_value]"
+                    data-validate="{required:true}"
+                    id="vnecoms_credit_value"
+                    class="input-text validate-greater-than-zero" />
+            <?php $creditValueCustom = $this->getCreditValueCustom();?>
+            <div id="vnecoms_credit_slider" class="vnecoms_credit_slider" data-content-min="<?php echo $this->formatBasePrice($creditValueCustom['from'],false)?>" data-content-max="<?php echo $this->formatBasePrice($creditValueCustom['to'],false)?>"></div>
+        </div>
+        <script type="text/x-magento-init">
+        {
+            "#vnecoms_credit_value": {
+                "vnecomsCredit": {
+                    "valueFieldSelector": "#vnecoms_credit_value",
+                    "creditSliderSelector": "#vnecoms_credit_slider",
+                    "priceHolderSelector": ".price-box",
+                    "creditType": "<?php echo $this->getCreditType();?>",
+                    "creditTypes": <?php echo $this->getCreditTypesJSON();?>,
+                    "creditOptions": <?php /* @escapeNotVerified */ echo $block->getOptionsJSON() ?>
+                }
+            }
+        }
+        </script>
+    <?php endif;?>
+</div>
+<?php endif;?>

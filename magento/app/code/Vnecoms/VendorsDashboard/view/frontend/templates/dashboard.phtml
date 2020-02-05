@@ -1,0 +1,221 @@
+<!-- Small boxes (Stat box) -->
+<div class="row dashboard-state">
+    <div class="col-xs-3">
+        <!-- small box -->
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3><?php echo $block->formatPrice($block->getCreditAmount())?></h3>
+                <p><?php echo __("Credit Amount")?></p>
+            </div>
+            <div class="credit-icon">
+                <i class="fa fa-credit-card"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xs-3">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3><?php echo $block->formatPrice($block->getLifetimeSales())?></h3>
+              <p><?php echo __("Lifetime Sales")?></p>
+            </div>
+            <div class="credit-icon">
+                <i class="fa fa-cart-plus"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xs-3">
+        <!-- small box -->
+        <div class="small-box bg-olive">
+            <div class="inner">
+              <h3><?php echo $block->formatPrice($block->getAverageOrders())?></h3>
+              <p><?php echo __("Average Orders")?></p>
+            </div>
+            <div class="credit-icon">
+                <i class="fa fa-bar-chart"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xs-3">
+        <!-- small box -->
+        <div class="small-box bg-purple">
+            <div class="inner">
+              <h3><?php echo $block->getTotalProducts()?></h3>
+              <p><?php echo __("Total Products")?></p>
+            </div>
+            <div class="credit-icon">
+                <i class="fa fa-cubes"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row row-grap">
+    <div class="col-xs-8">
+        <div class="graph-tabs-container">
+            <?php echo $this->getChildHtml("graph_tabs")?>
+        </div>
+        <div class="sellstate-tabs-container">
+        <?php echo $this->getChildHtml('seller_state_tabs')?>
+        </div>
+    </div>
+    
+    <div class="col-xs-4">
+        <?php echo $this->getChildHtml('new_products')?>
+    </div>
+</div>
+
+<script>
+var URL_GRAPH = '<?php echo $block->getUrl('marketplace/dashboard/graph')?>';
+
+require([
+    'jquery',
+    'jquery/ui',
+    'mage/translate',
+    'jquery/raphael',
+    'jquery/morris',
+    'loader',
+    'domReady!'
+], function($, ui,$t){
+	function changeDiagramsPeriod(value){
+    	var graphContainer = $('#vendor_dashboard_graph');
+    	graphContainer.trigger('processStart');
+        
+        var xLabels = getChartXLabels(value);
+        
+    	$.ajax({
+      		  url: URL_GRAPH,
+      		  method: "POST",
+      		  data: { period : value ,vendor_id:<?php echo $block->getVendor()->getId()?>},
+      		  dataType: "json"
+  		}).done(function( response ){
+  	  	  	graphContainer.trigger('processStop');
+  	  	  	if(response.ajaxExpired){
+  	  	  	  	window.location = response.ajaxRedirect;
+  	  	  	  	return;
+  	  	  	}
+  	  	  	window.ves_chart_data = response;
+  	  	  	drawTransactionChart(response.transaction_chart, xLabels);
+  	  	  	drawOrdersChart(response.order_chart, xLabels);
+  	  	  	drawAmountsChart(response.amount_chart,xLabels)
+  	  	  	
+  		});
+    }
+    /*Get chart XLabels*/
+    function getChartXLabels(value){
+        if(typeof(value) == 'undefined') value = $("#transaction_period").val();
+    	var xLabels = '';
+        switch(value){
+        case '24h':
+            xLabels = 'hour';
+            break;
+        case '7d':
+        case '1m':
+            xLabels = 'day';
+            break;
+        case '1y':
+        case '2y':
+            xLabels = 'month';
+            break;
+        }
+
+        return xLabels;
+    }
+
+    /*Draw transaction chart*/
+    function drawTransactionChart(data, xLabels){
+    	$('#transaction-chart').html('');
+    	if($(data).size()){
+        	Morris.Line({
+                element: 'transaction-chart',
+                resize: true,
+                parseTime: true,
+                xLabels: xLabels,
+                data: data,
+                xkey: 'y',
+                ykeys: ['received', 'spent'],
+                labels: ['Credits Received', 'Credits Spent'],
+                lineColors: ['#3C8DBC', '#F56954'],
+                hideHover: 'auto'
+    	    });
+    	}else{
+    		$('#transaction-chart').html('<div class="dashboard-diagram-nodata"><span>' + $t('No Data Found') + '</span></div>')
+    	}
+    }
+
+    /*Draw order chart*/
+    function drawOrdersChart(data, xLabels){
+    	$('#orders-chart').html('');
+    	if($(data).size()){
+        	Morris.Area({
+                element: 'orders-chart',
+                resize: true,
+                parseTime: true,
+                xLabels: xLabels,
+                data: data,
+                xkey: 'y',
+                ykeys: ['order_num'],
+                labels: ['Orders'],
+                lineColors: ['#3C8DBC'],
+                hideHover: 'auto'
+    	    });
+    	}else{
+    		$('#orders-chart').html('<div class="dashboard-diagram-nodata"><span>' + $t('No Data Found') + '</span></div>')
+    	}
+    }
+
+    /*Draw order chart*/
+    function drawAmountsChart(data, xLabels){
+    	$('#amounts-chart').html('');
+    	if($(data).size()){
+        	Morris.Area({
+                element: 'amounts-chart',
+                resize: true,
+                parseTime: true,
+                xLabels: xLabels,
+                data: data,
+                xkey: 'y',
+                ykeys: ['amount'],
+                labels: ['Amounts'],
+                lineColors: ['#F56954'],
+                hideHover: 'auto'
+    	    });
+    	}else{
+    		$('#orders-chart').html('<div class="dashboard-diagram-nodata"><span>' + $t('No Data Found') + '</span></div>')
+    	}
+    }
+    
+    changeDiagramsPeriod($("#transaction_period").val());
+    
+    $('#vendor_dashboard_graph').on("dimensionsChanged", function(event) {
+        if(window.ves_chart_data){
+        	var xLabels = getChartXLabels();
+            drawTransactionChart(window.ves_chart_data.transaction_chart,xLabels);
+            drawOrdersChart(window.ves_chart_data.order_chart,xLabels);
+            drawAmountsChart(window.ves_chart_data.amount_chart,xLabels);
+        }
+    });
+
+    /*Don't load the ajax if it's already loaded*/
+    $('#vendor_dashboard_sellerstate').on("beforeOpen", function(event) {
+        $(this).find('.ves-tab-title').each(function(index, elm){
+            var contentElm = $("#"+$(elm).attr('aria-controls'));
+            var html = contentElm.html().trim();
+            if(html.length){
+            	$(elm).find('a').first().attr('data-ajax',false);
+            }
+        });
+    });
+
+    
+    window.changeDiagramsPeriod = changeDiagramsPeriod;
+    window.drawTransactionChart = drawTransactionChart;
+    window.drawOrdersChart = drawOrdersChart;
+    window.drawAmountsChart = drawAmountsChart;
+    window.getChartXLabels = getChartXLabels;
+});
+</script>

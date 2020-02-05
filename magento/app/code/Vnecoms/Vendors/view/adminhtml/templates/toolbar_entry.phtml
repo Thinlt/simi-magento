@@ -1,0 +1,73 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $this \Magento\AdminNotification\Block\ToolbarEntry */ ?>
+<?php
+    $notificationCount = $block->getNotificationCount();
+?>
+<script type="text/javascript">
+require([
+    "jquery",
+    "jquery/ui",
+    "domReady!"
+], function($){
+    var notificationCount = $('.ves-notifications-wrapper').attr('data-notification-count')
+
+    // Show notification description when corresponding item is clicked
+    $('.ves-notifications-wrapper .admin__action-dropdown-menu .notifications-entry').on('click.showNotification', function (event) {
+        // hide notification dropdown
+        $('.ves-notifications-wrapper .notifications-icon').trigger('click.dropdown');
+        event.stopPropagation();
+
+    });
+
+    
+    // Hide notifications bubble
+    if (notificationCount == 0) {
+        $('.marketplace-notifications .notifications-counter').hide();
+    } else {
+        $('.marketplace-notifications .notifications-counter').show();
+    }
+});
+</script>
+<div 
+    class="ves-notifications-wrapper admin__action-dropdown-wrap"
+    data-notification-count="<?php /* @escapeNotVerified */ echo $notificationCount; ?>">
+    
+    <a href="#"
+        class="marketplace-notifications admin__action-dropdown"
+        data-mage-init='{"dropdown":{}}'
+        title="<?php /* @escapeNotVerified */ echo __('Notifications'); ?>"
+        data-toggle="dropdown">
+        <span class="notifications-counter"<?php if(!$notificationCount):?> style="display: none;"<?php endif;?>>
+            <?php /* @escapeNotVerified */ echo $notificationCount; ?>
+        </span>
+    </a>
+    <?php if($notificationCount):?>
+    <ul class="admin__action-dropdown-menu">
+        <?php foreach ($block->getNotifications() as $notification) : ?>
+        <?php /** @var $notification \Magento\AdminNotification\Model\Inbox*/ ?>
+        <li class="notifications-entry notifications-critical"
+            data-notification-id="<?php /* @escapeNotVerified */ echo $notification->getId(); ?>"
+            data-notification-severity="<?php if ($notification->getSeverity() == 1): ?>1<?php endif; ?>">
+            <strong class="notifications-entry-title">
+                <?php echo $block->escapeHtml($notification->getTitle()); ?>
+            </strong>
+            <p class="notifications-entry-description">
+                <?php /* @escapeNotVerified */ echo $notification->getDescription(); ?>
+            </p>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+    <?php else:?>
+    <ul class="admin__action-dropdown-menu">
+         <li class="notifications-entry"><?php echo __("There is no notification.")?></li>
+    </ul>
+    <?php endif;?>
+</div>

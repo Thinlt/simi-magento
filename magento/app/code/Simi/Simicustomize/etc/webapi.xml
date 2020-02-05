@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/simiconnector/reserve" method="POST">
+        <service class="Simi\Simicustomize\Api\ReserveInterface" method="index"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/simiconnector/reserve" method="GET">
+        <service class="Simi\Simicustomize\Api\ReserveInterface" method="getMyReserved"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+    </route>
+    <route url="/V1/simiconnector/reserve" method="PUT">
+        <service class="Simi\Simicustomize\Api\ReserveInterface" method="cancelMyReserved"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+    </route>
+    <route url="/V1/simiconnector/service" method="POST">
+        <service class="Simi\Simicustomize\Api\ServiceInterface" method="save"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/simiconnector/contact" method="POST">
+        <service class="Simi\Simicustomize\Api\ContactInterface" method="index"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/simiconnector/sizechart" method="POST">
+        <service class="Simi\Simicustomize\Api\SizechartInterface" method="index"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/simiconnector/sizechart" method="GET">
+        <service class="Simi\Simicustomize\Api\SizechartInterface" method="getSizecharts"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/simiconnector/proxy/instagram" method="GET">
+        <service class="Simi\Simicustomize\Api\ProxyInstagramInterface" method="index"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+</routes>

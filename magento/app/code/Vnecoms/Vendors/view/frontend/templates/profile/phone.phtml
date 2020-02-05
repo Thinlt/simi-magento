@@ -1,0 +1,12 @@
+<?php
+/**
+ * telephone template
+ *
+ * @var $block \Vnecoms\Vendors\Block\Profile\Phone
+ */
+?>
+<?php if ($block->canShowVendorPhone()): ?>
+    <?php if ($block->getVendor()->getTelephone()): ?>
+        <span class="vendor-phone"><?php echo $block->escapeHtml($block->getVendor()->getTelephone());?></span>
+    <?php endif; ?>
+<?php endif; ?>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+
+        <section id="vendors">
+            <group id="sales">
+            	<!-- 
+                <field id="pdf_template" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Default PDF Template</label>
+                    <source_model>Vnecoms\PdfPro\Model\Source\Key</source_model>
+                    <comment>If vendor pdf template is not set, this pdf template will be used.</comment>
+                </field>
+                 -->
+                 <field id="pdf_template" translate="label" type="hidden" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Default PDF Template</label>
+                    <source_model>Vnecoms\PdfPro\Model\Source\Key</source_model>
+                    <comment>If vendor pdf template is not set, this pdf template will be used.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

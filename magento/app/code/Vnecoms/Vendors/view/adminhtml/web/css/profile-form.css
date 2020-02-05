@@ -1,0 +1,82 @@
+.portlet-placeholder,.ves-fieldset-attributes li.portlet-placeholder{
+    border: 1px dotted black;
+    margin: 0 1em 1em 0;
+    height: 50px;
+    background-color: transparent;
+}
+
+.ves-attributes{
+    width: calc(100% * 0.40 - 30px);
+    float: right;
+}
+
+.ves-fieldsets{
+    float: left;
+    width: calc(100% * 0.60 - 30px);
+    margin-left: 30px;
+    position: relative;
+}
+
+.ves-fieldsets legend{
+    cursor: pointer;
+}
+.ves-fieldsets .fieldset:HOVER .fieldset-ctrl{display: block;}
+.ves-fieldsets .fieldset-ctrl{
+    position: absolute;
+    right: 5px;
+    top: 15px;
+    display: none;
+}
+.ves-fieldsets .fieldset-ctrl .icon{
+    font-family: "Admin Icons";
+    display: inline-block;
+    text-decoration: none;
+    width: 25px;
+    height: 25px;
+    font-size: 18px;
+    text-align: center;
+    color: #eb5202;
+}
+.ves-fieldsets .fieldset-ctrl .icon:HOVER{
+    color: #ba4000;
+}
+
+.ves-fieldsets .fieldset-ctrl .icon-edit::before{
+    content: "\e631";
+}
+.ves-fieldsets .fieldset-ctrl .icon-delete::before{
+    content: "\e630";
+}
+.ves-fieldset-container .ves-fieldsets fieldset{
+    padding-bottom: 10px;
+}
+
+.ves-fieldset-attributes{
+    list-style: none;
+    min-height: 20px;
+}
+
+.ves-fieldset-attributes li{
+    background-color: #fbf9ee;
+    border: 1px solid #fcefa1;
+    margin: 5px 0;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.ves-fieldset-attributes li:HOVER{
+    background-color: #fbf9D5;
+}
+
+.ves-fieldset-available-attributes li{
+    background-color: #e6e6e6;
+    border: 1px solid #d3d3d3;
+}
+
+.ves-fieldset-available-attributes li:HOVER{
+    background-color: #e0e0e0;
+}
+
+.ves-fieldset-content{
+    clear:both;
+}

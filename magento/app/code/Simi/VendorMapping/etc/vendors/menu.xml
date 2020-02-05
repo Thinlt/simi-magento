@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<add id="Simi_VendorMapping::giftcard" icon="fa fa-cubes" title="Voucher" module="Simi_VendorsMapping" sortOrder="35" resource="Simi_VendorsMapping::giftcard" dependsOnModule="Vnecoms_Vendors" />
+    	<add id="Simi_VendorMapping::giftcard_codes" title="Gift Card Codes" sortOrder="10" module="Simi_VendorMapping" action="simivendor/giftcardcodes" parent="Simi_VendorMapping::giftcard" dependsOnModule="Aheadworks_Giftcard" resource="Simi_VendorMapping::giftcard_codes"/>
+    	<add id="Simi_VendorMapping::giftcard_pools" title="Gift Card Pools" sortOrder="20" module="Simi_VendorMapping" action="simivendor/giftcardpools" parent="Simi_VendorMapping::giftcard" dependsOnModule="Aheadworks_Giftcard" resource="Simi_VendorMapping::giftcard_pools"/>
+    	<add id="Simi_VendorMapping::giftcard_products" title="Gift Card Products" sortOrder="30" module="Simi_VendorMapping" action="simivendor/giftcardproducts" parent="Simi_VendorMapping::giftcard" dependsOnModule="Aheadworks_Giftcard" resource="Simi_VendorMapping::giftcard_products"/>
+
+    	<add id="Simi_VendorMapping::store_about" icon="fa fa-cog" title="About Store" module="Simi_VendorsMapping" action="simivendor/about" sortOrder="50" resource="Simi_VendorsMapping::store_about" dependsOnModule="Vnecoms_Vendors" />
+    	<add id="Simi_VendorMapping::store_faqs" icon="fa fa-cog" title="FAQs" module="Simi_VendorsMapping" action="simivendor/faqs" sortOrder="60" resource="Simi_VendorsMapping::store_faqs" dependsOnModule="Vnecoms_Vendors" />
+    </menu>
+</config>

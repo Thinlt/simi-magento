@@ -1,0 +1,13 @@
+<?php foreach ($this->getMessageTypes() as $type):?>
+<?php if ($messages = $this->getMessagesByType($type)):?>
+    <div class="messages">
+        <?php foreach ($messages as $message):?>
+        <div class="message alert alert-<?php echo $type?> alert-dismissable">
+            <div <?php echo $this->getUiId('message', $type)?>>
+                <?php echo $message;?>
+            </div>
+        </div>
+        <?php endforeach;?>
+    </div>
+<?php endif;?>
+<?php endforeach;?>

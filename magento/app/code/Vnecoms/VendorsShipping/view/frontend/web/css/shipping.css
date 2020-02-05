@@ -1,0 +1,12 @@
+.vendors-shipping-methods{margin-top: 20px;}
+.vendors-shipping-methods dt{font-weight: 700; margin-bottom: 5px; margin-top: 20px;}
+.vendors-shipping-methods ul{list-style: outside none none;}
+.vendors-shipping-methods .price {font-weight: 600; display: inline-block; width: 60px;}
+.vendors-shipping-methods ul li{border-bottom: 1px solid beige;  padding: 5px 0px;}
+.totals-shipping-details .vendor-title{font-weight: 400;}
+.totals-shipping-details .vendor-method{color: #999999;}
+.cart-totals .totals-shipping-details,
+.opc-block-summary .table-totals .totals-shipping-details{display: none;}
+.cart-totals .totals-shipping-details.shown,
+.opc-block-summary .table-totals .totals-shipping-details.shown {display: table-row;}
+.shipping_carrier_title{padding-left: 30px;font-weight: bold;float: right;}

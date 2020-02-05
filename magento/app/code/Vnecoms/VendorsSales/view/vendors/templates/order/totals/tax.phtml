@@ -1,0 +1,31 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Sales\Block\Adminhtml\Order\Totals\Tax */
+?>
+<?php
+/** @var $_source \Magento\Sales\Model\Order\Invoice */
+$_source    = $block->getSource();
+$_order     = $block->getOrder();
+$_fullInfo  = $block->getFullTaxInfo();
+?>
+
+<tr>
+    <td>
+        <div class="summary-collapse">
+        <?php if ($this->helper('Magento\Tax\Helper\Data')->displayFullSummary()): ?>
+            <?php /* @escapeNotVerified */ echo __('Total Tax') ?>
+        <?php else: ?>
+            <?php /* @escapeNotVerified */ echo __('Tax') ?>
+        <?php endif;?>
+        </div>
+    </td>
+    <td>
+        <?php /* @escapeNotVerified */ echo $block->displayAmount($_source->getTaxAmount(), $_source->getBaseTaxAmount()); ?>
+    </td>
+</tr>

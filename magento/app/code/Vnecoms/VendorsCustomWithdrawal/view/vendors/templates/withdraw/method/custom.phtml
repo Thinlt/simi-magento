@@ -1,0 +1,28 @@
+<?php 
+/**
+ * See \Vnecoms\VendorsCustomWithdrawal\Model\Withdrawal\Method\Custom
+ */
+use Vnecoms\VendorsCustomWithdrawal\Model\Source\InputType;
+$savedData = $block->getSavedData();
+?>
+
+<?php foreach($block->getFields() as $fieldData):?>
+    <label class="col-sm-5 control-label" for="general_store_information_name"><?php echo $fieldData['label']?></label>
+    <div class="col-sm-6 control value">
+        <div class="control-text">
+            <input name="additional_info[field_<?php echo $fieldData['position']?>][label]" type="hidden" value="<?php echo $fieldData['label']?>" />
+            <?php $fieldValue = $block->getFieldInfo('field_'.$fieldData['position']);?>
+            <?php if($block->isReviewStep()):?>
+                <?php echo $fieldValue?$fieldValue:'&nbsp;';?>
+                <input name="additional_info[field_<?php echo $fieldData['position']?>][label]" type="hidden" value="<?php echo $fieldValue?>" />
+            <?php else:?>
+                <?php $savedFieldData = isset($savedData['field_'.$fieldData['position']]['value'])?$savedData['field_'.$fieldData['position']]['value']:''?>
+                <?php if($fieldData['input_type'] == InputType::TYPE_TEXTAREA):?>
+                    <textarea name="additional_info[field_<?php echo $fieldData['position']?>][value]" class="input-text admin__control-text <?php echo $fieldData['frontend_class']?>"><?php echo $savedFieldData;?></textarea>
+                <?php else:?>
+                    <input name="additional_info[field_<?php echo $fieldData['position']?>][value]" class="input-text admin__control-text <?php echo $fieldData['frontend_class']?>" type="<?php echo $fieldData['input_type']?>" value="<?php echo $savedFieldData;?>" />
+                <?php endif;?>
+            <?php endif;?>
+        </div>
+    </div>
+<?php endforeach;?>

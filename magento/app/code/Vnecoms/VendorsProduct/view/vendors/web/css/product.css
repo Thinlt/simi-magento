@@ -1,0 +1,684 @@
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+.product-actions {
+    padding: 5px 18px;
+}
+
+.product-actions::after{
+    display: block;
+    clear: both;
+    content: "";
+}
+.product-actions .switcher {
+    display: inline-block;
+    vertical-align: top;
+    margin: 3px 0 6px 6px;
+}
+
+/* Image Management */
+.images {
+    position: relative;
+    border: 2px dotted #ccc;
+    margin-bottom: 2px;
+    padding: 5px 0 0;
+}
+
+.images .image, .gallery .image {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    display: inline-block;
+    float: left;
+    height: 125px;
+    margin: 0 0.8rem;
+    overflow: hidden;
+    position: relative;
+    width: 125px;
+    text-align: center;
+}
+
+.images .image.image-placeholder {
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+}
+.image.image-placeholder::before{
+    color: #ccc;
+    content: "\f030";
+    display: inline-block;
+    font-family: FontAwesome;
+    font-size: 4rem;
+    font-weight: normal;
+    line-height: inherit;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: middle;
+}
+.images::before, .images::after{
+    display: table;
+    content: "";
+    clear: both;
+}
+
+
+.images .image {
+    margin-bottom: 5px;
+}
+
+.image .spacer {
+    width: 100%;
+}
+
+.image.image-placeholder .fileinput-button {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.image.image-placeholder .fileinput-button > span {
+    display: none;
+}
+
+.image .product-image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 100%;
+    z-index: 1;
+}
+
+.base-image .image-label {
+    background: url(Vnecoms_VendorsProduct::images/gallery-image-base-label.png) no-repeat;
+    bottom: 0;
+    height: 33px;
+    right: 0;
+    visibility: visible;
+    width: 33px;
+    position: absolute;
+    z-index: 1;
+}
+
+.image.base-image .image-label:before {
+    display: none;
+}
+
+.image.base-image:hover .image-label:before {
+    display: block;
+}
+
+.images .image .draggable-handle:before {
+    color: #9e9e9e;
+    content: "\f00a";
+    display: inline-block;
+    font-family: "FontAwesome";
+    font-size: 1.8rem;
+    font-weight: normal;
+    line-height: inherit;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.images .image .draggable-handle {
+    cursor: move;
+    display: inline-block;
+    height: 20px;
+    left: 2px;
+    margin: 0;
+    position: absolute;
+    text-decoration: none;
+    top: 4px;
+    width: 20px;
+    z-index: 3;
+}
+
+.image.active {
+    box-shadow: 0 0 10px #2ea9ec;
+}
+
+.image .actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+}
+
+.image .actions [class^="action-"] {
+    z-index: 10;
+}
+
+.image-panel-controls, .image-panel-preview {
+    float: left;
+    margin-left: 2.12766%;
+    width: 65.9574%;
+}
+.image-panel-preview{margin-left: 0;}
+.image-panel-controls {
+    padding: 0 1%;
+    width: 29.9149%;
+}
+.image .actions [class^="action-"],
+.image .image-label,
+.image[data-image-hidden] .actions [class^="action-"],
+.image.hidden-for-front .actions [class^="action-"] {
+    visibility: hidden;
+}
+
+.image:hover .actions [class^="action-"],
+.image:hover .image-label,
+.image.base-image .image-label,
+.image[data-image-hidden]:hover .actions .action-delete,
+.hidden-for-front:hover .actions [class^="action-"] {
+    visibility: visible;
+}
+
+.image .action-delete, .image .action-make-base {
+    position: absolute;
+    left: 6px;
+    bottom: 6px;
+    z-index: 10;
+    width: 20px;
+    height: 20px;
+    background: none;
+    border: 0 none;
+    padding: 0;
+    margin: 0;
+    color: #b7b3ad;
+}
+.image .action-delete:hover, .image .action-make-base:hover{
+    color: #7e7e7e;
+}
+.image .action-make-base{
+    left: auto;
+    right: 6px;
+}
+
+.image .action-delete:before, .image .action-make-base:before{
+    font-family: FontAwesome;
+    color: #9e9e9e;
+    display: inline-block;
+    font-size: 1.8rem;
+    font-weight: normal;
+    line-height: inherit;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.image .action-delete:before{
+    content: "\f1f8";
+}
+
+.image .action-make-base:before{
+    content: "\f02b";
+}
+
+.image .action-delete span, .image .action-make-base span{
+    display: none;
+}
+
+
+.image.base-image .action-make-base {
+    display: none;
+}
+
+.image .draggable-handle {
+    background: none;
+    cursor: move;
+    height: 20px;
+    line-height: inherit;
+    width: 20px;
+}
+
+
+/* Gallery image panel */
+.image-panel {
+    position: relative;
+    top: 5px;
+    clear: both;
+    background: #fff;
+    padding: 20px 15px;
+}
+
+.image .file-row {
+    background: #fff url(Magento_Catalog::images/ajax-loader-big.gif) no-repeat 50% 50%;
+    bottom: 0;
+    height: auto;
+    left: 0;
+    margin: auto;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    text-indent: -999em;
+    top: 0;
+    width: auto;
+    z-index: 5;
+}
+
+.image-pointer {
+    position: absolute;
+    left: 50%;
+    top: -11px;
+    margin-left: -14px;
+    width: 28px;
+    height: 15px;
+    background: url(Magento_Backend::images/gallery-image-panel-corner.png) no-repeat;
+}
+
+.image-panel-controls .fieldset-image-panel .field {
+    margin-bottom: 10px;
+}
+
+.image-panel-controls .fieldset-image-panel .label {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+    padding: 0;
+    display: inline-block;
+    color: #303030;
+    font-size: 100%;
+}
+
+.image-panel-controls .fieldset-image-panel .field > .control,
+.image-panel-controls textarea {
+    width: 100%;
+    resize: vertical;
+}
+
+.image-panel-preview img {
+    width: 100%;
+}
+
+/* action in fieldset wrapper */
+.admin__collapsible-block-wrapper .attribute-selector {
+    height: 0;
+    visibility: hidden;
+}
+
+.admin__collapsible-block-wrapper.opened .attribute-selector {
+    height: auto;
+    visibility: visible;
+}
+
+.action-manage-images {
+    font: 11px/1.666 Arial, Verdana, sans-serif;
+    color: #a29c94;
+    text-decoration: underline;
+}
+
+/* Quantity filed on product */
+.field-quantity_and_stock_status input[type="text"],
+.field-weight .admin__control-addon input[type="text"] {
+    width: 140px;
+    margin-right: 15px;
+    display: inline-block;
+}
+
+.field-quantity_and_stock_status  .admin__control-select{
+    width: auto;
+}
+/*
+.field-quantity_and_stock_status select {
+    vertical-align: middle;
+}
+*/
+
+
+.image-panel .fieldset > .field > .label {
+    line-height: inherit;
+}
+
+.image-panel .fieldset > .field > .label span {
+    font-weight: 400;
+}
+
+.image-panel-controls .fieldset-image-panel {
+    padding: 2rem 0.5rem 0 0;
+}
+
+/* Validation for Product Fields with addons  */
+.field-price .control,
+.field-special_price .control,
+.field-msrp .control,
+.field-weight .control,
+.field-quantity_and_stock_status .control {
+    position: relative;
+}
+
+.field-price label.mage-error,
+.field-special_price label.mage-error,
+.field-msrp label.mage-error,
+.field-weight label.mage-error,
+.field-quantity_and_stock_status label.mage-error {
+    position: static;
+}
+
+/*
+    Custom Options
+-------------------------------------- */
+#product_options_container_top .field-option-title {
+    width: 500px;
+}
+
+#product_options_container_top .field-option-input-type {
+    width: 170px;
+}
+
+#product_options_container_top .col-draggable .draggable-handle {
+    top: 7px;
+}
+
+#product_options_container_top .col-name,
+#product_options_container_top .col-sku {
+    width: 38%;
+}
+
+#product_options_container_top .add-select-row ~ label.mage-error {
+    display: block;
+    margin: 5px 0 0;
+}
+
+/*
+    Tier Price Table
+-------------------------------------- */
+.tiers_table td {
+    vertical-align: top;
+    padding: 0 5px;
+}
+.tiers_table th {
+    padding: 0 5px 10px;
+}
+
+
+.new-variation-set {
+    margin-left: 2.127659574%;
+}
+
+.not-applicable-attribute {
+    display: none;
+}
+
+.attribute-selector {
+    margin: -3px -4px 0 0;
+}
+
+.attribute-selector .dropdown-menu {
+    left: auto;
+    right: 0;
+}
+
+.attribute-selector .action-choose {
+    margin: 0;
+}
+
+.attribute-selector .mage-suggest-dropdown > ul {
+    position: relative;
+    max-height: 200px;
+    overflow: auto;
+    z-index: 1;
+}
+
+.attribute-selector .dropdown-menu .actions {
+    padding: 14px 12px;
+}
+
+.field-image .row{
+    margin: 0;
+}
+
+.add-video-button-container {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.video-item::after{
+    content: "\f256";
+    font-family: "Ionicons";
+    color: #efefef;
+    display: block;
+    width: 100%;
+    height: 125px;
+    line-height: 125px;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    font-family: "Ionicons";
+    font-size: 30px;
+    position: absolute;
+    text-align: center;
+}
+
+.main-col .action-dropdown {
+    display: inline-block;
+    position: relative;
+    text-align: left;
+}
+.admin__scope-old .product-actions .suggest-expandable {
+    float: left;
+    margin-top: 1px;
+    max-width: 500px;
+}
+.main-col .suggest-expandable .action-dropdown .action-toggle {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;
+    box-shadow: none;
+    color: #676056;
+    display: inline-block;
+    filter: none;
+    font-size: 14px;
+    max-width: 500px;
+    overflow: hidden;
+    padding: 5px 4px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.main-col .suggest-expandable .dropdown-menu {
+    left: 0;
+    margin: 1px 0 0;
+    right: auto;
+    width: 245px;
+    z-index: 4;
+}
+.main-col  .dropdown-menu, .main-col .ui-autocomplete {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #cac2b5;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    display: none;
+    list-style: outside none none;
+    margin: 1px 0 0;
+    min-width: 100px;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: 990;
+}
+.main-col .action-dropdown.active .dropdown-menu {
+    display: block;
+    white-space: nowrap;
+}
+
+.admin__scope-old .suggest-expandable .mage-suggest:after {
+    right: 8px;
+    top: 10px;
+}
+.admin__scope-old .mage-suggest:after {
+    bottom: 0;
+    color: #b2b2b2;
+    content: "\f002";
+    font-family: "FontAwesome";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: normal;
+    position: absolute;
+    right: 3px;
+    text-align: center;
+    top: 3px;
+    width: 22px;
+}
+
+.admin__scope-old .suggest-expandable .mage-suggest-inner > input[type="search"],
+.admin__scope-old .suggest-expandable .mage-suggest-inner > input.search {
+    border: 1px solid #ada89e;
+    margin: 6px 5px 5px;
+    padding-right: 20px;
+    position: relative;
+    width: 236px;
+    z-index: 1;
+}
+
+.admin__scope-old .mage-suggest.category-select input[type="search"],
+.admin__scope-old .mage-suggest.category-select input.search {
+    height: 26px;
+}
+
+.admin__scope-old .mage-suggest-dropdown {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #cac2b5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    left: 0;
+    margin: 1px -1px 0;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: 990;
+}
+
+.admin__scope-old .suggest-expandable .mage-suggest-dropdown {
+    border-radius: 0 0 3px 3px;
+    border-top: 0 none;
+    float: left;
+    margin-top: 0;
+    max-height: 300px;
+    overflow: auto;
+    width: 100%;
+}
+
+.admin__scope-old .suggest-expandable .action-dropdown .action-toggle::before {
+    color: #b2b0ad;
+    display: inline-block;
+    float: right;
+    font-size: 15px;
+    margin-left: 4px;
+}
+.admin__scope-old .action-dropdown > .action-toggle.active::before {
+    content: "\f106";
+}
+.admin__scope-old .action-dropdown > .action-toggle:before {
+    content: "\f107";
+    display: block;
+    font-family: "FontAwesome";
+    font-size: 11px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+
+.admin__scope-old .switcher {
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+}
+.admin__scope-old .product-actions .switcher {
+    float: right;
+}
+.admin__scope-old .product-actions .switcher {
+    display: inline-block;
+    margin: 3px 0 6px 6px;
+    vertical-align: top;
+}
+
+.admin__scope-old .switcher input[type="checkbox"] {
+    left: -999em;
+    position: absolute;
+}
+
+.admin__scope-old .switcher-label {
+    color: #676056;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.admin__scope-old .switcher-label:after {
+    background: rgba(0, 0, 0, 0) url("../images/switcher.png") no-repeat scroll 0 0;
+    content: "";
+    display: inline-block;
+    height: 17px;
+    margin-left: 10px;
+    vertical-align: bottom;
+    width: 34px;
+}
+.admin__scope-old .switcher input[type="checkbox"] + .switcher-label:before {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;
+    border-radius: 0;
+    content: attr(data-text-off);
+    float: none;
+    font-size: 14px;
+    height: auto;
+    line-height: normal;
+    margin: 0;
+    text-align: left;
+    width: auto;
+}
+.admin__scope-old .switcher input[type="checkbox"]:checked + .switcher-label:before {
+    content: attr(data-text-on);
+}
+.admin__scope-old .switcher input[type="checkbox"]:checked + .switcher-label:after {
+    background-position: -34px 0;
+}
+
+.fieldset .input-text, select,
+.fieldset .admin__control-text,
+.fieldset .admin__control-textarea{
+    width: 100%;
+}
+.fieldset .field-price .addon > input {
+    float: left;
+    width: 99px;
+}
+
+.admin__field-control input[type="text"][disabled],
+.admin__field-control input[type="text"][disabled] ~ .addafter,
+.admin__field-control select[disabled],
+.admin__field-control select[disabled] ~ .addafter {
+    background-color: #e9e9e9;
+    border-color: #adadad;
+    color: #303030;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+.weight-switcher .admin__control-addon {
+    width: auto;
+}
+.admin__addon-suffix {
+    order: 3;
+}
+.admin__addon-suffix:last-child {
+    padding-right: 1rem;
+}
+.mage-suggest {
+    border: 1px solid #d3d3d3;
+    display: inline-block;
+    position: relative;
+}
+.admin__fieldset .form-group .note{display: block; clear: both; font-size: 80%;}
+.admin__fieldset .form-group .update-pending-approval{border:1px solid #f39c12; padding: 5px; display: inline-block;margin-top: 7px;}
+.admin__fieldset .form-group .update-pending-approval:before{width: 0;height: 0;border-left: 5px solid transparent;border-right: 5px solid transparent;border-bottom: 5px solid #f39c12; display: block; content:''; margin-top: -10px; margin-left: -6px;position: absolute;}
+.product-horizontal-tabs .box-header{display: none;}
+#save-split-button-button{min-width: 160px;}
+
+.admin__control-wysiwig textarea {
+    width: 100%;
+}

@@ -1,0 +1,204 @@
+<?php
+
+// @codingStandardsIgnoreFile
+/* @var $block \Vnecoms\PdfPro\Block\Adminhtml\Widget\Form\Renderer\Fieldset\Column */
+?>
+<?php $element = $block->getElement();?>
+<?php $_htmlId      = $block->getElement()->getHtmlId() ?>
+<?php $_htmlClass   = $block->getElement()->getClass() ?>
+<?php $_htmlName    = $block->getElement()->getName() ?>
+<?php $_readonly    = $block->getElement()->getReadonly() ?>
+
+<div class="field" id="attribute-<?php /* @escapeNotVerified */ echo $_htmlId?>-container" data-attribute-code="<?php /* @escapeNotVerified */ echo $_htmlId?>"
+     data-apply-to="<?php echo $block->escapeHtml(
+         $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode(
+             $element->hasEntityAttribute() ? $element->getEntityAttribute()->getApplyTo() : []
+         )
+     )?>">
+    <label class="label"><span><?php /* @escapeNotVerified */ echo $block->getElement()->getLabel() ?></span></label>
+    <div class="control">
+        <table class="admin__control-table tiers_table" id="tiers_table">
+            <thead>
+            <tr>
+                <th class="col-option"><?php /* @escapeNotVerified */ echo __('Option') ?></th>
+                <th class="col-option-type"><?php /* @escapeNotVerified */ echo __('Option Type') ?></th>
+                <th class="col-title"><?php /* @escapeNotVerified */ echo __('Title') ?></th>
+                <th class="col-width"><?php /* @escapeNotVerified */ echo __('Width, px') ?></th>
+                <th class="col-title"><?php /* @escapeNotVerified */ echo __('Sort Order') ?></th>
+                <th class="last col-delete"><?php /* @escapeNotVerified */ echo __('Action') ?></th>
+            </tr>
+            </thead>
+            <tbody id="<?php /* @escapeNotVerified */ echo $_htmlId ?>_container"></tbody>
+            <tfoot>
+            <tr>
+                <td colspan="6" class="col-actions-add"><?php echo $block->getAddButtonHtml() ?></td>
+            </tr>
+            </tfoot>
+        </table>
+
+        <script>
+            require([
+                'mage/template',
+                "prototype",
+                "mage/adminhtml/form"
+            ], function (mageTemplate) {
+
+//<![CDATA[
+                var columnTemplate = '<tr>'
+                    + '<td>'
+                    + '<select class="<?php /* @escapeNotVerified */ echo $_htmlClass ?> required-entry" name="parameters[<?php /* @escapeNotVerified */ echo $_htmlName ?>][<%- data.index %>][option]" id="column_row_<%- data.index %>_option">'
+                    <?php foreach ($block->getInitialOptions()->getData() as $_id => $_group): ?>
+                    + '<optgroup label="<?php echo $_group['label'] ?>">'
+                    <?php foreach($_group['value'] as $_gid => $_option):?>
+                    + '<option value="<?php echo $_option['code'] ?>"><?php echo $block->escapeJsQuote($block->escapeHtml($_option['title'])) ?></option>'
+                    <?php endforeach ?>
+                    + '</optgroup>'
+                    <?php endforeach ?>
+                    + '</select>'
+                    + '<input style="display:none;width: 83%; margin-top: 3px;" type="text" class="<?php echo $_htmlClass ?> input-text" name="parameters[<?php /* @escapeNotVerified */ echo $_htmlName ?>][<%- data.index %>][custom]" id="column_row_<%- data.index %>_custom" value="<%- data.custom %>"/>'
+                    + '</td>'
+                        //add option type column
+                    + '<td>'
+                    + '<select style="width:82%;" class="<?php /* @escapeNotVerified */ echo $_htmlClass ?> custgroup required-entry" name="parameters[<?php /* @escapeNotVerified */ echo $_htmlName ?>][<%- data.index %>][option_choose]" id="column_row_<%- data.index %>_option_choose">'
+                    <?php foreach ($block->getOptionType() as $_id => $_option): ?>
+                    + '<option value="<?php echo $_option['code'] ?>"><?php echo $block->escapeJsQuote($block->escapeHtml($_option['title'])) ?></option>'
+                    <?php endforeach ?>
+                    + '</select>'
+                    + '<table id="column_row_<%- data.index %>_div" class="hide_border">'
+                    + '<tr>'
+                    + '<td class="hide_border"><span>Width</span></td>'
+                    + '<td class="hide_border"><input style="width:70%;" type="text" class="<?php echo $_htmlClass ?> input-text" name="parameters[<?php /* @escapeNotVerified */ echo $_htmlName ?>][<%- data.index %>][option_width]" id="column_row_<%- data.index %>_option_width" value="<%- data.option_width %>"/></td>'
+                    + '</tr>'
+                    + '<tr>'
+                    + '<td class="hide_border"><span>Height</span></td>'
+                    + '<td class="hide_border"><input style="width:70%;" type="text" class="<?php echo $_htmlClass ?> input-text" name="parameters[<?php /* @escapeNotVerified */ echo $_htmlName ?>][<%- data.index %>][option_height]" id="column_row_<%- data.index %>_option_height" value="<%- data.option_height %>"/></td>'
+                    + '</tr>'
+                    + '</table>'
+                    +'</td>'
+                    + '<td><input class="<?php /* @escapeNotVerified */ echo $_htmlClass ?> required-entry" type="text" name="parameters[<?php /* @escapeNotVerified */ echo $_htmlName ?>][<%- data.index %>][title]" value="<%- data.title %>" id="column_row_<%- data.index %>_title" /></td>'
+                    + '<td><input class="<?php /* @escapeNotVerified */ echo $_htmlClass ?> required-entry validate-greater-than-zero" type="text" name="parameters[<?php /* @escapeNotVerified */ echo $_htmlName ?>][<%- data.index %>][width]" value="<%- data.width %>" id="column_row_<%- data.index %>_width" /></td>'
+                    + '<td><input class="<?php /* @escapeNotVerified */ echo $_htmlClass ?> required-entry validate-greater-than-zero" type="text" name="parameters[<?php /* @escapeNotVerified */ echo $_htmlName ?>][<%- data.index %>][sortorder]" value="<%- data.sortorder %>" id="column_row_<%- data.index %>_sortorder" /></td>'
+
+                    + '<td class="col-delete"><input type="hidden" name="parameters[<?php /* @escapeNotVerified */ echo $_htmlName ?>][<%- data.index %>][delete]" class="delete" value="" id="column_row_<%- data.index %>_delete" />'
+                    + '<button title="<?php /* @escapeNotVerified */ echo $block->escapeHtml(__('Delete Column')); ?>" type="button" class="action- scalable delete icon-btn delete-product-option" id="column_row_<%- data.index %>_delete_button" onclick="return columnControl.deleteItem(event);">'
+                    + '<span><?php /* @escapeNotVerified */ echo __("Delete Column") ?></span></button></td>'
+                    + '</tr>';
+
+                var columnControl = {
+                    template: mageTemplate(columnTemplate),
+                    itemsCount: 0,
+                    addItem : function () {
+                        <?php if ($_readonly): ?>
+                        if (arguments.length < 6) {
+                            return;
+                        }
+                        <?php endif; ?>
+                        var data = {
+                            option_width: '',
+                            option_height: '',
+                            title: '',
+                            width: '',
+                            sortorder: '',
+                            index: this.itemsCount++,
+                            custom: '',
+                            option_choose: 'text'
+                        };
+
+                        data.option 			= arguments[0];
+                        data.option_choose		= arguments[1];
+                        data.option_width 		= arguments[2];
+                        data.option_height  	= arguments[3];
+                        data.title 				= arguments[4];
+                        data.width      		= arguments[5];
+                        data.sortorder        	= arguments[6];
+                        data.custom 			= arguments[7];
+
+                        Element.insert($('<?php /* @escapeNotVerified */ echo $_htmlId ?>_container'), {
+                            bottom : this.template({
+                                data: data
+                            })
+                        });
+
+                        var choose 			= $('column_row_' + data.index + '_option_choose');
+                        //choose type of option(default,image)
+                        var option 			= $('column_row_' + data.index + '_option');
+                        //attribute item select
+                        var custom 			= $('column_row_' + data.index + '_custom');
+                        var option_height 	= $('column_row_' + data.index + '_option_height');
+                        var option_width 	= $('column_row_' + data.index + '_option_width');
+                        var div 			= $('column_row_' + data.index + '_div');
+
+                        choose.observe('change',function(){
+                            var value = choose.options[choose.selectedIndex].value;
+                            switch(value) {
+                                case '<?php echo \Vnecoms\PdfPro\Model\Source\Widget\Optiontype::OPTION_TEXT ?>':
+                                    div.hide();break;
+                                case '<?php echo \Vnecoms\PdfPro\Model\Source\Widget\Optiontype::OPTION_IMAGE ?>':
+                                    div.show();break;
+                            }
+                        });
+
+                        /*event for option select*/
+                        option.observe('change',function(){
+                            var value = option.options[option.selectedIndex].value;
+                            if(value == 'ves_custom') {
+                                custom.show();
+                            }
+                            else {
+                                custom.hide();
+                            }
+                        });
+
+
+                        option.value = data.option;	//set data for select option field
+
+                        //added
+                        choose.value = data.option_choose;
+
+                        /*initial option select*/
+                        div.hide();
+                        if(data.option_choose == '<?php echo \Vnecoms\PdfPro\Model\Source\Widget\Optiontype::OPTION_IMAGE?>') {
+                            div.show();
+                        }
+
+                        custom.hide();
+                        if(data.option == 'ves_custom')
+                            custom.show();
+                    },
+                    disableElement: function(el) {
+                        el.disabled = true;
+                        el.addClassName('disabled');
+                    },
+                    deleteItem: function(event) {
+                        var tr = Event.findElement(event, 'tr');
+                        if (tr) {
+                            Element.select(tr, '.delete').each(function(elem){elem.value='1'});
+                            Element.select(tr, ['input', 'select']).each(function(elem){elem.hide()});
+                            Element.hide(tr);
+                            Element.addClassName(tr, 'no-display template');
+                        }
+                        return false;
+                    }
+                };
+            <?php if($block->getValues()):?>
+            <?php $value = base64_decode($block->getValues()); $value = unserialize($value); ?>
+                <?php //var_dump($value);?>
+                <?php foreach ($value as $_item): ?>
+                columnControl.addItem('<?php /* @escapeNotVerified */ echo $_item['option'] ?>',
+                    '<?php /* @escapeNotVerified */ echo isset($_item['option_choose'])?$_item['option_choose']:'' ?>',
+                    '<?php /* @escapeNotVerified */ echo isset($_item['option_width'])?$_item['option_width']:'' ?>',
+                    '<?php /* @escapeNotVerified */ echo isset($_item['option_height'])?$_item['option_height']:'' ?>',
+                    '<?php echo $_item['title'] ?>',
+                    '<?php echo $_item['width'] ?>',
+                    '<?php echo $_item['sortorder'] ?>' ,
+                    '<?php echo isset($_item['custom_option'])?$_item['custom']:''?>'
+                );
+                <?php endforeach; ?>
+            <?php endif; ?>
+                window.columnControl = columnControl;
+//]]>
+
+            });
+        </script>
+    </div>
+</div>

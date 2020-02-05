@@ -1,0 +1,177 @@
+<?php
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Vnecoms\PdfPro\Block\Adminhtml\Helper\Chooser\Content */
+$helper = $block->getHelper();
+$currentTemplate = '';
+$currentTemplateId = '';
+if ($template = $block->getCurrentTemplate())
+{
+    $currentTemplate = $template->getSku();
+    $currentTemplateId = $template->getId();
+    $currentTemplateImageUrl = $helper->getBaseUrlMedia($template->getPreviewImage());
+
+    if ($currentTemplateId) {
+        $data = $block->getCurrentTemplate()->getData();
+        if (isset($data['order_template']) || isset($data['invoice_template']) || isset($data['shipment_template']) || isset($data['creditmemo_template'])) {
+            $orderData = $data['order_template'];
+            $invoiceData = $data['invoice_template'];
+            $shipmentData = $data['shipment_template'];
+            $creditmemoData = $data['creditmemo_template'];
+        }
+    }
+}
+
+
+
+$templateArray  = $block->getTemplateJson(false);
+$index = array_search($currentTemplateId, array_keys($templateArray));
+?>
+
+<div id="pdf-theme-container" class="pdf_container">
+    <input type="hidden" id="template-id"
+           name="template_id" value="<?php echo $currentTemplateId ?>" data-form-part="pdfpro_key_form" />
+    <div class="pdf-preview">
+        <div class="pdf-preview-content">
+
+            <?php if($currentTemplateId):?>
+                <img id="img-preview-image" src="<?php echo $currentTemplateImageUrl?>"/>
+                <h2 class="preview-image-label"><?php echo $template->getName()?></h2>
+                <button id="template-reset" class="scalable" title="Reset Template" type="button" onclick="javascript:void(0);" ><span><span><?php echo __('Reset') ?></span></span></button>
+            <?php else:?>
+                <img id="img-preview-image" class="hidden" src="" />
+                <h2 class="hidden preview-image-label">&nbsp;</h2>
+                <div class="no-image"><p><?php echo __('Choose a theme')?></p></div>
+            <?php endif;?>
+        </div>
+
+        <script>
+            require([
+                    'jquery',
+                    'Magento_Ui/js/modal/prompt',
+                    'Magento_Ui/js/modal/alert',
+                    'mage/mage'
+                ],
+                function($,prompt,alert){
+                    $('reset-btn-ves').onclick = function () {
+                        prompt({
+                                title: 'test'
+                            }
+                        )
+                    }
+                }
+            );
+        </script>
+    </div>
+    <div id="base_template_wrapper" style="" class="owl-carousel-wrapper">
+        <div id="checkout-loader" data-role="checkout-loader" class="loading-mask">
+            <div class="loader">
+                <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('images/loader-1.gif'); ?>"
+                     alt="<?php /* @escapeNotVerified */ echo __('Loading...'); ?>"
+                     style="position: absolute;width:200px;">
+            </div>
+        </div>
+        <input type="hidden" name="pdf[template_id]" id="template_id" value="<?php echo $currentTemplateId?>"/>
+
+        <div id="owl_carousel" class="owl-carousel">
+            <?php foreach($block->getTemplateJson(false) as $template):?>
+                <div template-id="<?php echo $template['id']?>" class="owl-carousel-li<?php if($currentTemplateId == $template['id']) echo ' active' ?>">
+                    <img class="lazyOwl" data-src="<?php echo $template['preview_url'] ?>" alt="<?php echo $template['sku'] ?>" />
+                </div>
+            <?php endforeach;?>
+        </div>
+    </div>
+    <div class="clear">&nbsp;</div>
+</div>
+
+
+<script type="text/x-magento-init">
+<?php
+    echo $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode([
+        '#base_template_wrapper' => [
+            'Vnecoms_PdfPro/js/easypdf' => [
+                'editorIds' => [
+                    'pdfpro_key_form_order_template',
+                    'pdfpro_key_form_invoice_template',
+                    'pdfpro_key_form_shipment_template',
+                    'pdfpro_key_form_creditmemo_template'
+                ],
+                'currentTemplateId' => $currentTemplateId,
+                'valueFieldSelector' => '#base_template_wrapper',
+                'hiddenTemplateElement' => '[name=template_id]',
+                'templateItems' => '.owl-carousel-li',
+                'activeItem'    => '.active',
+                'ajaxUrl'       => $block->getAjaxUrl(),
+                'previewImageId'=> '#img-preview-image',
+                'previewImagesJson' => $block->getPreviewImagesJson(),
+            ]
+        ],
+    ]);
+    ?>
+</script>
+
+<script>
+    require([
+        "jquery",
+        "owlCarousel"
+    ], function ($) {
+        $("#owl_carousel").owlCarousel({
+            items : 4,
+            lazyLoad : true,
+            lazyEffect : "fade",
+            lazyFollow : true,
+            navigation : false,
+            responsive: true
+
+        });
+        //get carousel instance data and store it in variable owl
+        var owl = $("#owl_carousel").data('owlCarousel');
+        <?php if($currentTemplateId):?>
+        var index = <?php echo $index ?>;
+        owl.goTo(index);
+        <?php endif; ?>
+    });
+</script>
+<!--slider-->
+<?php if ($currentTemplateId !== null): ?>
+<script type="text/javascript">
+    require([
+        "jquery",
+        "tinymce",
+        "Magento_Ui/js/modal/confirm",
+        "mage/translate",
+        "domReady!"
+    ], function(jQuery, tinyMCE, confirm){
+        jQuery('#template-reset').click(function () {
+            var msg = jQuery.mage.__('Are you sure to reset this pdf template?');
+
+            confirm({
+                'content': msg,
+                'actions': {
+
+                    confirm: function () {
+
+                        var orderTmp = <?php echo json_encode($orderData) ?>,
+                            invoiceTmp = <?php echo json_encode($invoiceData) ?>,
+                            shipTmp = <?php echo json_encode($shipmentData) ?>,
+                            creditmemoTmp = <?php echo json_encode($creditmemoData) ?>;
+
+                        tinyMCE.get("pdfpro_key_form_order_template").setContent("'"+orderTmp+"'");
+                        tinyMCE.get("pdfpro_key_form_invoice_template").setContent("'"+invoiceTmp+"'");
+                        tinyMCE.get("pdfpro_key_form_shipment_template").setContent("'"+shipTmp+"'");
+                        tinyMCE.get("pdfpro_key_form_creditmemo_template").setContent("'"+creditmemoTmp+"'");
+
+                    }
+                }
+            });
+
+            return false;
+        });
+    });
+</script>
+<?php endif; ?>
+
+<script type="text/javascript">
+    require('mage/apply/main').apply();
+</script>

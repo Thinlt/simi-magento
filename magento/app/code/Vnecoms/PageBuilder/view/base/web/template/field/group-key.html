@@ -1,0 +1,14 @@
+<div class="vpb-component-container vpb-component-group" data-bind="
+	visible: isActive,
+	css:{[frontend_class]:true,'vpb-component-editable':editable, 'hover': isMouseOver()}
+">
+	<div class="pb-feature-item-container">
+		<!-- ko foreach: getRegion('icon') -->
+			<!-- ko template: getTemplate() --><!-- /ko -->
+		<!--/ko-->
+		<!-- ko foreach: getRegion('text') -->
+			<!-- ko template: getTemplate() --><!-- /ko -->
+		<!--/ko-->
+	</div>
+	<div class="vpb-component-info" data-bind="text: id+':'+label"></div>
+</div>

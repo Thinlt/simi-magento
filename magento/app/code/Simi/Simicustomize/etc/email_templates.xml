@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Email/etc/email_templates.xsd">
+    <template id="send_email_reserve_template" label="Reserve Email Form" file="reserve_email_template.html" type="html" module="Simi_Simicustomize" area="adminhtml"/>
+    <template id="send_email_service_admin" label="Service Email Send To Admin" file="send_email_service_admin.html" type="html" module="Simi_Simicustomize" area="adminhtml"/>
+    <template id="send_email_service_customer" label="Service Email Send To Customer" file="send_email_service_customer.html" type="html" module="Simi_Simicustomize" area="adminhtml"/>
+</config>

@@ -1,0 +1,47 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $_transactions = $block->getTransactions(); ?>
+<div class="block block-credit-transactions">
+    <div class="block-title"><strong><?php echo __("Credit Transactions")?></strong></div>
+    <div class="block-content">
+        <?php if ($_transactions && count($_transactions)): ?>
+            <div class="table-wrapper orders-history">
+                <table class="data table table-order-items history" id="my-transaction-table">
+                    <caption class="table-caption"><?php /* @escapeNotVerified */ echo __('Transasctions') ?></caption>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="col date"><?php /* @escapeNotVerified */ echo __('Date') ?></th>
+                            <th scope="col" class="col type"><?php /* @escapeNotVerified */ echo __('Transaction Type') ?></th>
+                            <th scope="col" class="col description"><?php /* @escapeNotVerified */ echo __('Description') ?></th>
+                            <th scope="col" class="col amount"><?php /* @escapeNotVerified */ echo __('Amount') ?></th>
+                            <th scope="col" class="col balance"><?php /* @escapeNotVerified */ echo __('Balance') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($_transactions as $_transaction): ?>
+                            <tr>
+                                <td data-th="<?php echo $block->escapeHtml(__('Date')) ?>" class="col date"><?php /* @escapeNotVerified */ echo $block->formatDate($_transaction->getCreatedAt()) ?></td>
+                                <td data-th="<?php echo $block->escapeHtml(__('Transaction Type')) ?>" class="col type"><?php /* @escapeNotVerified */ echo $block->getTransactionType($_transaction->getType()) ?></td>
+                                <td data-th="<?php echo $block->escapeHtml(__('Description')) ?>" class="col description"><?php /* @escapeNotVerified */ echo $block->getDescription($_transaction) ?></td>
+                                <td data-th="<?php echo $block->escapeHtml(__('Amount')) ?>" class="col amount <?php echo $_transaction->getAmount() > 0?'amount-add':'amount-subtract'?>"><?php /* @escapeNotVerified */ echo ($_transaction->getAmount()>0?"+":"").$block->formatBasePrice($_transaction->getAmount())?></td>
+                                <td data-th="<?php echo $block->escapeHtml(__('Balance')) ?>" class="col balance credit-balance"><?php /* @escapeNotVerified */ echo $block->formatBasePrice($_transaction->getBalance()) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php if ($block->getPagerHtml()): ?>
+                <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+            <?php endif ?>
+        <?php else: ?>
+            <div class="message info empty"><span><?php /* @escapeNotVerified */ echo __('You have no transaction.'); ?></span></div>
+        <?php endif ?>
+    </div>
+</div>

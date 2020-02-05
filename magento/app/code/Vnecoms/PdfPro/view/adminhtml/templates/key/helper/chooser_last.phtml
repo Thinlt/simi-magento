@@ -1,0 +1,167 @@
+<?php
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Vnecoms\PdfPro\Block\Adminhtml\Helper\Chooser\Content */
+$helper = $block->getHelper();
+$currentTemplate = '';
+$currentTemplateId = '';
+if ($template = $block->getCurrentTemplate())
+{
+    $currentTemplate = $template->getSku();
+    $currentTemplateId = $template->getId();
+    $currentTemplateImageUrl = $helper->getBaseUrlMedia($template->getPreviewImage());
+}
+
+$templateArray  = $block->getTemplateJson(false);
+$index = array_search($currentTemplateId, array_keys($templateArray));
+?>
+<input type="hidden" id="template-id"
+       name="template_id" value="<?php echo $currentTemplateId ?>" data-form-part="pdfpro_key_form" />
+
+<div class="row themes-container" id="base_template_wrapper">
+    <div class="col-xs-4 primary-theme">
+        <?php if($currentTemplateId):?>
+            <img id="img-preview-image" src="<?php echo $currentTemplateImageUrl?>" width="200px;"/>
+            <h2 class="preview-image-label"><?php echo $template['name']?></h2>
+        <?php else:?>
+            <img id="img-preview-image" class="hidden" src="" width="200px;" />
+            <h2 class="hidden preview-image-label">&nbsp;</h2>
+            <div class="no-image"><p><?php echo __('Choose a theme')?></p></div>
+        <?php endif;?>
+    </div>
+    <div class="col-xs-8 slider-themes">
+        <div id="owl_carousel" class="owl-carousel">
+            <?php foreach($block->getTemplateJson(false) as $template):?>
+                <div
+                    template-id="<?php echo $template['id']?>"
+                    class="owl-carousel-li<?php if($currentTemplateId == $template['id']) echo ' active' ?>">
+                    <img class="lazyOwl"
+                         data-src="<?php echo $template['preview_url'] ?>"
+                         alt="<?php echo $template['sku'] ?>" />
+                </div>
+            <?php endforeach;?>
+        </div>
+        <div class="actions">
+            <button title="<?php echo __("Add Theme")?>" type="button" class="action-default action-secondary" onclick="jQuery('#credit-popup-mpdal').modal('openModal');"><span><?php echo __("Add / Subtract Credit")?></span></button>
+        </div>
+        <div id="credit-popup-mpdal" class="admin__scope-old">
+            <div class="fieldset-wrapper add-credit-form">
+                <div class="admin__fieldset-wrapper-content">
+                    <form enctype="multipart/form-data" id="add-them-form">
+                        <fieldset class="fieldset admin__fieldset">
+                            <div class="field admin__field required">
+                                <label class="label admin__field-label" for="credit-transaction-amount">
+                                    <span><?php echo __("Amount")?></span>
+                                </label>
+
+                                <div class="admin__field-control">
+                                    <input type="text" class="admin__control-text required-entry validate-number" name="credit_transaction[amount]" placeholder="" id="credit-transaction-amount">
+                                    <div class="note"><?php echo __("Add or subtract credit by entering a positive or negative value. For example: enter 10 to add $10 and -10 to subtract $10")?></div>
+                                </div>
+                            </div>
+
+                            <div class="field admin__field">
+                                <label class="label admin__field-label" for="credit-transaction-description">
+                                    <span><?php echo __("Description")?></span>
+                                </label>
+                                <div class="admin__field-control">
+                                    <textarea cols="15" rows="2" class="textarea admin__control-text _required" id="credit-transaction-description" title="" name="credit_transaction[description]"></textarea>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    require('mage/apply/main').apply();
+    var URL_SAVE = '<?php echo $block->getUrlSave()?>';
+    require([
+            'jquery',
+            'Magento_Ui/js/modal/modal',
+            'Magento_Ui/js/modal/alert',
+            'mage/mage'
+        ],
+        function($,modal,alert){
+
+            var options = {
+                type: 'slide',
+                responsive: true,
+                innerScroll: true,
+                title: '<?php echo __("Add theme")?>',
+                buttons: [{
+                    text: $.mage.__('Submit'),
+                    class: 'action primary',
+                    click: function () {
+                        if(creditForm.valid()){
+                            creditForm.trigger('processStart');
+                            $.ajax({
+                                url: URL_ADD_CREDIT,
+                                method: "POST",
+                                data: {
+                                    credit : $("#credit-transaction-amount").val(),
+                                    description: $("#credit-transaction-description").val(),
+                                    customer_id: '<?php echo $block->getCustomerId()?>'
+                                },
+                                dataType: "json"
+                            }).done(function( response ){
+                                if(response.error){
+                                    creditForm.trigger('processStop');
+                                    alert({
+                                        modalClass: 'confirm ves-error',
+                                        title: "<?php echo __("Add / Edit Credit");?>",
+                                        content: response.msg,
+                                    });
+                                }else{
+                                    $("#vnecoms-credit-balance").html(response.credit_balance);
+                                    lastCreditTransactionGridJsObject.resetFilter();
+                                    creditForm.trigger('processStop');
+                                    $('#credit-popup-mpdal').trigger('closeModal');
+                                    creditForm.trigger('reset');
+                                }
+                            });
+                        }
+                    }
+                }]
+            };
+            var popup = modal(options, $('#credit-popup-mpdal'));
+        }
+    );
+</script>
+
+<script type="text/x-magento-init">
+<?php
+    echo $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode([
+        '#base_template_wrapper' => ['Vnecoms_PdfPro/js/easypdf' => [
+            'editorIds' => ['pdfpro_key_form_order_template','pdfpro_key_form_invoice_template',
+                'pdfpro_key_form_shipment_template','pdfpro_key_form_creditmemo_template'],
+            'currentTemplateId' => $currentTemplateId,
+            'valueFieldSelector' => '#base_template_wrapper',
+            'hiddenTemplateElement' => '[name=template_id]',
+            'templateItems' => '.owl-carousel-li',
+            'activeItem'    => '.active',
+            'ajaxUrl'       => $block->getAjaxUrl(),
+            'previewImageId'=> '#img-preview-image',
+            'previewImagesJson' => $block->getPreviewImagesJson(),
+        ]],
+    ]);
+    ?>
+</script>
+
+<script>
+    require([
+        "jquery",
+        "owlCarousel"
+    ], function ($) {
+        $('.owl-carousel').owlCarousel({
+            lazyLoad : true,
+            items: 4,
+            lazyEffect : "fade",
+            lazyFollow : true,
+            navigation : true
+        })
+    });
+</script>
