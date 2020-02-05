@@ -145,25 +145,6 @@ class ProductFullDetail extends Component {
                     "@type": "Thing",
                     "name": pBrand && pBrand.name || ''
                 },
-                "review": [
-                    {
-                        "@type": "Review",
-                        "reviewRating": {
-                            "@type": "Rating",
-                            "ratingValue": reviewRating.rate || '5',
-                            "bestRating": "5"
-                        },
-                        "author": {
-                            "@type": "Person",
-                            "name": "Bianca Nera"
-                        }
-                    },
-                ],
-                "aggregateRating": {
-                    "@type": "AggregateRating",
-                    "ratingValue": reviewRating.rate || '5',
-                    "ratingCount": reviewRating.number || '1'
-                },
                 "offers": {
                     "@type": "Offer",
                     "url": url_key && window.location.origin+'/'+url_key+'.'+productUrlSuffix() || '',
@@ -175,6 +156,13 @@ class ProductFullDetail extends Component {
                         "@type": sellerName ? "Person":"Organization",//or Organization
                         "name": sellerName
                     }
+                }
+            }
+            if (reviewRating && reviewRating.rate && reviewRating.number) {
+                window.productDataStructure.aggregateRating = {
+                    "@type": "AggregateRating",
+                    "ratingValue": reviewRating.rate,
+                    "ratingCount": reviewRating.number
                 }
             }
             stData.innerHTML = JSON.stringify(window.productDataStructure);
