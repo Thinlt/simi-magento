@@ -167,6 +167,7 @@ const ProfileForm = props => {
             $('#readOnlyInput').val(phoneChange)
             $('#real-input-register').val('')
             localStorage.removeItem('numberphone_register')
+            setPhone('')
             props.toggleMessages([{ type: 'success', message: data.message, auto_dismiss: true }])
         }
         hideFogLoading()
@@ -193,7 +194,12 @@ const ProfileForm = props => {
                     params[field.name] = field.value;
                 }
                 if (changeForm === 'phone') {
-                    params.telephone = phoneChange.substring(1)
+                    if (phoneChange !== '') {
+                        params.telephone = phoneChange.substring(1)
+                    } else {
+                        showToastMessage(Identify.__('Invalid phone number !'))
+                        return
+                    }
                 }
                 showFogLoading()
                 editCustomer(processData, params);
