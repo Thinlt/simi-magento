@@ -126,6 +126,7 @@
 .forgot-password-customer .back a:hover {
   text-decoration: none;
   color: #101820;
+  text-transform: uppercase;
 }
 
 @media (max-width: 1023px) {
@@ -133,7 +134,7 @@
     margin-top: 55px;
   }
   .forgot-password-customer .back {
-    top: 100px;
+    top: 96px;
     left: 5%;
   }
 }
@@ -163,7 +164,7 @@
     display: inline;
   }
   .forgot-password-customer .back {
-    top: 100px;
+    top: 96px;
     left: 5%;
   }
 }
@@ -173,30 +174,26 @@
     margin-left: 20px;
     margin-right: 20px;
   }
+  .forgot-password-customer .back {
+    left: 20px;
+  }
 }
 
 @media (max-width: 640px) {
   .forgot-password-customer .wrap {
     padding: 0 40px;
   }
-  .forgot-password-customer .back {
-    left: 3%;
-  }
 }
 
 @media (max-width: 600px) {
   .forgot-password-customer .back {
-    top: 122px;
+    // top: 122px;
   }
 }
 
 @media (max-width: 530px) {
   .forgot-password-customer .wrap {
     padding: 0 20px;
-  }
-
-  .forgot-password-customer .back {
-    left: 4%;
   }
 }
 
@@ -275,7 +272,7 @@
   .forgot-password-customer .back {
     left: 15px;
     height: 15px;
-    top: 130px;
+    // top: 130px;
   }
   .forgot-password-customer .description-form{
     margin-top: 5px !important;
